@@ -1,5 +1,10 @@
 # Plano de desenvolvimento
 
+## Base técnica aprovada — 27/10/2026
+
+O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTML, CSS e JavaScript, aproveitando o código existente, sem migrar para Godot agora. O assistente ficará responsável pela maior parte da programação; o criador orientará as decisões e testará as versões. A prioridade é validar movimento, disparo manual e sinergias. Empacotamento para Windows/Linux e integração Steam serão avaliados posteriormente; nenhuma ferramenta de empacotamento ou biblioteca adicional foi escolhida. Esta decisão não altera as regras de design nem significa que as funcionalidades planejadas estejam implementadas.
+
+
 ## Estado atual verificado
 
 O repositório começou vazio. Foi criado um protótipo experimental em HTML, CSS e JavaScript, sem dependências externas, executado com um servidor HTTP do Python.
@@ -14,7 +19,7 @@ Validar o combate e as sinergias antes de produzir todo o conteúdo. Não há pr
 
 ### Etapa 0 — Base de produção
 
-- Escolher a engine; Godot 4 é a recomendação atual, ainda não aprovada.
+- Continuar em HTML/CSS/JavaScript no navegador conforme aprovação de 27/10/2026, ainda não aprovada.
 - Definir resolução base e escala da pixel art.
 - Definir controles de movimento, mira e disparo manual.
 - Estabelecer estrutura de dados para chassis, armas, peças e skills.
