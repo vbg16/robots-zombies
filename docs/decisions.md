@@ -1,5 +1,10 @@
 # Registro de decisões
 
+## Base técnica aprovada — 27/10/2026
+
+O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTML, CSS e JavaScript, aproveitando o código existente, sem migrar para Godot agora. O assistente ficará responsável pela maior parte da programação; o criador orientará as decisões e testará as versões. A prioridade é validar movimento, disparo manual e sinergias. Empacotamento para Windows/Linux e integração Steam serão avaliados posteriormente; nenhuma ferramenta de empacotamento ou biblioteca adicional foi escolhida. Esta decisão não altera as regras de design nem significa que as funcionalidades planejadas estejam implementadas.
+
+
 ## Confirmadas na definição inicial
 
 | Tema | Decisão |
@@ -33,7 +38,7 @@
 ## Nome e recomendações
 
 - **Screwvivors:** nome de trabalho escolhido a partir do interesse demonstrado pelo criador; disponibilidade não verificada.
-- **Godot 4:** recomendada, não aprovada como engine final.
+- **Godot 4:** recomendação anterior; não adotada para a etapa atual.
 - **Manter chassis antigos relevantes:** recomendação de balanceamento, não regra de atributos definida.
 - **Ranking por dificuldade e versão:** recomendação, sem aprovação ou implementação.
 - **Garantia de Fábrica:** nome sugerido para a possível conquista do PROT-0001 sem skills.
@@ -43,7 +48,7 @@
 
 ### Necessárias para detalhar o primeiro protótipo de produção
 
-1. Qual engine será usada?
+1. Base atual definida: HTML/CSS/JavaScript no navegador. Empacotamento para computador será avaliado depois.
 2. Como funcionam movimento, mira, disparo e controles simultâneos de várias armas?
 3. Quais são os atributos e a habilidade do PROT-0001? Qual é sua arma padrão?
 4. As três derivações de uma skill são níveis, alternativas exclusivas ou ramos combináveis?
