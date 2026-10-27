@@ -9,9 +9,9 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 
 O repositório começou vazio. Foi criado um protótipo experimental em HTML, CSS e JavaScript, sem dependências externas, executado com um servidor HTTP do Python.
 
-O protótipo contém movimentação, disparo automático, inimigos, coleta de energia, escolhas de melhorias, pausa, vitória e derrota. As verificações executadas cobriram sintaxe, lógica em ambiente simulado e respostas HTTP dos arquivos. O teste visual em navegador não foi concluído porque o download do navegador foi bloqueado pelo domínio de rede.
+O protótipo contém movimentação, mira pelo mouse, disparo manual, inimigos, coleta de energia, escolhas de melhorias, pausa, vitória e derrota. As verificações executadas cobriram sintaxe, lógica em ambiente simulado e respostas HTTP dos arquivos. O teste visual em navegador não foi concluído porque o download do navegador foi bloqueado pelo domínio de rede.
 
-**Divergências conhecidas em relação ao design aprovado:** disparo automático em vez de manual; duração de três minutos em vez de vinte; ausência de garagem, montagem de robôs, persistência, progressão de armas, conteúdo final e ranking Steam. Não é uma versão comercial nem comprova o balanceamento do jogo.
+**Divergências conhecidas em relação ao design aprovado:** duração de três minutos em vez de vinte; ausência de garagem, montagem de robôs, persistência, progressão de armas, conteúdo final e ranking Steam. Não é uma versão comercial nem comprova o balanceamento do jogo.
 
 ## Estratégia proposta
 
@@ -19,7 +19,7 @@ Validar o combate e as sinergias antes de produzir todo o conteúdo. Não há pr
 
 ### Etapa 0 — Base de produção
 
-- Continuar em HTML/CSS/JavaScript no navegador conforme aprovação de 27/10/2026, ainda não aprovada.
+- Continuar em HTML/CSS/JavaScript no navegador conforme aprovação de 27/10/2026.
 - Definir resolução base e escala da pixel art.
 - Definir controles de movimento, mira e disparo manual.
 - Estabelecer estrutura de dados para chassis, armas, peças e skills.
@@ -77,8 +77,14 @@ Avançar em direção ao alvo declarado de uma fase, dez chefes, dez armas, vint
 
 ## Próximas decisões prioritárias
 
-1. Aprovar ou substituir a recomendação de Godot 4.
+1. Validar o combate no navegador usando a base HTML/CSS/JavaScript aprovada.
 2. Definir a persistência exata dos recursos e peças após morte e vitória.
 3. Definir as três derivações de cada skill.
 4. Especificar PROT-0001, arma padrão e controles.
 5. Validar um primeiro combate antes de ampliar a produção de conteúdo.
+
+## Entrega de combate — 27/10/2026
+
+Implementados mira livre pelo mouse, disparo ao segurar o botão esquerdo e movimento independente com WASD/setas. Este mapeamento é experimental para validação; não aprova controles finais nem atributos do PROT-0001. Removido o movimento por toque do protótipo para não confundir mira e deslocamento; suporte a toque permanece fora desta entrega. A sessão curta continua em três minutos.
+
+Validação: `node --check game.js` e `node tests/combat.cjs`, com verificações de ausência de tiro automático, direção, cadência, interrupção dos comandos, movimento diagonal, melhorias, vitória, derrota e reinício. O teste de lógica usa DOM/canvas simulados; teste visual e avaliação de jogabilidade seguem pendentes porque o executável do navegador de testes não está instalado neste ambiente. Nenhuma integração Steam, garagem ou persistência foi implementada nesta etapa. O ZIP anterior não foi atualizado.
