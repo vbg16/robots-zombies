@@ -122,3 +122,9 @@ Considerando futuras atualizações, o criador propôs:
 | Evoluções ou variantes por skill | 3 |
 
 Este é um alvo de conteúdo, não uma promessa de lançamento. A divisão entre lançamento e atualizações ainda não está definida. Quinze skills com três derivações não significa automaticamente 45 skills independentes.
+
+## Ajuste após teste do criador — 27/10/2026
+
+**Aprovado:** reduzir velocidade e quantidade da horda; substituir a barra de integridade por pilhas/baterias individuais que ficam cinza e rachadas ao esvaziar. Desenho próprio de baterias, usando a referência de Hollow Knight apenas para o conceito de unidades visuais de vida.
+
+**Parâmetros experimentais desta versão:** cinco baterias de 20 pontos representam os 100 pontos existentes, com carga parcial; dano de 12 e cura de 35 preservados. Primeiro inimigo após 2 segundos; intervalo de surgimento começa em 1,6 s e desce até 0,65 s; limite de 70 inimigos; velocidade inicial de 24–42 pixels/s e crescimento de 0,1 pixel/s por segundo de partida. Esses números são ajuste de teste, não atributos finais dos chassis. A cura restaura a carga e remove rachaduras das baterias recuperadas.
