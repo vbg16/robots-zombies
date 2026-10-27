@@ -1,5 +1,10 @@
 # Direção e identidade
 
+## Base técnica aprovada — 27/10/2026
+
+O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTML, CSS e JavaScript, aproveitando o código existente, sem migrar para Godot agora. O assistente ficará responsável pela maior parte da programação; o criador orientará as decisões e testará as versões. A prioridade é validar movimento, disparo manual e sinergias. Empacotamento para Windows/Linux e integração Steam serão avaliados posteriormente; nenhuma ferramenta de empacotamento ou biblioteca adicional foi escolhida. Esta decisão não altera as regras de design nem significa que as funcionalidades planejadas estejam implementadas.
+
+
 ## Conceito confirmado
 
 **Screwvivors** é um jogo de sobrevivência no estilo Horde / Bullet Heaven, para um jogador. Um gato inteligente pilota robôs protótipos em uma cidade tomada por zumbis. O jogador prepara seu equipamento na garagem e tenta sobreviver a vinte minutos de combate com disparo manual, combinando suas escolhas iniciais com habilidades obtidas durante a partida.
@@ -56,7 +61,7 @@ Resolução base, escala dos sprites, paleta, animações, trilha e interface fi
 | Equipe atual | Criador e assistência de desenvolvimento por IA; sem outros integrantes definidos |
 | Orçamento | Não definido; investimento depende da avaliação de potencial |
 | Disponibilidade semanal e prazo | Não definidos |
-| Engine de produção | Não definida; Godot 4 foi recomendada |
+| Base técnica atual | HTML/CSS/JavaScript no navegador; empacotamento desktop posterior |
 | Acesso Antecipado ou lançamento completo | Pendente |
 | Preço, demo, Steam Next Fest e divulgação | Pendentes |
 | Recursos Steam além do ranking | Pendentes |
