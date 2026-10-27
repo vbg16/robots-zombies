@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const listeners = new Map();
-function surface(name) { return {style:{},children:[],hidden:false,textContent:'',addEventListener(type,fn){listeners.set(name+':'+type,fn);},append(...items){this.children.push(...items);},replaceChildren(){this.children=[];}}; }
+function surface(name) { return {style:{},setAttribute(key,value){this[key]=value;},children:[],hidden:false,textContent:'',addEventListener(type,fn){listeners.set(name+':'+type,fn);},append(...items){this.children.push(...items);},replaceChildren(){this.children=[];}}; }
 const elements = new Map();
 const canvas = surface('canvas');
 canvas.getBoundingClientRect=()=>({left:100,top:50,width:1000,height:600});
@@ -36,3 +36,21 @@ run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'won');
 run('reset();player.hp=1;enemies=[{x:player.x,y:player.y,hp:100,speed:0,r:15}];spawn=100;tick(.01)');assert.equal(run('state'),'over');
 run('reset();draw()');assert.equal(run('player.hp'),100);assert.equal(run('bullets.length'),0);
 console.log('Combat checks passed: manual aim/fire, cooldown, release, interruptions, movement, upgrades, win/death/restart.');
+
+run('reset();player.hp=80;updateHUD()');
+assert.equal((elements.get('health').innerHTML.match(/battery--broken/g)||[]).length,1,'one depleted battery');
+run('player.hp=0;updateHUD()');
+assert.equal((elements.get('health').innerHTML.match(/battery--broken/g)||[]).length,5,'all batteries depleted');
+assert.equal(elements.get('health')['aria-valuenow'],'0');
+run('player.hp=35;updateHUD()');
+assert.equal((elements.get('health').innerHTML.match(/battery--broken/g)||[]).length,3,'healing restores batteries');
+assert.ok(elements.get('health').innerHTML.includes('height="16.5"'),'partial charge accurately represents remaining health');
+run('reset()');assert.equal((elements.get('health').innerHTML.match(/battery--broken/g)||[]).length,0,'restart restores all batteries');
+run('tick(1)');assert.equal(run('enemies.length'),0,'initial breathing room');
+run('tick(1.01)');assert.equal(run('enemies.length'),1);
+assert.ok(run('enemies[0].speed<43'),'slower starting zombies');
+run('tick(.8)');assert.equal(run('enemies.length'),1,'no immediate second zombie');
+run('tick(.81)');assert.equal(run('enemies.length'),2);
+run('reset();enemies=Array.from({length:70},()=>({x:-1000,y:-1000,hp:100,speed:0,r:12}));spawn=0;tick(.01)');
+assert.equal(run('enemies.length'),70,'population cap');
+console.log('Battery damage/healing/reset and slower horde checks passed.');
