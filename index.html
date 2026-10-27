@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Robots / Zombies</title>
+<title>Screwvivors — protótipo</title>
 <link rel="stylesheet" href="style.css">
 <body>
 <header><a href="./">R<span>/</span>Z</a><div>PROJETO SOBREVIVÊNCIA <span>• SISTEMA ONLINE</span></div><button id="pause">PAUSAR [P]</button></header>
 <main>
-<section class="title"><div><p>PROTOCOLO 001 — RESISTIR</p><h1>ROBOTS <span>/</span> ZOMBIES</h1></div><p>Um robô. Nenhum reforço.<br>Sobreviva ao enxame.</p></section>
-<section class="arena"><canvas id="game" aria-label="Arena de sobrevivência: mova o robô com WASD ou setas; tiros automáticos"></canvas><div class="hud"><div><small>INTEGRIDADE</small><div class="track"><i id="health"></i></div></div><div><small>TEMPO</small><b id="time">00:00</b></div><div><small>ELIMINAÇÕES</small><b id="kills">0</b></div><div><small>NÍVEL</small><b id="level">01</b></div></div><div id="overlay" class="overlay"><p id="eyebrow">UNIDADE R-01 / AGUARDANDO</p><h2 id="heading">O caos não espera.</h2><p id="description">Colete energia, evolua seu arsenal e sobreviva por 3 minutos.<br>Seu robô atira sozinho. Você cuida de continuar inteiro.</p><div id="choices"></div><button id="start" class="primary">INICIAR PROTOCOLO ↗</button></div><div class="xp"><i id="xp"></i></div></section>
-<footer><div><kbd>W A S D</kbd> / <kbd>↑ ← ↓ →</kbd> MOVER <span>•</span> DISPARO AUTOMÁTICO</div><div><span class="dot"></span> COLETE OS NÚCLEOS AZUIS PARA EVOLUIR</div></footer>
+<section class="title"><div><p>PROTOCOLO 001 — RESISTIR</p><h1>SCREWVIVORS</h1></div><p>Um robô. Nenhum reforço.<br>Sobreviva ao enxame.</p></section>
+<section class="arena"><canvas id="game" aria-label="Arena de sobrevivência: mova o robô com WASD ou setas; mire com o mouse e segure o botão esquerdo para atirar"></canvas><div class="hud"><div><small>INTEGRIDADE</small><div class="track"><i id="health"></i></div></div><div><small>TEMPO</small><b id="time">00:00</b></div><div><small>ELIMINAÇÕES</small><b id="kills">0</b></div><div><small>NÍVEL</small><b id="level">01</b></div></div><div id="overlay" class="overlay"><p id="eyebrow">UNIDADE R-01 / AGUARDANDO</p><h2 id="heading">O caos não espera.</h2><p id="description">Colete energia, evolua seu arsenal e sobreviva por 3 minutos.<br>Mova com WASD ou setas. Mire com o mouse e segure o botão esquerdo para atirar.</p><div id="choices"></div><button id="start" class="primary">INICIAR PROTOCOLO ↗</button></div><div class="xp"><i id="xp"></i></div></section>
+<footer><div><kbd>W A S D</kbd> / <kbd>↑ ← ↓ →</kbd> MOVER <span>•</span> MOUSE: MIRAR / BOTÃO ESQUERDO: ATIRAR</div><div><span class="dot"></span> COLETE OS NÚCLEOS AZUIS PARA EVOLUIR</div></footer>
 </main><script src="game.js"></script>
 </body></html>
