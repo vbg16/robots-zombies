@@ -128,3 +128,7 @@ Este é um alvo de conteúdo, não uma promessa de lançamento. A divisão entre
 **Aprovado:** reduzir velocidade e quantidade da horda; substituir a barra de integridade por pilhas/baterias individuais que ficam cinza e rachadas ao esvaziar. Desenho próprio de baterias, usando a referência de Hollow Knight apenas para o conceito de unidades visuais de vida.
 
 **Parâmetros experimentais desta versão:** cinco baterias de 20 pontos representam os 100 pontos existentes, com carga parcial; dano de 12 e cura de 35 preservados. Primeiro inimigo após 2 segundos; intervalo de surgimento começa em 1,6 s e desce até 0,65 s; limite de 70 inimigos; velocidade inicial de 24–42 pixels/s e crescimento de 0,1 pixel/s por segundo de partida. Esses números são ajuste de teste, não atributos finais dos chassis. A cura restaura a carga e remove rachaduras das baterias recuperadas.
+
+## Ajustes visuais — 28/10/2026
+
+Solicitado pelo criador: balas maiores, tema geral azul e robô compacto com estética japonesa e referência de formato R2-D2. Implementado desenho próprio em canvas com cúpula, corpo branco/azul, painéis, lente e pés laterais. Balas com raio visual e de colisão de 6 pixels, antes 3 pixels visuais e 4 de colisão; dano e cadência preservados. Atributos e regras de surgimento dos inimigos preservados nesta entrega. Tema azul aplicado à interface, arena, mira, baterias e efeitos; zumbis mantêm contraste verde.
