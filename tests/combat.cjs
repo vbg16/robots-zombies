@@ -72,3 +72,15 @@ assert.equal(run('kills'),1,'35.2 damage kills a 30 HP zombie in one hit');
 assert.ok(run('feedback.length>0'),'damage feedback created');
 run("reset();player.x=2000;player.y=-3000;syncCamera();draw()");
 console.log('World camera, unbounded movement, additive damage, fixed enemy stats and hit feedback passed.');
+
+run("reset();spawn=100;keys.add('d');tick(.1)");
+assert.ok(run('player.x-camera.x>500'),'player can leave screen center');
+assert.equal(run('camera.x'),0,'dead zone avoids camera movement for small steps');
+assert.ok(run('player.stride>0&&player.walkPhase>0'),'walking animation advances');
+run("tick(.5)");
+assert.ok(run('camera.x>0&&camera.x<player.x-500'),'camera follows with lag');
+run("keys.clear();globalThis.oldStride=player.stride;tick(.2)");
+assert.ok(run('player.stride<oldStride'),'animation settles when movement stops');
+run("draw();reset();keys.add('a');keys.add('w');spawn=100;tick(1);draw()");
+assert.ok(run('camera.x<0&&camera.y<0'),'camera follows in opposite directions');
+console.log('Camera dead zone, smooth follow and walking transitions passed.');
