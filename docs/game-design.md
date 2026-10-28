@@ -132,3 +132,7 @@ Este é um alvo de conteúdo, não uma promessa de lançamento. A divisão entre
 ## Ajustes visuais — 28/10/2026
 
 Solicitado pelo criador: balas maiores, tema geral azul e robô compacto com estética japonesa e referência de formato R2-D2. Implementado desenho próprio em canvas com cúpula, corpo branco/azul, painéis, lente e pés laterais. Balas com raio visual e de colisão de 6 pixels, antes 3 pixels visuais e 4 de colisão; dano e cadência preservados. Atributos e regras de surgimento dos inimigos preservados nesta entrega. Tema azul aplicado à interface, arena, mira, baterias e efeitos; zumbis mantêm contraste verde.
+
+## Tela de combate — 28/10/2026
+
+**Decisão do criador:** combate e garagem são telas distintas. A arena deve ocupar 90% da tela e o HUD deve ficar sobreposto com brilho de 30%. Implementação atual: arena centralizada com 90vw × 90dvh (5% de margem por lado), sem cabeçalho, título e rodapé externos. HUD e botão de pausa sobre a arena; menus de pausa e melhorias acima do HUD. Interpretação de brilho: luz azul a 30% de opacidade, fundo do HUD também a 30%, preservando opacidade dos textos e baterias. A garagem ainda não foi implementada. Nenhum atributo de inimigo foi alterado nesta entrega.
