@@ -88,3 +88,13 @@ Avançar em direção ao alvo declarado de uma fase, dez chefes, dez armas, vint
 Implementados mira livre pelo mouse, disparo ao segurar o botão esquerdo e movimento independente com WASD/setas. Este mapeamento é experimental para validação; não aprova controles finais nem atributos do PROT-0001. Removido o movimento por toque do protótipo para não confundir mira e deslocamento; suporte a toque permanece fora desta entrega. A sessão curta continua em três minutos.
 
 Validação: `node --check game.js` e `node tests/combat.cjs`, com verificações de ausência de tiro automático, direção, cadência, interrupção dos comandos, movimento diagonal, melhorias, vitória, derrota e reinício. O teste de lógica usa DOM/canvas simulados; teste visual e avaliação de jogabilidade seguem pendentes porque o executável do navegador de testes não está instalado neste ambiente. Nenhuma integração Steam, garagem ou persistência foi implementada nesta etapa. O ZIP anterior não foi atualizado.
+
+## Direção artística e preparação de assets — 28/10/2026
+
+Direção artística e paleta do PROT-0001 aprovadas conforme [arte-paleta-prot-0001.md](arte-paleta-prot-0001.md) e [conceito 01](propostas-arte/prot-0001-conceito-01.md): humanoide industrial pesado, metal gasto, ombreiras/pistões/juntas, visor e núcleo azuis, pixel art com paleta limitada e sombras profundas.
+
+Designer: produzir spritesheets pixel-perfect transparentes e frames individuais, com dimensões, pivôs e duração documentados. Idle/walk e estudos em oito direções não são assets finais; run continua opcional. Resolução e escala ainda não aprovadas.
+
+Dev: módulo opcional `sprite-animation.js` preparado para recortes por frame, tempos, direções e escala sem interpolação. Não ativado no HTML; robô procedural continua em uso. [Contrato de integração](integracao-sprites.md). Câmera suave e mecânicas preservadas. Testes de animação e regressão do combate passaram; integração visual depende dos arquivos finais.
+
+Próximo passo de arte: receber e verificar a entrega técnica do Designer antes de substituir o robô provisório. Não integrar as pranchas de estudos.
