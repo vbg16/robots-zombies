@@ -1,7 +1,7 @@
 # PROT-0001 — proposta visual 01 (não aprovada)
 
 Data: 2026-10-28
-Estado: **PROPOSTA — aguardando aprovação do criador.**
+Estado: **APROVADO PELO CRIADOR em 28/10/2026 — conceito visual de referência.**
 
 ## Referências consultadas
 
@@ -23,15 +23,15 @@ Robô humanoide industrial pesado do Dr. Biruta, com ombreiras largas, placas de
 
 O painel conceitual mostra o robô ampliado, uma indicação ilustrativa em tamanho pequeno e vistas para entendimento de volume. **Não é spritesheet de produção**, nem prova de pixel-perfect. O tamanho de 32 px anotado na ilustração é ilustrativo, **não decisão de resolução-base**. O sprite final deverá ser redesenhado manualmente em uma grade pixel-perfect aprovada, com silhueta legível na escala real do jogo.
 
-### Pendências de aprovação
+### Detalhes de produção ainda a validar
 
 1. Silhueta de ombros, pernas e cabeça.
 2. Predominância de azul versus aço envelhecido.
 3. Grau de desgaste e nível de detalhes em tamanho de jogo.
 4. Tamanho real da sprite e orientação principal, após teste no navegador.
 
-**Não gerar animação definitiva antes da aprovação da aparência parada.**
+**Conceito visual aprovado em 28/10/2026.** Próxima etapa autorizada: criação e avaliação da folha de animações. Aprovação do conceito não aprova automaticamente resolução, escala final ou frames produzidos.
 
 ## Restrições preservadas
 
-Nenhuma alteração de mecânicas, atributos, vida, dano, movimento, inimigos ou câmera. Direção de combate/garagem e HUD já aprovada permanece inalterada. A imagem conceitual foi apresentada na conversa de direção de arte; não está integrada ao jogo nem publicada como asset final no repositório.
+Nenhuma alteração de mecânicas, atributos, vida, dano, movimento, inimigos ou câmera. Direção de combate/garagem e HUD já aprovada permanece inalterada. A imagem conceitual foi aprovada na conversa de direção de arte; não está integrada ao jogo nem publicada como asset final no repositório.
