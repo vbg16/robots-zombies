@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROT-0001 — validação de Walk</title>
+<style>
+body{background:#0b1728;color:#dcecff;font:16px system-ui;max-width:1100px;margin:24px auto;padding:16px}
+button,input,select{font:inherit;margin:5px;padding:8px}canvas{image-rendering:pixelated;border:1px solid #5280a8;max-width:100%}
+.controls{display:flex;flex-wrap:wrap;align-items:center}#status{white-space:pre-wrap}small{display:block;color:#a8c1d7}label{display:inline-block}
+</style>
+<h1>PROT-0001 · Walk frontal</h1>
+<p>Selecione manifest.json e os oito PNGs individuais (00.png a 07.png). Nada é enviado para a internet.</p>
+<input id="files" type="file" multiple accept=".png,.json">
+<div class="controls">
+<button id="play" disabled>Testar 10 ciclos</button><button id="pause" disabled>Pausar</button><button id="prev" disabled>← Quadro</button><button id="next" disabled>Quadro →</button>
+<label>Altura da célula no jogo (px)<input id="height" type="number" min="16" max="512" value="72"></label>
+<label>Fundo<select id="background"><option value="#0b1728">Escuro</option><option value="#e8ddc9">Claro</option></select></label>
+</div>
+<small>72 px é só uma referência de teste ajustável, não escala final aprovada. Área esquerda: escala escolhida. Área direita: ampliação 3×. Cruz: pivô declarado. Fundos simples não substituem o teste no cenário real.</small>
+<p id="status">NÃO AVALIADO — arquivos pendentes.</p>
+<canvas id="view" width="1000" height="560"></canvas>
+<p><button id="report">Baixar registro JSON</button></p>
+<small>Passar estes controles não aprova anatomia, paleta, alinhamento real dos pés ou integração no jogo. GIF/WEBM e captura no jogo continuam pendentes.</small>
+<script>
+const $=id=>document.getElementById(id),canvas=$('view'),ctx=canvas.getContext('2d');
+let images=[],manifest=null,index=0,elapsed=0,running=false,completed=0,last=0,report={status:'NOT_EVALUATED'},urls=[],loadVersion=0;
+function draw(){
+ ctx.fillStyle=$('background').value;ctx.fillRect(0,0,1000,560);
+ if(!images.length||!manifest)return;
+ const h=Number($('height').value);if(!Number.isFinite(h)||h<16||h>512)return;
+ for(const [x,scale] of [[240,h/manifest.height],[700,3*h/manifest.height]]){
+  const y=470;ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(images[index],Math.round(x-manifest.pivot.x*scale),Math.round(y-manifest.pivot.y*scale),Math.round(manifest.width*scale),Math.round(manifest.height*scale));
+  ctx.strokeStyle='#f07848';ctx.beginPath();ctx.moveTo(x-8,y);ctx.lineTo(x+8,y);ctx.moveTo(x,y-8);ctx.lineTo(x,y+8);ctx.stroke();
+ }
+}
+function status(){ $('status').textContent='Quadro '+String(index).padStart(2,'0')+' · ciclos '+completed+'/10 · 100 ms/quadro · 800 ms/ciclo\n'+(running?'REPRODUZINDO':completed===10?'10 ciclos programados concluídos; revisar visualmente.':'PARADO — revisão visual pendente'); }
+function buttons(disabled){for(const id of ['play','pause','prev','next'])$(id).disabled=disabled;}
+$('files').onchange=async event=>{
+ const version=++loadVersion;running=false;images=[];manifest=null;buttons(true);
+ urls.forEach(URL.revokeObjectURL);urls=[];report={status:'FAIL'};
+ try{
+  const files=[...event.target.files],map=new Map(files.map(f=>[f.name,f]));
+  if(files.length!==9||map.size!==9||!map.has('manifest.json'))throw Error('Selecione exatamente manifest.json e oito PNGs.');
+  const m=JSON.parse(await map.get('manifest.json').text());
+  if(!Number.isInteger(m.width)||!Number.isInteger(m.height)||m.width<3||m.height<3||!m.pivot||!Number.isInteger(m.pivot.x)||!Number.isInteger(m.pivot.y)||m.pivot.x<0||m.pivot.y<0||m.pivot.x>=m.width||m.pivot.y>=m.height)throw Error('Dimensões ou pivô inválidos.');
+  if(!Array.isArray(m.frames)||m.frames.length!==8)throw Error('Manifesto deve ter oito quadros.');
+  const loaded=[];
+  for(let i=0;i<8;i++){
+   const f=m.frames[i],name=String(i).padStart(2,'0')+'.png';
+   if(f.file!==name||f.ms!==100||!map.has(name))throw Error('Ordem/tempo inválido: '+name);
+   const image=new Image(),url=URL.createObjectURL(map.get(name));urls.push(url);
+   await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('PNG ilegível: '+name));image.src=url;});
+   if(version!==loadVersion)return;
+   if(image.naturalWidth!==m.width||image.naturalHeight!==m.height)throw Error('Dimensões divergentes: '+name);
+   loaded.push(image);
+  }
+  if(version!==loadVersion)return;
+  images=loaded;manifest=m;index=0;elapsed=0;completed=0;
+  report={status:'PREVIEW_READY_TECHNICAL_VALIDATOR_REQUIRED',manifest:m,visualApproval:false};
+  buttons(false);status();draw();
+ }catch(error){if(version!==loadVersion)return;$('status').textContent='FALHA: '+error.message;report={status:'FAIL',error:error.message};draw();}
+};
+$('play').onclick=()=>{index=0;elapsed=0;completed=0;running=true;last=performance.now();report.cycles=0;report.observations=[];status();};
+$('pause').onclick=()=>{if(completed>=10)return;running=!running;last=performance.now();status();};
+for(const [id,delta] of [['prev',-1],['next',1]])$(id).onclick=()=>{running=false;elapsed=0;index=(index+delta+8)%8;status();draw();};
+$('height').oninput=draw;$('background').onchange=draw;
+$('report').onclick=()=>{const blob=new Blob([JSON.stringify({...report,frame:index,cycles:completed,previewHeight:Number($('height').value),background:$('background').value,visualApproval:false},null,2)],{type:'application/json'});const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='walk-preview-report.json';a.click();URL.revokeObjectURL(url);};
+function frame(now){
+ if(running&&images.length){
+  const dt=now-last;
+  // Do not silently skip poses after a stalled frame or hidden tab.
+  if(dt>200){running=false;report.observations=(report.observations||[]).concat('Interrupção de reprodução; repetir teste.');status();}
+  else{
+   elapsed+=dt;
+   if(elapsed>=100){elapsed-=100;index=(index+1)%8;if(index===0){completed++;report.cycles=completed;if(completed>=10)running=false;}status();}
+  }
+ }
+ last=now;draw();requestAnimationFrame(frame);
+}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&running){running=false;report.observations=(report.observations||[]).concat('Aba ocultada; teste interrompido.');status();}});
+requestAnimationFrame(frame);
+</script></html>
