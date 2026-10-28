@@ -144,3 +144,9 @@ Solicitado pelo criador: balas maiores, tema geral azul e robô compacto com est
 Dano base experimental de 22: um bônus causa 28,6; dois causam 35,2 (+60%). Cada projétil conserva o dano no momento do disparo. Zumbis têm 30 de vida em qualquer momento, e a velocidade mantém a faixa de 24–42 sem crescimento temporal, substituindo os aumentos anteriores. Quantidade e frequência da horda conservam o ajuste existente. Dois bônus permitem eliminar o zumbi básico com um tiro.
 
 Resposta visual: números de dano flutuantes, clarão no inimigo atingido, brilho azul ao selecionar uma melhoria e indicação do bônus total ao aumentar dano. Testes de lógica verificam câmera/mira após deslocamento, movimento sem bordas, dano aditivo, vida e velocidade fixas, morte com um tiro após dois bônus e regressões do combate. Avaliação visual e de satisfação permanece dependente de teste no navegador.
+
+## Humanoide animado e câmera suave — 28/10/2026
+
+Solicitado pelo criador após teste: evitar o robô rigidamente centralizado, animar caminhada e adotar silhueta humanoide pesada com referências em Gigantes de Aço/Círculo de Fogo. Substitui a direção visual de droide com cúpula desta versão. Desenho próprio em canvas com torso, ombreiras, braços, joelhos, pés, visor e núcleo azul. Movimento usa passada alternada de pernas/braços, oscilação discreta do torso e transição suave ao parar; sem tremor de câmera.
+
+Câmera com zona livre central (até 75 px na horizontal e 50 px na vertical, proporcional em janelas pequenas), seguida de aproximação exponencial dependente do tempo. O jogador pode se deslocar dentro da tela sem ficar preso ao centro; reinício e redimensionamento reposicionam a câmera imediatamente. Mundo sem bordas, HUD fixo e atributos de combate preservados. Testes verificam zona livre, acompanhamento gradual em direções opostas e início/fim da animação; avaliação visual no navegador segue necessária.
