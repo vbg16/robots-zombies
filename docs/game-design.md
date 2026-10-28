@@ -136,3 +136,11 @@ Solicitado pelo criador: balas maiores, tema geral azul e robô compacto com est
 ## Tela de combate — 28/10/2026
 
 **Decisão do criador:** combate e garagem são telas distintas. A arena deve ocupar 90% da tela e o HUD deve ficar sobreposto com brilho de 30%. Implementação atual: arena centralizada com 90vw × 90dvh (5% de margem por lado), sem cabeçalho, título e rodapé externos. HUD e botão de pausa sobre a arena; menus de pausa e melhorias acima do HUD. Interpretação de brilho: luz azul a 30% de opacidade, fundo do HUD também a 30%, preservando opacidade dos textos e baterias. A garagem ainda não foi implementada. Nenhum atributo de inimigo foi alterado nesta entrega.
+
+## Câmera, mundo e upgrades — 28/10/2026
+
+**Decisões do criador:** câmera acompanha o jogador; arena sem limites nas quatro direções; bônus de dano de +30% acumulam por soma; inimigos não ganham vida com o tempo. Implementado mundo em coordenadas livres, câmera centralizada e mira convertida para o mundo. Novos inimigos surgem fora da vista atual e os muito distantes são removidos para liberar o limite da horda. A arena continua ocupando 90% da janela; o HUD permanece fixo na tela.
+
+Dano base experimental de 22: um bônus causa 28,6; dois causam 35,2 (+60%). Cada projétil conserva o dano no momento do disparo. Zumbis têm 30 de vida em qualquer momento, e a velocidade mantém a faixa de 24–42 sem crescimento temporal, substituindo os aumentos anteriores. Quantidade e frequência da horda conservam o ajuste existente. Dois bônus permitem eliminar o zumbi básico com um tiro.
+
+Resposta visual: números de dano flutuantes, clarão no inimigo atingido, brilho azul ao selecionar uma melhoria e indicação do bônus total ao aumentar dano. Testes de lógica verificam câmera/mira após deslocamento, movimento sem bordas, dano aditivo, vida e velocidade fixas, morte com um tiro após dois bônus e regressões do combate. Avaliação visual e de satisfação permanece dependente de teste no navegador.
