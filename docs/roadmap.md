@@ -1,5 +1,9 @@
 # Plano de desenvolvimento
 
+## Prioridade vigente — estabilização em quatro semanas
+
+O criador aprovou o [plano de estabilização](plano-estabilizacao-4-semanas.md) em 29/10/2026. Ordem atual: testes e seleção → telemetria/balanceamento/feedback → modularização e automação de checks → testes com jogadores e decisão sobre expansão. As etapas antigas abaixo ficam como referência de longo prazo; não autorizam expandir antes dessa avaliação. [Roteiro da Semana 1](teste-semana-1.md). Início e datas das semanas ainda não definidos; status inicial: planejado.
+
 ## Base técnica aprovada — 27/10/2026
 
 O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTML, CSS e JavaScript, aproveitando o código existente, sem migrar para Godot agora. O assistente ficará responsável pela maior parte da programação; o criador orientará as decisões e testará as versões. A prioridade é validar movimento, disparo manual e sinergias. Empacotamento para Windows/Linux e integração Steam serão avaliados posteriormente; nenhuma ferramenta de empacotamento ou biblioteca adicional foi escolhida. Esta decisão não altera as regras de design nem significa que as funcionalidades planejadas estejam implementadas.
@@ -11,7 +15,7 @@ O repositório começou vazio. Foi criado um protótipo experimental em HTML, CS
 
 O protótipo contém movimentação, mira pelo mouse, disparo manual, inimigos, coleta de energia, escolhas de melhorias, pausa, vitória e derrota. As verificações executadas cobriram sintaxe, lógica em ambiente simulado e respostas HTTP dos arquivos. O teste visual em navegador não foi concluído porque o download do navegador foi bloqueado pelo domínio de rede.
 
-**Divergências conhecidas em relação ao design aprovado:** duração de três minutos em vez de vinte; garagem ainda limitada a um chassi e um slot; ausência de montagem de peças, persistência, evolução de armas, conteúdo final e ranking Steam. Não é uma versão comercial nem comprova o balanceamento do jogo.
+**Divergências conhecidas em relação ao design aprovado:** duração de três minutos em vez de vinte; garagem com dois chassis de um slot cada; ausência de montagem de peças, persistência, evolução de armas, conteúdo final e ranking Steam. Não é uma versão comercial nem comprova o balanceamento do jogo.
 
 ## Estratégia proposta
 
