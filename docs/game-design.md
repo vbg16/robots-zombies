@@ -243,3 +243,26 @@ BAST-0002: 120 de integridade (seis baterias), velocidade 155, redução inata d
 BAST tem atlas SVG original de quatro quadros em células 64 × 80, além de prévia própria. É arte técnica provisória em pixels/vetores, não spritesheet final do Designer. Nenhuma prancha rejeitada foi integrada. A arte definitiva mantém o processo de aprovação separado. O módulo de animações finais continua preservado.
 
 O [prompt para o zumbi comum](arte/prompt-inimigo-zumbi.md) especifica arte original, mesma perspectiva, paleta de inimigo distinta, frames individuais e manifesto. Arte de inimigos ainda não foi produzida por este pedido; círculos provisórios permanecem até entrega e validação.
+
+## Dez melhorias adicionais — 29/10/2026
+
+Pedido do criador: mais melhorias. Implementadas dez novas skills de partida, totalizando 28. Valores abaixo são parâmetros experimentais reversíveis; não são derivações finais nem progressão permanente.
+
+| ID | Nome | Efeito |
+| --- | --- | --- |
+| xp | Processador de experiência | +25% de XP por núcleo por aquisição; máximo +75%; XP fracionária acumulada |
+| grace | Isolamento de impacto | +0,20 s à proteção após sofrer dano por aquisição; máximo +0,60 s |
+| bossHunter | Caça-titãs | +25% de dano contra chefes por aquisição; máximo +75% |
+| finisher | Finalizador | +50% de dano se o alvo está com até 30% da vida máxima antes do acerto |
+| ricochet | Munição ricochete | Depois de esgotar perfuração, projétil busca novo alvo em até 220 px; máximo 2 saltos |
+| blastRadius | Onda expandida | +25% do raio base de explosões por aquisição; máximo +50%; exige arma/módulo explosivo |
+| conductivity | Condutividade | +40 px de alcance elétrico por aquisição; máximo +80; exige descarga/Tesla |
+| stun | Curto-circuito | Descargas param o movimento por 0,35 s; chefes 0,0875 s; não cancela ataques nem dano de contato |
+| emergency | Reserva de emergência | Cura 20 após golpe não letal deixar vida até 30%; uma vez por tentativa; não ressuscita |
+| dash | Propulsor auxiliar | ESPAÇO: avanço por 0,15 s a 3× a velocidade atual; recarga 4 s de simulação; sem invulnerabilidade |
+
+Ricochete preserva dano e tempo de vida do projétil, não repete um alvo já atingido naquele trecho e só busca outro alvo após gastar sua perfuração. Não é ofertado para disco de retorno, que já possui sua própria trajetória. Ricochete + explosão cria impactos explosivos sucessivos; Curto-circuito + descarga interrompe temporariamente movimento. Dano contra chefes e Finalizador são modificadores condicionais aplicados uma vez por evento de dano, sem alterar a regra aditiva de Alto impacto.
+
+O propulsor usa a direção das teclas pressionadas; sem movimento, usa a mira e, sem mira, a direita. Não existe antes da skill. Pausa interrompe a simulação e congela recargas/efeitos. Reinício limpa skills, reserva, recarga e duração do propulsor. Não é corrida permanente nem altera a câmera.
+
+Atributos base de inimigos, sprites, armas, duração da sessão e cronograma do chefe foram preservados. Testes cobrem efeitos, dependências das ofertas, dano, ricochete, recargas, ausência de invulnerabilidade, cura não letal e reset. Conferência visual e balanceamento no navegador permanecem pendentes.
