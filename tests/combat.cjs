@@ -132,7 +132,7 @@ run("openGarage()");assert.equal(elements.get('garage').hidden,false);assert.equ
 console.log('Full three-minute combat/upgrade/boss integration simulation passed.');
 
 assert.equal(run('Object.keys(WEAPONS).length'),12,'ten new weapons');
-assert.equal(run('SKILLS.length'),18,'ten new upgrades');
+assert.equal(run('SKILLS.length'),28,'28 total upgrades');
 assert.equal(run('Object.keys(ROBOTS).length'),2);
 for(const id of run('Object.keys(WEAPONS)')){
  run("openGarage();selectRobot('prot');selectWeapon("+JSON.stringify(id)+");reset();spawn=100;aim={x:800,y:300,active:true};firing=true;tick(.01);draw()");
@@ -175,7 +175,7 @@ run("SKILLS.find(s=>s.id==='burn').apply();SKILLS.find(s=>s.id==='freeze').apply
 assert.ok(run("activeSynergies().some(s=>s.includes('TÉRMICO'))"));
 run("openGarage();selectRobot('prot');reset()");assert.equal(run('Object.values(player.skills).reduce((a,b)=>a+b,0)'),0);
 assert.equal(run('player.armor'),0);assert.equal(run('player.hp'),100);
-console.log('12 weapons, 18 upgrades, intrinsic effects, burst release, two chassis and reset passed.');
+console.log('12 weapons, 28 upgrades, intrinsic effects, burst release, two chassis and reset passed.');
 
 run("openGarage();selectRobot('bastion');reset();robotSprite={complete:true,naturalWidth:256};drawRobot()");
 run("openGarage();selectRobot('prot');reset();SKILLS.find(s=>s.id==='crit').apply();player.skills.crit=5;aim={x:800,y:300,active:true};fireWeapon()");
@@ -191,3 +191,34 @@ for(const id of run('Object.keys(WEAPONS)')){
  assert.ok(run('Number.isFinite(player.hp)&&enemies.every(z=>Number.isFinite(z.hp)&&Number.isFinite(z.x))'),id+' finite combat state');
 }
 console.log('All weapons with combined status/area effects and boss simulation passed.');
+
+run("openGarage();selectRobot('prot');selectWeapon('machine');reset();spawn=100");
+assert.equal(run('SKILLS.length'),28);
+assert.equal(run('SKILLS.find(s=>s.id==="blastRadius").available()'),false);
+assert.equal(run('SKILLS.find(s=>s.id==="conductivity").available()'),false);
+assert.equal(run('SKILLS.find(s=>s.id==="stun").available()'),false);
+run("SKILLS.find(s=>s.id==='xp').apply();gems=[{x:player.x,y:player.y}];tick(.01)");
+assert.equal(run('xp'),1.25);
+run("SKILLS.find(s=>s.id==='grace').apply();hurtPlayer(12)");assert.equal(run('player.hp'),88);assert.ok(Math.abs(run('player.inv')-.85)<1e-9);
+run("spawnBoss();SKILLS.find(s=>s.id==='bossHunter').apply();damageEnemy(boss,20)");assert.equal(run('boss.hp'),625);
+run("SKILLS.find(s=>s.id==='finisher').apply();enemies=[{x:550,y:300,hp:9,maxHp:30,r:10,speed:0}];damageEnemy(enemies[0],4)");assert.equal(run('enemies[0].hp'),3);
+run("reset();spawn=100;SKILLS.find(s=>s.id==='ricochet').apply();enemies=[{x:player.x+30,y:player.y,hp:100,maxHp:100,r:10,speed:0,hit:0},{x:player.x+30,y:player.y+100,hp:100,maxHp:100,r:10,speed:0,hit:0}];aim={x:800,y:300,active:true};firing=true;tick(.06);firing=false;tick(.17)");
+assert.equal(run('enemies[0].hp'),78);assert.equal(run('enemies[1].hp'),78,'ricochet changes direction toward second target');assert.equal(run('bullets.length'),0);
+run("reset();SKILLS.find(s=>s.id==='blast').apply();SKILLS.find(s=>s.id==='blastRadius').apply();explodeAt(player.x,player.y,10,64)");assert.equal(run('effects.at(-1).r'),80);
+run("SKILLS.find(s=>s.id==='shock').apply();SKILLS.find(s=>s.id==='conductivity').apply();enemies=[{x:500,y:300,hp:100,r:10,speed:0},{x:660,y:300,hp:100,r:10,speed:0}];shockAt(enemies[0],20)");assert.equal(run('enemies[1].hp'),93,'electric range reaches 160px');
+run("SKILLS.find(s=>s.id==='stun').apply();shockAt(enemies[0],20)");assert.equal(run('enemies[1].stunTime'),.35);
+run("spawnBoss();boss.x=500;boss.y=450;boss.stunTime=.1;boss.phase='approach';boss.timer=2;globalThis.oldBoss={x:boss.x,y:boss.y};tickBoss(.01)");
+assert.equal(run('boss.x'),run('oldBoss.x'));assert.equal(run('boss.y'),run('oldBoss.y'),'stun stops both axes');
+run("reset();SKILLS.find(s=>s.id==='emergency').apply();player.hp=35;hurtPlayer(10)");assert.equal(run('player.hp'),45);assert.equal(run('player.emergencyUsed'),true);
+run("player.inv=0;player.hp=35;hurtPlayer(10)");assert.equal(run('player.hp'),25,'emergency heal once only');
+run("reset();SKILLS.find(s=>s.id==='emergency').apply();player.hp=5;hurtPlayer(10)");assert.equal(run('state'),'over');assert.equal(run('player.hp'),0,'emergency does not resurrect');
+run("reset();spawn=100");assert.equal(run('activateDash()'),false,'dash requires skill');
+run("SKILLS.find(s=>s.id==='dash').apply();aim={x:800,y:300,active:true};globalThis.startX=player.x;activateDash();tick(.15)");
+assert.ok(Math.abs(run('player.x-startX')-85.5)<1e-8,'dash travels with chassis speed');
+assert.equal(run('player.inv'),0,'dash has no invulnerability');
+assert.equal(run('activateDash()'),false,'dash cooldown');
+run("pause();globalThis.beforeCooldown=player.dashCooldown;tick(1)");assert.equal(run('player.dashCooldown'),run('beforeCooldown'),'pause freezes cooldown');
+run("pause();tick(4)");assert.equal(run('activateDash()'),true);
+run("openGarage();selectWeapon('disc');reset()");assert.equal(run('SKILLS.find(s=>s.id==="ricochet").available()'),false,'returning discs not offered incompatible bounce');
+run("openGarage();selectWeapon('machine');reset()");assert.equal(run('Object.values(player.skills).reduce((a,b)=>a+b,0)'),0);assert.equal(run('player.emergencyUsed'),false);assert.equal(run('player.dashCooldown'),0);
+console.log('Ten additional upgrades, conditional offers, damage rules, cooldowns, ricochet and reset passed.');
