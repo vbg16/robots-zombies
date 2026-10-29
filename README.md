@@ -1,29 +1,40 @@
-# Robots / Zombies
+# Screwvivors — protótipo experimental
 
-O projeto está sendo definido como **Screwvivors**. Consulte a [direção e documentação do jogo](docs/README.md) para as regras aprovadas, o conteúdo planejado e as decisões pendentes. Este protótipo experimental ainda não representa todas essas regras.
+Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de execução. A [documentação](docs/README.md) distingue decisões aprovadas e propostas. Arte atual é provisória.
 
-Protótipo de sobrevivência Bullet Heaven para navegador, sem dependências externas.
+## Jogar
 
-## Executar
+No GitHub, use **Code → Download ZIP**, extraia e abra **index.html** no Chrome/Edge/Firefox. O ZIP antigo da pasta downloads não contém as atualizações.
 
-Na pasta do repositório:
+Na garagem, escolha metralhadora ou escopeta e clique em **Sair para a cidade**. Um chassi e um slot disponíveis. A arma não muda durante a tentativa.
+
+- WASD/setas: mover.
+- Mouse: mirar.
+- Segurar botão esquerdo: atirar.
+- P: pausar/continuar.
+- Colete núcleos para subir de nível; escolha uma skill ou pule.
+- Chefe aos 60 segundos: saia da faixa de investida e evite os disparos laranja.
+- Sobreviva por três minutos no teste. A meta final de design é vinte minutos.
+
+Skills somem em cada nova tentativa. Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefe dá cura e uma melhoria temporária. Não há inventário permanente nem salvamento nesta versão. Repetir configuração preserva somente a escolha da arma dentro da sessão; Voltar à garagem permite mudar antes da próxima tentativa.
+
+Alternativa com servidor local:
 
 ```sh
-python3 -m http.server 8000 --bind 0.0.0.0
+python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Abra o servidor no navegador. WASD ou setas movem o robô. Mire com o mouse e segure o botão esquerdo para atirar; solte para parar. Esta versão experimental requer teclado e mouse; toque não está implementado. P pausa. Colete núcleos azuis e escolha melhorias ao subir de nível. Sobreviva por três minutos para vencer.
+Abra http://127.0.0.1:8000/. Toque/controle não implementados; use teclado e mouse.
 
 ## Verificar
 
 ```sh
 node --check game.js
 node tests/combat.cjs
-curl --fail http://127.0.0.1:8000/
+node tests/sprite-animation.cjs
+python tests/validate_walk_test.py
 ```
 
-Não há build, serviços externos, chaves de API ou pacotes para instalar.
+Os testes Python das ferramentas de arte exigem Pillow. O jogo não exige instalação de pacotes, serviços, chaves ou build.
 
-## Combate experimental — 27/10/2026
-
-Disparo manual e mira livre implementados. Pausa, perda de foco e escolhas de melhoria interrompem os comandos para evitar tiros presos. A sessão de três minutos serve para testes; a meta de design continua sendo vinte minutos. Arma, atributos e melhorias atuais são provisórios, sem definir o catálogo final. O ZIP em downloads ainda corresponde à versão anterior; para este combate use os arquivos atuais do repositório.
+Testes de lógica cobrem combate e simulação de três minutos; conferência visual e balanceamento no navegador seguem pendentes. [Parâmetros experimentais](docs/game-design.md).
