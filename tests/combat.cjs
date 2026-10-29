@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const listeners = new Map();
-function surface(name) { return {style:{},setAttribute(key,value){this[key]=value;},children:[],hidden:false,textContent:'',addEventListener(type,fn){listeners.set(name+':'+type,fn);},append(...items){this.children.push(...items);},replaceChildren(){this.children=[];}}; }
+function surface(name) { return {style:{},focus(){},setAttribute(key,value){this[key]=value;},children:[],hidden:false,textContent:'',addEventListener(type,fn){listeners.set(name+':'+type,fn);},append(...items){this.children.push(...items);},replaceChildren(){this.children=[];}}; }
 const elements = new Map();
 const canvas = surface('canvas');
 canvas.getBoundingClientRect=()=>({left:100,top:50,width:1000,height:600});
@@ -84,3 +84,49 @@ assert.ok(run('player.stride<oldStride'),'animation settles when movement stops'
 run("draw();reset();keys.add('a');keys.add('w');spawn=100;tick(1);draw()");
 assert.ok(run('camera.x<0&&camera.y<0'),'camera follows in opposite directions');
 console.log('Camera dead zone, smooth follow and walking transitions passed.');
+
+run("openGarage();selectWeapon('shotgun');reset()");
+assert.equal(run('runWeapon.id'),'shotgun');
+assert.equal(elements.get('garage').hidden,true);assert.equal(elements.get('combat').hidden,false);
+assert.equal(run("selectWeapon('machine')"),false,'equipment cannot change in combat');
+run("spawn=100;aim={x:800,y:300,active:true};firing=true;tick(.01)");
+assert.equal(run('bullets.length'),5,'shotgun fires five pellets');
+assert.equal(run('bullets[0].damage'),12);assert.ok(run('bullets[0].vy<0&&bullets[4].vy>0'),'spread');
+run("upgrade();globalThis.offer=offerVersion;globalThis.chosen=offeredSkills[0].id");
+assert.equal(run('chooseSkill(chosen,offer)'),true);assert.equal(run('chooseSkill(chosen,offer)'),false,'stale choice cannot be applied twice');
+run("openGarage();selectWeapon('machine');reset()");
+assert.equal(run('player.skills.pierce+player.skills.blast+player.skills.shock'),0,'skills reset between attempts');
+assert.equal(run('player.damageStacks'),0);
+run("SKILLS.find(s=>s.id==='pierce').apply();SKILLS.find(s=>s.id==='blast').apply();SKILLS.find(s=>s.id==='shock').apply()");
+assert.equal(run('activeSynergies().length'),3);
+run("spawn=100;enemies=[{x:550,y:300,hp:100,speed:0,r:14,hit:0},{x:580,y:300,hp:100,speed:0,r:14,hit:0},{x:610,y:300,hp:100,speed:0,r:14,hit:0}];aim={x:800,y:300,active:true};firing=true;tick(.04);firing=false;tick(.12)");
+assert.ok(run('enemies[0].hp<100&&enemies[1].hp<100&&enemies[2].hp<100'),'synergies damage multiple targets');
+assert.ok(run('effects.length>0'),'synergy VFX');
+run("reset();clock=59.98;spawn=100;tick(.04)");
+assert.equal(run('bossSpawned'),true);assert.equal(run('boss.hp'),650);assert.equal(run('bossDefeated'),false);
+run("boss.timer=0;tickBoss(.01)");
+assert.equal(run('boss.phase'),'tellDash');assert.ok(run('boss.timer>.9'),'dash has warning');
+run("boss.timer=0;tickBoss(.01)");assert.equal(run('boss.phase'),'dash');
+run("boss.phase='approach';boss.turn=1;boss.timer=0;tickBoss(.01)");assert.equal(run('boss.phase'),'tellVolley');assert.equal(run('hostile.length'),0);
+run("boss.timer=0;tickBoss(.01)");assert.equal(run('hostile.length'),12,'volley only after warning');
+run("boss.x=player.x+300;boss.y=player.y;player.hp=50;damageEnemy(boss,10000);tick(.01)");
+assert.equal(run('bossDefeated'),true);assert.equal(run('state'),'reward');assert.equal(run('player.hp'),70);assert.equal(run('hostile.length'),0);
+assert.equal(run('bossReward'),false,'reward delivered once');
+run("globalThis.rewardVersion=offerVersion;globalThis.rewardId=offeredSkills[0].id;chooseSkill(rewardId,rewardVersion);tick(.01)");
+assert.equal(run('state'),'playing');
+run("pause();globalThis.frozenTime=clock;tick(1)");assert.equal(run('clock'),run('frozenTime'),'pause freezes simulation');
+run("openGarage();selectWeapon('shotgun');reset()");assert.equal(run('bossSpawned'),false);assert.equal(run('bossDefeated'),false);assert.equal(run('runWeapon.id'),'shotgun');assert.equal(run('player.hp'),100);
+console.log('Garage, fixed loadout, shotgun, stale offers, skills/synergies, boss telegraphs and one-time rewards passed.');
+
+run("openGarage();selectWeapon('machine');reset();player.inv=100000");
+for(let i=0;i<4600;i++){
+ if(run('state')==='playing'){
+  run("{aim={x:width/2+100,y:height/2,active:true};const ts=targets().filter(t=>t.hp>0);if(ts.length){const t=ts.reduce((a,b)=>Math.hypot(a.x-player.x,a.y-player.y)<Math.hypot(b.x-player.x,b.y-player.y)?a:b);aim.x=t.x-camera.x;aim.y=t.y-camera.y;}firing=true;tick(.04);draw()}");
+ }else if(['upgrade','reward'].includes(run('state'))){run("chooseSkill(offeredSkills[0].id,offerVersion)");}
+ else break;
+}
+assert.equal(run('state'),'won','complete three-minute integration simulation');
+assert.ok(run('bossSpawned'),'boss appeared during simulation');
+assert.ok(run('enemies.length<=70&&bullets.length<=405&&feedback.length<=100'),'entity bounds');
+run("openGarage()");assert.equal(elements.get('garage').hidden,false);assert.equal(elements.get('combat').hidden,true);
+console.log('Full three-minute combat/upgrade/boss integration simulation passed.');
