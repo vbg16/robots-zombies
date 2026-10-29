@@ -13,3 +13,16 @@
 .combat-screen .xp{z-index:1}
 @media(max-width:650px){.combat-screen .hud{top:8px;left:8px;right:8px;gap:10px;padding:8px}.combat-screen .hud>div:first-child{min-width:84px}.combat-screen .hud small{font-size:7px}.combat-screen .hud b{font-size:17px}.combat-screen #pause{font-size:0;padding:8px}.combat-screen #pause::after{content:'Ⅱ / P';font-size:10px}}
 @media(max-height:450px){.combat-screen .hud{top:6px;padding:6px 10px}.combat-screen .battery{height:24px;width:16px}.combat-screen .hud small{margin-bottom:3px}.combat-screen .hud b{font-size:18px}}
+
+/* Garage and combat are separate views. */
+#garage[hidden],#combat[hidden],#boss-hud[hidden],#return-garage[hidden]{display:none}
+body:has(#garage:not([hidden])){height:auto;min-height:100dvh;overflow:auto}
+.garage{padding:28px 0;max-width:1100px;margin:auto}.garage h1{font-size:clamp(28px,4vw,50px);max-width:850px;letter-spacing:-1px;margin:12px 0}.garage p{line-height:1.7;color:#a6bdd9}.kicker{font:12px monospace;letter-spacing:3px;color:#5dbbff!important}
+.garage-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:36px;margin:28px 0}.garage h2{font-size:24px;margin:14px 0;letter-spacing:0}.chassis-card{border:1px solid #34587e;background:#102138;border-radius:12px;padding:24px}.chassis-card small{color:#9bb8d7}.garage-robot{width:100px;height:120px;margin:24px auto;border:10px solid #7f8f9a;border-radius:22px 22px 8px 8px;box-shadow:0 0 25px #3cc7f44d,inset 0 0 22px #3cc7f44d;display:grid;place-items:center;font:32px monospace;color:#3cc7f4;background:#1b2a3a}
+.weapon-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}.weapon-options button{text-align:left;min-height:100px;border-radius:8px}.weapon-options strong,.weapon-options span{display:block}.weapon-options span{font-size:12px;line-height:1.6;margin-top:12px}.weapon-options [aria-pressed="true"]{border:2px solid #5dbbff;background:#183d60;box-shadow:0 0 16px #5dbbff33}
+.loadout{border-left:3px solid #5dbbff;padding:10px 16px;color:#e6f1ff!important}.prototype-note{border-top:1px solid #263e5d;padding-top:20px;font-size:12px}
+.combat-build{position:absolute;bottom:18px;left:18px;right:18px;pointer-events:none;font:12px monospace;line-height:1.6;color:#dcecff;text-shadow:0 1px 3px #000;z-index:1;max-width:900px}.combat-build>div{background:#081426a6;padding:3px 8px;width:fit-content;max-width:100%}
+.boss-hud{position:absolute;top:110px;left:25%;width:50%;z-index:1;pointer-events:none;text-align:center;color:#ffd1a0;text-shadow:0 1px 3px #000;font:11px monospace}.boss-track{height:8px;background:#2d2430;margin-top:7px;border:1px solid #b47854}.boss-track i{display:block;width:100%;height:100%;background:#ffb66c}
+#return-garage{margin-top:14px;font-size:11px}.combat-screen .overlay{padding-top:18px;padding-bottom:18px}#choices button{min-width:155px}
+@media(max-width:650px){.garage-grid{grid-template-columns:1fr;gap:20px}.garage{padding:16px 0}.chassis-card{padding:16px}.garage-robot{display:none}.weapon-options{grid-template-columns:1fr}.combat-build{font-size:10px;left:8px;bottom:10px}.boss-hud{left:12%;width:76%;top:88px}#choices{gap:6px}#choices button{min-width:130px;max-width:170px}}
+@media(max-height:450px){.boss-hud{top:76px}.combat-build{font-size:9px}.combat-screen .overlay{justify-content:flex-start}#choices button{font-size:11px;max-width:180px;padding:8px}}
