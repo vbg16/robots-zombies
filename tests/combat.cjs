@@ -130,3 +130,64 @@ assert.ok(run('bossSpawned'),'boss appeared during simulation');
 assert.ok(run('enemies.length<=70&&bullets.length<=405&&feedback.length<=100'),'entity bounds');
 run("openGarage()");assert.equal(elements.get('garage').hidden,false);assert.equal(elements.get('combat').hidden,true);
 console.log('Full three-minute combat/upgrade/boss integration simulation passed.');
+
+assert.equal(run('Object.keys(WEAPONS).length'),12,'ten new weapons');
+assert.equal(run('SKILLS.length'),18,'ten new upgrades');
+assert.equal(run('Object.keys(ROBOTS).length'),2);
+for(const id of run('Object.keys(WEAPONS)')){
+ run("openGarage();selectRobot('prot');selectWeapon("+JSON.stringify(id)+");reset();spawn=100;aim={x:800,y:300,active:true};firing=true;tick(.01);draw()");
+ assert.ok(run('bullets.length')>0,id+' fires');
+ assert.equal(run('runWeapon.id'),id);
+ assert.ok(run('bullets.every(b=>Number.isFinite(b.damage)&&b.damage>0&&Number.isFinite(b.life))'),id+' valid bullets');
+}
+run("openGarage();selectWeapon('burst');reset();spawn=100;aim={x:800,y:300,active:true};firing=true;tick(.01)");
+assert.equal(run('bullets.length'),1);run('tick(.08)');assert.equal(run('bullets.length'),2);
+fire('window:pointerup');run('tick(.08)');assert.equal(run('burstQueue.length'),0);assert.equal(run('bullets.length'),2,'release cancels remaining burst');
+run("openGarage();selectWeapon('sniper');reset();aim={x:800,y:300,active:true};fireWeapon()");
+assert.equal(run('bullets[0].remaining'),4);assert.equal(run('bullets[0].vx'),1050);
+run("openGarage();selectWeapon('rocket');reset();enemies=[{x:550,y:300,hp:100,speed:0,r:10},{x:600,y:300,hp:100,speed:0,r:10}];impact(enemies[0],{damage:70,vx:1,vy:0})");
+assert.equal(run('enemies[0].hp'),30);assert.equal(run('enemies[1].hp'),30,'intrinsic rocket explosion');
+run("openGarage();selectWeapon('grenade');reset();spawn=100;aim={x:800,y:300,active:true};fireWeapon();bullets[0].life=.001;bullets[0].vx=0;enemies=[{x:player.x+10,y:player.y,hp:100,speed:0,r:10}];tick(.01)");
+assert.equal(run('enemies[0].hp'),55,'grenade detonates on timer');
+run("openGarage();selectWeapon('tesla');reset();enemies=[{x:550,y:300,hp:100,speed:0,r:10},{x:580,y:300,hp:100,speed:0,r:10},{x:600,y:300,hp:100,speed:0,r:10}];impact(enemies[0],{damage:18,vx:1,vy:0})");
+assert.ok(run('enemies[1].hp<100&&enemies[2].hp<100'),'Tesla intrinsic chains');
+run("openGarage();selectWeapon('disc');reset();spawn=100;aim={x:800,y:300,active:true};fireWeapon();bullets[0].life=.8;bullets[0].x=player.x+100;tick(.01)");
+assert.equal(run('bullets[0].returning'),true);assert.ok(run('bullets[0].vx<0'));
+run("openGarage();selectWeapon('harpoon');reset();enemies=[{x:550,y:300,hp:100,speed:0,r:10}];impact(enemies[0],{damage:60,vx:1,vy:0})");
+assert.equal(run('enemies[0].x'),615);
+run("openGarage();selectWeapon('flame');reset();enemies=[{x:550,y:300,hp:100,speed:24,r:10}];impact(enemies[0],{damage:5,vx:1,vy:0});tickStatuses(.5)");
+assert.ok(run('enemies[0].hp<95'),'flame burns');
+run("openGarage();selectWeapon('cryo');reset();enemies=[{x:550,y:300,hp:100,speed:24,r:10}];impact(enemies[0],{damage:14,vx:1,vy:0})");
+assert.equal(run('enemies[0].slowTime'),2);assert.equal(run('enemies[0].speed'),24,'slow never modifies base speed');
+run("openGarage();selectRobot('bastion');selectWeapon('machine');reset()");
+assert.equal(run('player.hp'),120);assert.equal(run('player.maxHp'),120);assert.equal(run('player.speed'),155);
+assert.equal((elements.get('health').innerHTML.match(/<span class="battery/g)||[]).length,6);
+run('hurtPlayer(12)');assert.equal(run('player.hp'),109,'Bastion innate armor');
+assert.equal(run("selectRobot('prot')"),false,'robot locked in combat');
+run("openGarage();selectRobot('prot');reset();SKILLS.find(s=>s.id==='armor').apply();hurtPlayer(12)");assert.equal(run('player.hp'),90);
+run("player.inv=0;SKILLS.find(s=>s.id==='shield').apply();hurtPlayer(20)");assert.equal(run('player.hp'),90);assert.equal(run('player.shieldReady'),false);
+run('tickStatuses(12)');assert.equal(run('player.shieldReady'),true);
+run("SKILLS.find(s=>s.id==='regen').apply();player.hp=80;tickStatuses(3)");assert.equal(run('player.hp'),81);
+run("SKILLS.find(s=>s.id==='salvage').apply();enemies=[{x:550,y:300,hp:1,r:10,speed:0}];damageEnemy(enemies[0],2)");assert.equal(run('player.hp'),83);
+run("SKILLS.find(s=>s.id==='range').apply();SKILLS.find(s=>s.id==='extra').apply();aim={x:800,y:300,active:true};fireWeapon()");
+assert.equal(run('bullets.length'),2);assert.equal(run('bullets[0].maxLife'),run('runWeapon.life*1.25'));
+run("SKILLS.find(s=>s.id==='burn').apply();SKILLS.find(s=>s.id==='freeze').apply();SKILLS.find(s=>s.id==='knock').apply();SKILLS.find(s=>s.id==='crit').apply()");
+assert.ok(run("activeSynergies().some(s=>s.includes('TÉRMICO'))"));
+run("openGarage();selectRobot('prot');reset()");assert.equal(run('Object.values(player.skills).reduce((a,b)=>a+b,0)'),0);
+assert.equal(run('player.armor'),0);assert.equal(run('player.hp'),100);
+console.log('12 weapons, 18 upgrades, intrinsic effects, burst release, two chassis and reset passed.');
+
+run("openGarage();selectRobot('bastion');reset();robotSprite={complete:true,naturalWidth:256};drawRobot()");
+run("openGarage();selectRobot('prot');reset();SKILLS.find(s=>s.id==='crit').apply();player.skills.crit=5;aim={x:800,y:300,active:true};fireWeapon()");
+assert.equal(run('bullets[0].damage'),44,'critical snapshots double damage');
+for(const id of run('Object.keys(WEAPONS)')){
+ run("openGarage();selectRobot('prot');selectWeapon("+JSON.stringify(id)+");reset();player.inv=100000;SKILLS.filter(s=>['pierce','blast','shock','burn','freeze','knock','range','extra','shield','salvage','regen'].includes(s.id)).forEach(s=>s.apply())");
+ for(let i=0;i<1700;i++){
+  if(run('state')==='playing')run("{const ts=targets().filter(t=>t.hp>0);aim={x:width/2+100,y:height/2,active:true};if(ts.length){const t=ts[0];aim.x=t.x-camera.x;aim.y=t.y-camera.y;}firing=true;tick(.04);draw();}");
+  else if(['upgrade','reward'].includes(run('state')))run("chooseSkill(offeredSkills[0].id,offerVersion)");
+ }
+ assert.ok(run('bossSpawned'),id+' reaches boss with combined skills');
+ assert.ok(run('bullets.length<=400&&feedback.length<=100&&effects.length<=150'),id+' bounded effects');
+ assert.ok(run('Number.isFinite(player.hp)&&enemies.every(z=>Number.isFinite(z.hp)&&Number.isFinite(z.x))'),id+' finite combat state');
+}
+console.log('All weapons with combined status/area effects and boss simulation passed.');
