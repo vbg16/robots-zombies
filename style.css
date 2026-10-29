@@ -26,3 +26,10 @@ body:has(#garage:not([hidden])){height:auto;min-height:100dvh;overflow:auto}
 #return-garage{margin-top:14px;font-size:11px}.combat-screen .overlay{padding-top:18px;padding-bottom:18px}#choices button{min-width:155px}
 @media(max-width:650px){.garage-grid{grid-template-columns:1fr;gap:20px}.garage{padding:16px 0}.chassis-card{padding:16px}.garage-robot{display:none}.weapon-options{grid-template-columns:1fr}.combat-build{font-size:10px;left:8px;bottom:10px}.boss-hud{left:12%;width:76%;top:88px}#choices{gap:6px}#choices button{min-width:130px;max-width:170px}}
 @media(max-height:450px){.boss-hud{top:76px}.combat-build{font-size:9px}.combat-screen .overlay{justify-content:flex-start}#choices button{font-size:11px;max-width:180px;padding:8px}}
+
+.robot-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}.robot-options button{font-size:11px;padding:12px 8px}.robot-options [aria-pressed="true"]{border:2px solid #5dbbff;background:#183d60}
+.robot-preview-box{width:160px;height:180px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin:20px auto;background:#1b2a3a;border:1px solid #34587e}.robot-preview-box img{image-rendering:pixelated;width:128px;height:160px;max-width:none;object-fit:contain;object-position:center}
+.garage-grid{grid-template-columns:minmax(250px,1fr) minmax(0,1.7fr)}.weapon-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.weapon-options button{min-height:64px;padding:12px 8px;font-size:10px;letter-spacing:.5px}
+#weapon-description{min-height:52px}#choices button{min-width:150px}.combat-build{max-width:95%;font-size:11px}.combat-build>div{max-height:72px;overflow:auto}
+@media(max-width:800px){.garage-grid{grid-template-columns:1fr}.weapon-options{grid-template-columns:repeat(3,minmax(0,1fr))}.robot-preview-box{height:100px;width:90px;margin:10px auto}.robot-preview-box img{width:64px;height:80px}}
+@media(max-width:450px){.weapon-options{grid-template-columns:repeat(2,minmax(0,1fr))}.combat-screen .battery{width:13px}.combat-screen .hud>div:first-child{min-width:94px}.combat-build{font-size:9px}}
