@@ -11,7 +11,7 @@ O repositório começou vazio. Foi criado um protótipo experimental em HTML, CS
 
 O protótipo contém movimentação, mira pelo mouse, disparo manual, inimigos, coleta de energia, escolhas de melhorias, pausa, vitória e derrota. As verificações executadas cobriram sintaxe, lógica em ambiente simulado e respostas HTTP dos arquivos. O teste visual em navegador não foi concluído porque o download do navegador foi bloqueado pelo domínio de rede.
 
-**Divergências conhecidas em relação ao design aprovado:** duração de três minutos em vez de vinte; ausência de garagem, montagem de robôs, persistência, progressão de armas, conteúdo final e ranking Steam. Não é uma versão comercial nem comprova o balanceamento do jogo.
+**Divergências conhecidas em relação ao design aprovado:** duração de três minutos em vez de vinte; garagem ainda limitada a um chassi e um slot; ausência de montagem de peças, persistência, evolução de armas, conteúdo final e ranking Steam. Não é uma versão comercial nem comprova o balanceamento do jogo.
 
 ## Estratégia proposta
 
@@ -98,3 +98,11 @@ Designer: produzir spritesheets pixel-perfect transparentes e frames individuais
 Dev: módulo opcional `sprite-animation.js` preparado para recortes por frame, tempos, direções e escala sem interpolação. Não ativado no HTML; robô procedural continua em uso. [Contrato de integração](integracao-sprites.md). Câmera suave e mecânicas preservadas. Testes de animação e regressão do combate passaram; integração visual depende dos arquivos finais.
 
 Próximo passo de arte: receber e verificar a entrega técnica do Designer antes de substituir o robô provisório. Não integrar as pranchas de estudos.
+
+## Entrega experimental das etapas 1 a 4 — 29/10/2026
+
+Implementados: garagem separada com um chassi/slot, seleção fixa de metralhadora ou escopeta, ofertas de skills e três sinergias, primeiro chefe com dois padrões sinalizados e recompensa temporária. Não equivale à conclusão integral do catálogo de garagem ou da Etapa 2 original. Consulte os parâmetros no [design](game-design.md).
+
+Verificado: sintaxe JavaScript, controles/IDs do HTML, regressões de movimento/câmera/dano, seleção e bloqueio de arma, escopeta com cinco projéteis, invalidação de ofertas antigas, reset de skills, efeitos em vários alvos, avisos de ataques, recompensa única e simulação completa de três minutos. Ferramentas de sprites continuam passando nos testes. Tentativa de instalar navegador falhou por download inválido; validação visual e de balanceamento no navegador permanece pendente.
+
+Próximo teste do criador: comparar armas, obter módulos especiais, observar sinergias e enfrentar Brutamontes aos 60 s. Confirmar conforto do HUD e dificuldade. Nenhuma mudança na retenção de peças nem integração da arte não aprovada tecnicamente. O ZIP antigo em downloads continua desatualizado; usar Code → Download ZIP.
