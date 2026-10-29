@@ -1,0 +1,128 @@
+{
+  "status": "CHECKS_PASSED_REVIEW_PENDING",
+  "errors": [],
+  "frames": [
+    {
+      "file": "00.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        10,
+        9,
+        37,
+        59
+      ],
+      "sha256": "8bf4a5055816a8e3d594712dc49d0c808e43c152dd2f3d6a0d5948a5d7d3f63d"
+    },
+    {
+      "file": "01.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        9,
+        10,
+        37,
+        59
+      ],
+      "sha256": "933a7439b8afec8f115db1672c9d4e1d866836e3911862229b76d2e5b7461110"
+    },
+    {
+      "file": "02.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        9,
+        9,
+        39,
+        59
+      ],
+      "sha256": "f94f4b5e4728b0b53d022feec4547891cad3ebe9650be65abda944e0afac7179"
+    },
+    {
+      "file": "03.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        7,
+        8,
+        43,
+        59
+      ],
+      "sha256": "ea5e7a5b70afb1eda8df6c0a619c82888fdc8c23ad6888d0177c850dc2d0aa55"
+    },
+    {
+      "file": "04.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        7,
+        9,
+        43,
+        59
+      ],
+      "sha256": "70d2bb9847a02d547db9d035b29ddab127639a50cc9369c14a88b938508e1476"
+    },
+    {
+      "file": "05.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        8,
+        10,
+        41,
+        59
+      ],
+      "sha256": "36a72f8cadc4e0048325c83cd5612ae24d5095fdf7b2eecc928b2a3e2d8a6099"
+    },
+    {
+      "file": "06.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        9,
+        9,
+        39,
+        59
+      ],
+      "sha256": "7e1d52ed3d6434ba8cf5209dd5565b1bcfb7dfea9a1e913d3894a6d4f992fbf3"
+    },
+    {
+      "file": "07.png",
+      "size": [
+        48,
+        64
+      ],
+      "bbox": [
+        9,
+        8,
+        37,
+        59
+      ],
+      "sha256": "eb411d6d5088273760cb0252e0327d559a908a478ee9419f16c0d56be6b65d31"
+    }
+  ],
+  "duration_ms": 800,
+  "visual_review": "NOT_EVALUATED",
+  "remaining": [
+    "orientation, palette and baked background",
+    "actual shared foot alignment",
+    "limb alternation and weight transfer",
+    "loop continuity",
+    "real game scale, light/dark scenes",
+    "10-cycle evidence and in-game transitions"
+  ]
+}
