@@ -150,3 +150,50 @@ Resposta visual: números de dano flutuantes, clarão no inimigo atingido, brilh
 Solicitado pelo criador após teste: evitar o robô rigidamente centralizado, animar caminhada e adotar silhueta humanoide pesada com referências em Gigantes de Aço/Círculo de Fogo. Substitui a direção visual de droide com cúpula desta versão. Desenho próprio em canvas com torso, ombreiras, braços, joelhos, pés, visor e núcleo azul. Movimento usa passada alternada de pernas/braços, oscilação discreta do torso e transição suave ao parar; sem tremor de câmera.
 
 Câmera com zona livre central (até 75 px na horizontal e 50 px na vertical, proporcional em janelas pequenas), seguida de aproximação exponencial dependente do tempo. O jogador pode se deslocar dentro da tela sem ficar preso ao centro; reinício e redimensionamento reposicionam a câmera imediatamente. Mundo sem bordas, HUD fixo e atributos de combate preservados. Testes verificam zona livre, acompanhamento gradual em direções opostas e início/fim da animação; avaliação visual no navegador segue necessária.
+
+## Recorte jogável: garagem, armas, sinergias e chefe — 29/10/2026
+
+Autorizado pelo criador: implementar as etapas 1 a 4 propostas (garagem, armas distintas, skills com sinergias e primeiro chefe). Detalhes abaixo são hipóteses experimentais reversíveis para testar esse recorte, não catálogo final, progressão permanente ou definição das três derivações de cada skill.
+
+### Garagem
+
+Tela separada do combate. PROT-0001 é o único chassi disponível neste teste, com um slot. Escolher metralhadora ou escopeta antes de sair; equipamento é copiado e fixado na tentativa. Pausa, derrota e vitória permitem voltar à garagem. Repetir configuração inicia tentativa limpa com o equipamento anterior. Não há gastos, inventário de peças ou desbloqueios fictícios.
+
+### Armas experimentais
+
+| Arma | Dano base por projétil | Projéteis | Intervalo base | Alcance aproximado |
+| --- | --- | --- | --- | --- |
+| Metralhadora | 22 | 1 | 0,32 s | 1.026 px |
+| Escopeta | 12 | 5 | 0,80 s | 371 px |
+
+Mira e disparo continuam manuais. Escopeta tem dispersão fixa de 0,34 radianos; cada chumbo causa seu próprio dano. Dois bônus de 30% dão +60% do dano base por projétil: 35,2 na metralhadora e 19,2 na escopeta. Colisão de projéteis usa o segmento percorrido para reduzir falhas em alvos atravessados entre frames.
+
+### Melhorias e sinergias
+
+Três ofertas aleatórias elegíveis por nível, com opção de pular. Skills especiais são adquiridas uma vez na tentativa; dano, cadência, velocidade e coleta podem repetir. Reparo é oferecido quando há vida faltando. Nada persiste entre tentativas.
+
+- Alto impacto: +30% do dano base por aquisição, aditivo.
+- Overdrive: +20% da cadência base por aquisição; intervalo = intervalo base / (1 + 0,2 × aquisições).
+- Perfuração: cada projétil pode atingir três inimigos distintos.
+- Carga explosiva: impacto gera explosão de raio 64 px; outros alvos recebem 45% do dano do projétil.
+- Descarga: impacto atinge outro inimigo em até 135 px por 35% do dano.
+- Perfuração + explosão: impactos sucessivos causam explosões ao longo da trajetória.
+- Perfuração + descarga: até três alvos secundários por descarga.
+- Explosão + descarga: sobreviventes de explosões também geram descargas. Não há recursão infinita de efeitos.
+- Autorreparo: recupera 35 de integridade.
+- Pernas hidráulicas: velocidade ×1,15, preservando a melhoria existente.
+- Campo magnético: coleta ×1,4.
+
+HUD informa arma, dano, bônus e sinergias. Impactos têm números e efeitos distintos. Ofertas antigas são invalidadas para evitar aplicar escolhas duplicadas.
+
+### Primeiro chefe experimental: Brutamontes
+
+Surge uma vez aos 60 s do teste de três minutos. 650 de vida fixa, perseguição lenta (28 px/s), contato/investida causam 20. Alterna investida direcional e rajada circular de 12 projéteis, ambos com aviso de 0,95 s. Investida percorre até 234 px em 0,65 s. Projéteis inimigos causam 12, viajam a 145 px/s e duram 4 s. A direção da investida é fixada no aviso, permitindo sair da faixa laranja; a rajada sinaliza sua origem e direções.
+
+Ao morrer: remove seus projéteis ativos, recupera 20 de integridade do jogador e oferece uma melhoria de campo, uma única vez. Recompensa é temporária; não são peças permanentes. Se o jogador morrer no mesmo passo, derrota prevalece. Vitória continua sendo sobreviver até 180 s neste recorte, sem exigir morte do chefe; alvo final segue vinte minutos. Desenho do chefe é provisório.
+
+### Preservado e pendente
+
+Câmera suave com zona livre, mundo sem bordas, arena de 90%, HUD azul e baterias preservados. Zumbis continuam com 30 de vida e velocidade 24–42, sem aumento temporal. Cronograma e frequência da horda mantidos. Estudos do Designer não foram integrados; robô procedural permanece.
+
+Faltam balanceamento com o criador, teste visual no navegador, integração de sprites finais, garagem com múltiplos chassis/peças, retenção, derivações definitivas de skills, cenário final e versão Steam. Simulação de lógica não comprova diversão ou balanceamento.
