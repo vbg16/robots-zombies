@@ -33,3 +33,23 @@ body:has(#garage:not([hidden])){height:auto;min-height:100dvh;overflow:auto}
 #weapon-description{min-height:52px}#choices button{min-width:150px}.combat-build{max-width:95%;font-size:11px}.combat-build>div{max-height:72px;overflow:auto}
 @media(max-width:800px){.garage-grid{grid-template-columns:1fr}.weapon-options{grid-template-columns:repeat(3,minmax(0,1fr))}.robot-preview-box{height:100px;width:90px;margin:10px auto}.robot-preview-box img{width:64px;height:80px}}
 @media(max-width:450px){.weapon-options{grid-template-columns:repeat(2,minmax(0,1fr))}.combat-screen .battery{width:13px}.combat-screen .hud>div:first-child{min-width:94px}.combat-build{font-size:9px}}
+
+/* Industrial presentation pass: no changes to the combat layout. */
+body{background-color:#07111c;background-image:radial-gradient(ellipse at 30% 0%,#173448 0%,transparent 60%),linear-gradient(135deg,#07111c,#0c1823);}
+.garage{padding-left:20px;padding-right:20px;box-sizing:border-box;}
+.garage h1{color:#e8ddc9;text-shadow:0 3px 0 #030b13;}
+.chassis-card{background:linear-gradient(145deg,#1b2c39,#0c1925);border-color:#4f6b7a;border-radius:4px;box-shadow:inset 0 3px 0 #ffffff08,0 16px 38px #0005;position:relative;}
+.chassis-card::before{content:'';display:block;width:44px;height:4px;background:#3cc7f4;box-shadow:0 0 14px #3cc7f44d;margin-bottom:18px;}
+.robot-preview-box{background:radial-gradient(ellipse at 50% 70%,#285268,#101e2a 70%);border-color:#38566a;box-shadow:inset 0 0 25px #030b16,0 1px 0 #ffffff0d;}
+.weapon-options button,.robot-options button{background:linear-gradient(145deg,#182a39,#0c1925);border-color:#334c60;border-radius:3px;transition:border-color .15s,background .15s,box-shadow .15s;}
+.weapon-options button:hover,.robot-options button:hover{border-color:#91c6d9;box-shadow:inset 3px 0 #3cc7f4;}
+.weapon-options [aria-pressed="true"],.robot-options [aria-pressed="true"]{background:linear-gradient(135deg,#204b61,#142b3c);box-shadow:inset 3px 0 #89e6ff,0 0 16px #3cc7f41a;}
+button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
+.combat-screen .arena{border:1px solid #3d5d70;box-shadow:0 0 0 5px #060e17,0 20px 60px #0009;}
+.combat-screen .hud{border-radius:3px;}
+.battery-charge{filter:drop-shadow(0 0 3px #3cc7f44d);}
+.battery--broken .battery-charge{filter:none;}
+.boss-track{height:10px;box-shadow:0 0 15px #ffb66c26;}
+.boss-track i{background:linear-gradient(90deg,#b56a44,#ffcb84);}
+#choices button{border-radius:4px;background:linear-gradient(150deg,#1e3a4d,#0c1c2b);box-shadow:inset 0 3px #3cc7f433,0 8px 20px #0004;}
+#choices button:hover{border-color:#9beaff;box-shadow:inset 0 3px #9beaff,0 0 20px #3cc7f426;}
