@@ -106,3 +106,11 @@ Implementados: garagem separada com um chassi/slot, seleção fixa de metralhado
 Verificado: sintaxe JavaScript, controles/IDs do HTML, regressões de movimento/câmera/dano, seleção e bloqueio de arma, escopeta com cinco projéteis, invalidação de ofertas antigas, reset de skills, efeitos em vários alvos, avisos de ataques, recompensa única e simulação completa de três minutos. Ferramentas de sprites continuam passando nos testes. Tentativa de instalar navegador falhou por download inválido; validação visual e de balanceamento no navegador permanece pendente.
 
 Próximo teste do criador: comparar armas, obter módulos especiais, observar sinergias e enfrentar Brutamontes aos 60 s. Confirmar conforto do HUD e dificuldade. Nenhuma mudança na retenção de peças nem integração da arte não aprovada tecnicamente. O ZIP antigo em downloads continua desatualizado; usar Code → Download ZIP.
+
+## Catálogo ampliado — 29/10/2026
+
+Implementadas dez armas adicionais (12 no total), dez melhorias adicionais (18 no total) e BAST-0002 como segundo chassi. Garagem oferece as 12 armas e ambos os chassis sem inventar progressão permanente. Segundo robô usa atlas SVG provisório original, distinto do desenho do PROT-0001. Arte definitiva permanece pendente.
+
+Verificação: regressões anteriores, disparo de todas as armas, raio de explosão/tempo de granada, rajada cancelada ao soltar botão, retorno do disco, corrente Tesla, perfuração e empurrão, status sem alteração dos atributos base, vida máxima por chassi, seis baterias, cura/escudo/regeneração/armadura, crítico e reset. Simulações de todas as armas com módulos combinados até a entrada do chefe passaram. SVGs conferidos por XML e renderização de inspeção. Teste visual e balanceamento do jogo no navegador seguem pendentes.
+
+[Pedido técnico de sprites para o Designer](arte/prompt-inimigo-zumbi.md) pronto. Inimigos ainda usam desenhos provisórios; não marcar sprites finais como produzidos. Nenhuma mudança em persistência, ranking ou regras de montagem além do teste de dois chassis de um slot.
