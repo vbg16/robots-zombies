@@ -77,3 +77,9 @@ Nenhuma dessas perguntas deve bloquear tarefas independentes. Quando uma impleme
 **Aprovado:** reduzir velocidade e quantidade da horda; substituir a barra de integridade por pilhas/baterias individuais que ficam cinza e rachadas ao esvaziar. Desenho próprio de baterias, usando a referência de Hollow Knight apenas para o conceito de unidades visuais de vida.
 
 **Parâmetros experimentais desta versão:** cinco baterias de 20 pontos representam os 100 pontos existentes, com carga parcial; dano de 12 e cura de 35 preservados. Primeiro inimigo após 2 segundos; intervalo de surgimento começa em 1,6 s e desce até 0,65 s; limite de 70 inimigos; velocidade inicial de 24–42 pixels/s e crescimento de 0,1 pixel/s por segundo de partida. Esses números são ajuste de teste, não atributos finais dos chassis. A cura restaura a carga e remove rachaduras das baterias recuperadas.
+
+## Estabilização antes de expandir — 29/10/2026
+
+Plano de quatro semanas apresentado e aprovado pelo criador: Semana 1, sessões e usabilidade, selecionar seis armas e avaliar cinco skills fortes/cinco fracas; Semana 2, telemetria local, ajustes e feedback/áudio quando possível, referência jogável; Semana 3, módulos, package.json, GitHub Actions, licença/versão e fluxo de navegador; Semana 4, novos testes com jogadores e decisão de expansão. [Detalhes](plano-estabilizacao-4-semanas.md).
+
+A seleção de armas e o ranking de skills dependem de teste real e não estão definidos. Nenhuma licença foi escolhida. Datas, disponibilidade e participantes ainda não definidos. Este registro não cria automação nem significa que as quatro semanas estejam executadas. Prioridade passa de aumentar catálogo para estabilizar o que existe.
