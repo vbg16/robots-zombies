@@ -197,3 +197,49 @@ Ao morrer: remove seus projéteis ativos, recupera 20 de integridade do jogador 
 Câmera suave com zona livre, mundo sem bordas, arena de 90%, HUD azul e baterias preservados. Zumbis continuam com 30 de vida e velocidade 24–42, sem aumento temporal. Cronograma e frequência da horda mantidos. Estudos do Designer não foram integrados; robô procedural permanece.
 
 Faltam balanceamento com o criador, teste visual no navegador, integração de sprites finais, garagem com múltiplos chassis/peças, retenção, derivações definitivas de skills, cenário final e versão Steam. Simulação de lógica não comprova diversão ou balanceamento.
+
+## Expansão experimental de catálogo — 29/10/2026
+
+Autorizado pelo criador: dez armas e dez melhorias adicionais, segundo robô e desenho/sprite diferente, além de prompt de arte para inimigos. Catálogo agora contém 12 armas, 18 melhorias e dois chassis, todos disponíveis apenas para teste, sem custos/desbloqueios fictícios. Estes números ampliam o protótipo e não redefinem automaticamente o catálogo comercial.
+
+### Dez armas acrescentadas
+
+| ID | Arma | Dano / intervalo | Particularidade |
+| --- | --- | --- | --- |
+| burst | Fuzil de rajada | 14 / 0,65 s | Três tiros separados por 75 ms; soltar disparo cancela os pendentes |
+| sniper | Canhão de precisão | 88 / 1,15 s | Velocidade 1.050 px/s; atravessa quatro alvos |
+| laser | Emissor laser | 10 / 0,09 s | Pulsos velozes a 1.600 px/s; raio 4 px |
+| flame | Lança-chamas | 5 × 3 / 0,12 s | Cone curto a 220 px/s; queimadura por 3 s |
+| cryo | Lançador criogênico | 14 / 0,36 s | Reduz temporariamente movimento em 45% por 2 s |
+| rocket | Lança-foguetes | 70 / 1,30 s | Explosão de raio 96 com dano integral nos outros alvos |
+| grenade | Lança-granadas | 45 / 1 s | Explode em contato ou após 1,1 s; raio 90 |
+| tesla | Carabina Tesla | 18 / 0,55 s | Descarga de 35% em dois alvos secundários |
+| disc | Disco de retorno | 24 / 0,85 s | Atravessa e volta após metade da duração; um acerto por alvo em cada trecho |
+| harpoon | Arpão pneumático | 60 / 1,05 s | Atravessa dois alvos; empurra 65 px (25% em chefes) |
+
+Todas continuam manuais e escolhidas antes da partida. Dano exibido é por projétil; crítico dobra o dano daquele projétil, sem alterar o bônus aditivo de +30%. Módulos interagem com características próprias da arma. Explosões não geram recursão infinita; limites técnicos de projéteis/efeitos preservados.
+
+### Dez melhorias acrescentadas
+
+| ID | Nome | Efeito |
+| --- | --- | --- |
+| crit | Mira crítica | +20 pontos percentuais de chance de dano duplo; máximo 60% |
+| burn | Munição incendiária | Queima 20% do dano do impacto por segundo durante 3 s; não empilha dano no mesmo alvo |
+| freeze | Núcleo criogênico | Multiplica movimento inimigo por 0,55 durante 2 s; preserva velocidade base |
+| knock | Impacto cinético | Empurra 30 px; efeito a 25% no chefe |
+| salvage | Reciclagem de campo | Cura 2 ao eliminar zumbi, limitada à vida máxima do chassi |
+| armor | Blindagem reforçada | Reduz 2 de dano por aquisição; máximo +6; dano recebido mínimo 1 |
+| regen | Nanorreparo | Cura 1 a cada 3 s de simulação ativa |
+| range | Propulsão balística | +25% da duração base dos projéteis por aquisição; máximo +75% |
+| extra | Câmara dupla | +1 projétil por disparo com abertura lateral; máximo +2 |
+| shield | Escudo capacitivo | Absorve um impacto; recarga de 12 s de combate |
+
+Sinergia adicional: queimadura + resfriamento aumenta dano periódico em 50% enquanto ambos estão ativos. Perfuração e empurrão também podem coexistir. Status são temporários e nunca aumentam vida/velocidade base dos inimigos com o relógio. Todas as melhorias são zeradas ao reiniciar; não são peças persistentes.
+
+### Segundo robô e arte provisória
+
+BAST-0002: 120 de integridade (seis baterias), velocidade 155, redução inata de 1 de dano e um slot. PROT-0001 preserva 100 de integridade e velocidade 190. Ambos selecionáveis somente na garagem; seleção fica copiada/fixa na tentativa. A interface de baterias, reparo e recompensa respeita o máximo do chassi.
+
+BAST tem atlas SVG original de quatro quadros em células 64 × 80, além de prévia própria. É arte técnica provisória em pixels/vetores, não spritesheet final do Designer. Nenhuma prancha rejeitada foi integrada. A arte definitiva mantém o processo de aprovação separado. O módulo de animações finais continua preservado.
+
+O [prompt para o zumbi comum](arte/prompt-inimigo-zumbi.md) especifica arte original, mesma perspectiva, paleta de inimigo distinta, frames individuais e manifesto. Arte de inimigos ainda não foi produzida por este pedido; círculos provisórios permanecem até entrega e validação.
