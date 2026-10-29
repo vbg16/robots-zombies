@@ -114,3 +114,9 @@ Implementadas dez armas adicionais (12 no total), dez melhorias adicionais (18 n
 Verificação: regressões anteriores, disparo de todas as armas, raio de explosão/tempo de granada, rajada cancelada ao soltar botão, retorno do disco, corrente Tesla, perfuração e empurrão, status sem alteração dos atributos base, vida máxima por chassi, seis baterias, cura/escudo/regeneração/armadura, crítico e reset. Simulações de todas as armas com módulos combinados até a entrada do chefe passaram. SVGs conferidos por XML e renderização de inspeção. Teste visual e balanceamento do jogo no navegador seguem pendentes.
 
 [Pedido técnico de sprites para o Designer](arte/prompt-inimigo-zumbi.md) pronto. Inimigos ainda usam desenhos provisórios; não marcar sprites finais como produzidos. Nenhuma mudança em persistência, ranking ou regras de montagem além do teste de dois chassis de um slot.
+
+## Mais dez skills — 29/10/2026
+
+Catálogo ampliado de 18 para 28 melhorias temporárias: XP, proteção pós-dano, dano contra chefe, finalização, ricochete, raio explosivo, alcance elétrico, interrupção de movimento, cura de emergência e propulsor via ESPAÇO. Ofertas de módulos dependentes filtradas. Quantidade de armas (12) e chassis (2) preservada.
+
+Testes passaram para as regras novas e regressões, incluindo salto de projétil para outro alvo, bônus condicionais, XP fracionária, proteção pós-dano, curas únicas, propulsor sem invulnerabilidade e recarga congelada na pausa. Não houve integração de estudos de arte nem alteração da câmera. Avaliar disponibilidade das ofertas e potência das combinações no navegador antes de fixar balanceamento.
