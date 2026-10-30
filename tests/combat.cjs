@@ -6,7 +6,7 @@ function surface(name) { return {style:{},focus(){},setAttribute(key,value){this
 const elements = new Map();
 const canvas = surface('canvas');
 canvas.getBoundingClientRect=()=>({left:100,top:50,width:1000,height:600});
-canvas.getContext=()=>new Proxy({}, {get:()=>()=>{}});
+canvas.getContext=()=>new Proxy({}, {get:(target,key)=>target[key]||(()=>{})});
 canvas.setPointerCapture=()=>{};
 const window = surface('window');
 const document = Object.assign(surface('document'), {hidden:false,querySelector:()=>canvas,getElementById(id){if(!elements.has(id))elements.set(id,surface(id));return elements.get(id);},createElement:()=>surface('button'),createTextNode:t=>t});
@@ -265,3 +265,15 @@ run('tickStatuses(60);updateHUD()');assert.equal(run('cooldownNodes[0].track["ar
 run('pause();tick(10);updateHUD()');assert.equal(run('cooldownNodes[0].status.textContent'),'60 s');run('pause();tickStatuses(60);updateHUD()');assert.ok(run('cooldownNodes.every(n=>n.status.textContent==="PRONTO")'));
 fresh();assert.equal(elements.get('cooldowns').children.length,0,'reset removes old cooldown badges');
 console.log('Gentler multiplicative costs, named trees, player-facing area descriptions and cooldown HUD passed.');
+
+// Static approved identity at reduced size, without changing player state.
+fresh();run("protSprite={complete:true,naturalWidth:64};globalThis.spriteDraws=[];ctx.drawImage=(...args)=>spriteDraws.push(args);drawRobot()");
+assert.equal(run('spriteDraws.length'),1);
+assert.equal(run('spriteDraws[0][3]'),32);assert.equal(run('spriteDraws[0][4]'),40);
+run('player.walkPhase=17;player.stride=1;drawRobot()');
+assert.equal(run('spriteDraws[1][3]'),32);assert.equal(run('spriteDraws[1][4]'),40,'walking uses same static pose');
+assert.equal(run('player.maxHp'),100);assert.equal(run('player.speed'),190);
+assert.ok(fs.existsSync('assets/robots/prot-0001-static.png'));
+assert.ok(fs.readFileSync('style.css','utf8').includes('height:100dvh;min-height:0;'));
+assert.ok(fs.readFileSync('style.css','utf8').includes('border:0!important;box-shadow:none!important;outline:none!important;'));
+console.log('Static PROT image at 32x40, identity asset, reduced scale and frameless viewport checks passed.');

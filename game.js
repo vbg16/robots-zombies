@@ -25,8 +25,8 @@ const ROBOTS=Object.freeze({
 });
 let width=1000,height=600,state='garage',last=0,clock=0,spawn=0,shot=0,kills=0,level=1,xp=0,need=6;
 let bossIndex=0,bossKills=0,hazards=[],cooldownNodes=[],cooldownLayout='';
-let selectedRobot='prot',runRobot=null,burstQueue=[],robotSprite=null;
-if(typeof Image!=='undefined'){robotSprite=new Image();robotSprite.src='assets/robots/bast-0002-walk.svg';}
+let selectedRobot='prot',runRobot=null,burstQueue=[],robotSprite=null,protSprite=null;
+if(typeof Image!=='undefined'){robotSprite=new Image();robotSprite.src='assets/robots/bast-0002-walk.svg';protSprite=new Image();protSprite.src='assets/robots/prot-0001-static.png';}
 let selectedWeapon='machine',runWeapon=null,player=null,enemies=[],bullets=[],gems=[],sparks=[],feedback=[],effects=[],hostile=[];
 let camera={x:0,y:0},aim={x:0,y:0,active:false},firing=false,upgradeFlash=0,boss=null,bossSpawned=false,bossDefeated=false,bossReward=false,offerVersion=0,offerSource='level';
 const BATTERY_COUNT=5,HP_PER_BATTERY=20;
@@ -51,7 +51,7 @@ function selectRobot(id){if(state!=='garage'||!ROBOTS[id])return false;selectedR
 function renderLoadout(){
  for(const id of Object.keys(ROBOTS))el('robot-'+id).setAttribute('aria-pressed',String(id===selectedRobot));
  el('chassis-name').textContent=ROBOTS[selectedRobot].name;el('chassis-description').textContent=ROBOTS[selectedRobot].description;
- el('garage-robot-preview').src=selectedRobot==='bastion'?'assets/robots/bast-0002-preview.svg':'assets/robots/prot-preview.svg';
+ el('garage-robot-preview').src=selectedRobot==='bastion'?'assets/robots/bast-0002-preview.svg':'assets/robots/prot-0001-static.png';
  for(const id of Object.keys(WEAPONS))el('weapon-'+id).setAttribute('aria-pressed',String(id===selectedWeapon));
  el('loadout').textContent=ROBOTS[selectedRobot].name+' · 1 slot · '+WEAPONS[selectedWeapon].name;
  el('weapon-description').textContent=WEAPONS[selectedWeapon].description+' Carregador: '+AMMO[selectedWeapon][0]+' · recarga: '+AMMO[selectedWeapon][1].toFixed(1)+' s.';
@@ -408,13 +408,16 @@ function tick(dt){
  updateHUD();
 }
 function drawRobot(){
+ if(runRobot?.id==='prot'&&protSprite&&protSprite.complete&&protSprite.naturalWidth>0){
+  ctx.save();ctx.translate(player.x,player.y);if(player.inv>0)ctx.globalAlpha=.6;ctx.imageSmoothingEnabled=false;ctx.drawImage(protSprite,-16,-24,32,40);ctx.restore();return;
+ }
  if(runRobot?.id==='bastion'){
-  ctx.save();ctx.translate(player.x,player.y);if(player.inv>0)ctx.globalAlpha=.6;
+  ctx.save();ctx.translate(player.x,player.y);ctx.scale(.5,.5);if(player.inv>0)ctx.globalAlpha=.6;
   if(robotSprite&&robotSprite.complete&&robotSprite.naturalWidth>0){const frame=player.stride>.1?Math.floor(player.walkPhase*1.4)%4:0;ctx.imageSmoothingEnabled=false;ctx.drawImage(robotSprite,frame*64,0,64,80,-32,-44,64,80);}
   else{ctx.fillStyle='#4f6b7a';ctx.fillRect(-26,-20,52,40);ctx.fillStyle='#e8ddc9';ctx.fillRect(-31,-18,14,18);ctx.fillRect(17,-18,14,18);ctx.fillRect(-20,22,15,12);ctx.fillRect(5,22,15,12);ctx.fillStyle='#3cc7f4';ctx.fillRect(-10,-10,20,5);ctx.fillRect(-6,5,12,8);}
   ctx.restore();return;
  }
- ctx.save();ctx.translate(player.x,player.y);if(player.inv>0)ctx.globalAlpha=.5+Math.sin(player.inv*40)*.3;
+ ctx.save();ctx.translate(player.x,player.y);ctx.scale(.65,.65);if(player.inv>0)ctx.globalAlpha=.5+Math.sin(player.inv*40)*.3;
  // Heavy humanoid with opposing arms and articulated legs.
 const stride=player.stride||0,phase=player.walkPhase||0;
 const step=Math.sin(phase)*stride,bob=Math.abs(Math.cos(phase))*stride*1.8;
@@ -511,7 +514,7 @@ function drawArena(){
  for(let iy=top;iy<=Math.floor((camera.y+height)/size);iy++)for(let ix=left;ix<=Math.floor((camera.x+width)/size);ix++){
   const x=ix*size,y=iy*size,n=terrainNoise(ix,iy);
   ctx.fillStyle=n>.5?'#111f2a':'#13222d';ctx.fillRect(x,y,size,size);
-  ctx.strokeStyle='#1a2b36';ctx.lineWidth=2;ctx.strokeRect(x+2,y+2,size-4,size-4);
+  // No tile outlines: keep the ground continuous and unframed.
   for(let j=0;j<9;j++){const px=x+8+terrainNoise(ix,iy,j+1)*144,py=y+8+terrainNoise(ix,iy,j+31)*144;ctx.fillStyle=j%2?'#20313a':'#0c1923';ctx.fillRect(Math.floor(px),Math.floor(py),2+j%3,2);}
   if(n<.22){ctx.strokeStyle='#09151f';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x+25,y+45);ctx.lineTo(x+57,y+63);ctx.lineTo(x+49,y+81);ctx.lineTo(x+81,y+96);ctx.stroke();}
   if(n>.84){ctx.fillStyle='#0a151e';ctx.fillRect(x+100,y+22,32,19);ctx.fillStyle='#2b3b42';for(let k=0;k<5;k++)ctx.fillRect(x+102+k*6,y+24,2,15);}
@@ -549,7 +552,7 @@ function draw(){
  drawRobot();if(player.shieldReady){ctx.strokeStyle='#80e3ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(player.x,player.y,38,0,Math.PI*2);ctx.stroke();}
  for(const f of feedback){ctx.globalAlpha=Math.min(1,f.life*3);ctx.fillStyle=f.color;ctx.font='bold 14px monospace';ctx.textAlign='center';ctx.fillStyle='#08121c';ctx.fillText(f.text,f.x+1,f.y+2);ctx.fillStyle=f.color;ctx.fillText(f.text,f.x,f.y);}ctx.globalAlpha=1;ctx.restore();
  if(typeof ctx.createRadialGradient==='function'){const shade=ctx.createRadialGradient(width/2,height/2,Math.min(width,height)*.24,width/2,height/2,Math.max(width,height)*.68);if(shade&&shade.addColorStop){shade.addColorStop(0,'rgba(3,9,17,0)');shade.addColorStop(1,'rgba(3,9,17,.48)');ctx.fillStyle=shade;ctx.fillRect(0,0,width,height);}}
- if(upgradeFlash>0){ctx.strokeStyle='rgba(93,187,255,'+upgradeFlash*.7+')';ctx.lineWidth=6;ctx.strokeRect(3,3,width-6,height-6);}
+ if(upgradeFlash>0){ctx.fillStyle='rgba(93,187,255,'+upgradeFlash*.035+')';ctx.fillRect(0,0,width,height);}
  if(aim.active&&state==='playing'){ctx.strokeStyle='#89ddff';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(aim.x,aim.y,7,0,Math.PI*2);ctx.moveTo(aim.x-12,aim.y);ctx.lineTo(aim.x+12,aim.y);ctx.moveTo(aim.x,aim.y-12);ctx.lineTo(aim.x,aim.y+12);ctx.stroke();}
 }
 function frame(now){const dt=Math.min((now-last)/1000,.04);last=now;if(state==='playing')tick(dt);if(state!=='garage')draw();requestAnimationFrame(frame);}
