@@ -66,7 +66,7 @@ function reset(){
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='PAUSAR [P]';updateHUD();
 }
 function show(title,description,label){
- clearInput();el('heading').textContent=title;el('description').textContent=description;
+ clearInput();el('overlay').setAttribute('data-mode',state);el('heading').textContent=title;el('description').textContent=description;
  el('eyebrow').textContent=state==='reward'?'RECUPERAÇÃO DE CAMPO':(runRobot?.name||'PROT-0001')+' / '+(state==='over'?'SINAL PERDIDO':'PROTOCOLO ATIVO');
  el('choices').replaceChildren();el('start').textContent=label;el('start').hidden=!label;el('overlay').hidden=false;
  el('return-garage').hidden=state!=='over'&&state!=='won'&&state!=='paused';
@@ -77,7 +77,7 @@ el('launch').onclick=reset;
 for(const id of Object.keys(WEAPONS))el('weapon-'+id).onclick=()=>selectWeapon(id);
 for(const id of Object.keys(ROBOTS))el('robot-'+id).onclick=()=>selectRobot(id);
 el('start').onclick=()=>state==='paused'?pause():reset();el('pause').onclick=pause;el('return-garage').onclick=openGarage;
-window.addEventListener('keydown',e=>{if(state==='garage')return;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if(e.key.toLowerCase()==='p'&&!e.repeat)pause();});
+window.addEventListener('keydown',e=>{if(state==='garage')return;if(['upgrade','reward'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const choice=offeredSkills[Number(e.key)-1];if(choice)chooseSkill(choice.id,offerVersion);return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if(e.key.toLowerCase()==='p'&&!e.repeat)pause();});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();if(state==='playing')pause();}});
@@ -166,12 +166,27 @@ function chooseSkill(id,version){
 let offeredSkills=[];
 function upgrade(source='level'){
  offerSource=source;state=source==='boss'?'reward':'upgrade';clearInput();
- show(source==='boss'?'Chefe derrotado.':'Evolução disponível.',source==='boss'?'Recompensa de campo: +20 de integridade e escolha um módulo. Válido apenas nesta tentativa.':'Escolha um módulo único. Cada raiz abre três evoluções combináveis. Benefícios e custos valem só nesta tentativa.','');
+ show(source==='boss'?'ESPÓLIO DO BRUTAMONTES':'ESCOLHA SUA MELHORIA',source==='boss'?'Recompensa de campo: +20 de integridade e escolha um módulo. Válido apenas nesta tentativa.':'Escolha um módulo único. Cada raiz abre três evoluções combináveis. Benefícios e custos valem só nesta tentativa.','');
  const candidates=availableSkills();
  for(let i=candidates.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
  offeredSkills=candidates.slice(0,3);const version=++offerVersion;
- for(const skill of offeredSkills){const b=document.createElement('button'),strong=document.createElement('strong');strong.textContent=skill.name;b.setAttribute('data-skill',skill.id);const detail=document.createElement('span'),cost=document.createElement('span'),path=document.createElement('small');detail.textContent=skill.benefit;cost.textContent=skill.cost?'CUSTO: '+skill.cost:'SEM PENALIDADE';cost.className='skill-cost';path.textContent=skill.parent?'EVOLUÇÃO DE '+SKILLS.find(s=>s.id===skill.parent).name:'ABRE: '+SKILLS.filter(s=>s.parent===skill.id).map(s=>s.name).join(' · ');path.className='skill-path';b.append(strong,detail,cost,path);b.onclick=()=>chooseSkill(skill.id,version);el('choices').append(b);}
- const skip=document.createElement('button');skip.textContent='PULAR MELHORIA';skip.onclick=()=>{if(version!==offerVersion||!['upgrade','reward'].includes(state))return;offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();};el('choices').append(skip);el('choices').children[0]?.focus();
+ for(const [index,skill] of offeredSkills.entries()){
+  const b=document.createElement('button'),icon=document.createElement('img'),strong=document.createElement('strong'),category=document.createElement('span'),detail=document.createElement('span'),cost=document.createElement('span'),path=document.createElement('span'),action=document.createElement('span');
+  const root=skill.parent?SKILLS.find(s=>s.id===skill.parent):skill;
+  b.className='upgrade-card';b.setAttribute('data-skill',skill.id);b.setAttribute('data-tree',root.id);
+  icon.src='assets/skills/'+skill.id+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';
+  category.className='skill-category';category.textContent=skill.parent?'EVOLUÇÃO / '+root.name:'NOVA ÁRVORE';
+  strong.textContent=skill.name;detail.className='skill-benefit';detail.textContent=skill.benefit;
+  cost.className='skill-cost';cost.textContent=skill.cost?'EM TROCA: '+skill.cost:'SEM PENALIDADE';
+  path.className='skill-path';const pathLabel=document.createElement('small');pathLabel.textContent=skill.parent?'ÁRVORE DE ORIGEM':'LIBERA TRÊS EVOLUÇÕES';path.append(pathLabel);
+  for(const node of skill.parent?[root]:SKILLS.filter(s=>s.parent===skill.id)){
+   const item=document.createElement('span'),mini=document.createElement('img'),label=document.createElement('span');item.className='skill-branch';mini.src='assets/skills/'+node.id+'.svg';mini.alt='';mini.width=24;mini.height=24;label.textContent=node.name;item.append(mini,label);path.append(item);
+  }
+  action.className='skill-action';action.textContent='['+(index+1)+']  INSTALAR MÓDULO  →';
+  b.append(category,icon,strong,detail,cost,path,action);b.onclick=()=>chooseSkill(skill.id,version);el('choices').append(b);
+ }
+
+ const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='CONTINUAR SEM MELHORIA';skip.onclick=()=>{if(version!==offerVersion||!['upgrade','reward'].includes(state))return;offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();};el('choices').append(skip);el('choices').children[0]?.focus();
 }
 function createEnemy(){const side=Math.floor(random(0,4));return {x:camera.x+(side===0?-40:side===1?width+40:random(0,width)),y:camera.y+(side===2?-40:side===3?height+40:random(0,height)),hp:30,maxHp:30,speed:random(HORDE.minSpeed,HORDE.maxSpeed),r:random(11,16),hit:0};}
 function spawnBoss(){bossSpawned=true;boss={x:player.x,y:player.y-Math.min(height*.4,260),hp:650,maxHp:650,r:32,speed:28,phase:'approach',timer:2,turn:0,hit:0,dx:0,dy:1};toast('ALERTA: BRUTAMONTES','#ffb66c');}

@@ -78,3 +78,34 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 @media(max-width:650px){.batteries,.combat-screen .hud>div:first-child{max-width:120px;}.ammo-panel{min-width:160px;}.ammo-panel b{font-size:18px;}#choices button[data-skill]{min-width:150px;max-width:240px;}}
 
 .combat-screen .overlay{justify-content:safe center;}
+/* Illustrated upgrade screen. Icons are original local SVG assets. */
+.overlay:is([data-mode="upgrade"],[data-mode="reward"]){background:radial-gradient(ellipse at 50% 15%,#1c3547f5,#07121bf9 70%);padding:32px 26px;gap:0;}
+.overlay:is([data-mode="upgrade"],[data-mode="reward"]) h2{font-size:clamp(24px,3.2vw,40px);letter-spacing:1px;color:#e8ddc9;margin:8px 0;}
+.overlay:is([data-mode="upgrade"],[data-mode="reward"]) #description{max-width:680px;margin:6px 0 24px;font-size:12px;}
+#choices{width:min(100%,1000px);align-items:stretch;}
+#choices button.upgrade-card{--module:#79d7ee;display:flex;flex-direction:column;align-items:center;position:relative;flex:1 1 240px;min-width:210px;max-width:310px;padding:18px 20px 0;gap:0;border:1px solid #496071;border-top:3px solid var(--module);border-radius:3px;background:linear-gradient(160deg,#20313f,#101e29 70%);color:#d2dfe6;text-align:center;line-height:1.5;letter-spacing:0;box-shadow:0 12px 28px #0005;overflow:hidden;}
+#choices button.upgrade-card::before,#choices button.upgrade-card::after{content:none;}
+#choices button.upgrade-card:hover{border-color:var(--module);background:linear-gradient(160deg,#2b4353,#142531 70%);box-shadow:0 0 22px #79d7ee1a,0 12px 28px #0005;color:#effaff;}
+#choices button.upgrade-card:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
+#choices button.upgrade-card[data-tree="damage"]{--module:#eab180;}
+#choices button.upgrade-card[data-tree="armor"]{--module:#b6c998;}
+#choices button.upgrade-card[data-tree="magnet"]{--module:#96dfc5;}
+#choices button.upgrade-card[data-tree="burn"]{--module:#ed9771;}
+#choices button.upgrade-card[data-tree="freeze"]{--module:#a6e8ef;}
+#choices button.upgrade-card[data-tree="shock"]{--module:#c3b6ed;}
+#choices button.upgrade-card[data-tree="dash"]{--module:#8bb8ed;}
+#choices button.upgrade-card[data-tree="blast"]{--module:#e3c279;}
+#choices .upgrade-card .skill-category{font:9px/1.5 monospace;color:var(--module);letter-spacing:1px;min-height:28px;}
+#choices .upgrade-card .skill-icon{display:block;width:80px;height:80px;margin:10px 0 16px;flex:none;}
+#choices .upgrade-card strong{font-size:16px;letter-spacing:.3px;color:#e8ddc9;margin:0 0 14px;min-height:44px;display:flex;align-items:center;justify-content:center;}
+#choices .upgrade-card .skill-benefit{font-size:13px;line-height:1.6;color:#e0edf2;width:100%;}
+#choices .upgrade-card .skill-cost{font-size:11px;line-height:1.6;color:#efb698;background:#241f2080;border:1px solid #b4856429;padding:10px;margin:14px 0 18px;width:100%;}
+#choices .upgrade-card .skill-path{width:100%;border-top:1px solid #ffffff12;padding-top:12px;margin-top:auto;text-align:left;}
+#choices .skill-path>small{display:block;font:9px monospace;letter-spacing:1px;color:#87a0b0;margin-bottom:8px;}
+#choices .skill-branch{display:flex;align-items:center;gap:8px;font:10px/1.4 monospace;color:#b4c7d3;margin:6px 0;}
+#choices .skill-branch img{display:block;flex:none;width:24px;height:24px;}
+#choices .upgrade-card .skill-action{display:block;margin:16px -20px 0;padding:12px;width:calc(100% + 40px);border-top:1px solid #ffffff12;background:#07121b80;color:var(--module);font:10px/1.5 monospace;letter-spacing:1px;}
+#choices button.skip-upgrade{flex:0 0 100%;min-width:0;max-width:100%;min-height:0;width:auto;background:transparent;border:none;box-shadow:none;text-align:center;font:10px monospace;color:#a5b8c5;padding:14px;margin-top:6px;}
+#choices button.skip-upgrade:hover{color:#e8ddc9;background:#ffffff08;}
+@media(max-width:780px){#choices button.upgrade-card{flex-basis:190px;min-width:180px;padding-left:14px;padding-right:14px;}#choices .upgrade-card .skill-action{margin-left:-14px;margin-right:-14px;width:calc(100% + 28px);}.overlay:is([data-mode="upgrade"],[data-mode="reward"]){padding:22px 14px;}}
+@media(max-width:540px){#choices button.upgrade-card{flex:1 1 100%;max-width:370px;}#choices .upgrade-card .skill-icon{width:64px;height:64px;margin:6px 0 10px;}#choices .upgrade-card strong{min-height:0;}#choices .upgrade-card .skill-category{min-height:0;}}

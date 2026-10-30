@@ -204,3 +204,13 @@ for(const id of run('Object.keys(WEAPONS)')){
 fresh();assert.equal(run('player.acquired.size'),0);assert.equal(run('player.ammo'),24);assert.equal(run('player.reloadTime'),0);assert.equal(run('player.hitCooldowns.retaliation'),0);
 run(`const savedRandom=Math.random;try{Math.random=()=>{throw Error('Render used combat RNG');};draw();}finally{Math.random=savedRandom;}`);
 console.log('36 unique tree nodes, prerequisites, multiplicative costs, conditional effects, 120s timers, all magazines/reloads, bursts, statuses, rendering and reset passed.');
+fresh();run('upgrade()');
+assert.equal(elements.get('overlay')['data-mode'],'upgrade');
+for(const card of elements.get('choices').children.slice(0,-1)){
+ const id=card['data-skill'];assert.ok(fs.existsSync('assets/skills/'+id+'.svg'),id+' has a local icon');
+ assert.equal(card.children[1].src,'assets/skills/'+id+'.svg');
+ assert.equal(card.children[5].children.length,4,'root shows three evolutions plus label');
+}
+const first=run('offeredSkills[0].id');fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(run('player.acquired.has('+JSON.stringify(first)+')'),true,'numeric shortcut selects offered card');
+for(const id of run('SKILLS.map(s=>s.id)'))assert.ok(fs.existsSync('assets/skills/'+id+'.svg'),id+' icon exists');
+console.log('Upgrade card artwork, branch previews, mode and keyboard selection passed.');
