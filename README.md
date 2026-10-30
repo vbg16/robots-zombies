@@ -11,11 +11,11 @@ Na garagem, escolha um dos dois chassis e uma das 12 armas e clique em **Sair pa
 - WASD/setas: mover.
 - Mouse: mirar.
 - Segurar botão esquerdo: atirar.
-- R: recarregar (recarga automática ao esvaziar).
+- R: recarregar (recarga automática ao esvaziar). O tempo é proporcional à munição faltante: metade do carregador vazio = metade do tempo.
 - P: pausar/continuar.
 - Espaço: propulsor, somente depois de adquirir a skill (4 s de recarga; sem invulnerabilidade).
 - Colete núcleos para subir de nível; escolha uma skill ou pule.
-- Chefe aos 60 segundos: saia da faixa de investida e evite os disparos laranja.
+- Chefes previstos em 1:00, 4:00 e 7:00: Brutamontes, Sucateiro e Bobina-Rainha. Um chefe por vez; se o anterior sobreviver, o próximo aguarda. Saia das áreas sinalizadas antes dos ataques.
 - Sobreviva por dez minutos no teste. A meta final de design é vinte minutos.
 
 Há 36 melhorias únicas em nove árvores: cada raiz abre três evoluções combináveis. Escolhas adquiridas não reaparecem. Benefícios usam multiplicadores e condições, com custos explícitos. As 12 armas têm carregador e recarga próprios, maiores nas armas pesadas; reserva ilimitada neste protótipo. [Árvores, munição e valores experimentais](docs/arvores-e-municao.md). Skills somem em cada nova tentativa. Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefe dá cura e uma melhoria temporária. Não há inventário permanente nem salvamento nesta versão. Repetir configuração preserva somente a escolha da arma dentro da sessão; Voltar à garagem permite mudar antes da próxima tentativa.

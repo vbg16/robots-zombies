@@ -48,6 +48,9 @@ Cada efeito começa pronto e recarrega em **120 segundos de combate**. Um novo g
 
 ## Munição por arma
 
+Atualização: o tempo efetivo é `tempo de recarga completo × (capacidade − munição atual) / capacidade`. Carregador pela metade demora metade; faltando apenas uma bala demora um tempo de recarga completo dividido pela capacidade. A duração é calculada no início da recarga, já considerando os modificadores da montagem. O HUD mostra o tempo efetivo. A tabela abaixo representa um carregador totalmente vazio.
+
+
 | Arma | Capacidade base | Recarga base |
 | --- | ---: | ---: |
 | Metralhadora | 24 | 1,4 s |
@@ -74,3 +77,18 @@ O HUD mostra munição atual/máxima, duração e progresso de recarga, além do
 `node tests/combat.cjs` verifica controles, câmera, vida, horda, chefe, três minutos de simulação, árvores, exclusão de escolhas, pré-requisitos, multiplicadores, condições de ativação, recargas das doze armas, rajada parcial, pausa, morte e reinício. `node tests/sprite-animation.cjs` verifica o contrato do renderizador opcional.
 
 Os testes usam DOM/canvas simulados em Node. Não substituem conferência visual no navegador, teste com jogadores ou aprovação dos novos valores. Os inimigos continuam com vida e velocidade base fixas; os módulos podem aplicar estados temporários.
+
+
+## Chefes e arena — atualização de 30/10/2026
+
+A moldura e sombra externas da arena foram removidas; a área segue com 90% da tela e mundo infinito. Foram adicionados dois chefes ao Brutamontes:
+
+| Chefe | Horário previsto | Vida fixa | Ataques |
+| --- | --- | ---: | --- |
+| Brutamontes | 1:00 | 650 | Investida e disparos radiais, com avisos laranja |
+| Sucateiro | 4:00 | 1300 | Marca três círculos verdes próximos da posição capturada do jogador; após 1,4 s, viram áreas danosas por 5 s. Cada contato causa 12 de dano, respeitando a proteção após golpe. |
+| Bobina-Rainha | 7:00 | 1800 | Alterna onda elétrica expansiva (14 de dano) e rajada de cinco projéteis em cone (12 por impacto), com aviso roxo de 1,1 s. |
+
+Há somente um chefe vivo por vez: encontros vencidos no relógio ficam pendentes até derrotar o anterior e concluir sua recompensa. Cada morte concede uma única recompensa temporária e limpa os perigos e tiros especiais. A vitória continua por sobrevivência aos dez minutos, mesmo sem derrotar os três; o resultado informa a quantidade derrotada. Não há crescimento de vida dos zumbis comuns.
+
+Desenhos dos chefes são provisórios, feitos em canvas. Testes automatizados cobrem recarga parcial das doze armas, sequência e espera entre chefes, ausência de dano durante avisos, áreas, ondas, cones, pausa, limpeza e reinício. Avaliação visual no navegador e balanceamento com jogadores continuam pendentes.

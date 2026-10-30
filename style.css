@@ -109,3 +109,5 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 #choices button.skip-upgrade:hover{color:#e8ddc9;background:#ffffff08;}
 @media(max-width:780px){#choices button.upgrade-card{flex-basis:190px;min-width:180px;padding-left:14px;padding-right:14px;}#choices .upgrade-card .skill-action{margin-left:-14px;margin-right:-14px;width:calc(100% + 28px);}.overlay:is([data-mode="upgrade"],[data-mode="reward"]){padding:22px 14px;}}
 @media(max-width:540px){#choices button.upgrade-card{flex:1 1 100%;max-width:370px;}#choices .upgrade-card .skill-icon{width:64px;height:64px;margin:6px 0 10px;}#choices .upgrade-card strong{min-height:0;}#choices .upgrade-card .skill-category{min-height:0;}}
+/* Arena without a surrounding frame; the infinite world remains unchanged. */
+.combat-screen .arena{border:0;border-radius:0;box-shadow:none;}

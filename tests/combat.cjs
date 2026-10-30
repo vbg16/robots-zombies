@@ -32,7 +32,8 @@ run("keys.add('d');keys.add('s');const before={x:player.x,y:player.y};tick(.1);g
 assert.ok(Math.abs(run('distance')-19)<.001,'diagonal movement normalized');
 fire('canvas:pointerdown');fire('window:blur');assert.equal(run('state'),'paused');assert.equal(run('firing'),false);assert.equal(run('keys.size'),0);
 run('reset();spawn=100;xp=need;tick(.01)');assert.equal(run('state'),'upgrade');assert.equal(run('firing'),false);elements.get('choices').children[0].onclick();assert.equal(run('state'),'playing');
-run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'playing','does not end at three minutes');\nrun('reset();clock=599.99;tick(.02)');assert.equal(run('state'),'won');
+run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'playing','does not end at three minutes');
+run('reset();clock=599.99;tick(.02)');assert.equal(run('state'),'won');
 run('reset();player.hp=1;enemies=[{x:player.x,y:player.y,hp:100,speed:0,r:15}];spawn=100;tick(.01)');assert.equal(run('state'),'over');
 run('reset();draw()');assert.equal(run('player.hp'),100);assert.equal(run('bullets.length'),0);
 console.log('Combat checks passed: manual aim/fire, cooldown, release, interruptions, movement, upgrades, win/death/restart.');
@@ -214,3 +215,40 @@ for(const card of elements.get('choices').children.slice(0,-1)){
 const first=run('offeredSkills[0].id');fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(run('player.acquired.has('+JSON.stringify(first)+')'),true,'numeric shortcut selects offered card');
 for(const id of run('SKILLS.map(s=>s.id)'))assert.ok(fs.existsSync('assets/skills/'+id+'.svg'),id+' icon exists');
 console.log('Upgrade card artwork, branch previews, mode and keyboard selection passed.');
+
+// Proportional reloads: fractions use the modified full capacity/time.
+for(const id of run('Object.keys(WEAPONS)')){
+ fresh(id);run('player.magazineMult=2;player.reloadMult=2;player.ammo=magazineSize()/2');
+ const half=run('reloadDuration()/2');assert.equal(run('missingReloadDuration()'),half);
+ run('startReload()');assert.equal(run('player.reloadTotal'),half);run('tickStatuses(player.reloadTime)');assert.equal(run('player.ammo'),run('magazineSize()'));
+ run('player.ammo=magazineSize()-1;startReload()');assert.ok(Math.abs(run('player.reloadTotal')-run('reloadDuration()/magazineSize()'))<1e-9);
+}
+fresh();run('player.ammo=12;updateHUD()');assert.ok(elements.get('reload-status').textContent.includes('0.7 s'));
+// One boss at a time: due encounters wait rather than replacing a living boss.
+fresh();run('clock=60;player.inv=10000;tick(.01)');assert.equal(run('boss.id'),'brute');
+run('clock=240;tick(.01)');assert.equal(run('boss.id'),'brute');assert.equal(run('bossIndex'),1);
+run('damageEnemy(boss,99999);tick(.01)');assert.equal(run('state'),'reward');assert.equal(run('bossKills'),1);
+run("el('choices').children.at(-1).onclick();tick(.01)");assert.equal(run('boss.id'),'scrapper');assert.equal(run('bossIndex'),2);
+run('damageEnemy(boss,99999);tick(.01)');run("el('choices').children.at(-1).onclick();clock=419;tick(.01)");assert.equal(run('bossIndex'),2,'third boss not early');
+run('clock=420;tick(.01)');assert.equal(run('boss.id'),'coil');assert.equal(run('bossIndex'),3);
+run('damageEnemy(boss,99999);tick(.01)');run("el('choices').children.at(-1).onclick();tick(.01)");assert.equal(run('bossKills'),3);assert.equal(run('bossIndex'),3);assert.equal(run('spawnBoss()'),false,'no extra boss beyond schedule');
+// Scrapper telegraphs pools before damage; leaving circles avoids the hazard.
+fresh();run('bossIndex=1;spawnBoss();boss.timer=0;tickBoss(.01)');assert.equal(run('boss.phase'),'tellMortar');assert.equal(run('hazards.length'),3);
+run('tickHazards(1)');assert.equal(run('player.hp'),100,'warning causes no damage');run('tickHazards(.41)');assert.equal(run('player.hp'),88,'pool activates after warning');
+run('player.inv=0;player.x+=500;tickHazards(.1)');assert.equal(run('player.hp'),88,'outside pool is safe');
+run('pause();globalThis.hazardDelay=hazards[0].life;tick(5)');assert.equal(run('hazards[0].life'),run('hazardDelay'),'pause freezes hazards');run('pause();draw()');
+run('damageEnemy(boss,99999)');assert.equal(run('hazards.length'),0,'boss death clears hazards');
+// Coil alternates an expanding ground ring with a five-shot aimed fan.
+fresh();run('bossIndex=2;spawnBoss();boss.timer=0;tickBoss(.01)');assert.equal(run('boss.phase'),'tellPulse');assert.equal(run('hazards.length'),0);
+run('boss.timer=0;tickBoss(.01)');assert.equal(run('hazards[0].type'),'ring');run('player.x=boss.x+40;player.y=boss.y;tickHazards(.1)');assert.equal(run('player.hp'),86,'expanding ring damages crossing band');
+run('player.inv=0;player.x=boss.x;tickHazards(.1)');assert.equal(run('player.hp'),86,'ring center is safe');
+run('boss.timer=0;tickBoss(.01)');assert.equal(run('boss.phase'),'tellFan');assert.equal(run('hostile.length'),0);run('draw();boss.timer=0;tickBoss(.01)');assert.equal(run('hostile.length'),5);assert.ok(run('hostile.every(b=>b.color==="#c3b6ed")'));
+run('damageEnemy(boss,99999)');assert.equal(run('hostile.length'),0);assert.equal(run('hazards.length'),0);
+fresh();assert.equal(run('bossIndex'),0);assert.equal(run('bossKills'),0);assert.equal(run('hazards.length'),0);
+// Exercise both specialists over multiple attack cycles, movement and pause-safe state.
+for(const index of [1,2]){
+ fresh();run(`bossIndex=${index};spawnBoss();player.inv=10000`);
+ for(let i=0;i<600;i++)run('tickBoss(.04);tickHazards(.04);draw()');
+ assert.ok(run('Number.isFinite(boss.x)&&Number.isFinite(boss.y)&&hazards.length<=60'));
+}
+console.log('Proportional reloads, three boss schedule, delayed pools, electric rings/fans, warning safety, pause and cleanup passed.');
