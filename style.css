@@ -53,3 +53,13 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 .boss-track i{background:linear-gradient(90deg,#b56a44,#ffcb84);}
 #choices button{border-radius:4px;background:linear-gradient(150deg,#1e3a4d,#0c1c2b);box-shadow:inset 0 3px #3cc7f433,0 8px 20px #0004;}
 #choices button:hover{border-color:#9beaff;box-shadow:inset 0 3px #9beaff,0 0 20px #3cc7f426;}
+/* Upgrade modules use industrial markings and restrained motion. */
+#choices button[data-skill]{position:relative;padding-top:42px;text-align:left;overflow:hidden;}
+#choices button[data-skill]::before{content:'MÓDULO / INSTALAR';position:absolute;top:13px;left:14px;font:9px monospace;letter-spacing:1.2px;color:#89ddff;}
+#choices button[data-skill]::after{content:'+';position:absolute;right:12px;top:8px;font:25px monospace;color:#3cc7f466;}
+#choices button[data-skill] strong{display:block;color:#e8ddc9;line-height:1.35;margin-bottom:12px;}
+#choices button[data-skill="repair"]::before,#choices button[data-skill="salvage"]::before,#choices button[data-skill="regen"]::before{content:'MANUTENÇÃO / INSTALAR';color:#a9d6a0;}
+#choices button[data-skill="blast"]::before,#choices button[data-skill="burn"]::before,#choices button[data-skill="damage"]::before{content:'COMBATE / INSTALAR';color:#ffd092;}
+.xp{box-shadow:0 -2px 16px #3cc7f426;}
+#xp{box-shadow:0 0 12px #3cc7f466;transition:width .12s ease-out;}
+@media(prefers-reduced-motion:reduce){#xp,.weapon-options button,.robot-options button{transition:none;}}
