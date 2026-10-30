@@ -11,13 +11,14 @@ Na garagem, escolha um dos dois chassis e uma das 12 armas e clique em **Sair pa
 - WASD/setas: mover.
 - Mouse: mirar.
 - Segurar botão esquerdo: atirar.
+- R: recarregar (recarga automática ao esvaziar).
 - P: pausar/continuar.
 - Espaço: propulsor, somente depois de adquirir a skill (4 s de recarga; sem invulnerabilidade).
 - Colete núcleos para subir de nível; escolha uma skill ou pule.
 - Chefe aos 60 segundos: saia da faixa de investida e evite os disparos laranja.
 - Sobreviva por três minutos no teste. A meta final de design é vinte minutos.
 
-Há 28 melhorias experimentais, incluindo crítico, queimadura, resfriamento, escudo e regeneração. Skills somem em cada nova tentativa. Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefe dá cura e uma melhoria temporária. Não há inventário permanente nem salvamento nesta versão. Repetir configuração preserva somente a escolha da arma dentro da sessão; Voltar à garagem permite mudar antes da próxima tentativa.
+Há 36 melhorias únicas em nove árvores: cada raiz abre três evoluções combináveis. Escolhas adquiridas não reaparecem. Benefícios usam multiplicadores e condições, com custos explícitos. As 12 armas têm carregador e recarga próprios, maiores nas armas pesadas; reserva ilimitada neste protótipo. [Árvores, munição e valores experimentais](docs/arvores-e-municao.md). Skills somem em cada nova tentativa. Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefe dá cura e uma melhoria temporária. Não há inventário permanente nem salvamento nesta versão. Repetir configuração preserva somente a escolha da arma dentro da sessão; Voltar à garagem permite mudar antes da próxima tentativa.
 
 Alternativa com servidor local:
 

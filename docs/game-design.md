@@ -1,5 +1,7 @@
 # Design do jogo
 
+> **Atualização do protótipo — 30/10/2026:** [árvores e munição](arvores-e-municao.md) substituem o catálogo isolado de 28 skills e os bônus percentuais anteriores. São 36 escolhas únicas, com pré-requisitos, multiplicadores, custos, condições e recargas. Parâmetros históricos abaixo que conflitarem com esse documento estão superados. Valores novos são experimentais e aguardam teste humano.
+
 ## Base técnica aprovada — 27/10/2026
 
 O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTML, CSS e JavaScript, aproveitando o código existente, sem migrar para Godot agora. O assistente ficará responsável pela maior parte da programação; o criador orientará as decisões e testará as versões. A prioridade é validar movimento, disparo manual e sinergias. Empacotamento para Windows/Linux e integração Steam serão avaliados posteriormente; nenhuma ferramenta de empacotamento ou biblioteca adicional foi escolhida. Esta decisão não altera as regras de design nem significa que as funcionalidades planejadas estejam implementadas.

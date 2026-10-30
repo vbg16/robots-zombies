@@ -16,6 +16,7 @@ const WEAPONS=Object.freeze(Object.fromEntries(Object.entries({
  disc:{name:'Disco de retorno',damage:24,rate:.85,pellets:1,spread:0,life:1.8,speed:360,returning:true,description:'Atravessa alvos e retorna; pode acertar uma vez por trecho. 24 · 0,85 s.'},
  harpoon:{name:'Arpão pneumático',damage:60,rate:1.05,pellets:1,spread:0,life:1.3,speed:750,pierce:1,knock:65,description:'Atravessa dois alvos e empurra. 60 de dano · 1,05 s.'}
 }).map(([id,w])=>[id,Object.freeze(w)])));
+const AMMO=Object.freeze({machine:[24,1.4],shotgun:[6,2.2],burst:[30,1.8],sniper:[3,3.8],laser:[60,1.6],flame:[80,2.4],cryo:[12,2.4],rocket:[1,4.8],grenade:[4,3.6],tesla:[8,3],disc:[3,3.4],harpoon:[2,4.2]});
 const ROBOTS=Object.freeze({
  prot:Object.freeze({name:'PROT-0001',hp:100,speed:190,armor:0,description:'Equilibrado · 5 baterias · velocidade 190 · 1 slot.'}),
  bastion:Object.freeze({name:'BAST-0002',hp:120,speed:155,armor:1,description:'Blindado · 6 baterias · velocidade 155 · reduz 1 de dano · 1 slot.'})
@@ -50,7 +51,7 @@ function renderLoadout(){
  el('garage-robot-preview').src=selectedRobot==='bastion'?'assets/robots/bast-0002-preview.svg':'assets/robots/prot-preview.svg';
  for(const id of Object.keys(WEAPONS))el('weapon-'+id).setAttribute('aria-pressed',String(id===selectedWeapon));
  el('loadout').textContent=ROBOTS[selectedRobot].name+' · 1 slot · '+WEAPONS[selectedWeapon].name;
- el('weapon-description').textContent=WEAPONS[selectedWeapon].description;
+ el('weapon-description').textContent=WEAPONS[selectedWeapon].description+' Carregador: '+AMMO[selectedWeapon][0]+' · recarga: '+AMMO[selectedWeapon][1].toFixed(1)+' s.';
 }
 function openGarage(){
  clearInput();offerVersion++;state='garage';el('garage').hidden=false;el('combat').hidden=true;
@@ -59,7 +60,7 @@ function openGarage(){
 function reset(){
  clearInput();offerVersion++;runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
  el('garage').hidden=true;el('combat').hidden=false;resize();
- player={x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage,damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:65,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
+ player={acquired:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage,damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:65,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];sparks=[];feedback=[];effects=[];hostile=[];
  boss=null;bossSpawned=false;bossDefeated=false;bossReward=false;clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=6;upgradeFlash=0;
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='PAUSAR [P]';updateHUD();
@@ -76,7 +77,7 @@ el('launch').onclick=reset;
 for(const id of Object.keys(WEAPONS))el('weapon-'+id).onclick=()=>selectWeapon(id);
 for(const id of Object.keys(ROBOTS))el('robot-'+id).onclick=()=>selectRobot(id);
 el('start').onclick=()=>state==='paused'?pause():reset();el('pause').onclick=pause;el('return-garage').onclick=openGarage;
-window.addEventListener('keydown',e=>{if(state==='garage')return;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(e.key.toLowerCase()==='p'&&!e.repeat)pause();});
+window.addEventListener('keydown',e=>{if(state==='garage')return;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if(e.key.toLowerCase()==='p'&&!e.repeat)pause();});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();if(state==='playing')pause();}});
@@ -92,100 +93,124 @@ function activateDash(){
  const d=Math.hypot(dx,dy)||1;player.dashDx=dx/d;player.dashDy=dy/d;player.dashTime=.15;player.dashCooldown=4;
  effects.push({x:player.x,y:player.y,r:38,life:.2,max:.2,color:'#b9efff'});toast('PROPULSOR');return true;
 }
-function activeSynergies(){const s=player.skills;return [s.pierce&&s.blast?'ESTILHAÇOS: explosão em cada alvo atravessado':null,s.pierce&&s.shock?'CONDUTOR: descarga atinge até 3 alvos':null,s.blast&&s.shock?'PLASMA: explosões eletrocutam sobreviventes':null,s.burn&&s.freeze?'CHOQUE TÉRMICO: queimadura +50% em alvos resfriados':null,s.knock&&s.pierce?'LANÇA INDUSTRIAL: perfuração com empurrão':null,s.ricochet&&s.blast?'DEMOLIÇÃO: explosões em ricochetes':null,s.stun&&(s.shock||runWeapon.chain)?'PANE: descargas interrompem movimento':null].filter(Boolean);}
+function activeSynergies(){const s=player.skills;return [s.pierce&&s.blast?'ESTILHAÇOS: explosão em cada alvo atravessado':null,s.pierce&&s.shock?'CONDUTOR: descarga atinge até 3 alvos':null,s.blast&&s.shock?'PLASMA: explosões eletrocutam sobreviventes':null,s.thermal&&(s.freeze||runWeapon.freeze)?'CHOQUE TÉRMICO: queimadura ×3 em alvos resfriados':null,s.knock&&s.pierce?'LANÇA INDUSTRIAL: perfuração com empurrão':null,s.ricochet&&s.blast?'DEMOLIÇÃO: explosões em ricochetes':null,s.stun&&(s.shock||runWeapon.chain)?'PANE: descargas interrompem movimento':null].filter(Boolean);}
 function updateHUD(){
  renderHealth(player.hp);el('time').textContent=String(Math.floor(clock/60)).padStart(2,'0')+':'+String(Math.floor(clock%60)).padStart(2,'0');
  el('kills').textContent=kills;el('level').textContent=String(level).padStart(2,'0');el('xp').style.width=Math.min(100,xp/need*100)+'%';
- el('combat-loadout').textContent=runRobot.name+' · '+runWeapon.name+' · dano '+player.damage.toFixed(1)+(runWeapon.pellets+player.skills.extra>1?' × '+(runWeapon.pellets+player.skills.extra):'')+' · bônus +'+player.damageStacks*30+'%';
- const names=SKILLS.filter(s=>player.skills[s.id]).map(s=>s.name);if(player.skills.shield)names.push(player.shieldReady?'ESCUDO PRONTO':'ESCUDO '+Math.ceil(player.shieldTimer)+' s');if(player.skills.dash)names.push(player.dashCooldown>0?'PROPULSOR '+Math.ceil(player.dashCooldown)+' s':'PROPULSOR [ESPAÇO]');if(player.skills.emergency&&player.emergencyUsed)names.push('RESERVA USADA');
+ el('combat-loadout').textContent=runRobot.name+' · '+runWeapon.name+' · dano '+player.damage.toFixed(1)+(runWeapon.pellets*player.projectileMult>1?' × '+(runWeapon.pellets*player.projectileMult):'')+' · cadência '+((player.frenzy>0?3:1)/player.rate).toFixed(1)+'/s';
+ const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name);if(player.skills.shield)names.push(player.shieldReady?'ESCUDO PRONTO':'ESCUDO '+Math.ceil(player.shieldTimer)+' s');if(player.skills.dash)names.push(player.dashCooldown>0?'PROPULSOR '+Math.ceil(player.dashCooldown)+' s':'PROPULSOR [ESPAÇO]');for(const id of ['emergency','retaliation','overload'])if(player.skills[id])names.push(SKILLS.find(s=>s.id===id).name+': '+(player.hitCooldowns[id]>0?Math.ceil(player.hitCooldowns[id])+' s':'PRONTO'));
+ el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':'[R] RECARREGAR · '+reloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
  el('build-summary').textContent=(names.join(' · ')||'Sem módulos especiais')+(activeSynergies().length?' | '+activeSynergies().join(' | '):'');
  const live=!!boss&&boss.hp>0;el('boss-hud').hidden=!live;
  if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=boss.phase==='tellDash'?'INVESTIDA — saia da faixa laranja':boss.phase==='tellVolley'?'DISPAROS — afaste-se dos pontos':boss.phase==='dash'?'INVESTIDA':'BRUTAMONTES / '+Math.ceil(boss.hp)+' PV';}
 }
 function toast(text,color='#89ddff'){feedback.push({x:player.x,y:player.y-46,text,life:1.4,color});}
-function boostDamage(){player.damageStacks++;player.damage=player.baseDamage*(1+.3*player.damageStacks);upgradeFlash=1;toast('DANO +'+player.damageStacks*30+'% · '+player.damage.toFixed(1));}
+function boostDamage(){player.damageStacks++;player.damage*=2;player.rate*=2;toast('DANO ×2 · INTERVALO ×2');}
+function magazineSize(){return Math.max(1,Math.floor(AMMO[runWeapon.id][0]*player.magazineMult));}
+function reloadDuration(){return AMMO[runWeapon.id][1]*player.reloadMult;}
+function startReload(){
+ if(state!=='playing'||player.reloadTime>0||player.ammo>=magazineSize())return false;
+ player.reloadTotal=reloadDuration();player.reloadTime=player.reloadTotal;burstQueue=[];return true;
+}
+function availableSkills(){return SKILLS.filter(s=>s.available());}
+function moduleSkill(id,name,parent,benefit,cost,apply){
+ return {id,name,parent,benefit,cost,describe:()=>benefit+(cost?' Custo: '+cost:''),available:()=>!player.acquired.has(id)&&(!parent||player.acquired.has(parent))&&(id!=='ricochet'||!runWeapon.returning),apply:()=>{if(player.acquired.has(id))return false;player.acquired.add(id);apply();toast(name+' INSTALADO');return true;}};
+}
+// Each root unlocks three related, combinable children. All nodes are unique per run.
 const SKILLS=[
- {id:'damage',name:'ALTO IMPACTO',describe:()=>'+30% do dano base. Total: +'+(player.damageStacks+1)*30+'%.',apply:boostDamage},
- {id:'rate',name:'OVERDRIVE',describe:()=>'+20% de cadência base. Total: +'+(player.rateStacks+1)*20+'%.',apply:()=>{player.rateStacks++;player.rate=runWeapon.rate/(1+.2*player.rateStacks);toast('CADÊNCIA +'+player.rateStacks*20+'%');}},
- {id:'repair',name:'AUTORREPARO',available:()=>player.hp<player.maxHp,describe:()=>'Recupera 35 de integridade nesta tentativa.',apply:()=>{player.hp=Math.min(player.maxHp,player.hp+35);toast('INTEGRIDADE RECUPERADA');}},
- {id:'pierce',name:'PERFURAÇÃO',available:()=>!player.skills.pierce,describe:()=>'Projéteis atravessam até 2 alvos adicionais. Combina com explosão e descarga.',apply:()=>{player.skills.pierce=1;toast('PERFURAÇÃO INSTALADA');}},
- {id:'blast',name:'CARGA EXPLOSIVA',available:()=>!player.skills.blast,describe:()=>'Cada impacto explode em 64 px, causando 45% do dano a outros alvos.',apply:()=>{player.skills.blast=1;toast('CARGA EXPLOSIVA INSTALADA');}},
- {id:'shock',name:'DESCARGA',available:()=>!player.skills.shock,describe:()=>'Impactos eletrocutam outro alvo em 135 px por 35% do dano. Perfuração amplia a corrente.',apply:()=>{player.skills.shock=1;toast('DESCARGA INSTALADA');}},
- {id:'speed',name:'PERNAS HIDRÁULICAS',describe:()=>'+15% de velocidade de movimento.',apply:()=>{player.speed*=1.15;toast('MOVIMENTO +15%');}},
- {id:'magnet',name:'CAMPO MAGNÉTICO',describe:()=>'Alcance de coleta +40%.',apply:()=>{player.magnet*=1.4;toast('ALCANCE DE COLETA AUMENTADO');}}
- ,{id:'crit',name:'MIRA CRÍTICA',available:()=>player.skills.crit<3,describe:()=>'+20 pontos percentuais de chance de dano duplo (máx. 60%).',apply:()=>{player.skills.crit++;toast('CRÍTICO '+player.skills.crit*20+'%');}}
- ,{id:'burn',name:'MUNIÇÃO INCENDIÁRIA',available:()=>!player.skills.burn,describe:()=>'Impactos queimam por 3 s: 20% do dano por segundo. Não acumula no mesmo alvo.',apply:()=>{player.skills.burn=1;toast('MUNIÇÃO INCENDIÁRIA');}}
- ,{id:'freeze',name:'NÚCLEO CRIOGÊNICO',available:()=>!player.skills.freeze,describe:()=>'Impactos reduzem movimento inimigo em 45% por 2 s, sem mudar atributos base.',apply:()=>{player.skills.freeze=1;toast('RESFRIAMENTO ATIVO');}}
- ,{id:'knock',name:'IMPACTO CINÉTICO',available:()=>!player.skills.knock,describe:()=>'Empurra o alvo 30 px no impacto; chefes recebem 25% do empurrão.',apply:()=>{player.skills.knock=1;toast('IMPACTO CINÉTICO');}}
- ,{id:'salvage',name:'RECICLAGEM DE CAMPO',available:()=>!player.skills.salvage,describe:()=>'Cada zumbi eliminado recupera 2 de integridade, até o máximo do chassi.',apply:()=>{player.skills.salvage=1;toast('RECICLAGEM ATIVA');}}
- ,{id:'armor',name:'BLINDAGEM REFORÇADA',available:()=>player.skills.armor<3,describe:()=>'+2 de redução de dano por aquisição (máx. +6). Dano mínimo recebido: 1.',apply:()=>{player.skills.armor++;player.armor+=2;toast('BLINDAGEM +2');}}
- ,{id:'regen',name:'NANORREPARO',available:()=>!player.skills.regen,describe:()=>'Recupera 1 de integridade a cada 3 s de combate; não avança na pausa.',apply:()=>{player.skills.regen=1;player.regenTimer=0;toast('NANORREPARO ATIVO');}}
- ,{id:'range',name:'PROPULSÃO BALÍSTICA',available:()=>player.skills.range<3,describe:()=>'+25% da duração base dos projéteis por aquisição (máx. +75%).',apply:()=>{player.skills.range++;toast('ALCANCE +'+player.skills.range*25+'%');}}
- ,{id:'extra',name:'CÂMARA DUPLA',available:()=>player.skills.extra<2,describe:()=>'+1 projétil por disparo, com abertura lateral (máx. +2).',apply:()=>{player.skills.extra++;toast('PROJÉTIL ADICIONAL');}}
- ,{id:'shield',name:'ESCUDO CAPACITIVO',available:()=>!player.skills.shield,describe:()=>'Absorve um impacto inteiro. Recarrega em 12 s de combate.',apply:()=>{player.skills.shield=1;player.shieldReady=true;player.shieldTimer=0;toast('ESCUDO CARREGADO');}}
-
- ,{id:'xp',name:'PROCESSADOR DE EXPERIÊNCIA',available:()=>player.skills.xp<3,describe:()=>'+25% de experiência por núcleo por aquisição; máximo +75%.',apply:()=>{player.skills.xp++;toast('EXPERIÊNCIA +'+player.skills.xp*25+'%');}}
- ,{id:'grace',name:'ISOLAMENTO DE IMPACTO',available:()=>player.skills.grace<3,describe:()=>'+0,20 s de proteção após sofrer dano; máximo +0,60 s.',apply:()=>{player.skills.grace++;toast('PROTEÇÃO PÓS-IMPACTO');}}
- ,{id:'bossHunter',name:'CAÇA-TITÃS',available:()=>player.skills.bossHunter<3,describe:()=>'+25% de dano contra chefes por aquisição; máximo +75%.',apply:()=>{player.skills.bossHunter++;toast('DANO EM CHEFES +'+player.skills.bossHunter*25+'%');}}
- ,{id:'finisher',name:'FINALIZADOR',available:()=>!player.skills.finisher,describe:()=>'Causa +50% de dano a alvos com até 30% da vida máxima.',apply:()=>{player.skills.finisher=1;toast('FINALIZADOR INSTALADO');}}
- ,{id:'ricochet',name:'MUNIÇÃO RICOCHETE',available:()=>!runWeapon.returning&&player.skills.ricochet<2,describe:()=>'Depois de esgotar perfuração, busca outro alvo em 220 px. +1 salto; máximo 2.',apply:()=>{player.skills.ricochet++;toast('RICOCHETE +1');}}
- ,{id:'blastRadius',name:'ONDA EXPANDIDA',available:()=>!!(player.skills.blast||runWeapon.explosion)&&player.skills.blastRadius<2,describe:()=>'+25% do raio base das explosões; máximo +50%. Não aumenta dano.',apply:()=>{player.skills.blastRadius++;toast('RAIO EXPLOSIVO +'+player.skills.blastRadius*25+'%');}}
- ,{id:'conductivity',name:'CONDUTIVIDADE',available:()=>!!(player.skills.shock||runWeapon.chain)&&player.skills.conductivity<2,describe:()=>'+40 px ao alcance de descarga; máximo +80 px.',apply:()=>{player.skills.conductivity++;toast('ALCANCE ELÉTRICO +40');}}
- ,{id:'stun',name:'CURTO-CIRCUITO',available:()=>!!(player.skills.shock||runWeapon.chain)&&!player.skills.stun,describe:()=>'Descargas param o movimento por 0,35 s; chefes por 0,09 s. Não cancela ataques.',apply:()=>{player.skills.stun=1;toast('CURTO-CIRCUITO ATIVO');}}
- ,{id:'emergency',name:'RESERVA DE EMERGÊNCIA',available:()=>!player.skills.emergency,describe:()=>'Cura 20 ao sobreviver a um golpe e ficar com até 30% de vida. Uma vez por tentativa.',apply:()=>{player.skills.emergency=1;toast('RESERVA DE EMERGÊNCIA PRONTA');}}
- ,{id:'dash',name:'PROPULSOR AUXILIAR',available:()=>!player.skills.dash,describe:()=>'ESPAÇO: avanço de 0,15 s a 3× velocidade. Recarga 4 s; não dá invulnerabilidade.',apply:()=>{player.skills.dash=1;player.dashCooldown=0;toast('PROPULSOR [ESPAÇO]');}}
-
+ moduleSkill('damage','ALTO IMPACTO',null,'Dano ×2.','Intervalo entre disparos ×2.',boostDamage),
+ moduleSkill('bossHunter','CAÇA-TITÃS','damage','Dano contra chefe ×3.','Alcance dos projéteis pela metade.',()=>{player.skills.bossHunter=1;player.projectileLife/=2;}),
+ moduleSkill('finisher','FINALIZADOR','damage','Dano ×3 contra alvos com até um terço da vida.','Velocidade das balas pela metade.',()=>{player.skills.finisher=1;player.projectileSpeed/=2;}),
+ moduleSkill('crit','QUINTO IMPACTO','damage','Cada quinto disparo causa dano ×3.','Capacidade do carregador pela metade (mínimo 1).',()=>{player.skills.crit=1;player.magazineMult/=2;player.ammo=Math.min(player.ammo,magazineSize());}),
+ moduleSkill('rate','OVERDRIVE',null,'Cadência ×3.','Dano de cada bala pela metade.',()=>{player.rateStacks++;player.rate/=3;player.damage/=2;}),
+ moduleSkill('extra','CÂMARA DUPLA','rate','Projéteis por disparo ×2.','Dispersão ×2 e alcance pela metade.',()=>{player.projectileMult*=2;player.spreadMult*=2;player.projectileLife/=2;}),
+ moduleSkill('ricochet','MUNIÇÃO RICOCHETE','rate','Cada bala busca um alvo adicional após esgotar perfuração.','Tempo de recarga ×2. Não combina com disco.',()=>{player.skills.ricochet=1;player.reloadMult*=2;}),
+ moduleSkill('range','PROPULSÃO BALÍSTICA','rate','Alcance dos projéteis ×3.','Tamanho das balas pela metade.',()=>{player.projectileLife*=3;player.projectileSize/=2;}),
+ moduleSkill('armor','BLINDAGEM REFORÇADA',null,'Reduz 2 de dano por golpe; mínimo recebido 1.','Velocidade de movimento dividida por 1,25.',()=>{player.skills.armor=1;player.armor+=2;player.speed/=1.25;}),
+ moduleSkill('titan','CHASSI TITÂNICO','armor','Vida máxima e atual ×3.','Velocidade pela metade e tempo de recarga ×2.',()=>{player.maxHp*=3;player.hp*=3;player.speed/=2;player.reloadMult*=2;}),
+ moduleSkill('salvage','BATERIA DE SUCATA','armor','A cada 20 zumbis mortos, recupera uma bateria (20 de vida).','Alcance de coleta pela metade. Não ultrapassa a vida máxima.',()=>{player.skills.salvage=1;player.killCounter=0;player.magnet/=2;}),
+ moduleSkill('regen','OFICINA ESTACIONÁRIA','armor','Após 3 s parado, recupera 2 de vida por segundo.','Dano das balas pela metade. Mover interrompe o reparo.',()=>{player.skills.regen=1;player.damage/=2;}),
+ moduleSkill('magnet','CAMPO MAGNÉTICO',null,'Alcance de coleta ×3.','',()=>{player.magnet*=3;}),
+ moduleSkill('xp','PROCESSADOR DE EXPERIÊNCIA','magnet','Experiência por núcleo ×2.','Tempo de recarga ×2.',()=>{player.skills.xp=1;player.reloadMult*=2;}),
+ moduleSkill('repair','MANUTENÇÃO NA RECARGA','magnet','Cada recarga completa recupera 5 de vida.','Tempo de recarga ×2. Só funciona após gastar munição.',()=>{player.skills.repair=1;player.reloadMult*=2;}),
+ moduleSkill('killAmmo','DEPÓSITO AMPLIADO','magnet','Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição.','Tempo de recarga ×3. Não repõe munição imediatamente.',()=>{player.skills.killAmmo=1;player.magazineMult*=3;player.reloadMult*=3;player.ammoKills=0;}),
+ moduleSkill('burn','MUNIÇÃO INCENDIÁRIA',null,'Impactos queimam por 3 s: metade do dano da bala por segundo.','Alcance dos projéteis pela metade.',()=>{player.skills.burn=1;player.projectileLife/=2;}),
+ moduleSkill('thermal','CHOQUE TÉRMICO','burn','Queimadura causa dano ×3 enquanto o alvo está resfriado.','Dano direto das balas pela metade. Exige resfriar o alvo.',()=>{player.skills.thermal=1;player.damage/=2;}),
+ moduleSkill('ignition','FORNALHA','burn','Duração da queimadura ×3.','Tempo de recarga ×2.',()=>{player.skills.ignition=1;player.reloadMult*=2;}),
+ moduleSkill('afterburn','COMBUSTÃO CONCENTRADA','burn','Dano da queimadura ×3.','Cadência pela metade.',()=>{player.skills.afterburn=1;player.rate*=2;}),
+ moduleSkill('freeze','NÚCLEO CRIOGÊNICO',null,'Impactos deixam movimento inimigo pela metade por 2 s.','Velocidade dos projéteis pela metade.',()=>{player.skills.freeze=1;player.projectileSpeed/=2;}),
+ moduleSkill('pierce','PERFURAÇÃO','freeze','Projéteis atravessam dois alvos adicionais.','Dano direto das balas pela metade.',()=>{player.skills.pierce=1;player.damage/=2;}),
+ moduleSkill('knock','IMPACTO CINÉTICO','freeze','Empurra 60 px; chefes recebem um quarto do empurrão.','Cadência pela metade.',()=>{player.skills.knock=1;player.rate*=2;}),
+ moduleSkill('coldReload','RECARGA GLACIAL','freeze','Ao terminar uma recarga, resfria alvos em 140 px por 4 s.','Tempo de recarga ×2.',()=>{player.skills.coldReload=1;player.reloadMult*=2;}),
+ moduleSkill('shock','DESCARGA',null,'Impactos atingem outro alvo com metade do dano; perfuração amplia para três.','Dano direto das balas pela metade.',()=>{player.skills.shock=1;player.damage/=2;}),
+ moduleSkill('conductivity','CONDUTIVIDADE','shock','Alcance elétrico ×3.','Alcance dos projéteis pela metade.',()=>{player.skills.conductivity=1;player.projectileLife/=2;}),
+ moduleSkill('stun','CURTO-CIRCUITO','shock','Descargas param movimento por 1 s; chefe por um quarto de segundo.','Cadência pela metade. Não cancela ataques.',()=>{player.skills.stun=1;player.rate*=2;}),
+ moduleSkill('shield','ESCUDO CAPACITIVO','shock','Absorve um impacto e recarrega em 120 s de combate.','Velocidade de movimento pela metade.',()=>{player.skills.shield=1;player.shieldReady=true;player.speed/=2;}),
+ moduleSkill('dash','PROPULSOR AUXILIAR',null,'ESPAÇO: avanço de 0,15 s com velocidade ×3. Recarga 4 s.','Não concede invulnerabilidade.',()=>{player.skills.dash=1;}),
+ moduleSkill('speed','PERNAS HIDRÁULICAS','dash','Velocidade de movimento ×2.','Vida máxima e atual pela metade; mínimo 1.',()=>{player.speed*=2;player.maxHp=Math.max(1,player.maxHp/2);player.hp=Math.max(1,player.hp/2);}),
+ moduleSkill('grace','ISOLAMENTO DE IMPACTO','dash','Proteção normal após sofrer dano ×2.','Capacidade do carregador pela metade (mínimo 1).',()=>{player.skills.grace=1;player.magazineMult/=2;player.ammo=Math.min(player.ammo,magazineSize());}),
+ moduleSkill('emergency','RESERVA DE EMERGÊNCIA','dash','Ao sobreviver a dano, ganha 3 s de proteção. Recarga 120 s de combate.','Alcance de coleta pela metade. Não ressuscita.',()=>{player.skills.emergency=1;player.magnet/=2;}),
+ moduleSkill('blast','CARGA EXPLOSIVA',null,'Cada impacto explode em 64 px, causando metade do dano a outros alvos.','Tempo de recarga ×2.',()=>{player.skills.blast=1;player.reloadMult*=2;}),
+ moduleSkill('blastRadius','ONDA EXPANDIDA','blast','Raio das explosões ×2.','Dano direto das balas pela metade.',()=>{player.skills.blastRadius=1;player.damage/=2;}),
+ moduleSkill('retaliation','PULSO DE RETALIAÇÃO','blast','Ao sobreviver a dano, explode em 140 px com dano ×3. Recarga 120 s.','Vida máxima e atual pela metade; mínimo 1.',()=>{player.skills.retaliation=1;player.maxHp=Math.max(1,player.maxHp/2);player.hp=Math.max(1,player.hp/2);}),
+ moduleSkill('overload','SOBRECARGA REATIVA','blast','Ao sobreviver a dano, ganha cadência ×3 por 6 s. Recarga 120 s de combate.','Tempo de recarga da arma ×2.',()=>{player.skills.overload=1;player.reloadMult*=2;})
 ];
+
 function chooseSkill(id,version){
  if(!['upgrade','reward'].includes(state)||version!==offerVersion)return false;
  const skill=offeredSkills.find(s=>s.id===id);if(!skill)return false;
- const before=new Set(activeSynergies());skill.apply();upgradeFlash=1;
+ if(!skill.available())return false;const before=new Set(activeSynergies());skill.apply();upgradeFlash=1;
  for(const text of activeSynergies())if(!before.has(text))toast('SINERGIA: '+text,'#ffd27c');
  offerVersion++;state='playing';el('overlay').hidden=true;clearInput();updateHUD();return true;
 }
 let offeredSkills=[];
 function upgrade(source='level'){
  offerSource=source;state=source==='boss'?'reward':'upgrade';clearInput();
- show(source==='boss'?'Chefe derrotado.':'Evolução disponível.',source==='boss'?'Recompensa de campo: +20 de integridade e escolha um módulo. Válido apenas nesta tentativa.':'Escolha um módulo. As skills desaparecem ao encerrar a tentativa.','');
- const candidates=SKILLS.filter(s=>!s.available||s.available());
+ show(source==='boss'?'Chefe derrotado.':'Evolução disponível.',source==='boss'?'Recompensa de campo: +20 de integridade e escolha um módulo. Válido apenas nesta tentativa.':'Escolha um módulo único. Cada raiz abre três evoluções combináveis. Benefícios e custos valem só nesta tentativa.','');
+ const candidates=availableSkills();
  for(let i=candidates.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
  offeredSkills=candidates.slice(0,3);const version=++offerVersion;
- for(const skill of offeredSkills){const b=document.createElement('button'),strong=document.createElement('strong');strong.textContent=skill.name;b.setAttribute('data-skill',skill.id);b.append(strong,document.createTextNode(skill.describe()));b.onclick=()=>chooseSkill(skill.id,version);el('choices').append(b);}
+ for(const skill of offeredSkills){const b=document.createElement('button'),strong=document.createElement('strong');strong.textContent=skill.name;b.setAttribute('data-skill',skill.id);const detail=document.createElement('span'),cost=document.createElement('span'),path=document.createElement('small');detail.textContent=skill.benefit;cost.textContent=skill.cost?'CUSTO: '+skill.cost:'SEM PENALIDADE';cost.className='skill-cost';path.textContent=skill.parent?'EVOLUÇÃO DE '+SKILLS.find(s=>s.id===skill.parent).name:'ABRE: '+SKILLS.filter(s=>s.parent===skill.id).map(s=>s.name).join(' · ');path.className='skill-path';b.append(strong,detail,cost,path);b.onclick=()=>chooseSkill(skill.id,version);el('choices').append(b);}
  const skip=document.createElement('button');skip.textContent='PULAR MELHORIA';skip.onclick=()=>{if(version!==offerVersion||!['upgrade','reward'].includes(state))return;offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();};el('choices').append(skip);el('choices').children[0]?.focus();
 }
 function createEnemy(){const side=Math.floor(random(0,4));return {x:camera.x+(side===0?-40:side===1?width+40:random(0,width)),y:camera.y+(side===2?-40:side===3?height+40:random(0,height)),hp:30,maxHp:30,speed:random(HORDE.minSpeed,HORDE.maxSpeed),r:random(11,16),hit:0};}
 function spawnBoss(){bossSpawned=true;boss={x:player.x,y:player.y-Math.min(height*.4,260),hp:650,maxHp:650,r:32,speed:28,phase:'approach',timer:2,turn:0,hit:0,dx:0,dy:1};toast('ALERTA: BRUTAMONTES','#ffb66c');}
 function hurtPlayer(amount){
  if(player.inv>0||player.hp<=0||state!=='playing')return;
- if(player.skills.shield&&player.shieldReady){player.shieldReady=false;player.shieldTimer=12;player.inv=.25;toast('ESCUDO ABSORVEU O IMPACTO');return;}
+ if(player.skills.shield&&player.shieldReady){player.shieldReady=false;player.shieldTimer=120;player.inv=.25;toast('ESCUDO ABSORVEU O IMPACTO');return;}
  effects.push({x:player.x,y:player.y,r:42,life:.3,max:.3,color:'#ff9573'});
- player.hp=Math.max(0,player.hp-Math.max(1,amount-player.armor));player.inv=.65+player.skills.grace*.2;
- if(player.hp>0&&player.hp<=player.maxHp*.3&&player.skills.emergency&&!player.emergencyUsed){player.hp=Math.min(player.maxHp,player.hp+20);player.emergencyUsed=true;toast('RESERVA: +20 INTEGRIDADE','#ffd27c');}
+ player.hp=Math.max(0,player.hp-Math.max(1,amount-player.armor));player.inv=.65*(player.skills.grace?2:1);
+ if(player.hp>0){
+  if(player.skills.emergency&&player.hitCooldowns.emergency<=0){player.inv=3;player.hitCooldowns.emergency=120;toast('RESERVA: PROTEÇÃO 3 s');}
+  if(player.skills.retaliation&&player.hitCooldowns.retaliation<=0){player.hitCooldowns.retaliation=120;explodeAt(player.x,player.y,player.damage*3,140);toast('RETALIAÇÃO');}
+  if(player.skills.overload&&player.hitCooldowns.overload<=0){player.hitCooldowns.overload=120;player.frenzy=6;toast('SOBRECARGA: CADÊNCIA ×3');}
+ }
+
  if(!player.hp){state='over';show('Fim da transmissão.','Sobreviveu '+Math.floor(clock)+' s · '+kills+' eliminações. Skills encerradas.','REPETIR CONFIGURAÇÃO');}
 }
 function targets(){return boss&&boss.hp>0?[...enemies,boss]:enemies;}
 function damageEnemy(z,damage){
  if(z.hp<=0)return;
- if(z===boss)damage*=1+player.skills.bossHunter*.25;
- if(player.skills.finisher&&z.hp<=(z.maxHp||30)*.3)damage*=1.5;
+ if(z===boss&&player.skills.bossHunter)damage*=3;
+ if(player.skills.finisher&&z.hp<=(z.maxHp||30)/3)damage*=3;
  z.hp=Math.max(0,z.hp-damage);z.hit=.12;feedback.push({x:z.x,y:z.y-z.r-8,text:damage.toFixed(1),life:.6,color:'#ffffff'});
  for(let i=0;i<5;i++)sparks.push({x:z.x,y:z.y,vx:random(-90,90),vy:random(-90,90),life:.25});
- if(z.hp===0){effects.push({x:z.x,y:z.y,r:z.r+16,life:.3,max:.3,color:'#78978b'});if(z===boss){bossDefeated=true;bossReward=true;hostile=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});}else{kills++;gems.push({x:z.x,y:z.y});if(player.skills.salvage&&state==='playing')player.hp=Math.min(player.maxHp,player.hp+2);}}
+ if(z.hp===0){effects.push({x:z.x,y:z.y,r:z.r+16,life:.3,max:.3,color:'#78978b'});if(z===boss){bossDefeated=true;bossReward=true;hostile=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});}else{kills++;gems.push({x:z.x,y:z.y});if(state==='playing'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;player.hp=Math.min(player.maxHp,player.hp+20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;player.ammo=Math.min(magazineSize(),player.ammo+1);}}}}
 }
 function shockAt(z,damage,intrinsic=0){
  const count=Math.max(intrinsic,player.skills.shock?(player.skills.pierce?3:1):0);
- const near=targets().filter(t=>t!==z&&t.hp>0&&Math.hypot(t.x-z.x,t.y-z.y)<=135+player.skills.conductivity*40).sort((a,b)=>Math.hypot(a.x-z.x,a.y-z.y)-Math.hypot(b.x-z.x,b.y-z.y)).slice(0,count);
- for(const t of near){effects.push({x:z.x,y:z.y,x2:t.x,y2:t.y,life:.16,max:.16,color:'#8ceeff'});damageEnemy(t,damage*.35);if(player.skills.stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,t===boss ? .0875 : .35);}
+ const near=targets().filter(t=>t!==z&&t.hp>0&&Math.hypot(t.x-z.x,t.y-z.y)<=135*(player.skills.conductivity?3:1)).sort((a,b)=>Math.hypot(a.x-z.x,a.y-z.y)-Math.hypot(b.x-z.x,b.y-z.y)).slice(0,count);
+ for(const t of near){effects.push({x:z.x,y:z.y,x2:t.x,y2:t.y,life:.16,max:.16,color:'#8ceeff'});damageEnemy(t,damage*.5);if(player.skills.stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,t===boss ? .25 : 1);}
 }
 function applyStatus(z,b){
  if(z.hp<=0)return;
- if(player.skills.burn||runWeapon.burn){z.burnTime=3;z.burnDps=Math.max(z.burnDps||0,b.damage*.2);z.burnAccum=z.burnAccum||0;}
+ if(player.skills.burn||runWeapon.burn){z.burnTime=player.skills.ignition?9:3;z.burnDps=Math.max(z.burnDps||0,b.damage*.5*(player.skills.afterburn?3:1));z.burnAccum=z.burnAccum||0;}
  if(player.skills.freeze||runWeapon.freeze)z.slowTime=2;
- const knock=(runWeapon.knock||0)+(player.skills.knock?30:0);
+ const knock=(runWeapon.knock||0)+(player.skills.knock?60:0);
  if(knock){const d=Math.hypot(b.vx,b.vy)||1,amount=knock*(z===boss ? .25 : 1);z.x+=b.vx/d*amount;z.y+=b.vy/d*amount;}
 }
 function explodeAt(x,y,damage,radius,exclude=null){
- radius*=1+player.skills.blastRadius*.25;
+ radius*=player.skills.blastRadius?2:1;
  effects.push({x,y,r:radius,life:.25,max:.25,color:'#ffbf73'});
  for(const t of targets().filter(t=>t!==exclude&&t.hp>0&&Math.hypot(t.x-x,t.y-y)<=radius+t.r)){
   damageEnemy(t,damage);if(player.skills.shock&&t.hp>0)shockAt(t,damage);
@@ -195,20 +220,24 @@ function impact(z,b){
  damageEnemy(z,b.damage);applyStatus(z,b);
  if(player.skills.shock||runWeapon.chain)shockAt(z,b.damage,runWeapon.chain||0);
  const radius=Math.max(runWeapon.explosion||0,player.skills.blast?64:0);
- if(radius)explodeAt(z.x,z.y,b.damage*(runWeapon.splash||.45),radius,z);
+ if(radius)explodeAt(z.x,z.y,b.damage*(runWeapon.splash||.5),radius,z);
 }
 function emitProjectiles(angle){
- const w=runWeapon,count=w.pellets+player.skills.extra,spread=w.spread+(player.skills.extra ? .16 : 0);
+ if(bullets.length>=400)return false;
+ if(player.reloadTime>0||player.ammo<=0){if(player.ammo<=0)startReload();return false;}
+ player.ammo--;player.shotCount++;const w=runWeapon,count=w.pellets*player.projectileMult,spread=Math.max(w.spread,count>1?.16:0)*player.spreadMult;
  for(let i=0;i<count&&bullets.length<400;i++){
-  const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=Math.random()<player.skills.crit*.2,speed=w.speed||570,life=w.life*(1+player.skills.range*.25);
-  bullets.push({x:player.x,y:player.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,damage:player.damage*(crit?2:1),crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0),hit:new Set(),returning:false,bounces:runWeapon.returning?0:player.skills.ricochet});
+  const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=!!player.skills.crit&&player.shotCount%5===0,speed=(w.speed||570)*player.projectileSpeed,life=w.life*player.projectileLife;
+  bullets.push({x:player.x,y:player.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,damage:player.damage*(crit?3:1),radius:(w.radius||6)*player.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0),hit:new Set(),returning:false,bounces:runWeapon.returning?0:player.skills.ricochet});
  }
+ if(player.ammo===0)startReload();return true;
 }
 function fireWeapon(){
- const angle=Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x);emitProjectiles(angle);
- if(runWeapon.burst)for(let i=1;i<runWeapon.burst;i++)burstQueue.push({delay:i*.075});
+ if(player.reloadTime>0)return false;
+ const angle=Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x);if(!emitProjectiles(angle))return false;
+ if(runWeapon.burst&&player.reloadTime===0)for(let i=1;i<runWeapon.burst;i++)burstQueue.push({delay:i*.075});
  effects.push({x:player.x+Math.cos(angle)*24,y:player.y+Math.sin(angle)*24,r:14,life:.09,max:.09,color:runWeapon.burn?'#ffbf73':'#b6f3ff'});
- shot=player.rate;
+ shot=player.rate/(player.frenzy>0?3:1);if(player.ammo===0)startReload();return true;
 }
 function bounceProjectile(b,from){
  if(!(b.bounces>0))return false;
@@ -220,13 +249,15 @@ function bounceProjectile(b,from){
  effects.push({x:from.x,y:from.y,x2:target.x,y2:target.y,life:.1,max:.1,color:'#c6baff'});return true;
 }
 function tickStatuses(dt){
+ for(const id of Object.keys(player.hitCooldowns))player.hitCooldowns[id]=Math.max(0,player.hitCooldowns[id]-dt);player.frenzy=Math.max(0,player.frenzy-dt);
+ if(player.reloadTime>0){player.reloadTime=Math.max(0,player.reloadTime-dt);if(player.reloadTime===0){player.ammo=magazineSize();if(player.skills.repair)player.hp=Math.min(player.maxHp,player.hp+5);if(player.skills.coldReload){for(const z of targets())if(z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=140)z.slowTime=4;effects.push({x:player.x,y:player.y,r:140,life:.4,max:.4,color:'#9df2ef'});}}}
  player.dashCooldown=Math.max(0,player.dashCooldown-dt);
  for(const z of targets()){
   if(z.hp<=0)continue;
-  if(z.burnTime>0){const elapsed=Math.min(dt,z.burnTime);z.burnAccum=(z.burnAccum||0)+z.burnDps*elapsed*((player.skills.freeze||runWeapon.freeze)&&z.slowTime>0?1.5:1);z.burnTick=(z.burnTick||0)+elapsed;z.burnTime=Math.max(0,z.burnTime-dt);if(z.burnTick>=.5||z.burnTime===0){damageEnemy(z,z.burnAccum);z.burnAccum=0;z.burnTick=0;}if(z.burnTime===0)z.burnDps=0;}
+  if(z.burnTime>0){const elapsed=Math.min(dt,z.burnTime);z.burnAccum=(z.burnAccum||0)+z.burnDps*elapsed*(player.skills.thermal&&z.slowTime>0?3:1);z.burnTick=(z.burnTick||0)+elapsed;z.burnTime=Math.max(0,z.burnTime-dt);if(z.burnTick>=.5||z.burnTime===0){damageEnemy(z,z.burnAccum);z.burnAccum=0;z.burnTick=0;}if(z.burnTime===0)z.burnDps=0;}
   z.slowTime=Math.max(0,(z.slowTime||0)-dt);z.stunTime=Math.max(0,(z.stunTime||0)-dt);
  }
- if(player.skills.regen){player.regenTimer+=dt;while(player.regenTimer>=3){player.regenTimer-=3;player.hp=Math.min(player.maxHp,player.hp+1);}}
+
  if(player.skills.shield&&!player.shieldReady){player.shieldTimer=Math.max(0,player.shieldTimer-dt);if(!player.shieldTimer)player.shieldReady=true;}
 }
 function segmentDistance(x,y,ax,ay,bx,by){
@@ -237,11 +268,11 @@ function tickBoss(dt){
  if(!boss||boss.hp<=0)return;const b=boss;b.hit=Math.max(0,b.hit-dt);b.timer-=dt;
  if(b.phase==='approach'){
   const dx=player.x-b.x,dy=player.y-b.y,d=Math.hypot(dx,dy)||1;
-  b.x+=dx/d*b.speed*(b.stunTime>0 ? 0 : b.slowTime>0 ? .55 : 1)*dt;b.y+=dy/d*b.speed*(b.stunTime>0 ? 0 : b.slowTime>0 ? .55 : 1)*dt;
+  b.x+=dx/d*b.speed*(b.stunTime>0 ? 0 : b.slowTime>0 ? .5 : 1)*dt;b.y+=dy/d*b.speed*(b.stunTime>0 ? 0 : b.slowTime>0 ? .5 : 1)*dt;
   if(b.timer<=0){b.dx=dx/d;b.dy=dy/d;b.phase=b.turn++%2===0?'tellDash':'tellVolley';b.timer=.95;}
  }else if(b.phase==='tellDash'&&b.timer<=0){b.phase='dash';b.timer=.65;}
  else if(b.phase==='dash'){
-  const x=b.x,y=b.y;b.x+=b.dx*360*(b.stunTime>0 ? 0 : b.slowTime>0 ? .55 : 1)*dt;b.y+=b.dy*360*(b.stunTime>0 ? 0 : b.slowTime>0 ? .55 : 1)*dt;
+  const x=b.x,y=b.y;b.x+=b.dx*360*(b.stunTime>0 ? 0 : b.slowTime>0 ? .5 : 1)*dt;b.y+=b.dy*360*(b.stunTime>0 ? 0 : b.slowTime>0 ? .5 : 1)*dt;
   if(segmentDistance(player.x,player.y,x,y,b.x,b.y)<b.r+14)hurtPlayer(20);
   if(b.timer<=0){b.phase='approach';b.timer=2;}
  }else if(b.phase==='tellVolley'&&b.timer<=0){
@@ -259,27 +290,27 @@ function tick(dt){
  const dashDt=Math.min(dt,player.dashTime),normalDt=dt-dashDt;
  player.x+=dx/length*player.speed*normalDt+player.dashDx*player.speed*3*dashDt;player.y+=dy/length*player.speed*normalDt+player.dashDy*player.speed*3*dashDt;
  player.dashTime=Math.max(0,player.dashTime-dt);
- const moving=dx!==0||dy!==0||dashDt>0;player.stride+=(Number(moving)-player.stride)*(1-Math.exp(-14*dt));if(moving)player.walkPhase+=player.speed*dt*.055;
+ const moving=dx!==0||dy!==0||dashDt>0;const priorStationary=player.stationary;player.stationary=moving?0:player.stationary+dt;if(player.skills.regen&&!moving)player.hp=Math.min(player.maxHp,player.hp+Math.max(0,player.stationary-Math.max(3,priorStationary))*2);player.stride+=(Number(moving)-player.stride)*(1-Math.exp(-14*dt));if(moving)player.walkPhase+=player.speed*dt*.055;
  syncCamera(dt);
  enemies=enemies.filter(z=>z.hp>0&&Math.abs(z.x-player.x)<width*2&&Math.abs(z.y-player.y)<height*2);
  spawn-=dt;if(spawn<=0&&enemies.length<HORDE.maxEnemies){spawn=Math.max(HORDE.minInterval,HORDE.interval-clock*HORDE.ramp);enemies.push(createEnemy());}
  if(clock>=60&&!bossSpawned)spawnBoss();
- if(firing){for(const queued of burstQueue){queued.delay-=dt;if(queued.delay<=0&&aim.active)emitProjectiles(Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x));}burstQueue=burstQueue.filter(q=>q.delay>0);}else burstQueue=[];
+ if(firing&&player.reloadTime===0){for(const queued of [...burstQueue]){queued.delay-=dt;if(queued.delay<=0&&aim.active&&player.reloadTime===0)emitProjectiles(Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x));}burstQueue=burstQueue.filter(q=>q.delay>0);}else burstQueue=[];
  shot=Math.max(0,shot-dt);if(firing&&aim.active&&shot<=0&&bullets.length<400)fireWeapon();
  for(const b of bullets){
   const ax=b.x,ay=b.y;
-  if(runWeapon.returning&&b.life<=b.maxLife/2){if(!b.returning){b.returning=true;b.hit.clear();}const d=Math.hypot(player.x-b.x,player.y-b.y)||1;b.vx=(player.x-b.x)/d*(runWeapon.speed||360);b.vy=(player.y-b.y)/d*(runWeapon.speed||360);if(d<16)b.life=0;}
+  if(runWeapon.returning&&b.life<=b.maxLife/2){if(!b.returning){b.returning=true;b.hit.clear();}const d=Math.hypot(player.x-b.x,player.y-b.y)||1;b.vx=(player.x-b.x)/d*(runWeapon.speed||360)*player.projectileSpeed;b.vy=(player.y-b.y)/d*(runWeapon.speed||360)*player.projectileSpeed;if(d<16)b.life=0;}
   b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;
   if(b.life<=0){if(runWeapon.detonate&&!b.detonated){b.detonated=true;explodeAt(b.x,b.y,b.damage,runWeapon.explosion);}continue;}
-  const hit=targets().filter(z=>z.hp>0&&!b.hit.has(z)&&segmentDistance(z.x,z.y,ax,ay,b.x,b.y)<z.r+(runWeapon.radius||6)).sort((a,z)=>Math.hypot(a.x-ax,a.y-ay)-Math.hypot(z.x-ax,z.y-ay));
+  const hit=targets().filter(z=>z.hp>0&&!b.hit.has(z)&&segmentDistance(z.x,z.y,ax,ay,b.x,b.y)<z.r+b.radius).sort((a,z)=>Math.hypot(a.x-ax,a.y-ay)-Math.hypot(z.x-ax,z.y-ay));
   for(const z of hit){if(b.remaining<=0)break;if(z.hp<=0)continue;b.hit.add(z);impact(z,b);b.remaining--;if(!b.remaining){if(bounceProjectile(b,z))break;b.life=0;}}
  }
  bullets=bullets.filter(b=>b.life>0);
- for(const z of enemies){if(z.hp<=0)continue;z.hit=Math.max(0,z.hit-dt);const d=Math.hypot(player.x-z.x,player.y-z.y)||1;z.x+=(player.x-z.x)/d*z.speed*(z.stunTime>0 ? 0 : z.slowTime>0 ? .55 : 1)*dt;z.y+=(player.y-z.y)/d*z.speed*(z.stunTime>0 ? 0 : z.slowTime>0 ? .55 : 1)*dt;if(d<z.r+14)hurtPlayer(12);}
+ for(const z of enemies){if(z.hp<=0)continue;z.hit=Math.max(0,z.hit-dt);const d=Math.hypot(player.x-z.x,player.y-z.y)||1;z.x+=(player.x-z.x)/d*z.speed*(z.stunTime>0 ? 0 : z.slowTime>0 ? .5 : 1)*dt;z.y+=(player.y-z.y)/d*z.speed*(z.stunTime>0 ? 0 : z.slowTime>0 ? .5 : 1)*dt;if(d<z.r+14)hurtPlayer(12);}
  tickBoss(dt);
  for(const b of hostile){const ax=b.x,ay=b.y;b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;if(segmentDistance(player.x,player.y,ax,ay,b.x,b.y)<b.r+14){hurtPlayer(12);b.life=0;}}
  hostile=hostile.filter(b=>b.life>0);
- for(const g of gems){const d=Math.hypot(g.x-player.x,g.y-player.y);if(d<player.magnet){g.x+=(player.x-g.x)*Math.min(1,dt*9);g.y+=(player.y-g.y)*Math.min(1,dt*9);}if(d<18){g.collected=true;effects.push({x:player.x,y:player.y,r:24,life:.18,max:.18,color:'#3cc7f4'});xp+=1+player.skills.xp*.25;}}
+ for(const g of gems){const d=Math.hypot(g.x-player.x,g.y-player.y);if(d<player.magnet){g.x+=(player.x-g.x)*Math.min(1,dt*9);g.y+=(player.y-g.y)*Math.min(1,dt*9);}if(d<18){g.collected=true;effects.push({x:player.x,y:player.y,r:24,life:.18,max:.18,color:'#3cc7f4'});xp+=player.skills.xp?2:1;}}
  gems=gems.filter(g=>!g.collected);
  for(const p of sparks){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;}sparks=sparks.filter(p=>p.life>0).slice(-600);
  for(const f of feedback){f.y-=28*dt;f.life-=dt;}feedback=feedback.filter(f=>f.life>0).slice(-100);
@@ -363,7 +394,7 @@ function drawZombie(z,heavy=false){
 }
 function drawProjectile(b){
  const w=runWeapon,id=w.id,color=w.burn?'#ffb363':w.freeze?'#9df2ef':id==='tesla'?'#c5b4ff':w.explosion?'#ffc17a':'#89ddff';
- ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));
+ ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));const visualScale=(b.radius||(w.radius||6))/(w.radius||6);ctx.scale(visualScale,visualScale);
  ctx.strokeStyle=color;ctx.lineWidth=id==='laser'?4:2;ctx.globalAlpha=.45;
  ctx.beginPath();ctx.moveTo(-Math.min(32,Math.hypot(b.vx,b.vy)*.025),0);ctx.lineTo(0,0);ctx.stroke();ctx.globalAlpha=1;
  if(w.returning){ctx.rotate(clock*12);ctx.fillStyle='#152f43';ctx.fillRect(-9,-3,18,6);ctx.fillRect(-3,-9,6,18);ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,8,0,Math.PI*2);ctx.stroke();}

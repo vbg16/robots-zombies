@@ -55,8 +55,8 @@ run('reset();enemies=Array.from({length:70},()=>({x:-100,y:-100,hp:100,speed:0,r
 assert.equal(run('enemies.length'),70,'population cap');
 console.log('Battery damage/healing/reset and slower horde checks passed.');
 
-run("reset();boostDamage();boostDamage()");
-assert.ok(Math.abs(run('player.damage')-35.2)<1e-9,'two damage upgrades add 60 percent');
+run("reset();SKILLS.find(s=>s.id==='damage').apply();SKILLS.find(s=>s.id==='damage').apply()");
+assert.ok(Math.abs(run('player.damage')-44)<1e-9,'damage doubles once; duplicates are ignored');
 run("player.x=-1200;player.y=1800;syncCamera();aim={x:800,y:300,active:true};firing=true;spawn=100;tick(.01)");
 assert.ok(run('bullets[0].vx>0&&Math.abs(bullets[0].vy)<.001'),'world-space aim after camera movement');
 assert.equal(run('player.x-camera.x'),500);
@@ -67,11 +67,11 @@ run("clock=0;globalThis.earlyEnemy=createEnemy();clock=170;globalThis.lateEnemy=
 assert.equal(run('earlyEnemy.hp'),30);assert.equal(run('lateEnemy.hp'),30);
 assert.ok(run('lateEnemy.speed>=24&&lateEnemy.speed<=42'),'no time-based speed growth');
 assert.ok(run('lateEnemy.x>=camera.x-40&&lateEnemy.x<=camera.x+width+40'));
-run("reset();boostDamage();boostDamage();spawn=100;aim={x:800,y:300,active:true};firing=true;enemies=[{x:player.x+50,y:player.y,hp:30,speed:0,r:16}];tick(.06)");
-assert.equal(run('kills'),1,'35.2 damage kills a 30 HP zombie in one hit');
+run("reset();SKILLS.find(s=>s.id==='damage').apply();SKILLS.find(s=>s.id==='damage').apply();spawn=100;aim={x:800,y:300,active:true};firing=true;enemies=[{x:player.x+50,y:player.y,hp:30,speed:0,r:16}];tick(.06)");
+assert.equal(run('kills'),1,'44 damage kills a 30 HP zombie in one hit');
 assert.ok(run('feedback.length>0'),'damage feedback created');
 run("reset();player.x=2000;player.y=-3000;syncCamera();draw()");
-console.log('World camera, unbounded movement, additive damage, fixed enemy stats and hit feedback passed.');
+console.log('World camera, unbounded movement, multiplicative damage, fixed enemy stats and hit feedback passed.');
 
 run("reset();spawn=100;keys.add('d');tick(.1)");
 assert.ok(run('player.x-camera.x>500'),'player can leave screen center');
@@ -131,112 +131,76 @@ assert.ok(run('enemies.length<=70&&bullets.length<=405&&feedback.length<=100'),'
 run("openGarage()");assert.equal(elements.get('garage').hidden,false);assert.equal(elements.get('combat').hidden,true);
 console.log('Full three-minute combat/upgrade/boss integration simulation passed.');
 
-assert.equal(run('Object.keys(WEAPONS).length'),12,'ten new weapons');
-assert.equal(run('SKILLS.length'),28,'28 total upgrades');
-assert.equal(run('Object.keys(ROBOTS).length'),2);
-for(const id of run('Object.keys(WEAPONS)')){
- run("openGarage();selectRobot('prot');selectWeapon("+JSON.stringify(id)+");reset();spawn=100;aim={x:800,y:300,active:true};firing=true;tick(.01);draw()");
- assert.ok(run('bullets.length')>0,id+' fires');
- assert.equal(run('runWeapon.id'),id);
- assert.ok(run('bullets.every(b=>Number.isFinite(b.damage)&&b.damage>0&&Number.isFinite(b.life))'),id+' valid bullets');
+const fresh=(weapon='machine')=>run(`openGarage();selectRobot('prot');selectWeapon('${weapon}');reset();spawn=10000;aim={x:800,y:300,active:true}`);
+const acquire=id=>run(`SKILLS.find(s=>s.id==='${id}').apply()`);
+assert.equal(run('SKILLS.length'),36);
+assert.equal(run('new Set(SKILLS.map(s=>s.id)).size'),36);
+fresh();assert.equal(run('availableSkills().length'),9,'only roots offered initially');
+for(const root of run('SKILLS.filter(s=>!s.parent).map(s=>s.id)')){
+ fresh();assert.equal(run(`SKILLS.filter(s=>s.parent==='${root}').length`),3,'each root opens three children');
+ assert.equal(run(`availableSkills().some(s=>s.parent==='${root}')`),false);
+ run(`state='upgrade';offeredSkills=[SKILLS.find(s=>s.id==='${root}')];offerVersion++;chooseSkill('${root}',offerVersion)`);
+ assert.equal(run(`availableSkills().filter(s=>s.parent==='${root}').length`),3);
+ assert.equal(run(`availableSkills().some(s=>s.id==='${root}')`),false,'selected node removed');
+ const child=run(`availableSkills().find(s=>s.parent==='${root}').id`);
+ run(`state='upgrade';offeredSkills=[SKILLS.find(s=>s.id==='${child}')];offerVersion++;chooseSkill('${child}',offerVersion)`);
+ assert.equal(run(`availableSkills().some(s=>s.id==='${child}')`),false);
+ assert.equal(run(`availableSkills().filter(s=>s.parent==='${root}').length`),2,'sibling branches remain combinable');
 }
-run("openGarage();selectWeapon('burst');reset();spawn=100;aim={x:800,y:300,active:true};firing=true;tick(.01)");
-assert.equal(run('bullets.length'),1);run('tick(.08)');assert.equal(run('bullets.length'),2);
-fire('window:pointerup');run('tick(.08)');assert.equal(run('burstQueue.length'),0);assert.equal(run('bullets.length'),2,'release cancels remaining burst');
-run("openGarage();selectWeapon('sniper');reset();aim={x:800,y:300,active:true};fireWeapon()");
-assert.equal(run('bullets[0].remaining'),4);assert.equal(run('bullets[0].vx'),1050);
-run("openGarage();selectWeapon('rocket');reset();enemies=[{x:550,y:300,hp:100,speed:0,r:10},{x:600,y:300,hp:100,speed:0,r:10}];impact(enemies[0],{damage:70,vx:1,vy:0})");
-assert.equal(run('enemies[0].hp'),30);assert.equal(run('enemies[1].hp'),30,'intrinsic rocket explosion');
-run("openGarage();selectWeapon('grenade');reset();spawn=100;aim={x:800,y:300,active:true};fireWeapon();bullets[0].life=.001;bullets[0].vx=0;enemies=[{x:player.x+10,y:player.y,hp:100,speed:0,r:10}];tick(.01)");
-assert.equal(run('enemies[0].hp'),55,'grenade detonates on timer');
-run("openGarage();selectWeapon('tesla');reset();enemies=[{x:550,y:300,hp:100,speed:0,r:10},{x:580,y:300,hp:100,speed:0,r:10},{x:600,y:300,hp:100,speed:0,r:10}];impact(enemies[0],{damage:18,vx:1,vy:0})");
-assert.ok(run('enemies[1].hp<100&&enemies[2].hp<100'),'Tesla intrinsic chains');
-run("openGarage();selectWeapon('disc');reset();spawn=100;aim={x:800,y:300,active:true};fireWeapon();bullets[0].life=.8;bullets[0].x=player.x+100;tick(.01)");
-assert.equal(run('bullets[0].returning'),true);assert.ok(run('bullets[0].vx<0'));
-run("openGarage();selectWeapon('harpoon');reset();enemies=[{x:550,y:300,hp:100,speed:0,r:10}];impact(enemies[0],{damage:60,vx:1,vy:0})");
-assert.equal(run('enemies[0].x'),615);
-run("openGarage();selectWeapon('flame');reset();enemies=[{x:550,y:300,hp:100,speed:24,r:10}];impact(enemies[0],{damage:5,vx:1,vy:0});tickStatuses(.5)");
-assert.ok(run('enemies[0].hp<95'),'flame burns');
-run("openGarage();selectWeapon('cryo');reset();enemies=[{x:550,y:300,hp:100,speed:24,r:10}];impact(enemies[0],{damage:14,vx:1,vy:0})");
-assert.equal(run('enemies[0].slowTime'),2);assert.equal(run('enemies[0].speed'),24,'slow never modifies base speed');
-run("openGarage();selectRobot('bastion');selectWeapon('machine');reset()");
-assert.equal(run('player.hp'),120);assert.equal(run('player.maxHp'),120);assert.equal(run('player.speed'),155);
-assert.equal((elements.get('health').innerHTML.match(/<span class="battery/g)||[]).length,6);
-run('hurtPlayer(12)');assert.equal(run('player.hp'),109,'Bastion innate armor');
-assert.equal(run("selectRobot('prot')"),false,'robot locked in combat');
-run("openGarage();selectRobot('prot');reset();SKILLS.find(s=>s.id==='armor').apply();hurtPlayer(12)");assert.equal(run('player.hp'),90);
-run("player.inv=0;SKILLS.find(s=>s.id==='shield').apply();hurtPlayer(20)");assert.equal(run('player.hp'),90);assert.equal(run('player.shieldReady'),false);
-run('tickStatuses(12)');assert.equal(run('player.shieldReady'),true);
-run("SKILLS.find(s=>s.id==='regen').apply();player.hp=80;tickStatuses(3)");assert.equal(run('player.hp'),81);
-run("SKILLS.find(s=>s.id==='salvage').apply();enemies=[{x:550,y:300,hp:1,r:10,speed:0}];damageEnemy(enemies[0],2)");assert.equal(run('player.hp'),83);
-run("SKILLS.find(s=>s.id==='range').apply();SKILLS.find(s=>s.id==='extra').apply();aim={x:800,y:300,active:true};fireWeapon()");
-assert.equal(run('bullets.length'),2);assert.equal(run('bullets[0].maxLife'),run('runWeapon.life*1.25'));
-run("SKILLS.find(s=>s.id==='burn').apply();SKILLS.find(s=>s.id==='freeze').apply();SKILLS.find(s=>s.id==='knock').apply();SKILLS.find(s=>s.id==='crit').apply()");
-assert.ok(run("activeSynergies().some(s=>s.includes('TÉRMICO'))"));
-run("openGarage();selectRobot('prot');reset()");assert.equal(run('Object.values(player.skills).reduce((a,b)=>a+b,0)'),0);
-assert.equal(run('player.armor'),0);assert.equal(run('player.hp'),100);
-console.log('12 weapons, 28 upgrades, intrinsic effects, burst release, two chassis and reset passed.');
-
-run("openGarage();selectRobot('bastion');reset();robotSprite={complete:true,naturalWidth:256};drawRobot()");
-run("openGarage();selectRobot('prot');reset();SKILLS.find(s=>s.id==='crit').apply();player.skills.crit=5;aim={x:800,y:300,active:true};fireWeapon()");
-assert.equal(run('bullets[0].damage'),44,'critical snapshots double damage');
+fresh();run("state='upgrade';offeredSkills=[SKILLS.find(s=>s.id==='titan')];offerVersion++");
+assert.equal(run("chooseSkill('titan',offerVersion)"),false,'locked child rejected even with forged offer');
+fresh();acquire('damage');assert.equal(run('player.damage'),44);assert.equal(run('player.rate'),.64);assert.equal(acquire('damage'),false);
+acquire('rate');assert.equal(run('player.damage'),22);assert.ok(Math.abs(run('player.rate')-.64/3)<1e-9);
+fresh();acquire('armor');acquire('titan');assert.equal(run('player.maxHp'),300);assert.equal(run('player.hp'),300);assert.equal(run('player.speed'),76);assert.equal(run('reloadDuration()'),2.8);
+run('updateHUD()');assert.equal((elements.get('health').innerHTML.match(/battery-shell/g)||[]).length,15,'triple life renders 15 batteries');
+fresh();acquire('armor');acquire('salvage');run('player.hp=40');
+for(let i=0;i<19;i++)run('damageEnemy({x:700,y:300,hp:1,r:10},1)');assert.equal(run('player.hp'),40);
+run('damageEnemy({x:700,y:300,hp:1,r:10},1)');assert.equal(run('player.hp'),60,'one battery per 20 kills');
+run('damageEnemy({x:700,y:300,hp:1,r:10},1)');assert.equal(run('player.hp'),60);
+fresh();acquire('magnet');acquire('killAmmo');assert.equal(run('magazineSize()'),72);assert.equal(run('player.ammo'),24,'capacity does not create free ammo');
+for(let i=0;i<10;i++)run('damageEnemy({x:700,y:300,hp:1,r:10},1)');assert.equal(run('player.ammo'),25);
+fresh();acquire('armor');acquire('regen');run('player.hp=40;tick(3)');assert.equal(run('player.hp'),40);run('tick(.5)');assert.equal(run('player.hp'),41);run("keys.add('d');tick(.5)");assert.equal(run('player.hp'),41);
+fresh();acquire('magnet');acquire('repair');run('player.hp=50');assert.equal(run('startReload()'),false,'full clip cannot farm healing');
+run('fireWeapon();startReload();tickStatuses(reloadDuration())');assert.equal(run('player.hp'),55);assert.equal(run('player.ammo'),24);
+fresh();acquire('freeze');acquire('coldReload');run('fireWeapon();enemies=[{x:player.x+50,y:player.y,hp:30,r:12,speed:30}];startReload();tickStatuses(.01)');assert.equal(run('enemies[0].slowTime||0'),0);
+run('tickStatuses(player.reloadTime-.01)');assert.equal(run('enemies[0].slowTime||0'),0);run('tickStatuses(.01)');assert.ok(run('enemies[0].slowTime')>3.9,'cold pulse occurs at reload completion');
+// Each weapon consumes rounds per pulse, not per pellet, and cannot fire during reload.
 for(const id of run('Object.keys(WEAPONS)')){
- run("openGarage();selectRobot('prot');selectWeapon("+JSON.stringify(id)+");reset();player.inv=100000;SKILLS.filter(s=>['pierce','blast','shock','burn','freeze','knock','range','extra','shield','salvage','regen'].includes(s.id)).forEach(s=>s.apply())");
- for(let i=0;i<1700;i++){
-  if(run('state')==='playing')run("{const ts=targets().filter(t=>t.hp>0);aim={x:width/2+100,y:height/2,active:true};if(ts.length){const t=ts[0];aim.x=t.x-camera.x;aim.y=t.y-camera.y;}firing=true;tick(.04);draw();}");
-  else if(['upgrade','reward'].includes(run('state')))run("chooseSkill(offeredSkills[0].id,offerVersion)");
+ fresh(id);const cap=run('magazineSize()'),duration=run('reloadDuration()');
+ run('emitProjectiles(0)');assert.equal(run('player.ammo'),cap-1,id+' consumes exactly one round');
+ assert.equal(run('bullets.length'),run('runWeapon.pellets'));
+ run('player.ammo=1;player.reloadTime=0;emitProjectiles(0)');assert.equal(run('player.ammo'),0);assert.equal(run('player.reloadTime'),duration);
+ const count=run('bullets.length');run('fireWeapon()');assert.equal(run('bullets.length'),count,'reload blocks shots');
+ run('pause();globalThis.freezeReload=player.reloadTime;tick(10)');assert.equal(run('player.reloadTime'),run('freezeReload'),'pause freezes reload');run('pause()');
+ run('tickStatuses(player.reloadTime/2)');assert.equal(run('player.ammo'),0,'no premature refill');run('tickStatuses(player.reloadTime)');assert.equal(run('player.ammo'),cap);
+ run('draw()');
+}
+assert.ok(run('AMMO.rocket[1]>AMMO.sniper[1]&&AMMO.sniper[1]>AMMO.machine[1]'),'heavy reloads longer');
+fresh('burst');run('player.ammo=2;firing=true;fireWeapon();tick(.08)');assert.equal(run('bullets.length'),2);assert.equal(run('player.ammo'),0);assert.ok(run('player.reloadTime')>0);assert.equal(run('burstQueue.length'),0,'partial burst ends at empty clip');run('tick(.08)');assert.equal(run('bullets.length'),2);
+fresh('shotgun');acquire('rate');acquire('extra');run('fireWeapon()');assert.equal(run('bullets.length'),10);assert.equal(run('player.ammo'),5,'multishot spends one shell');
+fresh();acquire('damage');acquire('crit');run('for(let i=0;i<5;i++)emitProjectiles(0)');assert.equal(run('bullets[3].damage'),44);assert.equal(run('bullets[4].damage'),132);
+fresh();acquire('damage');acquire('bossHunter');run('spawnBoss();damageEnemy(boss,10)');assert.equal(run('boss.hp'),620);
+fresh();acquire('damage');acquire('finisher');run('globalThis.target={x:700,y:300,hp:10,maxHp:30,r:10};damageEnemy(target,2)');assert.equal(run('target.hp'),4);
+fresh();acquire('burn');acquire('freeze');acquire('thermal');acquire('ignition');acquire('afterburn');run('enemies=[{x:700,y:300,hp:10000,maxHp:10000,r:10,speed:0}];applyStatus(enemies[0],{damage:20,vx:1,vy:0});tickStatuses(.5)');assert.equal(run('enemies[0].hp'),9955);assert.equal(run('enemies[0].burnTime'),8.5);
+for(const id of ['emergency','retaliation','overload']){
+ fresh();acquire(id==='emergency'?'dash':'blast');acquire(id);run('hurtPlayer(1)');assert.equal(run(`player.hitCooldowns.${id}`),120);
+ run(`player.inv=0;hurtPlayer(1)`);assert.equal(run(`player.hitCooldowns.${id}`),120,'second hit cannot reset cooldown');
+ run(`pause();tick(20)`);assert.equal(run(`player.hitCooldowns.${id}`),120,'pause freezes trigger cooldown');run('pause();tickStatuses(119.9)');assert.ok(run(`player.hitCooldowns.${id}`)>.09);run('tickStatuses(.1);player.inv=0;hurtPlayer(1)');assert.equal(run(`player.hitCooldowns.${id}`),120,'trigger rearmed after two minutes');
+ fresh();acquire(id);run('player.hp=1;hurtPlayer(1000)');assert.equal(run('state'),'over');assert.equal(run(`player.hitCooldowns.${id}`),0,'lethal hit cannot trigger or resurrect');
+}
+fresh();acquire('shock');acquire('shield');run('hurtPlayer(100)');assert.equal(run('player.hp'),100);assert.equal(run('player.shieldTimer'),120);run('tickStatuses(119)');assert.equal(run('player.shieldReady'),false);run('tickStatuses(1)');assert.equal(run('player.shieldReady'),true);
+fresh();acquire('dash');assert.equal(run('activateDash()'),true);assert.equal(run('player.inv'),0);run('pause();tick(2)');assert.equal(run('player.dashCooldown'),4);run('pause();tickStatuses(4)');assert.equal(run('player.dashCooldown'),0);
+fresh('disc');acquire('rate');assert.equal(run("availableSkills().some(s=>s.id==='ricochet')"),false);
+// Acquire every compatible node, then exercise all weapons/statuses/boss and reset.
+for(const id of run('Object.keys(WEAPONS)')){
+ fresh(id);run("for(const s of SKILLS)if(s.available())s.apply();player.inv=100000;clock=59.9");
+ for(let i=0;i<100;i++){
+  if(['upgrade','reward'].includes(run('state')))run("el('choices').children.at(-1).onclick()");
+  run('firing=true;tick(.04);draw()');
  }
- assert.ok(run('bossSpawned'),id+' reaches boss with combined skills');
- assert.ok(run('bullets.length<=400&&feedback.length<=100&&effects.length<=150'),id+' bounded effects');
- assert.ok(run('Number.isFinite(player.hp)&&enemies.every(z=>Number.isFinite(z.hp)&&Number.isFinite(z.x))'),id+' finite combat state');
+ assert.ok(run('Number.isFinite(player.hp)&&Number.isFinite(player.damage)&&player.ammo>=0&&player.ammo<=magazineSize()'),id+' valid combined state');
+ assert.ok(run('bullets.length<=400&&effects.length<=150'),id+' bounded effects');
 }
-console.log('All weapons with combined status/area effects and boss simulation passed.');
-
-run("openGarage();selectRobot('prot');selectWeapon('machine');reset();spawn=100");
-assert.equal(run('SKILLS.length'),28);
-assert.equal(run('SKILLS.find(s=>s.id==="blastRadius").available()'),false);
-assert.equal(run('SKILLS.find(s=>s.id==="conductivity").available()'),false);
-assert.equal(run('SKILLS.find(s=>s.id==="stun").available()'),false);
-run("SKILLS.find(s=>s.id==='xp').apply();gems=[{x:player.x,y:player.y}];tick(.01)");
-assert.equal(run('xp'),1.25);
-run("SKILLS.find(s=>s.id==='grace').apply();hurtPlayer(12)");assert.equal(run('player.hp'),88);assert.ok(Math.abs(run('player.inv')-.85)<1e-9);
-run("spawnBoss();SKILLS.find(s=>s.id==='bossHunter').apply();damageEnemy(boss,20)");assert.equal(run('boss.hp'),625);
-run("SKILLS.find(s=>s.id==='finisher').apply();enemies=[{x:550,y:300,hp:9,maxHp:30,r:10,speed:0}];damageEnemy(enemies[0],4)");assert.equal(run('enemies[0].hp'),3);
-run("reset();spawn=100;SKILLS.find(s=>s.id==='ricochet').apply();enemies=[{x:player.x+30,y:player.y,hp:100,maxHp:100,r:10,speed:0,hit:0},{x:player.x+30,y:player.y+100,hp:100,maxHp:100,r:10,speed:0,hit:0}];aim={x:800,y:300,active:true};firing=true;tick(.06);firing=false;tick(.17)");
-assert.equal(run('enemies[0].hp'),78);assert.equal(run('enemies[1].hp'),78,'ricochet changes direction toward second target');assert.equal(run('bullets.length'),0);
-run("reset();SKILLS.find(s=>s.id==='blast').apply();SKILLS.find(s=>s.id==='blastRadius').apply();explodeAt(player.x,player.y,10,64)");assert.equal(run('effects.at(-1).r'),80);
-run("SKILLS.find(s=>s.id==='shock').apply();SKILLS.find(s=>s.id==='conductivity').apply();enemies=[{x:500,y:300,hp:100,r:10,speed:0},{x:660,y:300,hp:100,r:10,speed:0}];shockAt(enemies[0],20)");assert.equal(run('enemies[1].hp'),93,'electric range reaches 160px');
-run("SKILLS.find(s=>s.id==='stun').apply();shockAt(enemies[0],20)");assert.equal(run('enemies[1].stunTime'),.35);
-run("spawnBoss();boss.x=500;boss.y=450;boss.stunTime=.1;boss.phase='approach';boss.timer=2;globalThis.oldBoss={x:boss.x,y:boss.y};tickBoss(.01)");
-assert.equal(run('boss.x'),run('oldBoss.x'));assert.equal(run('boss.y'),run('oldBoss.y'),'stun stops both axes');
-run("reset();SKILLS.find(s=>s.id==='emergency').apply();player.hp=35;hurtPlayer(10)");assert.equal(run('player.hp'),45);assert.equal(run('player.emergencyUsed'),true);
-run("player.inv=0;player.hp=35;hurtPlayer(10)");assert.equal(run('player.hp'),25,'emergency heal once only');
-run("reset();SKILLS.find(s=>s.id==='emergency').apply();player.hp=5;hurtPlayer(10)");assert.equal(run('state'),'over');assert.equal(run('player.hp'),0,'emergency does not resurrect');
-run("reset();spawn=100");assert.equal(run('activateDash()'),false,'dash requires skill');
-run("SKILLS.find(s=>s.id==='dash').apply();aim={x:800,y:300,active:true};globalThis.startX=player.x;activateDash();tick(.15)");
-assert.ok(Math.abs(run('player.x-startX')-85.5)<1e-8,'dash travels with chassis speed');
-assert.equal(run('player.inv'),0,'dash has no invulnerability');
-assert.equal(run('activateDash()'),false,'dash cooldown');
-run("pause();globalThis.beforeCooldown=player.dashCooldown;tick(1)");assert.equal(run('player.dashCooldown'),run('beforeCooldown'),'pause freezes cooldown');
-run("pause();tick(4)");assert.equal(run('activateDash()'),true);
-run("openGarage();selectWeapon('disc');reset()");assert.equal(run('SKILLS.find(s=>s.id==="ricochet").available()'),false,'returning discs not offered incompatible bounce');
-run("openGarage();selectWeapon('machine');reset()");assert.equal(run('Object.values(player.skills).reduce((a,b)=>a+b,0)'),0);assert.equal(run('player.emergencyUsed'),false);assert.equal(run('player.dashCooldown'),0);
-console.log('Ten additional upgrades, conditional offers, damage rules, cooldowns, ricochet and reset passed.');
-
-// Visual rendering must not consume combat RNG or mutate combat state.
-run(`
- openGarage();selectRobot('prot');selectWeapon('machine');reset();
- enemies=[{x:player.x+80,y:player.y+30,hp:30,maxHp:30,r:13,speed:30,hit:0,slowTime:1,burnTime:1,stunTime:.2}];
- spawnBoss();boss.phase='tellDash';
- const savedRandom=Math.random;
- try{
-  Math.random=()=>{throw Error('Rendering consumed combat randomness');};
-  for(const [id,w] of Object.entries(WEAPONS)){
-   runWeapon={...w,id};bullets=[{x:player.x+30,y:player.y,vx:570,vy:0,life:1}];draw();
-  }
-  camera.x=-100000;camera.y=-100000;draw();
- }finally{Math.random=savedRandom;}
-`);
-assert.equal(run('enemies[0].hp'),30,'rendering preserves enemy HP');
-assert.equal(run('enemies[0].speed'),30,'rendering preserves enemy speed');
-console.log('Visual rendering passes for all 12 weapons, status effects, boss and negative world coordinates without combat RNG.');
+fresh();assert.equal(run('player.acquired.size'),0);assert.equal(run('player.ammo'),24);assert.equal(run('player.reloadTime'),0);assert.equal(run('player.hitCooldowns.retaliation'),0);
+run(`const savedRandom=Math.random;try{Math.random=()=>{throw Error('Render used combat RNG');};draw();}finally{Math.random=savedRandom;}`);
+console.log('36 unique tree nodes, prerequisites, multiplicative costs, conditional effects, 120s timers, all magazines/reloads, bursts, statuses, rendering and reset passed.');

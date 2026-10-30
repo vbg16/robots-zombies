@@ -63,3 +63,18 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 .xp{box-shadow:0 -2px 16px #3cc7f426;}
 #xp{box-shadow:0 0 12px #3cc7f466;transition:width .12s ease-out;}
 @media(prefers-reduced-motion:reduce){#xp,.weapon-options button,.robot-options button{transition:none;}}
+/* Tree choices and magazine status. */
+#choices button[data-skill]{max-width:280px;min-width:200px;flex:1;}
+#choices button[data-skill]>span{display:block;line-height:1.5;}
+#choices .skill-cost{margin-top:12px;color:#ffbd93;border-top:1px solid #ffffff14;padding-top:10px;}
+#choices .skill-path{display:block;margin-top:14px;color:#8bb5ca;font:10px/1.6 monospace;}
+.ammo-panel{border-left:3px solid #3cc7f4;min-width:190px;padding:8px 12px!important;}
+.ammo-panel b{font-size:22px;color:#e8ddc9;margin-right:14px;}
+#reload-status{font-size:10px;color:#a9ddef;}
+.reload-track{height:3px;background:#294253;margin-top:6px;}
+#reload-progress{display:block;height:100%;background:#3cc7f4;}
+.batteries{flex-wrap:wrap;max-width:250px;row-gap:5px;}
+.combat-screen .hud>div:first-child{max-width:250px;}
+@media(max-width:650px){.batteries,.combat-screen .hud>div:first-child{max-width:120px;}.ammo-panel{min-width:160px;}.ammo-panel b{font-size:18px;}#choices button[data-skill]{min-width:150px;max-width:240px;}}
+
+.combat-screen .overlay{justify-content:safe center;}

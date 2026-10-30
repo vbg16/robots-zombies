@@ -83,3 +83,8 @@ Nenhuma dessas perguntas deve bloquear tarefas independentes. Quando uma impleme
 Plano de quatro semanas apresentado e aprovado pelo criador: Semana 1, sessões e usabilidade, selecionar seis armas e avaliar cinco skills fortes/cinco fracas; Semana 2, telemetria local, ajustes e feedback/áudio quando possível, referência jogável; Semana 3, módulos, package.json, GitHub Actions, licença/versão e fluxo de navegador; Semana 4, novos testes com jogadores e decisão de expansão. [Detalhes](plano-estabilizacao-4-semanas.md).
 
 A seleção de armas e o ranking de skills dependem de teste real e não estão definidos. Nenhuma licença foi escolhida. Datas, disponibilidade e participantes ainda não definidos. Este registro não cria automação nem significa que as quatro semanas estejam executadas. Prioridade passa de aumentar catálogo para estabilizar o que existe.
+
+
+## Árvores, multiplicadores e munição — 30/10/2026
+
+O criador solicitou que cada melhoria inicial abra três evoluções semelhantes, que escolhas adquiridas saiam do sorteio e que maiores vantagens exijam maiores custos. Pediu efeitos condicionais, reações a dano com dois minutos de recarga e carregadores/recarga por arma, com maior tempo para armamentos pesados. A implementação experimental contém nove raízes e três evoluções combináveis por raiz, totalizando 36 nós únicos. A preferência por multiplicadores substitui a regra anterior de bônus percentuais aditivos. Os números de balanceamento foram propostos pelo desenvolvimento e ainda não foram aprovados em teste humano. Detalhes em [Árvores e munição](arvores-e-municao.md).
