@@ -222,3 +222,21 @@ run("pause();tick(4)");assert.equal(run('activateDash()'),true);
 run("openGarage();selectWeapon('disc');reset()");assert.equal(run('SKILLS.find(s=>s.id==="ricochet").available()'),false,'returning discs not offered incompatible bounce');
 run("openGarage();selectWeapon('machine');reset()");assert.equal(run('Object.values(player.skills).reduce((a,b)=>a+b,0)'),0);assert.equal(run('player.emergencyUsed'),false);assert.equal(run('player.dashCooldown'),0);
 console.log('Ten additional upgrades, conditional offers, damage rules, cooldowns, ricochet and reset passed.');
+
+// Visual rendering must not consume combat RNG or mutate combat state.
+run(`
+ openGarage();selectRobot('prot');selectWeapon('machine');reset();
+ enemies=[{x:player.x+80,y:player.y+30,hp:30,maxHp:30,r:13,speed:30,hit:0,slowTime:1,burnTime:1,stunTime:.2}];
+ spawnBoss();boss.phase='tellDash';
+ const savedRandom=Math.random;
+ try{
+  Math.random=()=>{throw Error('Rendering consumed combat randomness');};
+  for(const [id,w] of Object.entries(WEAPONS)){
+   runWeapon={...w,id};bullets=[{x:player.x+30,y:player.y,vx:570,vy:0,life:1}];draw();
+  }
+  camera.x=-100000;camera.y=-100000;draw();
+ }finally{Math.random=savedRandom;}
+`);
+assert.equal(run('enemies[0].hp'),30,'rendering preserves enemy HP');
+assert.equal(run('enemies[0].speed'),30,'rendering preserves enemy speed');
+console.log('Visual rendering passes for all 12 weapons, status effects, boss and negative world coordinates without combat RNG.');
