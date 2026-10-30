@@ -32,7 +32,7 @@ run("keys.add('d');keys.add('s');const before={x:player.x,y:player.y};tick(.1);g
 assert.ok(Math.abs(run('distance')-19)<.001,'diagonal movement normalized');
 fire('canvas:pointerdown');fire('window:blur');assert.equal(run('state'),'paused');assert.equal(run('firing'),false);assert.equal(run('keys.size'),0);
 run('reset();spawn=100;xp=need;tick(.01)');assert.equal(run('state'),'upgrade');assert.equal(run('firing'),false);elements.get('choices').children[0].onclick();assert.equal(run('state'),'playing');
-run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'won');
+run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'playing','does not end at three minutes');\nrun('reset();clock=599.99;tick(.02)');assert.equal(run('state'),'won');
 run('reset();player.hp=1;enemies=[{x:player.x,y:player.y,hp:100,speed:0,r:15}];spawn=100;tick(.01)');assert.equal(run('state'),'over');
 run('reset();draw()');assert.equal(run('player.hp'),100);assert.equal(run('bullets.length'),0);
 console.log('Combat checks passed: manual aim/fire, cooldown, release, interruptions, movement, upgrades, win/death/restart.');
@@ -119,17 +119,17 @@ run("openGarage();selectWeapon('shotgun');reset()");assert.equal(run('bossSpawne
 console.log('Garage, fixed loadout, shotgun, stale offers, skills/synergies, boss telegraphs and one-time rewards passed.');
 
 run("openGarage();selectWeapon('machine');reset();player.inv=100000");
-for(let i=0;i<4600;i++){
+for(let i=0;i<15100;i++){
  if(run('state')==='playing'){
   run("{aim={x:width/2+100,y:height/2,active:true};const ts=targets().filter(t=>t.hp>0);if(ts.length){const t=ts.reduce((a,b)=>Math.hypot(a.x-player.x,a.y-player.y)<Math.hypot(b.x-player.x,b.y-player.y)?a:b);aim.x=t.x-camera.x;aim.y=t.y-camera.y;}firing=true;tick(.04);draw()}");
  }else if(['upgrade','reward'].includes(run('state'))){run("chooseSkill(offeredSkills[0].id,offerVersion)");}
  else break;
 }
-assert.equal(run('state'),'won','complete three-minute integration simulation');
+assert.equal(run('state'),'won','complete ten-minute integration simulation');
 assert.ok(run('bossSpawned'),'boss appeared during simulation');
 assert.ok(run('enemies.length<=70&&bullets.length<=405&&feedback.length<=100'),'entity bounds');
 run("openGarage()");assert.equal(elements.get('garage').hidden,false);assert.equal(elements.get('combat').hidden,true);
-console.log('Full three-minute combat/upgrade/boss integration simulation passed.');
+console.log('Full ten-minute combat/upgrade/boss integration simulation passed.');
 
 const fresh=(weapon='machine')=>run(`openGarage();selectRobot('prot');selectWeapon('${weapon}');reset();spawn=10000;aim={x:800,y:300,active:true}`);
 const acquire=id=>run(`SKILLS.find(s=>s.id==='${id}').apply()`);

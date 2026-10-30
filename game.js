@@ -299,7 +299,7 @@ function tickBoss(dt){
 }
 function tick(dt){
  if(state!=='playing')return;
- clock+=dt;if(clock>=180){state='won';updateHUD();show('Protocolo concluído.','Sobreviveu por 3 minutos · '+kills+' eliminações. '+(bossDefeated?'Chefe derrotado.':'Chefe não derrotado.')+' Skills encerradas ao iniciar outra tentativa.','REPETIR CONFIGURAÇÃO');return;}
+ clock+=dt;if(clock>=600){state='won';updateHUD();show('Protocolo concluído.','Sobreviveu por 10 minutos · '+kills+' eliminações. '+(bossDefeated?'Chefe derrotado.':'Chefe não derrotado.')+' Skills encerradas ao iniciar outra tentativa.','REPETIR CONFIGURAÇÃO');return;}
  player.inv=Math.max(0,player.inv-dt);tickStatuses(dt);
  const dx=Number(keys.has('d')||keys.has('arrowright'))-Number(keys.has('a')||keys.has('arrowleft')),dy=Number(keys.has('s')||keys.has('arrowdown'))-Number(keys.has('w')||keys.has('arrowup')),length=Math.hypot(dx,dy)||1;
  const dashDt=Math.min(dt,player.dashTime),normalDt=dt-dashDt;
