@@ -1,5 +1,7 @@
 # Árvores de melhorias e munição — protótipo experimental
 
+> **Revisão atual de UI e balanceamento:** [custos graduais, nomes de árvores e indicadores de recarga](revisao-ui-balanceamento.md). Os custos históricos abaixo (metade, recarga ×2/×3) foram substituídos pela tabela dessa revisão. Mecânicas de munição, condições e cronograma de chefes continuam válidas.
+
 Implementação de 30/10/2026, por solicitação do criador. Substitui o sorteio de melhorias isoladas/repetíveis e os bônus percentuais anteriores. Os valores ainda precisam de teste humano; não representam balanceamento aprovado.
 
 ## Escolhas por tentativa

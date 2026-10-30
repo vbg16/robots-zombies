@@ -17,13 +17,14 @@ const WEAPONS=Object.freeze(Object.fromEntries(Object.entries({
  harpoon:{name:'Arpão pneumático',damage:60,rate:1.05,pellets:1,spread:0,life:1.3,speed:750,pierce:1,knock:65,description:'Atravessa dois alvos e empurra. 60 de dano · 1,05 s.'}
 }).map(([id,w])=>[id,Object.freeze(w)])));
 const AMMO=Object.freeze({machine:[24,1.4],shotgun:[6,2.2],burst:[30,1.8],sniper:[3,3.8],laser:[60,1.6],flame:[80,2.4],cryo:[12,2.4],rocket:[1,4.8],grenade:[4,3.6],tesla:[8,3],disc:[3,3.4],harpoon:[2,4.2]});
+const TREE_INFO=Object.freeze({damage:{name:'Dano de impacto',category:'Ofensivo'},rate:{name:'Arsenal acelerado',category:'Ofensivo'},armor:{name:'Defesa pesada',category:'Defensivo'},magnet:{name:'Coleta e manutenção',category:'Suporte'},burn:{name:'Fogo industrial',category:'Ofensivo'},freeze:{name:'Controle criogênico',category:'Controle'},shock:{name:'Rede elétrica',category:'Controle'},dash:{name:'Mobilidade e reação',category:'Mobilidade'},blast:{name:'Demolição reativa',category:'Ofensivo'}});
 const BOSS_SCHEDULE=Object.freeze([{at:60,id:'brute',name:'BRUTAMONTES',hp:650,r:32,speed:28},{at:240,id:'scrapper',name:'SUCATEIRO',hp:1300,r:30,speed:24},{at:420,id:'coil',name:'BOBINA-RAINHA',hp:1800,r:34,speed:20}]);
 const ROBOTS=Object.freeze({
  prot:Object.freeze({name:'PROT-0001',hp:100,speed:190,armor:0,description:'Equilibrado · 5 baterias · velocidade 190 · 1 slot.'}),
  bastion:Object.freeze({name:'BAST-0002',hp:120,speed:155,armor:1,description:'Blindado · 6 baterias · velocidade 155 · reduz 1 de dano · 1 slot.'})
 });
 let width=1000,height=600,state='garage',last=0,clock=0,spawn=0,shot=0,kills=0,level=1,xp=0,need=6;
-let bossIndex=0,bossKills=0,hazards=[];
+let bossIndex=0,bossKills=0,hazards=[],cooldownNodes=[],cooldownLayout='';
 let selectedRobot='prot',runRobot=null,burstQueue=[],robotSprite=null;
 if(typeof Image!=='undefined'){robotSprite=new Image();robotSprite.src='assets/robots/bast-0002-walk.svg';}
 let selectedWeapon='machine',runWeapon=null,player=null,enemies=[],bullets=[],gems=[],sparks=[],feedback=[],effects=[],hostile=[];
@@ -63,7 +64,7 @@ function reset(){
  clearInput();offerVersion++;runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
  el('garage').hidden=true;el('combat').hidden=false;resize();
  player={acquired:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage,damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:65,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
- enemies=[];bullets=[];gems=[];sparks=[];feedback=[];effects=[];hostile=[];
+ enemies=[];bullets=[];gems=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
  boss=null;bossIndex=0;bossKills=0;hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=6;upgradeFlash=0;
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='PAUSAR [P]';updateHUD();
 }
@@ -100,14 +101,32 @@ function updateHUD(){
  renderHealth(player.hp);el('time').textContent=String(Math.floor(clock/60)).padStart(2,'0')+':'+String(Math.floor(clock%60)).padStart(2,'0');
  el('kills').textContent=kills;el('level').textContent=String(level).padStart(2,'0');el('xp').style.width=Math.min(100,xp/need*100)+'%';
  el('combat-loadout').textContent=runRobot.name+' · '+runWeapon.name+' · dano '+player.damage.toFixed(1)+(runWeapon.pellets*player.projectileMult>1?' × '+(runWeapon.pellets*player.projectileMult):'')+' · cadência '+((player.frenzy>0?3:1)/player.rate).toFixed(1)+'/s';
- const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name);if(player.skills.shield)names.push(player.shieldReady?'ESCUDO PRONTO':'ESCUDO '+Math.ceil(player.shieldTimer)+' s');if(player.skills.dash)names.push(player.dashCooldown>0?'PROPULSOR '+Math.ceil(player.dashCooldown)+' s':'PROPULSOR [ESPAÇO]');for(const id of ['emergency','retaliation','overload'])if(player.skills[id])names.push(SKILLS.find(s=>s.id===id).name+': '+(player.hitCooldowns[id]>0?Math.ceil(player.hitCooldowns[id])+' s':'PRONTO'));
+ const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name);renderCooldowns();
  el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':player.ammo===magazineSize()?'CARREGADOR CHEIO':'[R] RECARREGAR · '+missingReloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
  el('build-summary').textContent=(names.join(' · ')||'Sem módulos especiais')+(activeSynergies().length?' | '+activeSynergies().join(' | '):'');
  const live=!!boss&&boss.hp>0;el('boss-hud').hidden=!live;
  if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=bossMessage();}
 }
+function cooldownEntries(){
+ const entries=[];
+ if(player.skills.shield)entries.push({id:'shield',left:player.shieldReady?0:player.shieldTimer,total:120});
+ for(const id of ['emergency','retaliation','overload'])if(player.skills[id])entries.push({id,left:player.hitCooldowns[id],total:120,active:id==='overload'&&player.frenzy>0});
+ if(player.skills.dash)entries.push({id:'dash',left:player.dashCooldown,total:4,active:player.dashTime>0});
+ return entries;
+}
+function renderCooldowns(){
+ const entries=cooldownEntries(),layout=entries.map(e=>e.id).join(',');
+ if(layout!==cooldownLayout){
+  cooldownLayout=layout;cooldownNodes=[];el('cooldowns').replaceChildren();
+  for(const entry of entries){
+   const item=document.createElement('div'),icon=document.createElement('img'),name=document.createElement('span'),status=document.createElement('b'),track=document.createElement('div'),fill=document.createElement('i');
+   item.className='cooldown-item';icon.src='assets/skills/'+entry.id+'.svg';icon.alt='';icon.width=32;icon.height=32;name.textContent=SKILLS.find(s=>s.id===entry.id).name;name.className='cooldown-name';status.className='cooldown-status';track.className='cooldown-track';track.setAttribute('role','progressbar');track.setAttribute('aria-label','Recarga de '+name.textContent);track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','100');track.append(fill);item.append(icon,name,status,track);el('cooldowns').append(item);cooldownNodes.push({item,status,track,fill});
+  }
+ }
+ entries.forEach((entry,i)=>{const node=cooldownNodes[i],ready=entry.left<=0,progress=Math.max(0,Math.min(100,(1-entry.left/entry.total)*100));node.item.setAttribute('data-state',entry.active?'active':ready?'ready':'waiting');node.status.textContent=entry.active?'ATIVO':ready?'PRONTO':Math.ceil(entry.left)+' s';node.fill.style.width=progress+'%';node.track.setAttribute('aria-valuenow',String(Math.round(progress)));node.track.setAttribute('aria-valuetext',ready?'Pronto':Math.ceil(entry.left)+' segundos restantes');});
+}
 function toast(text,color='#89ddff'){feedback.push({x:player.x,y:player.y-46,text,life:1.4,color});}
-function boostDamage(){player.damageStacks++;player.damage*=2;player.rate*=2;toast('DANO ×2 · INTERVALO ×2');}
+function boostDamage(){player.damageStacks++;player.damage*=2;player.rate*=1.5;toast('DANO ×2 · INTERVALO ×1,5');}
 function magazineSize(){return Math.max(1,Math.floor(AMMO[runWeapon.id][0]*player.magazineMult));}
 function reloadDuration(){return AMMO[runWeapon.id][1]*player.reloadMult;}
 function missingReloadDuration(){return (magazineSize()-player.ammo)/magazineSize()*reloadDuration();}
@@ -121,44 +140,43 @@ function moduleSkill(id,name,parent,benefit,cost,apply){
 }
 // Each root unlocks three related, combinable children. All nodes are unique per run.
 const SKILLS=[
- moduleSkill('damage','ALTO IMPACTO',null,'Dano ×2.','Intervalo entre disparos ×2.',boostDamage),
- moduleSkill('bossHunter','CAÇA-TITÃS','damage','Dano contra chefe ×3.','Alcance dos projéteis pela metade.',()=>{player.skills.bossHunter=1;player.projectileLife/=2;}),
- moduleSkill('finisher','FINALIZADOR','damage','Dano ×3 contra alvos com até um terço da vida.','Velocidade das balas pela metade.',()=>{player.skills.finisher=1;player.projectileSpeed/=2;}),
- moduleSkill('crit','QUINTO IMPACTO','damage','Cada quinto disparo causa dano ×3.','Capacidade do carregador pela metade (mínimo 1).',()=>{player.skills.crit=1;player.magazineMult/=2;player.ammo=Math.min(player.ammo,magazineSize());}),
- moduleSkill('rate','OVERDRIVE',null,'Cadência ×3.','Dano de cada bala pela metade.',()=>{player.rateStacks++;player.rate/=3;player.damage/=2;}),
- moduleSkill('extra','CÂMARA DUPLA','rate','Projéteis por disparo ×2.','Dispersão ×2 e alcance pela metade.',()=>{player.projectileMult*=2;player.spreadMult*=2;player.projectileLife/=2;}),
- moduleSkill('ricochet','MUNIÇÃO RICOCHETE','rate','Cada bala busca um alvo adicional após esgotar perfuração.','Tempo de recarga ×2. Não combina com disco.',()=>{player.skills.ricochet=1;player.reloadMult*=2;}),
- moduleSkill('range','PROPULSÃO BALÍSTICA','rate','Alcance dos projéteis ×3.','Tamanho das balas pela metade.',()=>{player.projectileLife*=3;player.projectileSize/=2;}),
+ moduleSkill('damage','ALTO IMPACTO',null,'Dano ×2.','Intervalo entre disparos ×1,5.',boostDamage),
+ moduleSkill('bossHunter','CAÇA-TITÃS','damage','Dano contra chefe ×3.','Alcance dos projéteis ÷1,5.',()=>{player.skills.bossHunter=1;player.projectileLife/=1.5;}),
+ moduleSkill('finisher','FINALIZADOR','damage','Dano ×3 contra alvos com até um terço da vida.','Velocidade das balas ÷1,5.',()=>{player.skills.finisher=1;player.projectileSpeed/=1.5;}),
+ moduleSkill('crit','QUINTO IMPACTO','damage','Cada quinto disparo causa dano ×3.','Capacidade do carregador ÷1,25 (mínimo 1).',()=>{player.skills.crit=1;player.magazineMult/=1.25;player.ammo=Math.min(player.ammo,magazineSize());}),
+ moduleSkill('rate','OVERDRIVE',null,'Cadência ×3.','Dano de cada bala ÷1,5.',()=>{player.rateStacks++;player.rate/=3;player.damage/=1.5;}),
+ moduleSkill('extra','CÂMARA DUPLA','rate','Projéteis por disparo ×2.','Dispersão ×1,5 e alcance ÷1,5.',()=>{player.projectileMult*=2;player.spreadMult*=1.5;player.projectileLife/=1.5;}),
+ moduleSkill('ricochet','MUNIÇÃO RICOCHETE','rate','Cada bala busca um alvo adicional após esgotar perfuração.','Tempo de recarga ×1,5. Não combina com disco.',()=>{player.skills.ricochet=1;player.reloadMult*=1.5;}),
+ moduleSkill('range','PROPULSÃO BALÍSTICA','rate','Alcance dos projéteis ×3.','Tamanho das balas ÷1,25.',()=>{player.projectileLife*=3;player.projectileSize/=1.25;}),
  moduleSkill('armor','BLINDAGEM REFORÇADA',null,'Reduz 2 de dano por golpe; mínimo recebido 1.','Velocidade de movimento dividida por 1,25.',()=>{player.skills.armor=1;player.armor+=2;player.speed/=1.25;}),
- moduleSkill('titan','CHASSI TITÂNICO','armor','Vida máxima e atual ×3.','Velocidade pela metade e tempo de recarga ×2.',()=>{player.maxHp*=3;player.hp*=3;player.speed/=2;player.reloadMult*=2;}),
- moduleSkill('salvage','BATERIA DE SUCATA','armor','A cada 20 zumbis mortos, recupera uma bateria (20 de vida).','Alcance de coleta pela metade. Não ultrapassa a vida máxima.',()=>{player.skills.salvage=1;player.killCounter=0;player.magnet/=2;}),
- moduleSkill('regen','OFICINA ESTACIONÁRIA','armor','Após 3 s parado, recupera 2 de vida por segundo.','Dano das balas pela metade. Mover interrompe o reparo.',()=>{player.skills.regen=1;player.damage/=2;}),
+ moduleSkill('titan','CHASSI TITÂNICO','armor','Vida máxima e atual ×3.','Velocidade ÷1,5 e tempo de recarga ×1,5.',()=>{player.maxHp*=3;player.hp*=3;player.speed/=1.5;player.reloadMult*=1.5;}),
+ moduleSkill('salvage','BATERIA DE SUCATA','armor','A cada 20 zumbis mortos, recupera uma bateria (20 de vida).','Alcance de coleta ÷1,25. Não ultrapassa a vida máxima.',()=>{player.skills.salvage=1;player.killCounter=0;player.magnet/=1.25;}),
+ moduleSkill('regen','OFICINA ESTACIONÁRIA','armor','Após 3 s parado, recupera 2 de vida por segundo.','Dano das balas ÷1,25. Mover interrompe o reparo.',()=>{player.skills.regen=1;player.damage/=1.25;}),
  moduleSkill('magnet','CAMPO MAGNÉTICO',null,'Alcance de coleta ×3.','',()=>{player.magnet*=3;}),
- moduleSkill('xp','PROCESSADOR DE EXPERIÊNCIA','magnet','Experiência por núcleo ×2.','Tempo de recarga ×2.',()=>{player.skills.xp=1;player.reloadMult*=2;}),
- moduleSkill('repair','MANUTENÇÃO NA RECARGA','magnet','Cada recarga completa recupera 5 de vida.','Tempo de recarga ×2. Só funciona após gastar munição.',()=>{player.skills.repair=1;player.reloadMult*=2;}),
- moduleSkill('killAmmo','DEPÓSITO AMPLIADO','magnet','Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição.','Tempo de recarga ×3. Não repõe munição imediatamente.',()=>{player.skills.killAmmo=1;player.magazineMult*=3;player.reloadMult*=3;player.ammoKills=0;}),
- moduleSkill('burn','MUNIÇÃO INCENDIÁRIA',null,'Impactos queimam por 3 s: metade do dano da bala por segundo.','Alcance dos projéteis pela metade.',()=>{player.skills.burn=1;player.projectileLife/=2;}),
- moduleSkill('thermal','CHOQUE TÉRMICO','burn','Queimadura causa dano ×3 enquanto o alvo está resfriado.','Dano direto das balas pela metade. Exige resfriar o alvo.',()=>{player.skills.thermal=1;player.damage/=2;}),
- moduleSkill('ignition','FORNALHA','burn','Duração da queimadura ×3.','Tempo de recarga ×2.',()=>{player.skills.ignition=1;player.reloadMult*=2;}),
- moduleSkill('afterburn','COMBUSTÃO CONCENTRADA','burn','Dano da queimadura ×3.','Cadência pela metade.',()=>{player.skills.afterburn=1;player.rate*=2;}),
- moduleSkill('freeze','NÚCLEO CRIOGÊNICO',null,'Impactos deixam movimento inimigo pela metade por 2 s.','Velocidade dos projéteis pela metade.',()=>{player.skills.freeze=1;player.projectileSpeed/=2;}),
- moduleSkill('pierce','PERFURAÇÃO','freeze','Projéteis atravessam dois alvos adicionais.','Dano direto das balas pela metade.',()=>{player.skills.pierce=1;player.damage/=2;}),
- moduleSkill('knock','IMPACTO CINÉTICO','freeze','Empurra 60 px; chefes recebem um quarto do empurrão.','Cadência pela metade.',()=>{player.skills.knock=1;player.rate*=2;}),
- moduleSkill('coldReload','RECARGA GLACIAL','freeze','Ao terminar uma recarga, resfria alvos em 140 px por 4 s.','Tempo de recarga ×2.',()=>{player.skills.coldReload=1;player.reloadMult*=2;}),
- moduleSkill('shock','DESCARGA',null,'Impactos atingem outro alvo com metade do dano; perfuração amplia para três.','Dano direto das balas pela metade.',()=>{player.skills.shock=1;player.damage/=2;}),
- moduleSkill('conductivity','CONDUTIVIDADE','shock','Alcance elétrico ×3.','Alcance dos projéteis pela metade.',()=>{player.skills.conductivity=1;player.projectileLife/=2;}),
- moduleSkill('stun','CURTO-CIRCUITO','shock','Descargas param movimento por 1 s; chefe por um quarto de segundo.','Cadência pela metade. Não cancela ataques.',()=>{player.skills.stun=1;player.rate*=2;}),
- moduleSkill('shield','ESCUDO CAPACITIVO','shock','Absorve um impacto e recarrega em 120 s de combate.','Velocidade de movimento pela metade.',()=>{player.skills.shield=1;player.shieldReady=true;player.speed/=2;}),
+ moduleSkill('xp','PROCESSADOR DE EXPERIÊNCIA','magnet','Experiência por núcleo ×2.','Tempo de recarga ×1,5.',()=>{player.skills.xp=1;player.reloadMult*=1.5;}),
+ moduleSkill('repair','MANUTENÇÃO NA RECARGA','magnet','Cada recarga completa recupera 5 de vida.','Tempo de recarga ×1,25. Só funciona após gastar munição.',()=>{player.skills.repair=1;player.reloadMult*=1.25;}),
+ moduleSkill('killAmmo','DEPÓSITO AMPLIADO','magnet','Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição.','Tempo de recarga ×2. Não repõe munição imediatamente.',()=>{player.skills.killAmmo=1;player.magazineMult*=3;player.reloadMult*=2;player.ammoKills=0;}),
+ moduleSkill('burn','MUNIÇÃO INCENDIÁRIA',null,'Impactos queimam por 3 s: metade do dano da bala por segundo.','Alcance dos projéteis ÷1,25.',()=>{player.skills.burn=1;player.projectileLife/=1.25;}),
+ moduleSkill('thermal','CHOQUE TÉRMICO','burn','Queimadura causa dano ×3 enquanto o alvo está resfriado.','Dano direto das balas ÷1,5. Exige resfriar o alvo.',()=>{player.skills.thermal=1;player.damage/=1.5;}),
+ moduleSkill('ignition','FORNALHA','burn','Duração da queimadura ×3.','Tempo de recarga ×1,5.',()=>{player.skills.ignition=1;player.reloadMult*=1.5;}),
+ moduleSkill('afterburn','COMBUSTÃO CONCENTRADA','burn','Dano da queimadura ×3.','Cadência ÷1,5.',()=>{player.skills.afterburn=1;player.rate*=1.5;}),
+ moduleSkill('freeze','NÚCLEO CRIOGÊNICO',null,'Impactos deixam o movimento inimigo ÷2 por 2 s.','Velocidade dos projéteis ÷1,25.',()=>{player.skills.freeze=1;player.projectileSpeed/=1.25;}),
+ moduleSkill('pierce','PERFURAÇÃO','freeze','Projéteis atravessam dois alvos adicionais.','Dano direto das balas ÷1,5.',()=>{player.skills.pierce=1;player.damage/=1.5;}),
+ moduleSkill('knock','IMPACTO CINÉTICO','freeze','Empurra uma distância curta; chefes recebem um quarto do empurrão.','Cadência ÷1,5.',()=>{player.skills.knock=1;player.rate*=1.5;}),
+ moduleSkill('coldReload','RECARGA GLACIAL','freeze','Ao terminar uma recarga, resfria alvos em uma área média por 4 s.','Tempo de recarga ×1,5.',()=>{player.skills.coldReload=1;player.reloadMult*=1.5;}),
+ moduleSkill('shock','DESCARGA',null,'Impactos atingem outro alvo com metade do dano; perfuração amplia para três.','Dano direto das balas ÷1,5.',()=>{player.skills.shock=1;player.damage/=1.5;}),
+ moduleSkill('conductivity','CONDUTIVIDADE','shock','Alcance elétrico ×3.','Alcance dos projéteis ÷1,5.',()=>{player.skills.conductivity=1;player.projectileLife/=1.5;}),
+ moduleSkill('stun','CURTO-CIRCUITO','shock','Descargas param movimento por 1 s; chefe por um quarto de segundo.','Cadência ÷1,5. Não cancela ataques.',()=>{player.skills.stun=1;player.rate*=1.5;}),
+ moduleSkill('shield','ESCUDO CAPACITIVO','shock','Absorve um impacto e recarrega em 120 s de combate.','Velocidade de movimento ÷1,5.',()=>{player.skills.shield=1;player.shieldReady=true;player.speed/=1.5;}),
  moduleSkill('dash','PROPULSOR AUXILIAR',null,'ESPAÇO: avanço de 0,15 s com velocidade ×3. Recarga 4 s.','Não concede invulnerabilidade.',()=>{player.skills.dash=1;}),
- moduleSkill('speed','PERNAS HIDRÁULICAS','dash','Velocidade de movimento ×2.','Vida máxima e atual pela metade; mínimo 1.',()=>{player.speed*=2;player.maxHp=Math.max(1,player.maxHp/2);player.hp=Math.max(1,player.hp/2);}),
- moduleSkill('grace','ISOLAMENTO DE IMPACTO','dash','Proteção normal após sofrer dano ×2.','Capacidade do carregador pela metade (mínimo 1).',()=>{player.skills.grace=1;player.magazineMult/=2;player.ammo=Math.min(player.ammo,magazineSize());}),
- moduleSkill('emergency','RESERVA DE EMERGÊNCIA','dash','Ao sobreviver a dano, ganha 3 s de proteção. Recarga 120 s de combate.','Alcance de coleta pela metade. Não ressuscita.',()=>{player.skills.emergency=1;player.magnet/=2;}),
- moduleSkill('blast','CARGA EXPLOSIVA',null,'Cada impacto explode em 64 px, causando metade do dano a outros alvos.','Tempo de recarga ×2.',()=>{player.skills.blast=1;player.reloadMult*=2;}),
- moduleSkill('blastRadius','ONDA EXPANDIDA','blast','Raio das explosões ×2.','Dano direto das balas pela metade.',()=>{player.skills.blastRadius=1;player.damage/=2;}),
- moduleSkill('retaliation','PULSO DE RETALIAÇÃO','blast','Ao sobreviver a dano, explode em 140 px com dano ×3. Recarga 120 s.','Vida máxima e atual pela metade; mínimo 1.',()=>{player.skills.retaliation=1;player.maxHp=Math.max(1,player.maxHp/2);player.hp=Math.max(1,player.hp/2);}),
- moduleSkill('overload','SOBRECARGA REATIVA','blast','Ao sobreviver a dano, ganha cadência ×3 por 6 s. Recarga 120 s de combate.','Tempo de recarga da arma ×2.',()=>{player.skills.overload=1;player.reloadMult*=2;})
+ moduleSkill('speed','PERNAS HIDRÁULICAS','dash','Velocidade de movimento ×2.','Vida máxima e atual ÷1,5; mínimo 1.',()=>{player.speed*=2;player.maxHp=Math.max(1,player.maxHp/1.5);player.hp=Math.max(1,player.hp/1.5);}),
+ moduleSkill('grace','ISOLAMENTO DE IMPACTO','dash','Proteção normal após sofrer dano ×2.','Capacidade do carregador ÷1,25 (mínimo 1).',()=>{player.skills.grace=1;player.magazineMult/=1.25;player.ammo=Math.min(player.ammo,magazineSize());}),
+ moduleSkill('emergency','RESERVA DE EMERGÊNCIA','dash','Ao sobreviver a dano, ganha 3 s de proteção. Recarga 120 s de combate.','Alcance de coleta ÷1,25. Não ressuscita.',()=>{player.skills.emergency=1;player.magnet/=1.25;}),
+ moduleSkill('blast','CARGA EXPLOSIVA',null,'Cada impacto cria uma explosão pequena, causando metade do dano a outros alvos.','Tempo de recarga ×1,5.',()=>{player.skills.blast=1;player.reloadMult*=1.5;}),
+ moduleSkill('blastRadius','ONDA EXPANDIDA','blast','Raio das explosões ×2.','Dano direto das balas ÷1,5.',()=>{player.skills.blastRadius=1;player.damage/=1.5;}),
+ moduleSkill('retaliation','PULSO DE RETALIAÇÃO','blast','Ao sobreviver a dano, cria uma explosão média com dano ×3. Recarga 120 s.','Vida máxima e atual ÷1,5; mínimo 1.',()=>{player.skills.retaliation=1;player.maxHp=Math.max(1,player.maxHp/1.5);player.hp=Math.max(1,player.hp/1.5);}),
+ moduleSkill('overload','SOBRECARGA REATIVA','blast','Ao sobreviver a dano, ganha cadência ×3 por 6 s. Recarga 120 s de combate.','Tempo de recarga da arma ×1,5.',()=>{player.skills.overload=1;player.reloadMult*=1.5;})
 ];
-
 function chooseSkill(id,version){
  if(!['upgrade','reward'].includes(state)||version!==offerVersion)return false;
  const skill=offeredSkills.find(s=>s.id===id);if(!skill)return false;
@@ -178,10 +196,10 @@ function upgrade(source='level'){
   const root=skill.parent?SKILLS.find(s=>s.id===skill.parent):skill;
   b.className='upgrade-card';b.setAttribute('data-skill',skill.id);b.setAttribute('data-tree',root.id);
   icon.src='assets/skills/'+skill.id+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';
-  category.className='skill-category';category.textContent=skill.parent?'EVOLUÇÃO / '+root.name:'NOVA ÁRVORE';
-  strong.textContent=skill.name;detail.className='skill-benefit';detail.textContent=skill.benefit;
-  cost.className='skill-cost';cost.textContent=skill.cost?'EM TROCA: '+skill.cost:'SEM PENALIDADE';
-  path.className='skill-path';const pathLabel=document.createElement('small');pathLabel.textContent=skill.parent?'ÁRVORE DE ORIGEM':'LIBERA TRÊS EVOLUÇÕES';path.append(pathLabel);
+  category.className='skill-category';category.textContent=TREE_INFO[root.id].category.toUpperCase()+' / '+TREE_INFO[root.id].name;
+  strong.textContent=skill.name;detail.className='skill-benefit';detail.textContent='VANTAGEM: '+skill.benefit;const area=skill.id==='blast'?'small':['coldReload','retaliation'].includes(skill.id)?'medium':null;if(area){const range=document.createElement('span'),disc=document.createElement('span'),rangeLabel=document.createElement('span');range.className='skill-range';disc.className='range-disc';disc.setAttribute('data-size',area);disc.setAttribute('aria-hidden','true');rangeLabel.textContent=area==='small'?'Área pequena':'Área média';range.append(disc,rangeLabel);detail.append(range);}
+  cost.className='skill-cost';cost.textContent='DESVANTAGEM: '+(skill.cost||'Sem penalidade.');
+  path.className='skill-path';const pathLabel=document.createElement('small');pathLabel.textContent=skill.parent?'RAIZ / '+TREE_INFO[root.id].name:'LIBERA TRÊS EVOLUÇÕES';path.append(pathLabel);
   for(const node of skill.parent?[root]:SKILLS.filter(s=>s.parent===skill.id)){
    const item=document.createElement('span'),mini=document.createElement('img'),label=document.createElement('span');item.className='skill-branch';mini.src='assets/skills/'+node.id+'.svg';mini.alt='';mini.width=24;mini.height=24;label.textContent=node.name;item.append(mini,label);path.append(item);
   }

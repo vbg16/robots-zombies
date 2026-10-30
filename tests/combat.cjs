@@ -150,9 +150,9 @@ for(const root of run('SKILLS.filter(s=>!s.parent).map(s=>s.id)')){
 }
 fresh();run("state='upgrade';offeredSkills=[SKILLS.find(s=>s.id==='titan')];offerVersion++");
 assert.equal(run("chooseSkill('titan',offerVersion)"),false,'locked child rejected even with forged offer');
-fresh();acquire('damage');assert.equal(run('player.damage'),44);assert.equal(run('player.rate'),.64);assert.equal(acquire('damage'),false);
-acquire('rate');assert.equal(run('player.damage'),22);assert.ok(Math.abs(run('player.rate')-.64/3)<1e-9);
-fresh();acquire('armor');acquire('titan');assert.equal(run('player.maxHp'),300);assert.equal(run('player.hp'),300);assert.equal(run('player.speed'),76);assert.equal(run('reloadDuration()'),2.8);
+fresh();acquire('damage');assert.equal(run('player.damage'),44);assert.ok(Math.abs(run('player.rate')-.48)<1e-9);assert.equal(acquire('damage'),false);
+acquire('rate');assert.ok(Math.abs(run('player.damage')-44/1.5)<1e-9);assert.ok(Math.abs(run('player.rate')-.48/3)<1e-9);
+fresh();acquire('armor');acquire('titan');assert.equal(run('player.maxHp'),300);assert.equal(run('player.hp'),300);assert.ok(Math.abs(run('player.speed')-190/1.25/1.5)<1e-9);assert.ok(Math.abs(run('reloadDuration()')-2.1)<1e-9);
 run('updateHUD()');assert.equal((elements.get('health').innerHTML.match(/battery-shell/g)||[]).length,15,'triple life renders 15 batteries');
 fresh();acquire('armor');acquire('salvage');run('player.hp=40');
 for(let i=0;i<19;i++)run('damageEnemy({x:700,y:300,hp:1,r:10},1)');assert.equal(run('player.hp'),40);
@@ -252,3 +252,16 @@ for(const index of [1,2]){
  assert.ok(run('Number.isFinite(boss.x)&&Number.isFinite(boss.y)&&hazards.length<=60'));
 }
 console.log('Proportional reloads, three boss schedule, delayed pools, electric rings/fans, warning safety, pause and cleanup passed.');
+// Readable tree labels, spatial language and dedicated cooldown HUD.
+fresh();assert.equal(run('Object.keys(TREE_INFO).length'),9);
+assert.equal(run('SKILLS.some(s=>/\\bpx\\b/.test(s.benefit+s.cost))'),false,'no implementation units in upgrade copy');
+acquire('damage');acquire('rate');assert.ok(Math.abs(run('player.damage')-44/1.5)<1e-9);assert.ok(Math.abs(run('player.rate')-.48/3)<1e-9);
+fresh();acquire('shield');acquire('dash');acquire('emergency');acquire('retaliation');acquire('overload');run('updateHUD()');
+assert.equal(elements.get('cooldowns').children.length,5,'all acquired timed modules visible');
+assert.ok(run('cooldownNodes.every(n=>n.status.textContent==="PRONTO")'));
+run('hurtPlayer(1);updateHUD()');assert.equal(run('cooldownNodes[0].status.textContent'),'120 s');
+run('player.inv=0;hurtPlayer(1);updateHUD()');assert.equal(run('cooldownNodes.find(n=>n.item.children[1].textContent==="SOBRECARGA REATIVA").status.textContent'),'ATIVO');
+run('tickStatuses(60);updateHUD()');assert.equal(run('cooldownNodes[0].track["aria-valuenow"]'),'50');assert.equal(run('cooldownNodes[0].status.textContent'),'60 s');
+run('pause();tick(10);updateHUD()');assert.equal(run('cooldownNodes[0].status.textContent'),'60 s');run('pause();tickStatuses(60);updateHUD()');assert.ok(run('cooldownNodes.every(n=>n.status.textContent==="PRONTO")'));
+fresh();assert.equal(elements.get('cooldowns').children.length,0,'reset removes old cooldown badges');
+console.log('Gentler multiplicative costs, named trees, player-facing area descriptions and cooldown HUD passed.');
