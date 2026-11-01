@@ -123,3 +123,7 @@ O criador solicitou que cada melhoria inicial abra três evoluções semelhantes
 ## Especialização de chassi — decisão do criador
 
 Escolher uma entre três especializações temporárias próprias do robô ao atingir o nível 10. Decisão recebida diretamente do criador nesta integração. Não define o nível de evolução de armas, não adiciona slots e não permite trocar equipamento em combate. Efeitos das especializações ainda serão implementados e validados.
+
+## Ajustes pedidos após playtest — 01/11/2026
+
+O criador pediu esconder controles após5s, mostrar ESPAÇO junto da arma após adquirir Propulsor, zumbis fora da tela correndo e desacelerando ao se aproximar, além de música e efeitos. Implementação BUILD34: tutorial usa5s do relógio de jogo; ondas mantêm círculo com raio até o canto mais distante da câmera+96px. Apenas os comuns das ondas usam aproximação suave entre260px/s distante e velocidade normal dentro180px. Chefes/lacaios mantêm suas entradas próprias. Trilha procedural original96BPM e efeitos WebAudio, volumes separados na garagem (zero=mudo), iniciados após gesto. Sem assets sonoros de terceiros.

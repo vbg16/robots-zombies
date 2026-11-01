@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 33 · desenvolvimento
+# Screwvivors — BUILD 34 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -52,3 +52,5 @@ BAST-0002 usa sprite SVG provisório próprio. No perfil novo, o PROT-0001 e a M
 ## Versões separadas
 
 Esta pasta é o desenvolvimento (`codex/desenvolvimento`). A cópia pública local fica em `../Jogo-publico` (`codex/publico`). Execute `iniciar-desenvolvimento.ps1` para porta 8001 ou `iniciar-publico.ps1` para porta 8002. A base pública inicial é uma candidata histórica, não um lançamento atualizado aprovado. Veja [canais e promoção](docs/canais-e-lancamentos.md) e os estados em `version.json` de cada pasta.
+
+BUILD34: controles iniciais somem após cinco segundos; o comando ESPAÇO aparece junto da arma após adquirir Propulsor. Zumbis comuns chegam de fora da tela correndo e desaceleram perto do robô. Música e efeitos originais usam WebAudio e iniciam após interação; ajuste MÚSICA/EFEITOS na garagem, com zero para silenciar. Verificação de áudio: node tests/audio.cjs.
