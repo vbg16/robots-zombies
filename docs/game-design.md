@@ -117,7 +117,7 @@ Cada assinatura consome exatamente uma peça ao ser desbloqueada. A primeira arm
 | Tipo | Entrada | Comportamento confirmado |
 | --- | --- | --- |
 | Zumbi perseguidor | Base da horda | Segue o jogador; representa a maioria dos inimigos |
-| Ex-policial | Após cinco minutos | Implementado: um por onda completa, mantém distância e atira; tem 80% da vida do perseguidor comum |
+| Policiais | Após derrotar o segundo chefe | Cinco em cada onda de15: atiradores de rifle e portadores de escudo100. Só o portador cujo escudo quebra passa a parar, mirar e investir. |
 | Perseguidor grande | Após quinze minutos | Implementado: aparece em uma de cada três ondas completas, segue mais devagar, é maior e tem três vezes a vida comum |
 | Chefes | Implementado: 60 s, 240 s e 420 s; o ciclo reinicia a cada 180 s com vida e velocidade crescentes | Brutamontes, Sucateiro e Bobina-Rainha têm ataques e lacaios próprios; cada derrota entrega a peça identificada e abre escolha temporária de risco/benefício |
 
@@ -330,3 +330,5 @@ Implementação no desenvolvimento — 01/11/2026: as seis especializações do 
 ## Regras de playtest atualizadas — BUILD35
 
 Ondas comuns de15, intervalo decrescente6,4→1,5s, sem parada por população ou chefe. Vivos distantes permanecem; minimapa mostra todos na borda se fora de alcance, chefe dourado destacado. O Sucateiro busca distância180–240px mesmo ao anunciar ataques; aproxima-se lentamente e recua quando pressionado. Ex-policiais/atiradores/condutores carregam armas visíveis. Estas regras substituem quatro por onda e limites/suspensão anteriores, por novo pedido direto do criador.
+
+BUILD36: sem sprint de entrada para comuns. Escudo absorve100 e o golpe de quebra, sem excesso no corpo. Somente o portador desprotegido inicia investidas após0,7s de planejamento, até240px em direção fixa a340px/s; são valores experimentais. Atirador mantém rifle e distância. Ambos entram após derrotar Sucateiro, juntos5/15, alternando3/2 por onda.

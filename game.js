@@ -1,7 +1,7 @@
 'use strict';
 const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d'),el=id=>document.getElementById(id);
 const keys=new Set(),random=(a,b)=>a+Math.random()*(b-a);
-const HORDE={initialDelay:2,interval:6.4,minInterval:1.5,ramp:.008,waveSize:15,entrySpeed:210,normalDistance:320,minSpeed:24,maxSpeed:42};
+const HORDE={initialDelay:2,interval:6.4,minInterval:1.5,ramp:.008,waveSize:15,minSpeed:24,maxSpeed:42};
 const PLAYER_KNOCKBACK=48;
 function sound(name){window.ScrewAudio?.play(name);}
 const WEAPONS=Object.freeze(Object.fromEntries(Object.entries({
@@ -99,6 +99,7 @@ function purchaseGear(kind,id){
  renderLoadout();return true;
 }
 let width=1000,height=600,state='title',last=0,clock=0,spawn=0,shot=0,kills=0,level=1,xp=0,need=6;
+let policeUnlocked=false;
 let bossIndex=0,bossKills=0,commonWaveIndex=0,hazards=[],cooldownNodes=[],cooldownLayout='';
 let selectedRobot='prot',runRobot=null,burstQueue=[],robotSprite=null,protSprite=null,arenaTile=null,arenaPattern=null;
 const ZOMBIE_VARIANTS=[
@@ -180,7 +181,7 @@ function reset(){
  el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
  player={specialization:null,specializationCooldown:0,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage,damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:65,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];scrap=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
- boss=null;bossIndex=0;bossKills=0;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=6;upgradeFlash=0;displayedHealth=null;
+ boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=6;upgradeFlash=0;displayedHealth=null;
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida');updateHUD();
 }
 function show(title,description,label){
@@ -421,6 +422,7 @@ function upgrade(source='level',excluded=[]){
 }
 function createEnemy(x,y,type='chaser'){
  const scale=1+clock/300,baseHp=Math.round(30*scale),baseSpeed=random(HORDE.minSpeed,HORDE.maxSpeed)+Math.min(24,clock/90),variant=Math.floor(terrainNoise(Math.round(x),Math.round(y),1703)*ZOMBIE_VARIANTS.length);
+ if(type==='shieldPolice')return {x,y,hp:baseHp,maxHp:baseHp,speed:baseSpeed*.9,r:15,variant,hit:0,enemyType:type,shieldHp:100,policePhase:'shielded',minionBadge:'ESCUDO 100',minionColor:'#88d9ff'};
  if(type==='expolice')return {x,y,hp:Math.round(baseHp*.8),maxHp:Math.round(baseHp*.8),speed:baseSpeed*.9,r:13,variant,hit:0,enemyType:type,minionBadge:'EX-POLICIAL',minionColor:'#e7bc72',shotCooldown:random(.8,1.5)};
  if(type==='heavy')return {x,y,hp:baseHp*3,maxHp:baseHp*3,speed:baseSpeed*.68,r:23,variant:2,hit:0,enemyType:type,heavy:true,minionBadge:'PERSEGUIDOR',minionColor:'#d49b54'};
  return {x,y,hp:baseHp,maxHp:baseHp,speed:baseSpeed,r:random(11,16),variant,hit:0,enemyType:'chaser'};
@@ -449,13 +451,21 @@ function fireCommonShooter(shooter){
  hostile.push({x:shooter.x,y:shooter.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:2.6,r:5,damage:8,color:shooter.minionColor,source:'common-ranged'});
 }
 function waveRadius(){return Math.max(...[camera.x,camera.x+width].flatMap(x=>[camera.y,camera.y+height].map(y=>Math.hypot(x-player.x,y-player.y))))+96;}
-function approachSpeed(z,distance){const t=Math.max(0,Math.min(1,(distance-HORDE.normalDistance)/400)),blend=t*t*(3-2*t);return z.speed+(Math.max(z.speed,HORDE.entrySpeed)-z.speed)*blend;}
+function isPolice(z){return z.enemyType==='expolice'||z.enemyType==='shieldPolice';}
+function preparePoliceCharge(z){const dx=player.x-z.x,dy=player.y-z.y,d=Math.hypot(dx,dy);z.policePhase='aim';z.chargeTimer=.7;z.chargeDx=d?dx/d:1;z.chargeDy=d?dy/d:0;z.chargeRemaining=Math.min(240,d);z.minionBadge='INVESTIDA';z.minionColor='#ffb66c';}
+function tickPoliceCharge(z,dt){
+ const factor=z.stunTime>0?0:z.slowTime>0?.5:1;
+ if(z.policePhase==='aim'){z.chargeTimer-=dt*factor;if(z.chargeTimer<=0)z.policePhase='charge';return;}
+ const x=z.x,y=z.y,travel=Math.min(z.chargeRemaining,340*dt*factor);z.x+=z.chargeDx*travel;z.y+=z.chargeDy*travel;z.chargeRemaining=Math.max(0,z.chargeRemaining-travel);
+ if(segmentDistance(player.x,player.y,x,y,z.x,z.y)<z.r+14)hurtPlayer(12,z.x,z.y);
+ if(z.chargeRemaining<=0)preparePoliceCharge(z);
+}
 function spawnCircularWave(capacity){
  const count=Math.min(HORDE.waveSize,capacity),radius=waveRadius(),start=random(0,Math.PI*2),wave=commonWaveIndex,types=Array(count).fill('chaser');
  if(count===HORDE.waveSize)commonWaveIndex++;
- if(count===HORDE.waveSize&&clock>=300)types[0]='expolice';
- if(count===HORDE.waveSize&&clock>=900&&wave%3===2)types[1]='heavy';
- for(let i=0;i<count;i++){const angle=start+i*Math.PI*2/count,z=createEnemy(player.x+Math.cos(angle)*radius,player.y+Math.sin(angle)*radius,types[i]);z.entrySprint=true;enemies.push(z);}
+ if(policeUnlocked)for(let i=0;i<Math.floor(count/3);i++)types[i]=(wave+i)%2?'shieldPolice':'expolice';
+ if(count===HORDE.waveSize&&clock>=900&&wave%3===2)types[count-1]='heavy';
+ for(let i=0;i<count;i++){const angle=start+i*Math.PI*2/count,z=createEnemy(player.x+Math.cos(angle)*radius,player.y+Math.sin(angle)*radius,types[i]);enemies.push(z);}
 }
 function bossTime(index){return index<BOSS_SCHEDULE.length?BOSS_SCHEDULE[index].at:BOSS_SCHEDULE.at(-1).at+180*(index-BOSS_SCHEDULE.length+1);}
 function spawnBoss(){
@@ -499,11 +509,12 @@ function damageEnemy(z,damage){
  if(player.specialization==='predatorMark'){if(player.markedTarget===z&&player.markTime>0)damage*=1.25;else{player.markedTarget=z;player.markTime=2.5;}}
  if(z===boss&&player.skills.bossHunter)damage*=3;
  if(player.skills.finisher&&z.hp<=(z.maxHp||30)/3)damage*=3;
+ if(z.enemyType==='shieldPolice'&&z.shieldHp>0){const absorbed=Math.min(z.shieldHp,damage);z.shieldHp=Math.max(0,z.shieldHp-damage);z.hit=.12;feedback.push({x:z.x,y:z.y-38,text:'ESCUDO -'+absorbed.toFixed(0),life:.6,color:'#88d9ff'});z.minionBadge='ESCUDO '+Math.ceil(z.shieldHp);if(z.shieldHp===0){preparePoliceCharge(z);effects.push({x:z.x,y:z.y,r:34,life:.4,max:.4,color:'#88d9ff'});sound('hit');}return;}
  z.hp=Math.max(0,z.hp-damage);z.hit=.12;feedback.push({x:z.x,y:z.y-z.r-8,text:damage.toFixed(1),life:.6,color:'#ffffff'});
  for(let i=0;i<5;i++)sparks.push({x:z.x,y:z.y,vx:random(-90,90),vy:random(-90,90),life:.25});
  if(z.hp===0){
   effects.push({x:z.x,y:z.y,r:z.r+16,life:.3,max:.3,color:'#78978b'});
-  if(z===boss){bossDefeated=true;bossKills++;bossReward=true;awardBossPart(z.id);for(const minion of enemies)if(minion.minionOwner===z.id)minion.hp=0;enemies=enemies.filter(minion=>minion.minionOwner!==z.id);hostile=[];hazards=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});}
+  if(z===boss){bossDefeated=true;bossKills++;if(z.id==='scrapper')policeUnlocked=true;bossReward=true;awardBossPart(z.id);for(const minion of enemies)if(minion.minionOwner===z.id)minion.hp=0;enemies=enemies.filter(minion=>minion.minionOwner!==z.id);hostile=[];hazards=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});}
   else{
    sound("kill");kills++;gems.push({x:z.x,y:z.y});scrap.push({x:z.x,y:z.y,value:1,life:60});if(scrap.length>250)scrap=scrap.slice(-250);
    if(state==='playing'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;player.hp=Math.min(player.maxHp,player.hp+20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;player.ammo=Math.min(magazineSize(),player.ammo+1);}}
@@ -667,6 +678,7 @@ function tick(dt){
  collisionGrid=null;bullets=bullets.filter(b=>b.life>0);
  for(const z of enemies){
   if(z.hp<=0)continue;z.hit=Math.max(0,z.hit-dt);const playerDistance=Math.hypot(player.x-z.x,player.y-z.y),chase=player.decoy&&commonPursuer(z)?player.decoy:player,dx=chase.x-z.x,dy=chase.y-z.y,d=Math.hypot(dx,dy)||1;
+  if(z.enemyType==='shieldPolice'&&z.shieldHp===0){tickPoliceCharge(z,dt);if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);continue;}
   let move=1;
   if(z.enemyType==='expolice'){
    const ideal=245,retreat=170;move=d>ideal?1:d<retreat?-.65:0;z.shotCooldown-=dt;
@@ -676,7 +688,7 @@ function tick(dt){
    move=d>ideal?1:d<retreat?-.7:0;z.shotCooldown-=dt;
    if(d<560&&z.shotCooldown<=0){fireBossMinion(z,z.minionType==='conductor');z.shotCooldown=z.minionType==='gunner'?2.2:2.8;}
   }
-  const status=z.stunTime>0?0:z.slowTime>0?.5:1,speed=z.entrySprint?approachSpeed(z,playerDistance):z.speed;z.x+=dx/d*speed*move*status*dt;z.y+=dy/d*speed*move*status*dt;
+  const status=z.stunTime>0?0:z.slowTime>0?.5:1,speed=z.speed;z.x+=dx/d*speed*move*status*dt;z.y+=dy/d*speed*move*status*dt;
   if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);
  }
  tickBoss(dt);tickHazards(dt);
@@ -847,6 +859,7 @@ function draw(){
   ctx.fillStyle='#071a27';ctx.beginPath();ctx.moveTo(g.x,g.y-7);ctx.lineTo(g.x+7,g.y);ctx.lineTo(g.x,g.y+7);ctx.lineTo(g.x-7,g.y);ctx.closePath();ctx.fill();
   ctx.fillStyle='#3cc7f4';ctx.beginPath();ctx.moveTo(g.x,g.y-5);ctx.lineTo(g.x+5,g.y);ctx.lineTo(g.x,g.y+5);ctx.lineTo(g.x-5,g.y);ctx.closePath();ctx.fill();ctx.fillStyle='#e7fcff';ctx.fillRect(g.x-2,g.y-4,3,4);
  }
+ for(const z of enemies)if(z.hp>0&&z.enemyType==='shieldPolice'&&z.policePhase==='aim'){ctx.strokeStyle='rgba(255,182,108,.65)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(z.x,z.y);ctx.lineTo(z.x+z.chargeDx*z.chargeRemaining,z.y+z.chargeDy*z.chargeRemaining);ctx.stroke();}
  for(const z of enemies)if(z.hp>0&&z.x>camera.x-100&&z.x<camera.x+width+100&&z.y>camera.y-120&&z.y<camera.y+height+120)drawZombie(z);
  if(boss&&boss.hp>0){
   const b=boss;

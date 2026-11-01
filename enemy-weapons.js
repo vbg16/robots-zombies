@@ -2,6 +2,7 @@
 (function(root){
  'use strict';
  root.drawEnemyWeapon=function(ctx,z,player){
+  if(z.enemyType==='shieldPolice'&&z.shieldHp>0){ctx.save();ctx.translate(10,2);ctx.fillStyle='#07121b';ctx.fillRect(-10,-22,22,42);ctx.fillStyle='#42647b';ctx.fillRect(-8,-20,18,38);ctx.fillStyle='#a8ecff';ctx.fillRect(-6,-16,14,7);ctx.fillStyle='#102638';ctx.fillRect(-5,-14,12,3);ctx.fillStyle='#88d9ff';ctx.fillRect(-1,-3,4,14);ctx.fillRect(-6,2,14,4);ctx.fillStyle='#c5d18a';ctx.fillRect(-13,4,7,6);ctx.restore();return;}
   const type=z.enemyType==='expolice'?'rifle':z.minionType==='gunner'?'industrial':z.minionType==='conductor'?'coil':null;
   if(!type||!player)return;
   const angle=Math.atan2(player.y-z.y,player.x-z.x);
