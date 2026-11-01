@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 390" role="img" aria-labelledby="logo-title logo-desc">
+  <title id="logo-title">SCREWVIVORS — A vingança tem 9 vidas</title>
+  <desc id="logo-desc">Um gato inteligente pilota um robô protótipo dentro de um símbolo de arena infinita.</desc>
+  <defs>
+    <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#31485b"/>
+      <stop offset=".55" stop-color="#172a3b"/>
+      <stop offset="1" stop-color="#0a1725"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#a7f3ff"/>
+      <stop offset="1" stop-color="#35b9dc"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Broken orbit: the endless arena and the cat's improvised route through it. -->
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter" shape-rendering="crispEdges">
+    <path d="M170 76c-57-42-122-4-122 59 0 55 59 93 109 58l60-45c49-37 105-4 105 48 0 54-57 83-106 47" stroke="#152b3a" stroke-width="20"/>
+    <path d="M170 76c-57-42-122-4-122 59 0 55 59 93 109 58l60-45c49-37 105-4 105 48 0 54-57 83-106 47" stroke="#74d8ed" stroke-width="8"/>
+    <path d="M50 105l-20 28 34 2M278 265l28-21-2 34" stroke="#e1bd7a" stroke-width="9"/>
+  </g>
+
+  <!-- Cat ears, a salvaged prototype shell, and the two distinct pilot eyes. -->
+  <g shape-rendering="crispEdges" stroke-linejoin="miter">
+    <path d="M91 102V61h25v17h20V59h27v43l-14 15H106z" fill="#091624" stroke="#d8e2df" stroke-width="7"/>
+    <path d="M101 94V69h9v20h18V69h9v25l-11 11h-15z" fill="#d4b775"/>
+    <path d="M83 115l19-14h62l19 14v61l-18 20H101l-18-20z" fill="url(#steel)" stroke="#c7d1cf" stroke-width="7"/>
+    <path d="M94 129h78v30H94z" fill="#081522" stroke="#3c6375" stroke-width="5"/>
+    <path d="M102 137h62v14h-62z" fill="url(#cyan)"/>
+    <path d="M111 140h11v8h-11zM145 140h11v8h-11z" fill="#f4d18a"/>
+    <path d="M89 174h18v11H89zM159 174h18v11h-18z" fill="#4c6470"/>
+    <path d="M122 177h22v15h-22z" fill="#132c3c" stroke="#67cde3" stroke-width="4"/>
+    <path d="M128 182h10v6h-10z" fill="#e8c47d"/>
+    <path d="M72 133h11v27H72zM183 133h11v27h-11z" fill="#a5bac0"/>
+    <path d="M75 142h8v9h-8zM183 142h8v9h-8z" fill="#d7b674"/>
+    <path d="M94 117h10v5H94zM162 117h10v5h-10z" fill="#eff7f4"/>
+  </g>
+
+  <!-- Name as one wordmark; warm ivory marks the machine, cyan the survivor. -->
+  <g font-family="Consolas, 'Courier New', monospace" font-weight="900" text-anchor="start">
+    <text x="338" y="208" font-size="81" letter-spacing="-5" fill="#06111b" stroke="#06111b" stroke-width="18" stroke-linejoin="bevel">SCREW</text>
+    <text x="338" y="208" font-size="81" letter-spacing="-5" fill="#f1e9d8" stroke="#b6c6ca" stroke-width="2" paint-order="stroke fill">SCREW</text>
+    <text x="553" y="208" font-size="81" letter-spacing="-5" fill="#06111b" stroke="#06111b" stroke-width="18" stroke-linejoin="bevel">VIVORS</text>
+    <text x="553" y="208" font-size="81" letter-spacing="-5" fill="#7dd9ee" stroke="#3e9eb8" stroke-width="2" paint-order="stroke fill">VIVORS</text>
+    <path d="M340 238h566" stroke="#d8b878" stroke-width="5" shape-rendering="crispEdges"/>
+    <path d="M340 252h116" stroke="#72d7ec" stroke-width="5" shape-rendering="crispEdges"/>
+    <text x="340" y="306" font-family="Consolas, 'Courier New', monospace" font-size="21" letter-spacing="5" fill="#d5e0df">A VINGANÇA TEM 9 VIDAS</text>
+    <text x="341" y="348" font-family="Consolas, 'Courier New', monospace" font-size="12" letter-spacing="3" fill="#7894a6">DR. BIRUTA / PROTÓTIPO 001</text>
+  </g>
+</svg>

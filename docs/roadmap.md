@@ -4,6 +4,8 @@
 
 O criador aprovou o [plano de estabilização](plano-estabilizacao-4-semanas.md) em 29/10/2026. Ordem atual: testes e seleção → telemetria/balanceamento/feedback → modularização e automação de checks → testes com jogadores e decisão sobre expansão. As etapas antigas abaixo ficam como referência de longo prazo; não autorizam expandir antes dessa avaliação. [Roteiro da Semana 1](teste-semana-1.md). Início e datas das semanas ainda não definidos; status inicial: planejado.
 
+**Atualização autorizada — 31/10/2026:** a pedido do criador, esta tarefa passa a integrar por etapas os sistemas compatíveis de *20 Minutes Till Dawn*. A autorização substitui, para este escopo, a pausa anterior à expansão de conteúdo. Cada etapa deve preservar o contrato atual e passar as barreiras de [regressão](plano-integracao-20-minutes-till-dawn.md); persistência, custos e outras decisões ainda pendentes continuam sem valores inventados.
+
 ## Base técnica aprovada — 27/10/2026
 
 O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTML, CSS e JavaScript, aproveitando o código existente, sem migrar para Godot agora. O assistente ficará responsável pela maior parte da programação; o criador orientará as decisões e testará as versões. A prioridade é validar movimento, disparo manual e sinergias. Empacotamento para Windows/Linux e integração Steam serão avaliados posteriormente; nenhuma ferramenta de empacotamento ou biblioteca adicional foi escolhida. Esta decisão não altera as regras de design nem significa que as funcionalidades planejadas estejam implementadas.
@@ -54,14 +56,13 @@ Recorte recomendado: dois chassis, duas armas, quatro peças, cinco skills com s
 
 ### Etapa 3 — Partida completa
 
-- Sobrevivência de vinte minutos.
-- Ex-policiais após cinco minutos e perseguidores grandes após quinze.
+- Sobrevivência sem fim automático; marcos de 5 e 15 minutos já ativam inimigos comuns especializados (frequência e atributos experimentais).
 - Chefes com mecânicas próprias e postes destrutíveis.
 - Dificuldade escalável e armas evoluindo conforme regra aprovada.
 - Testes de builds extremas e desempenho.
 - Teste de viabilidade do desafio PROT-0001 sem skills.
 
-**Critério proposto:** completar uma partida com vitória e outra com derrota, com progressão e recompensas corretas; medir desempenho na máquina mínima que ainda será escolhida.
+**Critério proposto:** validar uma tentativa longa e uma derrota natural, com progressão/recompensas corretas e sem encerramento automático; medir desempenho na máquina mínima que ainda será escolhida. Vitória cronometrada não pertence ao modo principal aprovado.
 
 ### Etapa 4 — Preparação para Steam
 
@@ -86,6 +87,18 @@ Avançar em direção ao alvo declarado de uma fase, dez chefes, dez armas, vint
 3. Definir as três derivações de cada skill.
 4. Especificar PROT-0001, arma padrão e controles.
 5. Validar um primeiro combate antes de ampliar a produção de conteúdo.
+
+## Ondas circulares de zumbis — 31/10/2026
+
+Atualizado o surgimento dos zumbis para ondas simultâneas de até quatro, distribuídas uniformemente em círculo ao redor do jogador, dentro da área visível. A primeira onda aparece após dois segundos. Os intervalos encurtam conforme o relógio avança, preservando aproximadamente a curva de ritmo anterior por inimigo; o limite da horda continua ativo e limita a última onda ao espaço disponível. Valores ainda precisam de avaliação de jogabilidade no navegador.
+
+## Cronologia de inimigos comuns — 31/10/2026
+
+A partir de 5 min, uma vaga de cada onda completa é ocupada por um ex-policial atirador que mantém distância e dispara projéteis leves. A partir de 15 min, uma a cada três ondas completas acrescenta um perseguidor grande, com mais vida e área de colisão e menor velocidade. Ondas incompletas permanecem comuns. Os papéis são identificados por texto, surgem no mesmo anel circular e compartilham o teto global da horda. Parâmetros experimentais. Testes cobrem limiares, proporção, ataques, formação, vagas disponíveis e reset da cadência. Falta balanceamento por playtest.
+
+## Empurrão ao receber dano — 31/10/2026
+
+Ao receber dano real, o jogador é deslocado 48 px na direção oposta à origem do golpe. A reação cobre contato com zumbis e chefes, projéteis e áreas de ataque; impactos absorvidos pelo escudo não deslocam o jogador. Distância provisória, aguardando avaliação no navegador.
 
 ## Entrega de combate — 27/10/2026
 

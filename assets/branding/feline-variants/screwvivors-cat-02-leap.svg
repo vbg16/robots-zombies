@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 280" role="img" aria-labelledby="t d">
+ <title id="t">SCREWVIVORS — Salto de caça</title><desc id="d">Silhueta de um gato em salto, com a cauda desenhando um arco veloz.</desc>
+ <g shape-rendering="crispEdges" stroke-linejoin="round">
+  <path d="M45 171c-8-28 7-54 36-63 28-9 51 2 60 19 7 15 0 29-14 33-13 3-24-5-21-16 2-7 9-10 15-7-2-15-23-21-42-12-20 10-24 32-14 52 7 14 19 23 36 27" fill="none" stroke="#57c9e8" stroke-width="10"/>
+  <path d="M122 169c23-17 41-40 56-60l-13-40 38 22 31-29-9 52c19 8 27 25 22 42l-24 15-31-8-25 22-35-1-19 31-23-8 12-27z" fill="#eee9db"/>
+  <path d="M164 91 170 74l23 14-6 12zM208 89l19-18-4 26z" fill="#5b7480"/>
+  <path d="M204 106l17-3 2 8-16 5z" fill="#71d7ed"/><path d="M213 107h4v6h-4z" fill="#f2c878"/>
+  <path d="m238 120 21-5-9 13 13 2-22 7z" fill="#eee9db"/>
+  <path d="M175 132c-26 4-43 24-61 35l-23 1 7 17 34-1 38-19 28 12 26-12-10-19-26-5z" fill="#172d40"/>
+  <path d="M139 168 99 187l-10 22 19 2 27-26 26-7zM201 170l28 22 26 7-4 16-36-7-31-24z" fill="#eee9db"/>
+  <path d="M85 210h29v8H83zM244 211h25v8h-27z" fill="#d9bd80"/>
+  <path d="m177 145-22 12m6-20-21 12m42 9-22 12" stroke="#71d7ed" stroke-width="4"/>
+ </g>
+ <text x="310" y="175" font-family="Impact,'Arial Black',sans-serif" font-weight="900" font-size="102" letter-spacing="-3" fill="#091725" stroke="#091725" stroke-width="11" paint-order="stroke fill">SCREW<tspan fill="#091725">VIVORS</tspan></text>
+ <text x="310" y="175" font-family="Impact,'Arial Black',sans-serif" font-weight="900" font-size="102" letter-spacing="-3" fill="#eee9db" stroke="#b8c8cb" stroke-width="1.5" paint-order="stroke fill">SCREW<tspan fill="#71d7ed">VIVORS</tspan></text>
+</svg>

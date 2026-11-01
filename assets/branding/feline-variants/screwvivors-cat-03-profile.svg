@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 280" role="img" aria-labelledby="t d">
+ <title id="t">SCREWVIVORS — Olhar do sobrevivente</title><desc id="d">Perfil felino azul com olho dourado e bigodes luminosos.</desc>
+ <g shape-rendering="crispEdges">
+  <path d="M44 214c17-17 24-40 25-69 1-34 20-66 54-76l22-38 31 35c39 1 65 26 68 61l28 27-31 12-15 31-38 5-31 30-47-13-32 18z" fill="#183348"/>
+  <path d="m91 112 27-28 25 23-20 18zM169 91l24-22 20 32-23 7z" fill="#e8e5da"/>
+  <path d="M148 108c19-11 39-8 53 5l-23 17-29-2z" fill="#071725"/>
+  <path d="M156 112c13-8 27-6 38 2l-16 10-21-1z" fill="#71d7ed"/><path d="M173 113h5v10h-5z" fill="#f2c878"/>
+  <path d="m228 139 22 5-21 11 12 5-27 3z" fill="#eee9db"/>
+  <path d="m218 158 40-5m-42 13 38 7m-44-28 38-17" stroke="#84d9eb" stroke-width="4"/>
+  <path d="M107 158c25 15 50 19 72 17l18 27-33 25-45-14-35 11-22-14 21-24z" fill="#0d2032"/>
+  <path d="M92 196 59 210l-4 13 42-4 31-13z" fill="#d6bd84"/>
+  <path d="M195 198c20 0 31-9 43-19" fill="none" stroke="#71d7ed" stroke-width="6"/>
+ </g>
+ <text x="310" y="175" font-family="Impact,'Arial Black',sans-serif" font-weight="900" font-size="102" letter-spacing="-3" fill="#091725" stroke="#091725" stroke-width="11" paint-order="stroke fill">SCREW<tspan fill="#091725">VIVORS</tspan></text>
+ <text x="310" y="175" font-family="Impact,'Arial Black',sans-serif" font-weight="900" font-size="102" letter-spacing="-3" fill="#eee9db" stroke="#b8c8cb" stroke-width="1.5" paint-order="stroke fill">SCREW<tspan fill="#71d7ed">VIVORS</tspan></text>
+</svg>

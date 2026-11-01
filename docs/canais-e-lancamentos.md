@@ -20,3 +20,7 @@ Base inicial: 99522e5, última revisão registrada na main. Estado: CANDIDATA HI
 6. Fazer publicação externa somente quando autorizada. Guardar a tag anterior para retorno.
 
 Até existir uma ficha aprovada, o canal público continua candidato. Não usar aprovação de design como substituto de aprovação do pacote de lançamento.
+
+## Download padrão no GitHub
+
+A partir da BUILD33, main acompanha a versão de desenvolvimento enviada. Code → Download ZIP na main deve conter a mesma revisão de codex/desenvolvimento. Para manter isso, após validar e registrar as mudanças, enviar o mesmo commit às duas referências sem force-push. O canal codex/publico continua independente e não deve ser atualizado automaticamente. Um commit local ou uma branch local não atualiza o ZIP remoto; sempre verificar os hashes com git ls-remote depois do push.

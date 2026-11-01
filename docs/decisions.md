@@ -23,6 +23,15 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 | Violência | Pouco sangue, com algum conteúdo violento |
 | Conteúdo-alvo | Uma fase, dez chefes, dez armas, vinte peças e quinze skills com três derivações |
 
+## Atualização aprovada — 31/10/2026
+
+| Tema | Regra atual | Interpretação superada |
+| --- | --- | --- |
+| Arena | Mundo sem bordas, exploração contínua e sobrevivência sem tempo final | Vitória automática ao sobreviver vinte minutos |
+| Dificuldade | Horda cresce com o tempo e chefes retornam em ciclos | Apenas três chefes e vida fixa para inimigos comuns |
+| Arte e HUD | Pixel art de era 32-bit; HUD segue a colagem azulada enviada pelo criador | Composição experimental atual |
+| PROT-0001 inicial | Silhueta simples e compacta aprovada em 31/10; manter a paleta aprovada | Composição humanoide pesada com ombreiras largas como alvo do chassi inicial |
+
 ## Esclarecimentos posteriores — prevalecem sobre ambiguidades anteriores
 
 | Tema | Regra atual | Interpretação que não deve ser aplicada |
@@ -34,6 +43,11 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 | Evolução de arma | Pode ocorrer depois de um nível X, ainda indefinido | Confundir evolução com fusão de armas |
 | Ranking | Mundial | Limitar o produto planejado a recordes locais |
 | Chinês | Simplificado, com menor prioridade agora | Tratar localização chinesa como bloqueio para o protótipo |
+| Retenção de materiais | Parafusos coletados e peças de chefe conquistadas ficam após a morte; habilidades da tentativa continuam temporárias | Apagar materiais já coletados ao morrer |
+
+## Clarificação aprovada — retenção de materiais, 31/10/2026
+
+O criador confirmou que parafusos e peças de chefe coletados numa tentativa permanecem após a morte. O protótipo salva esses valores localmente no navegador e concede um parafuso por coleta de sucata e uma peça identificada por chefe derrotado. Esses valores de aquisição são experimentais. Drops de parafuso não coletados desaparecem ao reiniciar. Custos, instalação, compatibilidade e desbloqueios ainda não foram definidos; esta decisão não aprova árvore de atributos permanentes, loja ou fabricação.
 
 ## Nome e recomendações
 
@@ -53,9 +67,22 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 3. Quais são os atributos e a habilidade do PROT-0001? Qual é sua arma padrão?
 4. As três derivações de uma skill são níveis, alternativas exclusivas ou ramos combináveis?
 5. Qual é o nível X e o efeito da evolução de cada arma?
-6. Quais recursos e peças são mantidos na derrota e na vitória? O que ocorre com peças não instaladas?
+6. Custos, instalação, compatibilidade e destino de peças não instaladas? A retenção após a morte foi respondida em 31/10: parafusos coletados e peças de chefe permanecem.
 7. As peças dos chefes são aplicadas na partida ou apenas na garagem?
 8. Como os slots, as compatibilidades e os custos de montagem funcionam?
+
+## Implementação experimental delegada — garagem, 31/10/2026
+
+No escopo da integração de progressão entre tentativas, foram implementados preços provisórios para desbloquear equipamento, sem afirmar que sejam balanceamento final ou aprovação comercial do criador. Ver a tabela completa em [game-design.md](game-design.md).
+
+- Perfis novos começam com PROT-0001 e Metralhadora; BAST-0002 custa 24 parafusos.
+- Armas comuns custam entre 8 e 18 parafusos. Armas assinatura custam de 20 a 26 e também consomem uma peça do chefe associado: Brutamontes (Canhão de precisão, Arpão), Sucateiro (Granadas, Foguetes) ou Bobina-Rainha (Laser, Tesla).
+- O primeiro desbloqueio de arma não exige peça de chefe; assim, há progressão inicial antes da primeira vitória de chefe.
+- Todas as armas cabem no slot atual dos dois chassis. Peças são chaves consumíveis para projetos, ainda não instaladas em chassis.
+- Compras só desbloqueiam conteúdo; nenhum atributo é concedido permanentemente. Loadout continua fixo depois que a tentativa começa.
+- Saves do perfil v1 preservam parafusos/peças e recebem todo o catálogo anterior já desbloqueado. O formato v2 guarda inventário de chassis e armas; falha de salvamento reembolsa o custo.
+
+Custos, ordem e economia são experimentais e devem ser revistos após playtest. Instalação física de peças, chassis com mais slots e evoluções de arma seguem pendentes.
 
 ### Necessárias antes de comprometer o lançamento
 
@@ -88,3 +115,11 @@ A seleção de armas e o ranking de skills dependem de teste real e não estão 
 ## Árvores, multiplicadores e munição — 30/10/2026
 
 O criador solicitou que cada melhoria inicial abra três evoluções semelhantes, que escolhas adquiridas saiam do sorteio e que maiores vantagens exijam maiores custos. Pediu efeitos condicionais, reações a dano com dois minutos de recarga e carregadores/recarga por arma, com maior tempo para armamentos pesados. A implementação experimental contém nove raízes e três evoluções combináveis por raiz, totalizando 36 nós únicos. A preferência por multiplicadores substitui a regra anterior de bônus percentuais aditivos. Os números de balanceamento foram propostos pelo desenvolvimento e ainda não foram aprovados em teste humano. Detalhes em [Árvores e munição](arvores-e-municao.md).
+
+## Reação de empurrão ao dano — 31/10/2026
+
+**Aprovado pelo criador:** ao receber dano, o jogador deve ser deslocado na direção oposta ao golpe para transmitir sensação de empurrão. Parâmetro experimental: 48 px para longe da origem do ataque. Golpes absorvidos integralmente pelo escudo não deslocam o jogador. O valor pode ser ajustado após teste de jogabilidade.
+
+## Especialização de chassi — decisão do criador
+
+Escolher uma entre três especializações temporárias próprias do robô ao atingir o nível 10. Decisão recebida diretamente do criador nesta integração. Não define o nível de evolução de armas, não adiciona slots e não permite trocar equipamento em combate. Efeitos das especializações ainda serão implementados e validados.

@@ -1,5 +1,7 @@
 # Árvores de melhorias e munição — protótipo experimental
 
+> Atualização 31/10/2026: horários abaixo representam os primeiros encontros. A arena não tem fim; após esses chefes iniciais, o ciclo se repete com vida crescente. Inimigos comuns também ganham vida e velocidade com o tempo. Sobrevive-se até a derrota, sem vitória automática por duração.
+
 > **Revisão atual de UI e balanceamento:** [custos graduais, nomes de árvores e indicadores de recarga](revisao-ui-balanceamento.md). Os custos históricos abaixo (metade, recarga ×2/×3) foram substituídos pela tabela dessa revisão. Mecânicas de munição, condições e cronograma de chefes continuam válidas.
 
 Implementação de 30/10/2026, por solicitação do criador. Substitui o sorteio de melhorias isoladas/repetíveis e os bônus percentuais anteriores. Os valores ainda precisam de teste humano; não representam balanceamento aprovado.
@@ -21,6 +23,14 @@ São nove raízes e três evoluções por raiz: 36 escolhas únicas. Inicialment
 | Carga explosiva | Onda expandida | Pulso de retaliação | Sobrecarga reativa |
 
 Os cartões mostram benefício, custo e parentesco. Todos os efeitos e custos somem no reinício. Armas e chassis continuam escolhidos na garagem. Ricochete não é oferecido ao disco de retorno.
+
+## Surgimento da horda
+
+Zumbis aparecem em ondas de até quatro, simultaneamente e espaçados de forma uniforme em um círculo ao redor do jogador, dentro da área visível. A primeira onda chega após dois segundos. O intervalo entre ondas diminui com o tempo, usando a curva anterior por zumbi multiplicada pelo tamanho da onda; assim a horda acelera sem quadruplicar a taxa total desde o começo. O limite de inimigos continua valendo e reduz o tamanho da onda quando resta menos espaço.
+
+## Reação ao dano
+
+Ao sofrer dano de um inimigo, chefe, projétil ou área de ataque, o jogador é deslocado 48 px para longe da origem do golpe. O escudo que absorve completamente o impacto não aplica empurrão. A distância é um valor experimental de protótipo, sujeito a ajuste após teste de jogo.
 
 ## Multiplicadores e condições
 
@@ -76,7 +86,7 @@ O HUD mostra munição atual/máxima, duração e progresso de recarga, além do
 
 ## Validação
 
-`node tests/combat.cjs` verifica controles, câmera, vida, horda, chefe, três minutos de simulação, árvores, exclusão de escolhas, pré-requisitos, multiplicadores, condições de ativação, recargas das doze armas, rajada parcial, pausa, morte e reinício. `node tests/sprite-animation.cjs` verifica o contrato do renderizador opcional.
+`node tests/combat.cjs` verifica controles, câmera, integridade, horda circular escalável, ausência de novas ondas durante chefe, retorno de chefe, dez minutos sem encerramento forçado, árvores, exclusão de escolhas, pré-requisitos, multiplicadores, condições de ativação, recargas das doze armas, rajada parcial, pausa, morte e reinício. `node tests/sprite-animation.cjs` verifica o contrato do renderizador opcional.
 
 Os testes usam DOM/canvas simulados em Node. Não substituem conferência visual no navegador, teste com jogadores ou aprovação dos novos valores. Os inimigos continuam com vida e velocidade base fixas; os módulos podem aplicar estados temporários.
 
@@ -91,6 +101,6 @@ A moldura e sombra externas da arena foram removidas; a área segue com 90% da t
 | Sucateiro | 4:00 | 1300 | Marca três círculos verdes próximos da posição capturada do jogador; após 1,4 s, viram áreas danosas por 5 s. Cada contato causa 12 de dano, respeitando a proteção após golpe. |
 | Bobina-Rainha | 7:00 | 1800 | Alterna onda elétrica expansiva (14 de dano) e rajada de cinco projéteis em cone (12 por impacto), com aviso roxo de 1,1 s. |
 
-Há somente um chefe vivo por vez: encontros vencidos no relógio ficam pendentes até derrotar o anterior e concluir sua recompensa. Cada morte concede uma única recompensa temporária e limpa os perigos e tiros especiais. A vitória continua por sobrevivência aos dez minutos, mesmo sem derrotar os três; o resultado informa a quantidade derrotada. Não há crescimento de vida dos zumbis comuns.
+Há somente um chefe vivo por vez: encontros vencidos no relógio ficam pendentes até derrotar o anterior e concluir sua recompensa. Cada morte concede uma única recompensa temporária e limpa os perigos e tiros especiais. Ondas novas de zumbis comuns ficam suspensas enquanto o chefe está previsto, vivo ou aguardando escolha da recompensa; o contador retoma depois da escolha, sem remover zumbis já presentes na arena. Não há vitória por duração: a sobrevivência e os chefes continuam em ciclos, com dificuldade crescente.
 
 Desenhos dos chefes são provisórios, feitos em canvas. Testes automatizados cobrem recarga parcial das doze armas, sequência e espera entre chefes, ausência de dano durante avisos, áreas, ondas, cones, pausa, limpeza e reinício. Avaliação visual no navegador e balanceamento com jogadores continuam pendentes.

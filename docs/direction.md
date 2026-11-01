@@ -7,7 +7,7 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 
 ## Conceito confirmado
 
-**Screwvivors** é um jogo de sobrevivência no estilo Horde / Bullet Heaven, para um jogador. Um gato inteligente pilota robôs protótipos em uma cidade tomada por zumbis. O jogador prepara seu equipamento na garagem e tenta sobreviver a vinte minutos de combate com disparo manual, combinando suas escolhas iniciais com habilidades obtidas durante a partida.
+**Screwvivors** é um jogo de sobrevivência no estilo Horde / Bullet Heaven, para um jogador. Um gato inteligente pilota robôs protótipos em uma cidade tomada por zumbis. O jogador prepara seu equipamento na garagem e sobrevive pelo maior tempo possível em uma arena sem bordas, com disparo manual e habilidades obtidas durante a partida.
 
 O nome foi recebido positivamente e adotado como nome de trabalho. Disponibilidade na Steam e possíveis conflitos de marca ainda não foram verificados.
 
@@ -23,7 +23,7 @@ O nome foi recebido positivamente e adotado como nome de trabalho. Disponibilida
 
 | Jogo | Papel na direção |
 | --- | --- |
-| 20 Minutes Till Dawn | Referência declarada; perspectiva de câmera semelhante e partidas de vinte minutos |
+| 20 Minutes Till Dawn | Referência declarada para a perspectiva superior e leitura de combate; a duração de Screwvivors é infinita |
 | Brotato | Referência declarada para o projeto; elementos específicos a estudar |
 | Vampire Survivors | Referência declarada para o projeto; elementos específicos a estudar |
 | OneBit Adventure | Referência declarada para o projeto; elementos específicos a estudar |
@@ -40,12 +40,14 @@ O tom é cômico, pós-apocalíptico e robotizado. A violência terá algum sang
 
 ## Direção audiovisual confirmada
 
-- Pixel art 2D.
+- Pixel art 2D com tratamento visual de era 32-bit, solicitado em 31/10/2026.
 - Perspectiva semelhante à de 20 Minutes Till Dawn.
 - Uma cidade destruída como cenário inicial.
 - Música e efeitos com identidade pós-apocalíptica e robotizada.
+- A HUD segue a colagem do criador: robô e integridade no alto à esquerda; chefe no centro; tempo, abates e minimapa no alto à direita; munição e módulos na parte inferior.
+- A arena não tem limite de mundo. A sobrevivência não tem tempo final; a dificuldade e os chefes continuam escalando.
 
-Resolução base, escala dos sprites, paleta, animações, trilha e interface final ainda serão definidos. Não há assets finais aprovados.
+Resolução base, escala dos sprites, animações e trilha ainda serão definidos. A colagem anexada em 31/10/2026 é a referência aprovada para composição da HUD e atmosfera azulada. Assets finais ainda requerem produção.
 
 ## Produto e lançamento
 
@@ -70,6 +72,6 @@ Resolução base, escala dos sprites, paleta, animações, trilha e interface fi
 
 > Screwvivors — Sobreviva sem perder nenhum parafuso.
 
-> Um gato genial. Robôs improvisados. Uma cidade infestada. Combine armas, peças e habilidades absurdas para sobreviver a vinte minutos de ciência duvidosa.
+> Um gato genial. Robôs improvisados. Uma cidade infestada. Combine armas, peças e habilidades absurdas para sobreviver o máximo possível à ciência duvidosa.
 
 Esses textos são propostas editoriais, não descrições finais aprovadas para a loja.

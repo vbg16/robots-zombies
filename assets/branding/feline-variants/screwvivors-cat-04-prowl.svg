@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 280" role="img" aria-labelledby="t d">
+ <title id="t">SCREWVIVORS — Caçador furtivo</title><desc id="d">Gato em posição de caça, baixo e atento, com brilho azul no olho.</desc>
+ <g shape-rendering="crispEdges" stroke-linejoin="round">
+  <path d="M45 91c31-39 87-37 105-2 10 18 3 37-13 43-14 5-28-4-25-17 2-8 9-13 17-11-2-17-27-21-46-10-18 10-27 29-22 51 5 20 25 31 46 27" fill="none" stroke="#5bcbe8" stroke-width="9"/>
+  <path d="M110 138 127 99l32 28 24-29 18 43c18 11 39 13 58 21l9 20-34 6-44-14-35 15-37-9-25 10-20-10 23-22z" fill="#e8e5da"/>
+  <path d="m130 119 5-15 14 13zM177 118l13-15 5 21z" fill="#718792"/>
+  <path d="M172 138h20l2 7-20 4z" fill="#67d4eb"/><path d="M180 139h4v7h-4z" fill="#efc577"/>
+  <path d="m222 160 17 2-11 9 11 4-20 2z" fill="#213b4c"/>
+  <path d="M142 156c-20 13-38 17-58 18l-19 20 16 9 42-14 32-7 26 14 39-10-17-21-36 1z" fill="#183348"/>
+  <path d="m96 182-25 4-18 24 23-2 28-15zm91 5 31 16 23 3-6 13-31-5-33-16z" fill="#e8e5da"/>
+  <path d="M53 215h27m-27 7h20m156-2h28m-24 7h18" stroke="#d8b878" stroke-width="4"/>
+  <path d="m82 167 26-5m-23 13 25-7" stroke="#5bcbe8" stroke-width="3"/>
+ </g>
+ <text x="310" y="175" font-family="Impact,'Arial Black',sans-serif" font-weight="900" font-size="102" letter-spacing="-3" fill="#091725" stroke="#091725" stroke-width="11" paint-order="stroke fill">SCREW<tspan fill="#091725">VIVORS</tspan></text>
+ <text x="310" y="175" font-family="Impact,'Arial Black',sans-serif" font-weight="900" font-size="102" letter-spacing="-3" fill="#eee9db" stroke="#b8c8cb" stroke-width="1.5" paint-order="stroke fill">SCREW<tspan fill="#71d7ed">VIVORS</tspan></text>
+</svg>

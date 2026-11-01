@@ -1,0 +1,173 @@
+# Integração de sistemas de referência — 20 Minutes Till Dawn
+
+**Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
+
+## Regra de adaptação
+
+Screwvivors pode aproveitar princípios de progressão, combate e legibilidade. Não reutilizar nomes, personagens, arte, texto de upgrades, áudio ou código de *20 Minutes Till Dawn*. A versão própria continua centrada no gato piloto, robôs, sucata, zumbis e na cidade do Dr. Biruta.
+
+O contrato atual que toda etapa deve preservar é: arena sem bordas e sem tempo final; mira e disparo manuais; chassi e armas escolhidos na garagem e fixos durante a tentativa; skills temporárias que se perdem ao reiniciar; hordas circulares crescentes; chefes recorrentes. A referência do 20MTD não altera esses preceitos.
+
+## Mapa dos sistemas
+
+| Sistema de referência | Estado em Screwvivors | Caminho de adaptação |
+|---|---|---|
+| Mira direcional e disparo ativo | **Já existe.** | Proteger mira manual, disparo enquanto pressionado e movimento simultâneo. |
+| XP, upgrades e sinergias de build | **Já existe — em estabilização.** Há 36 nós temporários em nove raízes, com três derivações por raiz. | Expandir apenas com novas skills originais e seus efeitos, custos e combinações documentados e testados. |
+| Bênçãos escolhidas no início da tentativa | **Adaptado parcialmente.** “Gambiarras do Biruta” surgem nos níveis 3, 6 e 9 como três escolhas únicas entre seis efeitos temporários; também podem ser puladas. | A cadência, efeitos e pool são experimentais. Não persistir na garagem. Testar escolha de teclado, seleção obsoleta, ausência de repetição, reset e corrida longa. |
+| Tomes/recompensas de chefe | **Adaptado parcialmente.** Chefes curam, entregam uma peça persistente e abrem um “Experimento do Biruta” temporário com vantagem e custo. Após esgotar seis opções únicas na tentativa, a recompensa volta a oferecer um módulo comum. | Efeitos e valores são experimentais. Ajustar só após playtest; nunca salvar os experimentos no perfil. A peça persistente permanece independente da escolha. |
+| Runas e progresso entre tentativas | **Adaptado parcialmente.** Perfil local conserva parafusos/peças após a morte e usa esses recursos para desbloquear equipamento sem bônus permanentes de atributos. | Custos e velocidade de progressão são experimentais. Não adicionar vantagens de atributo que persistam entre tentativas. |
+| Elenco de personagens e armas | **Adaptado parcialmente.** Perfis novos começam com PROT-0001 + Metralhadora; compras na garagem desbloqueiam as outras armas e BAST-0002. Saves v1 migram com acesso a todo o catálogo do protótipo preservado. | Preços e cadência são experimentais; slots avançados e especializações seguem pendentes. |
+| Especializações de personagem/arma | **Chassi: seis efeitos implementados no desenvolvimento e escolha no nível 10. Armas: pendentes.** | Escolher uma entre três especializações temporárias próprias do robô no nível 10. Não permitir troca do loadout durante combate. |
+| Variedade e encontros de inimigos | **Implementada em etapas.** Há perseguidores comuns, um ex-policial atirador em cada onda completa a partir de 5 min, um perseguidor grande em uma de cada três ondas completas a partir de 15 min, três chefes e lacaios próprios para cada chefe. | Balancear frequência e atributos em playtest. Inimigos novos continuam na formação circular e no teto global; preservar pausa de ondas comuns, avisos e limpeza dos lacaios ao fim do chefe. |
+| Modos cronometrados e loop pós-vitória | **Não importar ao modo padrão.** | O modo aprovado já é infinito. Não criar vitória cronometrada nem preservar skills após a morte. Um modo opcional exigiria decisão própria. |
+| Reroll, compêndio, estatísticas e orientação de controle | **Base implementada.** Controles, diagnóstico, manual e uma renovação de oferta por tentativa. | Renovação experimental só no level-up comum; exige alternativas elegíveis suficientes, exclui as opções descartadas e consome a carga da tentativa. Validar o impacto na construção de builds. |
+| Recursos de plataforma (conquistas, nuvem, ranking) | **Fora do protótipo local atual.** | Planejar depois da persistência local e das regras de integridade do ranking. Não transmitir dados de jogador sem decisão explícita. |
+
+A página oficial da Steam lista builds, runas, tomes de chefe, mira/disparo ativos, arsenal e personagens desbloqueáveis. O anúncio “Blessings & Curses”, de outubro de 2024, identificava sua atualização como teste fechado naquele momento; descrevia bênçãos nos níveis iniciais, curses em baús de chefe com penalidades, lacaios próprios para chefes sem zumbis comuns durante a luta, runas sempre ativas após compra e especializações de personagem. Anúncios de janeiro e março de 2024 também apresentavam rerolls, compêndio/estatísticas e loop pós-vitória como propostas em desenvolvimento. Esses anúncios alimentam o mapa, sem presumir que todas essas propostas sejam a versão pública atual. Em Screwvivors, a arena aprovada não tem vitória nem fim cronometrado, então o loop pós-vitória não se aplica ao modo principal. [Página oficial](https://store.steampowered.com/app/1966900/20_Minutes_Till_Dawn/?l=english) · [Arquivo oficial de anúncios](https://steamcommunity.com/app/1966900/allnews/).
+
+## Etapas e regras para não regredir
+
+Cada implementação deve registrar no mesmo conjunto de mudanças: comportamento pretendido, regra que não pode quebrar, teste automatizado correspondente e documentação atualizada. Não ampliar uma etapa enquanto a suíte de base estiver vermelha.
+
+### Etapa 0 — Contrato de regressão
+
+- `node --check game.js` precisa passar.
+- `node tests/combat.cjs` precisa passar; novas mecânicas de estado, reset, pausa e combate ganham verificações nesse arquivo.
+- `node tests/sprite-animation.cjs` precisa passar quando a etapa tocar em animação ou contratos de sprite.
+- A simulação automatizada não substitui playtest visual; mudanças de interface devem ser verificadas em navegador por alguém que conheça o design e por um usuário cego às instruções.
+- Os testes não devem fixar regras históricas que os documentos atuais já substituíram. O teste deve expressar o contrato atual, como sobrevivência infinita e chefes recorrentes.
+
+### Etapa 1 — Clareza de encontros de chefe (**implementada nesta etapa**)
+
+Regra: quando um chefe estiver previsto ou vivo, o cronômetro da horda para e nenhuma nova onda comum nasce; a recompensa pausa a simulação como já fazia, e o contador só volta a andar depois de resolver a escolha. Inimigos que já estavam na arena permanecem. Isso reduz acúmulo sem mudar vida, dano, movimento, identidade ou agenda do chefe.
+
+Proteção: `tests/combat.cjs` verifica que uma onda pendente e um contador positivo ficam congelados no marco do chefe, durante a luta e na recompensa; o contador decrementa após resolver a recompensa, a onda retorna ao vencer o prazo restante e `reset()` restaura o atraso inicial.
+
+### Etapa 2 — Materiais persistentes (**base implementada**)
+
+Regra aprovada pelo criador: parafusos coletados e peças de chefe conquistadas permanecem após a morte; skills continuam temporárias. A base local salva um parafuso por coleta de sucata e uma peça identificada por chefe derrotado. Drops não coletados somem no reset; materiais salvos não.
+
+Proteção: `tests/combat.cjs` cobre coleta versus drop perdido, gravação imediata, morte, retry, reload do perfil, limite de uma peça por derrota e limpeza de skills/espólio temporários. A etapa 5 agora gasta saldo salvo em desbloqueios experimentais; nenhum bônus de atributo é persistido.
+
+### Etapa 3 — Builds durante a tentativa (**base implementada**)
+
+“Gambiarras do Biruta” são ofertadas nos níveis 3, 6 e 9: três opções distintas sorteadas do pool de seis. Pulso de bobina aumenta dano em 25%; regulador de gatilho reduz intervalo de tiro em 20%; bateria sobressalente acrescenta 20 à integridade máxima e atual; ímã de sucata multiplica atração por 1,75; servos lubrificados multiplicam velocidade por 1,2; placa de cobre soma um ponto de armadura. São valores originais experimentais, não balanceamento aprovado. Cada opção pode ser escolhida uma vez por tentativa, teclas 1–3 selecionam e a opção de pular não concede efeito. Nada é salvo no perfil.
+
+Proteção: `tests/combat.cjs` verifica nível de oferta, opções sem duplicatas, seleção por teclado, aplicação única por efeito, exclusão após escolha, pular, reset e perfil persistente intacto. A simulação longa responde às escolhas de bênção e confirma que a progressão não trava. A suíte de combate permanece obrigatória antes de expandir builds. Especializações ainda devem se apoiar no chassi e arma fixos, sem troca de loadout em combate.
+
+### Etapa 4 — Recompensas de chefe (**base implementada**)
+
+Cada derrota mantém a cura de 20 pontos e a peça identificada salva imediatamente. Em seguida, oferece três experimentos distintos dentre seis: Reator Volátil (dano ×1,35; intervalo ×1,15), Lente Instável (projéteis ×1,5 em velocidade e tamanho; movimento ×0,85), Pacote de Lítio (integridade máxima e atual +30; armadura −1), Catalisador de Sucata (atração ×2; recarga da arma ×1,5), Condensador de Impacto (dano ×1,5; intervalo ×1,35) e Servo Nervoso (movimento ×1,35; armadura −1). Teclas 1–3 selecionam; R ou “RECUSAR E CONTINUAR” recusa. Cada escolha só aparece uma vez na tentativa. Quando as seis forem escolhidas, as próximas recompensas voltam a usar o módulo comum de chefe. Todos os números são experimentais.
+
+Proteção: `tests/combat.cjs` verifica entrega simultânea sem duplicação da peça, cura explicada, três opções com custo e benefício, todas as teclas de seleção e recusa, aplicação individual e reset de cada experimento, retorno do foco ao botão de pausa, seleção obsoleta, ausência de repetição, fallback após esgotamento, reset e simulação longa. A recompensa continua pausando a horda até uma opção ser resolvida.
+
+### Etapa 5 — Desbloqueios da garagem (**primeira versão implementada; valores experimentais**)
+
+Perfis novos começam com PROT-0001 e Metralhadora. As outras armas custam 8–26 parafusos; armas assinatura também consomem uma peça: Canhão de precisão e Arpão (Brutamontes), Granada e Foguetes (Sucateiro), Laser e Tesla (Bobina-Rainha). BAST-0002 custa 24 parafusos. Comprar desbloqueia e seleciona imediatamente. Todos os chassis aceitam todas as armas do protótipo e mantêm um slot; peças servem como chave de projeto, não são instaladas e não dão atributos permanentes. O primeiro desbloqueio de arma não exige chefe, para a progressão poder começar com a horda. Versão/custos completos em `docs/game-design.md`.
+
+Compatibilidade retroativa: perfil v1 conserva materiais, recebe todos os chassis/armas do protótipo já liberados e grava o formato v2 imediatamente; perfil v2 valida inventário contra IDs conhecidos. Em falha de gravação da compra, recursos são devolvidos e o desbloqueio não é concedido.
+
+Proteção: `tests/combat.cjs` verifica catálogo/preços cobertos, item bloqueado, saldo insuficiente, falta de peça, compra e seleção única, consumo exato, save/load, migração v1 persistida, falha de armazenamento com reembolso, morte/retry e bloqueio de troca durante combate. HTML exige IDs únicos para os controles ligados no código. Manter skills/experimentos temporários fora do perfil. A garagem usa `width:100%` do contêiner (não `100vw`, que inclui a largura da scrollbar) e grade de duas colunas; playtest final em 648×720 confirmou `scrollWidth=clientWidth=633`, uma CTA, custos legíveis e estado de recurso insuficiente no cartão.
+
+### Etapa 6 — Elenco, inimigos e modos adicionais (**inimigos comuns e lacaios de chefe implementados; elenco/modos ainda parcial**)
+
+Inimigos comuns continuam em ondas circulares. Antes de 5 min, todos perseguem. A partir de 5 min, cada onda completa inclui um ex-policial: 80% da vida de um perseguidor comum, recua para manter distância e atira um projétil de 8 de dano a cada 2,8 s. A partir de 15 min, uma de cada três ondas completas inclui também um perseguidor grande, lento, com três vezes a vida comum e raio de colisão 23 px. Os papéis aparecem em etiquetas originais; a cadência de ondas grandes reinicia com a tentativa. Ondas incompletas perto do teto permanecem com perseguidores comuns. Os números são experimentais. Todos surgem no mesmo círculo e contam no mesmo limite.
+
+Durante a luta, o Brutamontes convoca dois Cães de Sucata velozes; o Sucateiro convoca dois Talha-Bots atiradores; a Bobina-Rainha convoca três Faíscas Errantes que atacam em leque. São identidades originais do Screwvivors; cada inimigo tem nome de papel legível acima da cabeça (CORREDOR, ATIRADOR, RAJADA), cor própria e alerta do chefe que identifica reforços. Atiradores usam projéteis hostis de dano menor que os tiros dos chefes. Lacaios ocupam o mesmo teto total da horda, dão XP e sucata quando derrotados e somem quando o chefe morre; inimigos comuns já presentes permanecem. Todos os parâmetros são experimentais.
+
+Proteção: `tests/combat.cjs` cobre limites de 5/15 min, composição/frequência de cada onda, ataques dos ex-policiais, atributos/tamanho do perseguidor grande, formação circular, cadência por tentativa e limite de entidades; também cobre lacaios por chefe, rótulos/alertas, ataques à distância, supressão das ondas, manutenção dos inimigos comuns, remoção dos lacaios ao vencer (inclusive sem recompensa póstuma por projétil perfurante) e simulação de dez minutos. Qualquer novo inimigo deve preservar leitura de ataques e desempenho. Modos opcionais não alteram o modo infinito padrão; testar retornos de cada chefe e invariantes de tempo longo sem simular frames gráficos desnecessários.
+
+### Etapa 7 — Diagnóstico da tentativa (**implementado; revisão visual em andamento**)
+
+A pausa contém atributos atuais: integridade, dano direto por projétil, intervalo de disparo, munição/capacidade, recarga completa, velocidade, armadura e atração. Também lista módulos, Gambiarras, Experimentos e sinergias ativos. O dano não é apresentado como DPS: efeitos condicionais, críticos, rajadas e área são explicitamente excluídos. O painel é somente leitura e utiliza a pausa existente, com rolagem própria para builds longas.
+
+Proteção: a suíte verifica valores após dano e magnetismo modificados, munição parcial, relógio congelado, estado de combate intacto, limpeza após retry e ausência do diagnóstico nas ofertas de upgrade. O painel não grava perfil nem concede atributos.
+
+### Etapa 8 — Manual de campo (**implementado e revisado**)
+
+Compêndio somente leitura na garagem, organizado em nove árvores, Gambiarras e Experimentos. Exibe os 36 módulos da árvore e as 12 escolhas especiais com nomes, vantagens, custos e requisitos extraídos do catálogo utilizado pelo combate. A restrição de Ricochete para armas com retorno também aparece. As seções expansíveis usam controles nativos de teclado; a grade se adapta à largura disponível. A consulta não depende de ter iniciado uma tentativa nem desbloqueia módulos.
+
+Proteção: testes garantem 48 IDs únicos, onze grupos, requisito da Perfuração, custo canônico, ausência de duplicação ao reconstruir e preservação de perfil/build/estado. Novas restrições de elegibilidade precisam ser refletidas no manual. Consultar nunca chama os efeitos de instalação.
+
+### Etapa 9 — Renovação de ofertas (**implementação experimental**)
+
+Cada tentativa começa com uma carga de renovação. No level-up comum, botão ou Q substitui as cartas por opções elegíveis distintas das descartadas. A carga única é o limite de uso: não há compra, gasto de materiais ou renovação ilimitada. Chefes, Experimentos e Gambiarras preservam suas ofertas próprias. Se não houver alternativas suficientes para substituir todas as cartas, o botão é desabilitado e a carga é preservada. Após usar, o botão informa zero cargas. Retry restaura uma carga; ela não entra no perfil persistente.
+
+Proteção: testes verificam elegibilidade e exclusão, três opções novas, seleção pelo teclado, prevenção de default, tecla repetida, consumo único, callbacks antigos invalidados, perfil/XP/nível/atributos/relógio intactos, restrições por tipo de oferta e pool esgotado sem consumo. O antigo teste de arte agora identifica cartões por data-skill para não confundir controles com módulos.
+
+### Verificação integrada de duração longa
+
+A simulação automatizada agora percorre mais de 25 minutos: registra ex-policiais e perseguidores grandes em ondas reais, exige ao menos seis chefes derrotados e verifica os limites de inimigos/projéteis/feedback a cada passo. Continua resolvendo ofertas comuns, Gambiarras e Experimentos. O modo permanece em combate após o marco de 20 minutos. Usa invulnerabilidade e mira automática em DOM/canvas simulados; não comprova balanceamento, desempenho gráfico, habilidade de sobrevivência ou partida manual inteira.
+
+## Barreiras permanentes de regressão
+
+- Um teste deve reproduzir qualquer bug corrigido para impedir sua volta.
+- `reset()` deixa apenas chassi e arma escolhidos na garagem; limpa vida, munição, skills, chefes, projéteis, ofertas, timers e efeitos da tentativa anterior.
+- Pausa congela relógio, horda, inimigos, chefe, projéteis e efeitos de dano; limpar foco/entrada não dispara a arma ao retomar.
+- O combate mantém aim/fire manual, recarga e limites de projéteis/inimigos; dano empurra o robô 48 px para longe da fonte (com direção de fallback se não houver fonte), e movimento/câmera não podem prender o jogador à arena. `tests/combat.cjs` verifica empurrão em ambos os sentidos.
+- Hordas continuam circulares, em grupos, acelerando conforme o relógio; chefes voltam em ciclos e têm recompensa única.
+- Gambiarras aparecem apenas nos níveis 3, 6 e 9; uma escolha não se repete na tentativa, pular não aplica bônus e `reset()` remove todos os bônus temporários sem tocar no perfil local.
+- Recompensas de chefe salvam a peça uma única vez, curam 20, suspendem a horda até a decisão e aplicam somente um experimento com custo explícito; experimentos não repetem e desaparecem no `reset()`. As teclas 1–3 aceitam uma opção e R recusa.
+- Novos perfis mantêm ao menos PROT-0001 + Metralhadora disponíveis; gear bloqueado só fica selecionável após compra registrada. Cada compra valida saldo/peça, debita uma vez, salva antes de confirmar e devolve recursos se o save falhar. Saves v1 preservam equipamento antigo. Arma/chassi não mudam durante combate; desbloqueios não persistem bônus de atributo.
+- Cada chefe só chama seus lacaios próprios; eles contam no teto de inimigos, recebem dano/XP/sucata normalmente e são removidos com o chefe, enquanto zumbis comuns preexistentes permanecem. Lacaios removidos não podem receber acertos atrasados do mesmo projétil nem gerar abates, XP ou sucata postumamente.
+- Até 4:59 não há ex-policiais nem perseguidores grandes; de 5:00 em diante, uma vaga por onda completa é um ex-policial atirador; de 15:00 em diante, uma de cada três ondas completas acrescenta um perseguidor grande, se houver vaga. Ondas incompletas são apenas de perseguidores comuns. Todos ocupam posições circulares, respeitam o teto de entidades e os relógios de função reiniciam a cada tentativa.
+- A formação dos lacaios é determinística por identidade e ciclo do chefe; variar a formação exige manter seus testes de encontro reproduzíveis.
+- O HUD de combate mantém instruções curtas de mover, mirar, atirar, recarregar, pausar e ativar o propulsor; as relações núcleo ciano → XP e sucata dourada → parafuso permanecem visíveis. Durante o chefe, a barra também mostra reforços restantes e que ondas comuns estão pausadas.
+- Em telas de até 720 px, a faixa de controles começa abaixo da barra/status do chefe; o teste protege a posição CSS responsiva contra sobreposição.
+- Nenhuma etapa remove assets ou mudanças de outras pessoas sem revisar `git diff` e o estado do repositório.
+- Não ajustar balanceamento silenciosamente para fazer teste passar: atualizar teste só quando o contrato vigente já tiver mudado e documentar a mudança.
+
+## Registro desta entrega
+
+- Ajustado o mock de canvas do minimapa em `tests/combat.cjs`.
+- Corrigidas as expectativas antigas de encerramento aos dez minutos, desenho de bateria já removido, horda unitária, estatísticas fixas dos zumbis, limite histórico de inimigos, agenda sem chefe recorrente e escala antiga do sprite.
+- Implementado o congelamento do cronômetro de ondas durante encontro e recompensa de chefe, com verificações de pausa, retomada após recompensa e reset na Etapa 1.
+- Criado perfil local versionado: cada sucata de zumbi coletada dá um parafuso, cada chefe vencido entrega sua peça identificada, e ambos permanecem após a derrota; nenhum recurso é gasto ainda.
+- Adicionadas verificações de persistência, perfil recarregado, peça única, drops não coletados e separação entre recursos permanentes e skills temporárias.
+- Implementadas Gambiarras temporárias nos níveis 3, 6 e 9, com três opções originais entre seis bônus, teclado 1–3, pular, sem repetição na tentativa e reset; os efeitos e a cadência são experimentais.
+- Estendida a simulação de dez minutos para resolver escolhas de skill, recompensa e gambiarra sem bloquear o relógio.
+- Adicionada legenda persistente ao HUD de combate “SUCATA DOURADA → +1 PARAFUSO” após o Tester cego indicar que a coleta não ficava clara; segunda leitura considerou a relação visível e compreensível.
+- O Tester Inteligente revisou persistência e bênçãos e não encontrou bugs; foram fechadas as lacunas apontadas (falha/recuperação do armazenamento e nível 9).
+- Transformada a escolha pós-chefe em três experimentos temporários de risco/benefício, com seis opções sem repetição, atalho, recusa e retorno a módulo comum quando esgotadas; a peça salva permanece separada.
+- A recusa pós-chefe foi destacada como “RECUSAR E CONTINUAR [R]”, ganhou área clicável/foco visível e atalho de teclado dedicado após a revisão UX apontar que o botão anterior ficava discreto. A tela agora explica cura e peça permanente e devolve o foco ao botão de pausa após escolha/recusa.
+- Aplicada paleta de laboratório âmbar às cartas de experimento para distingui-las do level-up; revisão estática apontou que falta captura para confirmar contraste e quebra de texto na execução.
+- Repetido o playtest cego: o jogador não chegou à recompensa do chefe por morrer aos 1:08, escolhendo o lança-foguetes e causando 70/650 de dano ao chefe. Para responder à falta de instrução no combate, foi adicionada uma faixa permanente e compacta com os controles essenciais; legibilidade visual ainda aguarda playtest.
+- Revisão técnica encontrou sobreposição potencial da faixa com a barra do chefe entre 431–720 px; deslocada para baixo e adicionada asserção responsiva. Cobertura também confirma foco após recusa via botão, prevenção de default em R e que segurar R não recusa.
+- Nova rodada cega confirmou que mover, mirar e atirar agora se destacam e permanecem legíveis durante a luta; recarga, pausa e propulsor são percebidos como instruções secundárias.
+- Implementados três papéis originais de lacaio de chefe: perseguição veloz, tiro simples e leque elétrico. Cobertos com testes para contagem, ataques, cap, pausa da horda e limpeza ao derrotar chefe.
+- Fixada a formação angular de cada chefe/ciclo para manter os encontros e testes reproduzíveis sem remover a variação entre identidades.
+- A revisão inteligente encontrou uma recompensa post mortem possível quando um projétil perfurante matava o chefe antes de atingir um lacaio removido. A limpeza agora zera a vida dos lacaios antes de filtrá-los; teste reproduz a trajetória e garante ausência de abate, XP e sucata tardios.
+- Playtest cego percebeu que as marcas coloridas distinguiam reforços, mas não explicavam seus papéis. Troquei as letras por rótulos acima de cada lacaio e nomeei o papel no aviso; a segunda leitura confirmou CORREDOR legível. Como também não era possível distinguir reforços antigos de novas ondas no minimapa, o HUD do chefe ganhou a contagem de lacaios e o status “ONDAS COMUNS PAUSADAS”; playtest confirmou ambos.
+- A primeira faixa textual ainda ficou pequena na janela compacta do playtest; aumentada para 9 px com preenchimento maior, mantendo contraste e espaço responsivo para controles. Segunda leitura confirmou rótulo legível, número de lacaios e pausa das ondas.
+- Implementada a primeira progressão de garagem em perfil v2: equipamento-base livre, compras por parafusos e peças de chefe, assinatura de armas por chefe, custos no design e migration v1 que preserva todo gear do protótipo.
+- A compra é atômica com o salvamento local: testes confirmam preço, saldo insuficiente, requisito de peça, consumo único, reload, morte, retry, reembolso em falha de armazenamento e loadout fixo durante combate.
+- Revisor detectou transbordamento horizontal na garagem a 648 px causado pela regra de três colunas. A grade de armas agora reflowa para duas colunas até 800 px; verificação de CSS foi adicionada e playtest responsivo pendente.
+- O Tester Inteligente encontrou um segundo overflow de 8 px por `main` ocupar `100vw` enquanto uma scrollbar vertical reduz o contêiner. A garagem usa agora `width:100%`; teste protege essa regra. O Revisor também encontrou um bloco duplicado de botão/IDs, removido e coberto com asserção de IDs únicos.
+- A migração de perfil v1 agora grava v2 no primeiro carregamento; teste confere tanto o objeto em memória quanto o JSON armazenado. O feedback de compra insuficiente informa o requisito no próprio cartão e numa região `aria-live`; preços/feedback ampliados para 9/12 px.
+- Revisor verificou 648×720 após o reflow: uma CTA, IDs únicos, custos legíveis, `documentElement.scrollWidth === clientWidth`, e feedback de saldo insuficiente visível/sem compra. O cartão e a região `status` agora repartem o texto em rótulo curto e explicação detalhada para reduzir repetição na leitura assistiva.
+- Especializados os zumbis comuns conforme a cronologia já definida no game design: ex-policiais atiradores após 5 min e perseguidores grandes ocasionais após 15 min, mantendo a formação circular e o teto. Testes reproduzem os limiares, composição, dano à distância, atributos, silhueta, limite de vagas e reinício da cadência.
+- Playtest de combate pelo Tester Inteligente confirmou movimento/disparo, pausa segura para planejar, 16 abates e level-up até nível 2 aos 47 s; a tentativa acabou aos 52 s, antes do chefe de 60 s. A sobreposição da pausa escondia as gemas; reduzida a opacidade da cena pausada para mantê-las visíveis e protegido por asserção CSS. O playtest de partida até chefe/20 min segue pendente.
+- Repetição no CSS atualizado: pausa confirma relógio congelado, foco preservado, inimigos visíveis e retomada de movimento/tiro; 15 abates, nível 2 e Campo Magnético. Gemas foram coletadas, mas continuaram menos distintas que os zumbis. Derrota natural aos 45 s, antes do chefe; nenhum retry. A tentativa inteira terminou com morte, mas não alcançou o chefe nem o marco de 20 min; playtest de longa duração continua pendente.
+- Para responder à baixa distinção visual observada, o HUD agora rotula o núcleo ciano → XP junto à barra, e o núcleo no mundo recebeu halo maior e contorno claro. A medição em 648×720 revelou uma regra antiga limitando o painel a 120 px; removida para o HUD compacto manter espaço para o rótulo. O playtest cego confirmou que munição quebrava em várias linhas e escondia a recarga; a grade móvel foi reorganizada em coluna única, compactada e ganhou asserção de regressão. Verificação no navegador confirmou munição, estado e barra de recarga dentro do cartão, sem rolagem interna. Testes garantem rótulo, contraste, coleta de 1 XP e o dobro com a skill de experiência; magnetismo, valores e duração continuam iguais. A tabela de design foi reconciliada com o cronograma de chefes que já estava implementado e coberto por teste.
+- O Tester Burro recarregou após a correção e, em 648×720, confirmou 24/24 e a barra de recarga totalmente visíveis, sem rolagem interna. No playtest anterior viu o núcleo perto do jogador e leu a função pela legenda, mas não confirmou coleta antes de morrer aos 18 s; o Tester Inteligente também não viu um drop no campo. A identificação visual do drop foi observada por um tester; sua coleta em jogo continua por confirmar manualmente.
+- O tester cego completou uma tentativa de 18 s e não alcançou a primeira melhoria; a próxima rodada de UX deve expor os controles dentro da arena.
+- Execuções desta etapa: `node --check game.js`, `node tests/combat.cjs`, `node tests/sprite-animation.cjs` e `git diff --check`.
+
+Validação da etapa 7: o Tester Burro confirmou atributos legíveis e botões CONTINUAR/VOLTAR À GARAGEM acessíveis em 648×720. O Tester Inteligente identificou que Sobrecarga Reativa não aparecia no intervalo: o diagnóstico e o disparo passaram a compartilhar o cálculo efetivo, com teste do intervalo de 0,11 s durante a Sobrecarga. A rolagem interna do diagnóstico é prevista para builds extensas.
+
+Validação da etapa 8: o Tester Inteligente revisou os 48 registros, requisitos e restrição por arma sem encontrar bug concreto; a suíte passou. O Tester Burro abriu uma árvore, Gambiarras e Experimentos em 648×720 e confirmou leitura, custos destacados e navegação por rolagem. A fonte dos parágrafos foi aumentada de 11 para 12 px após seu comentário. O botão de saída permanece no início da garagem, acessível ao rolar para cima.
+
+Validação da etapa 9: revisão do Tester Inteligente não encontrou bug concreto em consumo, filtros, callbacks ou reset; suíte passou. O Tester Burro fez uma tentativa real e morreu aos 23 s no nível 1, sem chegar à oferta. Portanto botão, troca visual das cartas e estado de carga usada ainda precisam de confirmação manual; os testes de DOM simulado verificam a operação funcional.
+
+A revisão do Tester Inteligente confirmou a execução longa e apontou aleatoriedade não reproduzível e limites parciais. A simulação passou a usar seed fixa 20261031 somente nesse trecho, restaurando Math.random ao concluir; também monitora limites de sucata (250), efeitos (150), partículas (600) e perigos (60). Núcleos não têm teto definido pelo jogo; ataques/interações dos papéis tardios continuam cobertos pelos testes específicos, sem alegar que sua mera presença os valida.
+
+Preparação da próxima etapa: Dev designer entregou seis propostas em `docs/especializacoes-chassi-proposta.md`, três por chassi, com oferta no nível 10 confirmado pelo criador. São propostas experimentais ainda não implementadas; há cuidados de interação e proteções previstas para cada efeito.
+
+### Etapa 10 — Especialização temporária do chassi (implementada no desenvolvimento)
+
+Decisão do criador: oferta no nível 10. Três opções fixas próprias do chassi copiado da garagem; uma escolha ou recusa por tentativa. A escolha pausa a simulação e não participa da renovação Q. Os seis efeitos originais seguem `docs/especializacoes-chassi-proposta.md`. Nenhum desbloqueio ou atributo de especialização é persistido.
+
+Proteções exigidas: oferta na transição 9→10, teclado 1–3, versão obsoleta rejeitada, filtro por chassi, pausa, recusa, oferta única e reset; efeitos específicos de Isca/Marca/Alerta/Aterramento/Freio/Leitura; sincronização entre aviso ampliado do Sucateiro e ativação do perigo; diagnóstico/manual atualizados. A simulação longa deve resolver também a nova oferta.
+
+Validação da etapa 10 — 01/11/2026: suíte integrada de 25 minutos, seis escolhas por teclado, recusa, filtro de chassi, pausa, reset, fontes de dano e efeitos condicionais passaram. Revisão inteligente encontrou Nove Vidas ignorando ex-policiais e dano do Sucateiro um frame antes do fim do aviso: ambos corrigidos e reproduzidos por testes. A fixture tests/preview-specializations.html mostrou a UI real do PROT em 648×720; Tester Burro confirmou três cartas, recusa, Tab e seleção1 com toast. Isso não comprova chegada manual ao nível10 nem balanceamento. A fixture é ferramenta de desenvolvimento e não deve entrar no pacote público.

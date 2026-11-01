@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 890 300" role="img" aria-labelledby="title desc">
+  <title id="title">SCREWVIVORS</title>
+  <desc id="desc">Marca de sobrevivência mecânica em azul, marfim e grafite.</desc>
+  <g shape-rendering="crispEdges">
+    <path d="M24 17h130v14h14v30h14v112h-14v28h-14v31H24v-14H10v-30H0V61h10V31h14z" fill="#071522" stroke="#253f53" stroke-width="8"/>
+    <path d="M38 39h100v14h14v28h12v78h-12v28h-14v25H38v-13H24v-29H14V79h10V53h14z" fill="#10283a" stroke="#82dff3" stroke-width="6"/>
+    <path d="M57 75h62v12h12v12h12v37h-12v13h-12v12H57v-12H45v-13H33V99h12V87h12z" fill="#0a1826" stroke="#48667a" stroke-width="5"/>
+    <path d="M58 105h64v22H58z" fill="#38c4e5"/>
+    <path d="M69 110h41v5H69z" fill="#eafcff"/>
+    <path d="M82 69h24v8H82zM82 164h24v8H82zM24 113h9v18h-9zM139 113h9v18h-9z" fill="#d5b987"/>
+    <path d="M160 35h18v18h-18zM169 40h18v8h-18zM169 31h8v18h-8z" fill="#d5b987"/>
+    <path d="M181 101h10v42h-10z" fill="#55cce8"/>
+    <path d="M190 119h11v7h-11z" fill="#55cce8"/>
+  </g>
+  <g font-family="Consolas, 'Courier New', monospace" font-weight="900" text-anchor="start" shape-rendering="geometricPrecision">
+    <text x="218" y="137" font-size="119" letter-spacing="-9" fill="#07111b" stroke="#07111b" stroke-width="16" stroke-linejoin="bevel">SCREW</text>
+    <text x="218" y="137" font-size="119" letter-spacing="-9" fill="#f0e9da" stroke="#c9d2d3" stroke-width="2" paint-order="stroke fill">SCREW</text>
+    <text x="218" y="260" font-size="112" letter-spacing="-8" fill="#07111b" stroke="#07111b" stroke-width="16" stroke-linejoin="bevel">VIVORS</text>
+    <text x="218" y="260" font-size="112" letter-spacing="-8" fill="#83dcf3" stroke="#3b9ab6" stroke-width="2" paint-order="stroke fill">VIVORS</text>
+    <path d="M221 278H795" stroke="#d3b887" stroke-width="5" shape-rendering="crispEdges"/>
+    <path d="M221 289H463" stroke="#38566a" stroke-width="4" shape-rendering="crispEdges"/>
+    <path d="M785 272h12v12h-12z" fill="#d3b887"/>
+  </g>
+</svg>

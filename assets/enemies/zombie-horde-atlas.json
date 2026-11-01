@@ -1,0 +1,12 @@
+{
+  "file": "zombie-horde-atlas.png",
+  "format": "RGBA",
+  "size": [2043, 770],
+  "variants": [
+    { "name": "ex-mechanic", "rect": [70, 64, 484, 677], "sprite": "zombie-mechanic.png" },
+    { "name": "scavenger", "rect": [761, 144, 480, 588], "sprite": "zombie-scavenger.png" },
+    { "name": "security-brute", "rect": [1458, 54, 522, 685], "sprite": "zombie-security-brute.png" }
+  ],
+  "spriteSize": [48, 64],
+  "notes": "Three original static 32-bit pixel-art zombie poses. Crops are x, y, width, height in source pixels. Individual sprites use nearest-neighbor scaling into transparent 48x64 cells. Purely visual variants; game stats and collision sizes are unchanged."
+}
