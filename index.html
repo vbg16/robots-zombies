@@ -13,7 +13,7 @@
   <button id="enter-garage" class="menu-primary" type="button">ABRIR GARAGEM <span>↗</span></button>
   <p class="menu-controls">WASD / SETAS <i></i> MOUSE PARA MIRAR</p>
  </div>
- <div class="title-version"><span class="signal-dot"></span> ARENA INFINITA <span>·</span> BUILD 34 · DESENVOLVIMENTO</div>
+ <div class="title-version"><span class="signal-dot"></span> ARENA INFINITA <span>·</span> BUILD 35 · DESENVOLVIMENTO</div>
 </section>
 <section id="garage" class="garage" aria-labelledby="garage-title" hidden>
 <div class="garage-topline"><p class="kicker">DR. BIRUTA / GARAGEM 01</p><button id="garage-back" class="garage-back" type="button">← MENU</button></div><h1 id="garage-title">PREPARE A PRÓXIMA TENTATIVA.</h1>
@@ -29,11 +29,11 @@
 <section id="combat" class="arena" hidden><canvas id="game" aria-label="Arena infinita de sobrevivência: mova o robô com WASD ou setas; mire com o mouse e segure o botão esquerdo para atirar; espaço ativa o propulsor se adquirido"></canvas>
 <div class="hud" aria-label="Informações de combate">
  <div class="hud-unit"><img id="hud-portrait" src="assets/robots/prot-0001-simple.png" alt="" width="64" height="64"><div class="hud-unit-data"><div class="hud-unit-heading"><b id="hud-robot-name">PROT-0001</b><b>NÍVEL <span id="level">01</span></b></div><div class="health-line"><div id="health" class="health-track" role="meter" aria-label="Integridade do robô" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="health-fill"></i></div><b id="health-value">100 / 100</b></div><div class="xp-track" aria-label="Experiência"><i id="xp"></i></div><div class="xp-cue" aria-label="Núcleos ciano coletados concedem experiência"><span aria-hidden="true">◆</span> NÚCLEO CIANO → XP</div></div></div>
- <div id="boss-hud" class="boss-hud" hidden><small id="boss-action">BRUTAMONTES</small><small id="boss-support">2 CORREDORES · ONDAS COMUNS PAUSADAS</small><div class="boss-track"><i id="boss-health"></i></div></div>
+ <div id="boss-hud" class="boss-hud" hidden><small id="boss-action">BRUTAMONTES</small><small id="boss-support">2 CORREDORES · ONDAS COMUNS ATIVAS</small><div class="boss-track"><i id="boss-health"></i></div></div>
  <div class="hud-right"><div class="hud-stats"><div><small>TEMPO</small><b id="time">00:00</b></div><div><small>ABATES</small><b id="kills">0</b></div><button id="pause" type="button" aria-label="Pausar partida (P ou Esc)" aria-keyshortcuts="P Escape">Ⅱ</button></div><canvas id="minimap" width="160" height="160" aria-label="Minimapa de inimigos próximos"></canvas></div>
 </div>
 <div class="combat-build" aria-label="Arma e munição"><div class="ammo-panel"><small id="weapon-name">METRALHADORA</small><b id="ammo-count">0 / 0</b><span id="reload-status"></span><div class="reload-track"><i id="reload-progress"></i></div></div><p id="dash-hint" hidden><kbd>ESPAÇO</kbd> PROPULSOR</p><div id="combat-loadout"></div><div id="build-summary"></div></div><div id="combat-controls" class="combat-controls" aria-label="Controles: WASD ou setas movem, mouse mira, botão esquerdo dispara, R recarrega, P ou Escape pausa, espaço ativa propulsor após adquirir a habilidade"><strong><kbd>WASD / SETAS</kbd> MOVER <i>·</i> <kbd>MOUSE</kbd> MIRAR <i>·</i> SEGURE O BOTÃO ESQUERDO PARA ATIRAR</strong><span><kbd>R</kbd> RECARREGAR <i>·</i> <kbd>P / ESC</kbd> PAUSAR <i>·</i> <kbd>ESPAÇO</kbd> PROPULSOR APÓS SKILL</span></div><div class="salvage-hint" aria-label="Sucata dourada deixada por zumbis concede um parafuso ao ser coletada"><span aria-hidden="true">🔩</span> SUCATA DOURADA → +1 PARAFUSO</div><div id="cooldowns" class="cooldown-hud" aria-label="Estado e recarga das habilidades"></div>
 <div id="overlay" class="overlay"><p id="eyebrow">UNIDADE R-01 / AGUARDANDO</p><h2 id="heading">O caos não espera.</h2><p id="description">Sobreviva em uma cidade sem fim. Colete energia, evolua seu arsenal e enfrente chefes recorrentes.<br>Mova com WASD ou setas. Mire com o mouse e segure o botão esquerdo para atirar.</p><div id="choices"></div><button id="start" class="primary">INICIAR PROTOCOLO ↗</button><button id="return-garage" type="button" hidden>VOLTAR À GARAGEM</button></div></section>
-</main><script src="audio.js"></script><script src="game.js"></script>
+</main><script src="audio.js"></script><script src="enemy-weapons.js"></script><script src="game.js"></script>
 </body></html>
 

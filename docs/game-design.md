@@ -326,3 +326,7 @@ Regra experimental: uma carga por tentativa renova as opções de um level-up co
 O criador escolheu o nível 10 para ofertar uma entre três especializações temporárias próprias do chassi. A escolha deve acompanhar o robô fixado na garagem e desaparecer no retry. A evolução de armas segue com nível e efeitos independentes ainda pendentes.
 
 Implementação no desenvolvimento — 01/11/2026: as seis especializações do catálogo estão funcionais, com escolha de uma no nível 10 ou recusa definitiva nessa tentativa. Aterramento multiplica dano de perigo por 0,7 antes da armadura (mínimo 1). A Marca beneficia acertos seguintes pela rota de dano do jogador, inclusive efeitos, até expirar ou trocar alvo. Nove Vidas afeta comuns inclusive ex-policiais; Isca afeta somente perseguidores comuns. Manual agora contém 54 registros em 13 grupos. Diagnóstico da pausa informa escolha e recarga. Valores continuam experimentais; revisão visual da oferta PROT passou na fixture compacta, mas balanceamento em partida longa está pendente.
+
+## Regras de playtest atualizadas — BUILD35
+
+Ondas comuns de15, intervalo decrescente6,4→1,5s, sem parada por população ou chefe. Vivos distantes permanecem; minimapa mostra todos na borda se fora de alcance, chefe dourado destacado. O Sucateiro busca distância180–240px mesmo ao anunciar ataques; aproxima-se lentamente e recua quando pressionado. Ex-policiais/atiradores/condutores carregam armas visíveis. Estas regras substituem quatro por onda e limites/suspensão anteriores, por novo pedido direto do criador.

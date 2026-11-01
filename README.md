@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 34 · desenvolvimento
+# Screwvivors — BUILD 35 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -19,8 +19,8 @@ Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peç
 - Colete núcleos para subir de nível; escolha uma skill ou pule.
 - Nos níveis 3, 6 e 9, escolha uma Gambiarra temporária entre três alternativas, use as teclas 1–3 ou pule. Os efeitos somem na próxima tentativa.
 - A faixa de controles permanece visível dentro da arena, inclusive o propulsor depois da skill.
-- Zumbis surgem em grupos de quatro distribuídos ao redor do jogador; os grupos chegam em intervalos cada vez menores.
-- Arena infinita, sem limite de mundo ou tempo final. A horda fica mais forte e os três chefes voltam em ciclos; novas ondas comuns pausam enquanto um chefe está previsto ou vivo.
+- Zumbis surgem em grupos de quinze distribuídos ao redor do jogador; os grupos chegam em intervalos cada vez menores.
+- Arena infinita, sem limite de mundo ou tempo final. A horda fica mais forte e os três chefes voltam em ciclos; ondas comuns continuam mesmo durante os chefes.
 - Chefes trazem reforços próprios: CORREDOR, ATIRADOR ou RAJADA, identificados acima do inimigo. O HUD mostra quantos restam e confirma quando as ondas comuns estão pausadas.
 - A câmera acompanha o robô pela cidade. Saia das áreas sinalizadas antes dos ataques dos chefes.
 
@@ -54,3 +54,5 @@ BAST-0002 usa sprite SVG provisório próprio. No perfil novo, o PROT-0001 e a M
 Esta pasta é o desenvolvimento (`codex/desenvolvimento`). A cópia pública local fica em `../Jogo-publico` (`codex/publico`). Execute `iniciar-desenvolvimento.ps1` para porta 8001 ou `iniciar-publico.ps1` para porta 8002. A base pública inicial é uma candidata histórica, não um lançamento atualizado aprovado. Veja [canais e promoção](docs/canais-e-lancamentos.md) e os estados em `version.json` de cada pasta.
 
 BUILD34: controles iniciais somem após cinco segundos; o comando ESPAÇO aparece junto da arma após adquirir Propulsor. Zumbis comuns chegam de fora da tela correndo e desaceleram perto do robô. Música e efeitos originais usam WebAudio e iniciam após interação; ajuste MÚSICA/EFEITOS na garagem, com zero para silenciar. Verificação de áudio: node tests/audio.cjs.
+
+BUILD35: ondas de15, intervalo6,4→1,5s; seguem durante chefes. Zumbis vivos distantes permanecem no mundo e no minimapa (borda para distantes, marcador dourado para chefe). Aproximação reduzida para210px/s e normal a320px. Sucateiro mantém distância180–240px; atiradores carregam armas visíveis. A população viva pode crescer: avaliar desempenho em partidas longas.

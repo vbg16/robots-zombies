@@ -1,7 +1,7 @@
 'use strict';
 const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d'),el=id=>document.getElementById(id);
 const keys=new Set(),random=(a,b)=>a+Math.random()*(b-a);
-const HORDE={initialDelay:2,interval:1.6,minInterval:.38,ramp:.005,waveSize:4,maxEnemies:70,minSpeed:24,maxSpeed:42};
+const HORDE={initialDelay:2,interval:6.4,minInterval:1.5,ramp:.008,waveSize:15,entrySpeed:210,normalDistance:320,minSpeed:24,maxSpeed:42};
 const PLAYER_KNOCKBACK=48;
 function sound(name){window.ScrewAudio?.play(name);}
 const WEAPONS=Object.freeze(Object.fromEntries(Object.entries({
@@ -236,14 +236,15 @@ function updateHUD(){
  el('weapon-name').textContent=runWeapon.name.toLocaleUpperCase('pt-BR');el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':player.ammo===magazineSize()?'CARREGADOR CHEIO':'[R] RECARREGAR · '+missingReloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
  el('build-summary').textContent=(names.join(' · ')||'Sem módulos especiais')+(activeSynergies().length?' | '+activeSynergies().join(' | '):'');
  const live=!!boss&&boss.hp>0;el('boss-hud').hidden=!live;
- if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=bossMessage();const minions=BOSS_MINIONS[boss.id],activeMinions=enemies.filter(z=>z.minionOwner===boss.id).length;el('boss-support').textContent=(activeMinions?activeMinions+' '+minions.role:'SEM LACAIOS')+' · ONDAS COMUNS PAUSADAS';}
+ if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=bossMessage();const minions=BOSS_MINIONS[boss.id],activeMinions=enemies.filter(z=>z.minionOwner===boss.id).length;el('boss-support').textContent=(activeMinions?activeMinions+' '+minions.role:'SEM LACAIOS')+' · ONDAS COMUNS ATIVAS';}
 }
+function minimapPoint(x,y,w,h,padding=5){const dx=(x-player.x)/720*(w*.46),dy=(y-player.y)/720*(h*.46),factor=Math.max(1,Math.abs(dx)/(w/2-padding),Math.abs(dy)/(h/2-padding));return {x:Math.max(padding,Math.min(w-padding,w/2+dx/factor)),y:Math.max(padding,Math.min(h-padding,h/2+dy/factor))};}
 function drawMinimap(){
  const map=el('minimap'),m=map.getContext('2d');if(!m||!player)return;const w=map.width,h=map.height,cx=w/2,cy=h/2,range=720;
  m.clearRect(0,0,w,h);m.fillStyle='#081522';m.fillRect(0,0,w,h);m.strokeStyle='#28465b';m.lineWidth=1;m.strokeRect(.5,.5,w-1,h-1);
  m.strokeStyle='#162d40';m.beginPath();m.moveTo(cx,8);m.lineTo(cx,h-8);m.moveTo(8,cy);m.lineTo(w-8,cy);m.stroke();
- for(const enemy of enemies){const dx=(enemy.x-player.x)/range*(w*.46),dy=(enemy.y-player.y)/range*(h*.46);if(Math.abs(dx)>w*.46||Math.abs(dy)>h*.46)continue;m.fillStyle='#f05f55';m.fillRect(Math.round(cx+dx)-2,Math.round(cy+dy)-2,4,4);}
- if(boss&&boss.hp>0){const dx=(boss.x-player.x)/range*(w*.46),dy=(boss.y-player.y)/range*(h*.46);m.fillStyle='#ffc84f';m.fillRect(Math.round(cx+dx)-4,Math.round(cy+dy)-4,8,8);}
+ for(const enemy of enemies){if(enemy.hp<=0)continue;const p=minimapPoint(enemy.x,enemy.y,w,h);m.fillStyle='#f05f55';m.fillRect(Math.round(p.x)-2,Math.round(p.y)-2,4,4);}
+ if(boss&&boss.hp>0){const p=minimapPoint(boss.x,boss.y,w,h,7);m.fillStyle='#ffc84f';m.fillRect(Math.round(p.x)-4,Math.round(p.y)-4,8,8);m.strokeStyle='#fff1be';m.strokeRect(Math.round(p.x)-5,Math.round(p.y)-5,10,10);}
  m.fillStyle='#71e7ff';m.fillRect(cx-3,cy-3,6,6);m.strokeStyle='#b8f5ff';m.strokeRect(cx-4.5,cy-4.5,9,9);
 }
 function cooldownEntries(){
@@ -426,7 +427,7 @@ function createEnemy(x,y,type='chaser'){
 }
 function spawnBossMinions(owner){
  const spec=BOSS_MINIONS[owner.id];if(!spec)return 0;
- const cap=Math.min(150,HORDE.maxEnemies+Math.floor(clock/120)*10),count=Math.min(spec.count,Math.max(0,cap-enemies.length)),start=Object.keys(BOSS_MINIONS).indexOf(owner.id)*Math.PI/6+(owner.cycle%6)*Math.PI/12;
+ const count=spec.count,start=Object.keys(BOSS_MINIONS).indexOf(owner.id)*Math.PI/6+(owner.cycle%6)*Math.PI/12;
  for(let i=0;i<count;i++){
   const angle=start+i*Math.PI*2/count,minion=createEnemy(owner.x+Math.cos(angle)*82,owner.y+Math.sin(angle)*82),scale=1+(owner.cycle||0)*.35;
   Object.assign(minion,{hp:Math.round(spec.hp*scale),maxHp:Math.round(spec.hp*scale),speed:spec.speed*(1+(owner.cycle||0)*.05),r:spec.r,variant:spec.variant,minionType:spec.type,minionOwner:owner.id,minionName:spec.title,minionBadge:spec.badge,minionColor:spec.color,shotCooldown:random(.5,1.5)});
@@ -448,7 +449,7 @@ function fireCommonShooter(shooter){
  hostile.push({x:shooter.x,y:shooter.y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,life:2.6,r:5,damage:8,color:shooter.minionColor,source:'common-ranged'});
 }
 function waveRadius(){return Math.max(...[camera.x,camera.x+width].flatMap(x=>[camera.y,camera.y+height].map(y=>Math.hypot(x-player.x,y-player.y))))+96;}
-function approachSpeed(z,distance){const t=Math.max(0,Math.min(1,(distance-180)/400)),blend=t*t*(3-2*t);return z.speed+(Math.max(z.speed,260)-z.speed)*blend;}
+function approachSpeed(z,distance){const t=Math.max(0,Math.min(1,(distance-HORDE.normalDistance)/400)),blend=t*t*(3-2*t);return z.speed+(Math.max(z.speed,HORDE.entrySpeed)-z.speed)*blend;}
 function spawnCircularWave(capacity){
  const count=Math.min(HORDE.waveSize,capacity),radius=waveRadius(),start=random(0,Math.PI*2),wave=commonWaveIndex,types=Array(count).fill('chaser');
  if(count===HORDE.waveSize)commonWaveIndex++;
@@ -489,6 +490,10 @@ function hurtPlayer(amount,sourceX,sourceY,source='contact'){
  if(!player.hp){sound('death');state='over';show('Fim da transmissão.','Sobreviveu '+Math.floor(clock)+' s · '+kills+' eliminações. Skills encerradas.','REPETIR CONFIGURAÇÃO');}
 }
 function targets(){return boss&&boss.hp>0?[...enemies,boss]:enemies;}
+let collisionGrid=null;
+function indexTarget(z){if(!collisionGrid)return;const key=Math.floor(z.x/128)+','+Math.floor(z.y/128);if(!collisionGrid.cells.has(key))collisionGrid.cells.set(key,new Set());collisionGrid.cells.get(key).add(z);collisionGrid.radius=Math.max(collisionGrid.radius,z.r||0);}
+function buildCollisionGrid(){collisionGrid={cells:new Map(),radius:0};for(const z of targets())if(z.hp>0)indexTarget(z);}
+function bulletCandidates(ax,ay,bx,by,r){const result=new Set(),pad=r+collisionGrid.radius;for(let x=Math.floor((Math.min(ax,bx)-pad)/128);x<=Math.floor((Math.max(ax,bx)+pad)/128);x++)for(let y=Math.floor((Math.min(ay,by)-pad)/128);y<=Math.floor((Math.max(ay,by)+pad)/128);y++)for(const z of collisionGrid.cells.get(x+','+y)||[])result.add(z);return [...result];}
 function damageEnemy(z,damage){
  if(z.hp<=0)return;
  if(player.specialization==='predatorMark'){if(player.markedTarget===z&&player.markTime>0)damage*=1.25;else{player.markedTarget=z;player.markTime=2.5;}}
@@ -515,7 +520,7 @@ function applyStatus(z,b){
  if(player.skills.burn||runWeapon.burn){z.burnTime=player.skills.ignition?9:3;z.burnDps=Math.max(z.burnDps||0,b.damage*.5*(player.skills.afterburn?3:1));z.burnAccum=z.burnAccum||0;}
  if(player.skills.freeze||runWeapon.freeze)z.slowTime=2;
  const knock=(runWeapon.knock||0)+(player.skills.knock?60:0);
- if(knock){const d=Math.hypot(b.vx,b.vy)||1,amount=knock*(z===boss ? .25 : 1);z.x+=b.vx/d*amount;z.y+=b.vy/d*amount;}
+ if(knock){const d=Math.hypot(b.vx,b.vy)||1,amount=knock*(z===boss ? .25 : 1);z.x+=b.vx/d*amount;z.y+=b.vy/d*amount;indexTarget(z);}
 }
 function explodeAt(x,y,damage,radius,exclude=null){
  radius*=player.skills.blastRadius?2:1;
@@ -595,10 +600,11 @@ function tickBoss(dt){
 }
 function tickSpecialBoss(dt){
  const b=boss;b.hit=Math.max(0,b.hit-dt);b.timer-=dt;
+ if(b.id==='scrapper'){const dx=player.x-b.x,dy=player.y-b.y,d=Math.hypot(dx,dy)||1,factor=b.stunTime>0?0:b.slowTime>0?.5:1,move=d>240?1:d<180?-.6:0;b.x+=dx/d*b.speed*factor*move*dt;b.y+=dy/d*b.speed*factor*move*dt;}
  if(b.phase==='approach'){
   const dx=player.x-b.x,dy=player.y-b.y,d=Math.hypot(dx,dy)||1,factor=b.stunTime>0?0:b.slowTime>0?.5:1;
   // Both specialists approach slowly; their danger comes from area control.
-  if(d>140){b.x+=dx/d*b.speed*factor*dt;b.y+=dy/d*b.speed*factor*dt;}
+  if(b.id!=='scrapper'&&d>140){b.x+=dx/d*b.speed*factor*dt;b.y+=dy/d*b.speed*factor*dt;}
   if(b.timer<=0){b.dx=dx/d;b.dy=dy/d;
    if(b.id==='scrapper'){
     b.phase='tellMortar';b.timer=bossTellDuration(b,1.4);
@@ -643,21 +649,22 @@ function tick(dt){
  player.dashTime=Math.max(0,player.dashTime-dt);
  const moving=dx!==0||dy!==0||dashDt>0;const priorStationary=player.stationary;player.stationary=moving?0:player.stationary+dt;if(player.skills.regen&&!moving)player.hp=Math.min(player.maxHp,player.hp+Math.max(0,player.stationary-Math.max(3,priorStationary))*2);player.stride+=(Number(moving)-player.stride)*(1-Math.exp(-14*dt));if(moving)player.walkPhase+=player.speed*dt*.055;
  syncCamera(dt);
- enemies=enemies.filter(z=>z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<Math.max(width,height)*2+200);
- const enemyCap=Math.min(150,HORDE.maxEnemies+Math.floor(clock/120)*10),bossAlive=!!boss&&boss.hp>0,bossDue=clock>=bossTime(bossIndex)&&!bossAlive&&!bossReward;
- if(!bossAlive&&!bossDue){spawn-=dt;if(spawn<=0&&enemies.length<enemyCap){spawn=Math.max(HORDE.minInterval,HORDE.interval-clock*HORDE.ramp)*HORDE.waveSize;spawnCircularWave(enemyCap-enemies.length);}}
+ enemies=enemies.filter(z=>z.hp>0);
+ const bossAlive=!!boss&&boss.hp>0,bossDue=clock>=bossTime(bossIndex)&&!bossAlive&&!bossReward;
+ {spawn-=dt;if(spawn<=0){spawn=Math.max(HORDE.minInterval,HORDE.interval-clock*HORDE.ramp);spawnCircularWave(HORDE.waveSize);}}
  if(bossDue)spawnBoss();
  if(firing&&player.reloadTime===0){for(const queued of [...burstQueue]){queued.delay-=dt;if(queued.delay<=0&&aim.active&&player.reloadTime===0)emitProjectiles(Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x));}burstQueue=burstQueue.filter(q=>q.delay>0);}else burstQueue=[];
  shot=Math.max(0,shot-dt);if(firing&&aim.active&&shot<=0&&bullets.length<400)fireWeapon();
+ if(bullets.length)buildCollisionGrid();
  for(const b of bullets){
   const ax=b.x,ay=b.y;
   if(runWeapon.returning&&b.life<=b.maxLife/2){if(!b.returning){b.returning=true;b.hit.clear();}const d=Math.hypot(player.x-b.x,player.y-b.y)||1;b.vx=(player.x-b.x)/d*(runWeapon.speed||360)*player.projectileSpeed;b.vy=(player.y-b.y)/d*(runWeapon.speed||360)*player.projectileSpeed;if(d<16)b.life=0;}
   b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;
   if(b.life<=0){if(runWeapon.detonate&&!b.detonated){b.detonated=true;explodeAt(b.x,b.y,b.damage,runWeapon.explosion);}continue;}
-  const hit=targets().filter(z=>z.hp>0&&!b.hit.has(z)&&segmentDistance(z.x,z.y,ax,ay,b.x,b.y)<z.r+b.radius).sort((a,z)=>Math.hypot(a.x-ax,a.y-ay)-Math.hypot(z.x-ax,z.y-ay));
+  const hit=bulletCandidates(ax,ay,b.x,b.y,b.radius).filter(z=>z.hp>0&&!b.hit.has(z)&&segmentDistance(z.x,z.y,ax,ay,b.x,b.y)<z.r+b.radius).sort((a,z)=>Math.hypot(a.x-ax,a.y-ay)-Math.hypot(z.x-ax,z.y-ay));
   for(const z of hit){if(b.remaining<=0)break;if(z.hp<=0)continue;b.hit.add(z);impact(z,b);b.remaining--;if(!b.remaining){if(bounceProjectile(b,z))break;b.life=0;}}
  }
- bullets=bullets.filter(b=>b.life>0);
+ collisionGrid=null;bullets=bullets.filter(b=>b.life>0);
  for(const z of enemies){
   if(z.hp<=0)continue;z.hit=Math.max(0,z.hit-dt);const playerDistance=Math.hypot(player.x-z.x,player.y-z.y),chase=player.decoy&&commonPursuer(z)?player.decoy:player,dx=chase.x-z.x,dy=chase.y-z.y,d=Math.hypot(dx,dy)||1;
   let move=1;
@@ -759,7 +766,7 @@ function drawZombie(z,heavy=false){
   if(z.slowTime>0){ctx.strokeStyle='#9cecff';ctx.lineWidth=1.5;ctx.strokeRect(dx-2,dy-2,width+4,height+4);}
   if(z.burnTime>0){ctx.fillStyle='#ff934d';ctx.fillRect(-width*.43,height*.08,3,6);ctx.fillRect(width*.3,-height*.06,3,6);}
   if(z.stunTime>0){ctx.strokeStyle='#c5f6ff';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-7,dy-3);ctx.lineTo(-2,dy-7);ctx.lineTo(2,dy-2);ctx.lineTo(8,dy-6);ctx.stroke();}
-  drawEnemyBadge(z,dy);
+  window.drawEnemyWeapon?.(ctx,z,player);drawEnemyBadge(z,dy);
   ctx.restore();return;
  }
  const scale=heavy?2.35:z.r/11,phase=clock*(heavy?3:5)+z.x*.013+z.y*.009;
@@ -783,7 +790,7 @@ function drawZombie(z,heavy=false){
  if(z.slowTime>0){ctx.strokeStyle='#9cecff';ctx.lineWidth=1;ctx.strokeRect(-18,-25,36,43);}
  if(z.burnTime>0){ctx.fillStyle='#ff934d';ctx.fillRect(-13,4,3,6);ctx.fillRect(10,-4,3,5);}
  if(z.stunTime>0){ctx.strokeStyle='#c5f6ff';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(-7,-27);ctx.lineTo(-2,-30);ctx.lineTo(2,-26);ctx.lineTo(8,-29);ctx.stroke();}
- drawEnemyBadge(z,-25);
+ window.drawEnemyWeapon?.(ctx,z,player);drawEnemyBadge(z,-25);
  ctx.restore();
 }
 function drawSpecialBoss(b){
@@ -840,7 +847,7 @@ function draw(){
   ctx.fillStyle='#071a27';ctx.beginPath();ctx.moveTo(g.x,g.y-7);ctx.lineTo(g.x+7,g.y);ctx.lineTo(g.x,g.y+7);ctx.lineTo(g.x-7,g.y);ctx.closePath();ctx.fill();
   ctx.fillStyle='#3cc7f4';ctx.beginPath();ctx.moveTo(g.x,g.y-5);ctx.lineTo(g.x+5,g.y);ctx.lineTo(g.x,g.y+5);ctx.lineTo(g.x-5,g.y);ctx.closePath();ctx.fill();ctx.fillStyle='#e7fcff';ctx.fillRect(g.x-2,g.y-4,3,4);
  }
- for(const z of enemies)if(z.hp>0)drawZombie(z);
+ for(const z of enemies)if(z.hp>0&&z.x>camera.x-100&&z.x<camera.x+width+100&&z.y>camera.y-120&&z.y<camera.y+height+120)drawZombie(z);
  if(boss&&boss.hp>0){
   const b=boss;
   if(b.phase==='tellDash'){

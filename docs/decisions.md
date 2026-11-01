@@ -127,3 +127,9 @@ Escolher uma entre três especializações temporárias próprias do robô ao at
 ## Ajustes pedidos após playtest — 01/11/2026
 
 O criador pediu esconder controles após5s, mostrar ESPAÇO junto da arma após adquirir Propulsor, zumbis fora da tela correndo e desacelerando ao se aproximar, além de música e efeitos. Implementação BUILD34: tutorial usa5s do relógio de jogo; ondas mantêm círculo com raio até o canto mais distante da câmera+96px. Apenas os comuns das ondas usam aproximação suave entre260px/s distante e velocidade normal dentro180px. Chefes/lacaios mantêm suas entradas próprias. Trilha procedural original96BPM e efeitos WebAudio, volumes separados na garagem (zero=mudo), iniciados após gesto. Sem assets sonoros de terceiros.
+
+## Ondas contínuas e rastreamento — pedido do criador, BUILD35
+
+Ondas completas agora têm15 zumbis comuns, círculo fora da tela preservado. Intervalo por onda começa6,4s e cai com tempo até1,5s. O criador relatou que fugir parava os nascimentos e pediu não perder inimigos: removidos teto de população viva, descarte por distância e suspensão das ondas durante chefes. Isto substitui as regras anteriores de cap e de chefe sem horda comum. Pausa e ofertas ainda congelam simulação. Inimigos mortos continuam removidos; vivos distantes continuam sendo simulados e indicados na borda do minimapa, incluindo chefe dourado. O Sucateiro se move em todas fases buscando180–240px de distância; recuo lento quando perto. Atiradores ganham armas visíveis. A população viva pode crescer conforme a duração; custo de CPU e minimapa deve ser monitorado, sem descarte silencioso dos inimigos.
+
+Ajuste adicional pedido pelo criador na BUILD35: velocidade máxima de aproximação reduzida260→210px/s; velocidade normal passa a ser atingida a320px (antes180px), com transição suave até720px. Isto reduz o impulso de chegada e antecipa a desaceleração.
