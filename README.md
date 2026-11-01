@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 36 · desenvolvimento
+# Screwvivors — BUILD 37 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -58,3 +58,5 @@ BUILD34: controles iniciais somem após cinco segundos; o comando ESPAÇO aparec
 BUILD35: ondas de15, intervalo6,4→1,5s; seguem durante chefes. Zumbis vivos distantes permanecem no mundo e no minimapa (borda para distantes, marcador dourado para chefe). Aproximação reduzida para210px/s e normal a320px. Sucateiro mantém distância180–240px; atiradores carregam armas visíveis. A população viva pode crescer: avaliar desempenho em partidas longas.
 
 BUILD36: sem aceleração de aproximação para comuns. Após derrotar o segundo chefe, cinco de quinze zumbis são policiais, alternando atiradores e portadores de escudo. Escudo tem100 pontos; ao quebrar, somente o portador atingido passa a parar, mirar e investir em direção fixa. Pausa0,7s e corrida até240px a340px/s são parâmetros experimentais.
+
+BUILD37: nova trilha synthwave suave e atmosférica, com arranjos próprios para menu, garagem e combate. Botão Ativar áudio no menu ou primeiro gesto libera WebAudio. Trocas de tela têm fade visual discreto, fade musical de saída/entrada e efeito curto; pausa/retorno têm sons próprios. Volume zero segue silenciando música/efeitos separadamente.

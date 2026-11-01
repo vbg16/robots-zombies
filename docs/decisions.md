@@ -141,3 +141,7 @@ Novo pedido: remover aceleração de aproximação de todos os inimigos comuns; 
 ## Correção do conceito de policial — BUILD36
 
 O criador esclareceu que há dois tipos: atirador e portador de escudo. A transição não depende de segundo tiro; depende de destruir100 pontos do escudo. Apenas esse portador passa à investida. Atirador permanece armado/à distância. Após derrotar o Sucateiro, cinco das15 posições são policiais; a distribuição experimental alterna3/2 por onda. Portador intacto persegue em velocidade normal e não atira. Ao quebrar, pausa0,7s com rota marcada, corre até240px a340px/s na direção fixa, e repete. Parâmetros de tempo/distância/velocidade são provisórios. Escudo absorve integralmente o golpe de quebra, sem transferir excesso ao corpo; golpes seguintes atingem vida. Status continuam atuando; sem aceleração comum. A antiga regra do segundo tiro está descartada.
+
+## Trilha e transições — BUILD37
+
+Criador rejeitou a primeira música e escolheu synthwave suave e atmosférico. Nova composição procedural original: acordes suaves de7/9, baixo arredondado, melodia espaçada com eco. Arranjos menu72BPM/garagem78BPM/combate90BPM. Trocas usam fadeout0,3s, liberam notas anteriores e fadein; efeitos curtos de navegação/pausa/retorno. Botão Ativar áudio permite ouvir o menu após gesto. Troca visual discreta0,35s respeita redução de movimento. Aba oculta solicita silêncio imediatamente. Volume0 continua mudo; sem RNG do combate nem dependência de rede.

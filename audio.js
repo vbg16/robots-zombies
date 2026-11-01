@@ -1,10 +1,11 @@
 /* Original procedural score and sound palette; no network assets or combat RNG. */
 (function (root) {
  'use strict';
+ let scene=null,targetScene=null,transitionUntil=0;
  let context=null,musicBus=null,effectsBus=null,noiseBuffer=null,playing=false;
  let musicVolume=.35,effectsVolume=.6,nextStep=0,step=0,seed=0x5c4e77;
  const musicVoices=new Set(),effectVoices=new Set(),lastEffect=new Map();
- const stepSeconds=60/96/4;
+ const scenes=new Set(["menu","garage","combat"]);
  const clamp=value=>Math.max(0,Math.min(1,Number(value)||0));
  function noise(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296*2-1;}
  function volume(bus,value){if(bus&&context)bus.gain.setTargetAtTime(value,context.currentTime,.025);}
@@ -14,7 +15,7 @@
   let disposed=false;
   const entry={source,dispose(){if(disposed)return;disposed=true;voices.delete(entry);try{source.disconnect();gain.disconnect();}catch(_){}}};
   source.connect(gain);gain.connect(bus);gain.gain.setValueAtTime(.0001,when);
-  gain.gain.exponentialRampToValueAtTime(Math.max(.0002,amplitude),when+.008);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.0002,amplitude),when+(voices===musicVoices?Math.min(.16,duration*.3):.008));
   gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
   voices.add(entry);source.onended=entry.dispose;source.start(when);source.stop(when+duration+.012);
  }
@@ -46,34 +47,44 @@
    return context.state==='running';
   }catch(_){return false;}
  }
- function setPlaying(value){
-  value=!!value;if(playing===value)return;playing=value;
-  if(!playing){release(musicVoices);nextStep=0;}
-  else if(context)nextStep=context.currentTime+.025;
+ function setScene(value){
+  value=scenes.has(value)?value:null;if(value===targetScene)return;
+  targetScene=value;
+  if(!context){scene=value;playing=!!value;step=0;nextStep=0;return;}
+  musicBus.gain.cancelScheduledValues(context.currentTime);musicBus.gain.setTargetAtTime(0,context.currentTime,.065);transitionUntil=context.currentTime+.3;
  }
+ // Compatibility for integrations that require an immediate stop.
+ function setPlaying(value){step=0;transitionUntil=0;scene=targetScene=value?'combat':null;playing=!!value;release(musicVoices);nextStep=context?context.currentTime+.025:0;if(context)volume(musicBus,playing?musicVolume:0);}
  function update(){
-  if(!playing||!context||context.state!=='running'||musicVolume===0)return;
-  const now=context.currentTime;if(nextStep<now-.1)nextStep=now+.02;
-  // Schedule a short horizon only, so pause never leaves a long queued score.
+  if(!context||context.state!=='running')return;
+  const now=context.currentTime;
+  if(transitionUntil){if(now<transitionUntil)return;release(musicVoices);scene=targetScene;playing=!!scene;step=0;nextStep=now+.025;transitionUntil=0;musicBus.gain.setTargetAtTime(playing?musicVolume:0,now,.18);}
+  if(!playing||musicVolume===0)return;
+  if(nextStep<now-.1)nextStep=now+.02;
+  const tempo=scene==='menu'?72:scene==='garage'?78:90,stepSeconds=60/tempo/4;
   let count=0;
   while(nextStep<now+.09&&count++<3){
-   const position=step%64,chord=Math.floor(position/16),bass=[55,65.406,49,73.416][chord];
-   if(position%4===0)tone(bass,bass*.995,nextStep,.24,.17,'triangle',musicBus,musicVoices);
-   if(position%8===0)tone(120,40,nextStep,.13,.2,'sine',musicBus,musicVoices);
-   if(position%8===4)hiss(nextStep,.065,.07,musicBus,musicVoices);
-   if(position%2===1)hiss(nextStep,.025,.025,musicBus,musicVoices);
-   const melody=[0,7,12,10,7,3,5,2];
-   if(position%4===2){const semitone=melody[Math.floor(position/4)%8];tone(bass*4*Math.pow(2,semitone/12),null,nextStep,.28,.055,'triangle',musicBus,musicVoices);}
+   const position=step%128,chord=Math.floor(position/32),rootMidi=[48,44,51,46][chord],freq=n=>440*Math.pow(2,(n-69)/12),base=freq(rootMidi),active=scene==='combat';
+   // Warm minor-seventh pads, breathing bass and sparse, rounded pentatonic melody.
+   if(position%16===0){for(const interval of [0,7,10,14])tone(freq(rootMidi+interval+12),null,nextStep,1.8,.024,'sine',musicBus,musicVoices);}
+   if(position%8===0)tone(base/2,null,nextStep,.65,active?.095:.055,'triangle',musicBus,musicVoices);
+   const melody=[12,19,22,19,15,17,19,10,12,15,19,24,22,19,17,15];
+   if(position%8===(scene==='menu'?4:2)){const n=melody[Math.floor(position/8)%melody.length];tone(freq(rootMidi+n),null,nextStep,.9,.035,'sine',musicBus,musicVoices);tone(freq(rootMidi+n),null,nextStep+.22,.65,.009,'sine',musicBus,musicVoices);}
+   if(active&&position%4===0)tone(78,34,nextStep,.19,.08,'sine',musicBus,musicVoices);
+   if(scene!=='menu'&&position%8===4)hiss(nextStep,.045,active?.018:.009,musicBus,musicVoices);
    step++;nextStep+=stepSeconds;
   }
  }
  function play(name){
   if(!context||context.state!=='running'||effectsVolume===0||effectVoices.size>=24)return;
-  const now=context.currentTime,limits={shot:.06,kill:.1,pickup:.08,hit:.12,reload:.15,upgrade:.3,dash:.15,boss:.5,death:1};
+  const now=context.currentTime,limits={shot:.06,kill:.1,pickup:.08,hit:.12,reload:.15,upgrade:.3,dash:.15,boss:.5,death:1,transition:.08,pause:.1,resume:.1};
   if(!Object.prototype.hasOwnProperty.call(limits,name))return;
   if(now-(lastEffect.get(name)??-Infinity)<limits[name])return;lastEffect.set(name,now);
   const beep=(f,end,delay,duration,amp=.15,type='triangle')=>tone(f,end,now+delay,duration,amp,type,effectsBus,effectVoices);
-  if(name==='shot'){beep(210,75,0,.065,.16,'square');hiss(now,.04,.13,effectsBus,effectVoices);}
+  if(name==='transition'){beep(220,440,0,.16,.07,'sine');beep(660,880,.08,.2,.035,'sine');hiss(now,.08,.025,effectsBus,effectVoices);}
+  else if(name==='pause'){beep(440,220,0,.15,.06,'sine');}
+  else if(name==='resume'){beep(220,440,0,.15,.06,'sine');}
+  else if(name==='shot'){beep(210,75,0,.065,.16,'square');hiss(now,.04,.13,effectsBus,effectVoices);}
   else if(name==='reload'){beep(180,110,0,.07,.13,'square');beep(320,420,.1,.09,.11,'square');}
   else if(name==='hit'){hiss(now,.16,.3,effectsBus,effectVoices);beep(110,35,0,.2,.22,'sawtooth');}
   else if(name==='kill'){beep(180,45,0,.12,.1);hiss(now,.08,.09,effectsBus,effectVoices);}
@@ -83,9 +94,9 @@
   else if(name==='boss'){[110,103.826,110].forEach((f,i)=>beep(f,null,i*.22,.3,.19,'sawtooth'));}
   else if(name==='death'){[220,164.814,110,55].forEach((f,i)=>beep(f,Math.max(25,f*.6),i*.17,.4,.18,'triangle'));}
  }
- root.ScrewAudio=Object.freeze({unlock,setPlaying,update,play,
-  setMusicVolume(value){musicVolume=clamp(value);volume(musicBus,musicVolume);if(!musicVolume)release(musicVoices);else if(context)nextStep=context.currentTime+.025;},
+ root.ScrewAudio=Object.freeze({unlock,setScene,setPlaying,update,play,
+  setMusicVolume(value){musicVolume=clamp(value);volume(musicBus,transitionUntil||!playing?0:musicVolume);if(!musicVolume)release(musicVoices);else if(context)nextStep=context.currentTime+.025;},
   setEffectsVolume(value){effectsVolume=clamp(value);volume(effectsBus,effectsVolume);if(!effectsVolume)release(effectVoices);},
-  getState(){return {available:!!(root.AudioContext||root.webkitAudioContext),unlocked:!!context&&context.state==='running',playing,musicVolume,effectsVolume};}
+  getState(){return {available:!!(root.AudioContext||root.webkitAudioContext),unlocked:!!context&&context.state==='running',playing,scene,targetScene,transitioning:!!transitionUntil,musicVolume,effectsVolume};}
  });
 })(typeof window!=='undefined'?window:globalThis);
