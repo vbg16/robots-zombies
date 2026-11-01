@@ -42,3 +42,7 @@ Os testes Python das ferramentas de arte exigem Pillow. O jogo não exige instal
 Testes de lógica cobrem combate e simulação de dez minutos; conferência visual e balanceamento no navegador seguem pendentes. [Parâmetros experimentais](docs/game-design.md).
 
 BAST-0002 usa sprite SVG provisório próprio. Ambos os robôs e todas as armas ficam disponíveis para teste. [Catálogo e parâmetros](docs/game-design.md) · [Prompt de arte dos inimigos](docs/arte/prompt-inimigo-zumbi.md).
+
+## Estado deste canal
+
+Cópia pública local separada do desenvolvimento. Esta base 99522e5 é histórica e candidata: usa sobrevivência de dez minutos e não contém as integrações locais recentes. Não há aprovação de lançamento registrada nem deploy configurado. Consulte version.json. O desenvolvimento continua na pasta irmã Jogo, branch codex/desenvolvimento.
