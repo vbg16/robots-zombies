@@ -58,7 +58,7 @@ fire('canvas:pointerdown',{pointerType:'touch'});assert.equal(run('firing'),fals
 run("keys.add('d');keys.add('s');const before={x:player.x,y:player.y};tick(.1);globalThis.distance=Math.hypot(player.x-before.x,player.y-before.y)");
 assert.ok(Math.abs(run('distance')-19)<.001,'diagonal movement normalized');
 fire('canvas:pointerdown');fire('window:blur');assert.equal(run('state'),'paused');assert.equal(run('firing'),false);assert.equal(run('keys.size'),0);
-run('reset();spawn=100;xp=need;tick(.01)');assert.equal(run('state'),'upgrade');assert.equal(run('firing'),false);elements.get('choices').children[0].onclick();assert.equal(run('state'),'playing');
+run('reset();spawn=100;xp=need;tick(.01)');assert.equal(run('state'),'upgrade');assert.equal(run('firing'),false);elements.get('module-options').children[0].onclick();assert.equal(run('state'),'upgrade');elements.get('confirm-upgrade').onclick();assert.equal(run('state'),'playing');
 run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'playing','does not end at three minutes');
 run('reset();clock=599.99;tick(.02)');assert.equal(run('state'),'playing','survival has no automatic time limit');
 run('reset();player.hp=1;enemies=[{x:player.x,y:player.y,hp:100,speed:0,r:15}];spawn=100;tick(.01)');assert.equal(run('state'),'over');
@@ -279,12 +279,8 @@ run(`const savedRandom=Math.random;try{Math.random=()=>{throw Error('Render used
 console.log('36 unique tree nodes, prerequisites, multiplicative costs, conditional effects, 120s timers, all magazines/reloads, bursts, statuses, rendering and reset passed.');
 fresh();run('upgrade()');
 assert.equal(elements.get('overlay')['data-mode'],'upgrade');
-for(const card of elements.get('choices').children.filter(card=>card['data-skill'])){
- const id=card['data-skill'];assert.ok(fs.existsSync('assets/skills/'+id+'.svg'),id+' has a local icon');
- assert.equal(card.children[1].src,'assets/skills/'+id+'.svg');
- assert.equal(card.children[5].children.length,4,'root shows three evolutions plus label');
-}
-const first=run('offeredSkills[0].id');fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(run('player.acquired.has('+JSON.stringify(first)+')'),true,'numeric shortcut selects offered card');
+for(const card of elements.get('module-options').children){const id=card['data-skill'];assert.ok(fs.existsSync('assets/skills/'+id+'.svg'));assert.equal(card.children[0].src,'assets/skills/'+id+'.svg');}
+const first=run('offeredSkills[0].id');fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(run('player.acquired.has('+JSON.stringify(first)+')'),false,'preview never installs a module');assert.equal(elements.get('module-detail').children[1].children.length,5,'detail includes full root and three evolutions');fire('window:keydown',{key:'Enter',repeat:false,preventDefault(){}});assert.equal(run('player.acquired.has('+JSON.stringify(first)+')'),true,'Enter installs selected module');
 for(const id of run('SKILLS.map(s=>s.id)'))assert.ok(fs.existsSync('assets/skills/'+id+'.svg'),id+' icon exists');
 console.log('Upgrade card artwork, branch previews, mode and keyboard selection passed.');
 
@@ -391,10 +387,10 @@ assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].t
 
 // One run-only reroll replaces level-up choices without granting a skill or advancing combat.
 fresh();run('upgrade();globalThis.oldOffer=offeredSkills.map(s=>s.id);globalThis.oldOfferVersion=offerVersion;globalThis.beforeReroll=JSON.stringify({clock,level,xp,need,profile,damage:player.damage,acquired:[...player.acquired]})');
-const oldCard=elements.get('choices').children[0];let rerollPrevented=false;fire('window:keydown',{key:'q',repeat:true,preventDefault(){rerollPrevented=true}});assert.equal(run('rerollsRemaining'),1,'holding Q cannot spend the charge');
+const oldCard=elements.get('module-options').children[0];let rerollPrevented=false;fire('window:keydown',{key:'q',repeat:true,preventDefault(){rerollPrevented=true}});assert.equal(run('rerollsRemaining'),1,'holding Q cannot spend the charge');
 fire('window:keydown',{key:'q',repeat:false,preventDefault(){rerollPrevented=true}});assert.equal(rerollPrevented,true);assert.equal(run('rerollsRemaining'),0);assert.equal(run('state'),'upgrade');assert.equal(run('offeredSkills.length'),3);assert.ok(run('offeredSkills.every(s=>s.available()&&!oldOffer.includes(s.id))'),'replacement choices are distinct eligible modules');
 assert.equal(run('JSON.stringify({clock,level,xp,need,profile,damage:player.damage,acquired:[...player.acquired]})'),run('beforeReroll'),'reroll changes neither progress nor attributes/materials');oldCard.onclick();assert.equal(run('state'),'upgrade','discarded card callback is stale');assert.equal(run('rerollUpgrade(oldOfferVersion)'),false);assert.equal(run('rerollUpgrade(offerVersion)'),false,'charge cannot be spent twice');
-assert.equal(elements.get('choices').children.at(-2).disabled,true);fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(run('state'),'playing','new offer remains selectable by keyboard');
+assert.equal(elements.get('choices').children.at(-2).disabled,true);fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(run('state'),'upgrade','numeric key previews replacement');fire('window:keydown',{key:'Enter',repeat:false,preventDefault(){}});assert.equal(run('state'),'playing','Enter installs replacement');
 run('reset()');assert.equal(run('rerollsRemaining'),1,'retry restores one run-only charge');
 for(const source of ['boss']){run(`upgrade('${source}')`);assert.equal(run('rerollUpgrade(offerVersion)'),false,'boss reward cannot consume level-up reroll');}
 run('offerBlessing()');assert.equal(run('rerollUpgrade(offerVersion)'),false);run('offerExperiment()');assert.equal(run('rerollUpgrade(offerVersion)'),false);
@@ -452,3 +448,7 @@ fresh();run('globalThis.overkillGuard=createEnemy(900,300,"shieldPolice");global
 fresh();run('policeUnlocked=true;enemies=[];spawnCircularWave(15)');assert.equal(run('enemies.filter(isPolice).length'),5);assert.ok(run('enemies.some(z=>z.enemyType==="shieldPolice")&&enemies.some(z=>z.enemyType==="expolice")'),'both police archetypes share the one-third allocation');
 fresh();run('globalThis.gunPolice=createEnemy(player.x+300,player.y,"expolice");fireCommonShooter(gunPolice);fireCommonShooter(gunPolice)');assert.equal(run('gunPolice.policePhase'),undefined,'gun police do not enter charge mode after two shots');
 console.log('Two police archetypes,100-point shield, independent break and fixed240px charge passed.');
+
+fresh();run('openGarage();globalThis.beforeConfig=JSON.stringify(profile)');elements.get('launch').onclick();assert.equal(run('state'),'configuration');assert.equal(elements.get('run-config').hidden,false);assert.equal(elements.get('combat').hidden,true);assert.equal(run('selectWeapon("shotgun")'),false,'configuration cannot change fixed selected gear');assert.equal(run('JSON.stringify(profile)'),run('beforeConfig'),'opening configuration never spends resources');elements.get('config-back').onclick();assert.equal(run('state'),'garage');elements.get('launch').onclick();elements.get('deploy-run').onclick();assert.equal(run('state'),'playing');assert.equal(elements.get('run-config').hidden,true);
+fresh();run('upgrade();globalThis.inspectVersion=offerVersion;globalThis.inspectDamage=player.damage');elements.get('module-options').children[1].onclick();assert.equal(run('player.damage'),run('inspectDamage'));assert.equal(run('state'),'upgrade');assert.equal(elements.get('module-options').children[1]['aria-pressed'],'true');const inspectConfirm=elements.get('confirm-upgrade').onclick;run('rerollUpgrade(offerVersion)');inspectConfirm();assert.equal(run('state'),'upgrade','stale detail confirmation cannot install discarded module');
+fresh();run('upgrade()');let buttonEnterPrevented=false;fire('window:keydown',{key:'Enter',repeat:false,target:{closest(){return {tagName:'BUTTON'}}},preventDefault(){buttonEnterPrevented=true}});assert.equal(run('state'),'upgrade','Enter on focused UI preserves native button activation');assert.equal(buttonEnterPrevented,false);elements.get('module-options').children[1].onclick();assert.equal(run('previewedSkill'),run('offeredSkills[1].id'),'native option activation previews its own module');elements.get('choices').children.at(-1).onclick();assert.equal(run('state'),'playing','native skip action remains a skip');assert.equal(run('player.acquired.size'),0);

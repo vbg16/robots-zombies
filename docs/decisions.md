@@ -145,3 +145,7 @@ O criador esclareceu que há dois tipos: atirador e portador de escudo. A transi
 ## Trilha e transições — BUILD37
 
 Criador rejeitou a primeira música e escolheu synthwave suave e atmosférico. Nova composição procedural original: acordes suaves de7/9, baixo arredondado, melodia espaçada com eco. Arranjos menu72BPM/garagem78BPM/combate90BPM. Trocas usam fadeout0,3s, liberam notas anteriores e fadein; efeitos curtos de navegação/pausa/retorno. Botão Ativar áudio permite ouvir o menu após gesto. Troca visual discreta0,35s respeita redução de movimento. Aba oculta solicita silêncio imediatamente. Volume0 continua mudo; sem RNG do combate nem dependência de rede.
+
+## Telas de preparação e módulos — BUILD38
+
+Pedido do criador com referências2.png/3.png: reorganizar configuração após personagem/arma e análise de skills com opções/descrição/futuras melhorias juntas, mantendo tema próprio. Garagem agora leva à tela de protocolo com resumo de chassi/arma, modo infinito, regras e volumes; confirmar inicia, voltar retorna ao loadout. Não foram importados modos20min/rápido nem níveis de dificuldade sem regras definidas. Melhorias comuns e recompensa comum passam por análise e confirmação; clicar ou1–3 pré-visualiza, Enter/botão instala. Teclas1–3 focam confirmação. Enter/Space em botões respeitam ação nativa. Ofertas especiais mantêm atalhos próprios. HUD: robô/chefe/estatísticas alinhados no desktop, chefe em linha separada nos breakpoints menores. Paleta e assets originais preservados.

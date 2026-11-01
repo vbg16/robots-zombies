@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 37 · desenvolvimento
+# Screwvivors — BUILD 38 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -8,7 +8,7 @@ Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de ex
 
 No GitHub, use **Code → Download ZIP**, extraia e abra **index.html** no Chrome/Edge/Firefox. O ZIP antigo da pasta downloads não contém as atualizações.
 
-Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peças de chefe para desbloquear os outros equipamentos e clique em **Sair para a cidade**. Cada chassi possui um slot nesta versão. A arma não muda durante a tentativa. Saves antigos mantêm acesso ao equipamento do protótipo.
+Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peças de chefe para desbloquear os outros equipamentos e avance por **Configurar incursão** e **Iniciar incursão**. Cada chassi possui um slot nesta versão. A arma não muda durante a tentativa. Saves antigos mantêm acesso ao equipamento do protótipo.
 
 - WASD/setas: mover.
 - Mouse: mirar.
@@ -16,7 +16,7 @@ Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peç
 - R: recarregar (recarga automática ao esvaziar). O tempo é proporcional à munição faltante: metade do carregador vazio = metade do tempo.
 - P ou Esc: pausar/continuar.
 - Espaço: propulsor, somente depois de adquirir a skill (4 s de recarga; sem invulnerabilidade).
-- Colete núcleos para subir de nível; escolha uma skill ou pule.
+- Colete núcleos para subir de nível. Clique numa opção (ou use1–3) para analisar vantagem, custo e árvore; confirme a instalação pelo botão ou Enter. É possível continuar sem melhoria.
 - Nos níveis 3, 6 e 9, escolha uma Gambiarra temporária entre três alternativas, use as teclas 1–3 ou pule. Os efeitos somem na próxima tentativa.
 - A faixa de controles permanece visível dentro da arena, inclusive o propulsor depois da skill.
 - Zumbis surgem em grupos de quinze distribuídos ao redor do jogador; os grupos chegam em intervalos cada vez menores.
@@ -60,3 +60,5 @@ BUILD35: ondas de15, intervalo6,4→1,5s; seguem durante chefes. Zumbis vivos di
 BUILD36: sem aceleração de aproximação para comuns. Após derrotar o segundo chefe, cinco de quinze zumbis são policiais, alternando atiradores e portadores de escudo. Escudo tem100 pontos; ao quebrar, somente o portador atingido passa a parar, mirar e investir em direção fixa. Pausa0,7s e corrida até240px a340px/s são parâmetros experimentais.
 
 BUILD37: nova trilha synthwave suave e atmosférica, com arranjos próprios para menu, garagem e combate. Botão Ativar áudio no menu ou primeiro gesto libera WebAudio. Trocas de tela têm fade visual discreto, fade musical de saída/entrada e efeito curto; pausa/retorno têm sons próprios. Volume zero segue silenciando música/efeitos separadamente.
+
+BUILD38: configuração depois de escolher loadout, bancada de módulos com descrição e árvore reunidas e HUD do chefe alinhado aos demais painéis. As referências visuais foram adaptadas à identidade industrial/ciano e ao modo infinito.

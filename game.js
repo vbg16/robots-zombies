@@ -171,18 +171,21 @@ function renderLoadout(){
 function screenTransition(){sound("transition");const curtain=el("screen-transition");curtain.style.animation="none";requestAnimationFrame(()=>{curtain.style.animation="screenFade .35s ease-out";});}
 function openMenu(){
  screenTransition();
- clearInput();offerVersion++;state='title';el('title-screen').hidden=false;el('garage').hidden=true;el('combat').hidden=true;
+ el('run-config').hidden=true;clearInput();offerVersion++;state='title';el('title-screen').hidden=false;el('garage').hidden=true;el('combat').hidden=true;
  el('enter-garage').focus();
 }
 function openGarage(){
  screenTransition();
- clearInput();offerVersion++;state='garage';el('title-screen').hidden=true;el('garage').hidden=false;el('combat').hidden=true;
+ el('run-config').hidden=true;clearInput();offerVersion++;state='garage';el('title-screen').hidden=true;el('garage').hidden=false;el('combat').hidden=true;
  el('overlay').hidden=true;el('garage-feedback').textContent='';renderLoadout();renderCompendium();el('launch').focus();
+}
+function openRunConfig(){
+ if(state!=='garage')return false;screenTransition();clearInput();offerVersion++;state='configuration';el('garage').hidden=true;el('combat').hidden=true;el('title-screen').hidden=true;el('run-config').hidden=false;el('config-robot').textContent=ROBOTS[selectedRobot].name;el('config-weapon').textContent=WEAPONS[selectedWeapon].name+' · 1 SLOT';el('config-portrait').src=selectedRobot==='bastion'?'assets/robots/bast-0002-preview.svg':'assets/robots/prot-0001-simple.png';el('deploy-run').focus();return true;
 }
 function reset(){
  screenTransition();
  clearInput();offerVersion++;runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
- el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
+ el('run-config').hidden=true;el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
  player={specialization:null,specializationCooldown:0,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage,damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:65,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];scrap=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
  boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=6;upgradeFlash=0;displayedHealth=null;
@@ -191,7 +194,7 @@ function reset(){
 function show(title,description,label){
  clearInput();el('overlay').setAttribute('data-mode',state);el('heading').textContent=title;el('description').textContent=description;
  el('eyebrow').textContent=state==='reward'?'RECUPERAÇÃO DE CAMPO':state==='experiment'?'LABORATÓRIO DO BIRUTA':state==='blessing'?'OFICINA DE CAMPO / GAMBIARRA':(runRobot?.name||'PROT-0001')+' / '+(state==='over'?'SINAL PERDIDO':'PROTOCOLO ATIVO');
- el('choices').replaceChildren();el('start').textContent=label;el('start').hidden=!label;el('overlay').hidden=false;
+ el('module-workbench').hidden=true;el('choices').replaceChildren();el('start').textContent=label;el('start').hidden=!label;el('overlay').hidden=false;
  el('return-garage').hidden=state!=='over'&&state!=='won'&&state!=='paused';
  if(label)el('start').focus();
 }
@@ -209,12 +212,12 @@ function unlockAudio(){window.ScrewAudio?.unlock()?.then(ok=>{if(ok)el('enable-a
 el('enable-audio').onclick=unlockAudio;document.addEventListener('pointerdown',unlockAudio);document.addEventListener('keydown',unlockAudio);
 el('music-volume').addEventListener('input',e=>window.ScrewAudio?.setMusicVolume(Number(e.target.value)));
 el('effects-volume').addEventListener('input',e=>window.ScrewAudio?.setEffectsVolume(Number(e.target.value)));
-el('launch').onclick=reset;
+el('launch').onclick=openRunConfig;el('deploy-run').onclick=()=>{if(state==='configuration')reset();};el('config-back').onclick=()=>{if(state==='configuration')openGarage();};
 el('enter-garage').onclick=openGarage;el('garage-back').onclick=openMenu;
 for(const id of Object.keys(WEAPONS))el('weapon-'+id).onclick=()=>activateGear('weapons',id);
 for(const id of Object.keys(ROBOTS))el('robot-'+id).onclick=()=>activateGear('robots',id);
 el('start').onclick=()=>state==='paused'?pause():reset();el('pause').onclick=pause;el('return-garage').onclick=openGarage;
-window.addEventListener('keydown',e=>{if(state==='garage')return;if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice)chooseSkill(choice.id,offerVersion);}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
+window.addEventListener('keydown',e=>{if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){window.ScrewAudio?.setScene(null);clearInput();if(state==='playing')pause();}});
@@ -399,30 +402,23 @@ function rerollUpgrade(version){
  if(version!==offerVersion||!canRerollUpgrade())return false;
  const excluded=offeredSkills.map(s=>s.id);rerollsRemaining--;upgrade('level',excluded);return true;
 }
+let previewedSkill=null;
+function previewSkill(id,version){
+ if(!['upgrade','reward'].includes(state)||version!==offerVersion)return false;const skill=offeredSkills.find(s=>s.id===id);if(!skill)return false;previewedSkill=id;
+ for(const button of el('module-options').children)button.setAttribute('aria-pressed',String(button['skillId']===id));
+ const panel=el('module-detail');panel.replaceChildren();const copy=document.createElement('div'),title=document.createElement('h3'),benefit=document.createElement('p'),cost=document.createElement('p');copy.className='module-copy';title.textContent=skill.name;benefit.className='module-benefit';benefit.textContent=skill.benefit;cost.className='module-cost';cost.textContent='CUSTO: '+(skill.cost||'Sem penalidade.');copy.append(title,benefit,cost);
+ const root=skill.parent?SKILLS.find(s=>s.id===skill.parent):skill,evolutions=document.createElement('div'),heading=document.createElement('h4');evolutions.className='module-evolutions';heading.textContent='ÁRVORE / '+TREE_INFO[root.id].name;evolutions.append(heading);
+ for(const node of [root,...SKILLS.filter(s=>s.parent===root.id)]){const branch=document.createElement('div'),icon=document.createElement('img'),name=document.createElement('strong'),note=document.createElement('span');branch.className='module-branch';icon.src='assets/skills/'+node.id+'.svg';icon.alt='';icon.width=36;icon.height=36;name.textContent=node.name;note.textContent=(player.acquired.has(node.id)?'INSTALADO':node.id===skill.id?'EM ANÁLISE':node.parent?'EVOLUÇÃO · REQUER '+root.name:'RAIZ')+' · '+node.benefit+(node.cost?' Custo: '+node.cost:'');branch.append(icon,name,note);evolutions.append(branch);}
+ panel.append(copy,evolutions);el('confirm-upgrade').textContent='INSTALAR '+skill.name+' [ENTER]';el('confirm-upgrade').onclick=()=>chooseSkill(id,version);return true;
+}
 function upgrade(source='level',excluded=[]){
- offerSource=source;state=source==='boss'?'reward':'upgrade';clearInput();
- show(source==='boss'?'ESPÓLIO DE '+(boss?.name||'CHEFE'):'ESCOLHA SUA MELHORIA',source==='boss'?'Recompensa de campo: +20 de integridade e escolha um módulo. Válido apenas nesta tentativa.':'Escolha um módulo único. Cada raiz abre três evoluções combináveis. Benefícios e custos valem só nesta tentativa.','');
- const candidates=availableSkills().filter(s=>!excluded.includes(s.id));
- for(let i=candidates.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
- offeredSkills=candidates.slice(0,3);const version=++offerVersion;
- for(const [index,skill] of offeredSkills.entries()){
-  const b=document.createElement('button'),icon=document.createElement('img'),strong=document.createElement('strong'),category=document.createElement('span'),detail=document.createElement('span'),cost=document.createElement('span'),path=document.createElement('span'),action=document.createElement('span');
-  const root=skill.parent?SKILLS.find(s=>s.id===skill.parent):skill;
-  b.className='upgrade-card';b.setAttribute('data-skill',skill.id);b.setAttribute('data-tree',root.id);
-  icon.src='assets/skills/'+skill.id+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';
-  category.className='skill-category';category.textContent=TREE_INFO[root.id].category.toUpperCase()+' / '+TREE_INFO[root.id].name;
-  strong.textContent=skill.name;detail.className='skill-benefit';detail.textContent='VANTAGEM: '+skill.benefit;const area=skill.id==='blast'?'small':['coldReload','retaliation'].includes(skill.id)?'medium':null;if(area){const range=document.createElement('span'),disc=document.createElement('span'),rangeLabel=document.createElement('span');range.className='skill-range';disc.className='range-disc';disc.setAttribute('data-size',area);disc.setAttribute('aria-hidden','true');rangeLabel.textContent=area==='small'?'Área pequena':'Área média';range.append(disc,rangeLabel);detail.append(range);}
-  cost.className='skill-cost';cost.textContent='DESVANTAGEM: '+(skill.cost||'Sem penalidade.');
-  path.className='skill-path';const pathLabel=document.createElement('small');pathLabel.textContent=skill.parent?'RAIZ / '+TREE_INFO[root.id].name:'LIBERA TRÊS EVOLUÇÕES';path.append(pathLabel);
-  for(const node of skill.parent?[root]:SKILLS.filter(s=>s.parent===skill.id)){
-   const item=document.createElement('span'),mini=document.createElement('img'),label=document.createElement('span');item.className='skill-branch';mini.src='assets/skills/'+node.id+'.svg';mini.alt='';mini.width=24;mini.height=24;label.textContent=node.name;item.append(mini,label);path.append(item);
-  }
-  action.className='skill-action';action.textContent='['+(index+1)+']  INSTALAR MÓDULO  →';
-  b.append(category,icon,strong,detail,cost,path,action);b.onclick=()=>chooseSkill(skill.id,version);el('choices').append(b);
- }
-
+ offerSource=source;state=source==='boss'?'reward':'upgrade';clearInput();show(source==='boss'?'ESPÓLIO DE '+(boss?.name||'CHEFE'):'OFICINA DE CAMPO',source==='boss'?'Analise o módulo de recompensa antes de instalar.':'Selecione para analisar. Veja vantagem, custo e evoluções. Confirme para instalar. 1–3 seleciona · ENTER instala.','');
+ const candidates=availableSkills().filter(s=>!excluded.includes(s.id));for(let i=candidates.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
+ offeredSkills=candidates.slice(0,3);const version=++offerVersion;el('module-workbench').hidden=!offeredSkills.length;el('module-options').replaceChildren();previewedSkill=null;
+ for(const [index,skill] of offeredSkills.entries()){const button=document.createElement('button'),icon=document.createElement('img'),name=document.createElement('strong'),key=document.createElement('small');button.className='module-option';button.skillId=skill.id;button.setAttribute('data-skill',skill.id);button.setAttribute('aria-pressed','false');icon.src='assets/skills/'+skill.id+'.svg';icon.alt='';icon.width=56;icon.height=56;name.textContent=skill.name;key.textContent='['+(index+1)+'] ANALISAR';button.append(icon,name,key);button.onclick=()=>previewSkill(skill.id,version);el('module-options').append(button);}
+ if(offeredSkills.length)previewSkill(offeredSkills[0].id,version);
  if(source==='level'){const reroll=document.createElement('button');reroll.className='reroll-upgrade';reroll.setAttribute('aria-keyshortcuts','Q');reroll.disabled=!canRerollUpgrade();reroll.textContent=rerollsRemaining>0?(reroll.disabled?'SEM OUTRAS OPÇÕES SUFICIENTES':'RENOVAR OPÇÕES [Q] · 1 CARGA POR TENTATIVA'):'RENOVAÇÃO USADA · 0 CARGAS';reroll.onclick=()=>rerollUpgrade(version);el('choices').append(reroll);}
- const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='CONTINUAR SEM MELHORIA';skip.onclick=()=>{if(version!==offerVersion||!['upgrade','reward'].includes(state))return;offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();};el('choices').append(skip);el('choices').children[0]?.focus();
+ const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='CONTINUAR SEM MELHORIA';skip.onclick=()=>{if(version!==offerVersion||!['upgrade','reward'].includes(state))return;offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();};el('choices').append(skip);if(offeredSkills.length)el('module-options').children[0]?.focus();else skip.focus();
 }
 function createEnemy(x,y,type='chaser'){
  const scale=1+clock/300,baseHp=Math.round(30*scale),baseSpeed=random(HORDE.minSpeed,HORDE.maxSpeed)+Math.min(24,clock/90),variant=Math.floor(terrainNoise(Math.round(x),Math.round(y),1703)*ZOMBIE_VARIANTS.length);
@@ -886,6 +882,6 @@ function draw(){
  if(upgradeFlash>0){ctx.fillStyle='rgba(93,187,255,'+upgradeFlash*.035+')';ctx.fillRect(0,0,width,height);}
  if(aim.active&&state==='playing'){ctx.strokeStyle='#89ddff';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(aim.x,aim.y,7,0,Math.PI*2);ctx.moveTo(aim.x-12,aim.y);ctx.lineTo(aim.x+12,aim.y);ctx.moveTo(aim.x,aim.y-12);ctx.lineTo(aim.x,aim.y+12);ctx.stroke();}
 }
-function frame(now){window.ScrewAudio?.setScene(document.hidden?null:state==='title'?'menu':state==='garage'?'garage':state==='playing'?'combat':null);window.ScrewAudio?.update();const dt=Math.min((now-last)/1000,.04);last=now;if(state==='playing')tick(dt);if(!['garage','title'].includes(state))draw();requestAnimationFrame(frame);}
+function frame(now){window.ScrewAudio?.setScene(document.hidden?null:state==='title'?'menu':(state==='garage'||state==='configuration')?'garage':state==='playing'?'combat':null);window.ScrewAudio?.update();const dt=Math.min((now-last)/1000,.04);last=now;if(state==='playing')tick(dt);if(!['garage','title','configuration'].includes(state))draw();requestAnimationFrame(frame);}
 renderLoadout();requestAnimationFrame(frame);
 
