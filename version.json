@@ -1,0 +1,8 @@
+{
+  "channel": "development",
+  "status": "experimental",
+  "publicApproved": false,
+  "publicWorktree": "../Jogo-publico",
+  "publicBaseCommit": "99522e5",
+  "notes": "Integrações e especializações em desenvolvimento; não publicar automaticamente."
+}
