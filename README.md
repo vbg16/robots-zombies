@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 38 · desenvolvimento
+# Screwvivors — BUILD 39 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -34,12 +34,23 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 Abra http://127.0.0.1:8000/. Toque/controle não implementados; use teclado e mouse.
 
+## Configurar skills
+
+No menu, clique em **CONFIGURAR SKILLS** ou abra **painel-skills.html**. O painel do Manus foi adaptado ao catálogo real de 54 melhorias. Ele funciona offline, com os arquivos do ZIP extraídos juntos.
+
+Edite uma melhoria na aba **Efeitos** e clique em **Aplicar ao jogo**. Somente partidas iniciadas depois da aplicação usam os novos valores. As edições anteriores ao clique ficam em rascunho. Para aumentar um atributo em 10%, use **× 1,1**; **+ 10** soma dez unidades. Para valores fracionários, respeite o separador aceito pelo navegador.
+
+Você pode editar modificadores diretos, níveis/requisitos das skills normais, criar skills normais, desativar originais e exportar/importar JSON. Comportamentos condicionais programados e os momentos das ofertas especiais continuam definidos pelo jogo. Raridade, grupo e árvore servem para organização. Alterar o balanceamento não muda seus parafusos, peças nem desbloqueios.
+
+As configurações ficam neste navegador, dispositivo e origem; exporte JSON para transferir para outra instalação ou outro navegador. **Restaurar padrão** prepara o catálogo original no rascunho; clique em **Aplicar ao jogo** para confirmar. [Detalhes e recompilação do painel](tools/skills-panel/README.md).
+
 ## Verificar
 
 ```sh
 node --check game.js
 node tests/combat.cjs
 node tests/sprite-animation.cjs
+node tests/balance-panel.cjs
 python tests/validate_walk_test.py
 ```
 
@@ -62,3 +73,5 @@ BUILD36: sem aceleração de aproximação para comuns. Após derrotar o segundo
 BUILD37: nova trilha synthwave suave e atmosférica, com arranjos próprios para menu, garagem e combate. Botão Ativar áudio no menu ou primeiro gesto libera WebAudio. Trocas de tela têm fade visual discreto, fade musical de saída/entrada e efeito curto; pausa/retorno têm sons próprios. Volume zero segue silenciando música/efeitos separadamente.
 
 BUILD38: configuração depois de escolher loadout, bancada de módulos com descrição e árvore reunidas e HUD do chefe alinhado aos demais painéis. As referências visuais foram adaptadas à identidade industrial/ciano e ao modo infinito.
+
+BUILD39: painel de balanceamento com as 54 melhorias reais, rascunho separado, aplicação explícita nas próximas partidas, importação/exportação e validação de requisitos, números e ciclos. O editor mantém os registros originais e permite desativá-los; novos módulos são do tipo Normal e usam efeitos diretos suportados.
