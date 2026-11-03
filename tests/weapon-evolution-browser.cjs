@@ -33,8 +33,8 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   assert.equal(loadout.bought,true);assert.equal(loadout.selected.ok,true);assert.equal(loadout.robot,'nano');assert.equal(loadout.weapon,'harpoon');assert.equal(loadout.bolts,0);assert.equal(loadout.parts,0);
   await page.locator('#launch').click();assert.equal(await page.locator('#config-robot').textContent(),'NANO-0005');await page.locator('#deploy-run').click();
   assert.equal(await page.evaluate(()=>player.hp),110);assert.equal(await page.evaluate(()=>player.acquired.size),0,'revised guide grants no modules');
-  await page.evaluate(()=>{openGarage();selectedRobot='forge';openRunConfig();});assert.equal(await page.locator('#config-portrait').getAttribute('src'),'assets/robots/bast-0002-preview.svg');
-  assert.notEqual(await page.locator('#config-portrait').evaluate(e=>e.style.filter),'none');
+  await page.evaluate(()=>{openGarage();selectedRobot='forge';openRunConfig();});assert.equal(await page.locator('#config-portrait').getAttribute('src'),'assets/robots/forj-0003-portrait-v3.svg');
+  assert.equal(await page.locator('#config-portrait').evaluate(e=>e.style.filter),'none');
   assert.deepEqual(errors,[]);
   console.log('Chrome passed: 24 refits, guide, frozen RAF, keyboard/mobile, NANO purchase and revised loadout, no free modules, FORJ preview.');
  }finally{await browser.close();}

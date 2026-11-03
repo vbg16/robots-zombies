@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 47
+# Contrato vigente — Screwvivors BUILD 48
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -24,6 +24,8 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Animação inimiga |Três atlas originais96quadros/quatro direções; inclui Brutamontes e perseguidor pesado. Distância percorrida avança a passada; parado/atordoado mantém fase e idle, pausa não avança. Render não usa RNG, altera posição ou retira vivos. Policial armado/escudo, badges e estados preservados. | enemy-animation.cjs, enemy-animation-physics.cjs e Chrome HTTP/file/fallback. |
 | Cache de desenho |36atlas imutáveis no máximo, seis classes cosméticas de tamanho; raio físico exato preservado. Sem API de bitmap, fallback legado; erro de um atlas não derruba os outros. Flash compõe só alfa do sprite. | enemy-animation.cjs, Chrome, build47-render-bench.json; custo de combate extremo ainda pendente. |
 | Arma empunhada |12modelos próprios em Canvas, mira manual, mãos, recuo e gesto de recarga. Relógio visual só no tick; pausa congela e tiro cancelado não recua. Sem alterar munição/dano/trajetórias. | player-weapons.cjs e Chrome12armas/mira esquerda-direita. |
+| Animação dos demais chassis |Cinco identidades raster originais/160quadros, quatro direções, retratos e pivôs medidos. Fallback para SVG próprio e depois legado; relógios só no tick, pausa/reset preservados. Sem alterar atributos/equipamento. | chassis-animation.cjs e Chrome HTTP/file/falhas. |
+| Visuais dos chefes |Sucateiro/Bobina com passada, preparação e recuo após transição real de ataque; helper não altera agenda, física, dano ou RNG. Brutamontes mantém atlas pesado. Pausa congela. | boss-visuals.cjs, Chrome e seis mundos enemy-animation-physics com helper habilitado. |
 | Animação PROT | Atlas original32quadros, quatro direções, pivô por quadro e pés em y+28; simulação controla o relógio e pausa congela. Falhas de imagem/helper/manifesto mantêm o desenho estático. Hitbox e atributos preservados. | sprite-animation.cjs, prot-animation.cjs e Chrome HTTP/file com três fallbacks. |
 | Áudio | Synthwave suave nas cenas;12 timbres e eventos reais de reparo, sensores, corrosão, drones, escudos, recarga e chefes. Sem RNG de combate; gesto inicial, mute e limites de vozes preservados. | audio.cjs, audio-gameplay.cjs e render offline de sinal. |
 | Consultas de área | Índice temporário apenas na fase de projéteis, invalidação antes do movimento, ordem original dos alvos e desempates estáveis. Não descartar nem limitar vivos. | spatial-runtime.cjs:18mundos iguais à busca linear e ordenação integral, inclusive efeitos e sequência aleatória. |

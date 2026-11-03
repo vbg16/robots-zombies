@@ -44,3 +44,5 @@ O [README do protótipo](../README.md) descreve como executar a experiência HTM
 Ao concluir cada etapa validada, executar os testes pertinentes, registrar versão/commit e enviar o mesmo commit às branches main e codex/desenvolvimento. Confirmar os hashes remotos antes de anunciar o ZIP. codex/publico continua com seu fluxo próprio de aprovação.
 
 O criador autorizou expressamente enviar um mini relatório por e-mail após cada versão validada: versão, mudanças, verificações realmente executadas, limitações e link do commit/ZIP. Usar o destinatário fornecido na conversa; não pedir nova confirmação a cada versão. Não chamar uma etapa testada de lançamento público ou de jogo completo. Guardar o ID retornado pelo Gmail no registro local ignorado outputs/release-notifications.json para evitar duplicação. Em falha de envio, registrar pendência e informar, sem afirmar que foi entregue.
+
+A partir da BUILD48, executar node tools/check-release.cjs para impedir rótulo antigo no menu e divergências de versão/documentação/recursos offline. Essa verificação não substitui testes de jogo nem confirma publicação remota; continuar verificando o push e os hashes antes do e-mail.

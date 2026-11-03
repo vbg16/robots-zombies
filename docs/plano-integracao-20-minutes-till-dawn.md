@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 47:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 48:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -239,3 +239,7 @@ Fechada a lacuna visual da arma invisível:12modelos próprios desenhados com a 
 ## BUILD47 — caminhada inimiga e atlas imutáveis
 
 Três zumbis têm96quadros direcionais ligados à distância percorrida, incluindo Brutamontes. Parada, atordoamento, pausa, armas/escudos e estados foram preservados. Cache de36atlas imutáveis elimina recomposição contínua e restringe flash à silhueta. Duas hipóteses lentas foram rejeitadas antes de adotar o renderer medido. Chrome HTTP/file e fallbacks passaram; seis mundos compararam toda física/efeitos/RNG com animação desligada. Ver animacao-inimigos.md e build47-render-bench.json para resultados e limites. Ainda faltam animações próprias dos outros chassis e dos chefes procedurais, suportes/múltiplos slots e reavaliação de builds.
+
+## BUILD48 — identidade dos chassis e movimento dos especialistas
+
+Cinco chassis receberam sprites próprios com160quadros, retratos e fallback vetorial; os seis agora têm caminhada em quatro direções. A preparação/recuo e a passada dos chefes procedurais foram implementadas sem tocar na agenda/dano. A revisão visual levou a substituir os primeiros vetores por arte raster detalhada no estilo do PROT; os vetores ficam de fallback. Ver chassis-e-chefes.md. Passaram integração longa, seis mundos com visuais de inimigo/chefe ligados e desligados, fixtures Chrome HTTP/file e fallbacks. Check-release protege versões do menu/documentação/JSON e recursos offline. Equilíbrio, suportes adicionais, múltiplos slots e desempenho extremo continuam pendentes; arte dos dois especialistas ainda pode receber acabamento.

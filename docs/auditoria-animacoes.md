@@ -84,3 +84,7 @@ Atlas candidato adicional zombie-mechanic-walk-v2.png gerado com a referência o
 ## Integração inimiga — BUILD47
 
 Mecânico v2, catador v2 e pesado v3 foram integrados após revisão da contact sheet96quadros e do cenário. O pesado v2 branco foi rejeitado e não será incluído nos assets. Metadata/manifesto agora marcam QA do protótipo. Relatório completo em animacao-inimigos.md. As limitações históricas de integração e arma do jogador descritas acima foram resolvidas nas BUILDs45–47; os demais chassis e chefes procedurais continuam pendentes.
+
+## Chassis e especialistas — BUILD48
+
+Cinco atlas raster detalhados e fallback SVG próprios foram integrados após revisão das160poses e da arena. Junto do PROT, os seis chassis têm caminhada em quatro direções. Sucateiro/Bobina agora têm locomoção/preparação/recuo procedurais, ainda com desenho simplificado. A antiga pendência de ausência de passada desses atores fica encerrada; eventual refinamento artístico não está aprovado automaticamente. Detalhes, origem, testes, limites e reproduções em chassis-e-chefes.md.

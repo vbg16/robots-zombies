@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 47 · desenvolvimento
+# Screwvivors — BUILD 48 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -96,3 +96,5 @@ BUILD42: Lança de Fuga passa a usar NANO + Arpão, coleta e reparo na recarga p
 BUILD43: árvore Reagentes de sucata com carga corrosiva adiada, iniciador rápido, respingo em uma geração e catalisador com fogo/gelo. Uma carga por alvo, sem renovar ou acumular; escudos bloqueiam a aplicação. Painel migra 70→74, preservando edições e IDs personalizados; novos campos de prazo/dano. Descrições padrão voltam a mostrar ganho/custo autorais. [Regras, dados e limitações](docs/corrosao-programada.md). As duas tentativas naturais do ensaio não cumpriram a meta de 20 minutos; a árvore continua experimental.
 
 BUILD44: árvore Sensores de campo com pulso periódico, alcance, transmissão de fogo/frio e exposição para tiros manuais. Não dispara a arma, consome munição ou transmite procs recursivos; escudos protegem o corpo. Painel78 com migração74→78 e registros por revisão. HUD compacto mostra os seis cooldowns no celular. [Mecânicas e resultados](docs/sensores-de-campo.md): duas tentativas chegaram a 20 minutos; só uma também derrotou três chefes. Valores continuam experimentais.
+
+BUILD48: os seis chassis caminham em quatro direções; BAST/FORJ/VOLT/NANO/ENXA têm identidades pixel art próprias, retratos e fallback vetorial. Sucateiro/Bobina ganharam passada, preparação e recuo procedurais. O menu exibe a versão correta e há checagem de integridade antes da entrega. [Arte, testes e limites](docs/chassis-e-chefes.md).

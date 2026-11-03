@@ -71,11 +71,11 @@ const BOSS_MINIONS=Object.freeze({
 });
 const ROBOTS=Object.freeze({
  prot:Object.freeze({name:'PROT-0001',hp:100,speed:190,armor:0,description:'Equilibrado · 100 integridade · velocidade190 · 1 slot.',portrait:'assets/robots/prot-0001-simple.png',sprite:'prot',accent:'#71d7f2'}),
- bastion:Object.freeze({name:'BAST-0002',hp:120,speed:155,armor:1,description:'Blindado · 120 integridade · velocidade 155 · armadura1 · 1 slot.',sprite:'bastion',portrait:'assets/robots/bast-0002-preview.svg',accent:'#a8c0da'}),
- forge:Object.freeze({name:'FORJ-0003',hp:90,speed:180,armor:0,description:'Forja móvel · queimadura ×1,35 · dano direto ×0,9 · 1 slot.',sprite:'bastion',portrait:'assets/robots/bast-0002-preview.svg',accent:'#ffad6b',filter:'sepia(.7) saturate(2) hue-rotate(335deg)'}),
- volt:Object.freeze({name:'VOLT-0004',hp:85,speed:190,armor:0,description:'Condutor · descarga ×1,35 · dano direto ×0,9 · 1 slot.',sprite:'bastion',portrait:'assets/robots/bast-0002-preview.svg',accent:'#c8b7ff',filter:'sepia(.4) saturate(2) hue-rotate(220deg)'}),
- nano:Object.freeze({name:'NANO-0005',hp:110,speed:165,armor:0,description:'Oficina móvel · recarga cura até3 proporcionalmente · 1 slot.',sprite:'bastion',portrait:'assets/robots/bast-0002-preview.svg',accent:'#99e6b0',filter:'sepia(.4) saturate(1.8) hue-rotate(70deg)'}),
- swarm:Object.freeze({name:'ENXA-0006',hp:95,speed:170,armor:0,description:'Enxame · um drone de apoio desde o início · 1 slot.',sprite:'bastion',portrait:'assets/robots/bast-0002-preview.svg',accent:'#ffe6a0',filter:'sepia(.6) saturate(1.8)'})
+ bastion:Object.freeze({name:'BAST-0002',hp:120,speed:155,armor:1,description:'Blindado · 120 integridade · velocidade 155 · armadura1 · 1 slot.',sprite:'bastion',portrait:'assets/robots/bast-0002-portrait-v3.svg',accent:'#a8c0da'}),
+ forge:Object.freeze({name:'FORJ-0003',hp:90,speed:180,armor:0,description:'Forja móvel · queimadura ×1,35 · dano direto ×0,9 · 1 slot.',sprite:'bastion',portrait:'assets/robots/forj-0003-portrait-v3.svg',accent:'#ffad6b',fallbackFilter:'sepia(.7) saturate(2) hue-rotate(335deg)'}),
+ volt:Object.freeze({name:'VOLT-0004',hp:85,speed:190,armor:0,description:'Condutor · descarga ×1,35 · dano direto ×0,9 · 1 slot.',sprite:'bastion',portrait:'assets/robots/volt-0004-portrait-v3.svg',accent:'#c8b7ff',fallbackFilter:'sepia(.4) saturate(2) hue-rotate(220deg)'}),
+ nano:Object.freeze({name:'NANO-0005',hp:110,speed:165,armor:0,description:'Oficina móvel · recarga cura até3 proporcionalmente · 1 slot.',sprite:'bastion',portrait:'assets/robots/nano-0005-portrait-v3.svg',accent:'#99e6b0',fallbackFilter:'sepia(.4) saturate(1.8) hue-rotate(70deg)'}),
+ swarm:Object.freeze({name:'ENXA-0006',hp:95,speed:170,armor:0,description:'Enxame · um drone de apoio desde o início · 1 slot.',sprite:'bastion',portrait:'assets/robots/enxa-0006-portrait-v3.svg',accent:'#ffe6a0',fallbackFilter:'sepia(.6) saturate(1.8)'})
 });
 const GARAGE_PRICES=Object.freeze({
  robots:Object.freeze({bastion:Object.freeze({bolts:24}),forge:Object.freeze({bolts:28,part:'brute'}),volt:Object.freeze({bolts:28,part:'coil'}),nano:Object.freeze({bolts:24,part:'scrapper'}),swarm:Object.freeze({bolts:30,part:'coil'})}),
@@ -148,7 +148,7 @@ function purchaseGear(kind,id){
 let width=1000,height=600,state='title',last=0,clock=0,spawn=0,shot=0,kills=0,level=1,xp=0,need=PROGRESSION.initialNeed;
 let policeUnlocked=false;
 let bossIndex=0,bossKills=0,commonWaveIndex=0,hazards=[],cooldownNodes=[],cooldownLayout='';
-let selectedRobot='prot',runRobot=null,burstQueue=[],robotSprite=null,protSprite=null,protAnimation=null,arenaTile=null,arenaPattern=null;
+let selectedRobot='prot',runRobot=null,burstQueue=[],robotSprite=null,protSprite=null,protAnimation=null,chassisAnimations=new Map(),arenaTile=null,arenaPattern=null;
 const ZOMBIE_VARIANTS=[
  {name:'ex-mechanico',src:'assets/enemies/zombie-mechanic.png'},
  {name:'catador',src:'assets/enemies/zombie-scavenger.png'},
@@ -240,6 +240,7 @@ function resize(){const r=canvas.getBoundingClientRect();width=r.width||1000;hei
 window.addEventListener('resize',resize);
 function selectWeapon(id){if(state!=='garage'||!WEAPONS[id]||!gearOwned('weapons',id))return false;selectedWeapon=id;el('garage-feedback').textContent='';renderLoadout();return true;}
 if(globalThis.SpriteAnimation&&globalThis.ScrewProtAnimation){const manifest=globalThis.ScrewProtAnimation;globalThis.SpriteAnimation.load(manifest.image,manifest.clips,{scale:manifest.scale}).then(animation=>{protAnimation=animation;animation.play('idle','down');}).catch(()=>{});}
+if(globalThis.SpriteAnimation&&globalThis.ScrewChassisAtlases)for(const [id,manifest] of Object.entries(globalThis.ScrewChassisAtlases)){const load=m=>globalThis.SpriteAnimation.load(m.image,m.clips,{scale:m.scale});load(manifest).catch(()=>load(manifest.fallback)).then(animation=>{animation.play('idle','down');chassisAnimations.set(id,animation);}).catch(()=>{});}
 function selectRobot(id){if(state!=='garage'||!ROBOTS[id]||!gearOwned('robots',id))return false;selectedRobot=id;el('garage-feedback').textContent='';renderLoadout();return true;}
 
 function renderRobotOptions(){const box=document.querySelector('.robot-options');if(!box?.replaceChildren)return;box.replaceChildren();for(const [id,robot] of Object.entries(ROBOTS)){const button=document.createElement('button'),name=document.createElement('span'),status=document.createElement('small');button.type='button';button.id='robot-'+id;name.textContent=robot.name;status.id='robot-status-'+id;button.append(name,status);button.onclick=()=>activateGear('robots',id);box.append(button);}}
@@ -274,7 +275,7 @@ function openRunConfig(){
 }
 function reset(){
  screenTransition();
- configureRunBalance();clearInput();offerVersion++;if(protAnimation){protAnimation.play('idle','down');protAnimation.time=0;}runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
+ configureRunBalance();clearInput();offerVersion++;if(protAnimation){protAnimation.play('idle','down');protAnimation.time=0;}for(const animation of chassisAnimations.values()){animation.play('idle','down');animation.time=0;}runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
  el('run-config').hidden=true;el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
  player={weaponKick:0,sensorDamageMult:1,sensorIntervalMult:1,sensorRange:170,sensorTimer:0,sensorTotal:3,corrosionDamageMult:1,corrosionDelayMult:1,weaponEvolution:null,specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,facing:'down',inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];scrap=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
@@ -783,7 +784,7 @@ function segmentDistance(x,y,ax,ay,bx,by){
  return Math.hypot(x-ax-t*dx,y-ay-t*dy);
 }
 function bossTellDuration(b,base){return base*(player.specialization==='threatReader'&&Math.hypot(b.x-player.x,b.y-player.y)<=180?1.2:1);}
-function tickBoss(dt){const b=boss,x=b?.x,y=b?.y;tickBossMotion(dt);if(b&&b===boss&&b.hp>0)globalThis.ScrewEnemyAnimation?.advance(b,x,y);}
+function tickBoss(dt){const b=boss,x=b?.x,y=b?.y,phase=b?.phase;tickBossMotion(dt);if(b&&b===boss&&b.hp>0){globalThis.ScrewEnemyAnimation?.advance(b,x,y);globalThis.ScrewBossVisuals?.advance(b,phase,dt);}}
 function tickBossMotion(dt){
  if(!boss||boss.hp<=0)return;if(boss.id==='scrapper'||boss.id==='coil'){tickSpecialBoss(dt);return;}const b=boss;b.hit=Math.max(0,b.hit-dt);b.timer-=dt;
  if(b.phase==='approach'){
@@ -852,7 +853,7 @@ function tick(dt){
  player.x+=dx/length*player.speed*normalDt+player.dashDx*player.speed*3*dashDt;player.y+=dy/length*player.speed*normalDt+player.dashDy*player.speed*3*dashDt;
  player.dashTime=Math.max(0,player.dashTime-dt);
  const moving=dx!==0||dy!==0||dashDt>0;const priorStationary=player.stationary;player.stationary=moving?0:player.stationary+dt;if(player.skills.regen&&!moving)healPlayer(Math.max(0,player.stationary-Math.max(3,priorStationary))*2);player.stride+=(Number(moving)-player.stride)*(1-Math.exp(-14*dt));if(moving)player.walkPhase+=player.speed*dt*.055;
- if(protAnimation&&runRobot.id==='prot'){const mx=dashDt>0?player.dashDx:dx,my=dashDt>0?player.dashDy:dy;if(moving)player.facing=Math.abs(mx)>Math.abs(my)?(mx>0?'right':'left'):(my>0?'down':'up');protAnimation.play(moving?'walk':'idle',player.facing||'down');protAnimation.update(dt);}
+ {const mx=dashDt>0?player.dashDx:dx,my=dashDt>0?player.dashDy:dy;if(moving)player.facing=Math.abs(mx)>Math.abs(my)?(mx>0?'right':'left'):(my>0?'down':'up');const animation=runRobot.id==='prot'?protAnimation:chassisAnimations.get(runRobot.id);if(animation){animation.play(moving?'walk':'idle',player.facing||'down');animation.update(dt);}}
  syncCamera(dt);
  enemies=enemies.filter(z=>z.hp>0);
  const bossAlive=!!boss&&boss.hp>0,bossDue=clock>=bossTime(bossIndex)&&!bossAlive&&!bossReward;
@@ -905,11 +906,12 @@ function tick(dt){
  updateHUD();
 }
 function drawRobot(){
+ const animation=chassisAnimations.get(runRobot?.id);if(animation){ctx.save();ctx.strokeStyle='rgba(60,199,244,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(player.x,player.y+25,30,9,0,0,Math.PI*2);ctx.stroke();if(player.inv>0)ctx.globalAlpha=.6;animation.draw(ctx,player.x,player.y+28);ctx.restore();return;}
  if(runRobot?.id==='prot'&&protSprite&&protSprite.complete&&protSprite.naturalWidth>0){
   ctx.save();ctx.translate(player.x,player.y);ctx.fillStyle='rgba(4,12,20,.8)';ctx.beginPath();ctx.ellipse(0,25,29,8,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(60,199,244,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,22,32,10,0,0,Math.PI*2);ctx.stroke();if(player.inv>0)ctx.globalAlpha=.6;ctx.imageSmoothingEnabled=false;if(protAnimation)protAnimation.draw(ctx,0,globalThis.ScrewProtAnimation.groundOffset);else ctx.drawImage(protSprite,-29,-36,58,72);ctx.restore();return;
  }
  if(runRobot?.id==='bastion'||runRobot?.sprite==='bastion'){
-  ctx.save();ctx.translate(player.x,player.y);ctx.scale(.8,.8);if(runRobot.filter)ctx.filter=runRobot.filter;if(player.inv>0)ctx.globalAlpha=.6;
+  ctx.save();ctx.translate(player.x,player.y);ctx.scale(.8,.8);if(runRobot.fallbackFilter||runRobot.filter)ctx.filter=runRobot.fallbackFilter||runRobot.filter;if(player.inv>0)ctx.globalAlpha=.6;
   if(robotSprite&&robotSprite.complete&&robotSprite.naturalWidth>0){const frame=player.stride>.1?Math.floor(player.walkPhase*1.4)%4:0;ctx.imageSmoothingEnabled=false;ctx.drawImage(robotSprite,frame*64,0,64,80,-32,-44,64,80);}
   else{ctx.fillStyle='#4f6b7a';ctx.fillRect(-26,-20,52,40);ctx.fillStyle='#e8ddc9';ctx.fillRect(-31,-18,14,18);ctx.fillRect(17,-18,14,18);ctx.fillRect(-20,22,15,12);ctx.fillRect(5,22,15,12);ctx.fillStyle='#3cc7f4';ctx.fillRect(-10,-10,20,5);ctx.fillRect(-6,5,12,8);}
   ctx.restore();return;
@@ -1013,6 +1015,7 @@ function drawZombie(z,heavy=false){
  ctx.restore();
 }
 function drawSpecialBoss(b){
+ if(globalThis.ScrewBossVisuals?.draw(ctx,b,player,clock))return;
  ctx.save();ctx.translate(b.x,b.y);
  ctx.fillStyle='rgba(0,0,0,.4)';ctx.beginPath();ctx.ellipse(0,30,38,10,0,0,Math.PI*2);ctx.fill();
  const color=b.hit>0?'#ffffff':b.id==='scrapper'?'#8c9f67':'#8d83b4';
