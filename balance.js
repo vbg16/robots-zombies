@@ -1523,6 +1523,16 @@ function apply(id,p,original=()=>{}){
  for(const e of item.effects){const key=reverse[e.attribute],x=p[key]??0;p[key]=e.operator==='+'?x+e.value:e.operator==='−'?x-e.value:e.operator==='×'?x*e.value:e.operator==='÷'?x/e.value:e.value;}
  for(const k of Object.keys(fields)){const value=p[k];p[k]=Number.isNaN(value)?before[k]:Math.max(-1e9,Math.min(1e9,value));}p.maxHp=Math.max(1,p.maxHp);p.hp=Math.max(1,Math.min(p.maxHp,p.hp));for(const k of Object.keys(fields))if(!['hp','maxHp','armor'].includes(k))p[k]=Math.max(.001,p[k]);return true;
 }
+// Apply only weapon attributes to an additional equipped weapon. Shared HP, movement,
+// support attributes and conditional callbacks are handled once on the player.
+const weaponFields=Object.freeze(['damage','rate','magazineMult','reloadMult','projectileMult','projectileSpeed','projectileSize','projectileLife','spreadMult']);
+function applyWeapon(id,p){
+ const item=(runData||defaults).find(s=>s.id===id);if(!item||item.enabled===false)return false;
+ const base=byId.get(id),before=Object.fromEntries(weaponFields.map(k=>[k,p[k]]));
+ for(const e of item.effects){const key=reverse[e.attribute];if(!weaponFields.includes(key))continue;const x=p[key]??0;p[key]=e.operator==='+'?x+e.value:e.operator==='−'?x-e.value:e.operator==='×'?x*e.value:e.operator==='÷'?x/e.value:e.value;}
+ if(!base||JSON.stringify(item.effects)!==JSON.stringify(base.effects))for(const key of weaponFields){const value=p[key];p[key]=Number.isNaN(value)?before[key]:Math.max(.001,Math.min(1e9,value));}
+ return true;
+}
 function describe(item,base){if(!base||JSON.stringify(item.effects)!==JSON.stringify(byId.get(item.id)?.effects)||item.description!==byId.get(item.id)?.description){const mods=item.effects.map(e=>e.attribute+' '+e.operator+e.value+(e.unit?' '+e.unit:'')).join('; ');return {benefit:(item.description!==byId.get(item.id)?.description?item.description+' ':'')+(mods?'MODIFICADORES: '+mods+'. ':'')+(item.condition?'CONDIÇÕES FIXAS: '+item.condition:'Sem efeito condicional adicional.'),cost:'Modificadores acima substituem os valores diretos originais.'};}return {benefit:base.benefit,cost:base.cost||''};}
-root.ScrewBalance=Object.freeze({catalogRevision:CATALOG_REVISION,storageKey,catalog:freeze(clone(defaults)),attributes:Object.freeze(attributes),validate,migrate,save,load,snapshot,apply,describe});
+root.ScrewBalance=Object.freeze({catalogRevision:CATALOG_REVISION,storageKey,catalog:freeze(clone(defaults)),attributes:Object.freeze(attributes),validate,migrate,save,load,snapshot,apply,applyWeapon,describe});
 })(typeof window!=='undefined'?window:globalThis);

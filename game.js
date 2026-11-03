@@ -157,7 +157,25 @@ const ZOMBIE_VARIANTS=[
 ];
 let zombieSprites=[];
 if(typeof Image!=='undefined'){robotSprite=new Image();robotSprite.src='assets/robots/bast-0002-walk.svg';protSprite=new Image();protSprite.src='assets/robots/prot-0001-simple.png';arenaTile=new Image();arenaTile.src='assets/arena/blue-asphalt-tile.png';zombieSprites=ZOMBIE_VARIANTS.map(({src})=>{const sprite=new Image();sprite.src=src;return sprite;});}
+let weaponSlots=[];
 let selectedWeapon='machine',runWeapon=null,player=null,enemies=[],bullets=[],gems=[],scrap=[],sparks=[],feedback=[],effects=[],hostile=[];
+// Weapon-local state is explicit; legacy player fields remain aliases of slot zero.
+// Helpers accept a slot instead of swapping player/runWeapon during another weapon's work.
+const WEAPON_STAT_FIELDS=Object.freeze(['baseDamage','damage','rate','magazineMult','reloadMult','projectileMult','projectileSpeed','projectileSize','projectileLife','spreadMult']);
+const WEAPON_STATE_FIELDS=Object.freeze([...WEAPON_STAT_FIELDS,'ammo','reloadTime','reloadTotal','reloadMissing','reloadCapacity','shotCount','weaponKick','weaponEvolution']);
+function createWeaponState(id,index=0){
+ const weapon=Object.freeze({...WEAPONS[id],id});
+ return {index,weapon,cooldown:0,bursts:[],baseDamage:weapon.damage,damage:weapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),rate:weapon.rate,magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,ammo:AMMO[id][0],reloadTime:0,reloadTotal:0,reloadMissing:0,reloadCapacity:1,shotCount:0,weaponKick:0,weaponEvolution:null};
+}
+function bindPrimaryWeaponState(){
+ const slot=createWeaponState(runWeapon.id);for(const field of WEAPON_STATE_FIELDS)slot[field]=player[field];
+ slot.weapon=runWeapon;weaponSlots=[slot];
+ for(const field of WEAPON_STATE_FIELDS)Object.defineProperty(player,field,{enumerable:true,configurable:true,get:()=>slot[field],set:value=>{slot[field]=value;}});
+ // Preserve diagnostic/test access to the established primary bindings.
+ let localCooldown=0,localBursts=[];
+ Object.defineProperties(slot,{cooldown:{enumerable:true,configurable:true,get:()=>weaponSlots[0]===slot?shot:localCooldown,set:value=>{localCooldown=value;if(weaponSlots[0]===slot)shot=value;}},bursts:{enumerable:true,configurable:true,get:()=>weaponSlots[0]===slot?burstQueue:localBursts,set:value=>{localBursts=value;if(weaponSlots[0]===slot)burstQueue=value;}}});
+}
+function primaryWeaponState(){return weaponSlots[0];}
 let SPECIALIZATIONS=Object.freeze({
  prot:[
   {id:'tailDecoy',name:'ISCA DE CAUDA',benefit:'Após sofrer dano não letal, deixa um eco por 1,5 s que atrai perseguidores comuns. Recarga 24 s.',cost:'Chefes, lacaios e atiradores ignoram o eco.'},
@@ -178,14 +196,18 @@ function finishWeaponEvolution(){
 function chooseWeaponEvolution(id,version){
  if(state!=='evolution'||version!==offerVersion||player.weaponEvolution||level<WEAPON_EVOLUTION_LEVEL)return false;
  const item=offeredWeaponEvolutions.find(e=>e.id===id&&e.weapon===runWeapon.id);if(!item)return false;
- // Installation preserves ammo, reload progress and old projectiles. Only future emissions use the refit.
- for(const [key,factor] of Object.entries(item.multipliers))player[key]*=factor;
- const refit={...runWeapon};for(const [key,value] of Object.entries(item.additions))refit[key]=(refit[key]||0)+value;
+ if(!installWeaponEvolution(primaryWeaponState(),item))return false;
+ sound('upgrade');upgradeFlash=1;toast(item.name+' INSTALADA','#a6eaff');finishWeaponEvolution();return true;
+}
+function installWeaponEvolution(slot,item){
+ if(!item||item.weapon!==slot.weapon.id||slot.weaponEvolution)return false;
+ // Installation preserves ammo, reload progress and old projectiles.
+ for(const [key,factor] of Object.entries(item.multipliers))slot[key]*=factor;
+ const refit={...slot.weapon};for(const [key,value] of Object.entries(item.additions))refit[key]=(refit[key]||0)+value;
  if(item.traits.explosionMult)refit.explosion*=item.traits.explosionMult;
  if(item.traits.explosion){refit.explosion=item.traits.explosion;refit.splash=item.traits.splash;}
  if(item.traits.minSpread)refit.spread=Math.max(refit.spread,item.traits.minSpread);
- player.weaponEvolution=item;runWeapon=Object.freeze(refit);player.ammo=Math.min(player.ammo,magazineSize());
- sound('upgrade');upgradeFlash=1;toast(item.name+' INSTALADA','#a6eaff');finishWeaponEvolution();return true;
+ slot.weaponEvolution=item;slot.weapon=Object.freeze(refit);if(slot===primaryWeaponState())runWeapon=slot.weapon;slot.ammo=Math.min(slot.ammo,magazineSize(slot));return true;
 }
 function declineWeaponEvolution(version){if(state!=='evolution'||version!==offerVersion)return false;finishWeaponEvolution();return true;}
 function offerWeaponEvolution(){
@@ -230,7 +252,7 @@ function renderHealth(hp){
  el('health-fill').style.width=(hp/max*100)+'%';el('health-value').textContent=Math.ceil(hp)+' / '+max;
 }
 
-function clearInput(){keys.clear();firing=false;burstQueue=[];}
+function clearInput(){keys.clear();firing=false;burstQueue=[];for(const slot of weaponSlots)slot.bursts=[];}
 function syncCamera(dt=0){
  if(!dt){camera.x=player.x-width/2;camera.y=player.y-height/2;return;}
  const ox=player.x-camera.x-width/2,oy=player.y-camera.y-height/2,blend=1-Math.exp(-6*dt);
@@ -280,6 +302,7 @@ function reset(){
  el('run-config').hidden=true;el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
  player={rotorDamageMult:1,rotorPeriodMult:1,rotorRange:72,rotorPhase:0,rotorTime:0,rotorX:width/2,rotorY:height/2,rotorHits:[new WeakMap(),new WeakMap(),new WeakMap()],weaponKick:0,sensorDamageMult:1,sensorIntervalMult:1,sensorRange:170,sensorTimer:0,sensorTotal:3,corrosionDamageMult:1,corrosionDelayMult:1,weaponEvolution:null,specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,facing:'down',inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];scrap=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
+ bindPrimaryWeaponState();
  boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];weaponEvolutionOffered=false;offeredWeaponEvolutions=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=PROGRESSION.initialNeed;upgradeFlash=0;displayedHealth=null;
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida');updateHUD();
 }
@@ -372,15 +395,27 @@ function renderCooldowns(){
 }
 function toast(text,color='#89ddff'){feedback.push({x:player.x,y:player.y-46,text,life:1.4,color});}
 function boostDamage(){player.damageStacks++;player.damage*=2;player.rate*=1.5;toast('DANO ×2 · INTERVALO ×1,5');}
-function fireInterval(){return player.rate/(player.frenzy>0?3:1);}
-function shotDamage(){return player.damage+(player.acquired.has('titan')&&player.acquired.has('armor')?Math.min(player.damage*.75,player.maxHp*.03):0);}
+function fireInterval(slot=primaryWeaponState()){return slot.rate/(player.frenzy>0?3:1);}
+function shotDamage(slot=primaryWeaponState()){return slot.damage+(player.acquired.has('titan')&&player.acquired.has('armor')?Math.min(slot.damage*.75,player.maxHp*.03):0);}
 function bossRepairAmount(){return player.skills.bossHunter?40:20;}
-function magazineSize(){return Math.max(1,Math.floor(AMMO[runWeapon.id][0]*player.magazineMult));}
-function reloadDuration(){return AMMO[runWeapon.id][1]*player.reloadMult;}
-function missingReloadDuration(){return (magazineSize()-player.ammo)/magazineSize()*reloadDuration();}
-function startReload(){
- if(state!=='playing'||player.reloadTime>0||player.ammo>=magazineSize())return false;
- sound("reload");player.reloadMissing=magazineSize()-player.ammo;player.reloadCapacity=magazineSize();player.reloadTotal=missingReloadDuration();player.reloadTime=player.reloadTotal;burstQueue=[];return true;
+function magazineSize(slot=primaryWeaponState()){return Math.max(1,Math.floor(AMMO[slot.weapon.id][0]*slot.magazineMult));}
+function reloadDuration(slot=primaryWeaponState()){return AMMO[slot.weapon.id][1]*slot.reloadMult;}
+function missingReloadDuration(slot=primaryWeaponState()){return (magazineSize(slot)-slot.ammo)/magazineSize(slot)*reloadDuration(slot);}
+function startReload(slot=primaryWeaponState()){
+ if(state!=='playing'||slot.reloadTime>0||slot.ammo>=magazineSize(slot))return false;
+ sound("reload");slot.reloadMissing=magazineSize(slot)-slot.ammo;slot.reloadCapacity=magazineSize(slot);slot.reloadTotal=missingReloadDuration(slot);slot.reloadTime=slot.reloadTotal;slot.bursts=[];return true;
+}
+function tickWeaponReload(slot,dt){
+ if(slot.reloadTime<=0)return;
+ slot.reloadTime=Math.max(0,slot.reloadTime-dt);if(slot.reloadTime!==0)return;
+ sound('reloadReady');const capacity=magazineSize(slot),replaced=Math.max(0,capacity-slot.ammo),fraction=Math.max(0,Math.min(1,Math.min(slot.reloadMissing,replaced)/slot.reloadCapacity));slot.ammo=capacity;
+ healPlayer(((player.skills.repair?5:0)+(runRobot.id==='nano'?3:0))*fraction);
+ if(player.specialization==='coolantLoop'&&fraction>=.5){for(const z of targets())if(z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=80)z.slowTime=Math.max(z.slowTime||0,2);effects.push({x:player.x,y:player.y,r:80,life:.4,max:.4,color:'#9df2ef'});}
+ if(player.skills.coldReload){for(const z of targets())if(z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=140)z.slowTime=Math.max(z.slowTime||0,4);effects.push({x:player.x,y:player.y,r:140,life:.4,max:.4,color:'#9df2ef'});}
+}
+function tickWeaponFire(slot,dt){
+ if(firing&&slot.reloadTime===0){for(const queued of [...slot.bursts]){queued.delay-=dt;if(queued.delay<=0&&aim.active&&slot.reloadTime===0)emitProjectiles(Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x),slot);}slot.bursts=slot.bursts.filter(q=>q.delay>0);}else slot.bursts=[];
+ slot.cooldown=Math.max(0,slot.cooldown-dt);if(firing&&aim.active&&slot.cooldown<=0&&bullets.length<400)fireWeapon(slot);
 }
 function availableSkills(){return SKILLS.filter(s=>s.available());}
 function renderCompendium(){
@@ -459,7 +494,15 @@ const SKILLS=[
 
 const BASE_NORMAL=SKILLS.map(s=>({...s})),BASE_BLESSINGS=GAMBARRAS,BASE_EXPERIMENTS=BOSS_EXPERIMENTS,BASE_SPECIALIZATIONS=SPECIALIZATIONS;
 let runBalance=null;
-function applyRunBalance(id,callback){const result=window.ScrewBalance&&runBalance?window.ScrewBalance.apply(id,player,callback):callback();player.ammo=Math.min(player.ammo,magazineSize());return result;}
+function applyRunBalance(id,callback){
+ const before=Object.fromEntries(WEAPON_STAT_FIELDS.map(key=>[key,player[key]]));
+ const result=window.ScrewBalance&&runBalance?window.ScrewBalance.apply(id,player,callback):callback();
+ if(result!==false)for(const slot of weaponSlots.slice(1)){
+  if(window.ScrewBalance&&runBalance)window.ScrewBalance.applyWeapon(id,slot);
+  else for(const key of WEAPON_STAT_FIELDS)if(before[key]!==0)slot[key]*=player[key]/before[key];
+ }
+ for(const slot of weaponSlots)slot.ammo=Math.min(slot.ammo,magazineSize(slot));return result;
+}
 function normalSkillAvailable(id,parent){const config=runBalance?.find(s=>s.id===id);return !player.acquired.has(id)&&(!runBalance||!!config&&config.enabled!==false&&level>=config.unlockLevel)&&((config?.prerequisites)|| (parent?[parent]:[])).every(p=>player.acquired.has(p))&&(id!=='ricochet'||!runWeapon.returning);}
 function configureRunBalance(){
  if(!window.ScrewBalance)return;runBalance=window.ScrewBalance.snapshot();const current=new Map(runBalance.filter(s=>s.enabled!==false).map(s=>[s.id,s]));
@@ -798,22 +841,22 @@ function impact(z,b){
  const radius=Math.max(w.explosion||0,player.skills.blast?64:0);
  if(radius)explodeAt(z.x,z.y,b.damage*(w.splash||.5)*(w.explosion&&player.skills.blast?1.25:1),radius,z);
 }
-function emitProjectiles(angle){
+function emitProjectiles(angle,slot=primaryWeaponState()){
  if(bullets.length>=400)return false;
- if(player.reloadTime>0||player.ammo<=0){if(player.ammo<=0)startReload();return false;}
- const repairBoost=player.repairShotReady?1.5:1;player.repairShotReady=false;player.ammo--;player.shotCount++;const w=runWeapon,count=Math.min(400,Math.max(1,Math.floor(w.pellets*player.projectileMult))),spread=Math.max(w.spread,count>1?.16:0)*player.spreadMult;
+ if(slot.reloadTime>0||slot.ammo<=0){if(slot.ammo<=0)startReload(slot);return false;}
+ const repairBoost=player.repairShotReady?1.5:1;player.repairShotReady=false;slot.ammo--;slot.shotCount++;const w=slot.weapon,count=Math.min(400,Math.max(1,Math.floor(w.pellets*slot.projectileMult))),spread=Math.max(w.spread,count>1?.16:0)*slot.spreadMult;
  for(let i=0;i<count&&bullets.length<400;i++){
-  const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=!!player.skills.crit&&player.shotCount%5===0,speed=(w.speed||570)*player.projectileSpeed,life=w.life*player.projectileLife;
-  bullets.push({weapon:w,evolutionTraits:player.weaponEvolution?.traits||null,x:player.x,y:player.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,returnSpeed:speed,damage:shotDamage()*(crit?3:1)*repairBoost,radius:(w.radius||6)*player.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:runWeapon.returning?0:player.skills.ricochet});
+  const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=!!player.skills.crit&&slot.shotCount%5===0,speed=(w.speed||570)*slot.projectileSpeed,life=w.life*slot.projectileLife;
+  bullets.push({weapon:w,evolutionTraits:slot.weaponEvolution?.traits||null,x:player.x,y:player.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,returnSpeed:speed,damage:shotDamage(slot)*(crit?3:1)*repairBoost,radius:(w.radius||6)*slot.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:slot.weapon.returning?0:player.skills.ricochet});
  }
- player.weaponKick=1;sound('shot-'+w.id);if(player.ammo===0)startReload();return true;
+ slot.weaponKick=1;sound('shot-'+w.id);if(slot.ammo===0)startReload(slot);return true;
 }
-function fireWeapon(){
- if(player.reloadTime>0)return false;
- const angle=Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x);if(!emitProjectiles(angle))return false;
- if(runWeapon.burst&&player.reloadTime===0)for(let i=1;i<runWeapon.burst;i++)burstQueue.push({delay:i*.075});
- effects.push({x:player.x+Math.cos(angle)*24,y:player.y+Math.sin(angle)*24,r:14,life:.09,max:.09,color:runWeapon.burn?'#ffbf73':'#b6f3ff'});
- shot=fireInterval();if(player.ammo===0)startReload();return true;
+function fireWeapon(slot=primaryWeaponState()){
+ if(slot.reloadTime>0)return false;
+ const angle=Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x);if(!emitProjectiles(angle,slot))return false;
+ if(slot.weapon.burst&&slot.reloadTime===0)for(let i=1;i<slot.weapon.burst;i++)slot.bursts.push({delay:i*.075});
+ effects.push({x:player.x+Math.cos(angle)*24,y:player.y+Math.sin(angle)*24,r:14,life:.09,max:.09,color:slot.weapon.burn?'#ffbf73':'#b6f3ff'});
+ slot.cooldown=fireInterval(slot);if(slot.ammo===0)startReload(slot);return true;
 }
 function bounceProjectile(b,from){
  if(!(b.bounces>0))return false;
@@ -829,7 +872,7 @@ function tickStatuses(dt){
  player.specializationCooldown=Math.max(0,player.specializationCooldown-dt);player.repairArmorTime=Math.max(0,player.repairArmorTime-dt);player.markTime=Math.max(0,player.markTime-dt);if(!player.markTime||player.markedTarget?.hp<=0)player.markedTarget=null;
  if(player.decoy){player.decoy.life-=dt;if(player.decoy.life<=0)player.decoy=null;}
  for(const id of Object.keys(player.hitCooldowns))player.hitCooldowns[id]=Math.max(0,player.hitCooldowns[id]-dt);player.frenzy=Math.max(0,player.frenzy-dt);
- if(player.reloadTime>0){player.reloadTime=Math.max(0,player.reloadTime-dt);if(player.reloadTime===0){sound('reloadReady');const capacity=magazineSize(),replaced=Math.max(0,capacity-player.ammo),fraction=Math.max(0,Math.min(1,Math.min(player.reloadMissing,replaced)/player.reloadCapacity));player.ammo=capacity;healPlayer(((player.skills.repair?5:0)+(runRobot.id==='nano'?3:0))*fraction);if(player.specialization==='coolantLoop'&&fraction>=.5){for(const z of targets())if(z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=80)z.slowTime=Math.max(z.slowTime||0,2);effects.push({x:player.x,y:player.y,r:80,life:.4,max:.4,color:'#9df2ef'});}if(player.skills.coldReload){for(const z of targets())if(z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=140)z.slowTime=Math.max(z.slowTime||0,4);effects.push({x:player.x,y:player.y,r:140,life:.4,max:.4,color:'#9df2ef'});}}}
+ for(const slot of weaponSlots)tickWeaponReload(slot,dt);
  player.dashCooldown=Math.max(0,player.dashCooldown-dt);
  for(const z of targets()){
   if(z.hp<=0)continue;
@@ -907,7 +950,7 @@ function drawHazards(){
 function tick(dt){
  if(state!=='playing')return;
  clock+=dt;
- player.inv=Math.max(0,player.inv-dt);player.weaponKick=Math.max(0,player.weaponKick-dt*12);tickStatuses(dt);
+ player.inv=Math.max(0,player.inv-dt);for(const slot of weaponSlots)slot.weaponKick=Math.max(0,slot.weaponKick-dt*12);tickStatuses(dt);
  const dx=Number(keys.has('d')||keys.has('arrowright'))-Number(keys.has('a')||keys.has('arrowleft')),dy=Number(keys.has('s')||keys.has('arrowdown'))-Number(keys.has('w')||keys.has('arrowup')),length=Math.hypot(dx,dy)||1;
  const dashDt=Math.min(dt,player.dashTime),normalDt=dt-dashDt;
  player.x+=dx/length*player.speed*normalDt+player.dashDx*player.speed*3*dashDt;player.y+=dy/length*player.speed*normalDt+player.dashDy*player.speed*3*dashDt;
@@ -919,8 +962,7 @@ function tick(dt){
  const bossAlive=!!boss&&boss.hp>0,bossDue=clock>=bossTime(bossIndex)&&!bossAlive&&!bossReward;
  {spawn-=dt;if(spawn<=0){spawn=Math.max(HORDE.minInterval,HORDE.interval-clock*HORDE.ramp);spawnCircularWave(HORDE.waveSize);}}
  if(bossDue)spawnBoss();
- if(firing&&player.reloadTime===0){for(const queued of [...burstQueue]){queued.delay-=dt;if(queued.delay<=0&&aim.active&&player.reloadTime===0)emitProjectiles(Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x));}burstQueue=burstQueue.filter(q=>q.delay>0);}else burstQueue=[];
- shot=Math.max(0,shot-dt);if(firing&&aim.active&&shot<=0&&bullets.length<400)fireWeapon();
+ for(const slot of weaponSlots)tickWeaponFire(slot,dt);
  if(bullets.length)buildCollisionGrid();
  for(const b of bullets){
   const ax=b.x,ay=b.y;

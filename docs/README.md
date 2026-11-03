@@ -31,3 +31,5 @@ Os documentos descrevem o jogo pretendido. Não significam que todas as funciona
 Não há data de lançamento, preço, orçamento aprovados; a base atual é HTML/CSS/JavaScript no navegador. O nome Screwvivors é de trabalho e ainda requer verificação de disponibilidade.
 
 - [Vizinhos elétricos na BUILD50](vizinhos-eletricos.md): otimização, regressões e comparação de desempenho com trabalho idêntico.
+
+- [Preparação de estado por arma](armas-por-estado.md): trabalho posterior à BUILD50, ainda sem múltiplos espaços expostos na garagem.

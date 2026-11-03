@@ -248,3 +248,7 @@ Cinco chassis receberam sprites próprios com160quadros, retratos e fallback vet
 ## BUILD49 — Rotores de Sucata
 
 Quatro módulos originais adicionam suporte orbital de contato; quantidade/raio/período/dano têm custos próprios e limites. Colisão contínua inclui deslocamento do jogador sem repetir dano em vários quadros de sobreposição. Não emite munição ou efeitos da arma. Migração78→82 preserva rascunhos/configurações e colisões de ID; o editor usa a revisão da API. Ver rotores-de-sucata.md:108cenários controlados,70cenários das dez receitas, Chrome/migração/pausa e duas tentativas naturais que não cumpriram1200s+3chefes. Nenhuma receita canônica ou atributo global de inimigo foi alterado. A integração de suportes agora tem drones, sensores e rotores; múltiplos slots e avaliação ampla de equilíbrio continuam pendentes.
+
+## Preparação após BUILD50 — estado por arma
+
+Combate passou a receber estado explícito de arma para emissão, rajada, cadência, recarga e reforja. A principal mantém compatibilidade com o jogador; estados adicionais têm valores independentes. Módulos aplicam atributos de arma por espaço e vida/movimento uma única vez.48 mundos de12armas comparam estado/RNG exatamente com a BUILD50;82entradas foram verificadas quanto a isolamento. A garagem ainda equipa uma arma:armações avançadas, HUD, origem dos procs, reforjas por espaço e combinações precisam de integração antes de anunciar multisslots ou publicar nova versão estável. Ver armas-por-estado.md.
