@@ -28,9 +28,14 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
    const result=await page.evaluate(({weapon,slot})=>{openGarage();selectWeapon(weapon);reset();spawn=10000;level=19;xp=need;tick(.01);const p=JSON.stringify(profile),ammo=player.ammo,evo=offeredWeaponEvolutions[slot];chooseWeaponEvolution(evo.id,offerVersion);return {id:player.weaponEvolution.id,expected:evo.id,weapon:runWeapon.id,selected:selectedWeapon,profile:JSON.stringify(profile)===p,ammo:player.ammo===ammo};},{weapon,slot});
    assert.equal(result.id,result.expected);assert.equal(result.weapon,weapon);assert.equal(result.selected,weapon);assert.equal(result.profile,true);assert.equal(result.ammo,true);
   }
+  const locked=await page.evaluate(()=>{openGarage();return ScrewBuildGuide.selectBuild('lanca-de-fuga');});assert.equal(locked.ok,false,'new NANO recipe stays locked before purchase');
+  const loadout=await page.evaluate(()=>{profile.bolts=24;profile.bossParts.scrapper=1;const bought=purchaseGear('robots','nano');const selected=ScrewBuildGuide.selectBuild('lanca-de-fuga');return {bought,selected,robot:selectedRobot,weapon:selectedWeapon,bolts:profile.bolts,parts:profile.bossParts.scrapper};});
+  assert.equal(loadout.bought,true);assert.equal(loadout.selected.ok,true);assert.equal(loadout.robot,'nano');assert.equal(loadout.weapon,'harpoon');assert.equal(loadout.bolts,0);assert.equal(loadout.parts,0);
+  await page.locator('#launch').click();assert.equal(await page.locator('#config-robot').textContent(),'NANO-0005');await page.locator('#deploy-run').click();
+  assert.equal(await page.evaluate(()=>player.hp),110);assert.equal(await page.evaluate(()=>player.acquired.size),0,'revised guide grants no modules');
   await page.evaluate(()=>{openGarage();selectedRobot='forge';openRunConfig();});assert.equal(await page.locator('#config-portrait').getAttribute('src'),'assets/robots/bast-0002-preview.svg');
   assert.notEqual(await page.locator('#config-portrait').evaluate(e=>e.style.filter),'none');
   assert.deepEqual(errors,[]);
-  console.log('Chrome passed: 24 refit selections, guide highlight, frozen RAF, keyboard, mobile, manual, immutable equipment/progress and FORJ preview.');
+  console.log('Chrome passed: 24 refits, guide, frozen RAF, keyboard/mobile, NANO purchase and revised loadout, no free modules, FORJ preview.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

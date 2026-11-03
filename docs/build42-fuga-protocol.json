@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-03T01:57:26.001Z",
+  "scope": "Decision rule recorded before inspecting completed hypothesis-2 outcomes. Small exploratory sample, not public approval.",
+  "hypothesis": "NANO + harpoon, collection and proportional reload repair support mobility before level20.",
+  "trainingSeeds": [
+    20261102,
+    20261103,
+    20261104,
+    20261105
+  ],
+  "holdoutSeeds": [
+    20261106,
+    20261107
+  ],
+  "adoption": {
+    "minimumPairsImprovingBy60Seconds": 4,
+    "maximumAllowedRegressionSeconds": 60,
+    "bothHoldoutTimesMustImprove": true
+  },
+  "unchangedViabilityTarget": {
+    "seconds": 1200,
+    "minimumBosses": 3
+  },
+  "retainEveryFailure": true,
+  "changeOnlyRecipeAfterEvaluation": true
+}

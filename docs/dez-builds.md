@@ -1,4 +1,4 @@
-# Dez projetos de build do Screwvivors — BUILD 40
+# Dez projetos de build do Screwvivors — BUILD 42
 
 Implementações originais para combinar chassi, arma, aprimoramentos, condição de ativação e uma forma de sobreviver. O catálogo jogável está em `builds.js`. No menu ou na garagem, abra **PROJETOS DE BUILD** para consultar as receitas e acompanhar a montagem durante a partida.
 
@@ -17,9 +17,9 @@ Implementações originais para combinar chassi, arma, aprimoramentos, condiçã
 | Demolição de Campo | BAST + Lança-granadas | Área expandida, dano de chefe e detonações adicionais | Intervalos sem disparar |
 | Oficina Viva | NANO + Escopeta | Vida convertida em dano, recarga proporcional e cura que prepara uma salva perfurante | Movimento lento e exposição durante recarga |
 | Enxame de Sucata | ENXA + Arpão | Até três drones mantêm pressão enquanto a arma recarrega | Alcance e cadência da frota |
-| Lança de Fuga | PROT + Arpão | Avanço, velocidade, resfriamento e conversão de movimento em dano cinético | Pouca vida e uma rota de fuga precisa |
+| Lança de Fuga | NANO + Arpão | Coleta, reparo na recarga, avanço e conversão de movimento em dano cinético | Vida reduzida pela velocidade; cura exige recarga e integridade perdida |
 
-As ordens completas de oito skills, quatro peças centrais, gambiarras, experimentos e especialização aparecem nos cartões do jogo. São recomendações, não uma promessa de que todas as peças serão ofertadas em qualquer tentativa.
+As ordens completas de oito skills, quatro peças centrais, gambiarras, experimentos, especialização e reforja da arma aparecem nos cartões do jogo. A Lança de Fuga foi revisada na BUILD 42; [comparação de seis sementes e limites](ajuste-lanca-de-fuga.md). São recomendações, não uma promessa de que todas as peças serão ofertadas em qualquer tentativa.
 
 ## Seis chassis
 

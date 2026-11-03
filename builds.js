@@ -102,15 +102,15 @@ const builds=[
   avoid:['Drones não disparam a arma do jogador nem multiplicam infinitamente outros efeitos.','Mais projéteis da arma não criam mais drones.'],tags:['Drones','Dano contínuo','Alcance']
  },
  {
-  id:'lanca-de-fuga',evolution:'harpoon-pressurePiston',name:'Lança de Fuga',robot:'prot',weapon:'harpoon',
-  summary:'Movimento e empurrão permitem lutar em retirada sem abandonar o dano.',
-  engine:'Servos rápidos + avanço + projétil perfurante; o Motor Cinético converte velocidade em dano adicional quando há Impacto Cinético.',
-  skills:['dash','damage','freeze','rate','speed','finisher','knock','range'],core:['dash','damage','freeze','rate'],
-  blessings:['greasedServos','pulseCoil','spareBattery'],specialization:'tailDecoy',experiments:['nervousServo','unstableLens'],
-  strength:'Reposicionamento rápido, controle de corredores e alcance para lutar recuando.',
-  weakness:'Pouca vida e munição; uma rota ruim ou investida policial ainda pode encerrar a tentativa.',
-  strategy:'Circule a horda, mire na ameaça que bloqueia a saída e use o avanço para mudar de corredor antes de ser cercado.',
-  avoid:['O avanço não concede invulnerabilidade.','Movimento alto não protege contra uma direção de investida já travada.'],tags:['Mobilidade','Empurrão','Perfuração']
+  id:'lanca-de-fuga',evolution:'harpoon-pressurePiston',name:'Lança de Fuga',robot:'nano',weapon:'harpoon',
+  summary:'Mobilidade, arpão e reparos na recarga sustentam a retirada.',
+  engine:'NANO + recarga reparadora + avanço; cura real prepara uma salva perfurante. O Motor Cinético acrescenta dano quando Pernas Hidráulicas e Impacto Cinético se encontram.',
+  skills:['damage','rate','magnet','repair','dash','speed','freeze','knock'],core:['damage','magnet','repair','dash'],
+  blessings:['spareBattery','pulseCoil','greasedServos'],specialization:'repairCharge',experiments:['volatileReactor','lithiumPack'],
+  strength:'Reparo frequente, coleta ampla e disparos perfurantes preparados por cura.',
+  weakness:'Pouca munição; velocidade custa vida, e reparar exige completar recargas. Integridade cheia não prepara a carga ofensiva.',
+  strategy:'Monte coleta e reparo antes de apostar toda a defesa na velocidade. Circule a horda, gaste o carregador mirando a saída e use o avanço para mudar de corredor durante a recarga.',
+  avoid:['O avanço não concede invulnerabilidade.','Recargas parciais curam proporcionalmente menos.','Cura em integridade cheia não prepara a Carga de Reparo.'],tags:['Mobilidade','Empurrão','Perfuração']
  }
 ];
 for(const item of builds){for(const value of Object.values(item))if(Array.isArray(value))Object.freeze(value);Object.freeze(item);}

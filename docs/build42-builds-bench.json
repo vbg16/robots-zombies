@@ -1,0 +1,1418 @@
+{
+  "note": "All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.",
+  "executions": [
+    {
+      "at": "2026-11-03T02:03:33.265Z",
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Lança de Fuga revisada por comparação de seis sementes: NANO, Arpão, mobilidade e reparo. Cinco de seis cumpriram a meta comparativa; balanceamento geral continua experimental. Não promover automaticamente ao público.",
+        "build": 42
+      },
+      "gameplayRevision": "build42-fuga-applied",
+      "recipeOverride": null,
+      "refitsEnabled": true,
+      "excludedCases": [],
+      "sourceHashes": {
+        "game.js": "999ef34a45d2c4d0fd40cad3f277e6daf07321b3f6ebc292d3148f5d33c1ebb7",
+        "balance.js": "67afbb3c8c9f028f4a5f043a7de87b2a6db94dfbf60b817525257e572e40d8e3",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "recipes": [
+        {
+          "id": "agulha-antitita",
+          "evolution": "sniper-railDrill",
+          "name": "Agulha Antititã",
+          "robot": "prot",
+          "weapon": "sniper",
+          "summary": "Tiros precisos para atravessar a linha de frente e desmontar chefes.",
+          "engine": "Impacto forte + perfuração + bônus contra chefe; Caça-Titãs recupera uma bateria adicional por chefe e a marca do PROT recompensa manter o mesmo alvo.",
+          "skills": [
+            "damage",
+            "bossHunter",
+            "freeze",
+            "rate",
+            "pierce",
+            "range",
+            "crit",
+            "dash"
+          ],
+          "core": [
+            "damage",
+            "bossHunter",
+            "freeze",
+            "rate"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "greasedServos"
+          ],
+          "specialization": "predatorMark",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Alto dano por acerto e pressão em chefe alinhado com a horda.",
+          "weakness": "Pouca munição e recarga longa deixam os flancos expostos.",
+          "strategy": "Mantenha distância, alinhe inimigos e use a recarga para reposicionar. Priorize o chefe quando houver uma linha segura.",
+          "avoid": [
+            "Não atire fora do alcance reduzido por Caça-Titãs.",
+            "Não sacrifique toda a mobilidade por dano."
+          ],
+          "tags": [
+            "Precisão",
+            "Chefes",
+            "Perfuração"
+          ]
+        },
+        {
+          "id": "tempestade-balistica",
+          "evolution": "laser-pulseClock",
+          "name": "Tempestade Balística",
+          "robot": "prot",
+          "weapon": "laser",
+          "summary": "Muitos disparos alimentam o quinto impacto e a reposição por abates.",
+          "engine": "Cadência + dois projéteis + crítico a cada quinto disparo ativam o Crivo Balístico, com um pulso de área por projétil crítico.",
+          "skills": [
+            "rate",
+            "extra",
+            "damage",
+            "crit",
+            "magnet",
+            "killAmmo",
+            "freeze",
+            "pierce"
+          ],
+          "core": [
+            "rate",
+            "extra",
+            "damage",
+            "crit"
+          ],
+          "blessings": [
+            "triggerRegulator",
+            "pulseCoil",
+            "spareBattery"
+          ],
+          "specialization": "predatorMark",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Boa frequência de acertos, progressão de crítico previsível e limpeza de corredores.",
+          "weakness": "Perde força durante a recarga e cada projétil isolado é relativamente fraco.",
+          "strategy": "Varra a frente da horda, mantenha o alvo marcado em chefes e recolha núcleos nas janelas abertas.",
+          "avoid": [
+            "Dispersão não garante que os dois projéteis acertem o mesmo alvo.",
+            "Evite aumentar repetidamente a recarga sem obter sustentação."
+          ],
+          "tags": [
+            "Cadência",
+            "Crítico",
+            "Munição"
+          ]
+        },
+        {
+          "id": "escopeta-ricochete",
+          "evolution": "shotgun-wideBore",
+          "name": "Escopeta de Ricochetes",
+          "robot": "bastion",
+          "weapon": "shotgun",
+          "summary": "Uma salva atravessa os primeiros inimigos e procura os que ficaram atrás.",
+          "engine": "Pellets + perfuração + ricochete espalham os impactos; explosões ampliam a cobertura nas últimas peças.",
+          "skills": [
+            "rate",
+            "extra",
+            "freeze",
+            "pierce",
+            "ricochet",
+            "damage",
+            "blast",
+            "blastRadius"
+          ],
+          "core": [
+            "rate",
+            "extra",
+            "freeze",
+            "pierce"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "magneticBrake",
+          "experiments": [
+            "unstableLens",
+            "blastCondenser"
+          ],
+          "strength": "Cobertura de grupos próximos e controle de várias linhas de aproximação.",
+          "weakness": "Alcance curto, dispersão e custos acumulados de recarga.",
+          "strategy": "Lute na borda dos grupos. Perfure primeiro; o ricochete só procura outro alvo depois de gastar a perfuração.",
+          "avoid": [
+            "Não use a receita com Disco de Retorno: ele não recebe ricochete.",
+            "Não confunda dano somado dos pellets com dano garantido em um alvo."
+          ],
+          "tags": [
+            "Pellets",
+            "Ricochete",
+            "Área"
+          ]
+        },
+        {
+          "id": "cacador-criogenico",
+          "evolution": "cryo-iceDrill",
+          "name": "Caçador Criogênico",
+          "robot": "prot",
+          "weapon": "cryo",
+          "summary": "Controle de movimento abre tempo para finalizar inimigos resistentes.",
+          "engine": "Resfriamento + perfuração mantêm grupos lentos; Finalizador amplifica o acabamento e mortes por bala de alvos resfriados geram Fratura Industrial.",
+          "skills": [
+            "damage",
+            "freeze",
+            "rate",
+            "pierce",
+            "finisher",
+            "dash",
+            "speed",
+            "range"
+          ],
+          "core": [
+            "damage",
+            "freeze",
+            "rate",
+            "pierce"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "greasedServos",
+            "spareBattery"
+          ],
+          "specialization": "tailDecoy",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Kiting e redução da pressão frontal sem depender de dano em área.",
+          "weakness": "Vida reduzida por Pernas Hidráulicas e dano inicial menor após os custos de perfuração.",
+          "strategy": "Abra corredores, termine alvos já feridos e avance para recolher XP somente depois de resfriar a passagem.",
+          "avoid": [
+            "Resfriar não cancela ataques de chefe.",
+            "O multiplicador do Finalizador exige o limiar de vida; ele não é dano permanente."
+          ],
+          "tags": [
+            "Resfriamento",
+            "Finalização",
+            "Mobilidade"
+          ]
+        },
+        {
+          "id": "forja-criogenica",
+          "evolution": "flame-fuelMixer",
+          "name": "Forja Criogênica",
+          "robot": "forge",
+          "weapon": "flame",
+          "summary": "O chassi térmico transforma inimigos resfriados em combustível.",
+          "engine": "Aplicar fogo e resfriamento no mesmo alvo ativa Choque Térmico; o FORJ amplia a queimadura, com menor dano direto.",
+          "skills": [
+            "burn",
+            "freeze",
+            "thermal",
+            "afterburn",
+            "damage",
+            "rate",
+            "range",
+            "ignition"
+          ],
+          "core": [
+            "burn",
+            "freeze",
+            "thermal",
+            "afterburn"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "thermalAmplifier",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Dano persistente que continua durante a recarga e forte conversão elemental.",
+          "weakness": "Precisa alcançar o alvo e manter os dois estados; não acumula infinitas queimaduras por pellet.",
+          "strategy": "Aplique o cone na frente da horda, recue durante a recarga e renove o resfriamento para sustentar o dano térmico.",
+          "avoid": [
+            "Não trate a queimadura como dano instantâneo.",
+            "Não reduza ainda mais o alcance sem uma forma de se aproximar com segurança."
+          ],
+          "tags": [
+            "Fogo",
+            "Resfriamento",
+            "Dano contínuo"
+          ]
+        },
+        {
+          "id": "rede-de-plasma",
+          "evolution": "tesla-branchCoil",
+          "name": "Rede de Plasma",
+          "robot": "volt",
+          "weapon": "tesla",
+          "summary": "Descargas e explosões usam inimigos agrupados como uma rede industrial.",
+          "engine": "O VOLT fortalece descargas; fogo persiste enquanto perfuração, eletricidade e explosões distribuem dano por grupos.",
+          "skills": [
+            "shock",
+            "damage",
+            "burn",
+            "blast",
+            "conductivity",
+            "freeze",
+            "pierce",
+            "stun"
+          ],
+          "core": [
+            "shock",
+            "damage",
+            "burn",
+            "blast"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "extraFork",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Dano distribuído, alcance elétrico e interrupção de movimento.",
+          "weakness": "Menos vida e vários custos de dano direto; perde eficiência contra um alvo isolado.",
+          "strategy": "Acerte a borda de grupos compactos. Mantenha caminhos de fuga e evite entrar no centro para buscar mais alvos.",
+          "avoid": [
+            "Descargas secundárias não devem iniciar uma recursão infinita de explosões.",
+            "Paralisar movimento não cancela um ataque já programado."
+          ],
+          "tags": [
+            "Eletricidade",
+            "Fogo",
+            "Área"
+          ]
+        },
+        {
+          "id": "demolicao-de-campo",
+          "evolution": "grenade-doubleShell",
+          "name": "Demolição de Campo",
+          "robot": "bastion",
+          "weapon": "grenade",
+          "summary": "Granadas de grande área abrem espaços e pressionam chefes.",
+          "engine": "Dano de impacto + área expandida; projéteis adicionais aumentam as detonações e a manutenção aproveita a recarga.",
+          "skills": [
+            "damage",
+            "rate",
+            "blast",
+            "blastRadius",
+            "bossHunter",
+            "magnet",
+            "repair",
+            "extra"
+          ],
+          "core": [
+            "damage",
+            "rate",
+            "blast",
+            "blastRadius"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "spareBattery",
+            "greasedServos"
+          ],
+          "specialization": "grounding",
+          "experiments": [
+            "blastCondenser",
+            "unstableLens"
+          ],
+          "strength": "Explosões grandes e dano concentrado em grupos alinhados com chefes.",
+          "weakness": "A demora de recarga exige planejamento; é possível ser cercado antes do próximo carregador.",
+          "strategy": "Atire onde os inimigos vão se reunir. Abra uma saída antes de recarregar e evite atravessar zonas de perigo para buscar XP.",
+          "avoid": [
+            "Não aceite todos os aumentos de recarga só pelo ganho de dano.",
+            "A explosão de impacto exclui o alvo que já recebeu o dano direto."
+          ],
+          "tags": [
+            "Explosão",
+            "Chefes",
+            "Recarga"
+          ]
+        },
+        {
+          "id": "oficina-viva",
+          "evolution": "shotgun-choke",
+          "name": "Oficina Viva",
+          "robot": "nano",
+          "weapon": "shotgun",
+          "summary": "Vida, recarga e resfriamento sustentam um robô pesado de reparo.",
+          "engine": "O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.",
+          "skills": [
+            "magnet",
+            "repair",
+            "armor",
+            "titan",
+            "damage",
+            "rate",
+            "freeze",
+            "coldReload"
+          ],
+          "core": [
+            "magnet",
+            "repair",
+            "armor",
+            "titan"
+          ],
+          "blessings": [
+            "spareBattery",
+            "copperPlate",
+            "greasedServos"
+          ],
+          "specialization": "repairCharge",
+          "experiments": [
+            "lithiumPack",
+            "volatileReactor"
+          ],
+          "strength": "Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.",
+          "weakness": "É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.",
+          "strategy": "Gaste munição de forma útil, recarregue com distância e use o resfriamento para abrir o próximo deslocamento.",
+          "avoid": [
+            "Recarregar uma bala não concede a cura de um carregador inteiro.",
+            "Cura com vida cheia não prepara uma carga ofensiva."
+          ],
+          "tags": [
+            "Reparo",
+            "Vida",
+            "Controle"
+          ]
+        },
+        {
+          "id": "enxame-de-sucata",
+          "evolution": "harpoon-longShaft",
+          "name": "Enxame de Sucata",
+          "robot": "swarm",
+          "weapon": "harpoon",
+          "summary": "Drones acompanham o gato enquanto o arpão mantém um corredor seguro.",
+          "engine": "O ENXA já tem um drone; a árvore amplia a frota até três, acelera disparos e permite um segundo alvo sem procs recursivos.",
+          "skills": [
+            "drones",
+            "damage",
+            "dronePair",
+            "droneOverclock",
+            "droneArc",
+            "magnet",
+            "armor",
+            "salvage"
+          ],
+          "core": [
+            "drones",
+            "damage",
+            "dronePair",
+            "droneOverclock"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "greasedServos",
+            "spareBattery"
+          ],
+          "specialization": "droneBossFocus",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Dano contínuo em alvos no alcance mesmo durante a recarga da arma.",
+          "weakness": "A frota tem alcance e cadência limitados; não acerta inimigos do outro lado do mapa.",
+          "strategy": "Mantenha os alvos dentro do raio dos drones, use o arpão para empurrar ameaças próximas e recolha núcleos nos corredores abertos.",
+          "avoid": [
+            "Drones não disparam a arma do jogador nem multiplicam infinitamente outros efeitos.",
+            "Mais projéteis da arma não criam mais drones."
+          ],
+          "tags": [
+            "Drones",
+            "Dano contínuo",
+            "Alcance"
+          ]
+        },
+        {
+          "id": "lanca-de-fuga",
+          "evolution": "harpoon-pressurePiston",
+          "name": "Lança de Fuga",
+          "robot": "nano",
+          "weapon": "harpoon",
+          "summary": "Mobilidade, arpão e reparos na recarga sustentam a retirada.",
+          "engine": "NANO + recarga reparadora + avanço; cura real prepara uma salva perfurante. O Motor Cinético acrescenta dano quando Pernas Hidráulicas e Impacto Cinético se encontram.",
+          "skills": [
+            "damage",
+            "rate",
+            "magnet",
+            "repair",
+            "dash",
+            "speed",
+            "freeze",
+            "knock"
+          ],
+          "core": [
+            "damage",
+            "magnet",
+            "repair",
+            "dash"
+          ],
+          "blessings": [
+            "spareBattery",
+            "pulseCoil",
+            "greasedServos"
+          ],
+          "specialization": "repairCharge",
+          "experiments": [
+            "volatileReactor",
+            "lithiumPack"
+          ],
+          "strength": "Reparo frequente, coleta ampla e disparos perfurantes preparados por cura.",
+          "weakness": "Pouca munição; velocidade custa vida, e reparar exige completar recargas. Integridade cheia não prepara a carga ofensiva.",
+          "strategy": "Monte coleta e reparo antes de apostar toda a defesa na velocidade. Circule a horda, gaste o carregador mirando a saída e use o avanço para mudar de corredor durante a recarga.",
+          "avoid": [
+            "O avanço não concede invulnerabilidade.",
+            "Recargas parciais curam proporcionalmente menos.",
+            "Cura em integridade cheia não prepara a Carga de Reparo."
+          ],
+          "tags": [
+            "Mobilidade",
+            "Empurrão",
+            "Perfuração"
+          ]
+        }
+      ],
+      "policy": {
+        "fixedBeforeResults": true,
+        "structural": "6 chassis,12 weapons,40 normal nodes,18 chassis protocols,70 unique canonical modules; valid prerequisite closure for all10 recipes",
+        "numeric": "All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions",
+        "synthetic": "Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK",
+        "real": "Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.",
+        "driver": "Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling."
+      },
+      "driverVersion": 9,
+      "driverHash": "0bff5539376ab632e838426875e1d6f2b9ffa1729b6b39ccdf69fa4f405af48a",
+      "bootstrapHash": "04e15490b4a653462d4daa02ba264f0c66e4423afa53fd9143e3fa4f30870515",
+      "dt": 0.05,
+      "duration": 1200,
+      "seeds": [
+        20261102
+      ],
+      "structure": {
+        "ok": true,
+        "builds": 10,
+        "catalog": 70
+      },
+      "synthetic": [
+        {
+          "build": "agulha-antitita",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3256
+          },
+          "total": 3256,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "agulha-antitita",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 9768
+          },
+          "total": 9768,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "agulha-antitita",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 5632.000000001863
+          },
+          "total": 5632.000000001863,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "agulha-antitita",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 16896.000000005588
+          },
+          "total": 16896.000000005588,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "agulha-antitita",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 9028.800000000163
+          },
+          "total": 9028.800000000163,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "agulha-antitita",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 24235.200000001118
+          },
+          "total": 24235.200000001118,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "agulha-antitita",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 0.7000000000000001,
+          "damage": {
+            "bullet": 650
+          },
+          "total": 650,
+          "bossTtk": 0.7000000000000001,
+          "bossHp": 0,
+          "playerHp": 100
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4800
+          },
+          "total": 4800,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4800
+          },
+          "total": 4800,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 27440.000000045635
+          },
+          "total": 27440.000000045635,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 27440.000000045635,
+            "explosion": 16464
+          },
+          "total": 43904.000000045635,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 40192.5
+          },
+          "total": 40192.5,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 64440,
+            "explosion": 19278
+          },
+          "total": 83718,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "tempestade-balistica",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 0.7000000000000001,
+          "damage": {
+            "bullet": 650
+          },
+          "total": 650,
+          "bossTtk": 0.7000000000000001,
+          "bossHp": 0,
+          "playerHp": 120
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3600
+          },
+          "total": 3600,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3600
+          },
+          "total": 3600,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 5280.000000038417
+          },
+          "total": 5280.000000038417,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 11573.33333341754
+          },
+          "total": 11573.33333341754,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 7167.999999973923
+          },
+          "total": 7167.999999973923,
+          "bossTtk": null,
+          "playerHp": 140
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 20479.999999925494,
+            "explosion": 61440.000000447035
+          },
+          "total": 81920.00000037253,
+          "bossTtk": null,
+          "playerHp": 140
+        },
+        {
+          "build": "escopeta-ricochete",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 1.900000000000001,
+          "damage": {
+            "bullet": 649.9999999999992
+          },
+          "total": 649.9999999999992,
+          "bossTtk": 1.900000000000001,
+          "bossHp": 0,
+          "playerHp": 140
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 2376
+          },
+          "total": 2376,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 2376
+          },
+          "total": 2376,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3050.666666658595
+          },
+          "total": 3050.666666658595,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 9151.999999975786
+          },
+          "total": 9151.999999975786,
+          "bossTtk": null,
+          "playerHp": 100
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4011.150000006659
+          },
+          "total": 4011.150000006659,
+          "bossTtk": null,
+          "playerHp": 86.66666666666667
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 11977.350000019884
+          },
+          "total": 11977.350000019884,
+          "bossTtk": null,
+          "playerHp": 86.66666666666667
+        },
+        {
+          "build": "cacador-criogenico",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 6.8999999999999835,
+          "damage": {
+            "bullet": 650
+          },
+          "total": 650,
+          "bossTtk": 6.8999999999999835,
+          "bossHp": 0,
+          "playerHp": 86.66666666666667
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4563,
+            "burn": 180.42750000301749
+          },
+          "total": 4743.4275000030175,
+          "bossTtk": null,
+          "playerHp": 90
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4558.5,
+            "burn": 360.85500000603497
+          },
+          "total": 4919.355000006035,
+          "bossTtk": null,
+          "playerHp": 90
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 2385,
+            "burn": 1334.9812499976251
+          },
+          "total": 3719.981249997625,
+          "bossTtk": null,
+          "playerHp": 90
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 2385,
+            "burn": 2667.684374995297
+          },
+          "total": 5052.684374995297,
+          "bossTtk": null,
+          "playerHp": 90
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 6820.2000000294065,
+            "burn": 4116.002343752538
+          },
+          "total": 10936.202343781944,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 6820.2000000294065,
+            "burn": 8217.908789067413
+          },
+          "total": 15038.10878909682,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "forja-criogenica",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 2.8999999999999977,
+          "damage": {
+            "bullet": 442.79999999999814,
+            "burn": 207.20000000000095
+          },
+          "total": 649.9999999999991,
+          "bossTtk": 2.8999999999999977,
+          "bossHp": 0,
+          "playerHp": 110
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1468.7999999984168
+          },
+          "total": 1468.7999999984168,
+          "bossTtk": null,
+          "playerHp": 85
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1468.7999999984168,
+            "electric": 1982.8799999943003
+          },
+          "total": 3451.679999992717,
+          "bossTtk": null,
+          "playerHp": 85
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1382.4000000022352,
+            "burn": 747.3600000040606
+          },
+          "total": 2129.7600000062957,
+          "bossTtk": null,
+          "playerHp": 85
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1382.4000000022352,
+            "electric": 6298.559999998659,
+            "explosion": 4147.2000000067055,
+            "burn": 747.3600000040606
+          },
+          "total": 12575.52000001166,
+          "bossTtk": null,
+          "playerHp": 85
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1101.6000000014901,
+            "burn": 737.3835000057006
+          },
+          "total": 1838.9835000071907,
+          "bossTtk": null,
+          "playerHp": 105
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3304.8000000044703,
+            "electric": 43499.42999996245,
+            "explosion": 9914.400000013411,
+            "burn": 2212.150500017102
+          },
+          "total": 58930.78049999743,
+          "bossTtk": null,
+          "playerHp": 105
+        },
+        {
+          "build": "rede-de-plasma",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 19.600000000000144,
+          "damage": {
+            "bullet": 406.9594999999998,
+            "burn": 243.04050000000015
+          },
+          "total": 650,
+          "bossTtk": 19.600000000000144,
+          "bossHp": 0,
+          "playerHp": 105
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1620
+          },
+          "total": 1620,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1620,
+            "explosion": 9720
+          },
+          "total": 11340,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1440
+          },
+          "total": 1440,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1440,
+            "explosion": 10800
+          },
+          "total": 12240,
+          "bossTtk": null,
+          "playerHp": 120
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4680
+          },
+          "total": 4680,
+          "bossTtk": null,
+          "playerHp": 140
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4680,
+            "explosion": 35100
+          },
+          "total": 39780,
+          "bossTtk": null,
+          "playerHp": 140
+        },
+        {
+          "build": "demolicao-de-campo",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 0.8500000000000002,
+          "damage": {
+            "bullet": 650
+          },
+          "total": 650,
+          "bossTtk": 0.8500000000000002,
+          "bossHp": 0,
+          "playerHp": 140
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3600
+          },
+          "total": 3600,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3600
+          },
+          "total": 3600,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4830
+          },
+          "total": 4830,
+          "bossTtk": null,
+          "playerHp": 330
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4830
+          },
+          "total": 4830,
+          "bossTtk": null,
+          "playerHp": 330
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 7610.399999998044
+          },
+          "total": 7610.399999998044,
+          "bossTtk": null,
+          "playerHp": 380
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 7610.399999998044
+          },
+          "total": 7610.399999998044,
+          "bossTtk": null,
+          "playerHp": 380
+        },
+        {
+          "build": "oficina-viva",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 1.800000000000001,
+          "damage": {
+            "bullet": 650
+          },
+          "total": 650,
+          "bossTtk": 1.800000000000001,
+          "bossHp": 0,
+          "playerHp": 380
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "drone": 105,
+            "bullet": 840
+          },
+          "total": 945,
+          "bossTtk": null,
+          "playerHp": 95
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "drone": 1125,
+            "bullet": 2400
+          },
+          "total": 3525,
+          "bossTtk": null,
+          "playerHp": 95
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "drone": 626.0869565214962,
+            "bullet": 1460.8695652168244
+          },
+          "total": 2086.9565217383206,
+          "bossTtk": null,
+          "playerHp": 95
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "drone": 7826.086956518702,
+            "bullet": 4173.913043476641
+          },
+          "total": 11999.999999995343,
+          "bossTtk": null,
+          "playerHp": 95
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "drone": 1139.0625,
+            "bullet": 4252.5
+          },
+          "total": 5391.5625,
+          "bossTtk": null,
+          "playerHp": 115
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "drone": 18984.375,
+            "bullet": 16807.5
+          },
+          "total": 35791.875,
+          "bossTtk": null,
+          "playerHp": 115
+        },
+        {
+          "build": "enxame-de-sucata",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 1.2500000000000004,
+          "damage": {
+            "bullet": 202.5,
+            "drone": 447.5
+          },
+          "total": 650,
+          "bossTtk": 1.2500000000000004,
+          "bossHp": 0,
+          "playerHp": 115
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "base",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 840
+          },
+          "total": 840,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "base",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 2400
+          },
+          "total": 2400,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "core",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1680
+          },
+          "total": 1680,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "core",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 4800
+          },
+          "total": 4800,
+          "bossTtk": null,
+          "playerHp": 110
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "mature",
+          "fixture": "one-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 1053,
+            "kinetic": 237.5999999998603
+          },
+          "total": 1290.5999999998603,
+          "bossTtk": null,
+          "playerHp": 123.33333333333333
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "mature",
+          "fixture": "seven-stationary-highHP",
+          "elapsed": 59.99999999999873,
+          "damage": {
+            "bullet": 3159,
+            "kinetic": 712.7999999995809
+          },
+          "total": 3871.799999999581,
+          "bossTtk": null,
+          "playerHp": 123.33333333333333
+        },
+        {
+          "build": "lanca-de-fuga",
+          "stage": "mature",
+          "fixture": "stationary-production-brute",
+          "elapsed": 5.799999999999987,
+          "damage": {
+            "bullet": 531.1999999999999,
+            "kinetic": 118.80000000000001
+          },
+          "total": 650,
+          "bossTtk": 5.799999999999987,
+          "bossHp": 0,
+          "playerHp": 123.33333333333333
+        }
+      ],
+      "attempts": [],
+      "errors": [],
+      "components": {
+        "ok": true,
+        "checks": [
+          "forge tradeoff+burn",
+          "volt secondary",
+          "drone count/ammo/range",
+          "nano reload fraction",
+          "effective-heal gating"
+        ]
+      },
+      "completed": true
+    }
+  ]
+}

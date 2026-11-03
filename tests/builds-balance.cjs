@@ -2,7 +2,10 @@
 const fs=require('node:fs');
 const crypto=require('node:crypto');
 const assert=require('node:assert/strict');
-const {builds}=require('../builds.js');
+const recipeFile=process.env.BUILD_RECIPES;
+const recipeSource=recipeFile?fs.readFileSync(recipeFile,'utf8'):null;
+// JSON-only experimental recipes; never mutate the game catalog to try a hypothesis.
+const builds=recipeSource?JSON.parse(recipeSource):require('../builds.js').builds;
 const duration=Number(process.env.BUILD_DURATION||1200);
 const seeds=(process.env.BUILD_SEEDS||'20261102').split(',').map(Number);
 const only=process.env.BUILD_ONLY;
@@ -154,7 +157,8 @@ function realAttempt(b,seed){const h=harness(seed);equip(h,b);h.context.qaDurati
 
 const file=process.env.BUILD_REPORT||'docs/builds-results.json';
 let history=[];try{history=JSON.parse(fs.readFileSync(file,'utf8')).executions||[];}catch{}
-const execution={at:new Date().toISOString(),version:JSON.parse(fs.readFileSync('version.json','utf8')),gameplayRevision:'build41-refits',refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
+const release=JSON.parse(fs.readFileSync('version.json','utf8'));
+const execution={at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
 history.push(execution);
 function persist(){fs.writeFileSync(file,JSON.stringify({note:'All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.',executions:history},null,2)+'\n');}
 try{

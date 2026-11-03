@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 41
+# Contrato vigente — Screwvivors BUILD 42
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -26,6 +26,10 @@ Os números novos são experimentais. Testar funcionamento não aprova balanceam
 
 ## Pendências do objetivo de integração
 
-A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. Continuam pendentes a reavaliação das dez builds com reforjas, a melhoria das receitas frágeis, famílias originais de dano adiado/corrosão e pulsos/sensores, aprofundamento de suportes invocados e a especificação de equipamentos avançados com múltiplos slots. Essas famílias estão no mapeamento de pesquisa; não são conteúdo já implementado.
+A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. A [reavaliação das dez builds da BUILD 41](reavaliacao-build41.md) foi concluída, preservando falhas. A BUILD 42 revisou a [Lança de Fuga](ajuste-lanca-de-fuga.md) por comparação de seis sementes. Continuam pendentes a melhoria das demais receitas frágeis, famílias originais de dano adiado/corrosão e pulsos/sensores, aprofundamento de suportes invocados e a especificação de equipamentos avançados com múltiplos slots. Essas famílias estão no mapeamento de pesquisa; não são conteúdo já implementado.
 
 Não importar vitória cronometrada, retenção de skills após morte, runas com atributos permanentes ou fusão de armas: entram em conflito com decisões explícitas do criador. Ranking, nuvem e conquistas precisam de etapa própria de plataforma e integridade; o protótipo permanece local.
+
+## Regra de ajuste — BUILD 42
+
+Experimentar receitas por JSON isolado antes de mudar o catálogo do jogo. Comparações exigem mundo, configuração, driver, janela e sementes compatíveis; guardar todas as hipóteses e falhas. Definir critério de adoção experimental antes de inspecionar resultados completos e verificar também sorteios separados da exploração. Uma melhora relativa não transforma uma morte antes do limite em aprovação da meta de 20 minutos. O painel de 70 skills, preços e atributos globais permaneceram iguais nesta etapa.

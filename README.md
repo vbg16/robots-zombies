@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 41 · desenvolvimento
+# Screwvivors — BUILD 42 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -56,6 +56,7 @@ node tests/balance-panel.cjs
 node tests/balance-migration.cjs
 node tests/build-mechanics.cjs
 node tests/weapon-evolution.cjs
+node tests/build-comparison.cjs
 node tests/builds-balance.cjs --bench-only
 python tests/validate_walk_test.py
 ```
@@ -85,3 +86,5 @@ BUILD39: painel de balanceamento com as 54 melhorias reais, rascunho separado, a
 BUILD40: dez projetos jogáveis, quatro novos chassis com três protocolos cada, árvore de drones, interações entre habilidades e armas especializadas, recarga reparadora sem exploração por munição parcial e migração do painel 54→70. Progressão, coleta, armas lentas e vida dos comuns foram ajustadas. Células verdes de reparo surgem a cada 25 abates; são pickups de vida, sem valor em parafusos. Agora há uma renovação das opções por nível normal. O modo continua infinito e os novos sprites são variantes provisórias. O relatório de testes separa bancada controlada, progressão real e a meta comparativa de 20 minutos.
 
 BUILD41: no nível 20, escolha uma entre duas reforjas temporárias da arma equipada, ou recuse. São 24 opções consultáveis na garagem; os dez guias sugerem uma reforja própria. Sem troca ou fusão, sem munição grátis e com projéteis anteriores preservados. [Contrato vigente](docs/contrato-atual.md) · [Catálogo e validação das reforjas](docs/evolucao-armas.md).
+
+BUILD42: Lança de Fuga passa a usar NANO + Arpão, coleta e reparo na recarga para sustentar mobilidade. A alternativa melhorou os seis pares testados e atingiu 20 minutos/três chefes em cinco deles, incluindo os dois sorteios novos; uma morte por volta de 19:56 segue como falha. Armas, inimigos e regras globais mantêm os atributos anteriores. [Reavaliação completa da BUILD41](docs/reavaliacao-build41.md) · [Hipóteses, comparação e limites da Lança de Fuga](docs/ajuste-lanca-de-fuga.md). O balanceamento geral não está aprovado.
