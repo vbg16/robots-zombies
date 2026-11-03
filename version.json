@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Cinco chassis com identidade pixel art própria,160quadros direcionais e retratos, mais fallback vetorial. Sucateiro/Bobina com passada, preparação e recuo cosméticos. Física/RNG preservados; conteúdo e equilíbrio ainda experimentais, sem aprovação pública.",
-  "build": 48
+  "notes": "Rotores de Sucata:suporte orbital por contato, quatro módulos, painel82/revisão5. Migração preserva78módulos e IDs personalizados. Conteúdo e balanceamento experimentais, sem aprovação pública.",
+  "build": 49
 }

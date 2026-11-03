@@ -5,7 +5,7 @@ const harness=new Function('require',prefix+';return {context,elements,window,lo
 const run=code=>vm.runInContext(code,harness.context);
 function setup(robot='prot',weapon='machine'){run(`profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));openGarage();selectRobot('${robot}');selectWeapon('${weapon}');reset();spawn=10000;aim={x:800,y:300,active:true}`);}
 function acquire(id){run(`SKILLS.find(s=>s.id==='${id}').apply()`);}
-assert.equal(run('Object.keys(ROBOTS).length'),6);assert.equal(run('SKILLS.length'),48);assert.equal(run('Object.values(SPECIALIZATIONS).flat().length'),18);
+assert.equal(run('Object.keys(ROBOTS).length'),6);assert.equal(run('SKILLS.length'),52);assert.equal(run('Object.values(SPECIALIZATIONS).flat().length'),18);
 setup('forge','flame');assert.equal(run('player.hp'),90);assert.equal(run('player.damage'),4.5);run('globalThis.target=createEnemy(600,300);target.hp=1000;applyStatus(target,{damage:10,vx:1,vy:0})');assert.equal(run('target.burnDps'),6.75);run("player.specialization='furnaceDuration';applyStatus(target,{damage:10,vx:1,vy:0})");assert.equal(run('target.burnTime'),4.5);
 run("player.specialization='thermalAmplifier';target.burnDps=10;target.burnTime=3;target.burnAccum=0;target.burnTick=0;target.slowTime=2;enemies=[target];tickStatuses(.5)");assert.equal(run('target.hp'),993.75);
 run("player.specialization='heatRecovery';player.hp=50;target.hp=1;damageEnemy(target,2,'burn')");assert.equal(run('player.hp'),51);run("globalThis.other=createEnemy(600,300);other.hp=1;damageEnemy(other,2,'burn')");assert.equal(run('player.hp'),51,'heat recovery obeys its cooldown');
@@ -32,4 +32,4 @@ setup('prot');run('globalThis.savedBolts=profile.bolts;for(let i=0;i<25;i++){con
 setup('prot');run('upgrade();rerollUpgrade(offerVersion)');assert.equal(run('rerollsRemaining'),0);run('upgrade()');assert.equal(run('rerollsRemaining'),1,'a new normal upgrade provides a new reroll, without replenishing the same offer');
 setup('nano','shotgun');for(const id of ['armor','titan'])acquire(id);assert.ok(run('shotDamage()>player.damage&&shotDamage()<=player.damage*1.75'),'titan health conversion adds bounded real projectile damage');run('emitProjectiles(0)');assert.equal(run('bullets[0].damage'),run('shotDamage()'));
 setup('prot');for(const id of ['damage','bossHunter'])acquire(id);run('player.hp=20;bossReward=true;tick(.01)');assert.equal(run('player.hp'),60,'boss hunting repairs the normal20 plus one extra battery after victory');
-console.log('Six chassis, twelve protocols, bounded synergies, physical repair cells and independent drones passed.');
+console.log('Six chassis, eighteen protocols, bounded synergies, physical repair cells and independent drones passed.');

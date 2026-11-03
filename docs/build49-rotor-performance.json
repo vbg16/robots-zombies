@@ -1,0 +1,242 @@
+{
+  "at": "2026-11-03T12:20:37.471Z",
+  "kind": "controlled-headless-chrome-js-canvas-cost",
+  "note": "Real game tick/draw/Canvas in Chrome with RAF disabled. Per-call timings exclude GPU completion/compositor/display pacing; not FPS or a human survival rate. Fixtures suppress new waves/bosses, use high HP and player immunity solely to retain the measured population. No living enemy is culled.",
+  "sourceHashes": {
+    "game.js": "447be2ea4663bd55cfc945749677cb2644102552f4f11337616194a3ede97b5f",
+    "balance.js": "5558e7c4774e5e90b4875a98033e80da66bac05c60e1540344f024037c546061"
+  },
+  "host": {
+    "platform": "win32",
+    "arch": "x64",
+    "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+    "logicalCpus": 28
+  },
+  "samples": [
+    {
+      "metric": "tick",
+      "count": 500,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 0.6544444444278876,
+      "medianMs": 0.5,
+      "p95Ms": 1,
+      "maxMs": 1.2999999970197678,
+      "wallMs": 129.60000000149012,
+      "enemiesRemaining": 500,
+      "bullets": 0,
+      "clock": 601.6999999999985,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "draw",
+      "count": 500,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 1.6644444444941149,
+      "medianMs": 1.1000000014901161,
+      "p95Ms": 1.3999999985098839,
+      "maxMs": 47.69999999552965,
+      "wallMs": 1021.1000000014901,
+      "enemiesRemaining": 500,
+      "bullets": 0,
+      "clock": 600,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "tick+draw",
+      "count": 500,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 10.159999999983443,
+      "medianMs": 9.299999997019768,
+      "p95Ms": 15.399999998509884,
+      "maxMs": 17.100000001490116,
+      "wallMs": 978.5,
+      "enemiesRemaining": 500,
+      "bullets": 0,
+      "clock": 601.6999999999985,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "tick",
+      "count": 2000,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 1.5133333332008785,
+      "medianMs": 1.3999999985098839,
+      "p95Ms": 3.1999999955296516,
+      "maxMs": 3.899999998509884,
+      "wallMs": 187.89999999850988,
+      "enemiesRemaining": 2000,
+      "bullets": 0,
+      "clock": 601.6999999999985,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "draw",
+      "count": 2000,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 19.093333333151207,
+      "medianMs": 31.700000002980232,
+      "p95Ms": 35.29999999701977,
+      "maxMs": 53.399999998509884,
+      "wallMs": 1857.2000000029802,
+      "enemiesRemaining": 2000,
+      "bullets": 0,
+      "clock": 600,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "tick+draw",
+      "count": 2000,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 28.425555555605225,
+      "medianMs": 29.100000001490116,
+      "p95Ms": 35,
+      "maxMs": 43,
+      "wallMs": 2625.2999999970198,
+      "enemiesRemaining": 2000,
+      "bullets": 0,
+      "clock": 601.6999999999985,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "tick",
+      "count": 5000,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 90,
+      "meanMs": 3.503333333134651,
+      "medianMs": 3.399999998509884,
+      "p95Ms": 5.399999998509884,
+      "maxMs": 7.0999999940395355,
+      "wallMs": 367.59999999403954,
+      "enemiesRemaining": 5000,
+      "bullets": 0,
+      "clock": 601.6999999999985,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "draw",
+      "count": 5000,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 77,
+      "meanMs": 50.42077922095339,
+      "medianMs": 44.099999994039536,
+      "p95Ms": 72,
+      "maxMs": 80.30000000447035,
+      "wallMs": 4028.7000000029802,
+      "enemiesRemaining": 5000,
+      "bullets": 0,
+      "clock": 600,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    },
+    {
+      "metric": "tick+draw",
+      "count": 5000,
+      "distribution": "near",
+      "package": "rotors",
+      "calls": 73,
+      "meanMs": 54.4383561642815,
+      "medianMs": 53.899999998509884,
+      "p95Ms": 63.79999999701977,
+      "maxMs": 67,
+      "wallMs": 4028.89999999851,
+      "enemiesRemaining": 5000,
+      "bullets": 0,
+      "clock": 601.4166666666654,
+      "renderSize": {
+        "width": 1280,
+        "height": 720,
+        "canvasWidth": 640,
+        "canvasHeight": 360
+      },
+      "finite": true
+    }
+  ],
+  "errors": [],
+  "renderDependencyHashes": {
+    "enemy-animation.js": "3fdc9dd88c0ebf75b6ea2e741d86961431857674bf3fa1e4211fe9be0db4ce59",
+    "zombie-atlases.js": "2a651d721ad33f72e5795587e60cc5d7e27b5f03160f4ea163f7d024e38579a7",
+    "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
+    "prot-animation.js": "1425834b5e901484b3ea45e4a156d197c74b8b32dcde1800e2ae55505774f13c",
+    "sprite-animation.js": "bda74db860a8083a313ec003ef69d3609b665841fc5936418195f381a794904f",
+    "chassis-atlases.js": "1ec37c9753e3fba60e2890a67faabe6fb1c71b43c957b641f265c91473c5190e",
+    "boss-visuals.js": "7e608c694f9a1a3c0583379087d72b717f99419d7bad2dd8bde67e7ab605870e"
+  },
+  "rotorFixtureNote": "Only package=rotors:four modules directly installed, no manual fire, stationary near bodies at radius108 to stress continuous orbital contacts. Other package distributions remain unchanged.",
+  "browser": "156.0.8078.80",
+  "viewport": {
+    "width": 1000,
+    "height": 600,
+    "dpr": 1,
+    "canvasWidth": 300,
+    "canvasHeight": 150
+  },
+  "activeRenderSize": {
+    "width": 1280,
+    "height": 720,
+    "canvasWidth": 640,
+    "canvasHeight": 360
+  },
+  "corrosionDeathBursts": [],
+  "completed": true
+}

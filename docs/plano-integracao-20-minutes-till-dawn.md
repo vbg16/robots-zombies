@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 48:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 49:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -15,7 +15,8 @@ O contrato atual que toda etapa deve preservar é: arena sem bordas e sem tempo 
 | Sistema de referência | Estado em Screwvivors | Caminho de adaptação |
 |---|---|---|
 | Mira direcional e disparo ativo | **Já existe.** | Proteger mira manual, disparo enquanto pressionado e movimento simultâneo. |
-| XP, upgrades e sinergias de build | **Já existe — em estabilização.** Há 48 nós temporários em doze raízes, mais dez receitas guiadas e interações de dano/controle/suporte. | Expandir apenas com novas skills originais e seus efeitos, custos e combinações documentados e testados. |
+| XP, upgrades e sinergias de build | **Já existe — em estabilização.** Há 52 nós temporários em treze raízes, mais dez receitas guiadas e interações de dano/controle/suporte. | Expandir apenas com novas skills originais e seus efeitos, custos e combinações documentados e testados. |
+| Suporte orbital por contato | **Adaptado na BUILD49.** Rotores de Sucata, com quantidade, raio e rotação próprios. | Sem procs de bala; faixa de contato varrida, cooldown por alvo/disco e custo explícito. Painel82/revisão5 e resultados naturais negativos preservados. |
 | Pulsos em área e transmissão de estados | **Adaptado na BUILD44.** Sensores de campo: pulso, alcance, relé e exposição. | A arma principal permanece manual. Relé só fogo/frio, sem crítico/descarga/explosão/corrosão/empurrão; exposição só em balas e escudo bloqueia estados. |
 | Dano adiado e propagação | **Adaptado na BUILD43.** Reagentes de sucata: raiz corrosiva e três derivações, com prazo, respingo limitado e catalisador térmico. | Uma carga por alvo, snapshot, escudos respeitados e sem recursão; números no painel, migração 70→74 e tentativas negativas preservadas. |
 | Bênçãos escolhidas no início da tentativa | **Adaptado parcialmente.** “Gambiarras do Biruta” surgem nos níveis 3, 6 e 9 como três escolhas únicas entre seis efeitos temporários; também podem ser puladas. | A cadência, efeitos e pool são experimentais. Não persistir na garagem. Testar escolha de teclado, seleção obsoleta, ausência de repetição, reset e corrida longa. |
@@ -243,3 +244,7 @@ Três zumbis têm96quadros direcionais ligados à distância percorrida, incluin
 ## BUILD48 — identidade dos chassis e movimento dos especialistas
 
 Cinco chassis receberam sprites próprios com160quadros, retratos e fallback vetorial; os seis agora têm caminhada em quatro direções. A preparação/recuo e a passada dos chefes procedurais foram implementadas sem tocar na agenda/dano. A revisão visual levou a substituir os primeiros vetores por arte raster detalhada no estilo do PROT; os vetores ficam de fallback. Ver chassis-e-chefes.md. Passaram integração longa, seis mundos com visuais de inimigo/chefe ligados e desligados, fixtures Chrome HTTP/file e fallbacks. Check-release protege versões do menu/documentação/JSON e recursos offline. Equilíbrio, suportes adicionais, múltiplos slots e desempenho extremo continuam pendentes; arte dos dois especialistas ainda pode receber acabamento.
+
+## BUILD49 — Rotores de Sucata
+
+Quatro módulos originais adicionam suporte orbital de contato; quantidade/raio/período/dano têm custos próprios e limites. Colisão contínua inclui deslocamento do jogador sem repetir dano em vários quadros de sobreposição. Não emite munição ou efeitos da arma. Migração78→82 preserva rascunhos/configurações e colisões de ID; o editor usa a revisão da API. Ver rotores-de-sucata.md:108cenários controlados,70cenários das dez receitas, Chrome/migração/pausa e duas tentativas naturais que não cumpriram1200s+3chefes. Nenhuma receita canônica ou atributo global de inimigo foi alterado. A integração de suportes agora tem drones, sensores e rotores; múltiplos slots e avaliação ampla de equilíbrio continuam pendentes.

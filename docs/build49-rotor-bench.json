@@ -1,0 +1,3143 @@
+{
+  "at": "2026-11-03T12:31:14.851Z",
+  "version": {
+    "channel": "development",
+    "status": "experimental",
+    "publicApproved": false,
+    "publicWorktree": "../Jogo-publico",
+    "publicBaseCommit": "99522e5",
+    "notes": "Rotores de Sucata:suporte orbital por contato, quatro módulos, painel82/revisão5. Migração preserva78módulos e IDs personalizados. Conteúdo e balanceamento experimentais, sem aprovação pública.",
+    "build": 49
+  },
+  "kind": "controlled-orbital-contact-matrix",
+  "dt": 0.05,
+  "window": 30,
+  "seed": 20261103,
+  "sourceHashes": {
+    "game.js": "447be2ea4663bd55cfc945749677cb2644102552f4f11337616194a3ede97b5f",
+    "balance.js": "5558e7c4774e5e90b4875a98033e80da66bac05c60e1540344f024037c546061"
+  },
+  "note": "Packages installed directly. No manual firing or target pursuit. Ring targets at fixed72/108 show the enlarged orbit dead zone. Boss uses production650HP but is stationary with attack timer1000. Zero damage and censored TTK retained; no survival/offer feasibility claim.",
+  "samples": [
+    {
+      "weapon": "machine",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 12.100000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 12.100000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 12.100000000000001,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 217.79999999998836
+      },
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 10.89,
+      "targetHp": 9782.200000000012,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 10.89,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 217.79999999999973
+      },
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 10.89,
+      "targetHp": 432.2000000000003,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 6.969600000000002,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 250.90560000001278
+      },
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 6.969600000000002,
+      "targetHp": 9749.094399999987,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "machine",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 250.9056000000005
+      },
+      "hp": 100,
+      "ammo": 24,
+      "initialAmmo": 24,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 6.969600000000002,
+      "targetHp": 399.0943999999995,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 6.6000000000000005,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 6.6000000000000005,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 6.6000000000000005,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 118.80000000001019
+      },
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 5.940000000000001,
+      "targetHp": 9881.19999999999,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 5.940000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 118.80000000000109
+      },
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 5.940000000000001,
+      "targetHp": 531.1999999999989,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 3.8016000000000014,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 136.85760000002483
+      },
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 3.8016000000000014,
+      "targetHp": 9863.142399999975,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 136.85760000000028
+      },
+      "hp": 100,
+      "ammo": 6,
+      "initialAmmo": 6,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 3.8016000000000014,
+      "targetHp": 513.1423999999997,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 7.700000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 7.700000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 7.700000000000001,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 138.60000000000582
+      },
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 6.930000000000001,
+      "targetHp": 9861.399999999994,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 6.930000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 138.59999999999906
+      },
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 6.930000000000001,
+      "targetHp": 511.40000000000094,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 4.435200000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 159.66719999999623
+      },
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 4.435200000000001,
+      "targetHp": 9840.332800000004,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "burst",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 159.66720000000032
+      },
+      "hp": 100,
+      "ammo": 30,
+      "initialAmmo": 30,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 4.435200000000001,
+      "targetHp": 490.3327999999997,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 48.400000000000006,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 48.400000000000006,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 48.400000000000006,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 871.1999999999898
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 43.56,
+      "targetHp": 9128.80000000001,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 43.56,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 21.050000000000164,
+      "ttk": 21.050000000000164,
+      "damage": {
+        "rotor": 649.9999999999998
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 43.56,
+      "targetHp": 0,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 5,
+        "effects": 2,
+        "feedback": 2
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 27.878400000000006,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 1003.6223999999856
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 27.878400000000006,
+      "targetHp": 8996.377600000014,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "sniper",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 18.70000000000013,
+      "ttk": 18.70000000000013,
+      "damage": {
+        "rotor": 650.0000000000001
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 27.878400000000006,
+      "targetHp": 0,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 5,
+        "effects": 2,
+        "feedback": 2
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 5.5,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 5.5,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 5.5,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 99.00000000001455
+      },
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 4.95,
+      "targetHp": 9900.999999999985,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 4.95,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 99.00000000000091
+      },
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 4.95,
+      "targetHp": 550.9999999999991,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 3.1680000000000006,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 114.04799999998795
+      },
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 3.1680000000000006,
+      "targetHp": 9885.952000000012,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "laser",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 114.04800000000023
+      },
+      "hp": 100,
+      "ammo": 60,
+      "initialAmmo": 60,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 3.1680000000000006,
+      "targetHp": 535.9519999999998,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 2.75,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 2.75,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 2.75,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 49.500000000007276
+      },
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 2.475,
+      "targetHp": 9950.499999999993,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 2.475,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 49.500000000000455
+      },
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 2.475,
+      "targetHp": 600.4999999999995,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 1.5840000000000003,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 57.02400000002672
+      },
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 1.5840000000000003,
+      "targetHp": 9942.975999999973,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "flame",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 57.02399999999807
+      },
+      "hp": 100,
+      "ammo": 80,
+      "initialAmmo": 80,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 1.5840000000000003,
+      "targetHp": 592.9760000000019,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 12.100000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 12.100000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 12.100000000000001,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 217.79999999998836
+      },
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 10.89,
+      "targetHp": 9782.200000000012,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 10.89,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 217.79999999999973
+      },
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 10.89,
+      "targetHp": 432.2000000000003,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 6.969600000000002,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 250.90560000001278
+      },
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 6.969600000000002,
+      "targetHp": 9749.094399999987,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "cryo",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 250.9056000000005
+      },
+      "hp": 100,
+      "ammo": 12,
+      "initialAmmo": 12,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 6.969600000000002,
+      "targetHp": 399.0943999999995,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 38.5,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 38.5,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 38.5,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 692.9999999999927
+      },
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 34.650000000000006,
+      "targetHp": 9307.000000000007,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 34.650000000000006,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 27.05000000000025,
+      "ttk": 27.05000000000025,
+      "damage": {
+        "rotor": 649.9999999999998
+      },
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 34.650000000000006,
+      "targetHp": 0,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 5,
+        "effects": 2,
+        "feedback": 2
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 22.17600000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 798.3359999999811
+      },
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 22.17600000000001,
+      "targetHp": 9201.664000000019,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "rocket",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 24.30000000000021,
+      "ttk": 24.30000000000021,
+      "damage": {
+        "rotor": 650.0000000000003
+      },
+      "hp": 100,
+      "ammo": 1,
+      "initialAmmo": 1,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 22.17600000000001,
+      "targetHp": 0,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 5,
+        "effects": 2,
+        "feedback": 2
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 24.750000000000004,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 24.750000000000004,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 24.750000000000004,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 445.4999999999927
+      },
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 22.275000000000002,
+      "targetHp": 9554.500000000007,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 22.275000000000002,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 445.49999999999955
+      },
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 22.275000000000002,
+      "targetHp": 204.50000000000037,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 14.256000000000004,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 513.2159999999785
+      },
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 14.256000000000004,
+      "targetHp": 9486.784000000021,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "grenade",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 513.216
+      },
+      "hp": 100,
+      "ammo": 4,
+      "initialAmmo": 4,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 14.256000000000004,
+      "targetHp": 136.78399999999974,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 13.200000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 13.200000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 13.200000000000001,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 237.599999999984
+      },
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 11.880000000000003,
+      "targetHp": 9762.400000000016,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 11.880000000000003,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 237.5999999999999
+      },
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 11.880000000000003,
+      "targetHp": 412.4000000000001,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 7.603200000000003,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 273.7151999999842
+      },
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 7.603200000000003,
+      "targetHp": 9726.284800000016,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "tesla",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 273.71520000000055
+      },
+      "hp": 100,
+      "ammo": 8,
+      "initialAmmo": 8,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 7.603200000000003,
+      "targetHp": 376.28479999999945,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 13.200000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 13.200000000000001,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 13.200000000000001,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 237.599999999984
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 11.880000000000003,
+      "targetHp": 9762.400000000016,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 11.880000000000003,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 237.5999999999999
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 11.880000000000003,
+      "targetHp": 412.4000000000001,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 7.603200000000003,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 273.7151999999842
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 7.603200000000003,
+      "targetHp": 9726.284800000016,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "disc",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 273.71520000000055
+      },
+      "hp": 100,
+      "ammo": 3,
+      "initialAmmo": 3,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 7.603200000000003,
+      "targetHp": 376.28479999999945,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "base",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 33,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "base",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 33,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 0,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 33,
+      "targetHp": 650,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "root",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 594.0000000000146
+      },
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 29.700000000000003,
+      "targetHp": 9405.999999999985,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "root",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 29.700000000000003,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 594.0000000000001
+      },
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 2,
+      "radius": 72,
+      "period": 3,
+      "contactDamage": 29.700000000000003,
+      "targetHp": 55.99999999999996,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "family",
+      "fixture": "ring72",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {},
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 19.008000000000006,
+      "targetHp": 10000,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "family",
+      "fixture": "ring108",
+      "elapsed": 30.00000000000029,
+      "ttk": null,
+      "damage": {
+        "rotor": 684.2879999999932
+      },
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 19.008000000000006,
+      "targetHp": 9315.712000000007,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 0,
+        "effects": 0,
+        "feedback": 0
+      }
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 28.50000000000027,
+      "ttk": 28.50000000000027,
+      "damage": {
+        "rotor": 650.0000000000003
+      },
+      "hp": 100,
+      "ammo": 2,
+      "initialAmmo": 2,
+      "bullets": 0,
+      "shots": 0,
+      "rotors": 3,
+      "radius": 108,
+      "period": 2.4375,
+      "contactDamage": 19.008000000000006,
+      "targetHp": 0,
+      "status": {
+        "burn": 0,
+        "cold": 0,
+        "corrosion": false
+      },
+      "arrays": {
+        "sparks": 5,
+        "effects": 2,
+        "feedback": 2
+      }
+    }
+  ]
+}

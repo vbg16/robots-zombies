@@ -1,0 +1,22 @@
+/* Isolated packages and stationary fixtures; never a claim of naturally earned progression. */
+'use strict';
+const fs=require('node:fs'),vm=require('node:vm'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const sources=Object.fromEntries(['game.js','balance.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
+let prefix=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0].replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage');
+prefix=prefix.replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);",'window.localStorage=localStorage;vm.runInContext('+JSON.stringify(sources['balance.js'])+',context);vm.runInContext('+JSON.stringify(sources['game.js'])+',context);');
+function harness(){const h=new Function('require',prefix+';return {context};')(require);return code=>vm.runInContext(code,h.context);}
+const initial=harness(),weapons=JSON.parse(initial('JSON.stringify(Object.keys(WEAPONS))')),samples=[];
+for(const weapon of weapons)for(const stage of ['base','root','family'])for(const fixture of ['ring72','ring108','boss']){
+ const run=harness();run(`globalThis.orbitSeed=20261103;Math.random=()=>{orbitSeed=(Math.imul(orbitSeed,1664525)+1013904223)>>>0;return orbitSeed/4294967296;};profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));openGarage();selectWeapon('${weapon}');reset();spawn=1e9;bossIndex=1e6;drawMinimap=()=>{};updateHUD=()=>{};
+ if('${stage}'!=='base')SKILLS.find(s=>s.id==='rotors').apply();if('${stage}'==='family')for(const id of ['rotorThird','rotorReach','rotorDrive'])SKILLS.find(s=>s.id===id).apply();
+ globalThis.channels={};globalThis.originalDamage=damageEnemy;damageEnemy=(z,n,source='direct')=>{const before=z.hp;originalDamage(z,n,source);channels[source]=(channels[source]||0)+Math.max(0,before-z.hp);};
+ if('${fixture}'==='boss')boss={...BOSS_SCHEDULE[0],x:player.x+72,y:player.y,hp:650,maxHp:650,speed:0,phase:'approach',timer:1000};else enemies=[{x:player.x+('${fixture}'==='ring72'?72:108),y:player.y,hp:10000,maxHp:10000,r:13,speed:0}];
+ globalThis.target='${fixture}'==='boss'?boss:enemies[0];globalThis.initialAmmo=player.ammo;globalThis.ttk=null;
+ for(let i=0;i<600;i++){tick(.05);if(target.hp<=0){ttk=clock;break;}}
+ globalThis.sample={weapon:'${weapon}',stage:'${stage}',fixture:'${fixture}',elapsed:clock,ttk,damage:channels,hp:player.hp,ammo:player.ammo,initialAmmo,bullets:bullets.length,shots:player.shotCount,rotors:rotorCount(),radius:rotorRange(),period:rotorPeriod(),contactDamage:rotorDamage(),targetHp:target.hp,status:{burn:target.burnTime||0,cold:target.slowTime||0,corrosion:!!target.corrosion},arrays:{sparks:sparks.length,effects:effects.length,feedback:feedback.length}};`);
+ const sample=JSON.parse(run('JSON.stringify(sample)'));assert.ok([sample.elapsed,sample.contactDamage,sample.radius,sample.period,sample.targetHp].every(Number.isFinite));assert.ok(Object.values(sample.damage).every(n=>Number.isFinite(n)&&n>=0));assert.equal(sample.hp,100);assert.equal(sample.ammo,sample.initialAmmo);assert.equal(sample.shots,0);assert.equal(sample.bullets,0);assert.ok(Object.keys(sample.damage).every(source=>source==='rotor'));assert.deepEqual(sample.status,{burn:0,cold:0,corrosion:false});assert.ok(sample.arrays.sparks<=600&&sample.arrays.feedback<=100&&sample.arrays.effects<=150);
+ const expectedContact=stage!=='base'&&(fixture==='boss'||stage==='root'&&fixture==='ring72'||stage==='family'&&fixture==='ring108');assert.equal((sample.damage.rotor||0)>0,expectedContact,'annulus coverage '+weapon+' '+stage+' '+fixture);
+ samples.push(sample);
+}
+const report={at:new Date().toISOString(),version:JSON.parse(fs.readFileSync('version.json','utf8')),kind:'controlled-orbital-contact-matrix',dt:.05,window:30,seed:20261103,sourceHashes:Object.fromEntries(Object.entries(sources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),note:'Packages installed directly. No manual firing or target pursuit. Ring targets at fixed72/108 show the enlarged orbit dead zone. Boss uses production650HP but is stationary with attack timer1000. Zero damage and censored TTK retained; no survival/offer feasibility claim.',samples};
+fs.writeFileSync(process.env.ROTOR_REPORT||'docs/build49-rotor-bench.json',JSON.stringify(report,null,2)+'\n');console.log('108 rotor scenarios passed:12 weapons,3packages,2fixed rings and a stationary production-HP boss; all misses/TTK censoring retained.');

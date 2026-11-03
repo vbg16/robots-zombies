@@ -63,3 +63,7 @@ Também foi renderizado sinal real por `OfflineAudioContext` do Chrome, estéreo
 Todas as prévias contêm sinal, sem clipping digital. O RMS dos efeitos inclui os intervalos de silêncio entre eventos. Os números são da prévia em volumes padrão; não medem o mix da partida inteira nem substituem teste de volume no equipamento do jogador.
 
 Artefatos locais, ignorados pelo Git: `outputs/audio-review/menu.wav`, `garage.wav`, `combat.wav`, `effects.wav`, `measurements.json` e `render.cjs`. O renderizador pode ser reexecutado com Playwright disponível no `NODE_PATH`; usa o Chrome instalado no computador e não chama serviços pagos. `AUDIO_PREVIEW_SCENES=effects` limita a renderização à prévia de efeitos, mantendo as demais medições salvas.
+
+## Extensão BUILD49
+
+Contato efetivo de rotor tem cue próprio rotor,150ms de intervalo, curto ruído metálico e tom descendente. Sem contato/cooldown/pausa não há chamada. tests/audio.cjs verifica esse cue junto dos demais perfis, mute/vozes/RNG; rotors.cjs verifica o vínculo ao contato real. As prévias WAV anteriores documentam a paleta da BUILD45 e não incluem esse cue novo.

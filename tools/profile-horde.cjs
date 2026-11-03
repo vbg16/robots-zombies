@@ -18,7 +18,8 @@ const packages=(process.env.HORDE_PACKAGES||'idle,laser,plasma').split(',');
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
   if(process.env.HORDE_SOURCE_DIR)for(const [file,body] of Object.entries(sources))await page.route('**/'+file,route=>route.fulfill({status:200,contentType:'application/javascript',body}));
   await page.goto(process.env.GAME_URL||'http://127.0.0.1:8001/');await page.waitForFunction(()=>window.ScrewBuildGuide&&typeof tick==='function'&&zombieSprites.every(s=>s.complete)&&(!globalThis.ScrewZombieRenderer||ScrewZombieRenderer.ready.filter(Boolean).length===3));
-  report.renderDependencyHashes=Object.fromEntries(['enemy-animation.js','zombie-atlases.js','player-weapons.js','prot-animation.js','sprite-animation.js'].filter(f=>fs.existsSync(f)).map(f=>[f,hash(fs.readFileSync(f))]));
+  report.renderDependencyHashes=Object.fromEntries(['enemy-animation.js','zombie-atlases.js','player-weapons.js','prot-animation.js','sprite-animation.js','chassis-atlases.js','boss-visuals.js'].filter(f=>fs.existsSync(f)).map(f=>[f,hash(fs.readFileSync(f))]));
+  report.rotorFixtureNote='Only package=rotors:four modules directly installed, no manual fire, stationary near bodies at radius108 to stress continuous orbital contacts. Other package distributions remain unchanged.';
   report.browser=await browser.version();report.viewport=await page.evaluate(()=>({width,height,dpr:devicePixelRatio,canvasWidth:canvas.width,canvasHeight:canvas.height}));
   const loaded=await page.evaluate(async()=>({game:await(await fetch('game.js')).text(),balance:await(await fetch('balance.js')).text()}));
   if(hash(loaded.game)!==report.sourceHashes['game.js']||hash(loaded.balance)!==report.sourceHashes['balance.js'])throw Error('Source changed between Node snapshot and browser load; rerun intentionally.');
@@ -28,8 +29,9 @@ const packages=(process.env.HORDE_PACKAGES||'idle,laser,plasma').split(',');
     profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));openGarage();selectWeapon('laser');reset();spawn=1e9;bossIndex=1e6;clock=600;player.inv=1e9;
     if(packageName==='plasma')for(const id of ['damage','rate','extra','freeze','pierce','blast','blastRadius','shock','conductivity'])SKILLS.find(s=>s.id===id).apply();
     if(packageName==='sensor-corrosion')for(const id of ['sensor','sensorRange','sensorRelay','sensorLock','corrosion','corrosionFuse','corrosionBloom','corrosionCatalyst','burn','freeze'])SKILLS.find(s=>s.id===id).apply();
-    enemies=Array.from({length:n},(_,i)=>{const angle=i*2.399963229728653,near=distribution==='near'||distribution==='mixed'&&i%5===0,radius=near?120+(i*53%520):10000+(i*97%40000),z=createEnemy(player.x+Math.cos(angle)*radius,player.y+Math.sin(angle)*radius);z.hp=z.maxHp=1e9;z.speed=30;return z;});
-    aim={x:player.x+120-camera.x,y:player.y-camera.y,active:true};firing=packageName!=='idle';
+    if(packageName==='rotors')for(const id of ['rotors','rotorThird','rotorReach','rotorDrive'])SKILLS.find(s=>s.id===id).apply();
+    enemies=Array.from({length:n},(_,i)=>{const angle=i*2.399963229728653,near=distribution==='near'||distribution==='mixed'&&i%5===0,radius=near?(packageName==='rotors'?108:120+(i*53%520)):10000+(i*97%40000),z=createEnemy(player.x+Math.cos(angle)*radius,player.y+Math.sin(angle)*radius);z.hp=z.maxHp=1e9;z.speed=packageName==='rotors'?0:30;return z;});
+    aim={x:player.x+120-camera.x,y:player.y-camera.y,active:true};firing=!['idle','rotors'].includes(packageName);
     if(packageName==='sensor-corrosion'){player.sensorTimer=0;for(const z of enemies)applyCorrosion(z,{damage:player.damage});}
    };
    globalThis.profileMeasure=async function(n,distribution,packageName,metric){

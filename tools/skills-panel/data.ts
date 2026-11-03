@@ -47,7 +47,7 @@ export type Skill = {
 
 
 declare global { interface Window { ScrewBalance?: {
-  catalog: Skill[]; attributes: string[];
+  catalog: Skill[]; attributes: string[]; catalogRevision: number;
   load(): Skill[]; validate(skills: unknown): {ok: boolean; errors: string[]};
   save(skills: Skill[]): {ok: boolean; errors: string[]};
   migrate(skills: Skill[], legacy?: boolean | number): Skill[];

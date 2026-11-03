@@ -107,3 +107,9 @@ Próxima hipótese visual de baixo risco para avaliar: cache dos sprites já red
 ## BUILD47 — resultado do renderer inimigo
 
 A hipótese visual evoluiu para três atlas direcionais e cache de atlas imutáveis. Duas variantes mutáveis lentas foram rejeitadas. A matriz idle de27pares reduziu o desenho dos5000próximos de81,54para36,62ms médio; tick+draw92,54→40,07ms. Os5000remotos tiveram tick1,83→2,76ms, com trabalho visual adicional. O jogo ainda tem limites reais com multidões e cadeias de dano extremo. Consulte animacao-inimigos.md e o relatório bruto versionado build47-render-bench.json. Esse resultado não aprova o balanceamento das dez builds nem substitui medir Plasma após otimizações futuras.
+
+## Próxima hipótese — vizinhos elétricos
+
+O sort global já foi removido, mas shockAt ainda visita muitos candidatos no raio405 para escolher poucos vizinhos. Avaliar consulta de células por distância mínima até obter os k vizinhos, com desempate por rank original, fallback fora da fase de projéteis e suporte às inserções após empurrão. Essa hipótese ainda não foi implementada. Exigir equivalência de estado/efeitos/RNG, empates e células negativas; não reduzir alvos ou dano para fabricar ganho.
+
+BUILD49 acrescenta perfil isolado rotors ao profiler:corpos próximos imóveis no raio108, sem tiro manual. Raw build49-rotor-performance.json retém todos os vivos e custos de tick/desenho; não comparar suas posições específicas com o pacote idle anterior como se fossem o mesmo mundo.

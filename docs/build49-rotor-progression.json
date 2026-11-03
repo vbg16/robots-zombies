@@ -1,0 +1,833 @@
+{
+  "note": "All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.",
+  "executions": [
+    {
+      "at": "2026-11-03T12:15:45.742Z",
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Rotores de Sucata:suporte orbital por contato, quatro módulos, painel82/revisão5. Migração preserva78módulos e IDs personalizados. Conteúdo e balanceamento experimentais, sem aprovação pública.",
+        "build": 49
+      },
+      "gameplayRevision": "build49-orbital-experiment",
+      "recipeOverride": {
+        "file": "outputs/build49/orbital-recipes.json",
+        "sha256": "5c7a280e0c7ad73c83d862403c016c54eac9eac81eb627b0564f97134ab24ab4"
+      },
+      "refitsEnabled": true,
+      "excludedCases": [],
+      "sourceHashes": {
+        "game.js": "447be2ea4663bd55cfc945749677cb2644102552f4f11337616194a3ede97b5f",
+        "balance.js": "5558e7c4774e5e90b4875a98033e80da66bac05c60e1540344f024037c546061",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "recipes": [
+        {
+          "id": "agulha-antitita",
+          "evolution": "sniper-railDrill",
+          "name": "Agulha Antititã",
+          "robot": "prot",
+          "weapon": "sniper",
+          "summary": "Tiros precisos para atravessar a linha de frente e desmontar chefes.",
+          "engine": "Impacto forte + perfuração + bônus contra chefe; Caça-Titãs recupera uma bateria adicional por chefe e a marca do PROT recompensa manter o mesmo alvo.",
+          "skills": [
+            "damage",
+            "bossHunter",
+            "freeze",
+            "rate",
+            "pierce",
+            "range",
+            "crit",
+            "dash"
+          ],
+          "core": [
+            "damage",
+            "bossHunter",
+            "freeze",
+            "rate"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "greasedServos"
+          ],
+          "specialization": "predatorMark",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Alto dano por acerto e pressão em chefe alinhado com a horda.",
+          "weakness": "Pouca munição e recarga longa deixam os flancos expostos.",
+          "strategy": "Mantenha distância, alinhe inimigos e use a recarga para reposicionar. Priorize o chefe quando houver uma linha segura.",
+          "avoid": [
+            "Não atire fora do alcance reduzido por Caça-Titãs.",
+            "Não sacrifique toda a mobilidade por dano."
+          ],
+          "tags": [
+            "Precisão",
+            "Chefes",
+            "Perfuração"
+          ]
+        },
+        {
+          "id": "tempestade-balistica",
+          "evolution": "laser-pulseClock",
+          "name": "Tempestade Balística",
+          "robot": "prot",
+          "weapon": "laser",
+          "summary": "Muitos disparos alimentam o quinto impacto e a reposição por abates.",
+          "engine": "Cadência + dois projéteis + crítico a cada quinto disparo ativam o Crivo Balístico, com um pulso de área por projétil crítico.",
+          "skills": [
+            "rate",
+            "extra",
+            "damage",
+            "crit",
+            "magnet",
+            "killAmmo",
+            "freeze",
+            "pierce"
+          ],
+          "core": [
+            "rate",
+            "extra",
+            "damage",
+            "crit"
+          ],
+          "blessings": [
+            "triggerRegulator",
+            "pulseCoil",
+            "spareBattery"
+          ],
+          "specialization": "predatorMark",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Boa frequência de acertos, progressão de crítico previsível e limpeza de corredores.",
+          "weakness": "Perde força durante a recarga e cada projétil isolado é relativamente fraco.",
+          "strategy": "Varra a frente da horda, mantenha o alvo marcado em chefes e recolha núcleos nas janelas abertas.",
+          "avoid": [
+            "Dispersão não garante que os dois projéteis acertem o mesmo alvo.",
+            "Evite aumentar repetidamente a recarga sem obter sustentação."
+          ],
+          "tags": [
+            "Cadência",
+            "Crítico",
+            "Munição"
+          ]
+        },
+        {
+          "id": "escopeta-ricochete",
+          "evolution": "shotgun-wideBore",
+          "name": "Escopeta de Ricochetes",
+          "robot": "bastion",
+          "weapon": "shotgun",
+          "summary": "Uma salva atravessa os primeiros inimigos e procura os que ficaram atrás.",
+          "engine": "Pellets + perfuração + ricochete espalham os impactos; explosões ampliam a cobertura nas últimas peças.",
+          "skills": [
+            "rate",
+            "extra",
+            "freeze",
+            "pierce",
+            "ricochet",
+            "damage",
+            "blast",
+            "blastRadius"
+          ],
+          "core": [
+            "rate",
+            "extra",
+            "freeze",
+            "pierce"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "magneticBrake",
+          "experiments": [
+            "unstableLens",
+            "blastCondenser"
+          ],
+          "strength": "Cobertura de grupos próximos e controle de várias linhas de aproximação.",
+          "weakness": "Alcance curto, dispersão e custos acumulados de recarga.",
+          "strategy": "Lute na borda dos grupos. Perfure primeiro; o ricochete só procura outro alvo depois de gastar a perfuração.",
+          "avoid": [
+            "Não use a receita com Disco de Retorno: ele não recebe ricochete.",
+            "Não confunda dano somado dos pellets com dano garantido em um alvo."
+          ],
+          "tags": [
+            "Pellets",
+            "Ricochete",
+            "Área"
+          ]
+        },
+        {
+          "id": "cacador-criogenico",
+          "evolution": "cryo-iceDrill",
+          "name": "Caçador Criogênico",
+          "robot": "prot",
+          "weapon": "cryo",
+          "summary": "Controle de movimento abre tempo para finalizar inimigos resistentes.",
+          "engine": "Resfriamento + perfuração mantêm grupos lentos; Finalizador amplifica o acabamento e mortes por bala de alvos resfriados geram Fratura Industrial.",
+          "skills": [
+            "damage",
+            "freeze",
+            "rate",
+            "pierce",
+            "finisher",
+            "dash",
+            "speed",
+            "range"
+          ],
+          "core": [
+            "damage",
+            "freeze",
+            "rate",
+            "pierce"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "greasedServos",
+            "spareBattery"
+          ],
+          "specialization": "tailDecoy",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Kiting e redução da pressão frontal sem depender de dano em área.",
+          "weakness": "Vida reduzida por Pernas Hidráulicas e dano inicial menor após os custos de perfuração.",
+          "strategy": "Abra corredores, termine alvos já feridos e avance para recolher XP somente depois de resfriar a passagem.",
+          "avoid": [
+            "Resfriar não cancela ataques de chefe.",
+            "O multiplicador do Finalizador exige o limiar de vida; ele não é dano permanente."
+          ],
+          "tags": [
+            "Resfriamento",
+            "Finalização",
+            "Mobilidade"
+          ]
+        },
+        {
+          "id": "forja-criogenica",
+          "evolution": "flame-fuelMixer",
+          "name": "Forja Criogênica",
+          "robot": "forge",
+          "weapon": "flame",
+          "summary": "O chassi térmico transforma inimigos resfriados em combustível.",
+          "engine": "Aplicar fogo e resfriamento no mesmo alvo ativa Choque Térmico; o FORJ amplia a queimadura, com menor dano direto.",
+          "skills": [
+            "burn",
+            "freeze",
+            "thermal",
+            "afterburn",
+            "damage",
+            "rate",
+            "range",
+            "ignition"
+          ],
+          "core": [
+            "burn",
+            "freeze",
+            "thermal",
+            "afterburn"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "thermalAmplifier",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Dano persistente que continua durante a recarga e forte conversão elemental.",
+          "weakness": "Precisa alcançar o alvo e manter os dois estados; não acumula infinitas queimaduras por pellet.",
+          "strategy": "Aplique o cone na frente da horda, recue durante a recarga e renove o resfriamento para sustentar o dano térmico.",
+          "avoid": [
+            "Não trate a queimadura como dano instantâneo.",
+            "Não reduza ainda mais o alcance sem uma forma de se aproximar com segurança."
+          ],
+          "tags": [
+            "Fogo",
+            "Resfriamento",
+            "Dano contínuo"
+          ]
+        },
+        {
+          "id": "rede-de-plasma",
+          "evolution": "tesla-branchCoil",
+          "name": "Rede de Plasma",
+          "robot": "volt",
+          "weapon": "tesla",
+          "summary": "Descargas e explosões usam inimigos agrupados como uma rede industrial.",
+          "engine": "O VOLT fortalece descargas; fogo persiste enquanto perfuração, eletricidade e explosões distribuem dano por grupos.",
+          "skills": [
+            "shock",
+            "damage",
+            "burn",
+            "blast",
+            "conductivity",
+            "freeze",
+            "pierce",
+            "stun"
+          ],
+          "core": [
+            "shock",
+            "damage",
+            "burn",
+            "blast"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "extraFork",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Dano distribuído, alcance elétrico e interrupção de movimento.",
+          "weakness": "Menos vida e vários custos de dano direto; perde eficiência contra um alvo isolado.",
+          "strategy": "Acerte a borda de grupos compactos. Mantenha caminhos de fuga e evite entrar no centro para buscar mais alvos.",
+          "avoid": [
+            "Descargas secundárias não devem iniciar uma recursão infinita de explosões.",
+            "Paralisar movimento não cancela um ataque já programado."
+          ],
+          "tags": [
+            "Eletricidade",
+            "Fogo",
+            "Área"
+          ]
+        },
+        {
+          "id": "demolicao-de-campo",
+          "evolution": "grenade-doubleShell",
+          "name": "Demolição de Campo",
+          "robot": "bastion",
+          "weapon": "grenade",
+          "summary": "Granadas de grande área abrem espaços e pressionam chefes.",
+          "engine": "Dano de impacto + área expandida; projéteis adicionais aumentam as detonações e a manutenção aproveita a recarga.",
+          "skills": [
+            "damage",
+            "rate",
+            "blast",
+            "blastRadius",
+            "bossHunter",
+            "magnet",
+            "repair",
+            "extra"
+          ],
+          "core": [
+            "damage",
+            "rate",
+            "blast",
+            "blastRadius"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "spareBattery",
+            "greasedServos"
+          ],
+          "specialization": "grounding",
+          "experiments": [
+            "blastCondenser",
+            "unstableLens"
+          ],
+          "strength": "Explosões grandes e dano concentrado em grupos alinhados com chefes.",
+          "weakness": "A demora de recarga exige planejamento; é possível ser cercado antes do próximo carregador.",
+          "strategy": "Atire onde os inimigos vão se reunir. Abra uma saída antes de recarregar e evite atravessar zonas de perigo para buscar XP.",
+          "avoid": [
+            "Não aceite todos os aumentos de recarga só pelo ganho de dano.",
+            "A explosão de impacto exclui o alvo que já recebeu o dano direto."
+          ],
+          "tags": [
+            "Explosão",
+            "Chefes",
+            "Recarga"
+          ]
+        },
+        {
+          "id": "oficina-viva",
+          "evolution": "shotgun-choke",
+          "name": "Oficina Viva",
+          "robot": "nano",
+          "weapon": "shotgun",
+          "summary": "Vida, recarga e resfriamento sustentam um robô pesado de reparo.",
+          "engine": "O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.",
+          "skills": [
+            "magnet",
+            "repair",
+            "armor",
+            "titan",
+            "damage",
+            "rate",
+            "freeze",
+            "coldReload"
+          ],
+          "core": [
+            "magnet",
+            "repair",
+            "armor",
+            "titan"
+          ],
+          "blessings": [
+            "spareBattery",
+            "copperPlate",
+            "greasedServos"
+          ],
+          "specialization": "repairCharge",
+          "experiments": [
+            "lithiumPack",
+            "volatileReactor"
+          ],
+          "strength": "Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.",
+          "weakness": "É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.",
+          "strategy": "Gaste munição de forma útil, recarregue com distância e use o resfriamento para abrir o próximo deslocamento.",
+          "avoid": [
+            "Recarregar uma bala não concede a cura de um carregador inteiro.",
+            "Cura com vida cheia não prepara uma carga ofensiva."
+          ],
+          "tags": [
+            "Reparo",
+            "Vida",
+            "Controle"
+          ]
+        },
+        {
+          "id": "enxame-de-sucata",
+          "evolution": "cryo-deepCooling",
+          "name": "Enxame de Sucata",
+          "robot": "swarm",
+          "weapon": "cryo",
+          "summary": "Drones acompanham o gato enquanto o arpão mantém um corredor seguro.",
+          "engine": "O ENXA já tem um drone; a árvore amplia a frota até três, acelera disparos e permite um segundo alvo sem procs recursivos.",
+          "skills": [
+            "rotors",
+            "rotorThird",
+            "rotorDrive",
+            "drones",
+            "damage",
+            "freeze",
+            "magnet",
+            "repair"
+          ],
+          "core": [
+            "rotors",
+            "rotorDrive",
+            "drones",
+            "damage"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "greasedServos",
+            "spareBattery"
+          ],
+          "specialization": "droneBossFocus",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Dano contínuo em alvos no alcance mesmo durante a recarga da arma.",
+          "weakness": "A frota tem alcance e cadência limitados; não acerta inimigos do outro lado do mapa.",
+          "strategy": "Mantenha os alvos dentro do raio dos drones, use o arpão para empurrar ameaças próximas e recolha núcleos nos corredores abertos.",
+          "avoid": [
+            "Drones não disparam a arma do jogador nem multiplicam infinitamente outros efeitos.",
+            "Mais projéteis da arma não criam mais drones."
+          ],
+          "tags": [
+            "Drones",
+            "Dano contínuo",
+            "Alcance"
+          ]
+        },
+        {
+          "id": "lanca-de-fuga",
+          "evolution": "harpoon-pressurePiston",
+          "name": "Lança de Fuga",
+          "robot": "nano",
+          "weapon": "harpoon",
+          "summary": "Mobilidade, arpão e reparos na recarga sustentam a retirada.",
+          "engine": "NANO + recarga reparadora + avanço; cura real prepara uma salva perfurante. O Motor Cinético acrescenta dano quando Pernas Hidráulicas e Impacto Cinético se encontram.",
+          "skills": [
+            "damage",
+            "rate",
+            "magnet",
+            "repair",
+            "dash",
+            "speed",
+            "freeze",
+            "knock"
+          ],
+          "core": [
+            "damage",
+            "magnet",
+            "repair",
+            "dash"
+          ],
+          "blessings": [
+            "spareBattery",
+            "pulseCoil",
+            "greasedServos"
+          ],
+          "specialization": "repairCharge",
+          "experiments": [
+            "volatileReactor",
+            "lithiumPack"
+          ],
+          "strength": "Reparo frequente, coleta ampla e disparos perfurantes preparados por cura.",
+          "weakness": "Pouca munição; velocidade custa vida, e reparar exige completar recargas. Integridade cheia não prepara a carga ofensiva.",
+          "strategy": "Monte coleta e reparo antes de apostar toda a defesa na velocidade. Circule a horda, gaste o carregador mirando a saída e use o avanço para mudar de corredor durante a recarga.",
+          "avoid": [
+            "O avanço não concede invulnerabilidade.",
+            "Recargas parciais curam proporcionalmente menos.",
+            "Cura em integridade cheia não prepara a Carga de Reparo."
+          ],
+          "tags": [
+            "Mobilidade",
+            "Empurrão",
+            "Perfuração"
+          ]
+        }
+      ],
+      "policy": {
+        "fixedBeforeResults": true,
+        "structural": "6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes",
+        "numeric": "All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions",
+        "synthetic": "Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK",
+        "real": "Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.",
+        "driver": "Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling."
+      },
+      "driverVersion": 9,
+      "driverHash": "0bff5539376ab632e838426875e1d6f2b9ffa1729b6b39ccdf69fa4f405af48a",
+      "bootstrapHash": "5cdb33ccacf51b8e7d884d2de384960c0869873be5b70967cd54667bd3dbc855",
+      "dt": 0.05,
+      "duration": 1200,
+      "seeds": [
+        20261103,
+        20261104
+      ],
+      "structure": {
+        "ok": true,
+        "builds": 10,
+        "catalog": 82
+      },
+      "synthetic": [],
+      "attempts": [
+        {
+          "build": "enxame-de-sucata",
+          "seed": 20261103,
+          "weaponEvolution": "cryo-deepCooling",
+          "time": 926.7499999997049,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 115,
+          "level": 22,
+          "kills": 1268,
+          "bossKills": 2,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "magnet",
+            "damage",
+            "repair",
+            "drones",
+            "rotors",
+            "rotorDrive",
+            "rotorThird",
+            "burn",
+            "freeze",
+            "xp"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 31278.413261250127,
+            "drone": 30070.97150875034,
+            "rotor": 19837.298206249794,
+            "burn": 5578.084904999993
+          },
+          "received": 577,
+          "receivedBySource": {
+            "contact-or-projectile": 425,
+            "common-ranged": 152
+          },
+          "healing": 462,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 74.34999999999792,
+              "ttk": 14.299999999999194
+            },
+            {
+              "id": "scrapper",
+              "at": 253.5000000000234,
+              "ttk": 13.50000000000307
+            }
+          ],
+          "choices": [
+            {
+              "at": 36.850000000000044,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 37.10000000000003,
+              "level": 3,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 38.44999999999995,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 45.84999999999953,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 55.649999999998975,
+              "level": 6,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 74.34999999999792,
+              "level": 6,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 76.3499999999978,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 85.84999999999727,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "rotors"
+            },
+            {
+              "at": 97.5499999999966,
+              "level": 9,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 114.64999999999563,
+              "level": 10,
+              "kind": "specialization",
+              "id": "droneBossFocus"
+            },
+            {
+              "at": 129.0999999999951,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "rotorDrive"
+            },
+            {
+              "at": 150.95000000000007,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "rotorThird"
+            },
+            {
+              "at": 181.8500000000071,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 230.50000000001816,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 295.70000000003296,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 592.6500000000087,
+              "level": 20,
+              "kind": "evolution",
+              "id": "cryo-deepCooling"
+            }
+          ],
+          "maxEnemies": 4574,
+          "maxBullets": 4,
+          "maxHostile": 204,
+          "controlEnemySeconds": 217.50000000000844,
+          "distance": 112502.58595296182,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "enxame-de-sucata",
+          "seed": 20261104,
+          "weaponEvolution": null,
+          "time": 649.9499999999566,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 95,
+          "level": 15,
+          "kills": 840,
+          "bossKills": 1,
+          "coreReached": true,
+          "recipeReached": false,
+          "acquired": [
+            "rotors",
+            "rotorThird",
+            "drones",
+            "freeze",
+            "rotorDrive",
+            "damage",
+            "burn",
+            "magnet",
+            "rate"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 24200.051350000005,
+            "drone": 15125.079674999804,
+            "rotor": 11669.528124999933,
+            "burn": 544.7544999999999
+          },
+          "received": 271,
+          "receivedBySource": {
+            "contact-or-projectile": 205,
+            "boss-hazard": 66
+          },
+          "healing": 176,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 101.1499999999964,
+              "ttk": 41.09999999999767
+            }
+          ],
+          "choices": [
+            {
+              "at": 38.89999999999993,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "rotors"
+            },
+            {
+              "at": 48.1499999999994,
+              "level": 3,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 94.84999999999675,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "rotorThird"
+            },
+            {
+              "at": 101.1499999999964,
+              "level": 4,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 106.84999999999607,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 130.24999999999537,
+              "level": 6,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 156.15000000000126,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 186.05000000000805,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "rotorDrive"
+            },
+            {
+              "at": 222.95000000001644,
+              "level": 9,
+              "kind": "blessing",
+              "id": "copperPlate"
+            },
+            {
+              "at": 272.2500000000276,
+              "level": 10,
+              "kind": "specialization",
+              "id": "droneBossFocus"
+            },
+            {
+              "at": 415.4500000000602,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 484.85000000007597,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 545.2500000000518,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 597.6500000000042,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "rate"
+            }
+          ],
+          "maxEnemies": 2226,
+          "maxBullets": 4,
+          "maxHostile": 12,
+          "controlEnemySeconds": 372.6500000000195,
+          "distance": 78376.15520679012,
+          "survivedWindow": false,
+          "viable": false
+        }
+      ],
+      "errors": [],
+      "components": {
+        "ok": true,
+        "checks": [
+          "forge tradeoff+burn",
+          "volt secondary",
+          "drone count/ammo/range",
+          "nano reload fraction",
+          "effective-heal gating"
+        ]
+      },
+      "completed": true
+    }
+  ]
+}

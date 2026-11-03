@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD48:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD49:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -12,6 +12,7 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 ## Documentos
 
 - [Relatório de perguntas e respostas](relatorio-perguntas-respostas.md): as 50 perguntas originais, respostas do criador, esclarecimentos posteriores e pendências.
+- [Rotores de Sucata na BUILD49](rotores-de-sucata.md): colisão, módulos, painel e resultados controlados/naturais.
 - [Chassis e chefes na BUILD48](chassis-e-chefes.md): sprites, fallback, animação e verificações desta etapa.
 - [Direção e identidade](direction.md): proposta, público, referências, narrativa, arte e plataformas.
 - [Design do jogo](game-design.md): garagem, combate, progressão, inimigos e conteúdo.

@@ -1,4 +1,4 @@
-# Dez projetos de build do Screwvivors — BUILD 44
+# Dez projetos de build do Screwvivors — BUILD 49
 
 Implementações originais para combinar chassi, arma, aprimoramentos, condição de ativação e uma forma de sobreviver. O catálogo jogável está em `builds.js`. No menu ou na garagem, abra **PROJETOS DE BUILD** para consultar as receitas e acompanhar a montagem durante a partida.
 
@@ -73,3 +73,7 @@ A meta comparativa de uma tentativa longa é alcançar 20 min e derrotar ao meno
 A BUILD43 acrescenta a árvore de [corrosão programada](corrosao-programada.md), disponível nas ofertas normais. As dez receitas guiadas não foram alteradas nesta etapa. O aumento do pool muda as ofertas; resultados de balanceamento de versões anteriores continuam históricos.
 
 A BUILD44 acrescenta [Sensores de campo](sensores-de-campo.md), sem modificar as dez receitas guiadas. A nova raiz altera o pool de ofertas; resultados anteriores não equivalem a aprovação de balanceamento do catálogo atual.
+
+## Pool82 — BUILD49
+
+As dez receitas canônicas não mudaram nesta etapa. O catálogo cresceu com Rotores de Sucata, alterando a elegibilidade das ofertas; resultados anteriores não aprovam automaticamente este pool. build49-builds-bench.json registra70cenários controlados das receitas originais. O ensaio ENXA+criogênico+rotores é um override isolado, não uma substituição do guia Enxame de Sucata; suas duas mortes e parâmetros estão em rotores-de-sucata.md.
