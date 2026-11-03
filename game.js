@@ -22,6 +22,46 @@ const WEAPONS=Object.freeze(Object.fromEntries(Object.entries({
  harpoon:{name:'Arpão pneumático',damage:60,rate:1.05,pellets:1,spread:0,life:1.3,speed:750,pierce:1,knock:65,description:'Atravessa dois alvos e empurra. 60 de dano · 1,05 s.'}
 }).map(([id,w])=>[id,Object.freeze(w)])));
 const AMMO=Object.freeze({machine:[24,1.4],shotgun:[6,2.2],burst:[30,1.8],sniper:[3,2.6],laser:[60,1.6],flame:[80,2.4],cryo:[12,2.4],rocket:[1,4.8],grenade:[4,3.6],tesla:[8,3],disc:[3,3.4],harpoon:[2,2.4]});
+const WEAPON_EVOLUTION_LEVEL=20;
+// Temporary refits of the equipped weapon. No gear IDs, profile data or original catalog entries change.
+const WEAPON_EVOLUTIONS=Object.freeze(Object.fromEntries(Object.entries({
+ machine:[
+  ['heavyFeed','ALIMENTAÇÃO PESADA','Dano por projétil ×1,3.','Tempo de recarga ×1,2.',{damage:1.3,reloadMult:1.2}],
+  ['beltFeed','ESTEIRA DE MUNIÇÃO','Capacidade do carregador ×1,5.','Tempo de recarga ×1,15. Não repõe munição ao instalar.',{magazineMult:1.5,reloadMult:1.15}]],
+ shotgun:[
+  ['choke','GARGALO DE PRECISÃO','Dispersão ×0,5 e dano ×1,15.','Intervalo entre disparos ×1,15.',{spreadMult:.5,damage:1.15,rate:1.15}],
+  ['wideBore','CÂMARA DE VARREDURA','Dois pellets adicionais por emissão, antes dos multiplicadores.','Dano por pellet ×0,8 e tempo de recarga ×1,2.',{damage:.8,reloadMult:1.2},{pellets:2}]],
+ burst:[
+  ['fourStroke','CICLO DE QUATRO TEMPOS','Uma bala adicional em cada rajada.','Intervalo entre rajadas ×1,2 e tempo de recarga ×1,15.',{rate:1.2,reloadMult:1.15},{burst:1}],
+  ['quickBreech','CULATRA ÁGIL','Tempo de recarga ×0,75.','Dano por bala ×0,9.',{reloadMult:.75,damage:.9}]],
+ sniper:[
+  ['railDrill','BROCA FERROVIÁRIA','Atravessa três alvos adicionais e dano ×1,2.','Intervalo entre disparos ×1,2.',{damage:1.2,rate:1.2},{pierce:3}],
+  ['cyclingBolt','FERROLHO CÍCLICO','Intervalo entre disparos ×0,75.','Dano por projétil ×0,9.',{rate:.75,damage:.9}]],
+ laser:[
+  ['pulseClock','OSCILADOR DE PULSOS','Intervalo entre disparos ×0,75.','Tempo de recarga ×1,25.',{rate:.75,reloadMult:1.25}],
+  ['longLens','LENTE DE LONGO CURSO','Duração do projétil ×1,5 e dano ×1,2.','Intervalo entre disparos ×1,2.',{projectileLife:1.5,damage:1.2,rate:1.2}]],
+ flame:[
+  ['fuelMixer','MISTURADOR DE COMBUSTÍVEL','Dano da queimadura aplicada ×1,5.','Dano direto ×0,8; também reduz a base da queimadura.',{damage:.8},{},{burnMult:1.5}],
+  ['longNozzle','BICO DE LONGO ALCANCE','Duração dos projéteis ×1,75.','Intervalo entre disparos ×1,2.',{projectileLife:1.75,rate:1.2}]],
+ cryo:[
+  ['iceDrill','BROCA GLACIAL','Atravessa dois alvos adicionais.','Dano por projétil ×0,85.',{damage:.85},{pierce:2}],
+  ['deepCooling','REFRIGERAÇÃO PROFUNDA','Resfriamento por impacto dura mais 1 s; dano ×1,15.','Intervalo entre disparos ×1,15.',{damage:1.15,rate:1.15},{},{coldBonus:1}]],
+ rocket:[
+  ['siegeWarhead','OGIVA DE CERCO','Raio intrínseco da explosão ×1,5.','Dano ×0,85 e tempo de recarga ×1,15.',{damage:.85,reloadMult:1.15},{},{explosionMult:1.5}],
+  ['guidedTube','TUBO DE PRESSÃO','Velocidade dos projéteis ×1,6 e dano ×1,25.','Raio intrínseco da explosão ×0,75. A mira continua manual.',{projectileSpeed:1.6,damage:1.25},{},{explosionMult:.75}]],
+ grenade:[
+  ['pressureShell','CASCO DE PRESSÃO','Raio intrínseco da explosão ×1,3.','Duração até detonar ×1,25.',{projectileLife:1.25},{},{explosionMult:1.3}],
+  ['doubleShell','CARGA BIFURCADA','Uma granada adicional por emissão; dispersão em leque.','Dano por granada ×0,65 e tempo de recarga ×1,25.',{damage:.65,reloadMult:1.25},{pellets:1},{minSpread:.25}]],
+ tesla:[
+  ['branchCoil','BOBINA RAMIFICADA','Descargas intrínsecas alcançam dois alvos adicionais.','Dano direto e base elétrica ×0,85.',{damage:.85},{chain:2}],
+  ['focusedCoil','BOBINA CONCENTRADA','Dano direto e base elétrica ×1,5.','Um alvo intrínseco a menos; intervalo entre disparos ×1,15.',{damage:1.5,rate:1.15},{chain:-1}]],
+ disc:[
+  ['fastRotor','ROTOR DE ALTA ROTAÇÃO','Velocidade dos projéteis ×1,4 e dano ×1,2.','Duração do projétil ×0,8.',{projectileSpeed:1.4,damage:1.2,projectileLife:.8}],
+  ['impactRim','ARO DE IMPACTO','Impactos ganham explosão intrínseca de raio 48, com metade do dano.','Dano direto ×0,85 e tempo de recarga ×1,2.',{damage:.85,reloadMult:1.2},{},{explosion:48,splash:.5}]],
+ harpoon:[
+  ['longShaft','HASTE TRANSFIXANTE','Atravessa três alvos adicionais e dano ×1,15.','Intervalo entre disparos ×1,2.',{damage:1.15,rate:1.2},{pierce:3}],
+  ['pressurePiston','PISTÃO DE PRESSÃO','Empurrão intrínseco +40; dano ×1,3 e velocidade do projétil ×1,3.','Tempo de recarga ×1,2. Chefes mantêm resistência ao empurrão.',{damage:1.3,projectileSpeed:1.3,reloadMult:1.2},{knock:40}]]
+}).map(([weapon,entries])=>[weapon,Object.freeze(entries.map(([id,name,benefit,cost,multipliers,additions={},traits={}])=>Object.freeze({id:weapon+'-'+id,weapon,name,benefit,cost,multipliers:Object.freeze(multipliers),additions:Object.freeze(additions),traits:Object.freeze(traits)})))])));
 const TREE_INFO=Object.freeze({damage:{name:'Dano de impacto',category:'Ofensivo'},rate:{name:'Arsenal acelerado',category:'Ofensivo'},armor:{name:'Defesa pesada',category:'Defensivo'},magnet:{name:'Coleta e manutenção',category:'Suporte'},burn:{name:'Fogo industrial',category:'Ofensivo'},freeze:{name:'Controle criogênico',category:'Controle'},shock:{name:'Rede elétrica',category:'Controle'},dash:{name:'Mobilidade e reação',category:'Mobilidade'},blast:{name:'Demolição reativa',category:'Ofensivo'},drones:{name:'Enxame de manutenção',category:'Suporte'}});
 const BOSS_SCHEDULE=Object.freeze([{at:60,id:'brute',name:'BRUTAMONTES',hp:650,r:32,speed:28},{at:240,id:'scrapper',name:'SUCATEIRO',hp:1300,r:30,speed:24},{at:420,id:'coil',name:'BOBINA-RAINHA',hp:1800,r:34,speed:20}]);
 const BOSS_MINIONS=Object.freeze({
@@ -130,6 +170,34 @@ let SPECIALIZATIONS=Object.freeze({
  ]
 });
 let specializationOffered=false,offeredSpecializations=[];
+let weaponEvolutionOffered=false,offeredWeaponEvolutions=[];
+function finishWeaponEvolution(){
+ offerVersion++;state='playing';el('overlay').hidden=true;clearInput();updateHUD();el('pause').focus();
+}
+function chooseWeaponEvolution(id,version){
+ if(state!=='evolution'||version!==offerVersion||player.weaponEvolution||level<WEAPON_EVOLUTION_LEVEL)return false;
+ const item=offeredWeaponEvolutions.find(e=>e.id===id&&e.weapon===runWeapon.id);if(!item)return false;
+ // Installation preserves ammo, reload progress and old projectiles. Only future emissions use the refit.
+ for(const [key,factor] of Object.entries(item.multipliers))player[key]*=factor;
+ const refit={...runWeapon};for(const [key,value] of Object.entries(item.additions))refit[key]=(refit[key]||0)+value;
+ if(item.traits.explosionMult)refit.explosion*=item.traits.explosionMult;
+ if(item.traits.explosion){refit.explosion=item.traits.explosion;refit.splash=item.traits.splash;}
+ if(item.traits.minSpread)refit.spread=Math.max(refit.spread,item.traits.minSpread);
+ player.weaponEvolution=item;runWeapon=Object.freeze(refit);player.ammo=Math.min(player.ammo,magazineSize());
+ sound('upgrade');upgradeFlash=1;toast(item.name+' INSTALADA','#a6eaff');finishWeaponEvolution();return true;
+}
+function declineWeaponEvolution(version){if(state!=='evolution'||version!==offerVersion)return false;finishWeaponEvolution();return true;}
+function offerWeaponEvolution(){
+ if(state!=='playing'||weaponEvolutionOffered||player.weaponEvolution||level<WEAPON_EVOLUTION_LEVEL)return false;
+ weaponEvolutionOffered=true;offeredWeaponEvolutions=WEAPON_EVOLUTIONS[runWeapon.id].slice();state='evolution';
+ show('REFORJA DA ARMA','Nível '+WEAPON_EVOLUTION_LEVEL+' · '+runWeapon.name+'. Escolha uma evolução temporária da arma equipada. Sem troca ou fusão; não repõe munição nem conclui a recarga. Esta oferta substitui o módulo deste nível e não volta ao recusar.','');
+ const version=++offerVersion;
+ for(const [index,item] of offeredWeaponEvolutions.entries()){
+  const card=document.createElement('button'),category=document.createElement('span'),title=document.createElement('strong'),benefit=document.createElement('span'),cost=document.createElement('span'),action=document.createElement('span');
+  card.className='upgrade-card specialization-card weapon-evolution-card';card.setAttribute('data-evolution',item.id);card.setAttribute('aria-keyshortcuts',String(index+1));category.className='skill-category';category.textContent=runWeapon.name+' / REFORJA TEMPORÁRIA';title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent='VANTAGEM: '+item.benefit;cost.className='skill-cost';cost.textContent='CUSTO: '+item.cost;action.className='skill-action';action.textContent='['+(index+1)+'] INSTALAR REFORJA';card.append(category,title,benefit,cost,action);card.onclick=()=>chooseWeaponEvolution(item.id,version);el('choices').append(card);
+ }
+ const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='MANTER ARMA ATUAL [R]';skip.setAttribute('aria-keyshortcuts','R');skip.onclick=()=>declineWeaponEvolution(version);el('choices').append(skip);el('choices').children[0]?.focus();return true;
+}
 SPECIALIZATIONS={...SPECIALIZATIONS,
  forge:[{id:'furnaceDuration',name:'CÂMARA DE FORNALHA',benefit:'Duração da queimadura ×1,5.',cost:'Afeta queimaduras aplicadas após a escolha.'},{id:'thermalAmplifier',name:'AMPLIFICADOR TÉRMICO',benefit:'Queimadura em alvos resfriados causa +25% de dano.',cost:'Exige resfriar o alvo.'},{id:'heatRecovery',name:'RECUPERADOR DE CALOR',benefit:'Abates por queimadura recuperam1 de integridade. Recarga2s.',cost:'Sem cura em integridade cheia.'}],
  volt:[{id:'extraFork',name:'DERIVAÇÃO ADICIONAL',benefit:'Descargas atingem um alvo adicional.',cost:'Exige arma elétrica ou Descarga.'},{id:'chargeRecovery',name:'RECUPERAÇÃO DE CARGA',benefit:'A cada6 alvos eletrocutados repõe uma munição. Recarga0,25s.',cost:'Não ultrapassa o carregador.'},{id:'groundPulse',name:'PULSO DE ATERRAMENTO',benefit:'Descargas interrompem comuns por mais0,35s; chefes por0,1s.',cost:'Não cancela ataques já preparados.'}],
@@ -174,10 +242,14 @@ function selectWeapon(id){if(state!=='garage'||!WEAPONS[id]||!gearOwned('weapons
 function selectRobot(id){if(state!=='garage'||!ROBOTS[id]||!gearOwned('robots',id))return false;selectedRobot=id;el('garage-feedback').textContent='';renderLoadout();return true;}
 
 function renderRobotOptions(){const box=document.querySelector('.robot-options');if(!box?.replaceChildren)return;box.replaceChildren();for(const [id,robot] of Object.entries(ROBOTS)){const button=document.createElement('button'),name=document.createElement('span'),status=document.createElement('small');button.type='button';button.id='robot-'+id;name.textContent=robot.name;status.id='robot-status-'+id;button.append(name,status);button.onclick=()=>activateGear('robots',id);box.append(button);}}
-window.ScrewBuildGuide=Object.freeze({getCatalog:()=>({robots:ROBOTS,weapons:WEAPONS}),gearOwned:(kind,id)=>gearOwned(kind,id),getPriceText:(kind,id)=>gearPriceText(kind,id),getProgress:()=>({state,robot:state==='garage'||state==='configuration'?selectedRobot:runRobot?.id||selectedRobot,weapon:state==='garage'||state==='configuration'?selectedWeapon:runWeapon?.id||selectedWeapon,acquired:[...(player?.acquired||[])],blessings:[...(player?.blessings||[])],experiments:[...(player?.experiments||[])],specialization:player?.specialization||null,droneCount:player&&runRobot?droneCount():0,offered:state==='specialization'?offeredSpecializations.map(s=>s.id):state==='blessing'?offeredBlessings.map(s=>s.id):state==='experiment'?offeredExperiments.map(s=>s.id):['upgrade','reward'].includes(state)?offeredSkills.map(s=>s.id):[]}),selectBuild(id){if(state!=='garage')return {ok:false,error:'Volte à garagem para escolher uma configuração.'};const build=window.ScrewBuilds?.builds?.find(b=>b.id===id);if(!build||!ROBOTS[build.robot]||!WEAPONS[build.weapon])return {ok:false,error:'Guia inválido.'};if(!gearOwned('robots',build.robot)||!gearOwned('weapons',build.weapon))return {ok:false,error:'Desbloqueie o chassi e a arma antes de selecionar.'};selectedRobot=build.robot;selectedWeapon=build.weapon;renderLoadout();return {ok:true};}});
+window.ScrewBuildGuide=Object.freeze({getCatalog:()=>({robots:ROBOTS,weapons:WEAPONS,evolutions:WEAPON_EVOLUTIONS}),gearOwned:(kind,id)=>gearOwned(kind,id),getPriceText:(kind,id)=>gearPriceText(kind,id),getProgress:()=>({state,robot:state==='garage'||state==='configuration'?selectedRobot:runRobot?.id||selectedRobot,weapon:state==='garage'||state==='configuration'?selectedWeapon:runWeapon?.id||selectedWeapon,acquired:[...(player?.acquired||[])],blessings:[...(player?.blessings||[])],experiments:[...(player?.experiments||[])],weaponEvolution:player?.weaponEvolution?.id||null,specialization:player?.specialization||null,droneCount:player&&runRobot?droneCount():0,offered:state==='evolution'?offeredWeaponEvolutions.map(s=>s.id):state==='specialization'?offeredSpecializations.map(s=>s.id):state==='blessing'?offeredBlessings.map(s=>s.id):state==='experiment'?offeredExperiments.map(s=>s.id):['upgrade','reward'].includes(state)?offeredSkills.map(s=>s.id):[]}),selectBuild(id){if(state!=='garage')return {ok:false,error:'Volte à garagem para escolher uma configuração.'};const build=window.ScrewBuilds?.builds?.find(b=>b.id===id);if(!build||!ROBOTS[build.robot]||!WEAPONS[build.weapon])return {ok:false,error:'Guia inválido.'};if(!gearOwned('robots',build.robot)||!gearOwned('weapons',build.weapon))return {ok:false,error:'Desbloqueie o chassi e a arma antes de selecionar.'};selectedRobot=build.robot;selectedWeapon=build.weapon;renderLoadout();return {ok:true};}});
 
+function renderWeaponRefitManual(){
+ const box=el('weapon-refit-options');box.replaceChildren();
+ for(const item of WEAPON_EVOLUTIONS[selectedWeapon]){const card=document.createElement('article'),name=document.createElement('h3'),benefit=document.createElement('p'),cost=document.createElement('p');name.textContent=item.name;benefit.textContent='VANTAGEM: '+item.benefit;cost.textContent='CUSTO: '+item.cost;card.append(name,benefit,cost);box.append(card);}
+}
 function renderLoadout(){
- renderProfileResources();
+ renderProfileResources();renderWeaponRefitManual();
  for(const id of Object.keys(ROBOTS)){const button=el('robot-'+id),owned=gearOwned('robots',id);button.setAttribute('aria-pressed',String(id===selectedRobot));button.setAttribute('aria-label',ROBOTS[id].name+(owned?'':' · BLOQUEADO · '+gearPriceText('robots',id)));el('robot-status-'+id).textContent=owned?(id===selectedRobot?'SELECIONADO':'DESBLOQUEADO'):'DESBLOQUEAR · '+gearPriceText('robots',id);}
  el('chassis-name').textContent=ROBOTS[selectedRobot].name;el('chassis-description').textContent=ROBOTS[selectedRobot].description;
  el('garage-robot-preview').src=(ROBOTS[selectedRobot].portrait||'assets/robots/prot-0001-simple.png');el('garage-robot-preview').style.filter=ROBOTS[selectedRobot].filter||'none';
@@ -197,20 +269,20 @@ function openGarage(){
  el('overlay').hidden=true;el('garage-feedback').textContent='';renderLoadout();renderCompendium();el('launch').focus();
 }
 function openRunConfig(){
- if(state!=='garage')return false;screenTransition();clearInput();offerVersion++;state='configuration';el('garage').hidden=true;el('combat').hidden=true;el('title-screen').hidden=true;el('run-config').hidden=false;el('config-robot').textContent=ROBOTS[selectedRobot].name;el('config-weapon').textContent=WEAPONS[selectedWeapon].name+' · 1 SLOT';el('config-portrait').src=selectedRobot==='bastion'?'assets/robots/bast-0002-preview.svg':'assets/robots/prot-0001-simple.png';el('deploy-run').focus();return true;
+ if(state!=='garage')return false;screenTransition();clearInput();offerVersion++;state='configuration';el('garage').hidden=true;el('combat').hidden=true;el('title-screen').hidden=true;el('run-config').hidden=false;el('config-robot').textContent=ROBOTS[selectedRobot].name;el('config-weapon').textContent=WEAPONS[selectedWeapon].name+' · 1 SLOT';el('config-portrait').src=ROBOTS[selectedRobot].portrait;el('config-portrait').style.filter=ROBOTS[selectedRobot].filter||'none';el('deploy-run').focus();return true;
 }
 function reset(){
  screenTransition();
  configureRunBalance();clearInput();offerVersion++;runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
  el('run-config').hidden=true;el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
- player={specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
+ player={weaponEvolution:null,specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];scrap=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
- boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=PROGRESSION.initialNeed;upgradeFlash=0;displayedHealth=null;
+ boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];weaponEvolutionOffered=false;offeredWeaponEvolutions=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=PROGRESSION.initialNeed;upgradeFlash=0;displayedHealth=null;
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida');updateHUD();
 }
 function show(title,description,label){
  clearInput();el('overlay').setAttribute('data-mode',state);el('heading').textContent=title;el('description').textContent=description;
- el('eyebrow').textContent=state==='reward'?'RECUPERAÇÃO DE CAMPO':state==='experiment'?'LABORATÓRIO DO BIRUTA':state==='blessing'?'OFICINA DE CAMPO / GAMBIARRA':(runRobot?.name||'PROT-0001')+' / '+(state==='over'?'SINAL PERDIDO':'PROTOCOLO ATIVO');
+ el('eyebrow').textContent=state==='evolution'?'OFICINA DE CAMPO / REFORJA':state==='reward'?'RECUPERAÇÃO DE CAMPO':state==='experiment'?'LABORATÓRIO DO BIRUTA':state==='blessing'?'OFICINA DE CAMPO / GAMBIARRA':(runRobot?.name||'PROT-0001')+' / '+(state==='over'?'SINAL PERDIDO':'PROTOCOLO ATIVO');
  el('module-workbench').hidden=true;el('choices').replaceChildren();el('start').textContent=label;el('start').hidden=!label;el('overlay').hidden=false;
  el('return-garage').hidden=state!=='over'&&state!=='won'&&state!=='paused';
  if(label)el('start').focus();
@@ -223,7 +295,7 @@ function renderRunStats(){
  for(const [label,value] of rows){const term=document.createElement('dt'),detail=document.createElement('dd');term.textContent=label;detail.textContent=value;stats.append(term,detail);}
  const note=document.createElement('p');note.textContent='Valores atuais da build. Críticos, efeitos condicionais, rajadas e dano de área não estão somados ao dano direto.';
  const installed=document.createElement('p');installed.className='run-modules';const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name).concat(GAMBARRAS.filter(s=>player.blessings.has(s.id)).map(s=>s.name),BOSS_EXPERIMENTS.filter(s=>player.experiments.has(s.id)).map(s=>s.name));installed.textContent='INSTALADOS: '+(names.join(' · ')||'Nenhum módulo temporário.');
- const synergies=document.createElement('p');synergies.textContent='SINERGIAS: '+(activeSynergies().join(' · ')||'Nenhuma ativa.');const specialization=document.createElement('p');specialization.textContent='ESPECIALIZAÇÃO: '+(specializationInfo()?.name||'Nenhuma escolhida.')+(player.specializationCooldown>0?' · RECARGA '+Math.ceil(player.specializationCooldown)+' s':player.specialization&&['tailDecoy','nineLives'].includes(player.specialization)?' · PRONTO':'');panel.append(heading,stats,note,installed,synergies,specialization);el('choices').append(panel);
+ const synergies=document.createElement('p');synergies.textContent='SINERGIAS: '+(activeSynergies().join(' · ')||'Nenhuma ativa.');const specialization=document.createElement('p');specialization.textContent='ESPECIALIZAÇÃO: '+(specializationInfo()?.name||'Nenhuma escolhida.')+(player.specializationCooldown>0?' · RECARGA '+Math.ceil(player.specializationCooldown)+' s':player.specialization&&['tailDecoy','nineLives'].includes(player.specialization)?' · PRONTO':'');const evolution=document.createElement('p');evolution.textContent='REFORJA DA ARMA: '+(player.weaponEvolution?player.weaponEvolution.name+' · '+player.weaponEvolution.benefit+' Custo: '+player.weaponEvolution.cost:'Nenhuma escolhida; oferta no nível '+WEAPON_EVOLUTION_LEVEL+'.');panel.append(heading,stats,note,installed,synergies,specialization,evolution);el('choices').append(panel);
 }
 function pause(){if(state==='playing'){sound('pause');state='paused';show('Sistema em espera.','A partida está pausada.','CONTINUAR');renderRunStats();el('pause').textContent='▶';el('pause').setAttribute('aria-label','Continuar partida (P ou Esc)');}else if(state==='paused'){sound('resume');state='playing';clearInput();el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida (P ou Esc)');}}
 function unlockAudio(){window.ScrewAudio?.unlock()?.then(ok=>{if(ok)el('enable-audio').hidden=true;});}
@@ -235,7 +307,7 @@ el('enter-garage').onclick=openGarage;el('garage-back').onclick=openMenu;
 for(const id of Object.keys(WEAPONS))el('weapon-'+id).onclick=()=>activateGear('weapons',id);
 renderRobotOptions();for(const id of Object.keys(ROBOTS))el('robot-'+id).onclick=()=>activateGear('robots',id);
 el('start').onclick=()=>state==='paused'?pause():reset();el('pause').onclick=pause;el('return-garage').onclick=openGarage;
-window.addEventListener('keydown',e=>{if(e.target?.closest?.('#build-project-dialog'))return;if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
+window.addEventListener('keydown',e=>{if(e.target?.closest?.('#build-project-dialog'))return;if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='evolution'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineWeaponEvolution(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization','evolution'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='evolution'){const choice=offeredWeaponEvolutions[index];if(choice)chooseWeaponEvolution(choice.id,offerVersion);}else if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)startReload();if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){window.ScrewAudio?.setScene(null);clearInput();if(state==='playing')pause();}});
@@ -259,7 +331,7 @@ function updateHUD(){
  el('hud-portrait').style.filter=runRobot.filter||'none';drawMinimap();
  el('combat-loadout').textContent=runRobot.name+' · '+runWeapon.name+' · dano '+shotDamage().toFixed(1)+(runWeapon.pellets*player.projectileMult>1?' × '+(runWeapon.pellets*player.projectileMult):'')+' · cadência '+((player.frenzy>0?3:1)/player.rate).toFixed(1)+'/s';
  const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name).concat(GAMBARRAS.filter(item=>player.blessings.has(item.id)).map(item=>item.name),BOSS_EXPERIMENTS.filter(item=>player.experiments.has(item.id)).map(item=>item.name));renderCooldowns();
- el('weapon-name').textContent=runWeapon.name.toLocaleUpperCase('pt-BR');el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':player.ammo===magazineSize()?'CARREGADOR CHEIO':'[R] RECARREGAR · '+missingReloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
+ el('weapon-name').textContent=(runWeapon.name+(player.weaponEvolution?' · '+player.weaponEvolution.name:'')).toLocaleUpperCase('pt-BR');el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':player.ammo===magazineSize()?'CARREGADOR CHEIO':'[R] RECARREGAR · '+missingReloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
  el('build-summary').textContent=(names.join(' · ')||'Sem módulos especiais')+(activeSynergies().length?' | '+activeSynergies().join(' | '):'');
  const live=!!boss&&boss.hp>0;el('boss-hud').hidden=!live;
  if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=bossMessage();const minions=BOSS_MINIONS[boss.id],activeMinions=enemies.filter(z=>z.minionOwner===boss.id).length;el('boss-support').textContent=(activeMinions?activeMinions+' '+minions.role:'SEM LACAIOS')+' · ONDAS COMUNS ATIVAS';}
@@ -576,10 +648,10 @@ function shockAt(z,damage,intrinsic=0){
  for(const t of near){const before=t.hp;effects.push({x:z.x,y:z.y,x2:t.x,y2:t.y,life:.16,max:.16,color:'#8ceeff'});damageEnemy(t,damage*.5*(runRobot.id==='volt'?1.35:1)*(intrinsic&&player.skills.shock?1.25:1),'electric');if(t.hp<before&&player.specialization==='chargeRecovery'){player.electricHits++;if(player.electricHits>=6&&player.specializationCooldown<=0){player.electricHits=0;player.ammo=Math.min(magazineSize(),player.ammo+1);player.specializationCooldown=.25;}}const stun=(player.skills.stun?(t===boss?.25:1):0)+(player.specialization==='groundPulse'?(t===boss?.1:.35):0);if(stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);}
 }
 function applyStatus(z,b){
- if(z.hp<=0)return;
- if(player.skills.burn||runWeapon.burn){z.burnTime=(player.skills.ignition?9:3)*(player.specialization==='furnaceDuration'?1.5:1);z.burnDps=Math.max(z.burnDps||0,b.damage*.5*(player.skills.afterburn?3:1)*(runRobot.id==='forge'?1.35:1)*(player.skills.burn&&runWeapon.burn?1.25:1));z.burnAccum=z.burnAccum||0;}
- if(player.skills.freeze||runWeapon.freeze)z.slowTime=Math.max(z.slowTime||0,player.skills.freeze&&runWeapon.freeze?3:2);
- const knock=(runWeapon.knock||0)+(player.skills.knock?60:0);
+ if(z.hp<=0)return;const w=b.weapon||runWeapon,traits=b.weapon?(b.evolutionTraits||{}):(player.weaponEvolution?.traits||{});
+ if(player.skills.burn||w.burn){z.burnTime=(player.skills.ignition?9:3)*(player.specialization==='furnaceDuration'?1.5:1);z.burnDps=Math.max(z.burnDps||0,b.damage*.5*(traits.burnMult||1)*(player.skills.afterburn?3:1)*(runRobot.id==='forge'?1.35:1)*(player.skills.burn&&w.burn?1.25:1));z.burnAccum=z.burnAccum||0;}
+ if(player.skills.freeze||w.freeze)z.slowTime=Math.max(z.slowTime||0,(player.skills.freeze&&w.freeze?3:2)+(traits.coldBonus||0));
+ const knock=(w.knock||0)+(player.skills.knock?60:0);
  if(knock){const d=Math.hypot(b.vx,b.vy)||1,amount=knock*(z===boss ? .25 : 1);z.x+=b.vx/d*amount;z.y+=b.vy/d*amount;indexTarget(z);}
 }
 function explodeAt(x,y,damage,radius,exclude=null){
@@ -590,13 +662,13 @@ function explodeAt(x,y,damage,radius,exclude=null){
  }
 }
 function impact(z,b){
- const shielded=z.enemyType==='shieldPolice'&&z.shieldHp>0;
+ const w=b.weapon||runWeapon;const shielded=z.enemyType==='shieldPolice'&&z.shieldHp>0;
  damageEnemy(z,b.damage,'bullet');applyStatus(z,b);
  if(!shielded&&z.hp>0&&player.skills.knock&&player.acquired.has('speed'))damageEnemy(z,Math.min(player.damage*.5,player.speed*.1),'kinetic');
  if(b.crit&&player.acquired.has('extra')&&!b.criticalPulseDone){b.criticalPulseDone=true;explodeAt(z.x,z.y,b.damage*.35,48,z);}
- if(player.skills.shock||runWeapon.chain)shockAt(z,b.damage,runWeapon.chain||0);
- const radius=Math.max(runWeapon.explosion||0,player.skills.blast?64:0);
- if(radius)explodeAt(z.x,z.y,b.damage*(runWeapon.splash||.5)*(runWeapon.explosion&&player.skills.blast?1.25:1),radius,z);
+ if(player.skills.shock||w.chain)shockAt(z,b.damage,w.chain||0);
+ const radius=Math.max(w.explosion||0,player.skills.blast?64:0);
+ if(radius)explodeAt(z.x,z.y,b.damage*(w.splash||.5)*(w.explosion&&player.skills.blast?1.25:1),radius,z);
 }
 function emitProjectiles(angle){
  if(bullets.length>=400)return false;
@@ -604,7 +676,7 @@ function emitProjectiles(angle){
  const repairBoost=player.repairShotReady?1.5:1;player.repairShotReady=false;player.ammo--;player.shotCount++;const w=runWeapon,count=Math.min(400,Math.max(1,Math.floor(w.pellets*player.projectileMult))),spread=Math.max(w.spread,count>1?.16:0)*player.spreadMult;
  for(let i=0;i<count&&bullets.length<400;i++){
   const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=!!player.skills.crit&&player.shotCount%5===0,speed=(w.speed||570)*player.projectileSpeed,life=w.life*player.projectileLife;
-  bullets.push({x:player.x,y:player.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,damage:shotDamage()*(crit?3:1)*repairBoost,radius:(w.radius||6)*player.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:runWeapon.returning?0:player.skills.ricochet});
+  bullets.push({weapon:w,evolutionTraits:player.weaponEvolution?.traits||null,x:player.x,y:player.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,returnSpeed:speed,damage:shotDamage()*(crit?3:1)*repairBoost,radius:(w.radius||6)*player.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:runWeapon.returning?0:player.skills.ricochet});
  }
  if(player.ammo===0)startReload();return true;
 }
@@ -721,9 +793,9 @@ function tick(dt){
  if(bullets.length)buildCollisionGrid();
  for(const b of bullets){
   const ax=b.x,ay=b.y;
-  if(runWeapon.returning&&b.life<=b.maxLife/2){if(!b.returning){b.returning=true;b.hit.clear();}const d=Math.hypot(player.x-b.x,player.y-b.y)||1;b.vx=(player.x-b.x)/d*(runWeapon.speed||360)*player.projectileSpeed;b.vy=(player.y-b.y)/d*(runWeapon.speed||360)*player.projectileSpeed;if(d<16)b.life=0;}
+  if((b.weapon||runWeapon).returning&&b.life<=b.maxLife/2){if(!b.returning){b.returning=true;b.hit.clear();}const d=Math.hypot(player.x-b.x,player.y-b.y)||1;b.vx=(player.x-b.x)/d*(b.returnSpeed??(runWeapon.speed||360)*player.projectileSpeed);b.vy=(player.y-b.y)/d*(b.returnSpeed??(runWeapon.speed||360)*player.projectileSpeed);if(d<16)b.life=0;}
   b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;
-  if(b.life<=0){if(runWeapon.detonate&&!b.detonated){b.detonated=true;explodeAt(b.x,b.y,b.damage,runWeapon.explosion);}continue;}
+  if(b.life<=0){const w=b.weapon||runWeapon;if(w.detonate&&!b.detonated){b.detonated=true;explodeAt(b.x,b.y,b.damage,w.explosion);}continue;}
   const hit=bulletCandidates(ax,ay,b.x,b.y,b.radius).filter(z=>z.hp>0&&!b.hit.has(z)&&segmentDistance(z.x,z.y,ax,ay,b.x,b.y)<z.r+b.radius).sort((a,z)=>Math.hypot(a.x-ax,a.y-ay)-Math.hypot(z.x-ax,z.y-ay));
   for(const z of hit){if(b.remaining<=0)break;if(z.hp<=0)continue;b.hit.add(z);impact(z,b);b.remaining--;if(!b.remaining){if(bounceProjectile(b,z))break;b.life=0;}}
  }
@@ -757,7 +829,7 @@ function tick(dt){
  for(const e of effects)e.life-=dt;effects=effects.filter(e=>e.life>0).slice(-150);upgradeFlash=Math.max(0,upgradeFlash-dt);
  if(state==='playing'){
   if(bossReward){bossReward=false;healPlayer(bossRepairAmount());offerExperiment();}
-  else if(xp>=need){xp-=need;level++;need=Math.ceil(need*PROGRESSION.growth);if(level===10)offerSpecialization();else if(BLESSING_LEVELS.includes(level))offerBlessing();else upgrade();}
+  else if(xp>=need){xp-=need;level++;need=Math.ceil(need*PROGRESSION.growth);if(level===10)offerSpecialization();else if(level===WEAPON_EVOLUTION_LEVEL)offerWeaponEvolution();else if(BLESSING_LEVELS.includes(level))offerBlessing();else upgrade();}
  }
  if(feedback.length>100)feedback.splice(0,feedback.length-100);if(effects.length>150)effects.splice(0,effects.length-150);
  updateHUD();

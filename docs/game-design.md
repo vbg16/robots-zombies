@@ -1,5 +1,7 @@
 # Design do jogo
 
+> **Contrato vigente — BUILD 41:** [contrato-atual.md](contrato-atual.md) reúne as decisões que substituem os trechos históricos abaixo: ondas de 15 sem suspensão em chefe, seis chassis, 70 aprimoramentos, renovação por nível e 24 reforjas temporárias da arma no nível 20. Nível 20 confirmado pelo criador em 02/11/2026. [Detalhes e verificações das reforjas](evolucao-armas.md). Os números e o balanceamento permanecem experimentais.
+
 > **Atualização aprovada — 31/10/2026:** Screwvivors passa a ser uma arena infinita de sobrevivência: sem bordas e sem tempo final, com horda crescente e chefes recorrentes. A colagem de HUD azulada enviada pelo criador define a composição da interface de combate. O visual segue pixel art de era 32-bit. Esta decisão substitui os planos anteriores de vitória em vinte minutos.
 >
 > **Atualização do protótipo — 30/10/2026:** [árvores e munição](arvores-e-municao.md) substituem o catálogo isolado de 28 skills e os bônus percentuais anteriores. São 36 escolhas únicas, com pré-requisitos, multiplicadores, custos, condições e recargas. Parâmetros históricos abaixo que conflitarem com esse documento estão superados. Valores novos são experimentais e aguardam teste humano.

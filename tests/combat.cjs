@@ -168,6 +168,7 @@ for(let i=0;i<38000;i++){
  else if(run('state')==='experiment'){run("chooseExperiment(offeredExperiments[0].id,offerVersion)");}
  else if(run('state')==='blessing'){run("chooseBlessing(offeredBlessings[0].id,offerVersion)");}
  else if(run('state')==='specialization'){run("chooseSpecialization(offeredSpecializations[0].id,offerVersion)");}
+ else if(run('state')==='evolution'){run("chooseWeaponEvolution(offeredWeaponEvolutions[0].id,offerVersion)");}
  else break;
 }
 run('Math.random=longRunOriginalRandom;drawMinimap=longRunMinimap');

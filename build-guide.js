@@ -9,7 +9,7 @@
  const plans=()=>window.ScrewBuilds?.builds||[];
  const api=()=>window.ScrewBuildGuide;
  const skills=()=>window.ScrewBalance?.catalog||[];
- const nameOf=id=>skills().find(skill=>skill.id===id)?.name||id;
+ const nameOf=id=>skills().find(skill=>skill.id===id)?.name||Object.values(catalog().evolutions||{}).flat().find(item=>item.id===id)?.name||id;
  const catalog=()=>api()?.getCatalog?.()||{robots:{},weapons:{}};
  const equipment=(kind,id)=>{const source=catalog()[kind];return Array.isArray(source)?source.find(item=>item.id===id):source?.[id];};
  const progress=()=>api()?.getProgress?.()||{state:document.getElementById('garage')?.hidden?'title':'garage',acquired:[],blessings:[],experiments:[]};
@@ -44,7 +44,7 @@
    const title=node('div');title.append(node('p','project-loadout',loadoutText(plan)),node('h3','',plan.name));header.append(title);card.append(header);
    const tags=node('div','project-tags');for(const tag of plan.tags||[])tags.append(node('span','',tag));card.append(tags,node('p','project-summary',plan.summary),pair('MOTOR',plan.engine,'project-engine'),pair('VANTAGEM',plan.strength,'project-strength'),pair('CUSTO / FRAQUEZA',plan.weakness,'project-weakness'));
    const detail=node('details','project-details');detail.append(node('summary','','ROTEIRO E RECOMPENSAS'));
-   detail.append(list('ORDEM SUGERIDA DE MÓDULOS',plan.skills,true),list('NÚCLEO DA BUILD',plan.core),list('GAMBIARRAS · NÍVEIS 3 / 6 / 9',plan.blessings),list('ESPECIALIZAÇÃO · NÍVEL 10',[plan.specialization].filter(Boolean)),list('EXPERIMENTOS · APÓS CHEFES',plan.experiments));
+   detail.append(list('ORDEM SUGERIDA DE MÓDULOS',plan.skills,true),list('NÚCLEO DA BUILD',plan.core),list('GAMBIARRAS · NÍVEIS 3 / 6 / 9',plan.blessings),list('ESPECIALIZAÇÃO · NÍVEL 10',[plan.specialization].filter(Boolean)),list('REFORJA DA ARMA · NÍVEL 20',[plan.evolution].filter(Boolean)),list('EXPERIMENTOS · APÓS CHEFES',plan.experiments));
    detail.append(pair('META / ESTRATÉGIA',plan.strategy,'project-strategy'));
    if(plan.avoid?.length){const avoid=node('section','project-avoid');avoid.append(node('h4','','EVITE'));const items=node('ul');for(const text of plan.avoid)items.append(node('li','',text));avoid.append(items);detail.append(avoid);}
    card.append(detail);
@@ -57,6 +57,7 @@
   let targets=remaining;
   if(current.state==='blessing')targets=(plan.blessings||[]).filter(id=>!(current.blessings||[]).includes(id));
   else if(current.state==='specialization')targets=current.specialization?[]:[plan.specialization].filter(Boolean);
+  else if(current.state==='evolution')targets=current.weaponEvolution?[]:[plan.evolution].filter(Boolean);
   else if(current.state==='experiment')targets=(plan.experiments||[]).filter(id=>!(current.experiments||[]).includes(id));
   const offered=new Set(current.offered||[]),available=targets.find(id=>offered.has(id));
   const mismatch=!!current.robot&&(current.robot!==plan.robot||current.weapon!==plan.weapon);
@@ -70,8 +71,8 @@
    write(card.querySelector('.project-ownership'),robotOwned&&weaponOwned?'EQUIPAMENTO DISPONÍVEL · seleção na garagem':'EQUIPAMENTO BLOQUEADO · desbloqueie na garagem: '+[!robotOwned?(equipment('robots',plan.robot)?.name||plan.robot)+' · '+priceText('robots',plan.robot):null,!weaponOwned?(equipment('weapons',plan.weapon)?.name||plan.weapon)+' · '+priceText('weapons',plan.weapon):null].filter(Boolean).join(' / '));
   }
   for(const button of document.querySelectorAll('.robot-options button')){const robot=equipment('robots',button.id.replace('robot-',''));if(robot?.accent)button.style.setProperty('--robot-accent',robot.accent);}
-  const plan=active(),current=progress(),combat=['playing','upgrade','reward','blessing','experiment','specialization','paused'].includes(current.state);
-  setHidden(hud,!plan||!combat||current.state!=='playing');setHidden(offerNote,!plan||!['upgrade','reward','blessing','experiment','specialization'].includes(current.state));
+  const plan=active(),current=progress(),combat=['playing','upgrade','reward','blessing','experiment','specialization','evolution','paused'].includes(current.state);
+  setHidden(hud,!plan||!combat||current.state!=='playing');setHidden(offerNote,!plan||!['upgrade','reward','blessing','experiment','specialization','evolution'].includes(current.state));
   document.querySelectorAll('[data-guide-recommended]').forEach(button=>button.removeAttribute('data-guide-recommended'));
   if(!plan){write(garageNote,'10 projetos para montar durante a tentativa. Escolha um roteiro e conquiste os módulos em campo.');setHidden(configNote,true);return;}
   const next=recommendation(plan,current),text=next.target?nameOf(next.target):'Roteiro concluído; adapte os próximos módulos à partida.';
@@ -79,7 +80,7 @@
   write(configNote,'GUIA DE CAMPO · '+plan.name+'. Primeiro objetivo: '+nameOf(plan.skills[0])+'. Os módulos são adquiridos jogando.');setHidden(configNote,false);
   write(hud,plan.name+' · '+next.completed+'/'+next.total+' módulos\n'+(next.mismatch?'Loadout diferente do projeto. ':'')+'PRÓXIMO OBJETIVO · '+text);
   write(offerNote,(next.mismatch?'GUIA COM LOADOUT DIFERENTE · ':'GUIA · ')+plan.name+' — '+(next.available?'PRIORIZE NESTA OFERTA: ':'OBJETIVO: ')+text+(next.target&&!next.available?' · Se não apareceu, adapte a escolha; o guia não altera as ofertas.':''));
-  if(next.available){for(const button of document.querySelectorAll('[data-skill],[data-blessing],[data-experiment],[data-specialization]'))if([button.dataset.skill,button.dataset.blessing,button.dataset.experiment,button.dataset.specialization].includes(next.available))button.setAttribute('data-guide-recommended','true');}
+  if(next.available){for(const button of document.querySelectorAll('[data-skill],[data-blessing],[data-experiment],[data-specialization],[data-evolution]'))if([button.dataset.skill,button.dataset.blessing,button.dataset.experiment,button.dataset.specialization,button.dataset.evolution].includes(next.available))button.setAttribute('data-guide-recommended','true');}
   for(const item of grid.querySelectorAll('[data-guide-skill]'))item.classList.toggle('is-acquired',combat&&(current.acquired||[]).includes(item.dataset.guideSkill));
  }
  function open(){if(!initialized)return;refresh();notify('PROJETOS DE CAMPO · sugestões de montagem, sem conceder módulos ou recursos.');dialog.showModal();}

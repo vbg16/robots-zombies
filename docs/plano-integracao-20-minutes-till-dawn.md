@@ -2,6 +2,8 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
+> **Estado vigente — BUILD 41:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+
 ## Regra de adaptação
 
 Screwvivors pode aproveitar princípios de progressão, combate e legibilidade. Não reutilizar nomes, personagens, arte, texto de upgrades, áudio ou código de *20 Minutes Till Dawn*. A versão própria continua centrada no gato piloto, robôs, sucata, zumbis e na cidade do Dr. Biruta.
@@ -13,20 +15,20 @@ O contrato atual que toda etapa deve preservar é: arena sem bordas e sem tempo 
 | Sistema de referência | Estado em Screwvivors | Caminho de adaptação |
 |---|---|---|
 | Mira direcional e disparo ativo | **Já existe.** | Proteger mira manual, disparo enquanto pressionado e movimento simultâneo. |
-| XP, upgrades e sinergias de build | **Já existe — em estabilização.** Há 36 nós temporários em nove raízes, com três derivações por raiz. | Expandir apenas com novas skills originais e seus efeitos, custos e combinações documentados e testados. |
+| XP, upgrades e sinergias de build | **Já existe — em estabilização.** Há 40 nós temporários em dez raízes, mais dez receitas guiadas e interações de dano/controle/suporte. | Expandir apenas com novas skills originais e seus efeitos, custos e combinações documentados e testados. |
 | Bênçãos escolhidas no início da tentativa | **Adaptado parcialmente.** “Gambiarras do Biruta” surgem nos níveis 3, 6 e 9 como três escolhas únicas entre seis efeitos temporários; também podem ser puladas. | A cadência, efeitos e pool são experimentais. Não persistir na garagem. Testar escolha de teclado, seleção obsoleta, ausência de repetição, reset e corrida longa. |
 | Tomes/recompensas de chefe | **Adaptado parcialmente.** Chefes curam, entregam uma peça persistente e abrem um “Experimento do Biruta” temporário com vantagem e custo. Após esgotar seis opções únicas na tentativa, a recompensa volta a oferecer um módulo comum. | Efeitos e valores são experimentais. Ajustar só após playtest; nunca salvar os experimentos no perfil. A peça persistente permanece independente da escolha. |
 | Runas e progresso entre tentativas | **Adaptado parcialmente.** Perfil local conserva parafusos/peças após a morte e usa esses recursos para desbloquear equipamento sem bônus permanentes de atributos. | Custos e velocidade de progressão são experimentais. Não adicionar vantagens de atributo que persistam entre tentativas. |
-| Elenco de personagens e armas | **Adaptado parcialmente.** Perfis novos começam com PROT-0001 + Metralhadora; compras na garagem desbloqueiam as outras armas e BAST-0002. Saves v1 migram com acesso a todo o catálogo do protótipo preservado. | Preços e cadência são experimentais; slots avançados e especializações seguem pendentes. |
-| Especializações de personagem/arma | **Chassi: seis efeitos implementados no desenvolvimento e escolha no nível 10. Armas: pendentes.** | Escolher uma entre três especializações temporárias próprias do robô no nível 10. Não permitir troca do loadout durante combate. |
+| Elenco de personagens e armas | **Adaptado parcialmente.** Perfis novos começam com PROT-0001 + Metralhadora; compras na garagem desbloqueiam as outras armas e cinco chassis adicionais. Saves v1 migram com acesso a todo o catálogo do protótipo preservado. | Preços e cadência são experimentais; slots avançados seguem pendentes. Especializações e reforjas já existem. |
+| Especializações de personagem/arma | **Chassi: 18 protocolos, escolha no nível 10. Armas: 24 reforjas, escolha no nível 20.** | Uma entre três especializações do robô no nível 10 e uma entre duas reforjas da arma no nível 20. Não permitir troca/fusão do loadout; escolhas somem no reset. |
 | Variedade e encontros de inimigos | **Implementada em etapas.** Há perseguidores comuns, cinco policiais por onda de15 após derrotar o segundo chefe, divididos entre rifle e escudo100, um perseguidor grande em uma de cada três ondas completas a partir de 15 min, três chefes e lacaios próprios para cada chefe. | Balancear frequência e atributos em playtest. Inimigos novos continuam na formação circular; ondas contínuas sem teto de vivos, preservando avisos e limpeza de lacaios ao fim do chefe. |
 | Modos cronometrados e loop pós-vitória | **Não importar ao modo padrão.** | O modo aprovado já é infinito. Não criar vitória cronometrada nem preservar skills após a morte. Um modo opcional exigiria decisão própria. |
-| Reroll, compêndio, estatísticas e orientação de controle | **Base implementada.** Controles, diagnóstico, manual e uma renovação de oferta por tentativa. | Renovação experimental só no level-up comum; exige alternativas elegíveis suficientes, exclui as opções descartadas e consome a carga da tentativa. Validar o impacto na construção de builds. |
+| Reroll, compêndio, estatísticas e orientação de controle | **Base implementada.** Controles, diagnóstico, manual, dez guias e uma renovação de oferta por nível normal. | Renovação experimental só no level-up comum; exige alternativas elegíveis suficientes, exclui as opções descartadas e consome a carga daquele nível, sem recarregar durante a própria renovação. Validar o impacto na construção de builds. |
 | Recursos de plataforma (conquistas, nuvem, ranking) | **Fora do protótipo local atual.** | Planejar depois da persistência local e das regras de integridade do ranking. Não transmitir dados de jogador sem decisão explícita. |
 
 A página oficial da Steam lista builds, runas, tomes de chefe, mira/disparo ativos, arsenal e personagens desbloqueáveis. O anúncio “Blessings & Curses”, de outubro de 2024, identificava sua atualização como teste fechado naquele momento; descrevia bênçãos nos níveis iniciais, curses em baús de chefe com penalidades, lacaios próprios para chefes sem zumbis comuns durante a luta, runas sempre ativas após compra e especializações de personagem. Anúncios de janeiro e março de 2024 também apresentavam rerolls, compêndio/estatísticas e loop pós-vitória como propostas em desenvolvimento. Esses anúncios alimentam o mapa, sem presumir que todas essas propostas sejam a versão pública atual. Em Screwvivors, a arena aprovada não tem vitória nem fim cronometrado, então o loop pós-vitória não se aplica ao modo principal. [Página oficial](https://store.steampowered.com/app/1966900/20_Minutes_Till_Dawn/?l=english) · [Arquivo oficial de anúncios](https://steamcommunity.com/app/1966900/allnews/).
 
-## Etapas e regras para não regredir
+## Histórico das etapas e regras de regressão
 
 Cada implementação deve registrar no mesmo conjunto de mudanças: comportamento pretendido, regra que não pode quebrar, teste automatizado correspondente e documentação atualizada. Não ampliar uma etapa enquanto a suíte de base estiver vermelha.
 
@@ -38,7 +40,7 @@ Cada implementação deve registrar no mesmo conjunto de mudanças: comportament
 - A simulação automatizada não substitui playtest visual; mudanças de interface devem ser verificadas em navegador por alguém que conheça o design e por um usuário cego às instruções.
 - Os testes não devem fixar regras históricas que os documentos atuais já substituíram. O teste deve expressar o contrato atual, como sobrevivência infinita e chefes recorrentes.
 
-### Etapa 1 — Clareza de encontros de chefe (**implementada nesta etapa**)
+### Etapa 1 — Clareza de encontros de chefe (**histórica; suspensão substituída na BUILD 35**)
 
 Regra: quando um chefe estiver previsto ou vivo, o cronômetro da horda para e nenhuma nova onda comum nasce; a recompensa pausa a simulação como já fazia, e o contador só volta a andar depois de resolver a escolha. Inimigos que já estavam na arena permanecem. Isso reduz acúmulo sem mudar vida, dano, movimento, identidade ou agenda do chefe.
 
@@ -100,7 +102,7 @@ Proteção: testes verificam elegibilidade e exclusão, três opções novas, se
 
 A simulação automatizada agora percorre mais de 25 minutos: registra ex-policiais e perseguidores grandes em ondas reais, exige ao menos seis chefes derrotados e verifica os limites de inimigos/projéteis/feedback a cada passo. Continua resolvendo ofertas comuns, Gambiarras e Experimentos. O modo permanece em combate após o marco de 20 minutos. Usa invulnerabilidade e mira automática em DOM/canvas simulados; não comprova balanceamento, desempenho gráfico, habilidade de sobrevivência ou partida manual inteira.
 
-## Barreiras permanentes de regressão
+## Barreiras históricas de regressão (consulte o contrato atual para regras vigentes)
 
 - Um teste deve reproduzir qualquer bug corrigido para impedir sua volta.
 - `reset()` deixa apenas chassi e arma escolhidos na garagem; limpa vida, munição, skills, chefes, projéteis, ofertas, timers e efeitos da tentativa anterior.
@@ -209,3 +211,5 @@ BUILD40 — dez receitas reais em builds.js, guias no menu/garagem e quatro chas
 Regras contra regressão BUILD40: guia nunca concede skills ou equipamento; seleção exige garagem e posse. Manter perfis e edições do painel na migração 54→70, renomeando IDs personalizados conflitantes e suas referências; migração deve ser idempotente. Cura parcial de recarga é proporcional, protocolos exigem cura efetiva, drones têm limite de três e não geram procs recursivos. Escudo policial continua absorvendo o golpe que o quebra, inclusive com Motor Cinético. Renovação normal tem uma carga por nível. Célula verde exige coleta e não concede parafusos. Preservar ondas de 15, inimigos vivos distantes e a liberação dos policiais após o segundo chefe.
 
 Validação BUILD40: regressão de combate e cenário controlado de 25 minutos passaram, assim como áudio, sprites, painel, migração, chassis e interações. Chrome verificou os dez guias, seis chassis, travas de posse, ausência de concessões gratuitas, teclado e celular de 390 px. Avaliação de balanceamento separa 70 cenários de bancada e 20 tentativas com progressão normal e sementes fixas; todas as falhas são preservadas. A meta de 20 minutos e três chefes não foi atingida por todas as receitas. Não alterar essa meta para aprovar resultados nem promover automaticamente ao público.
+
+BUILD41 — evolução da arma no nível 20 confirmada pelo criador. Duas reforjas por arma, catálogo de 24 opções com vantagem/custo, recusa e aplicação única por tentativa. Mantém identidade do equipamento, recursos, munição e recarga em andamento; projéteis carregam snapshot das propriedades intrínsecas de sua emissão. Guia recomenda uma reforja, sem alterar a oferta. Manual da arma na garagem e diagnóstico de pausa mostram a evolução. Testes específicos, Chrome e cenário integrado de 25 minutos passaram; detalhes de avaliação em evolucao-armas.md. O mapa geral foi atualizado e o contrato atual separa decisões vigentes dos registros históricos.

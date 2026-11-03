@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 40 · desenvolvimento
+# Screwvivors — BUILD 41 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -55,6 +55,7 @@ node tests/sprite-animation.cjs
 node tests/balance-panel.cjs
 node tests/balance-migration.cjs
 node tests/build-mechanics.cjs
+node tests/weapon-evolution.cjs
 node tests/builds-balance.cjs --bench-only
 python tests/validate_walk_test.py
 ```
@@ -82,3 +83,5 @@ BUILD38: configuração depois de escolher loadout, bancada de módulos com desc
 BUILD39: painel de balanceamento com as 54 melhorias reais, rascunho separado, aplicação explícita nas próximas partidas, importação/exportação e validação de requisitos, números e ciclos. O editor mantém os registros originais e permite desativá-los; novos módulos são do tipo Normal e usam efeitos diretos suportados.
 
 BUILD40: dez projetos jogáveis, quatro novos chassis com três protocolos cada, árvore de drones, interações entre habilidades e armas especializadas, recarga reparadora sem exploração por munição parcial e migração do painel 54→70. Progressão, coleta, armas lentas e vida dos comuns foram ajustadas. Células verdes de reparo surgem a cada 25 abates; são pickups de vida, sem valor em parafusos. Agora há uma renovação das opções por nível normal. O modo continua infinito e os novos sprites são variantes provisórias. O relatório de testes separa bancada controlada, progressão real e a meta comparativa de 20 minutos.
+
+BUILD41: no nível 20, escolha uma entre duas reforjas temporárias da arma equipada, ou recuse. São 24 opções consultáveis na garagem; os dez guias sugerem uma reforja própria. Sem troca ou fusão, sem munição grátis e com projéteis anteriores preservados. [Contrato vigente](docs/contrato-atual.md) · [Catálogo e validação das reforjas](docs/evolucao-armas.md).
