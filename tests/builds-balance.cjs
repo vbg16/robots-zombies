@@ -14,7 +14,7 @@ const benchOnly=process.argv.includes('--bench-only');
 const realOnly=process.argv.includes('--real-only');
 const useRefits=process.env.BUILD_REFITS==='1';
 const dt=.05;
-const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,44 normal nodes,18 chassis protocols,74 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
+const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,48 normal nodes,18 chassis protocols,78 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
 const driverVersion=9; // Attack an in-range boss while retaining a sixty-pixel immediate-threat guard.
 const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
 const frozenBootstrap=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
@@ -43,14 +43,14 @@ function structure(){
  const h=harness(1);h.run('reset()');
  assert.equal(h.run('Object.keys(ROBOTS).length'),6);
  assert.equal(h.run('Object.keys(WEAPONS).length'),12);
- assert.equal(h.run('SKILLS.length'),44);
+ assert.equal(h.run('SKILLS.length'),48);
  assert.equal(h.run('Object.values(SPECIALIZATIONS).flat().length'),18);
- assert.equal(h.run('window.ScrewBalance.catalog.length'),74);
- assert.equal(h.run('new Set(window.ScrewBalance.catalog.map(x=>x.id)).size'),74);
+ assert.equal(h.run('window.ScrewBalance.catalog.length'),78);
+ assert.equal(h.run('new Set(window.ScrewBalance.catalog.map(x=>x.id)).size'),78);
  assert.equal(h.run('window.ScrewBalance.validate(window.ScrewBalance.load()).ok'),true);
  assert.equal(builds.length,10);assert.equal(h.run('Object.values(WEAPON_EVOLUTIONS).flat().length'),24);for(const b of builds)assert.equal(h.run("WEAPON_EVOLUTIONS["+JSON.stringify(b.weapon)+"].some(e=>e.id==="+JSON.stringify(b.evolution)+")"),true);
  for(const b of builds){equip(h,b);assert.equal(new Set(b.skills).size,8);assert.equal(b.core.length,4);const got=new Set();for(const id of b.skills){const skill=read(h,`SKILLS.find(x=>x.id===${JSON.stringify(id)})`);assert.ok(skill,`${b.id}:${id} exists`);assert.ok(!skill.parent||got.has(skill.parent),`${b.id}:${id} ordered prerequisite`);got.add(id);}for(const id of b.core)assert.ok(got.has(id));assert.equal(h.run('SPECIALIZATIONS[qaBuild.robot].some(x=>x.id===qaBuild.specialization)'),true);}
- return {ok:true,builds:10,catalog:74};
+ return {ok:true,builds:10,catalog:78};
 }
 function components(){
  const h=harness(17);const close=(value,expected,label)=>assert.ok(Math.abs(value-expected)<1e-7,`${label}:${value} vs ${expected}`);

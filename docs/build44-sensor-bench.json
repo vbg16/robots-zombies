@@ -1,0 +1,1913 @@
+{
+  "at": "2026-11-03T03:22:14.975Z",
+  "version": {
+    "channel": "development",
+    "status": "experimental",
+    "publicApproved": false,
+    "publicWorktree": "../Jogo-publico",
+    "publicBaseCommit": "99522e5",
+    "notes": "Sensores de campo: pulso periódico, alcance, relé elemental e exposição para tiros manuais. Painel78, migração por revisão. Balanceamento experimental; não promover automaticamente ao público.",
+    "build": 44
+  },
+  "kind": "synthetic-stationary-fixtures",
+  "dt": 0.05,
+  "sourceHashes": {
+    "game.js": "624b70c3a1c86294815f02885087819f440cea1e3dfb1e304f980a2c9341e4ef",
+    "balance.js": "6829cab2c56326c8a14d340b248166739f4a3cd5d386fd1d6c758762a6a2c8d3"
+  },
+  "note": "Packages installed directly. No survival/offer feasibility claim. Targets have no autonomous pursuit, but weapon knockback remains and may move them outside the sensor radius.",
+  "samples": [
+    {
+      "weapon": "machine",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3388
+      },
+      "total": 3388,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3388
+      },
+      "total": 3388,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 11.300000000000026,
+      "ttk": 11.300000000000026,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3278,
+        "sensor": 146.29999999911524
+      },
+      "total": 3424.2999999991152,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3278,
+        "sensor": 585.199999996461
+      },
+      "total": 3863.199999996461,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 11.200000000000024,
+      "ttk": 11.200000000000024,
+      "damage": {
+        "bullet": 626.9,
+        "sensor": 23.09999999999998
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3707,
+        "sensor": 73.9199999999255
+      },
+      "total": 3780.9199999999255,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3707,
+        "sensor": 369.59999999962747
+      },
+      "total": 4076.5999999996275,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 10.500000000000014,
+      "ttk": 10.500000000000014,
+      "damage": {
+        "bullet": 636.14,
+        "sensor": 13.86000000000001
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3707,
+        "burn": 653.4000000050291,
+        "sensor": 73.9199999999255
+      },
+      "total": 4434.320000004955,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3707,
+        "burn": 1089.5280000008643,
+        "sensor": 369.59999999962747
+      },
+      "total": 5166.128000000492,
+      "hp": 100
+    },
+    {
+      "weapon": "machine",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 8.199999999999982,
+      "ttk": 8.199999999999982,
+      "damage": {
+        "bullet": 556.0600000000001,
+        "burn": 84.69999999999995,
+        "sensor": 9.240000000000009
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3600
+      },
+      "total": 3600,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3600
+      },
+      "total": 3600,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 9.5,
+      "ttk": 9.5,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3360,
+        "sensor": 79.79999999911524
+      },
+      "total": 3439.7999999991152,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3360,
+        "sensor": 319.199999996461
+      },
+      "total": 3679.199999996461,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 9.850000000000005,
+      "ttk": 9.850000000000005,
+      "damage": {
+        "bullet": 637.4,
+        "sensor": 12.59999999999998
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3765,
+        "sensor": 40.32000000029802
+      },
+      "total": 3805.320000000298,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3765,
+        "sensor": 201.60000000149012
+      },
+      "total": 3966.60000000149,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 9.049999999999994,
+      "ttk": 9.049999999999994,
+      "damage": {
+        "bullet": 644.96,
+        "sensor": 5.039999999999992
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3777,
+        "burn": 356.40000000502914,
+        "sensor": 40.32000000029802
+      },
+      "total": 4173.720000005327,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3777,
+        "burn": 594.2879999922588,
+        "sensor": 201.60000000149012
+      },
+      "total": 4572.887999993749,
+      "hp": 100
+    },
+    {
+      "weapon": "shotgun",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 8.299999999999983,
+      "ttk": 8.299999999999983,
+      "damage": {
+        "bullet": 598.76,
+        "burn": 46.20000000000003,
+        "sensor": 5.039999999999992
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3080
+      },
+      "total": 3080,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3080
+      },
+      "total": 3080,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 11.950000000000035,
+      "ttk": 11.950000000000035,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2954,
+        "sensor": 93.10000000044238
+      },
+      "total": 3047.1000000004424,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2954,
+        "sensor": 372.4000000017695
+      },
+      "total": 3326.4000000017695,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 12.150000000000038,
+      "ttk": 12.150000000000038,
+      "damage": {
+        "bullet": 635.3000000000001,
+        "sensor": 14.69999999999996
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3307.5,
+        "sensor": 47.03999999910593
+      },
+      "total": 3354.539999999106,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3307.5,
+        "sensor": 235.19999999552965
+      },
+      "total": 3542.6999999955297,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 11.450000000000028,
+      "ttk": 11.450000000000028,
+      "damage": {
+        "bullet": 641.1800000000001,
+        "sensor": 8.819999999999993
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3307.5,
+        "burn": 415.79999999748543,
+        "sensor": 47.03999999910593
+      },
+      "total": 3770.3399999965914,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3307.5,
+        "burn": 693.3360000140965,
+        "sensor": 235.19999999552965
+      },
+      "total": 4236.036000009626,
+      "hp": 100
+    },
+    {
+      "weapon": "burst",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 10.600000000000016,
+      "ttk": 10.600000000000016,
+      "damage": {
+        "bullet": 570.5,
+        "burn": 70.67999999999999,
+        "sensor": 8.819999999999995
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3256
+      },
+      "total": 3256,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 13024
+      },
+      "total": 13024,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 11.100000000000023,
+      "ttk": 11.100000000000023,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3080,
+        "sensor": 585.2000000008848
+      },
+      "total": 3665.2000000008848,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 12320,
+        "sensor": 2340.800000003539
+      },
+      "total": 14660.800000003539,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 10.650000000000016,
+      "ttk": 10.650000000000016,
+      "damage": {
+        "bullet": 557.6,
+        "sensor": 92.40000000000002
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3454,
+        "sensor": 295.679999999702
+      },
+      "total": 3749.679999999702,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 13838,
+        "sensor": 1478.3999999985099
+      },
+      "total": 15316.39999999851,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 10.650000000000016,
+      "ttk": 10.650000000000016,
+      "damage": {
+        "bullet": 594.56,
+        "sensor": 55.44000000000001
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3454,
+        "burn": 2613.599999994971,
+        "sensor": 295.679999999702
+      },
+      "total": 6363.279999994673,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 13860,
+        "burn": 10890.527999984915,
+        "sensor": 1478.3999999985099
+      },
+      "total": 26228.927999983425,
+      "hp": 100
+    },
+    {
+      "weapon": "sniper",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 6.549999999999985,
+      "ttk": 6.549999999999985,
+      "damage": {
+        "bullet": 365.32,
+        "burn": 266.2,
+        "sensor": 18.47999999999999
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 4800
+      },
+      "total": 4800,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 4800
+      },
+      "total": 4800,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 7.94999999999998,
+      "ttk": 7.94999999999998,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 4780,
+        "sensor": 66.5
+      },
+      "total": 4846.5,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 4780,
+        "sensor": 266
+      },
+      "total": 5046,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 8.199999999999982,
+      "ttk": 8.199999999999982,
+      "damage": {
+        "bullet": 643,
+        "sensor": 7
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5385,
+        "sensor": 33.59999999962747
+      },
+      "total": 5418.5999999996275,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5385,
+        "sensor": 167.99999999813735
+      },
+      "total": 5552.999999998137,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 6.699999999999984,
+      "ttk": 6.699999999999984,
+      "damage": {
+        "bullet": 647.5,
+        "sensor": 2.5
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5377.5,
+        "burn": 297,
+        "sensor": 33.59999999962747
+      },
+      "total": 5708.0999999996275,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5377.5,
+        "burn": 495.2400000016205,
+        "sensor": 167.99999999813735
+      },
+      "total": 6040.739999999758,
+      "hp": 100
+    },
+    {
+      "weapon": "laser",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 5.749999999999988,
+      "ttk": 5.749999999999988,
+      "damage": {
+        "bullet": 620.4,
+        "burn": 27.5,
+        "sensor": 2.1000000000000227
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5070,
+        "burn": 148.5
+      },
+      "total": 5218.5,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5070,
+        "burn": 148.5
+      },
+      "total": 5218.5,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 6.499999999999985,
+      "ttk": 6.499999999999985,
+      "damage": {
+        "bullet": 634.875,
+        "burn": 15.125
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 4920,
+        "burn": 148.5,
+        "sensor": 33.25
+      },
+      "total": 5101.75,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 4920,
+        "burn": 148.5,
+        "sensor": 133
+      },
+      "total": 5201.5,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 6.499999999999985,
+      "ttk": 6.499999999999985,
+      "damage": {
+        "bullet": 631.375,
+        "burn": 15.125,
+        "sensor": 3.5
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5606.25,
+        "burn": 148.5,
+        "sensor": 16.800000000745058
+      },
+      "total": 5771.550000000745,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5606.25,
+        "burn": 247.61999998241663,
+        "sensor": 84.00000000372529
+      },
+      "total": 5937.869999986142,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 6.0499999999999865,
+      "ttk": 6.0499999999999865,
+      "damage": {
+        "bullet": 635.2,
+        "burn": 13.75,
+        "sensor": 1.0500000000000114
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5602.5,
+        "burn": 185.625,
+        "sensor": 16.800000000745058
+      },
+      "total": 5804.925000000745,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 5602.5,
+        "burn": 309.52500000735745,
+        "sensor": 84.00000000372529
+      },
+      "total": 5996.025000011083,
+      "hp": 100
+    },
+    {
+      "weapon": "flame",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 5.949999999999987,
+      "ttk": 5.949999999999987,
+      "damage": {
+        "bullet": 631.7625,
+        "burn": 17.1875,
+        "sensor": 1.0500000000000114
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2376
+      },
+      "total": 2376,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2376
+      },
+      "total": 2376,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 15.85000000000009,
+      "ttk": 15.85000000000009,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2244,
+        "sensor": 146.29999999911524
+      },
+      "total": 2390.2999999991152,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2244,
+        "sensor": 585.199999996461
+      },
+      "total": 2829.199999996461,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 15.750000000000089,
+      "ttk": 15.750000000000089,
+      "damage": {
+        "bullet": 611.5,
+        "sensor": 38.49999999999997
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2590.5,
+        "sensor": 73.9199999999255
+      },
+      "total": 2664.4199999999255,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2590.5,
+        "sensor": 369.59999999962747
+      },
+      "total": 2960.0999999996275,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 14.950000000000077,
+      "ttk": 14.950000000000077,
+      "damage": {
+        "bullet": 631.52,
+        "sensor": 18.48000000000001
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2590.5,
+        "burn": 653.4000000050291,
+        "sensor": 73.9199999999255
+      },
+      "total": 3317.8200000049546,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2590.5,
+        "burn": 1089.5280000008643,
+        "sensor": 369.59999999962747
+      },
+      "total": 4049.6280000004917,
+      "hp": 100
+    },
+    {
+      "weapon": "cryo",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 11.000000000000021,
+      "ttk": 11.000000000000021,
+      "damage": {
+        "bullet": 521.1899999999999,
+        "burn": 114.95,
+        "sensor": 13.860000000000007
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 910
+      },
+      "total": 910,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 910,
+        "explosion": 2730
+      },
+      "total": 3640,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 43.849999999999646,
+      "ttk": 43.849999999999646,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 770,
+        "sensor": 465.5
+      },
+      "total": 1235.5,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 770,
+        "explosion": 2310,
+        "sensor": 1862
+      },
+      "total": 4942,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 30.5000000000003,
+      "ttk": 30.5000000000003,
+      "damage": {
+        "bullet": 420,
+        "sensor": 230
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 857.5,
+        "sensor": 235.19999999925494
+      },
+      "total": 1092.699999999255,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 857.5,
+        "explosion": 2310,
+        "sensor": 1175.9999999962747
+      },
+      "total": 4343.499999996275,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 33.500000000000234,
+      "ttk": 33.500000000000234,
+      "damage": {
+        "bullet": 517.7,
+        "sensor": 132.29999999999998
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 857.5,
+        "burn": 1750.6124999998137,
+        "sensor": 235.19999999925494
+      },
+      "total": 2843.3124999990687,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 857.5,
+        "explosion": 2310,
+        "burn": 3138.2924999953248,
+        "sensor": 1175.9999999962747
+      },
+      "total": 7481.7924999915995,
+      "hp": 100
+    },
+    {
+      "weapon": "rocket",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 12.550000000000043,
+      "ttk": 12.550000000000043,
+      "damage": {
+        "bullet": 227.5,
+        "burn": 378.4000000000001,
+        "sensor": 44.099999999999994
+      },
+      "total": 650.0000000000001,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1620
+      },
+      "total": 1620,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1620,
+        "explosion": 4860
+      },
+      "total": 6480,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 22.15000000000018,
+      "ttk": 22.15000000000018,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1575,
+        "sensor": 299.25
+      },
+      "total": 1874.25,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1575,
+        "explosion": 4725,
+        "sensor": 1197
+      },
+      "total": 7497,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 21.35000000000017,
+      "ttk": 21.35000000000017,
+      "damage": {
+        "bullet": 540,
+        "sensor": 110
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1777.5,
+        "sensor": 151.19999999925494
+      },
+      "total": 1928.699999999255,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1777.5,
+        "explosion": 4725,
+        "sensor": 755.9999999962747
+      },
+      "total": 7258.499999996275,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 21.300000000000168,
+      "ttk": 21.300000000000168,
+      "damage": {
+        "bullet": 596.25,
+        "sensor": 53.75
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1766.25,
+        "burn": 1197.5062499998603,
+        "sensor": 151.19999999925494
+      },
+      "total": 3114.9562499991152,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1766.25,
+        "explosion": 4725,
+        "burn": 2089.586250002729,
+        "sensor": 755.9999999962747
+      },
+      "total": 9336.836249999003,
+      "hp": 100
+    },
+    {
+      "weapon": "grenade",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 11.100000000000023,
+      "ttk": 11.100000000000023,
+      "damage": {
+        "bullet": 405,
+        "burn": 216.65000000000003,
+        "sensor": 28.34999999999998
+      },
+      "total": 650.0000000000001,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1632
+      },
+      "total": 1632,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1632,
+        "electric": 1632
+      },
+      "total": 3264,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 23.6500000000002,
+      "ttk": 23.6500000000002,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1536,
+        "sensor": 159.60000000044238
+      },
+      "total": 1695.6000000004424,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1536,
+        "electric": 1536,
+        "sensor": 638.4000000017695
+      },
+      "total": 3710.4000000017695,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 23.200000000000195,
+      "ttk": 23.200000000000195,
+      "damage": {
+        "bullet": 591.2,
+        "sensor": 58.79999999999995
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1722,
+        "sensor": 80.64000000059605
+      },
+      "total": 1802.640000000596,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1722,
+        "electric": 1536,
+        "sensor": 403.20000000298023
+      },
+      "total": 3661.2000000029802,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 19.700000000000145,
+      "ttk": 19.700000000000145,
+      "damage": {
+        "bullet": 624.8,
+        "sensor": 25.200000000000003
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1728,
+        "burn": 704.9999999975553,
+        "sensor": 80.64000000059605
+      },
+      "total": 2513.6399999981513,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1728,
+        "electric": 1536,
+        "burn": 1180.7760000157868,
+        "sensor": 403.20000000298023
+      },
+      "total": 4847.976000018767,
+      "hp": 100
+    },
+    {
+      "weapon": "tesla",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 15.500000000000085,
+      "ttk": 15.500000000000085,
+      "damage": {
+        "bullet": 445.0399999999996,
+        "burn": 184.8000000000003,
+        "sensor": 20.160000000000032
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1728
+      },
+      "total": 1728,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 8640
+      },
+      "total": 8640,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 22.450000000000184,
+      "ttk": 22.450000000000184,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1584,
+        "sensor": 159.60000000044238
+      },
+      "total": 1743.6000000004424,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 7920,
+        "sensor": 638.4000000017695
+      },
+      "total": 8558.40000000177,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 22.75000000000019,
+      "ttk": 22.75000000000019,
+      "damage": {
+        "bullet": 591.2,
+        "sensor": 58.79999999999992
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1776,
+        "sensor": 80.64000000059605
+      },
+      "total": 1856.640000000596,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 8916,
+        "sensor": 403.20000000298023
+      },
+      "total": 9319.20000000298,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 20.10000000000015,
+      "ttk": 20.10000000000015,
+      "damage": {
+        "bullet": 624.8,
+        "sensor": 25.200000000000003
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 1776,
+        "burn": 713.9999999975553,
+        "sensor": 80.64000000059605
+      },
+      "total": 2570.6399999981513,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 8910,
+        "burn": 3489.2699999882607,
+        "sensor": 403.20000000298023
+      },
+      "total": 12802.469999991241,
+      "hp": 100
+    },
+    {
+      "weapon": "disc",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 14.100000000000065,
+      "ttk": 14.100000000000065,
+      "damage": {
+        "bullet": 464.8399999999997,
+        "burn": 165.00000000000028,
+        "sensor": 20.160000000000032
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "base",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 840
+      },
+      "total": 840,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "base",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3840
+      },
+      "total": 3840,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "base",
+      "fixture": "boss",
+      "elapsed": 17.800000000000118,
+      "ttk": 17.800000000000118,
+      "damage": {
+        "bullet": 650
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "root",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 840
+      },
+      "total": 840,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "root",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3720,
+        "sensor": 21
+      },
+      "total": 3741,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "root",
+      "fixture": "boss",
+      "elapsed": 16.750000000000103,
+      "ttk": 16.750000000000103,
+      "damage": {
+        "bullet": 587,
+        "sensor": 63
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "family",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 855,
+        "sensor": 12.599999999976717
+      },
+      "total": 867.5999999999767,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "family",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 3780,
+        "sensor": 100.79999999981374
+      },
+      "total": 3880.7999999998137,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "family",
+      "fixture": "boss",
+      "elapsed": 15.650000000000087,
+      "ttk": 15.650000000000087,
+      "damage": {
+        "bullet": 599.5999999999999,
+        "sensor": 50.400000000000034
+      },
+      "total": 650,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "elemental",
+      "fixture": "single",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 555,
+        "burn": 577.5,
+        "sensor": 12.599999999976717
+      },
+      "total": 1145.0999999999767,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "elemental",
+      "fixture": "group",
+      "elapsed": 59.99999999999873,
+      "ttk": null,
+      "damage": {
+        "bullet": 2400,
+        "burn": 3681.7949999996927,
+        "sensor": 100.79999999981374
+      },
+      "total": 6182.594999999506,
+      "hp": 100
+    },
+    {
+      "weapon": "harpoon",
+      "stage": "elemental",
+      "fixture": "boss",
+      "elapsed": 8.999999999999993,
+      "ttk": 8.999999999999993,
+      "damage": {
+        "bullet": 360.79999999999995,
+        "burn": 264,
+        "sensor": 25.200000000000017
+      },
+      "total": 650,
+      "hp": 100
+    }
+  ]
+}

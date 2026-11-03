@@ -7,7 +7,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
  page.on('pageerror',e=>errors.push(e.message));fs.mkdirSync('outputs/build43',{recursive:true});
  try{
   await page.goto(process.env.GAME_URL||'http://127.0.0.1:8001/');await page.waitForFunction(()=>window.ScrewBuildGuide);
-  assert.equal(await page.evaluate(()=>ScrewBalance.catalog.length),74);
+  assert.equal(await page.evaluate(()=>ScrewBalance.catalog.length),78);
   await page.locator('#enter-garage').click();assert.equal(await page.locator('[data-module^="corrosion"]').count(),4);
   await page.locator('#launch').click();await page.locator('#deploy-run').click();
   await page.evaluate(()=>{spawn=10000;upgrade('level',availableSkills().filter(s=>s.id!=='corrosion').map(s=>s.id));});
@@ -24,11 +24,11 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   const custom=structuredClone(legacy[0]);Object.assign(custom,{id:'corrosionFuse',name:'MEU FUSÍVEL ANTIGO',condition:'',prerequisites:[]});legacy.push(custom);
   await page.evaluate(legacy=>{localStorage.setItem('screwvivors.balance.draft.v1',JSON.stringify({version:1,catalogRevision:2,skills:legacy}));},legacy);
   const editor=await context.newPage();editor.on('pageerror',e=>errors.push(e.message));await editor.goto((process.env.GAME_URL||'http://127.0.0.1:8001/')+'?painel=skills');await editor.getByRole('button',{name:'Aplicar ao jogo',exact:true}).waitFor();
-  const draft=await editor.evaluate(()=>JSON.parse(localStorage.getItem('screwvivors.balance.draft.v1')));assert.equal(draft.catalogRevision,3);assert.equal(draft.skills.length,75);assert.equal(draft.skills[0].name,'EDIÇÃO ANTIGA PRESERVADA');assert.ok(draft.skills.some(s=>s.id==='custom-corrosionFuse'));
-  await editor.getByRole('button',{name:'Aplicar ao jogo',exact:true}).click();assert.equal(await editor.evaluate(()=>ScrewBalance.load().length),75);
+  const draft=await editor.evaluate(()=>JSON.parse(localStorage.getItem('screwvivors.balance.draft.v1')));assert.equal(draft.catalogRevision,4);assert.equal(draft.skills.length,79);assert.equal(draft.skills[0].name,'EDIÇÃO ANTIGA PRESERVADA');assert.ok(draft.skills.some(s=>s.id==='custom-corrosionFuse'));
+  await editor.getByRole('button',{name:'Aplicar ao jogo',exact:true}).click();assert.equal(await editor.evaluate(()=>ScrewBalance.load().length),79);
   await page.evaluate(()=>{state='playing';SKILLS.find(s=>s.id==='corrosionFuse').apply();});assert.equal(await page.evaluate(()=>player.corrosionDelayMult),.5);
   await page.evaluate(()=>{reset();SKILLS.find(s=>s.id==='corrosion').apply();});assert.equal(await page.evaluate(()=>SKILLS.some(s=>s.id==='custom-corrosionFuse')),true,'migrated custom modifier participates only in the next run');
   assert.deepEqual(errors,[]);
-  console.log('Chrome passed: corrosion tree/icons, manual, desktop/mobile, installation, frozen visible charge and real70→74 migration with a custom collision.');
+  console.log('Chrome passed: corrosion tree/icons, manual, desktop/mobile, installation, frozen visible charge and real70→78 migration with a custom collision.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

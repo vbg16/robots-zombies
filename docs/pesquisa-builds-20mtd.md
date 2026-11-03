@@ -127,7 +127,7 @@ Inferências próprias a partir das famílias acima:
 
 ## Exploração inicial de dez propostas
 
-Esta tabela registra a exploração inicial, incluindo ideias que não entraram nesta versão. O catálogo implementado está no guia [Dez projetos de build](dez-builds.md) e em builds.js. Sensores permanecem ideia futura. A família de corrosão foi implementada na BUILD43, com regras e dados em [corrosão programada](corrosao-programada.md).
+Esta tabela registra a exploração inicial, incluindo ideias que não entraram nesta versão. O catálogo implementado está no guia [Dez projetos de build](dez-builds.md) e em builds.js. A família de sensores/pulsos foi implementada na BUILD44, em [Sensores de campo](sensores-de-campo.md). A família de corrosão foi implementada na BUILD43, com regras e dados em [corrosão programada](corrosao-programada.md).
 
 | # | Build | Base proposta | Circuito | Fragilidade a medir |
 |---|---|---|---|---|

@@ -207,9 +207,9 @@ fire('window:keydown',{key:'1',repeat:false,preventDefault(){}});assert.equal(ru
 if(blessingId==='pulseCoil')assert.equal(run('player.damage'),beforeBlessing.damage*1.25);else if(blessingId==='triggerRegulator')assert.equal(run('player.rate'),beforeBlessing.rate*.8);else if(blessingId==='spareBattery'){assert.equal(run('player.maxHp'),beforeBlessing.maxHp+20);assert.equal(run('player.hp'),beforeBlessing.hp+20);}else if(blessingId==='scrapMagnet')assert.equal(run('player.magnet'),beforeBlessing.magnet*1.75);else if(blessingId==='greasedServos')assert.equal(run('player.speed'),beforeBlessing.speed*1.2);else if(blessingId==='copperPlate')assert.equal(run('player.armor'),beforeBlessing.armor+1);
 run('level=5;xp=need;tick(.01)');assert.equal(run('state'),'blessing','level six opens another blessing');assert.equal(run(`offeredBlessings.some(b=>b.id==='${blessingId}')`),false,'chosen blessing is not offered again this run');assert.equal(run('new Set(offeredBlessings.map(b=>b.id)).size'),3);
 elements.get('choices').children.at(-1).onclick();assert.equal(run('state'),'playing');assert.equal(run('player.blessings.size'),1,'skipping does not grant a blessing');run('level=8;xp=need;tick(.01)');assert.equal(run('state'),'blessing','level nine opens the final scheduled blessing');assert.equal(run('new Set(offeredBlessings.map(b=>b.id)).size'),3);assert.equal(run('offeredBlessings.some(b=>b.id===\''+blessingId+'\')'),false,'previously chosen blessing remains excluded at level nine');run('chooseBlessing(offeredBlessings[0].id,offerVersion)');assert.equal(run('player.blessings.size'),2,'level-nine choice applies once per attempt');run('reset()');assert.equal(run('player.blessings.size'),0,'blessings clear on retry');assert.equal(run('player.damage'),22);assert.equal(run('profile.bolts'),1,'blessings never enter persistent profile');
-assert.equal(run('SKILLS.length'),44);
-assert.equal(run('new Set(SKILLS.map(s=>s.id)).size'),44);
-fresh();assert.equal(run('availableSkills().length'),11,'only roots offered initially');
+assert.equal(run('SKILLS.length'),48);
+assert.equal(run('new Set(SKILLS.map(s=>s.id)).size'),48);
+fresh();assert.equal(run('availableSkills().length'),12,'only roots offered initially');
 for(const root of run('SKILLS.filter(s=>!s.parent).map(s=>s.id)')){
  fresh();assert.equal(run(`SKILLS.filter(s=>s.parent==='${root}').length`),3,'each root opens three children');
  assert.equal(run(`availableSkills().some(s=>s.parent==='${root}')`),false);
@@ -277,7 +277,7 @@ for(const id of run('Object.keys(WEAPONS)')){
 }
 fresh();assert.equal(run('player.acquired.size'),0);assert.equal(run('player.ammo'),24);assert.equal(run('player.reloadTime'),0);assert.equal(run('player.hitCooldowns.retaliation'),0);
 run(`const savedRandom=Math.random;try{Math.random=()=>{throw Error('Render used combat RNG');};draw();}finally{Math.random=savedRandom;}`);
-console.log('44 unique tree nodes, prerequisites, multiplicative costs, conditional effects, 120s timers, all magazines/reloads, bursts, statuses, rendering and reset passed.');
+console.log('48 unique tree nodes, prerequisites, multiplicative costs, conditional effects, 120s timers, all magazines/reloads, bursts, statuses, rendering and reset passed.');
 fresh();run('upgrade()');
 assert.equal(elements.get('overlay')['data-mode'],'upgrade');
 for(const card of elements.get('module-options').children){const id=card['data-skill'];assert.ok(fs.existsSync('assets/skills/'+id+'.svg'));assert.equal(card.children[0].src,'assets/skills/'+id+'.svg');}
@@ -335,7 +335,7 @@ for(const index of [1,2]){
 }
 console.log('Proportional reloads, three boss schedule, delayed pools, electric rings/fans, warning safety, pause and cleanup passed.');
 // Readable tree labels, spatial language and dedicated cooldown HUD.
-fresh();assert.equal(run('Object.keys(TREE_INFO).length'),11);
+fresh();assert.equal(run('Object.keys(TREE_INFO).length'),12);
 assert.equal(run('SKILLS.some(s=>/\\bpx\\b/.test(s.benefit+s.cost))'),false,'no implementation units in upgrade copy');
 acquire('damage');acquire('rate');assert.ok(Math.abs(run('player.damage')-44/1.5)<1e-9);assert.ok(Math.abs(run('player.rate')-.48/3)<1e-9);
 fresh();acquire('shield');acquire('dash');acquire('emergency');acquire('retaliation');acquire('overload');run('updateHUD()');
@@ -378,12 +378,12 @@ fresh();run('player.frenzy=6;pause()');const overloadValues=elements.get('choice
 // The garage manual reads the canonical catalog without granting modules or spending materials.
 fresh();const beforeManual=run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})');run('renderCompendium()');
 assert.equal(run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})'),beforeManual,'consulting catalog is read only');
-const manual=elements.get('module-compendium');assert.equal(manual.children.length,19,'manual includes eleven trees, blessings, experiments and six chassis');
-const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,74);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,74,'all catalog entries appear once');
+const manual=elements.get('module-compendium');assert.equal(manual.children.length,20,'manual includes twelve trees, blessings, experiments and six chassis');
+const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,78);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,78,'all catalog entries appear once');
 const pierceManual=manualCards.find(card=>card['data-module']==='pierce');assert.equal(pierceManual.children[3].textContent,'REQUISITO: NÚCLEO CRIOGÊNICO');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[2].textContent.includes(run("SKILLS.find(s=>s.id==='ricochet').cost")),'manual uses current canonical costs');
-run('renderCompendium()');assert.equal(manual.children.length,19,'reopening catalog replaces instead of duplicating entries');
-console.log('Garage compendium covers all 74 temporary modules without mutating the run or profile.');
+run('renderCompendium()');assert.equal(manual.children.length,20,'reopening catalog replaces instead of duplicating entries');
+console.log('Garage compendium covers all 78 temporary modules without mutating the run or profile.');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].textContent.includes('armas com retorno'),'manual explains weapon-specific ricochet eligibility');
 
 // One run-only reroll replaces level-up choices without granting a skill or advancing combat.

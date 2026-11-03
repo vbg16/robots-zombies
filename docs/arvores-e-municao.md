@@ -1,6 +1,6 @@
 # Árvores de melhorias e munição — protótipo experimental
 
-> **Estado atual BUILD43:** são 44 módulos normais em 11 árvores. [Contrato vigente](contrato-atual.md) e [corrosão programada](corrosao-programada.md) complementam/substituem as contagens e os valores históricos abaixo.
+> **Estado atual BUILD44:** são 48 módulos normais em 12 árvores. [Contrato vigente](contrato-atual.md) e [corrosão programada](corrosao-programada.md) complementam/substituem as contagens e os valores históricos abaixo.
 
 > Atualização 31/10/2026: horários abaixo representam os primeiros encontros. A arena não tem fim; após esses chefes iniciais, o ciclo se repete com vida crescente. Inimigos comuns também ganham vida e velocidade com o tempo. Sobrevive-se até a derrota, sem vitória automática por duração.
 

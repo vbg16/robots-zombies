@@ -51,7 +51,7 @@ function initialSkills(): Skill[] {
   return applied;
 }
 function downloadSkills(skills: Skill[]) {
-  const url = URL.createObjectURL(new Blob([JSON.stringify({version: 1, catalogRevision: 3, skills}, null, 2)], {type: 'application/json'}));
+  const url = URL.createObjectURL(new Blob([JSON.stringify({version: 1, catalogRevision: 4, skills}, null, 2)], {type: 'application/json'}));
   const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'screwvivors-balance-backup.json'; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
@@ -94,7 +94,7 @@ function App() {
   useEffect(() => {
     if (!balance) return;
     setApplied(false);
-    try {localStorage.setItem(STORAGE_KEY, JSON.stringify({version: 1, catalogRevision: 3, skills})); setSaved(true);}
+    try {localStorage.setItem(STORAGE_KEY, JSON.stringify({version: 1, catalogRevision: 4, skills})); setSaved(true);}
     catch {setSaved(false); setNotice('Não foi possível salvar o rascunho neste navegador. Exporte um backup antes de fechar.');}
   }, [skills]);
   const applyToGame = () => {
