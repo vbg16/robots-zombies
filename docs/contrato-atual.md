@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 45
+# Contrato vigente — Screwvivors BUILD 46
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -21,6 +21,7 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Painel | 78 skills editáveis; configuração só nas próximas tentativas. Preservar rascunhos/efeitos legados, migrar IDs conflitantes com suas referências e não repetir a migração textual. As 24 reforjas são catálogo próprio de arma, consultável na garagem, e ainda não são editáveis no painel. | balance-panel.cjs, balance-migration.cjs e testes do editor. |
 | Corrosão | Uma carga por alvo, sem renovar/acumular; origem em bala, respingo de uma geração para dois vizinhos; escudos bloqueiam aplicação. Cura, explosões, drones e raios não semeiam cargas. Prazo e dano capturados na aplicação; pausa/morte/reset interrompem a tentativa. | corrosion.cjs, corrosion-balance.cjs e Chrome. |
 | Sensores | Pulso adquirido, 3s/raio170/35% da base direta, sem projétil ou munição. Relé só fogo/frio; exposição2s amplia apenas balas em25%. Escudos bloqueiam estados. Sem skill, não percorre horda; pausa/reset preservados. HUD móvel comporta seis timers. | sensors.cjs, sensors-browser.cjs e sensors-balance.cjs. |
+| Arma empunhada |12modelos próprios em Canvas, mira manual, mãos, recuo e gesto de recarga. Relógio visual só no tick; pausa congela e tiro cancelado não recua. Sem alterar munição/dano/trajetórias. | player-weapons.cjs e Chrome12armas/mira esquerda-direita. |
 | Animação PROT | Atlas original32quadros, quatro direções, pivô por quadro e pés em y+28; simulação controla o relógio e pausa congela. Falhas de imagem/helper/manifesto mantêm o desenho estático. Hitbox e atributos preservados. | sprite-animation.cjs, prot-animation.cjs e Chrome HTTP/file com três fallbacks. |
 | Áudio | Synthwave suave nas cenas;12 timbres e eventos reais de reparo, sensores, corrosão, drones, escudos, recarga e chefes. Sem RNG de combate; gesto inicial, mute e limites de vozes preservados. | audio.cjs, audio-gameplay.cjs e render offline de sinal. |
 | Consultas de área | Índice temporário apenas na fase de projéteis, invalidação antes do movimento, ordem original dos alvos e desempates estáveis. Não descartar nem limitar vivos. | spatial-runtime.cjs:18mundos iguais à busca linear e ordenação integral, inclusive efeitos e sequência aleatória. |

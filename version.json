@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "PROT com caminhada direcional real; timbres para12 armas, efeitos de combate e trilha synthwave variada. Busca espacial e seleção elétrica com equivalência de estado/RNG. Candidato experimental: acabamento e desempenho extremo ainda em andamento; não promover automaticamente ao público.",
-  "build": 45
+  "notes": "Armas empunhadas:12 modelos originais seguindo mira manual, recuo e gesto de recarga. PROT animado, áudio integrado e otimização de área preservados. Desenvolvimento experimental; acabamento dos demais atores e desempenho extremo em andamento.",
+  "build": 46
 }

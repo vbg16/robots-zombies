@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 45 · desenvolvimento
+# Screwvivors — BUILD 46 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 

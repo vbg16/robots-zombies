@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 45:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 46:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -231,3 +231,7 @@ PROT ganhou caminhada original em32quadros/quatro direções, com manifesto clá
 A medição de hordas rejeitou a primeira proposta por regressão. O segundo candidato reduziu o tick do pacote Plasma concentrado em46–75%; no caso5000 próximos ainda são482ms médios, portanto o desempenho extremo continua pendente. Equivalência completa de estado/efeitos/RNG foi comparada em18mundos com mortes, lacaios, empurrões e dano secundário. Ver desempenho-hordas.md.
 
 Pendências concretas: arma empunhada do jogador; animações reais dos demais chassis, zumbis e chefes; custo de renderização densa; aprofundamento de suportes e chassis com mais slots; reavaliação natural das dez builds após conteúdo; candidato público revisável. Esta etapa não declara o jogo completo nem aprova publicação pública.
+
+## BUILD46 — arma empunhada
+
+Fechada a lacuna visual da arma invisível:12modelos próprios desenhados com a mesma geometria pixel/industrial do renderer de armas inimigas. O cano segue a mira manual, com mãos conectadas ao corpo, recuo por emissão efetiva e inclinação durante a recarga. Estado visual não altera dano, munição ou trajetórias. A pausa congela o recuo e reinício zera o gesto. Chrome verificou12equipamentos na arena, mira para ambos os lados e emissão/recuo; contact sheet e captura da Tesla revisadas. A pendência de arma invisível citada na BUILD45 está encerrada.
