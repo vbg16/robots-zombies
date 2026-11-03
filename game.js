@@ -783,7 +783,8 @@ function segmentDistance(x,y,ax,ay,bx,by){
  return Math.hypot(x-ax-t*dx,y-ay-t*dy);
 }
 function bossTellDuration(b,base){return base*(player.specialization==='threatReader'&&Math.hypot(b.x-player.x,b.y-player.y)<=180?1.2:1);}
-function tickBoss(dt){
+function tickBoss(dt){const b=boss,x=b?.x,y=b?.y;tickBossMotion(dt);if(b&&b===boss&&b.hp>0)globalThis.ScrewEnemyAnimation?.advance(b,x,y);}
+function tickBossMotion(dt){
  if(!boss||boss.hp<=0)return;if(boss.id==='scrapper'||boss.id==='coil'){tickSpecialBoss(dt);return;}const b=boss;b.hit=Math.max(0,b.hit-dt);b.timer-=dt;
  if(b.phase==='approach'){
   const dx=player.x-b.x,dy=player.y-b.y,d=Math.hypot(dx,dy)||1;
@@ -871,7 +872,7 @@ function tick(dt){
  collisionGrid=null;bullets=bullets.filter(b=>b.life>0);
  for(const z of enemies){
   if(z.hp<=0)continue;z.hit=Math.max(0,z.hit-dt);const playerDistance=Math.hypot(player.x-z.x,player.y-z.y),chase=player.decoy&&commonPursuer(z)?player.decoy:player,dx=chase.x-z.x,dy=chase.y-z.y,d=Math.hypot(dx,dy)||1;
-  if(z.enemyType==='shieldPolice'&&z.shieldHp===0){tickPoliceCharge(z,dt);if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);continue;}
+  if(z.enemyType==='shieldPolice'&&z.shieldHp===0){const oldX=z.x,oldY=z.y;tickPoliceCharge(z,dt);globalThis.ScrewEnemyAnimation?.advance(z,oldX,oldY);if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);continue;}
   let move=1;
   if(z.enemyType==='expolice'){
    const ideal=245,retreat=170;move=d>ideal?1:d<retreat?-.65:0;z.shotCooldown-=dt;
@@ -881,7 +882,7 @@ function tick(dt){
    move=d>ideal?1:d<retreat?-.7:0;z.shotCooldown-=dt;
    if(d<560&&z.shotCooldown<=0){fireBossMinion(z,z.minionType==='conductor');z.shotCooldown=z.minionType==='gunner'?2.2:2.8;}
   }
-  const status=z.stunTime>0?0:z.slowTime>0?.5:1,speed=z.speed;z.x+=dx/d*speed*move*status*dt;z.y+=dy/d*speed*move*status*dt;
+  const status=z.stunTime>0?0:z.slowTime>0?.5:1,speed=z.speed,oldX=z.x,oldY=z.y;z.x+=dx/d*speed*move*status*dt;z.y+=dy/d*speed*move*status*dt;globalThis.ScrewEnemyAnimation?.advance(z,oldX,oldY);
   if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);
  }
  tickBoss(dt);tickHazards(dt);tickDrones(dt);tickSensor(dt);
@@ -960,6 +961,18 @@ function drawEnemyBadge(z,top){
 function drawZombie(z,heavy=false){
  heavy=heavy||!!z.heavy;
  const variantIndex=heavy?2:(z.variant||0),sprite=zombieSprites[variantIndex];
+ const animated=globalThis.ScrewZombieRenderer?.draw(ctx,z,variantIndex,heavy?95:58*Math.max(.88,Math.min(1.12,z.r/13)));
+ if(animated){
+  if(z.slowTime>0||z.burnTime>0||z.stunTime>0||z.minionType||z.minionBadge){
+   const {height,width}=animated,dx=-width/2,dy=-height*.55;ctx.save();ctx.translate(Math.round(z.x),Math.round(z.y));
+   if(z.slowTime>0){ctx.strokeStyle='#9cecff';ctx.lineWidth=1.5;ctx.strokeRect(dx-2,dy-2,width+4,height+4);}
+   if(z.burnTime>0){ctx.fillStyle='#ff934d';ctx.fillRect(-width*.43,height*.08,3,6);ctx.fillRect(width*.3,-height*.06,3,6);}
+   if(z.stunTime>0){ctx.strokeStyle='#c5f6ff';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-7,dy-3);ctx.lineTo(-2,dy-7);ctx.lineTo(2,dy-2);ctx.lineTo(8,dy-6);ctx.stroke();}
+   window.drawEnemyWeapon?.(ctx,z,player);drawEnemyBadge(z,dy);ctx.restore();
+  }
+  return;
+ }
+
  if(sprite?.complete&&sprite.naturalWidth){
   const phase=clock*(heavy?3:5)+z.x*.013+z.y*.009;
   const height=heavy?95:58*Math.max(.88,Math.min(1.12,z.r/13)),width=height*sprite.naturalWidth/sprite.naturalHeight;

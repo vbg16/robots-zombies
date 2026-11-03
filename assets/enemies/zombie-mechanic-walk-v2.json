@@ -11,7 +11,9 @@
     "up",
     "left"
   ],
-  "status": "CANDIDATE_GAMEPLAY_REVIEW_PENDING",
+  "status": "INTEGRATED_PROTOTYPE_QA_REVIEWED",
+  "maxVisibleHeight": 193,
+  "maxVisibleWidth": 149,
   "clips": {
     "walk.down": [
       {

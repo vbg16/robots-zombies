@@ -38,3 +38,9 @@ Abrir conversas conforme a necessidade. Não é necessário manter uma conversa 
 ## Referência técnica atual
 
 O [README do protótipo](../README.md) descreve como executar a experiência HTML existente. A base atual aprovada é HTML/CSS/JavaScript no navegador; o empacotamento desktop será avaliado depois. Nenhum processo de publicação na Steam está configurado.
+
+## Entrega de versões e relatório por e-mail — pedido de03/11/2026
+
+Ao concluir cada etapa validada, executar os testes pertinentes, registrar versão/commit e enviar o mesmo commit às branches main e codex/desenvolvimento. Confirmar os hashes remotos antes de anunciar o ZIP. codex/publico continua com seu fluxo próprio de aprovação.
+
+O criador autorizou expressamente enviar um mini relatório por e-mail após cada versão validada: versão, mudanças, verificações realmente executadas, limitações e link do commit/ZIP. Usar o destinatário fornecido na conversa; não pedir nova confirmação a cada versão. Não chamar uma etapa testada de lançamento público ou de jogo completo. Guardar o ID retornado pelo Gmail no registro local ignorado outputs/release-notifications.json para evitar duplicação. Em falha de envio, registrar pendência e informar, sem afirmar que foi entregue.

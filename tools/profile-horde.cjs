@@ -17,7 +17,8 @@ const packages=(process.env.HORDE_PACKAGES||'idle,laser,plasma').split(',');
  try{
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
   if(process.env.HORDE_SOURCE_DIR)for(const [file,body] of Object.entries(sources))await page.route('**/'+file,route=>route.fulfill({status:200,contentType:'application/javascript',body}));
-  await page.goto(process.env.GAME_URL||'http://127.0.0.1:8001/');await page.waitForFunction(()=>window.ScrewBuildGuide&&typeof tick==='function'&&zombieSprites.every(s=>s.complete));
+  await page.goto(process.env.GAME_URL||'http://127.0.0.1:8001/');await page.waitForFunction(()=>window.ScrewBuildGuide&&typeof tick==='function'&&zombieSprites.every(s=>s.complete)&&(!globalThis.ScrewZombieRenderer||ScrewZombieRenderer.ready.filter(Boolean).length===3));
+  report.renderDependencyHashes=Object.fromEntries(['enemy-animation.js','zombie-atlases.js','player-weapons.js','prot-animation.js','sprite-animation.js'].filter(f=>fs.existsSync(f)).map(f=>[f,hash(fs.readFileSync(f))]));
   report.browser=await browser.version();report.viewport=await page.evaluate(()=>({width,height,dpr:devicePixelRatio,canvasWidth:canvas.width,canvasHeight:canvas.height}));
   const loaded=await page.evaluate(async()=>({game:await(await fetch('game.js')).text(),balance:await(await fetch('balance.js')).text()}));
   if(hash(loaded.game)!==report.sourceHashes['game.js']||hash(loaded.balance)!==report.sourceHashes['balance.js'])throw Error('Source changed between Node snapshot and browser load; rerun intentionally.');

@@ -80,3 +80,7 @@ A prévia foi executada em Google Chrome headless, dez ciclos/8000ms, sem erros 
 Root executou tests/prot-animation-browser.cjs com Chrome: HTTP e file://, caminhada nas quatro direções, troca de quadros, idle, pausa, reinício, alinhamento dos pés e alfa de dano passaram. Também passaram três falhas simuladas: atlas, helper e manifesto ausentes. Capturas outputs/animation-audit/prot-runtime-{http,file}.png e recortes -actor.png; inspeção do recorte HTTP confirma silhueta legível, pés junto ao anel ciano e ausência de moldura. Arma do jogador ainda não tem overlay visível e é pendência real.
 
 Atlas candidato adicional zombie-mechanic-walk-v2.png gerado com a referência original, copiado byte a byte; metadata32quadros/4direções e pivôs medidos. Imagem1774×887,32quadros únicos, alpha residual alcança bordas; candidato ainda não carregado pelo jogo. Não tratar metadados ou unicidade como aprovação de caminhada/apoio. PNG original mantido.
+
+## Integração inimiga — BUILD47
+
+Mecânico v2, catador v2 e pesado v3 foram integrados após revisão da contact sheet96quadros e do cenário. O pesado v2 branco foi rejeitado e não será incluído nos assets. Metadata/manifesto agora marcam QA do protótipo. Relatório completo em animacao-inimigos.md. As limitações históricas de integração e arma do jogador descritas acima foram resolvidas nas BUILDs45–47; os demais chassis e chefes procedurais continuam pendentes.

@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 46:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 47:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -235,3 +235,7 @@ Pendências concretas: arma empunhada do jogador; animações reais dos demais c
 ## BUILD46 — arma empunhada
 
 Fechada a lacuna visual da arma invisível:12modelos próprios desenhados com a mesma geometria pixel/industrial do renderer de armas inimigas. O cano segue a mira manual, com mãos conectadas ao corpo, recuo por emissão efetiva e inclinação durante a recarga. Estado visual não altera dano, munição ou trajetórias. A pausa congela o recuo e reinício zera o gesto. Chrome verificou12equipamentos na arena, mira para ambos os lados e emissão/recuo; contact sheet e captura da Tesla revisadas. A pendência de arma invisível citada na BUILD45 está encerrada.
+
+## BUILD47 — caminhada inimiga e atlas imutáveis
+
+Três zumbis têm96quadros direcionais ligados à distância percorrida, incluindo Brutamontes. Parada, atordoamento, pausa, armas/escudos e estados foram preservados. Cache de36atlas imutáveis elimina recomposição contínua e restringe flash à silhueta. Duas hipóteses lentas foram rejeitadas antes de adotar o renderer medido. Chrome HTTP/file e fallbacks passaram; seis mundos compararam toda física/efeitos/RNG com animação desligada. Ver animacao-inimigos.md e build47-render-bench.json para resultados e limites. Ainda faltam animações próprias dos outros chassis e dos chefes procedurais, suportes/múltiplos slots e reavaliação de builds.
