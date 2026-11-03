@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD49:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD50:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -29,3 +29,5 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 Os documentos descrevem o jogo pretendido. Não significam que todas as funcionalidades já estejam implementadas. O protótipo HTML atual é experimental e diverge de regras aprovadas; consulte o plano de desenvolvimento.
 
 Não há data de lançamento, preço, orçamento aprovados; a base atual é HTML/CSS/JavaScript no navegador. O nome Screwvivors é de trabalho e ainda requer verificação de disponibilidade.
+
+- [Vizinhos elétricos na BUILD50](vizinhos-eletricos.md): otimização, regressões e comparação de desempenho com trabalho idêntico.

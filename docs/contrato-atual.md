@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 49
+# Contrato vigente — Screwvivors BUILD 50
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -56,3 +56,7 @@ Relé compartilha somente fogo/frio, preservando o caminho original de impacto d
 ## Regra de suporte orbital e revisão5 — BUILD49
 
 Novos IDs declaram catalogIntroductions=5. Preservar os78módulos de origem e colisões customizadas com requisitos/sinergias, mesmo quando condition está vazia. Editor lê a revisão da API ao gravar/exportar. Rotores não transformam a arma em automática, não ativam seus procs e só usam a base direta; regras globais de dano/morte continuam válidas. Contatos por segmento recebem uma margem de curvatura de até0,43px, sem teto de alvos. Um intervalo longo não gera fila de dano; campos de fase usam módulo antes da multiplicação para continuar finitos. O pool82 precisa de nova avaliação natural: dois ensaios do suporte falharam no critério1200s+3chefes.
+
+## Regra de otimização dos choques — BUILD50
+
+A consulta espacial deve devolver os mesmos vizinhos vivos, na mesma ordem por distância e desempate pela lista original. Inserções após empurrão permanecem consultáveis. Fora da fase de projéteis, em populações pequenas ou coordenadas inseguras, usar busca linear. É proibido limitar alvos vivos, dano ou efeitos para reduzir custo. A consulta não altera entidades nem consome RNG.

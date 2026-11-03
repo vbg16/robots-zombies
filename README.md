@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 49 · desenvolvimento
+# Screwvivors — BUILD 50 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -100,3 +100,5 @@ BUILD44: árvore Sensores de campo com pulso periódico, alcance, transmissão d
 BUILD48: os seis chassis caminham em quatro direções; BAST/FORJ/VOLT/NANO/ENXA têm identidades pixel art próprias, retratos e fallback vetorial. Sucateiro/Bobina ganharam passada, preparação e recuo procedurais. O menu exibe a versão correta e há checagem de integridade antes da entrega. [Arte, testes e limites](docs/chassis-e-chefes.md).
 
 BUILD49: Rotores de Sucata acrescentam dois/três discos orbitais de contato, com quatro módulos próprios, sem gastar munição ou ativar efeitos de bala. Painel82 com migração da revisão4 para5 e três atributos novos. [Regras e resultados](docs/rotores-de-sucata.md), incluindo duas tentativas naturais que falharam no critério de sobrevivência. Valores seguem experimentais.
+
+BUILD50: busca espacial dos vizinhos elétricos com estado/RNG preservados em18 pares. Melhora de simulação medida; multidões extremas continuam pesadas. [Resultados e limites](docs/vizinhos-eletricos.md).

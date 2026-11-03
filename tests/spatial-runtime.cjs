@@ -4,7 +4,7 @@ const source=fs.readFileSync('game.js','utf8');
 const prefix=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 function harness(reference){
  let code=reference?source.replace(/function radiusTargets\([\s\S]*?\nfunction bulletCandidates/,`function radiusTargets(x,y,radius,body=false,exclude=null){return targets().filter(z=>z!==exclude&&z.hp>0&&Math.hypot(z.x-x,z.y-y)<=radius+(body?z.r:0));}\nfunction bulletCandidates`):source;
- if(reference)code=code.replace(/ const nearest=\[\];for\(const t of radiusTargets[^\n]+const near=nearest.map\(entry=>entry.t\);/," const near=targets().filter(t=>t!==z&&t.hp>0&&Math.hypot(t.x-z.x,t.y-z.y)<=135*(player.skills.conductivity?3:1)).sort((a,b)=>Math.hypot(a.x-z.x,a.y-z.y)-Math.hypot(b.x-z.x,b.y-z.y)).slice(0,count);");
+ if(reference){const before=code;code=code.replace(" const near=nearestTargets(z.x,z.y,135*(player.skills.conductivity?3:1),count,z);"," const near=targets().filter(t=>t!==z&&t.hp>0&&Math.hypot(t.x-z.x,t.y-z.y)<=135*(player.skills.conductivity?3:1)).sort((a,b)=>Math.hypot(a.x-z.x,a.y-z.y)-Math.hypot(b.x-z.x,b.y-z.y)).slice(0,count);");assert.notEqual(code,before,"Reference must actually replace the indexed query with full sorting");}
  assert.ok(!reference||!code.includes('const nearest=[]'),'Reference uses the original full sort');
  assert.ok(!reference||code!==source);
  const setup=prefix.replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","vm.runInContext(source,context);");

@@ -110,6 +110,10 @@ A hipótese visual evoluiu para três atlas direcionais e cache de atlas imutáv
 
 ## Próxima hipótese — vizinhos elétricos
 
-O sort global já foi removido, mas shockAt ainda visita muitos candidatos no raio405 para escolher poucos vizinhos. Avaliar consulta de células por distância mínima até obter os k vizinhos, com desempate por rank original, fallback fora da fase de projéteis e suporte às inserções após empurrão. Essa hipótese ainda não foi implementada. Exigir equivalência de estado/efeitos/RNG, empates e células negativas; não reduzir alvos ou dano para fabricar ganho.
+O sort global já foi removido, mas shockAt ainda visita muitos candidatos no raio405 para escolher poucos vizinhos. Avaliar consulta de células por distância mínima até obter os k vizinhos, com desempate por rank original, fallback fora da fase de projéteis e suporte às inserções após empurrão. Essa era a hipótese anterior; implementada e medida na BUILD50, conforme resultado abaixo. Exigir equivalência de estado/efeitos/RNG, empates e células negativas; não reduzir alvos ou dano para fabricar ganho.
 
 BUILD49 acrescenta perfil isolado rotors ao profiler:corpos próximos imóveis no raio108, sem tiro manual. Raw build49-rotor-performance.json retém todos os vivos e custos de tick/desenho; não comparar suas posições específicas com o pacote idle anterior como se fossem o mesmo mundo.
+
+## BUILD50 — vizinhos elétricos medidos
+
+Consulta por distância mínima das células, desempate estável e fallback linear.18 pares de24 chamadas tiveram estado/RNG idênticos. Tick dos5000próximos493,90→36,36ms; tick+draw538,46→80,13ms. O desenho ainda é pesado e a medição não equivale a FPS. [Método, limites e relatório bruto](vizinhos-eletricos.md).

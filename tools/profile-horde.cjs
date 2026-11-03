@@ -7,12 +7,14 @@ const sources=Object.fromEntries(['game.js','balance.js'].map(file=>[file,fs.rea
 const output=process.env.HORDE_PROFILE_OUTPUT||'outputs/performance/horde-profile.json';
 const counts=(process.env.HORDE_COUNTS||'500,2000,5000').split(',').map(Number);
 const distributions=(process.env.HORDE_DISTRIBUTIONS||'near,mixed,remote').split(',');
+const fixedCalls=process.env.HORDE_FIXED_CALLS===undefined?null:Number(process.env.HORDE_FIXED_CALLS);
+if(fixedCalls!==null&&(!Number.isInteger(fixedCalls)||fixedCalls<1||fixedCalls>600))throw Error('HORDE_FIXED_CALLS must be an integer from1to600');
 const packages=(process.env.HORDE_PACKAGES||'idle,laser,plasma').split(',');
 (async()=>{
  const browser=await chromium.launch({executablePath:process.env.CHROME_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
  const context=await browser.newContext({viewport:{width:1280,height:720},deviceScaleFactor:1});
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
- const report={at:new Date().toISOString(),kind:'controlled-headless-chrome-js-canvas-cost',note:'Real game tick/draw/Canvas in Chrome with RAF disabled. Per-call timings exclude GPU completion/compositor/display pacing; not FPS or a human survival rate. Fixtures suppress new waves/bosses, use high HP and player immunity solely to retain the measured population. No living enemy is culled.',sourceHashes:Object.fromEntries(Object.entries(sources).map(([file,source])=>[file,hash(source)])),host:{platform:process.platform,arch:process.arch,cpu:os.cpus()[0]?.model,logicalCpus:os.cpus().length},samples:[],errors};
+ const report={at:new Date().toISOString(),kind:'controlled-headless-chrome-js-canvas-cost',note:'Real game tick/draw/Canvas in Chrome with RAF disabled. Per-call timings exclude GPU completion/compositor/display pacing; not FPS or a human survival rate. Fixtures suppress new waves/bosses, use high HP and player immunity solely to retain the measured population. No living enemy is culled.',sourceHashes:Object.fromEntries(Object.entries(sources).map(([file,source])=>[file,hash(source)])),host:{platform:process.platform,arch:process.arch,cpu:os.cpus()[0]?.model,logicalCpus:os.cpus().length},fixedCalls,samples:[],errors};
  const save=()=>{fs.mkdirSync(path.dirname(output),{recursive:true});fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');};
  try{
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
@@ -23,9 +25,10 @@ const packages=(process.env.HORDE_PACKAGES||'idle,laser,plasma').split(',');
   report.browser=await browser.version();report.viewport=await page.evaluate(()=>({width,height,dpr:devicePixelRatio,canvasWidth:canvas.width,canvasHeight:canvas.height}));
   const loaded=await page.evaluate(async()=>({game:await(await fetch('game.js')).text(),balance:await(await fetch('balance.js')).text()}));
   if(hash(loaded.game)!==report.sourceHashes['game.js']||hash(loaded.balance)!==report.sourceHashes['balance.js'])throw Error('Source changed between Node snapshot and browser load; rerun intentionally.');
-  await page.evaluate(()=>{
+  await page.evaluate(fixedCalls=>{
+   globalThis.profileFixedCalls=fixedCalls;
    globalThis.profileSetup=function(n,distribution,packageName){
-    let seed=20261103;Math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+    let seed=20261103;globalThis.profileSeedSnapshot=()=>seed;Math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
     profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));openGarage();selectWeapon('laser');reset();spawn=1e9;bossIndex=1e6;clock=600;player.inv=1e9;
     if(packageName==='plasma')for(const id of ['damage','rate','extra','freeze','pierce','blast','blastRadius','shock','conductivity'])SKILLS.find(s=>s.id===id).apply();
     if(packageName==='sensor-corrosion')for(const id of ['sensor','sensorRange','sensorRelay','sensorLock','corrosion','corrosionFuse','corrosionBloom','corrosionCatalyst','burn','freeze'])SKILLS.find(s=>s.id===id).apply();
@@ -37,19 +40,22 @@ const packages=(process.env.HORDE_PACKAGES||'idle,laser,plasma').split(',');
    globalThis.profileMeasure=async function(n,distribution,packageName,metric){
     profileSetup(n,distribution,packageName);const dt=1/60;
     for(let i=0;i<(packageName==='plasma'?3:12);i++){if(metric!=='draw')tick(dt);if(metric!=='tick')draw();}
-    const times=[],started=performance.now(),limit=packageName==='plasma'?24:90,budget=packageName==='plasma'?2500:4000;
+    const times=[],started=performance.now(),limit=profileFixedCalls??(packageName==='plasma'?24:90),budget=packageName==='plasma'?2500:4000;
     for(let i=0;i<limit;i++){
      const t=performance.now();if(metric!=='draw')tick(dt);if(metric!=='tick')draw();times.push(performance.now()-t);
      if(i%6===5)await new Promise(r=>setTimeout(r,0));
-     if(times.length>=6&&performance.now()-started>budget)break;
+     if(profileFixedCalls===null&&times.length>=6&&performance.now()-started>budget)break;
     }
     const sorted=[...times].sort((a,b)=>a-b),sum=times.reduce((a,b)=>a+b,0);
-    return {metric,count:n,distribution,package:packageName,calls:times.length,meanMs:sum/times.length,medianMs:sorted[Math.floor(sorted.length*.5)],p95Ms:sorted[Math.min(sorted.length-1,Math.floor(sorted.length*.95))],maxMs:sorted.at(-1),wallMs:performance.now()-started,enemiesRemaining:enemies.length,bullets:bullets.length,clock,renderSize:{width,height,canvasWidth:canvas.width,canvasHeight:canvas.height},finite:enemies.every(z=>Number.isFinite(z.x)&&Number.isFinite(z.y)&&z.hp>0)};
+    const wallMs=performance.now()-started;
+    const stateSignature=profileFixedCalls===null?undefined:JSON.stringify({seed:profileSeedSnapshot(),state,clock,spawn,shot,kills,level,xp,need,player,enemies,boss,bullets,gems,scrap,sparks,effects,feedback,hostile,hazards,bossIndex,commonWaveIndex,policeUnlocked,runWeapon,runRobot},(k,v)=>v instanceof Set?[...v]:v);
+    return {stateSignature,metric,count:n,distribution,package:packageName,calls:times.length,meanMs:sum/times.length,medianMs:sorted[Math.floor(sorted.length*.5)],p95Ms:sorted[Math.min(sorted.length-1,Math.floor(sorted.length*.95))],maxMs:sorted.at(-1),wallMs,enemiesRemaining:enemies.length,bullets:bullets.length,clock,renderSize:{width,height,canvasWidth:canvas.width,canvasHeight:canvas.height},finite:enemies.every(z=>Number.isFinite(z.x)&&Number.isFinite(z.y)&&z.hp>0)};
    };
-  });
+  },fixedCalls);
   if(!process.env.HORDE_BURST_ONLY)for(const n of counts)for(const distribution of distributions)for(const packageName of packages){
    for(const metric of ['tick','draw','tick+draw']){
     const result=await page.evaluate(async args=>profileMeasure(...args),[n,distribution,packageName,metric]);
+    if(result.stateSignature!==undefined){result.stateHash=hash(result.stateSignature);delete result.stateSignature;}
     if(!result.finite||result.enemiesRemaining!==n)throw Error('Fixture population/finite invariant failed');
     report.samples.push(result);save();console.log(n,distribution,packageName,metric,'mean',result.meanMs.toFixed(2),'p95',result.p95Ms.toFixed(2),'ms',result.calls+'calls');
    }

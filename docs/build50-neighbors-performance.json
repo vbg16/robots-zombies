@@ -1,0 +1,1050 @@
+{
+  "kind": "paired-fixed-step-nearest-target-query",
+  "note": "24 timed calls per cell plus identical warmup. State hashes include RNG, combat entities, effects and player. Hash serialization occurs outside timing. CPU/Canvas calls only; not displayed FPS, natural survival or public approval. One sequential run per version; draw-only noise retained.",
+  "baseline": {
+    "at": "2026-11-03T13:02:02.907Z",
+    "kind": "controlled-headless-chrome-js-canvas-cost",
+    "note": "Real game tick/draw/Canvas in Chrome with RAF disabled. Per-call timings exclude GPU completion/compositor/display pacing; not FPS or a human survival rate. Fixtures suppress new waves/bosses, use high HP and player immunity solely to retain the measured population. No living enemy is culled.",
+    "sourceHashes": {
+      "game.js": "447be2ea4663bd55cfc945749677cb2644102552f4f11337616194a3ede97b5f",
+      "balance.js": "5558e7c4774e5e90b4875a98033e80da66bac05c60e1540344f024037c546061"
+    },
+    "host": {
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+      "logicalCpus": 28
+    },
+    "fixedCalls": 24,
+    "samples": [
+      {
+        "metric": "tick",
+        "count": 500,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 7.562500000310441,
+        "medianMs": 7.899999998509884,
+        "p95Ms": 12.5,
+        "maxMs": 16.899999998509884,
+        "wallMs": 190.70000000298023,
+        "enemiesRemaining": 500,
+        "bullets": 3,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "629ab5c9a4902a78d3feb48defc4e691b347cf2c827ce2e7e26300ea03ebc7d9"
+      },
+      {
+        "metric": "draw",
+        "count": 500,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 6.700000000496705,
+        "medianMs": 1.2999999970197678,
+        "p95Ms": 2.2000000029802322,
+        "maxMs": 130.60000000149012,
+        "wallMs": 361.3999999985099,
+        "enemiesRemaining": 500,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "e96d147403d9a398d43b5596e7230f1708c0d2d4c224b7861c2207825ffe5f0b"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 500,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 17.98333333339542,
+        "medianMs": 15.900000005960464,
+        "p95Ms": 20.899999998509884,
+        "maxMs": 77.10000000149012,
+        "wallMs": 444,
+        "enemiesRemaining": 500,
+        "bullets": 3,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "629ab5c9a4902a78d3feb48defc4e691b347cf2c827ce2e7e26300ea03ebc7d9"
+      },
+      {
+        "metric": "tick",
+        "count": 500,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 1.4500000001862645,
+        "medianMs": 1.3000000044703484,
+        "p95Ms": 2.0999999940395355,
+        "maxMs": 2.600000001490116,
+        "wallMs": 38.69999999552965,
+        "enemiesRemaining": 500,
+        "bullets": 7,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "dcb98eb7b3d9786dc22597cd367ac964c88cb7fb1c7e0e8c4094c980dd374660"
+      },
+      {
+        "metric": "draw",
+        "count": 500,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 0.44166666610787314,
+        "medianMs": 0.3999999985098839,
+        "p95Ms": 0.6000000014901161,
+        "maxMs": 0.6000000014901161,
+        "wallMs": 153.5,
+        "enemiesRemaining": 500,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "297cb264a9bddecc06c65abe9ad12e589bff357f619813f6a24c150c8a470a24"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 500,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 2.5,
+        "medianMs": 2.5,
+        "p95Ms": 3.5,
+        "maxMs": 4.899999998509884,
+        "wallMs": 208,
+        "enemiesRemaining": 500,
+        "bullets": 7,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "dcb98eb7b3d9786dc22597cd367ac964c88cb7fb1c7e0e8c4094c980dd374660"
+      },
+      {
+        "metric": "tick",
+        "count": 2000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 80.08333333333333,
+        "medianMs": 117.69999999552965,
+        "p95Ms": 126.70000000298023,
+        "maxMs": 128,
+        "wallMs": 1928.7999999970198,
+        "enemiesRemaining": 2000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "652534d949b4b15a28b9c19bfadc8b7949ecdf6238cc65bd33a4070993e2550c"
+      },
+      {
+        "metric": "draw",
+        "count": 2000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 19.800000000124175,
+        "medianMs": 4,
+        "p95Ms": 49.29999999701977,
+        "maxMs": 51.30000000447035,
+        "wallMs": 578.7000000029802,
+        "enemiesRemaining": 2000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "33ddd523245b513f40b6b3a08507c958dd0e98235c614270bbbc0a34bc186b09"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 2000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 99.8708333329608,
+        "medianMs": 134.19999999552965,
+        "p95Ms": 150.29999999701977,
+        "maxMs": 159.90000000596046,
+        "wallMs": 2407.7999999970198,
+        "enemiesRemaining": 2000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "652534d949b4b15a28b9c19bfadc8b7949ecdf6238cc65bd33a4070993e2550c"
+      },
+      {
+        "metric": "tick",
+        "count": 2000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 13.970833333519598,
+        "medianMs": 8,
+        "p95Ms": 36.19999999552965,
+        "maxMs": 36.5,
+        "wallMs": 341.70000000298023,
+        "enemiesRemaining": 2000,
+        "bullets": 4,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "f35e300fad580b732803dca0cce14649f2ddf00a57df2024ac7724b21b694184"
+      },
+      {
+        "metric": "draw",
+        "count": 2000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 0.9791666669771075,
+        "medianMs": 1,
+        "p95Ms": 1.1000000014901161,
+        "maxMs": 1.2000000029802322,
+        "wallMs": 224.19999999552965,
+        "enemiesRemaining": 2000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "d8221fe82e70c279e4b1fbe4d3cdf6cd7af6106d01f795af2d9174c3da7bfc26"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 2000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 26.24166666623205,
+        "medianMs": 17.19999999552965,
+        "p95Ms": 61.600000001490116,
+        "maxMs": 80.79999999701977,
+        "wallMs": 644,
+        "enemiesRemaining": 2000,
+        "bullets": 4,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "f35e300fad580b732803dca0cce14649f2ddf00a57df2024ac7724b21b694184"
+      },
+      {
+        "metric": "tick",
+        "count": 5000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 493.8958333333333,
+        "medianMs": 4.399999998509884,
+        "p95Ms": 1540.5,
+        "maxMs": 1544.5,
+        "wallMs": 11861.5,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "de9f7eb24367559a473161fbe6b0abc7ea9fe7345f7e315f377e5b93fce5b08d"
+      },
+      {
+        "metric": "draw",
+        "count": 5000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 34.80000000012418,
+        "medianMs": 33.5,
+        "p95Ms": 38.399999998509884,
+        "maxMs": 57.29999999701977,
+        "wallMs": 909.1000000014901,
+        "enemiesRemaining": 5000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "a6b6dd11385c73d8250f5b4610799f72d3faa7193a5d7da465ca02f4cf9fa462"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 5000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 538.4624999997517,
+        "medianMs": 54.399999998509884,
+        "p95Ms": 1607.6000000014901,
+        "maxMs": 1628.1999999955297,
+        "wallMs": 12941.69999999553,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "de9f7eb24367559a473161fbe6b0abc7ea9fe7345f7e315f377e5b93fce5b08d"
+      },
+      {
+        "metric": "tick",
+        "count": 5000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 89.38333333314706,
+        "medianMs": 125.39999999850988,
+        "p95Ms": 139.70000000298023,
+        "maxMs": 163,
+        "wallMs": 2152.5999999940395,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "8c611b53db49413de576077d5ba79973f58f84fb4880ca19d74c5f10f2ec1636"
+      },
+      {
+        "metric": "draw",
+        "count": 5000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 12.929166666542491,
+        "medianMs": 2.2000000029802322,
+        "p95Ms": 52.79999999701977,
+        "maxMs": 63.600000001490116,
+        "wallMs": 373.3999999985099,
+        "enemiesRemaining": 5000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "794fb05b8aea0d01e7e8d46383b5ebe7a58bdc7573274e58769d6df07f9f14e3"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 5000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 102.5,
+        "medianMs": 138.5,
+        "p95Ms": 151.19999999552965,
+        "maxMs": 216.20000000298023,
+        "wallMs": 2471.39999999851,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "8c611b53db49413de576077d5ba79973f58f84fb4880ca19d74c5f10f2ec1636"
+      }
+    ],
+    "errors": [],
+    "renderDependencyHashes": {
+      "enemy-animation.js": "3fdc9dd88c0ebf75b6ea2e741d86961431857674bf3fa1e4211fe9be0db4ce59",
+      "zombie-atlases.js": "2a651d721ad33f72e5795587e60cc5d7e27b5f03160f4ea163f7d024e38579a7",
+      "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
+      "prot-animation.js": "1425834b5e901484b3ea45e4a156d197c74b8b32dcde1800e2ae55505774f13c",
+      "sprite-animation.js": "bda74db860a8083a313ec003ef69d3609b665841fc5936418195f381a794904f",
+      "chassis-atlases.js": "1ec37c9753e3fba60e2890a67faabe6fb1c71b43c957b641f265c91473c5190e",
+      "boss-visuals.js": "7e608c694f9a1a3c0583379087d72b717f99419d7bad2dd8bde67e7ab605870e"
+    },
+    "rotorFixtureNote": "Only package=rotors:four modules directly installed, no manual fire, stationary near bodies at radius108 to stress continuous orbital contacts. Other package distributions remain unchanged.",
+    "browser": "156.0.8078.80",
+    "viewport": {
+      "width": 1000,
+      "height": 600,
+      "dpr": 1,
+      "canvasWidth": 300,
+      "canvasHeight": 150
+    },
+    "activeRenderSize": {
+      "width": 1280,
+      "height": 720,
+      "canvasWidth": 640,
+      "canvasHeight": 360
+    },
+    "corrosionDeathBursts": [],
+    "completed": true
+  },
+  "candidate": {
+    "at": "2026-11-03T13:02:54.576Z",
+    "kind": "controlled-headless-chrome-js-canvas-cost",
+    "note": "Real game tick/draw/Canvas in Chrome with RAF disabled. Per-call timings exclude GPU completion/compositor/display pacing; not FPS or a human survival rate. Fixtures suppress new waves/bosses, use high HP and player immunity solely to retain the measured population. No living enemy is culled.",
+    "sourceHashes": {
+      "game.js": "4bfea846f4d8c2ae01ab242b5ec0a185946a925a0647cc8bf49fe0b3c2f0a4f7",
+      "balance.js": "5558e7c4774e5e90b4875a98033e80da66bac05c60e1540344f024037c546061"
+    },
+    "host": {
+      "platform": "win32",
+      "arch": "x64",
+      "cpu": "Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz",
+      "logicalCpus": 28
+    },
+    "fixedCalls": 24,
+    "samples": [
+      {
+        "metric": "tick",
+        "count": 500,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 3.7624999998758235,
+        "medianMs": 3.1999999955296516,
+        "p95Ms": 10.5,
+        "maxMs": 10.799999997019768,
+        "wallMs": 115.89999999850988,
+        "enemiesRemaining": 500,
+        "bullets": 3,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "629ab5c9a4902a78d3feb48defc4e691b347cf2c827ce2e7e26300ea03ebc7d9"
+      },
+      {
+        "metric": "draw",
+        "count": 500,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 6.091666666790843,
+        "medianMs": 1.2000000029802322,
+        "p95Ms": 1.8999999985098839,
+        "maxMs": 117.80000000447035,
+        "wallMs": 351.20000000298023,
+        "enemiesRemaining": 500,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "e96d147403d9a398d43b5596e7230f1708c0d2d4c224b7861c2207825ffe5f0b"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 500,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 17.44583333345751,
+        "medianMs": 14.100000001490116,
+        "p95Ms": 17.69999999552965,
+        "maxMs": 100.30000000447035,
+        "wallMs": 434.20000000298023,
+        "enemiesRemaining": 500,
+        "bullets": 3,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "629ab5c9a4902a78d3feb48defc4e691b347cf2c827ce2e7e26300ea03ebc7d9"
+      },
+      {
+        "metric": "tick",
+        "count": 500,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 1.1624999999379118,
+        "medianMs": 1.1000000014901161,
+        "p95Ms": 2.100000001490116,
+        "maxMs": 2.1999999955296516,
+        "wallMs": 32,
+        "enemiesRemaining": 500,
+        "bullets": 7,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "dcb98eb7b3d9786dc22597cd367ac964c88cb7fb1c7e0e8c4094c980dd374660"
+      },
+      {
+        "metric": "draw",
+        "count": 500,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 0.4249999998137355,
+        "medianMs": 0.3999999985098839,
+        "p95Ms": 0.5,
+        "maxMs": 0.5999999940395355,
+        "wallMs": 233.69999999552965,
+        "enemiesRemaining": 500,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "297cb264a9bddecc06c65abe9ad12e589bff357f619813f6a24c150c8a470a24"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 500,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 2.1875,
+        "medianMs": 2.1999999955296516,
+        "p95Ms": 2.7999999970197678,
+        "maxMs": 3.3000000044703484,
+        "wallMs": 310.79999999701977,
+        "enemiesRemaining": 500,
+        "bullets": 7,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "dcb98eb7b3d9786dc22597cd367ac964c88cb7fb1c7e0e8c4094c980dd374660"
+      },
+      {
+        "metric": "tick",
+        "count": 2000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 12.141666666604578,
+        "medianMs": 16.69999999552965,
+        "p95Ms": 19.100000001490116,
+        "maxMs": 20.600000001490116,
+        "wallMs": 298,
+        "enemiesRemaining": 2000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "652534d949b4b15a28b9c19bfadc8b7949ecdf6238cc65bd33a4070993e2550c"
+      },
+      {
+        "metric": "draw",
+        "count": 2000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 18.10833333277454,
+        "medianMs": 3.7000000029802322,
+        "p95Ms": 48.69999999552965,
+        "maxMs": 49.69999999552965,
+        "wallMs": 533.6000000014901,
+        "enemiesRemaining": 2000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "33ddd523245b513f40b6b3a08507c958dd0e98235c614270bbbc0a34bc186b09"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 2000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 30.6875,
+        "medianMs": 34.20000000298023,
+        "p95Ms": 38.5,
+        "maxMs": 61.29999999701977,
+        "wallMs": 747.5,
+        "enemiesRemaining": 2000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "652534d949b4b15a28b9c19bfadc8b7949ecdf6238cc65bd33a4070993e2550c"
+      },
+      {
+        "metric": "tick",
+        "count": 2000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 2.9583333333333335,
+        "medianMs": 2.1999999955296516,
+        "p95Ms": 5.800000004470348,
+        "maxMs": 6.5,
+        "wallMs": 75.79999999701977,
+        "enemiesRemaining": 2000,
+        "bullets": 4,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "f35e300fad580b732803dca0cce14649f2ddf00a57df2024ac7724b21b694184"
+      },
+      {
+        "metric": "draw",
+        "count": 2000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 0.7791666661699613,
+        "medianMs": 0.7999999970197678,
+        "p95Ms": 0.8999999985098839,
+        "maxMs": 0.8999999985098839,
+        "wallMs": 169.29999999701977,
+        "enemiesRemaining": 2000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "d8221fe82e70c279e4b1fbe4d3cdf6cd7af6106d01f795af2d9174c3da7bfc26"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 2000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 11.729166666666666,
+        "medianMs": 10.299999997019768,
+        "p95Ms": 15,
+        "maxMs": 56.100000001490116,
+        "wallMs": 294.1000000014901,
+        "enemiesRemaining": 2000,
+        "bullets": 4,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "f35e300fad580b732803dca0cce14649f2ddf00a57df2024ac7724b21b694184"
+      },
+      {
+        "metric": "tick",
+        "count": 5000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 36.35833333339542,
+        "medianMs": 4.100000001490116,
+        "p95Ms": 109.20000000298023,
+        "maxMs": 109.80000000447035,
+        "wallMs": 880,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "de9f7eb24367559a473161fbe6b0abc7ea9fe7345f7e315f377e5b93fce5b08d"
+      },
+      {
+        "metric": "draw",
+        "count": 5000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 43.40416666679084,
+        "medianMs": 42.399999998509884,
+        "p95Ms": 44.100000001490116,
+        "maxMs": 69.70000000298023,
+        "wallMs": 1131.0999999940395,
+        "enemiesRemaining": 5000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "a6b6dd11385c73d8250f5b4610799f72d3faa7193a5d7da465ca02f4cf9fa462"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 5000,
+        "distribution": "near",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 80.12500000031044,
+        "medianMs": 55,
+        "p95Ms": 156.89999999850988,
+        "maxMs": 159,
+        "wallMs": 1938.7000000029802,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "de9f7eb24367559a473161fbe6b0abc7ea9fe7345f7e315f377e5b93fce5b08d"
+      },
+      {
+        "metric": "tick",
+        "count": 5000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 8.412500000248352,
+        "medianMs": 10.200000002980232,
+        "p95Ms": 10.899999998509884,
+        "maxMs": 11.700000002980232,
+        "wallMs": 208.80000000447035,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "8c611b53db49413de576077d5ba79973f58f84fb4880ca19d74c5f10f2ec1636"
+      },
+      {
+        "metric": "draw",
+        "count": 5000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 12.829166666294137,
+        "medianMs": 2,
+        "p95Ms": 63.70000000298023,
+        "maxMs": 65,
+        "wallMs": 375.79999999701977,
+        "enemiesRemaining": 5000,
+        "bullets": 0,
+        "clock": 600,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "794fb05b8aea0d01e7e8d46383b5ebe7a58bdc7573274e58769d6df07f9f14e3"
+      },
+      {
+        "metric": "tick+draw",
+        "count": 5000,
+        "distribution": "mixed",
+        "package": "plasma",
+        "calls": 24,
+        "meanMs": 27.004166666728754,
+        "medianMs": 27.30000000447035,
+        "p95Ms": 29.600000001490116,
+        "maxMs": 78.59999999403954,
+        "wallMs": 667.1000000014901,
+        "enemiesRemaining": 5000,
+        "bullets": 2,
+        "clock": 600.4499999999996,
+        "renderSize": {
+          "width": 1280,
+          "height": 720,
+          "canvasWidth": 640,
+          "canvasHeight": 360
+        },
+        "finite": true,
+        "stateHash": "8c611b53db49413de576077d5ba79973f58f84fb4880ca19d74c5f10f2ec1636"
+      }
+    ],
+    "errors": [],
+    "renderDependencyHashes": {
+      "enemy-animation.js": "3fdc9dd88c0ebf75b6ea2e741d86961431857674bf3fa1e4211fe9be0db4ce59",
+      "zombie-atlases.js": "2a651d721ad33f72e5795587e60cc5d7e27b5f03160f4ea163f7d024e38579a7",
+      "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
+      "prot-animation.js": "1425834b5e901484b3ea45e4a156d197c74b8b32dcde1800e2ae55505774f13c",
+      "sprite-animation.js": "bda74db860a8083a313ec003ef69d3609b665841fc5936418195f381a794904f",
+      "chassis-atlases.js": "1ec37c9753e3fba60e2890a67faabe6fb1c71b43c957b641f265c91473c5190e",
+      "boss-visuals.js": "7e608c694f9a1a3c0583379087d72b717f99419d7bad2dd8bde67e7ab605870e"
+    },
+    "rotorFixtureNote": "Only package=rotors:four modules directly installed, no manual fire, stationary near bodies at radius108 to stress continuous orbital contacts. Other package distributions remain unchanged.",
+    "browser": "156.0.8078.80",
+    "viewport": {
+      "width": 1000,
+      "height": 600,
+      "dpr": 1,
+      "canvasWidth": 300,
+      "canvasHeight": 150
+    },
+    "activeRenderSize": {
+      "width": 1280,
+      "height": 720,
+      "canvasWidth": 640,
+      "canvasHeight": 360
+    },
+    "corrosionDeathBursts": [],
+    "completed": true
+  },
+  "pairs": [
+    {
+      "id": "500/near/plasma/tick",
+      "beforeMeanMs": 7.562500000310441,
+      "afterMeanMs": 3.7624999998758235,
+      "changePercent": -50.247933887981844,
+      "stateHash": "629ab5c9a4902a78d3feb48defc4e691b347cf2c827ce2e7e26300ea03ebc7d9"
+    },
+    {
+      "id": "500/near/plasma/draw",
+      "beforeMeanMs": 6.700000000496705,
+      "afterMeanMs": 6.091666666790843,
+      "changePercent": -9.079601994936759,
+      "stateHash": "e96d147403d9a398d43b5596e7230f1708c0d2d4c224b7861c2207825ffe5f0b"
+    },
+    {
+      "id": "500/near/plasma/tick+draw",
+      "beforeMeanMs": 17.98333333339542,
+      "afterMeanMs": 17.44583333345751,
+      "changePercent": -2.988878590932653,
+      "stateHash": "629ab5c9a4902a78d3feb48defc4e691b347cf2c827ce2e7e26300ea03ebc7d9"
+    },
+    {
+      "id": "500/mixed/plasma/tick",
+      "beforeMeanMs": 1.4500000001862645,
+      "afterMeanMs": 1.1624999999379118,
+      "changePercent": -19.82758622147731,
+      "stateHash": "dcb98eb7b3d9786dc22597cd367ac964c88cb7fb1c7e0e8c4094c980dd374660"
+    },
+    {
+      "id": "500/mixed/plasma/draw",
+      "beforeMeanMs": 0.44166666610787314,
+      "afterMeanMs": 0.4249999998137355,
+      "changePercent": -3.773584826088494,
+      "stateHash": "297cb264a9bddecc06c65abe9ad12e589bff357f619813f6a24c150c8a470a24"
+    },
+    {
+      "id": "500/mixed/plasma/tick+draw",
+      "beforeMeanMs": 2.5,
+      "afterMeanMs": 2.1875,
+      "changePercent": -12.5,
+      "stateHash": "dcb98eb7b3d9786dc22597cd367ac964c88cb7fb1c7e0e8c4094c980dd374660"
+    },
+    {
+      "id": "2000/near/plasma/tick",
+      "beforeMeanMs": 80.08333333333333,
+      "afterMeanMs": 12.141666666604578,
+      "changePercent": -84.83870967749688,
+      "stateHash": "652534d949b4b15a28b9c19bfadc8b7949ecdf6238cc65bd33a4070993e2550c"
+    },
+    {
+      "id": "2000/near/plasma/draw",
+      "beforeMeanMs": 19.800000000124175,
+      "afterMeanMs": 18.10833333277454,
+      "changePercent": -8.543771047166803,
+      "stateHash": "33ddd523245b513f40b6b3a08507c958dd0e98235c614270bbbc0a34bc186b09"
+    },
+    {
+      "id": "2000/near/plasma/tick+draw",
+      "beforeMeanMs": 99.8708333329608,
+      "afterMeanMs": 30.6875,
+      "changePercent": -69.27281071372408,
+      "stateHash": "652534d949b4b15a28b9c19bfadc8b7949ecdf6238cc65bd33a4070993e2550c"
+    },
+    {
+      "id": "2000/mixed/plasma/tick",
+      "beforeMeanMs": 13.970833333519598,
+      "afterMeanMs": 2.9583333333333335,
+      "changePercent": -78.82493289619642,
+      "stateHash": "f35e300fad580b732803dca0cce14649f2ddf00a57df2024ac7724b21b694184"
+    },
+    {
+      "id": "2000/mixed/plasma/draw",
+      "beforeMeanMs": 0.9791666669771075,
+      "afterMeanMs": 0.7791666661699613,
+      "changePercent": -20.425531990849734,
+      "stateHash": "d8221fe82e70c279e4b1fbe4d3cdf6cd7af6106d01f795af2d9174c3da7bfc26"
+    },
+    {
+      "id": "2000/mixed/plasma/tick+draw",
+      "beforeMeanMs": 26.24166666623205,
+      "afterMeanMs": 11.729166666666666,
+      "changePercent": -55.30327087890405,
+      "stateHash": "f35e300fad580b732803dca0cce14649f2ddf00a57df2024ac7724b21b694184"
+    },
+    {
+      "id": "5000/near/plasma/tick",
+      "beforeMeanMs": 493.8958333333333,
+      "afterMeanMs": 36.35833333339542,
+      "changePercent": -92.63846121397485,
+      "stateHash": "de9f7eb24367559a473161fbe6b0abc7ea9fe7345f7e315f377e5b93fce5b08d"
+    },
+    {
+      "id": "5000/near/plasma/draw",
+      "beforeMeanMs": 34.80000000012418,
+      "afterMeanMs": 43.40416666679084,
+      "changePercent": 24.724616858149307,
+      "stateHash": "a6b6dd11385c73d8250f5b4610799f72d3faa7193a5d7da465ca02f4cf9fa462"
+    },
+    {
+      "id": "5000/near/plasma/tick+draw",
+      "beforeMeanMs": 538.4624999997517,
+      "afterMeanMs": 80.12500000031044,
+      "changePercent": -85.11966942909723,
+      "stateHash": "de9f7eb24367559a473161fbe6b0abc7ea9fe7345f7e315f377e5b93fce5b08d"
+    },
+    {
+      "id": "5000/mixed/plasma/tick",
+      "beforeMeanMs": 89.38333333314706,
+      "afterMeanMs": 8.412500000248352,
+      "changePercent": -90.58829013582039,
+      "stateHash": "8c611b53db49413de576077d5ba79973f58f84fb4880ca19d74c5f10f2ec1636"
+    },
+    {
+      "id": "5000/mixed/plasma/draw",
+      "beforeMeanMs": 12.929166666542491,
+      "afterMeanMs": 12.829166666294137,
+      "changePercent": -0.7734450551026617,
+      "stateHash": "794fb05b8aea0d01e7e8d46383b5ebe7a58bdc7573274e58769d6df07f9f14e3"
+    },
+    {
+      "id": "5000/mixed/plasma/tick+draw",
+      "beforeMeanMs": 102.5,
+      "afterMeanMs": 27.004166666728754,
+      "changePercent": -73.65447154465488,
+      "stateHash": "8c611b53db49413de576077d5ba79973f58f84fb4880ca19d74c5f10f2ec1636"
+    }
+  ]
+}

@@ -644,6 +644,29 @@ function radiusTargets(x,y,radius,body=false,exclude=null){
  return pool.filter(z=>z!==exclude&&z.hp>0&&Math.hypot(z.x-x,z.y-y)<=radius+(body?z.r:0));
 }
 function bulletCandidates(ax,ay,bx,by,r){const result=new Set(),pad=r+collisionGrid.radius;for(let x=Math.floor((Math.min(ax,bx)-pad)/128);x<=Math.floor((Math.max(ax,bx)+pad)/128);x++)for(let y=Math.floor((Math.min(ay,by)-pad)/128);y<=Math.floor((Math.max(ay,by)+pad)/128);y++)for(const z of collisionGrid.cells.get(x+','+y)||[])result.add(z);return [...result];}
+function nearestTargets(x,y,radius,count,exclude=null){
+ count=Math.floor(count);if(!(count>0))return [];
+ const grid=collisionGrid,left=Math.floor((x-radius)/128),right=Math.floor((x+radius)/128),top=Math.floor((y-radius)/128),bottom=Math.floor((y+radius)/128);
+ const linear=()=>targets().filter(t=>t!==exclude&&t.hp>0&&Math.hypot(t.x-x,t.y-y)<=radius).map((t,rank)=>({t,rank,d:Math.hypot(t.x-x,t.y-y)})).sort((a,b)=>a.d-b.d||a.rank-b.rank).slice(0,count).map(entry=>entry.t);
+ if(!grid||grid.list.length<128||count>32||![left,right,top,bottom].every(Number.isSafeInteger)||(right-left+1)*(bottom-top+1)>Math.max(64,grid.list.length*4))return linear();
+ const cells=[],closest=[],seen=new Set(),epsilon=Number.EPSILON*(Math.abs(x)+Math.abs(y)+Math.abs(radius)+1)*8;
+ for(let cx=left;cx<=right;cx++)for(let cy=top;cy<=bottom;cy++){
+  const members=grid.cells.get(cx+','+cy);if(!members?.size)continue;
+  const distance=Math.hypot(Math.max(cx*128-x,0,x-(cx+1)*128),Math.max(cy*128-y,0,y-(cy+1)*128));
+  if(distance<=radius+epsilon)cells.push({members,distance});
+ }
+ cells.sort((a,b)=>a.distance-b.distance);
+ for(const cell of cells){
+  if(closest.length>=count&&cell.distance>closest[closest.length-1].d+epsilon)break;
+  for(const t of cell.members){
+   if(seen.has(t))continue;seen.add(t);if(t===exclude||!(t.hp>0))continue;
+   const d=Math.hypot(t.x-x,t.y-y);if(!(d<=radius))continue;const rank=grid.rank.get(t);let i=0;
+   while(i<closest.length&&(closest[i].d<d||closest[i].d===d&&closest[i].rank<=rank))i++;
+   if(i<count){closest.splice(i,0,{t,d,rank});if(closest.length>count)closest.pop();}
+  }
+ }
+ return closest.map(entry=>entry.t);
+}
 function healPlayer(amount){
  const before=player.hp;if(before<=0||!Number.isFinite(amount)||amount<=0)return 0;player.hp=Math.min(player.maxHp,before+amount);const actual=player.hp-before;if(actual>0){sound('repair');if(player.specialization==='repairCharge')player.repairShotReady=true;if(player.specialization==='repairPlating')player.repairArmorTime=2;}return actual;
 }
@@ -675,7 +698,7 @@ function damageEnemy(z,damage,source='direct'){
 function shockAt(z,damage,intrinsic=0){
  const count=intrinsic+(player.skills.shock?(player.skills.pierce?3:1):0)+(player.specialization==='extraFork'?1:0);
  if(count<=0)return;
- const nearest=[];for(const t of radiusTargets(z.x,z.y,135*(player.skills.conductivity?3:1),false,z)){const d=Math.hypot(t.x-z.x,t.y-z.y);let i=0;while(i<nearest.length&&nearest[i].d<=d)i++;if(i<count){nearest.splice(i,0,{t,d});if(nearest.length>count)nearest.pop();}}const near=nearest.map(entry=>entry.t);
+ const near=nearestTargets(z.x,z.y,135*(player.skills.conductivity?3:1),count,z);
  for(const t of near){const before=t.hp;effects.push({x:z.x,y:z.y,x2:t.x,y2:t.y,life:.16,max:.16,color:'#8ceeff'});damageEnemy(t,damage*.5*(runRobot.id==='volt'?1.35:1)*(intrinsic&&player.skills.shock?1.25:1),'electric');if(t.hp<before&&player.specialization==='chargeRecovery'){player.electricHits++;if(player.electricHits>=6&&player.specializationCooldown<=0){player.electricHits=0;player.ammo=Math.min(magazineSize(),player.ammo+1);player.specializationCooldown=.25;}}const stun=(player.skills.stun?(t===boss?.25:1):0)+(player.specialization==='groundPulse'?(t===boss?.1:.35):0);if(stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);}
 }
 function applyElementalStatus(z,b){
