@@ -11,7 +11,7 @@ const dependent=JSON.parse(JSON.stringify(custom));Object.assign(dependent,{id:'
 legacy.push(custom,dependent);
 const before=JSON.stringify(legacy),migrated=api.migrate(legacy);
 assert.equal(JSON.stringify(legacy),before,'migration must not mutate the draft');
-assert.equal(migrated.length,72);assert.equal(api.validate(migrated).ok,true);
+assert.equal(migrated.length,76);assert.equal(api.validate(migrated).ok,true);
 assert.equal(migrated[0].name,'Minha edição preservada');assert.equal(migrated[0].effects[0].value,2.25);
 assert.equal(migrated.find(s=>s.id==='custom-drones').name,'Meu módulo antigo');
 assert.deepEqual(Array.from(migrated.find(s=>s.id==='my-dependent').prerequisites),['custom-drones']);
@@ -20,6 +20,17 @@ assert.equal(migrated.find(s=>s.id==='drones').name,api.catalog.find(s=>s.id==='
 storage.set(api.storageKey,JSON.stringify({version:1,skills:legacy}));
 assert.equal(JSON.stringify(api.load()),JSON.stringify(migrated),'applied old settings use the same migration');
 assert.equal(api.save(migrated).ok,true);
-assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,2);
+assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,3);
 assert.equal(JSON.stringify(api.load()),JSON.stringify(migrated),'loading migrated settings is idempotent');
-console.log('BUILD39 migration passed: edited values, all54 IDs, sixteen additions and custom ID/reference collisions.');
+console.log('BUILD39 migration passed: edited values, all54 IDs, twenty additions and custom ID/reference collisions.');
+const v42=JSON.parse(fs.readFileSync('tests/fixtures/balance-catalog-v42.json','utf8'));assert.equal(v42.length,70);
+v42[0].name='Edição BUILD42';v42[0].effects[0].value=2.4;
+const customFuse=JSON.parse(JSON.stringify(v42.find(s=>s.id==='damage')));Object.assign(customFuse,{id:'corrosionFuse',name:'Fusível personalizado antigo',condition:'',prerequisites:[]});
+const follower=JSON.parse(JSON.stringify(customFuse));Object.assign(follower,{id:'follow-fuse',prerequisites:['corrosionFuse'],synergies:['corrosionFuse']});v42.push(customFuse,follower);
+storage.set(api.storageKey,JSON.stringify({version:1,catalogRevision:2,skills:v42}));
+const upgraded=api.load();assert.equal(upgraded.length,76);assert.equal(api.validate(upgraded).ok,true);assert.equal(upgraded[0].name,'Edição BUILD42');assert.equal(upgraded[0].effects[0].value,2.4);
+assert.equal(upgraded.find(s=>s.id==='custom-corrosionFuse').name,'Fusível personalizado antigo','empty conditional text must not hide a custom ID collision');
+assert.deepEqual(Array.from(upgraded.find(s=>s.id==='follow-fuse').prerequisites),['custom-corrosionFuse']);
+assert.equal(upgraded.find(s=>s.id==='corrosionFuse').name,'INICIADOR RÁPIDO');
+assert.equal(api.save(upgraded).ok,true);assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,3);assert.equal(JSON.stringify(api.load()),JSON.stringify(upgraded));
+console.log('BUILD42 migration passed: all70 modules, edits, four additions and empty-condition custom collision preserved.');

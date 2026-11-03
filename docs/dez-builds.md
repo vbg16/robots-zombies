@@ -1,4 +1,4 @@
-# Dez projetos de build do Screwvivors — BUILD 42
+# Dez projetos de build do Screwvivors — BUILD 43
 
 Implementações originais para combinar chassi, arma, aprimoramentos, condição de ativação e uma forma de sobreviver. O catálogo jogável está em `builds.js`. No menu ou na garagem, abra **PROJETOS DE BUILD** para consultar as receitas e acompanhar a montagem durante a partida.
 
@@ -44,7 +44,7 @@ Os quatro chassis novos têm três protocolos próprios cada. Suas aparências u
 - **Drones:** máximo de três, intervalo mínimo de 0,35 s e alcance definido. Não consomem a munição da arma nem iniciam procs de projétil. O arco secundário não é recursivo.
 - **Reparo:** só a vida efetivamente recuperada ativa os protocolos de cura. Recarregar uma bala não concede o reparo de um carregador inteiro. A carga ofensiva não acumula e é consumida em uma emissão.
 
-O catálogo passa a 70 registros:40 skills normais em 10 árvores, seis gambiarras, seis experimentos e 18 protocolos de chassi. Os 54 IDs anteriores continuam existentes. Configurações e rascunhos da BUILD 39 são migrados preservando as edições; um ID personalizado que passe a colidir com um novo módulo é renomeado com suas referências.
+O catálogo passa a 74 registros: 44 skills normais em 11 árvores, seis gambiarras, seis experimentos e 18 protocolos de chassi. Os 54 IDs anteriores continuam existentes. Configurações e rascunhos da BUILD 39 são migrados preservando as edições; um ID personalizado que passe a colidir com um novo módulo é renomeado com suas referências.
 
 ## Ajustes gerais de balanceamento
 
@@ -59,7 +59,7 @@ Os números são experimentais. Custos, munição, movimento e exposição conti
 
 ## Pesquisa e validação
 
-A [pesquisa de referência](pesquisa-builds-20 mtd.md) cobre as famílias e gatilhos catalogados de 20 Minutes Till Dawn, incluindo combinações de arma, personagem, árvores, sinergias, runas e evoluções. Não é uma enumeração de toda combinação imaginável.
+A [pesquisa de referência](pesquisa-builds-20mtd.md) cobre as famílias e gatilhos catalogados de 20 Minutes Till Dawn, incluindo combinações de arma, personagem, árvores, sinergias, runas e evoluções. Não é uma enumeração de toda combinação imaginável.
 
 Há evidências separadas:
 
@@ -69,3 +69,5 @@ Há evidências separadas:
 4. A conferência no Chrome verifica os dez guias, seleção de equipamentos, bloqueios da garagem, ausência de melhorias gratuitas, drones visíveis, layout móvel e migração do painel.
 
 A meta comparativa de uma tentativa longa é alcançar 20 min e derrotar ao menos três chefes. Resultados abaixo dela continuam registrados como falhas dessa meta, sem instalar peças escondidas nem modificar a vida dos inimigos só para o teste. O jogo continua infinito após o limite de observação. Testes automatizados medem o desempenho do controlador descrito no relatório; avaliação humana de dificuldade e diversão é uma etapa distinta.
+
+A BUILD43 acrescenta a árvore de [corrosão programada](corrosao-programada.md), disponível nas ofertas normais. As dez receitas guiadas não foram alteradas nesta etapa. O aumento do pool muda as ofertas; resultados de balanceamento de versões anteriores continuam históricos.

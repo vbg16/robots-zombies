@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 42 · desenvolvimento
+# Screwvivors — BUILD 43 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -18,13 +18,13 @@ Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peç
 - Espaço: propulsor, somente depois de adquirir a skill (4 s de recarga; sem invulnerabilidade).
 - Colete núcleos para subir de nível. Clique numa opção (ou use1–3) para analisar vantagem, custo e árvore; confirme a instalação pelo botão ou Enter. É possível continuar sem melhoria.
 - Nos níveis 3, 6 e 9, escolha uma Gambiarra temporária entre três alternativas, use as teclas 1–3 ou pule. Os efeitos somem na próxima tentativa.
-- A faixa de controles permanece visível dentro da arena, inclusive o propulsor depois da skill.
+- A faixa inicial de controles some após cinco segundos; o comando do propulsor aparece junto da arma após adquirir a skill.
 - Zumbis surgem em grupos de quinze distribuídos ao redor do jogador; os grupos chegam em intervalos cada vez menores.
 - Arena infinita, sem limite de mundo ou tempo final. A horda fica mais forte e os três chefes voltam em ciclos; ondas comuns continuam mesmo durante os chefes.
-- Chefes trazem reforços próprios: CORREDOR, ATIRADOR ou RAJADA, identificados acima do inimigo. O HUD mostra quantos restam e confirma quando as ondas comuns estão pausadas.
+- Chefes trazem reforços próprios: CORREDOR, ATIRADOR ou RAJADA, identificados acima do inimigo. O HUD mostra quantos restam e confirma que as ondas comuns continuam ativas.
 - A câmera acompanha o robô pela cidade. Saia das áreas sinalizadas antes dos ataques dos chefes.
 
-Há 40 melhorias normais únicas em dez árvores: cada raiz abre três evoluções combináveis. Escolhas adquiridas não reaparecem. Benefícios usam multiplicadores e condições, com custos explícitos. As 12 armas têm carregador e recarga próprios, maiores nas armas pesadas; reserva ilimitada neste protótipo. [Árvores, munição e valores experimentais](docs/arvores-e-municao.md). Skills, Gambiarras e Experimentos do Biruta somem em cada nova tentativa. Parafusos coletados e peças de chefe ficam salvos localmente mesmo após a morte; compras desbloqueiam equipamento sem conceder atributos permanentes. Os preços são experimentais e estão documentados em [design do jogo](docs/game-design.md). Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefes curam e oferecem uma escolha temporária com vantagem e custo. Repetir configuração preserva somente o loadout na sessão; voltar à garagem permite mudar antes da próxima tentativa.
+Há 44 melhorias normais únicas em onze árvores: cada raiz abre três evoluções combináveis. Escolhas adquiridas não reaparecem. Benefícios usam multiplicadores e condições, com custos explícitos. As 12 armas têm carregador e recarga próprios, maiores nas armas pesadas; reserva ilimitada neste protótipo. [Árvores, munição e valores experimentais](docs/arvores-e-municao.md). Skills, Gambiarras e Experimentos do Biruta somem em cada nova tentativa. Parafusos coletados e peças de chefe ficam salvos localmente mesmo após a morte; compras desbloqueiam equipamento sem conceder atributos permanentes. Os preços são experimentais e estão documentados em [design do jogo](docs/game-design.md). Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefes curam e oferecem uma escolha temporária com vantagem e custo. Repetir configuração preserva somente o loadout na sessão; voltar à garagem permite mudar antes da próxima tentativa.
 
 Alternativa com servidor local:
 
@@ -36,7 +36,7 @@ Abra http://127.0.0.1:8000/. Toque/controle não implementados; use teclado e mo
 
 ## Configurar skills
 
-Na BUILD 40, **PROJETOS DE BUILD** abre dez roteiros de montagem no menu e na garagem. Agora são seis chassis, 40 skills normais e 70 aprimoramentos no total. Os guias mostram arma, núcleo, ordem de aquisição, vantagens e fraquezas. Preparar um loadout exige possuir o equipamento e não concede módulos. [Resultados medidos e limitações](docs/resultado-dez-builds.md) · [Catálogo e regras das dez builds](docs/dez-builds.md) · [Pesquisa de referência e fontes](docs/pesquisa-builds-20mtd.md).
+Na BUILD 40, **PROJETOS DE BUILD** abre dez roteiros de montagem no menu e na garagem. O catálogo atual tem seis chassis, 44 skills normais e 74 aprimoramentos no total. Os guias mostram arma, núcleo, ordem de aquisição, vantagens e fraquezas. Preparar um loadout exige possuir o equipamento e não concede módulos. [Resultados medidos e limitações](docs/resultado-dez-builds.md) · [Catálogo e regras das dez builds](docs/dez-builds.md) · [Pesquisa de referência e fontes](docs/pesquisa-builds-20mtd.md).
 
 No menu, clique em **CONFIGURAR SKILLS** ou abra **painel-skills.html**. O painel do Manus foi adaptado ao catálogo real de 70 melhorias. Ele funciona offline, com os arquivos do ZIP extraídos juntos.
 
@@ -56,6 +56,8 @@ node tests/balance-panel.cjs
 node tests/balance-migration.cjs
 node tests/build-mechanics.cjs
 node tests/weapon-evolution.cjs
+node tests/corrosion.cjs
+node tests/corrosion-balance.cjs
 node tests/build-comparison.cjs
 node tests/builds-balance.cjs --bench-only
 python tests/validate_walk_test.py
@@ -88,3 +90,5 @@ BUILD40: dez projetos jogáveis, quatro novos chassis com três protocolos cada,
 BUILD41: no nível 20, escolha uma entre duas reforjas temporárias da arma equipada, ou recuse. São 24 opções consultáveis na garagem; os dez guias sugerem uma reforja própria. Sem troca ou fusão, sem munição grátis e com projéteis anteriores preservados. [Contrato vigente](docs/contrato-atual.md) · [Catálogo e validação das reforjas](docs/evolucao-armas.md).
 
 BUILD42: Lança de Fuga passa a usar NANO + Arpão, coleta e reparo na recarga para sustentar mobilidade. A alternativa melhorou os seis pares testados e atingiu 20 minutos/três chefes em cinco deles, incluindo os dois sorteios novos; uma morte por volta de 19:56 segue como falha. Armas, inimigos e regras globais mantêm os atributos anteriores. [Reavaliação completa da BUILD41](docs/reavaliacao-build41.md) · [Hipóteses, comparação e limites da Lança de Fuga](docs/ajuste-lanca-de-fuga.md). O balanceamento geral não está aprovado.
+
+BUILD43: árvore Reagentes de sucata com carga corrosiva adiada, iniciador rápido, respingo em uma geração e catalisador com fogo/gelo. Uma carga por alvo, sem renovar ou acumular; escudos bloqueiam a aplicação. Painel migra 70→74, preservando edições e IDs personalizados; novos campos de prazo/dano. Descrições padrão voltam a mostrar ganho/custo autorais. [Regras, dados e limitações](docs/corrosao-programada.md). As duas tentativas naturais do ensaio não cumpriram a meta de 20 minutos; a árvore continua experimental.

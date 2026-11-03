@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Lança de Fuga revisada por comparação de seis sementes: NANO, Arpão, mobilidade e reparo. Cinco de seis cumpriram a meta comparativa; balanceamento geral continua experimental. Não promover automaticamente ao público.",
-  "build": 42
+  "notes": "Árvore de corrosão programada: carga adiada, iniciador, respingo limitado e catalisador térmico. Painel migrado de70 para74 skills. Valores experimentais; sem promoção automática ao público.",
+  "build": 43
 }

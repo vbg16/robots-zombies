@@ -41,7 +41,7 @@ storage.set('screwvivors.balance.draft.v1',JSON.stringify({version:1,skills:[]})
 assert.match(markup(),/Rascunho inválido ignorado/);
 const draft = structuredClone(api.load());
 draft[0].name='TESTE RASCUNHO';
-storage.set('screwvivors.balance.draft.v1',JSON.stringify({version:1,skills:draft}));
+storage.set('screwvivors.balance.draft.v1',JSON.stringify({version:1,catalogRevision:3,skills:draft}));
 assert.match(markup(),/TESTE RASCUNHO/);
 assert.notEqual(api.load()[0].name,'TESTE RASCUNHO','draft cannot mutate applied storage');
 Object.defineProperty(globalThis,'localStorage',{configurable:true,get(){throw Error('blocked');}});

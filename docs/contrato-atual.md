@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 42
+# Contrato vigente — Screwvivors BUILD 43
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -13,12 +13,13 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Chefes | Três identidades recorrentes e seus lacaios; Sucateiro acompanha e mantém distância. Peça única salva, cura até 20 (40 com Caça-Titãs), escolha temporária. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
 | Perfil | Parafusos coletados e peças conquistadas permanecem ao morrer. Sem bônus permanentes de atributo. Compras verificam saldo/peça e devolvem recursos em falha de gravação. | combat.cjs: compras, saves, migração e morte. |
 | Equipamento | Seis chassis e 12 armas, um slot no protótipo. Escolha na garagem, arma e chassi fixos durante combate. Novos chassis não são concedidos pela migração de perfil antigo. | combat.cjs, build-mechanics.cjs e Chrome. |
-| Progressão | XP inicial 6, crescimento ×1,2, coleta inicial 95. Catálogo de 70 aprimoramentos: 40 normais, seis gambiarras, seis experimentos e 18 especializações. | balance-panel.cjs e build-mechanics.cjs. |
+| Progressão | XP inicial 6, crescimento ×1,2, coleta inicial 95. Catálogo de 74 aprimoramentos: 44 normais, seis gambiarras, seis experimentos e 18 especializações. | balance-panel.cjs e build-mechanics.cjs. |
 | Ofertas | Gambiarras nos níveis 3/6/9; especialização do chassi no nível 10. Uma renovação por nível normal; renovar não recarrega a própria carga. Reforja no nível 20. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
 | Reforja | Duas opções próprias de cada arma, escolher uma ou recusar. Substitui o módulo do nível 20. Não troca/funde arma, repõe munição, termina recarga ou modifica projéteis já emitidos. Não volta após recusa; some ao reiniciar. | weapon-evolution.cjs: 24 opções, estados, callbacks, projéteis e reset. |
 | Construção de build | Dez receitas recomendadas; guia não concede equipamento, skills, atributos nem altera sorteios. | builds-balance.cjs, Chrome dos guias e weapon-evolution-browser.cjs. |
 | Cura e drones | Cura efetiva ativa protocolos; recarga parcial cura proporcionalmente. Até três drones, sem cadeia recursiva de procs. Célula verde a cada 25 abates precisa ser coletada e não vale parafusos. | build-mechanics.cjs. |
-| Painel | 70 skills editáveis; configuração só nas próximas tentativas. Preservar rascunhos/efeitos legados, migrar IDs conflitantes com suas referências e não repetir a migração textual. As 24 reforjas são catálogo próprio de arma, consultável na garagem, e ainda não são editáveis no painel. | balance-panel.cjs, balance-migration.cjs e testes do editor. |
+| Painel | 74 skills editáveis; configuração só nas próximas tentativas. Preservar rascunhos/efeitos legados, migrar IDs conflitantes com suas referências e não repetir a migração textual. As 24 reforjas são catálogo próprio de arma, consultável na garagem, e ainda não são editáveis no painel. | balance-panel.cjs, balance-migration.cjs e testes do editor. |
+| Corrosão | Uma carga por alvo, sem renovar/acumular; origem em bala, respingo de uma geração para dois vizinhos; escudos bloqueiam aplicação. Cura, explosões, drones e raios não semeiam cargas. Prazo e dano capturados na aplicação; pausa/morte/reset interrompem a tentativa. | corrosion.cjs, corrosion-balance.cjs e Chrome. |
 | Pausa/entrada | Ofertas e pausa congelam simulação; callbacks antigos não aplicam escolhas. Retorno limpa teclas, disparo e rajadas pendentes. | combat.cjs e weapon-evolution.cjs. |
 | Canais | main acompanha desenvolvimento para o ZIP. codex/publico é independente; publicApproved continua false até aprovação real. | version.json, git ls-remote e docs/canais-e-lancamentos.md. |
 
@@ -26,10 +27,14 @@ Os números novos são experimentais. Testar funcionamento não aprova balanceam
 
 ## Pendências do objetivo de integração
 
-A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. A [reavaliação das dez builds da BUILD 41](reavaliacao-build41.md) foi concluída, preservando falhas. A BUILD 42 revisou a [Lança de Fuga](ajuste-lanca-de-fuga.md) por comparação de seis sementes. Continuam pendentes a melhoria das demais receitas frágeis, famílias originais de dano adiado/corrosão e pulsos/sensores, aprofundamento de suportes invocados e a especificação de equipamentos avançados com múltiplos slots. Essas famílias estão no mapeamento de pesquisa; não são conteúdo já implementado.
+A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. A [reavaliação das dez builds da BUILD 41](reavaliacao-build41.md) foi concluída, preservando falhas. A BUILD 42 revisou a [Lança de Fuga](ajuste-lanca-de-fuga.md) por comparação de seis sementes. Continuam pendentes a melhoria das demais receitas frágeis, balanceamento da corrosão e implementação de pulsos/sensores, aprofundamento de suportes invocados e a especificação de equipamentos avançados com múltiplos slots. A família de dano adiado/corrosão foi implementada na BUILD43; as demais pendências ainda não são conteúdo implementado.
 
 Não importar vitória cronometrada, retenção de skills após morte, runas com atributos permanentes ou fusão de armas: entram em conflito com decisões explícitas do criador. Ranking, nuvem e conquistas precisam de etapa própria de plataforma e integridade; o protótipo permanece local.
 
 ## Regra de ajuste — BUILD 42
 
 Experimentar receitas por JSON isolado antes de mudar o catálogo do jogo. Comparações exigem mundo, configuração, driver, janela e sementes compatíveis; guardar todas as hipóteses e falhas. Definir critério de adoção experimental antes de inspecionar resultados completos e verificar também sorteios separados da exploração. Uma melhora relativa não transforma uma morte antes do limite em aprovação da meta de 20 minutos. O painel de 70 skills, preços e atributos globais permaneceram iguais nesta etapa.
+
+## Regra de corrosão e migração — BUILD 43
+
+Cargas capturam dano/prazo e têm uma geração de respingo, sem renovar por impacto ou gerar novas cargas por proc secundário. A referência da carga é capturada no início do tick; filhos só envelhecem no próximo. Escudo absorve inclusive o golpe que o quebra, sem marcar corpo. Remover lacaios antes de avaliar respingo do chefe. Mudanças no painel só no próximo reset, sem reescrever cargas em andamento. catalogRevision3 preserva configurações 1/2 e renomeia colisões conforme a revisão de origem, incluindo condições vazias. Cartas padrão usam texto de ganho/custo autoral; números editados permanecem identificados. A nova raiz altera sorteios: resultados antigos não aprovam automaticamente o pool novo.
