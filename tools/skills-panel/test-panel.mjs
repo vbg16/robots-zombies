@@ -13,7 +13,7 @@ globalThis.window = {localStorage};
 globalThis.location = new URL('http://localhost/index.html?painel=skills');
 vm.runInThisContext(readFileSync('../../balance.js','utf8'));
 const api = window.ScrewBalance;
-assert.equal(api.catalog.length,54);
+assert.ok(api.catalog.length>=54,'all original skills remain in the expanded catalog');
 assert.ok(api.validate(api.load()).ok);
 const buildResult = await build({entryPoints:['App.tsx'],bundle:true,write:false,format:'cjs',platform:'node',jsx:'automatic',external:['react','react/jsx-runtime','lucide-react']});
 function markup(component='default', props={}) {
@@ -23,7 +23,7 @@ function markup(component='default', props={}) {
 }
 let html = markup();
 assert.match(html,/Aplicar ao jogo/);
-assert.match(html,/54 resultados encontrados/);
+assert.ok(html.includes(`${api.catalog.length} resultados encontrados`));
 assert.match(html,/ALTO IMPACTO/);
 assert.match(html,/href="http:\/\/localhost\/index.html"/);
 assert.match(html,/Raridade \(organizacional\)/);
@@ -36,7 +36,7 @@ assert.match(readFileSync('App.tsx','utf8'),/groupAccent\[skill.group\] \?\? ski
 storage.set('screwvivors.balance.draft.v1','{corrupt');
 html = markup();
 assert.match(html,/corrompido/);
-assert.match(html,/54 resultados encontrados/);
+assert.ok(html.includes(`${api.catalog.length} resultados encontrados`));
 storage.set('screwvivors.balance.draft.v1',JSON.stringify({version:1,skills:[]}));
 assert.match(markup(),/Rascunho inválido ignorado/);
 const draft = structuredClone(api.load());

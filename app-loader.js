@@ -14,6 +14,6 @@
   const css=document.createElement('link');css.rel='stylesheet';css.href='tools/skills-panel/panel.css';document.head.append(css);
   script.src='tools/skills-panel/panel.js';
   script.onerror=()=>{loading.textContent='Não foi possível carregar o painel. Extraia o ZIP inteiro e tente novamente.';};
- }else script.src='game.js';
+ }else{script.src='game.js';script.onload=()=>window.dispatchEvent(new Event('screwvivors-ready'));}
  document.body.append(script);
 })();

@@ -50,6 +50,7 @@ declare global { interface Window { ScrewBalance?: {
   catalog: Skill[]; attributes: string[];
   load(): Skill[]; validate(skills: unknown): {ok: boolean; errors: string[]};
   save(skills: Skill[]): {ok: boolean; errors: string[]};
+  migrate(skills: Skill[], legacy?: boolean): Skill[];
 }; } }
 export const balance = window.ScrewBalance;
 export const seedSkills: Skill[] = balance?.catalog ?? [];

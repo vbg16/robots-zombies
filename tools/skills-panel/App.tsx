@@ -42,15 +42,16 @@ function initialSkills(): Skill[] {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const draft = JSON.parse(raw);
-      const result = draft.version === 1 ? balance.validate(draft.skills) : {ok: false};
-      if (result.ok) {initialNotice = 'Rascunho local recuperado. Clique em Aplicar ao jogo para usá-lo nas próximas partidas.'; return draft.skills;}
+      const migrated = draft.version === 1 ? balance.migrate(draft.skills,draft.catalogRevision !== 2) : [];
+      const result = draft.version === 1 ? balance.validate(migrated) : {ok: false};
+      if (result.ok) {initialNotice = 'Rascunho local recuperado. Clique em Aplicar ao jogo para usá-lo nas próximas partidas.'; return migrated;}
       initialNotice = 'Rascunho inválido ignorado. O balanceamento aplicado foi carregado.';
     }
   } catch {initialNotice = 'Rascunho indisponível ou corrompido. O balanceamento aplicado foi carregado. Exporte um backup para preservar suas edições.';}
   return applied;
 }
 function downloadSkills(skills: Skill[]) {
-  const url = URL.createObjectURL(new Blob([JSON.stringify({version: 1, skills}, null, 2)], {type: 'application/json'}));
+  const url = URL.createObjectURL(new Blob([JSON.stringify({version: 1, catalogRevision: 2, skills}, null, 2)], {type: 'application/json'}));
   const anchor = document.createElement('a'); anchor.href = url; anchor.download = 'screwvivors-balance-backup.json'; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
@@ -93,7 +94,7 @@ function App() {
   useEffect(() => {
     if (!balance) return;
     setApplied(false);
-    try {localStorage.setItem(STORAGE_KEY, JSON.stringify({version: 1, skills})); setSaved(true);}
+    try {localStorage.setItem(STORAGE_KEY, JSON.stringify({version: 1, catalogRevision: 2, skills})); setSaved(true);}
     catch {setSaved(false); setNotice('Não foi possível salvar o rascunho neste navegador. Exporte um backup antes de fechar.');}
   }, [skills]);
   const applyToGame = () => {
@@ -111,10 +112,11 @@ function App() {
     try {
       const envelope = JSON.parse(await file.text());
       if (envelope.version !== 1 || !Array.isArray(envelope.skills)) throw new Error('Formato esperado: {version: 1, skills: [...]}');
-      const result = balance.validate(envelope.skills);
+      const migrated = balance.migrate(envelope.skills,envelope.catalogRevision !== 2);
+      const result = balance.validate(migrated);
       if (!result.ok) {setErrors(result.errors); return;}
       downloadSkills(skills);
-      setSkills(envelope.skills); setSelectedId(envelope.skills[0]?.id ?? ''); setErrors([]);
+      setSkills(migrated); setSelectedId(migrated[0]?.id ?? ''); setErrors([]);
       setNotice('Importação validada no rascunho. Um backup anterior foi baixado. Clique em Aplicar ao jogo para publicar nas próximas partidas.');
     } catch (error) {setErrors(['Importação recusada: ' + String(error)]);}
   };
