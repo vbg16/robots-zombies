@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 44:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 45:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -221,3 +221,13 @@ BUILD42 — reavaliação completa da BUILD41 em 20 tentativas: sete sobrevivera
 BUILD43 — família original de corrosão programada implementada como quatro módulos normais. Limites: uma carga sem renovar/acumular, prazo efetivo0,25–30s, base até1e9, respingo para dois vizinhos a100px em uma geração e escudos bloqueando aplicação. Tick usa referências capturadas antes do processamento; não envelhece filhos imediatamente. Catálogo passa a74, normal44/árvores11; schema3 migra54/70, inclusive custom com ID novo e condição vazia. QA descobriu descrição padrão comparando efeitos com o objeto errado: corrigida a leitura para recuperar ganho/custo autoral sem alterar números. Regressão25min e testes específicos passaram; Chrome desktop/celular, migração e108 cenários de bancada em12 armas passaram, além dos70 cenários das dez receitas. Duas tentativas naturais usaram corrosão, mas nenhuma cumpriu20min/trêschefes. Resultados e regras em corrosao-programada.md; não tratar como aprovação de balanceamento ou conclusão do objetivo geral.
 
 BUILD44 — Sensores de campo, quatro módulos normais. Pulso periódico sem projéteis/munição; alcance por círculo, relé de fogo/frio e exposição para balas, sem repetir canais secundários. Primeira carga usa os números já editados; upgrades não reiniciam o timer. Migração78/schema4 usa revisões declaradas de introdução, preservando74 registros e edições de corrosão. QA visual encontrou dois cooldowns fora da tela em390px com seis habilidades: nomes compactos, grade em duas linhas e legenda separada; Chrome verificou todos visíveis. Unitários, cenário controlado25min,144 cenários de sensor e70 das dez receitas passaram. Duas tentativas normais do ensaio NANO+Laser sobreviveram20min; uma cumpriu três chefes, outra só dois e segue reprovada na meta completa. Mecânica e balanceamento permanecem separados em sensores-de-campo.md. Objetivo geral ativo; próximos sistemas e ajustes seguem pendentes.
+
+## BUILD45 — acabamento e medição
+
+PROT ganhou caminhada original em32quadros/quatro direções, com manifesto clássico que funciona no ZIP offline. O relógio está no tick, congela na pausa e não consome RNG. Testes Chrome verificaram HTTP/file, pivôs, alfa e fallback sem atlas/helper/manifesto. A arte mecânica dos zumbis ganhou um atlas candidato separado, ainda sem ativação: exige revisão no cenário antes da substituição.
+
+Áudio agora diferencia as12armas e conecta nove famílias de efeitos aos eventos efetivos; rajadas soam por emissão, cura zero não toca reparo, ataques de chefe soam após os avisos. Música synthwave mantém a preferência aprovada. Testes incluem110s de agendamento e render de sinal sem clipping, sem alegar escuta humana.
+
+A medição de hordas rejeitou a primeira proposta por regressão. O segundo candidato reduziu o tick do pacote Plasma concentrado em46–75%; no caso5000 próximos ainda são482ms médios, portanto o desempenho extremo continua pendente. Equivalência completa de estado/efeitos/RNG foi comparada em18mundos com mortes, lacaios, empurrões e dano secundário. Ver desempenho-hordas.md.
+
+Pendências concretas: arma empunhada do jogador; animações reais dos demais chassis, zumbis e chefes; custo de renderização densa; aprofundamento de suportes e chassis com mais slots; reavaliação natural das dez builds após conteúdo; candidato público revisável. Esta etapa não declara o jogo completo nem aprova publicação pública.

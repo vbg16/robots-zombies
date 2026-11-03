@@ -64,27 +64,51 @@
   const tempo=scene==='menu'?72:scene==='garage'?78:90,stepSeconds=60/tempo/4;
   let count=0;
   while(nextStep<now+.09&&count++<3){
-   const position=step%128,chord=Math.floor(position/32),rootMidi=[48,44,51,46][chord],freq=n=>440*Math.pow(2,(n-69)/12),base=freq(rootMidi),active=scene==='combat';
+   const position=step%128,phrase=Math.floor(step/128)%4,chord=Math.floor(position/32),rootMidi=[[48,44,51,46],[48,51,44,46],[48,44,46,43],[48,46,44,46]][phrase][chord],freq=n=>440*Math.pow(2,(n-69)/12),base=freq(rootMidi),active=scene==='combat';
    // Warm minor-seventh pads, breathing bass and sparse, rounded pentatonic melody.
-   if(position%16===0){for(const interval of [0,7,10,14])tone(freq(rootMidi+interval+12),null,nextStep,1.8,.024,'sine',musicBus,musicVoices);}
+   if(position%16===0){for(const interval of [0,7,10,14])tone(freq(rootMidi+interval+12),null,nextStep,scene==='menu'?3.8:scene==='garage'?3.2:2.7,.022,'sine',musicBus,musicVoices);}
    if(position%8===0)tone(base/2,null,nextStep,.65,active?.095:.055,'triangle',musicBus,musicVoices);
    const melody=[12,19,22,19,15,17,19,10,12,15,19,24,22,19,17,15];
-   if(position%8===(scene==='menu'?4:2)){const n=melody[Math.floor(position/8)%melody.length];tone(freq(rootMidi+n),null,nextStep,.9,.035,'sine',musicBus,musicVoices);tone(freq(rootMidi+n),null,nextStep+.22,.65,.009,'sine',musicBus,musicVoices);}
+   if(position%8===(scene==='menu'?4:2)&&!(phrase===3&&position<64)){const n=melody[(Math.floor(position/8)+phrase*3)%melody.length]-(phrase===2?12:0);tone(freq(rootMidi+n),null,nextStep,.9,.035,'sine',musicBus,musicVoices);tone(freq(rootMidi+n),null,nextStep+.22,.65,.009,'sine',musicBus,musicVoices);}
    if(active&&position%4===0)tone(78,34,nextStep,.19,.08,'sine',musicBus,musicVoices);
    if(scene!=='menu'&&position%8===4)hiss(nextStep,.045,active?.018:.009,musicBus,musicVoices);
    step++;nextStep+=stepSeconds;
   }
  }
  function play(name){
-  if(!context||context.state!=='running'||effectsVolume===0||effectVoices.size>=24)return;
-  const now=context.currentTime,limits={shot:.06,kill:.1,pickup:.08,hit:.12,reload:.15,upgrade:.3,dash:.15,boss:.5,death:1,transition:.08,pause:.1,resume:.1};
-  if(!Object.prototype.hasOwnProperty.call(limits,name))return;
-  if(now-(lastEffect.get(name)??-Infinity)<limits[name])return;lastEffect.set(name,now);
+  if(typeof name!=='string'||!context||context.state!=='running'||effectsVolume===0||effectVoices.size>=24)return;
+  const weapon=name.startsWith('shot-')?name.slice(5):null,throttleName=weapon?'shot':name;
+  const now=context.currentTime,limits={shot:.06,kill:.1,pickup:.08,hit:.12,reload:.15,reloadReady:.15,upgrade:.3,dash:.15,boss:.5,bossAttack:.3,bossDefeat:1,death:1,transition:.08,pause:.1,resume:.1,sensor:.35,corrosion:.14,drone:.12,shield:.2,shieldBreak:.3,repair:.3};
+  if(!Object.prototype.hasOwnProperty.call(limits,throttleName))return;
+  if(weapon&&!['machine','shotgun','burst','sniper','laser','flame','cryo','rocket','grenade','tesla','disc','harpoon'].includes(weapon))return;
+  if(now-(lastEffect.get(throttleName)??-Infinity)<limits[throttleName])return;lastEffect.set(throttleName,now);
   const beep=(f,end,delay,duration,amp=.15,type='triangle')=>tone(f,end,now+delay,duration,amp,type,effectsBus,effectVoices);
   if(name==='transition'){beep(220,440,0,.16,.07,'sine');beep(660,880,.08,.2,.035,'sine');hiss(now,.08,.025,effectsBus,effectVoices);}
   else if(name==='pause'){beep(440,220,0,.15,.06,'sine');}
   else if(name==='resume'){beep(220,440,0,.15,.06,'sine');}
-  else if(name==='shot'){beep(210,75,0,.065,.16,'square');hiss(now,.04,.13,effectsBus,effectVoices);}
+  else if(name==='shot'||weapon){
+   if(weapon==='burst'){beep(260,110,0,.045,.085,'triangle');hiss(now,.03,.06,effectsBus,effectVoices);}
+   else if(weapon==='laser'){beep(510,280,0,.055,.045,'sine');}
+   else if(weapon==='flame'){hiss(now,.1,.065,effectsBus,effectVoices);beep(95,70,0,.08,.025,'sine');}
+   else if(weapon==='cryo'){beep(740,360,0,.12,.055,'sine');beep(1110,620,.025,.13,.018,'sine');}
+   else if(weapon==='tesla'){beep(230,690,0,.065,.055,'triangle');beep(920,280,.025,.08,.025,'sine');}
+   else if(weapon==='rocket'){beep(100,32,0,.24,.13,'sine');hiss(now,.18,.095,effectsBus,effectVoices);}
+   else if(weapon==='grenade'){beep(140,55,0,.12,.095,'triangle');hiss(now,.07,.055,effectsBus,effectVoices);}
+   else if(weapon==='disc'){beep(340,640,0,.15,.045,'sine');hiss(now,.08,.025,effectsBus,effectVoices);}
+   else if(weapon==='harpoon'){beep(250,85,0,.09,.075,'triangle');hiss(now,.045,.065,effectsBus,effectVoices);}
+   else if(weapon==='sniper'){beep(155,45,0,.12,.13,'triangle');hiss(now,.075,.095,effectsBus,effectVoices);}
+   else if(weapon==='shotgun'){beep(115,40,0,.15,.11,'triangle');hiss(now,.12,.12,effectsBus,effectVoices);}
+   else{beep(210,75,0,.065,.1,'triangle');hiss(now,.04,.075,effectsBus,effectVoices);}
+  }
+  else if(name==='sensor'){beep(160,95,0,.28,.06,'sine');beep(440,220,.04,.22,.024,'sine');}
+  else if(name==='corrosion'){hiss(now,.11,.045,effectsBus,effectVoices);beep(96,48,0,.15,.045,'triangle');}
+  else if(name==='drone'){beep(780,390,0,.055,.035,'triangle');}
+  else if(name==='shield'){beep(520,780,0,.18,.055,'sine');beep(1040,780,.02,.13,.018,'sine');}
+  else if(name==='shieldBreak'){hiss(now,.2,.09,effectsBus,effectVoices);beep(320,95,0,.22,.08,'triangle');}
+  else if(name==='repair'){beep(180,270,0,.15,.045,'sine');}
+  else if(name==='reloadReady'){beep(360,460,0,.07,.035,'triangle');}
+  else if(name==='bossAttack'){beep(105,65,0,.17,.08,'sine');hiss(now,.06,.025,effectsBus,effectVoices);}
+  else if(name==='bossDefeat'){[120,180,240].forEach((f,i)=>beep(f,null,i*.09,.55,.07,'sine'));}
   else if(name==='reload'){beep(180,110,0,.07,.13,'square');beep(320,420,.1,.09,.11,'square');}
   else if(name==='hit'){hiss(now,.16,.3,effectsBus,effectVoices);beep(110,35,0,.2,.22,'sawtooth');}
   else if(name==='kill'){beep(180,45,0,.12,.1);hiss(now,.08,.09,effectsBus,effectVoices);}
@@ -97,6 +121,6 @@
  root.ScrewAudio=Object.freeze({unlock,setScene,setPlaying,update,play,
   setMusicVolume(value){musicVolume=clamp(value);volume(musicBus,transitionUntil||!playing?0:musicVolume);if(!musicVolume)release(musicVoices);else if(context)nextStep=context.currentTime+.025;},
   setEffectsVolume(value){effectsVolume=clamp(value);volume(effectsBus,effectsVolume);if(!effectsVolume)release(effectVoices);},
-  getState(){return {available:!!(root.AudioContext||root.webkitAudioContext),unlocked:!!context&&context.state==='running',playing,scene,targetScene,transitioning:!!transitionUntil,musicVolume,effectsVolume};}
+  getState(){return {available:!!(root.AudioContext||root.webkitAudioContext),unlocked:!!context&&context.state==='running',playing,scene,targetScene,transitioning:!!transitionUntil,musicVolume,effectsVolume,musicVoices:musicVoices.size,effectVoices:effectVoices.size};}
  });
 })(typeof window!=='undefined'?window:globalThis);

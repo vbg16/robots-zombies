@@ -342,7 +342,7 @@ fresh();acquire('shield');acquire('dash');acquire('emergency');acquire('retaliat
 assert.equal(elements.get('cooldowns').children.length,5,'all acquired timed modules visible');
 assert.ok(run('cooldownNodes.every(n=>n.status.textContent==="PRONTO")'));
 run('hurtPlayer(1);updateHUD()');assert.equal(run('cooldownNodes[0].status.textContent'),'120 s');
-run('player.inv=0;hurtPlayer(1);updateHUD()');assert.equal(run('cooldownNodes.find(n=>n.item.children[1].textContent==="SOBRECARGA REATIVA").status.textContent'),'ATIVO');
+run('player.inv=0;hurtPlayer(1);updateHUD()');assert.equal(run('cooldownNodes.find(n=>n.item["aria-label"]==="SOBRECARGA REATIVA").status.textContent'),'ATIVO');
 run('tickStatuses(60);updateHUD()');assert.equal(run('cooldownNodes[0].track["aria-valuenow"]'),'50');assert.equal(run('cooldownNodes[0].status.textContent'),'60 s');
 run('pause();tick(10);updateHUD()');assert.equal(run('cooldownNodes[0].status.textContent'),'60 s');run('pause();tickStatuses(60);updateHUD()');assert.ok(run('cooldownNodes.every(n=>n.status.textContent==="PRONTO")'));
 fresh();assert.equal(elements.get('cooldowns').children.length,0,'reset removes old cooldown badges');

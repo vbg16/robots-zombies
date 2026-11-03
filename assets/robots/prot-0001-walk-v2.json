@@ -1,0 +1,750 @@
+{
+  "image": "assets/robots/prot-0001-walk-v2.png",
+  "imageSha256": "4d657cee46995a14116b218b20aeae1cee9f65563fffa38d98d89dbf3cc65275",
+  "width": 1774,
+  "height": 887,
+  "columns": 8,
+  "rows": 4,
+  "directions": [
+    "down",
+    "right",
+    "up",
+    "left"
+  ],
+  "status": "PREVIEW_REVIEWED_GAMEPLAY_REVIEW_PENDING",
+  "clips": {
+    "walk.down": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 201,
+        "pivot": {
+          "x": 111,
+          "y": 201
+        },
+        "visibleBounds": [
+          48,
+          24,
+          169,
+          201
+        ]
+      },
+      {
+        "x": 222,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 197,
+        "pivot": {
+          "x": 111,
+          "y": 197
+        },
+        "visibleBounds": [
+          43,
+          26,
+          173,
+          197
+        ]
+      },
+      {
+        "x": 444,
+        "y": 0,
+        "w": 221,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 193,
+        "pivot": {
+          "x": 110.5,
+          "y": 193
+        },
+        "visibleBounds": [
+          49,
+          26,
+          174,
+          193
+        ]
+      },
+      {
+        "x": 665,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 190,
+        "pivot": {
+          "x": 111,
+          "y": 190
+        },
+        "visibleBounds": [
+          49,
+          24,
+          174,
+          190
+        ]
+      },
+      {
+        "x": 887,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 201,
+        "pivot": {
+          "x": 111,
+          "y": 201
+        },
+        "visibleBounds": [
+          44,
+          24,
+          177,
+          201
+        ]
+      },
+      {
+        "x": 1109,
+        "y": 0,
+        "w": 221,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 195,
+        "pivot": {
+          "x": 110.5,
+          "y": 195
+        },
+        "visibleBounds": [
+          48,
+          26,
+          175,
+          195
+        ]
+      },
+      {
+        "x": 1330,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 191,
+        "pivot": {
+          "x": 111,
+          "y": 191
+        },
+        "visibleBounds": [
+          49,
+          26,
+          175,
+          191
+        ]
+      },
+      {
+        "x": 1552,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 198,
+        "pivot": {
+          "x": 111,
+          "y": 198
+        },
+        "visibleBounds": [
+          48,
+          24,
+          178,
+          198
+        ]
+      }
+    ],
+    "idle.down": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 222,
+        "ms": 1000,
+        "pivotX": 111,
+        "pivotY": 201,
+        "pivot": {
+          "x": 111,
+          "y": 201
+        },
+        "visibleBounds": [
+          48,
+          24,
+          169,
+          201
+        ]
+      }
+    ],
+    "walk.right": [
+      {
+        "x": 0,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 200,
+        "pivot": {
+          "x": 111,
+          "y": 200
+        },
+        "visibleBounds": [
+          44,
+          25,
+          161,
+          200
+        ]
+      },
+      {
+        "x": 222,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 200,
+        "pivot": {
+          "x": 111,
+          "y": 200
+        },
+        "visibleBounds": [
+          44,
+          28,
+          162,
+          200
+        ]
+      },
+      {
+        "x": 444,
+        "y": 222,
+        "w": 221,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 198,
+        "pivot": {
+          "x": 110.5,
+          "y": 198
+        },
+        "visibleBounds": [
+          56,
+          28,
+          163,
+          198
+        ]
+      },
+      {
+        "x": 665,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 195,
+        "pivot": {
+          "x": 111,
+          "y": 195
+        },
+        "visibleBounds": [
+          53,
+          24,
+          166,
+          195
+        ]
+      },
+      {
+        "x": 887,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 200,
+        "pivot": {
+          "x": 111,
+          "y": 200
+        },
+        "visibleBounds": [
+          44,
+          26,
+          166,
+          200
+        ]
+      },
+      {
+        "x": 1109,
+        "y": 222,
+        "w": 221,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 200,
+        "pivot": {
+          "x": 110.5,
+          "y": 200
+        },
+        "visibleBounds": [
+          45,
+          29,
+          166,
+          200
+        ]
+      },
+      {
+        "x": 1330,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 199,
+        "pivot": {
+          "x": 111,
+          "y": 199
+        },
+        "visibleBounds": [
+          61,
+          29,
+          167,
+          199
+        ]
+      },
+      {
+        "x": 1552,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 195,
+        "pivot": {
+          "x": 111,
+          "y": 195
+        },
+        "visibleBounds": [
+          57,
+          24,
+          168,
+          195
+        ]
+      }
+    ],
+    "idle.right": [
+      {
+        "x": 0,
+        "y": 222,
+        "w": 222,
+        "h": 222,
+        "ms": 1000,
+        "pivotX": 111,
+        "pivotY": 200,
+        "pivot": {
+          "x": 111,
+          "y": 200
+        },
+        "visibleBounds": [
+          44,
+          25,
+          161,
+          200
+        ]
+      }
+    ],
+    "walk.up": [
+      {
+        "x": 0,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 197,
+        "pivot": {
+          "x": 111,
+          "y": 197
+        },
+        "visibleBounds": [
+          47,
+          24,
+          176,
+          197
+        ]
+      },
+      {
+        "x": 222,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 194,
+        "pivot": {
+          "x": 111,
+          "y": 194
+        },
+        "visibleBounds": [
+          46,
+          31,
+          173,
+          194
+        ]
+      },
+      {
+        "x": 444,
+        "y": 444,
+        "w": 221,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 191,
+        "pivot": {
+          "x": 110.5,
+          "y": 191
+        },
+        "visibleBounds": [
+          49,
+          31,
+          173,
+          191
+        ]
+      },
+      {
+        "x": 665,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 191,
+        "pivot": {
+          "x": 111,
+          "y": 191
+        },
+        "visibleBounds": [
+          48,
+          25,
+          174,
+          191
+        ]
+      },
+      {
+        "x": 887,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 197,
+        "pivot": {
+          "x": 111,
+          "y": 197
+        },
+        "visibleBounds": [
+          47,
+          24,
+          178,
+          197
+        ]
+      },
+      {
+        "x": 1109,
+        "y": 444,
+        "w": 221,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 197,
+        "pivot": {
+          "x": 110.5,
+          "y": 197
+        },
+        "visibleBounds": [
+          48,
+          33,
+          174,
+          197
+        ]
+      },
+      {
+        "x": 1330,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 191,
+        "pivot": {
+          "x": 111,
+          "y": 191
+        },
+        "visibleBounds": [
+          48,
+          29,
+          174,
+          191
+        ]
+      },
+      {
+        "x": 1552,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 191,
+        "pivot": {
+          "x": 111,
+          "y": 191
+        },
+        "visibleBounds": [
+          49,
+          24,
+          180,
+          191
+        ]
+      }
+    ],
+    "idle.up": [
+      {
+        "x": 0,
+        "y": 444,
+        "w": 222,
+        "h": 221,
+        "ms": 1000,
+        "pivotX": 111,
+        "pivotY": 197,
+        "pivot": {
+          "x": 111,
+          "y": 197
+        },
+        "visibleBounds": [
+          47,
+          24,
+          176,
+          197
+        ]
+      }
+    ],
+    "walk.left": [
+      {
+        "x": 0,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 198,
+        "pivot": {
+          "x": 111,
+          "y": 198
+        },
+        "visibleBounds": [
+          57,
+          24,
+          174,
+          198
+        ]
+      },
+      {
+        "x": 222,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 198,
+        "pivot": {
+          "x": 111,
+          "y": 198
+        },
+        "visibleBounds": [
+          56,
+          29,
+          171,
+          198
+        ]
+      },
+      {
+        "x": 444,
+        "y": 665,
+        "w": 221,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 196,
+        "pivot": {
+          "x": 110.5,
+          "y": 196
+        },
+        "visibleBounds": [
+          55,
+          28,
+          167,
+          196
+        ]
+      },
+      {
+        "x": 665,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 193,
+        "pivot": {
+          "x": 111,
+          "y": 193
+        },
+        "visibleBounds": [
+          57,
+          26,
+          170,
+          193
+        ]
+      },
+      {
+        "x": 887,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 197,
+        "pivot": {
+          "x": 111,
+          "y": 197
+        },
+        "visibleBounds": [
+          56,
+          28,
+          176,
+          197
+        ]
+      },
+      {
+        "x": 1109,
+        "y": 665,
+        "w": 221,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 110.5,
+        "pivotY": 199,
+        "pivot": {
+          "x": 110.5,
+          "y": 199
+        },
+        "visibleBounds": [
+          56,
+          29,
+          173,
+          199
+        ]
+      },
+      {
+        "x": 1330,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 196,
+        "pivot": {
+          "x": 111,
+          "y": 196
+        },
+        "visibleBounds": [
+          57,
+          28,
+          167,
+          196
+        ]
+      },
+      {
+        "x": 1552,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 100,
+        "pivotX": 111,
+        "pivotY": 192,
+        "pivot": {
+          "x": 111,
+          "y": 192
+        },
+        "visibleBounds": [
+          56,
+          26,
+          168,
+          192
+        ]
+      }
+    ],
+    "idle.left": [
+      {
+        "x": 0,
+        "y": 665,
+        "w": 222,
+        "h": 222,
+        "ms": 1000,
+        "pivotX": 111,
+        "pivotY": 198,
+        "pivot": {
+          "x": 111,
+          "y": 198
+        },
+        "visibleBounds": [
+          57,
+          24,
+          174,
+          198
+        ]
+      }
+    ]
+  },
+  "notes": [
+    "PNG preserved byte for byte. Pixel dimensions do not divide evenly; use explicit frame rectangles.",
+    "Per-frame ground anchor uses bottom of alpha>=128 bounds; it is a provisional visual anchor, not a measured planted foot.",
+    "Horizontal anchor is cell center. Ground anchor is per frame to eliminate generated baseline jitter.",
+    "Semi-transparent low-alpha noise remains unchanged. Do not claim native binary-alpha pixel art.",
+    "Eight frames at100ms; idle uses first frame, not a separately authored idle animation."
+  ],
+  "qa": {
+    "browser": "Google Chrome headless",
+    "cycles": 10,
+    "cycleDurationMs": 800,
+    "consoleErrors": 0,
+    "visibleHeightMax": 72,
+    "scale": 0.4067796610169492,
+    "groundOffset": 28,
+    "reviewed": [
+      "32frame72px contact sheet",
+      "dark/light backgrounds",
+      "no visible cell clipping",
+      "four distinct orientations",
+      "frame-specific foot baselines"
+    ],
+    "remaining": [
+      "actual arena ground and weapon overlay",
+      "pause/idle/direction transitions in game",
+      "creator final visual approval"
+    ],
+    "evidence": [
+      "outputs/animation-audit/prot-walk-v2-preview-dark.png",
+      "outputs/animation-audit/prot-walk-v2-preview-light.png",
+      "outputs/animation-audit/prot-walk-v2-contact.png"
+    ]
+  }
+}

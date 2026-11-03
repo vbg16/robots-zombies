@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Sensores de campo: pulso periódico, alcance, relé elemental e exposição para tiros manuais. Painel78, migração por revisão. Balanceamento experimental; não promover automaticamente ao público.",
-  "build": 44
+  "notes": "PROT com caminhada direcional real; timbres para12 armas, efeitos de combate e trilha synthwave variada. Busca espacial e seleção elétrica com equivalência de estado/RNG. Candidato experimental: acabamento e desempenho extremo ainda em andamento; não promover automaticamente ao público.",
+  "build": 45
 }

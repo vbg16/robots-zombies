@@ -1,4 +1,4 @@
-// Optional renderer. Not loaded by index.html until final production assets arrive.
+// Frame animation renderer. Art approval and actor simulation remain separate.
 (function(root){
 'use strict';
 class SpriteAnimation {
@@ -8,7 +8,10 @@ class SpriteAnimation {
   if(!clips||!Object.keys(clips).length)throw Error('No animation clips');
   for(const frames of Object.values(clips)){
    if(!Array.isArray(frames)||!frames.length)throw Error('Empty clip');
-   for(const f of frames)if(![f.x,f.y,f.w,f.h,f.ms].every(Number.isFinite)||f.x<0||f.y<0||f.w<=0||f.h<=0||f.ms<=0||f.x+f.w>image.naturalWidth||f.y+f.h>image.naturalHeight)throw Error('Invalid frame');
+   for(const f of frames){
+    if(![f.x,f.y,f.w,f.h,f.ms].every(Number.isFinite)||f.x<0||f.y<0||f.w<=0||f.h<=0||f.ms<=0||f.x+f.w>image.naturalWidth||f.y+f.h>image.naturalHeight)throw Error('Invalid frame');
+    for(const [key,bound] of [['pivotX',f.w],['pivotY',f.h]])if(f[key]!==undefined&&(!Number.isFinite(f[key])||f[key]<0||f[key]>bound))throw Error('Invalid frame pivot');
+   }
   }
   this.image=image;this.clips=clips;this.scale=scale;this.pivotX=pivotX;this.pivotY=pivotY;
   this.clip=null;this.time=0;
@@ -44,7 +47,8 @@ class SpriteAnimation {
   const f=this.frame;if(!f)return false;
   ctx.save();
   try{ctx.imageSmoothingEnabled=false;
-   ctx.drawImage(this.image,f.x,f.y,f.w,f.h,Math.round(x-this.pivotX*this.scale),Math.round(y-this.pivotY*this.scale),f.w*this.scale,f.h*this.scale);
+   const pivotX=f.pivotX===undefined?this.pivotX:f.pivotX,pivotY=f.pivotY===undefined?this.pivotY:f.pivotY;
+   ctx.drawImage(this.image,f.x,f.y,f.w,f.h,Math.round(x-pivotX*this.scale),Math.round(y-pivotY*this.scale),f.w*this.scale,f.h*this.scale);
   }finally{ctx.restore();}
   return true;
  }
