@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 50
+# Contrato vigente — Screwvivors BUILD 51
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -12,12 +12,12 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Policiais | Só após derrotar o segundo chefe: cinco dos 15, alternando rifle/escudo. Escudo 100 absorve integralmente o golpe de quebra. Só o sobrevivente que perdeu o escudo passa a parar, mirar e correr até 240 px numa direção fixa. Sem aceleração de aproximação nos comuns. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
 | Chefes | Três identidades recorrentes e seus lacaios; Sucateiro acompanha e mantém distância. Peça única salva, cura até 20 (40 com Caça-Titãs), escolha temporária. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
 | Perfil | Parafusos coletados e peças conquistadas permanecem ao morrer. Sem bônus permanentes de atributo. Compras verificam saldo/peça e devolvem recursos em falha de gravação. | combat.cjs: compras, saves, migração e morte. |
-| Equipamento | Seis chassis e 12 armas, um slot no protótipo. Escolha na garagem, arma e chassi fixos durante combate. Novos chassis não são concedidos pela migração de perfil antigo. | combat.cjs, build-mechanics.cjs e Chrome. |
+| Equipamento | Seis chassis e12armas:um espaço por padrão, BAST permite até2armas e ENXA até3, opcionais, distintas e desbloqueadas. Duas usam dano×0,7 por arma/movimento×0,9; três×0,55/×0,8. Escolha na garagem, conjunto e chassi fixos durante combate. Novos chassis não são concedidos pela migração de perfil antigo. | combat.cjs, build-mechanics.cjs e Chrome. |
 | Progressão | XP inicial 6, crescimento ×1,2, coleta inicial 95. Catálogo de 82 aprimoramentos: 52 normais, seis gambiarras, seis experimentos e 18 especializações. | balance-panel.cjs e build-mechanics.cjs. |
 | Ofertas | Gambiarras nos níveis 3/6/9; especialização do chassi no nível 10. Uma renovação por nível normal; renovar não recarrega a própria carga. Reforja no nível 20. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
-| Reforja | Duas opções próprias de cada arma, escolher uma ou recusar. Substitui o módulo do nível 20. Não troca/funde arma, repõe munição, termina recarga ou modifica projéteis já emitidos. Não volta após recusa; some ao reiniciar. | weapon-evolution.cjs: 24 opções, estados, callbacks, projéteis e reset. |
+| Reforja | Duas opções próprias de cada arma, escolher uma ou recusar por espaço, em sequência pausada. Substitui o módulo do nível20. Não troca/funde arma, repõe munição, termina recarga ou modifica projéteis já emitidos. Não volta após recusa; some ao reiniciar. | weapon-evolution.cjs: 24 opções, estados, callbacks, projéteis e reset. |
 | Construção de build | Dez receitas recomendadas; guia não concede equipamento, skills, atributos nem altera sorteios. | builds-balance.cjs, Chrome dos guias e weapon-evolution-browser.cjs. |
-| Cura e drones | Cura efetiva ativa protocolos; recarga parcial cura proporcionalmente. Até três drones, sem cadeia recursiva de procs. Célula verde a cada 25 abates precisa ser coletada e não vale parafusos. | build-mechanics.cjs. |
+| Cura e drones | Cura efetiva ativa protocolos; recarga parcial cura proporcionalmente e divide a cura pelo total de armas equipadas. Até três drones, sem cadeia recursiva de procs. Célula verde a cada 25 abates precisa ser coletada e não vale parafusos. | build-mechanics.cjs. |
 | Painel | 82 skills editáveis; configuração só nas próximas tentativas. Preservar rascunhos/efeitos legados, migrar IDs conflitantes com suas referências e não repetir a migração textual. As 24 reforjas são catálogo próprio de arma, consultável na garagem, e ainda não são editáveis no painel. | balance-panel.cjs, balance-migration.cjs e testes do editor. |
 | Corrosão | Uma carga por alvo, sem renovar/acumular; origem em bala, respingo de uma geração para dois vizinhos; escudos bloqueiam aplicação. Cura, explosões, drones e raios não semeiam cargas. Prazo e dano capturados na aplicação; pausa/morte/reset interrompem a tentativa. | corrosion.cjs, corrosion-balance.cjs e Chrome. |
 | Sensores | Pulso adquirido, 3s/raio170/35% da base direta, sem projétil ou munição. Relé só fogo/frio; exposição2s amplia apenas balas em25%. Escudos bloqueiam estados. Sem skill, não percorre horda; pausa/reset preservados. HUD móvel comporta seis timers. | sensors.cjs, sensors-browser.cjs e sensors-balance.cjs. |
@@ -37,7 +37,7 @@ Os números novos são experimentais. Testar funcionamento não aprova balanceam
 
 ## Pendências do objetivo de integração
 
-A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. A [reavaliação das dez builds da BUILD 41](reavaliacao-build41.md) foi concluída, preservando falhas. A BUILD 42 revisou a [Lança de Fuga](ajuste-lanca-de-fuga.md) por comparação de seis sementes. Continuam pendentes a melhoria das demais receitas frágeis, balanceamento de corrosão/sensores, aprofundamento de suportes invocados e a especificação de equipamentos avançados com múltiplos slots. Corrosão foi implementada na BUILD43 e sensores na BUILD44; suportes adicionais e multisslots ainda não foram implementados.
+A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. A [reavaliação das dez builds da BUILD 41](reavaliacao-build41.md) foi concluída, preservando falhas. A BUILD 42 revisou a [Lança de Fuga](ajuste-lanca-de-fuga.md) por comparação de seis sementes. Continuam pendentes a melhoria das demais receitas frágeis, balanceamento de corrosão/sensores, aprofundamento de suportes invocados e a avaliação dos equipamentos avançados com múltiplos espaços. Corrosão foi implementada na BUILD43 e sensores na BUILD44; drones/sensores/rotores e os espaços adicionais já foram implementados; integração de balanceamento e acabamento continuam pendentes.
 
 Não importar vitória cronometrada, retenção de skills após morte, runas com atributos permanentes ou fusão de armas: entram em conflito com decisões explícitas do criador. Ranking, nuvem e conquistas precisam de etapa própria de plataforma e integridade; o protótipo permanece local.
 
@@ -60,3 +60,13 @@ Novos IDs declaram catalogIntroductions=5. Preservar os78módulos de origem e co
 ## Regra de otimização dos choques — BUILD50
 
 A consulta espacial deve devolver os mesmos vizinhos vivos, na mesma ordem por distância e desempate pela lista original. Inserções após empurrão permanecem consultáveis. Fora da fase de projéteis, em populações pequenas ou coordenadas inseguras, usar busca linear. É proibido limitar alvos vivos, dano ou efeitos para reduzir custo. A consulta não altera entidades nem consome RNG.
+
+## Arsenal avançado — BUILD51
+
+BAST mantém uma arma por padrão e admite segunda; ENXA admite segunda e terceira. Capacidade é recurso do equipamento desbloqueado, sem mudar inventário ou conceder atributos permanentes. Reset valida capacidade, posse e duplicatas. Guia de receita limpa auxiliares para corresponder ao projeto anunciado. Nenhuma troca ou fusão em campo.
+
+Cada arma conserva munição, recarga, fila de rajada, contagem para crítico, recuo, cadência e reforja. Todas usam a mira/disparo manual. R inicia somente as recargas necessárias. Cura de recarga é dividida por quantidade equipada; callbacks de vida/movimento/suportes rodam uma vez. Modificadores numéricos do painel afetam cada base de arma; operações aditivas e limites também são locais. Drones, sensores e rotores continuam derivados da principal, sem somar as bases de três armas.
+
+Projéteis capturam descritor/traços de reforja e base direta da origem. Reposição por abate/eletricidade retorna uma única munição à origem; fontes sem arma usam a principal. Queimadura mantém a origem do DPS dominante, corrosão/respingo preservam origem escalar sem reter grafos de entidades. O limite existente400de projéteis é compartilhado, com prioridade rotativa em arsenais múltiplos. Soltar/cancelar ponteiro elimina imediatamente todas as rajadas; pausa congela todos os estados.
+
+No20cada arma recebe uma oferta própria, escolher/recusar avança para a próxima sem tempo transcorrer. Uma versão antiga do callback não pode afetar a arma seguinte. Estado de recarga, munição e projéteis antigos permanece intacto. O catálogo permanece82/revisão5. [Regras, evidência e limites](arsenal-avancado.md).

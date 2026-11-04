@@ -15,7 +15,7 @@ const realOnly=process.argv.includes('--real-only');
 const useRefits=process.env.BUILD_REFITS==='1';
 const dt=.05;
 const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
-const driverVersion=9; // Attack an in-range boss while retaining a sixty-pixel immediate-threat guard.
+const driverVersion=10; // Attack an in-range boss while retaining a sixty-pixel immediate-threat guard.
 const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
 const frozenBootstrap=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 
@@ -28,7 +28,7 @@ function harness(seed){
  h.run(`Math.random=()=>{qaSeed=(Math.imul(qaSeed,1664525)+1013904223)>>>0;return qaSeed/4294967296};
  profile=emptyProfile();profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));saveProfile();
  globalThis.qa={damage:{},received:0,receivedBySource:{},healing:0,bosses:[],choices:[],maxEnemies:0,maxBullets:0,maxHostile:0,controlEnemySeconds:0,distance:0};
- globalThis.qaDamage=damageEnemy;damageEnemy=function(z,n,source='direct'){const before=z.hp;const wasBoss=z===boss;qaDamage(z,n,source);const effective=Math.max(0,before-z.hp);qa.damage[source]=(qa.damage[source]||0)+effective;if(wasBoss&&before>0&&z.hp===0)qa.bosses.push({id:z.id,at:clock,ttk:clock-(z.qaSpawnAt||0)});};
+ globalThis.qaDamage=damageEnemy;damageEnemy=function(z,n,source='direct',origin=null){const before=z.hp;const wasBoss=z===boss;qaDamage(z,n,source,origin);const effective=Math.max(0,before-z.hp);qa.damage[source]=(qa.damage[source]||0)+effective;if(wasBoss&&before>0&&z.hp===0)qa.bosses.push({id:z.id,at:clock,ttk:clock-(z.qaSpawnAt||0)});};
  globalThis.qaSpawn=spawnBoss;spawnBoss=function(){const result=qaSpawn();if(boss)boss.qaSpawnAt=clock;return result;};
  globalThis.qaHurt=hurtPlayer;hurtPlayer=function(...args){const hp=player.hp;const kind=args[3]||(boss&&Math.hypot((args[1]||0)-boss.x,(args[2]||0)-boss.y)<2?'boss-contact':'contact-or-projectile');const result=qaHurt(...args);const loss=Math.max(0,hp-player.hp);qa.received+=loss;qa.receivedBySource[kind]=(qa.receivedBySource[kind]||0)+loss;return result;};
  globalThis.qaHeal=healPlayer;healPlayer=function(...args){const hp=player.hp;const result=qaHeal(...args);qa.healing+=Math.max(0,player.hp-hp);return result;};
@@ -38,7 +38,7 @@ function harness(seed){
  return h;
 }
 const read=(h,s)=>JSON.parse(h.run(`JSON.stringify(${s})`));
-function equip(h,b){h.context.qaBuild=b;h.run('selectedRobot=qaBuild.robot;selectedWeapon=qaBuild.weapon;reset()');}
+function equip(h,b){h.context.qaBuild=b;h.run('selectedRobot=qaBuild.robot;selectedWeapon=qaBuild.weapon;selectedAuxWeapons=(qaBuild.auxWeapons||[]).slice();reset()');}
 function structure(){
  const h=harness(1);h.run('reset()');
  assert.equal(h.run('Object.keys(ROBOTS).length'),6);
@@ -49,7 +49,7 @@ function structure(){
  assert.equal(h.run('new Set(window.ScrewBalance.catalog.map(x=>x.id)).size'),82);
  assert.equal(h.run('window.ScrewBalance.validate(window.ScrewBalance.load()).ok'),true);
  assert.equal(builds.length,10);assert.equal(h.run('Object.values(WEAPON_EVOLUTIONS).flat().length'),24);for(const b of builds)assert.equal(h.run("WEAPON_EVOLUTIONS["+JSON.stringify(b.weapon)+"].some(e=>e.id==="+JSON.stringify(b.evolution)+")"),true);
- for(const b of builds){equip(h,b);assert.equal(new Set(b.skills).size,8);assert.equal(b.core.length,4);const got=new Set();for(const id of b.skills){const skill=read(h,`SKILLS.find(x=>x.id===${JSON.stringify(id)})`);assert.ok(skill,`${b.id}:${id} exists`);assert.ok(!skill.parent||got.has(skill.parent),`${b.id}:${id} ordered prerequisite`);got.add(id);}for(const id of b.core)assert.ok(got.has(id));assert.equal(h.run('SPECIALIZATIONS[qaBuild.robot].some(x=>x.id===qaBuild.specialization)'),true);}
+ for(const b of builds){equip(h,b);assert.equal(h.run('weaponSlots.length'),1+(b.auxWeapons||[]).length,'requested equipment must fit and stay distinct');assert.equal(new Set(b.skills).size,8);assert.equal(b.core.length,4);const got=new Set();for(const id of b.skills){const skill=read(h,`SKILLS.find(x=>x.id===${JSON.stringify(id)})`);assert.ok(skill,`${b.id}:${id} exists`);assert.ok(!skill.parent||got.has(skill.parent),`${b.id}:${id} ordered prerequisite`);got.add(id);}for(const id of b.core)assert.ok(got.has(id));assert.equal(h.run('SPECIALIZATIONS[qaBuild.robot].some(x=>x.id===qaBuild.specialization)'),true);}
  return {ok:true,builds:10,catalog:82};
 }
 function components(){
@@ -77,7 +77,7 @@ function synthetic(b,stage,group,bossTarget=false){
   for(const id of qaBuild.blessings){const item=GAMBARRAS.find(s=>s.id===id);applyRunBalance(id,item.apply);player.blessings.add(id);}
   for(const id of qaBuild.experiments){const item=BOSS_EXPERIMENTS.find(s=>s.id===id);applyRunBalance(id,item.apply);player.experiments.add(id);}
   state='specialization';offeredSpecializations=[SPECIALIZATIONS[qaBuild.robot].find(s=>s.id===qaBuild.specialization)];chooseSpecialization(qaBuild.specialization,offerVersion);
-  if(qaUseRefits){level=20;offerWeaponEvolution();chooseWeaponEvolution(qaBuild.evolution,offerVersion);}
+  if(qaUseRefits){level=20;offerWeaponEvolution();for(let i=0;state==='evolution'&&i<weaponSlots.length;i++){const id=evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id;chooseWeaponEvolution(id,offerVersion);}if(state==='evolution')throw Error('Synthetic refit configuration did not resolve');}
  }
  // Explicit laboratory fixture: stationary targets, no wave pressure, no RNG progression.
  spawn=1e9;bossIndex=1e6;globalThis.qaFixture=[];
@@ -96,7 +96,7 @@ function synthetic(b,stage,group,bossTarget=false){
 
 const simulation=String.raw`
 globalThis.qaDecision=0;globalThis.qaChoices=0;globalThis.qaFinite=true;globalThis.qaLast={x:player.x,y:player.y};globalThis.qaCenter={x:player.x,y:player.y};globalThis.qaTarget=null;
-globalThis.qaFireWeapon=fireWeapon;fireWeapon=function(){if(qaTarget?.hp>0)aim={x:qaTarget.x-camera.x,y:qaTarget.y-camera.y,active:true};return qaFireWeapon();};
+globalThis.qaFireWeapon=fireWeapon;fireWeapon=function(slot){if(qaTarget?.hp>0)aim={x:qaTarget.x-camera.x,y:qaTarget.y-camera.y,active:true};return qaFireWeapon(slot);};
 function qaChoose(){
  let options=[],want=[],choose=null;
  if(state==='upgrade'||state==='reward'){
@@ -108,7 +108,7 @@ function qaChoose(){
   else {const skip=el('choices').children.at(-1);skip?.onclick?.();}
  }else if(state==='blessing'){options=offeredBlessings;choose=qaBuild.blessings.map(id=>options.find(s=>s.id===id)).find(Boolean)||options[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseBlessing(choose.id,offerVersion);}}
  else if(state==='experiment'){options=offeredExperiments;choose=qaBuild.experiments.map(id=>options.find(s=>s.id===id)).find(Boolean);if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseExperiment(choose.id,offerVersion);}else declineExperiment(offerVersion);}
- else if(state==='evolution'){const id=qaUseRefits?qaBuild.evolution:'declined';qa.choices.push({at:clock,level,kind:state,id});if(qaUseRefits)chooseWeaponEvolution(id,offerVersion);else declineWeaponEvolution(offerVersion);}
+ else if(state==='evolution'){const id=qaUseRefits?(evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id):'declined';qa.choices.push({at:clock,level,kind:state,id,slot:evolutionSlotIndex});if(qaUseRefits)chooseWeaponEvolution(id,offerVersion);else declineWeaponEvolution(offerVersion);}
  else if(state==='specialization'){choose=offeredSpecializations.find(s=>s.id===qaBuild.specialization)||offeredSpecializations[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSpecialization(choose.id,offerVersion);}}
 }
 function qaDrive(){
@@ -149,16 +149,16 @@ for(let step=0;step<Math.ceil(qaDuration/.05)&&state!=='over';){
  qa.distance+=Math.hypot(player.x-qaLast.x,player.y-qaLast.y);qaLast={x:player.x,y:player.y};
  qa.maxEnemies=Math.max(qa.maxEnemies,enemies.length);qa.maxBullets=Math.max(qa.maxBullets,bullets.length);qa.maxHostile=Math.max(qa.maxHostile,hostile.length);
  qa.controlEnemySeconds+=enemies.filter(z=>z.slowTime>0||z.stunTime>0).length*.05;
- if(step%100===0){qaFinite=qaFinite&&[player.x,player.y,player.hp,player.maxHp,player.damage,player.rate,...enemies.flatMap(z=>[z.x,z.y,z.hp])].every(Number.isFinite);if(!qaFinite)throw Error('Nonfinite runtime state');}
+ if(step%100===0){qaFinite=qaFinite&&[player.x,player.y,player.hp,player.maxHp,player.damage,player.rate,...weaponSlots.flatMap(s=>[s.damage,s.rate,s.ammo,s.reloadTime,s.cooldown]),...enemies.flatMap(z=>[z.x,z.y,z.hp])].every(Number.isFinite);if(!qaFinite)throw Error('Nonfinite runtime state');}
 }
-globalThis.qaResult={weaponEvolution:player.weaponEvolution?.id||null,time:clock,state,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,coreReached:qaBuild.core.every(id=>player.acquired.has(id)),recipeReached:qaBuild.skills.every(id=>player.acquired.has(id)),acquired:[...player.acquired],finite:qaFinite,...qa};
+globalThis.qaResult={weapons:weaponSlots.map(s=>({weapon:s.weapon.id,evolution:s.weaponEvolution?.id||null,ammo:s.ammo,reload:s.reloadTime,damage:s.damage,rate:s.rate})),weaponEvolution:player.weaponEvolution?.id||null,time:clock,state,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,coreReached:qaBuild.core.every(id=>player.acquired.has(id)),recipeReached:qaBuild.skills.every(id=>player.acquired.has(id)),acquired:[...player.acquired],finite:qaFinite,...qa};
 `;
 function realAttempt(b,seed){const h=harness(seed);equip(h,b);h.context.qaDuration=duration;h.run(simulation);return {build:b.id,seed,...read(h,'qaResult')};}
 
 const file=process.env.BUILD_REPORT||'docs/builds-results.json';
 let history=[];try{history=JSON.parse(fs.readFileSync(file,'utf8')).executions||[];}catch{}
 const release=JSON.parse(fs.readFileSync('version.json','utf8'));
-const execution={at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
+const execution={at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),harnessDriverHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
 history.push(execution);
 function persist(){fs.writeFileSync(file,JSON.stringify({note:'All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.',executions:history},null,2)+'\n');}
 try{

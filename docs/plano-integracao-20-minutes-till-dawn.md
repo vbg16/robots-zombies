@@ -252,3 +252,7 @@ Quatro módulos originais adicionam suporte orbital de contato; quantidade/raio/
 ## Preparação após BUILD50 — estado por arma
 
 Combate passou a receber estado explícito de arma para emissão, rajada, cadência, recarga e reforja. A principal mantém compatibilidade com o jogador; estados adicionais têm valores independentes. Módulos aplicam atributos de arma por espaço e vida/movimento uma única vez.48 mundos de12armas comparam estado/RNG exatamente com a BUILD50;82entradas foram verificadas quanto a isolamento. A garagem ainda equipa uma arma:armações avançadas, HUD, origem dos procs, reforjas por espaço e combinações precisam de integração antes de anunciar multisslots ou publicar nova versão estável. Ver armas-por-estado.md.
+
+## BUILD51 — arsenal avançado integrado
+
+BAST admite atéduas armas e ENXA atétrês, opcionais e desbloqueadas. Custos por quantidade, disparo/mira manuais compartilhados, estados e reforjas20 independentes, reposição àorigem, limite400rotativo e HUD responsivo. Ver arsenal-avancado.md.140casos controlados,1452combinações curtas,48mundos single idênticos e quatro tentativas de1200s com4/4/7/4chefes passaram. Driver10 encaminha estado/origem ao instrumentar; resultados históricos não são pareamento de balanceamento. A avaliação ampla das dez receitas e o acabamento/desempenho finais continuam pendentes; publicação pública depende de aprovação real.

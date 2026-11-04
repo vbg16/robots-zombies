@@ -384,7 +384,7 @@ const pierceManual=manualCards.find(card=>card['data-module']==='pierce');assert
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[2].textContent.includes(run("SKILLS.find(s=>s.id==='ricochet').cost")),'manual uses current canonical costs');
 run('renderCompendium()');assert.equal(manual.children.length,21,'reopening catalog replaces instead of duplicating entries');
 console.log('Garage compendium covers all 82 temporary modules without mutating the run or profile.');
-assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].textContent.includes('armas com retorno'),'manual explains weapon-specific ricochet eligibility');
+assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].textContent.includes('projéteis de retorno; exige ao menos uma arma sem retorno'),'manual explains mixed-arsenal ricochet eligibility');
 
 // One run-only reroll replaces level-up choices without granting a skill or advancing combat.
 fresh();run('upgrade();globalThis.oldOffer=offeredSkills.map(s=>s.id);globalThis.oldOfferVersion=offerVersion;globalThis.beforeReroll=JSON.stringify({clock,level,xp,need,profile,damage:player.damage,acquired:[...player.acquired]})');

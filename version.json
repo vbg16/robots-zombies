@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Busca espacial dos vizinhos elétricos, preservando alvos, dano e RNG. Catálogo82/revisão5 inalterado. Desenvolvimento testado; balanceamento e aprovação pública pendentes.",
-  "build": 50
+  "notes": "Arsenal avançado opcional: BAST até2 armas, ENXA até3, com custos visíveis; estados, reforjas20 e HUD por arma. Catálogo82/revisão5. Balanceamento experimental, sem aprovação pública.",
+  "build": 51
 }

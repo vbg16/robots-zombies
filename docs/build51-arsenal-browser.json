@@ -1,0 +1,26 @@
+{
+  "kind": "controlled-browser-ui-fixtures",
+  "browser": "156.0.8078.80",
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "offlineFile": true,
+  "errors": [],
+  "passed": true,
+  "note": "Gear ownership and level20 are injected. RAF is disabled; actual DOM input plus explicit game ticks test behavior, not natural progression or displayed FPS.",
+  "sourceHashes": {
+    "game.js": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+    "balance.js": "50da247d6d13c2154b5e4508e8e519a880f8d36a54e141392a18ae670ba306f0",
+    "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce",
+    "index.html": "812864c6ee7def82cf35dfc02283da38b8bd14a2cc182930849081a88911352c",
+    "style.css": "32dae6bc9ddb56b2129d3f3e0a311ae25c171e83da8501fd10af7f82c587a15b"
+  },
+  "driverHash": "11ece29c9a25c9eda2c4b9ce8638e7285526468cefb0ab6ff6b0b48ebf8381f6"
+}

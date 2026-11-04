@@ -1,0 +1,159 @@
+{
+  "build": 51,
+  "sourceHashes": {
+    "game.js": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+    "balance.js": "50da247d6d13c2154b5e4508e8e519a880f8d36a54e141392a18ae670ba306f0",
+    "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+  },
+  "controlled": {
+    "canonicalCases": 70,
+    "advancedCases": 70,
+    "orderedCombinationSmokes": 1452,
+    "primaryEquivalentWorlds": 48
+  },
+  "natural": {
+    "policy": "Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.",
+    "driverVersion": 10,
+    "seeds": [
+      20261103,
+      20261104
+    ],
+    "passed": 4,
+    "total": 4,
+    "attempts": [
+      {
+        "build": "demolicao-de-campo",
+        "seed": 20261103,
+        "seconds": 1199.9999999994563,
+        "bosses": 4,
+        "level": 28,
+        "coreReached": true,
+        "received": 1010.9999999999998,
+        "healing": 979.1000000000001,
+        "weapons": [
+          {
+            "weapon": "grenade",
+            "evolution": "grenade-doubleShell",
+            "ammo": 0,
+            "reload": 5.254687499999917,
+            "damage": 27.299999999999997,
+            "rate": 0.675
+          },
+          {
+            "weapon": "cryo",
+            "evolution": "cryo-deepCooling",
+            "ammo": 0,
+            "reload": 1.3625000000000191,
+            "damage": 23.61333333333333,
+            "rate": 0.27945000000000003
+          }
+        ],
+        "viable": true
+      },
+      {
+        "build": "demolicao-de-campo",
+        "seed": 20261104,
+        "seconds": 1199.9999999994563,
+        "bosses": 4,
+        "level": 32,
+        "coreReached": true,
+        "received": 1267.2,
+        "healing": 1267.2,
+        "weapons": [
+          {
+            "weapon": "grenade",
+            "evolution": "grenade-doubleShell",
+            "ammo": 0,
+            "reload": 14.004687499999989,
+            "damage": 34.12499999999999,
+            "rate": 0.675
+          },
+          {
+            "weapon": "cryo",
+            "evolution": "cryo-deepCooling",
+            "ammo": 2,
+            "reload": 0,
+            "damage": 29.516666666666666,
+            "rate": 0.27945000000000003
+          }
+        ],
+        "viable": true
+      },
+      {
+        "build": "enxame-de-sucata",
+        "seed": 20261103,
+        "seconds": 1199.9999999994563,
+        "bosses": 7,
+        "level": 27,
+        "coreReached": true,
+        "received": 770,
+        "healing": 769.9999999999997,
+        "weapons": [
+          {
+            "weapon": "harpoon",
+            "evolution": "harpoon-longShaft",
+            "ammo": 0,
+            "reload": 1.7750000000000108,
+            "damage": 111.37500000000001,
+            "rate": 1.7388000000000001
+          },
+          {
+            "weapon": "flame",
+            "evolution": "flame-fuelMixer",
+            "ammo": 43,
+            "reload": 0,
+            "damage": 6.456521739130436,
+            "rate": 0.16559999999999997
+          },
+          {
+            "weapon": "cryo",
+            "evolution": "cryo-deepCooling",
+            "ammo": 0,
+            "reload": 1.2250000000000103,
+            "damage": 40.837500000000006,
+            "rate": 0.5713199999999999
+          }
+        ],
+        "viable": true
+      },
+      {
+        "build": "enxame-de-sucata",
+        "seed": 20261104,
+        "seconds": 1199.9999999994563,
+        "bosses": 4,
+        "level": 27,
+        "coreReached": true,
+        "received": 1026,
+        "healing": 1019.9999999999972,
+        "weapons": [
+          {
+            "weapon": "harpoon",
+            "evolution": "harpoon-longShaft",
+            "ammo": 0,
+            "reload": 3.0250000000000075,
+            "damage": 74.25,
+            "rate": 0.7245
+          },
+          {
+            "weapon": "flame",
+            "evolution": "flame-fuelMixer",
+            "ammo": 0,
+            "reload": 4.625000000000002,
+            "damage": 4.304347826086957,
+            "rate": 0.06899999999999999
+          },
+          {
+            "weapon": "cryo",
+            "evolution": "cryo-deepCooling",
+            "ammo": 0,
+            "reload": 3.0250000000000075,
+            "damage": 27.22500000000001,
+            "rate": 0.23804999999999996
+          }
+        ],
+        "viable": true
+      }
+    ]
+  },
+  "limits": "Four deterministic automated attempts of two experimental loadouts. Gear pre-unlocked only for setup. Not all recipes, a human quality verdict, FPS, exhaustive encounter coverage or public approval. Driver10 preserves explicit slot/source arguments; previous driver9 results are historical and not a paired comparison."
+}

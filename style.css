@@ -248,3 +248,14 @@ body.combat-screen [aria-pressed="true"]{background:#265169!important;color:#f0f
 #enable-audio{margin-top:12px;padding:8px 12px;font:700 10px monospace;background:#102738;color:#a8f1ff}#enable-audio[hidden]{display:none}#screen-transition{position:fixed;inset:0;z-index:50;pointer-events:none;background:#06101b;opacity:0}@keyframes screenFade{from{opacity:.8}to{opacity:0}}@media(prefers-reduced-motion:reduce){#screen-transition{animation:none!important}}
 
 #open-skills-panel{display:inline-block;margin:14px 0 0 16px;color:#86d9e9;font:600 12px system-ui;text-decoration:none;border-bottom:1px solid #86d9e955;padding:7px 0}#open-skills-panel:hover,#open-skills-panel:focus-visible{color:#d5f8ff;border-color:currentColor}
+
+.aux-weapon-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px;margin:18px 0}.aux-weapon-options label{display:grid;gap:8px;color:#a8f1ff;font:700 11px/1.5 monospace}.aux-weapon-options select{width:100%;min-height:44px;padding:10px;border:1px solid #71d7f2;background:#102738;color:#e4f4fa;font:12px monospace}.aux-weapon-options select:focus-visible{outline:2px solid #a8f1ff;outline-offset:3px}.loadout-cost{padding:12px;border:1px solid #816a40;background:#241e14;color:#ffe2a6;font:12px/1.6 monospace}#aux-ammo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:5px}.aux-ammo-panel{min-width:0;padding:6px}.aux-ammo-panel small{overflow-wrap:anywhere;font-size:9px}.aux-ammo-panel b{font-size:16px}.aux-ammo-panel span{font-size:9px}.aux-weapon-options[hidden],.loadout-cost[hidden],#aux-ammo[hidden]{display:none}
+
+.combat-screen .ammo-panel{min-width:0;max-width:100%;box-sizing:border-box}.combat-screen #aux-ammo{max-height:none;overflow:visible;padding:0;border:0;box-shadow:none;background:transparent}.combat-screen .aux-ammo-panel{padding:6px!important;border:1px solid #344f67;background:#091522ef}.combat-screen .aux-ammo-panel small{letter-spacing:.3px}.combat-screen .aux-ammo-panel b{margin-right:0}.salvage-hint[hidden]{display:none}
+@media(max-width:720px){.combat-screen #aux-ammo{grid-template-columns:minmax(0,1fr)}.combat-screen .aux-ammo-panel{grid-template-columns:minmax(0,1fr) auto;gap:3px 4px}.combat-screen .aux-ammo-panel>b{grid-column:2;grid-row:1;font-size:14px}.combat-screen .aux-ammo-panel>small{grid-column:1;font-size:8px;overflow-wrap:anywhere}.combat-screen .aux-ammo-panel>span,.combat-screen .aux-ammo-panel .reload-track{grid-column:1/-1}.salvage-hint{bottom:auto;top:290px;right:8px;max-width:190px;font-size:8px}}
+
+.aux-weapon-detail{margin:0;color:#b7ccd9;font:11px/1.6 monospace}.aux-weapon-options .weapon-refit-manual{font:11px/1.6 monospace;color:#b7ccd9}
+
+.arsenal-repair-note{font:11px/1.6 monospace;color:#b7ccd9;max-width:68ch}
+
+.combat-screen #aux-ammo{grid-template-columns:minmax(0,1fr)}.combat-screen .aux-ammo-panel b{white-space:nowrap}

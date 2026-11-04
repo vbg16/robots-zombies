@@ -1,0 +1,346 @@
+{
+  "kind": "primary-weapon-runtime-full-state-equivalence",
+  "baselineHash": "4bfea846f4d8c2ae01ab242b5ec0a185946a925a0647cc8bf49fe0b3c2f0a4f7",
+  "candidateHash": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+  "driverHash": "7c2613a7650135cf4fe6fedfeb38ca0d8c547303724af20eab722ee6431100e7",
+  "note": "48 controlled fixtures, 240 steps each, explicit module/refit installation, high HP and immunity solely for fixture retention. Not natural progression, balance approval or user-facing multi-weapon availability.",
+  "cases": [
+    {
+      "weapon": "machine",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "0072dfa50848d01584621b3efb8ad0c91df43417fea050202a4450d3708b7fd6"
+    },
+    {
+      "weapon": "machine",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "75b6a089418e47776533e18d4701a0cf977cb0f72027f4ce3a6624b8d5b9fa6e"
+    },
+    {
+      "weapon": "machine",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "2a1ddac7fb038838991a8b2fd36595e47cbc7a8274d625ea17273a6b265ffad3"
+    },
+    {
+      "weapon": "machine",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "4a0261bd9d8d92fda4d1c46c809e2506ce963d27aff9f517221968a35b41d370"
+    },
+    {
+      "weapon": "shotgun",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "d0f6a92cf3cd979121b426d87d101dcd02ff18dc59ec49d3176d05980fe4bf60"
+    },
+    {
+      "weapon": "shotgun",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "787deb95c344f24f1d4cdf9fd2abc88a9906d4b92563491d9ba5253e061f4798"
+    },
+    {
+      "weapon": "shotgun",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "b0f09f7060d5f2a2ecc903fc69d9b8c079fb9941814d3a2aaf6e9caa437c5da6"
+    },
+    {
+      "weapon": "shotgun",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "7e71da7293400ad84823562fb13764ad59fcd66a48f6dea55756affc5e9bba19"
+    },
+    {
+      "weapon": "burst",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "7e720345eca3f919fcebd460a85775236a90d30cd64786463b5293f34d83b1bc"
+    },
+    {
+      "weapon": "burst",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "7277f76af3fa7535699271f259013227a493ddb11d4ac1f948502a893a572da0"
+    },
+    {
+      "weapon": "burst",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "af0d3747ff6f9f1967ef414042624601526e0520b6d57242d3e74c1d9789626b"
+    },
+    {
+      "weapon": "burst",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "9ded10428210551eb94dcbf67e5abea18c1e2aee86ab192a035446cf4fb11b7d"
+    },
+    {
+      "weapon": "sniper",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "d3cf1797091a43c7f8c333609b2c3babc97de9443bcccd985930d8a772adfcc6"
+    },
+    {
+      "weapon": "sniper",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "f157b12839c96acee3b13f7347b06f811099ad6945f741c9f5903a22635a0d5b"
+    },
+    {
+      "weapon": "sniper",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "2b3bdcd89e645cf932b5da76d4da328d27a91e4d4269127c6c7c5e4d736c8f0f"
+    },
+    {
+      "weapon": "sniper",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "7c790e5243ea7808e9941b892100339e2b1ac06daa791f7c878870c4d519b294"
+    },
+    {
+      "weapon": "laser",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "bce8be9946ba65c84de7ecdfcc55f73562436c5e97d1a14b69ced1d90685fcc7"
+    },
+    {
+      "weapon": "laser",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "cb4549f362b30ef884e92cf788c543e9e35fe3dd5121a67fcc6d2218dfa3ec4e"
+    },
+    {
+      "weapon": "laser",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "1fc33d7ce7157e6a7254c181c2718177306780210a82b0b62bad6c10245ced75"
+    },
+    {
+      "weapon": "laser",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "89b53c51ac6a4b1c0044d6e0c1c1cfe72a2a520a84b684e784edf351f9a021f2"
+    },
+    {
+      "weapon": "flame",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "1b88d3a255797116a6d81c0811de5be9681b79816816df65b3ae86f6c3f22ad7"
+    },
+    {
+      "weapon": "flame",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "d3febd730a53703980c0b00b4825b2932b0f7f9aa90ea98210ad60edefdcc85a"
+    },
+    {
+      "weapon": "flame",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "6447e5764f5b20a15124a7cc67a1bf761af288b9f5eff2274ea32f7381e48efc"
+    },
+    {
+      "weapon": "flame",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "7fa2e1a4c42d525b33c0ef9cc7ef172f7bd10dc0354696466190f86717eb2121"
+    },
+    {
+      "weapon": "cryo",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "00af3cfc632340e2abd62413a50d510f39b347eb6c342d4854a5f9e0c17f5db4"
+    },
+    {
+      "weapon": "cryo",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "0dd76837bd9584c8095326accc5463da04358df388e0d1eeb3f80401be7dca9c"
+    },
+    {
+      "weapon": "cryo",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "3ce8ee3c18bbb19396b62d1b791dbbc792fc0062213486429472f7db3806f90f"
+    },
+    {
+      "weapon": "cryo",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "afe087ca279f0d6a379dd8684b78deb6378578aa94742bc622a0ef50a8830cd0"
+    },
+    {
+      "weapon": "rocket",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "a237fab1919ee01fecfa69da0ed4c397aec564b84982749b7bcd68bdbafb4963"
+    },
+    {
+      "weapon": "rocket",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "1df450689a55a9d2d95044baaffe14bc20c5d8fdd349b1ae7c78f86913621eed"
+    },
+    {
+      "weapon": "rocket",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "4364fd6a589744fa1b1caa7f185b30c12c6f5d0da3166b80ce6def7e7f99c160"
+    },
+    {
+      "weapon": "rocket",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "cb4c2aa0db093a73436b97b9f99dfab738ef414884ab3e3b54e3769a184ecbfc"
+    },
+    {
+      "weapon": "grenade",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "f48b212962313c994da81c2fbcbf53f06335812c114c3017be6c5e08b6617ac0"
+    },
+    {
+      "weapon": "grenade",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "139fbb5c4e163736eea9da829ae06aaf97a50e9cbd8d8701df5f6eca7c6c49f0"
+    },
+    {
+      "weapon": "grenade",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "6c2b1dff5ee9dd7db3e18d9683b7ed51c46292af6b3e16afbbb080800522cacb"
+    },
+    {
+      "weapon": "grenade",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "cec3886efd1cff962244cda44e393ab25bd29d8b6e10f724cd1285c8c75591fa"
+    },
+    {
+      "weapon": "tesla",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "bd671e7f54c365707355904444498ae04911816348ef55c9cd3071ae0d7750c8"
+    },
+    {
+      "weapon": "tesla",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "2217ab918e5829e232e64cdeb7217f5ac237cdf71b712af611dbb0c4fff9e312"
+    },
+    {
+      "weapon": "tesla",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "6aac7ad59ca94970e285a70a0f5aa387eb9df82b5dac67a6c0250281a68b8683"
+    },
+    {
+      "weapon": "tesla",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "82873108e46366e89e1bcafccd49b62c2ad53ceef3c6a43f71d7301e53c2d881"
+    },
+    {
+      "weapon": "disc",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "8250412d5e6dd5e859613625c2547d1e133def30f4714009bcab73191878060d"
+    },
+    {
+      "weapon": "disc",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "2de93decaccf04b69701e71d6e80b1cc4c5f45d133bce6b4fb86365eacd4b6cc"
+    },
+    {
+      "weapon": "disc",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "c20e091ab1469e97a61e1f6b09bc1d1ba933a193a09257a224e435121a4331ad"
+    },
+    {
+      "weapon": "disc",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "6eb800bd7476cce9084685ea6ffeda0ae48f253b0a6a6a1a4a61df6463471ca1"
+    },
+    {
+      "weapon": "harpoon",
+      "mode": "base",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "9e44ec143498d5064f5d06435ed296618157381e42af1f6f73fc6a9929d07b82"
+    },
+    {
+      "weapon": "harpoon",
+      "mode": "modules",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "f069a80622bbf120bc8cfae826377ae6851e2419bf46eca06d72c61d43a95514"
+    },
+    {
+      "weapon": "harpoon",
+      "mode": "refit0",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "2c40e1efd3810e5a9572a1e82a15087533ed4eb48b2d441d79b8a2636f76b82b"
+    },
+    {
+      "weapon": "harpoon",
+      "mode": "refit1",
+      "steps": 240,
+      "identical": true,
+      "stateHash": "104d76b272bde6864ee68c3c7c8e8dc220b7dbac99c74d61f84638df2c06529f"
+    }
+  ],
+  "balanceCandidateHash": "50da247d6d13c2154b5e4508e8e519a880f8d36a54e141392a18ae670ba306f0"
+}

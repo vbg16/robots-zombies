@@ -31,4 +31,4 @@ const frozen=run('JSON.stringify(weaponSlots)');run("state='paused';tick(5)");as
 run('globalThis.previousPrimary=primaryWeaponState();reset()');assert.equal(run('weaponSlots.length'),1);assert.equal(run('player.weaponEvolution'),null);assert.equal(run('player.shotCount'),0);assert.equal(run('shot'),0);assert.equal(run('player.ammo'),24);assert.notEqual(run('primaryWeaponState()'),run('secondary'));
 
 run("previousPrimary.cooldown=999;previousPrimary.bursts=[{delay:999}];previousPrimary.weapon=Object.freeze({...previousPrimary.weapon,id:'sniper'});");assert.equal(run('shot'),0);assert.equal(run('burstQueue.length'),0);assert.equal(run('runWeapon.id'),'machine');
-console.log('Weapon state passed: primary aliases, three independent emissions/ammo/reloads/cooldowns/bursts/stats, snapshots, input clearing, pause and reset. Additional loadout slots are not yet exposed in the garage.');
+console.log('Weapon state passed: primary aliases, three independent emissions/ammo/reloads/cooldowns/bursts/stats, snapshots, input clearing, pause and reset. Advanced chassis may expose additional slots in the garage.');

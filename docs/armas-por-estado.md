@@ -1,6 +1,6 @@
 # Estado independente de arma — preparação de múltiplos espaços
 
-Etapa interna após BUILD50. A garagem continua oferecendo uma arma. Este refactor prepara o combate; ainda não entrega equipamento simultâneo ao jogador nem constitui uma nova versão estável publicada.
+Base preparada após BUILD50 e integrada ao arsenal avançado na BUILD51. BAST e ENXA agora podem equipar armas adicionais na garagem. As regras finais estão em [arsenal-avancado.md](arsenal-avancado.md).
 
 Cada estado reúne arma, dano, cadência, munição, capacidade, progresso de recarga, fila de rajada, contagem de disparos, recuo e reforja. `fireWeapon`, `emitProjectiles`, `tickWeaponFire`, `tickWeaponReload` e funções de estatística recebem explicitamente o estado da arma. Não substituem temporariamente `player` ou `runWeapon` para disparar outra arma.
 
@@ -17,6 +17,6 @@ Os campos históricos do jogador são aliases do primeiro estado, preservando pa
 
 Para reproduzir o comparador, congele game.js do commit e07e900 em `outputs/performance/build50-weapon-state/game.js` ou indique `WEAPON_STATE_BASELINE`. O candidato é o game.js atual. O relatório completo é gerado em `outputs/performance/weapon-state-equivalence.json`.
 
-## Integração ainda necessária
+## Integração na BUILD51
 
-Expor armações avançadas e seleção das armas na garagem, respeitando desbloqueios; congelar o conjunto no início da tentativa. Definir os custos explícitos das armações antes de medir equilíbrio. Integrar reforjas por espaço, recarga manual do conjunto, HUD e desenho de cada arma, origem dos efeitos e reposição de munição, bem como o limite compartilhado de projéteis. Verificar combinações e snapshots num navegador real. Depois reavaliar as dez builds e preparar uma versão estável; não promover o ramo público sem aprovação.
+Seleção na garagem, posse/capacidade, custos, reforjas por espaço, recarga do conjunto, HUD, props e origem dos efeitos foram integrados. O arquivo weapon-state-equivalence.json preserva a primeira prova do refactor; build51-single-weapon-equivalence.json registra a revalidação após a integração. Balanceamento e acabamento gerais continuam em andamento.

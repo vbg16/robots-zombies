@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD50:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD51:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -33,3 +33,5 @@ Não há data de lançamento, preço, orçamento aprovados; a base atual é HTML
 - [Vizinhos elétricos na BUILD50](vizinhos-eletricos.md): otimização, regressões e comparação de desempenho com trabalho idêntico.
 
 - [Preparação de estado por arma](armas-por-estado.md): trabalho posterior à BUILD50, ainda sem múltiplos espaços expostos na garagem.
+
+- [Arsenal avançado na BUILD51](arsenal-avancado.md): espaços opcionais2/3, custos, HUD, reforjas e quatro tentativas completas.
