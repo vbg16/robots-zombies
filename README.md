@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 51 · desenvolvimento
+# Screwvivors — BUILD 52 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -24,7 +24,7 @@ Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peç
 - Chefes trazem reforços próprios: CORREDOR, ATIRADOR ou RAJADA, identificados acima do inimigo. O HUD mostra quantos restam e confirma que as ondas comuns continuam ativas.
 - A câmera acompanha o robô pela cidade. Saia das áreas sinalizadas antes dos ataques dos chefes.
 
-Há 48 melhorias normais únicas em doze árvores: cada raiz abre três evoluções combináveis. Escolhas adquiridas não reaparecem. Benefícios usam multiplicadores e condições, com custos explícitos. As 12 armas têm carregador e recarga próprios, maiores nas armas pesadas; reserva ilimitada neste protótipo. [Árvores, munição e valores experimentais](docs/arvores-e-municao.md). Skills, Gambiarras e Experimentos do Biruta somem em cada nova tentativa. Parafusos coletados e peças de chefe ficam salvos localmente mesmo após a morte; compras desbloqueiam equipamento sem conceder atributos permanentes. Os preços são experimentais e estão documentados em [design do jogo](docs/game-design.md). Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefes curam e oferecem uma escolha temporária com vantagem e custo. Repetir configuração preserva somente o loadout na sessão; voltar à garagem permite mudar antes da próxima tentativa.
+Há 52 melhorias normais únicas em treze árvores: cada raiz abre três evoluções combináveis. Escolhas adquiridas não reaparecem. Alto Impacto, Overdrive, Perfuração e Depósito Ampliado dão ganhos diretos sem penalidade. Os outros módulos mantêm custos e condições descritos nas cartas. As 12 armas têm carregador e recarga próprios, maiores nas armas pesadas; reserva ilimitada neste protótipo. [Árvores, munição e valores experimentais](docs/arvores-e-municao.md). Skills, Gambiarras e Experimentos do Biruta somem em cada nova tentativa. Parafusos coletados e peças de chefe ficam salvos localmente mesmo após a morte; compras desbloqueiam equipamento sem conceder atributos permanentes. Os preços são experimentais e estão documentados em [design do jogo](docs/game-design.md). Perfuração, explosão e descarga interagem; o HUD informa as combinações. Chefes curam e oferecem uma escolha temporária com vantagem e custo. Repetir configuração preserva somente o loadout na sessão; voltar à garagem permite mudar antes da próxima tentativa.
 
 Alternativa com servidor local:
 
@@ -104,3 +104,5 @@ BUILD49: Rotores de Sucata acrescentam dois/três discos orbitais de contato, co
 BUILD50: busca espacial dos vizinhos elétricos com estado/RNG preservados em18 pares. Melhora de simulação medida; multidões extremas continuam pesadas. [Resultados e limites](docs/vizinhos-eletricos.md).
 
 BUILD51: BAST equipa atéduas armas e ENXA atétrês, com custos visíveis, recargas e reforjas independentes. Quatro tentativas automatizadas completas cumpriram20minutos+3chefes. [Arsenal avançado, regras e limites](docs/arsenal-avancado.md).
+
+BUILD52: diretor procedural com limite de60→180 zumbis comuns vivos, gatilhos por abates/deslocamento e reentrada fora da tela de perseguidores distantes. Quatro melhorias de arma sem penalidades. [Regras e validação](docs/horda-procedural.md).

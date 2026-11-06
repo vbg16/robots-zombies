@@ -1,6 +1,6 @@
-# Contrato vigente — Screwvivors BUILD 51
+# Contrato vigente — Screwvivors BUILD 52
 
-Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de teto de inimigos, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
+Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
 | Área | Regra que deve permanecer | Evidência automatizada |
 |---|---|---|
@@ -8,7 +8,7 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Arena | Sem bordas, vitória cronometrada ou encerramento aos 20 minutos. | combat.cjs: movimento sem limites e cenário controlado de 25 minutos. |
 | Controle | Mover, mirar e disparar manualmente. ESPAÇO exige skill; avanço não concede invulnerabilidade. | combat.cjs: emissão, liberação, foco, movimento e avanço. |
 | Dano recebido | Empurrão de 48 px para longe da fonte; direção de fallback. | combat.cjs: empurrões opostos e fontes tipadas. |
-| Horda | Ondas de 15, círculo fora da tela, intervalo 6,4→1,5 s; continuam durante chefes. Vivos distantes não são descartados nem limitados por um teto artificial. | combat.cjs: ondas, minimapa e fuga sem disparar. |
+| Horda | Grupos de até15 fora da tela; limite comum60 +12/minuto, máximo180. Reposição por tempo, oito abates ou deslocamento320px com baixa presença local; intervalo mínimo3s entre grupos. Perseguidores distantes podem reentrar fora da tela preservando vida/escudo. Chefes e lacaios têm agenda própria. | horde-director.cjs: teto, gatilhos, deslocamento, pausa/reset e preservação de sobreviventes; combat.cjs: integração e minimapa. |
 | Policiais | Só após derrotar o segundo chefe: cinco dos 15, alternando rifle/escudo. Escudo 100 absorve integralmente o golpe de quebra. Só o sobrevivente que perdeu o escudo passa a parar, mirar e correr até 240 px numa direção fixa. Sem aceleração de aproximação nos comuns. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
 | Chefes | Três identidades recorrentes e seus lacaios; Sucateiro acompanha e mantém distância. Peça única salva, cura até 20 (40 com Caça-Titãs), escolha temporária. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
 | Perfil | Parafusos coletados e peças conquistadas permanecem ao morrer. Sem bônus permanentes de atributo. Compras verificam saldo/peça e devolvem recursos em falha de gravação. | combat.cjs: compras, saves, migração e morte. |
@@ -70,3 +70,7 @@ Cada arma conserva munição, recarga, fila de rajada, contagem para crítico, r
 Projéteis capturam descritor/traços de reforja e base direta da origem. Reposição por abate/eletricidade retorna uma única munição à origem; fontes sem arma usam a principal. Queimadura mantém a origem do DPS dominante, corrosão/respingo preservam origem escalar sem reter grafos de entidades. O limite existente400de projéteis é compartilhado, com prioridade rotativa em arsenais múltiplos. Soltar/cancelar ponteiro elimina imediatamente todas as rajadas; pausa congela todos os estados.
 
 No20cada arma recebe uma oferta própria, escolher/recusar avança para a próxima sem tempo transcorrer. Uma versão antiga do callback não pode afetar a arma seguinte. Estado de recarga, munição e projéteis antigos permanece intacto. O catálogo permanece82/revisão5. [Regras, evidência e limites](arsenal-avancado.md).
+
+## Poder de arma — BUILD52
+
+Alto Impacto dobra dano sem piorar cadência; Overdrive triplica cadência sem reduzir dano; Perfuração acrescenta dois alvos sem reduzir dano; Depósito Ampliado triplica carregador sem aumentar recarga e conserva reposição por dez abates. Instalar não repõe munição. Revisão6 migra apenas defaults antigos intactos e preserva configurações editadas. Ver positive-weapon-upgrades.cjs.

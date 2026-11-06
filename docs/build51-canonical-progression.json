@@ -1,0 +1,4187 @@
+{
+  "note": "All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.",
+  "executions": [
+    {
+      "at": "2026-11-04T02:12:05.562Z",
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Arsenal avançado opcional: BAST até2 armas, ENXA até3, com custos visíveis; estados, reforjas20 e HUD por arma. Catálogo82/revisão5. Balanceamento experimental, sem aprovação pública.",
+        "build": 51
+      },
+      "gameplayRevision": "build51-canonical-full-progression",
+      "recipeOverride": null,
+      "refitsEnabled": true,
+      "excludedCases": [],
+      "sourceHashes": {
+        "game.js": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+        "balance.js": "50da247d6d13c2154b5e4508e8e519a880f8d36a54e141392a18ae670ba306f0",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "recipes": [
+        {
+          "id": "agulha-antitita",
+          "evolution": "sniper-railDrill",
+          "name": "Agulha Antititã",
+          "robot": "prot",
+          "weapon": "sniper",
+          "summary": "Tiros precisos para atravessar a linha de frente e desmontar chefes.",
+          "engine": "Impacto forte + perfuração + bônus contra chefe; Caça-Titãs recupera uma bateria adicional por chefe e a marca do PROT recompensa manter o mesmo alvo.",
+          "skills": [
+            "damage",
+            "bossHunter",
+            "freeze",
+            "rate",
+            "pierce",
+            "range",
+            "crit",
+            "dash"
+          ],
+          "core": [
+            "damage",
+            "bossHunter",
+            "freeze",
+            "rate"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "greasedServos"
+          ],
+          "specialization": "predatorMark",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Alto dano por acerto e pressão em chefe alinhado com a horda.",
+          "weakness": "Pouca munição e recarga longa deixam os flancos expostos.",
+          "strategy": "Mantenha distância, alinhe inimigos e use a recarga para reposicionar. Priorize o chefe quando houver uma linha segura.",
+          "avoid": [
+            "Não atire fora do alcance reduzido por Caça-Titãs.",
+            "Não sacrifique toda a mobilidade por dano."
+          ],
+          "tags": [
+            "Precisão",
+            "Chefes",
+            "Perfuração"
+          ]
+        },
+        {
+          "id": "tempestade-balistica",
+          "evolution": "laser-pulseClock",
+          "name": "Tempestade Balística",
+          "robot": "prot",
+          "weapon": "laser",
+          "summary": "Muitos disparos alimentam o quinto impacto e a reposição por abates.",
+          "engine": "Cadência + dois projéteis + crítico a cada quinto disparo ativam o Crivo Balístico, com um pulso de área por projétil crítico.",
+          "skills": [
+            "rate",
+            "extra",
+            "damage",
+            "crit",
+            "magnet",
+            "killAmmo",
+            "freeze",
+            "pierce"
+          ],
+          "core": [
+            "rate",
+            "extra",
+            "damage",
+            "crit"
+          ],
+          "blessings": [
+            "triggerRegulator",
+            "pulseCoil",
+            "spareBattery"
+          ],
+          "specialization": "predatorMark",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Boa frequência de acertos, progressão de crítico previsível e limpeza de corredores.",
+          "weakness": "Perde força durante a recarga e cada projétil isolado é relativamente fraco.",
+          "strategy": "Varra a frente da horda, mantenha o alvo marcado em chefes e recolha núcleos nas janelas abertas.",
+          "avoid": [
+            "Dispersão não garante que os dois projéteis acertem o mesmo alvo.",
+            "Evite aumentar repetidamente a recarga sem obter sustentação."
+          ],
+          "tags": [
+            "Cadência",
+            "Crítico",
+            "Munição"
+          ]
+        },
+        {
+          "id": "escopeta-ricochete",
+          "evolution": "shotgun-wideBore",
+          "name": "Escopeta de Ricochetes",
+          "robot": "bastion",
+          "weapon": "shotgun",
+          "summary": "Uma salva atravessa os primeiros inimigos e procura os que ficaram atrás.",
+          "engine": "Pellets + perfuração + ricochete espalham os impactos; explosões ampliam a cobertura nas últimas peças.",
+          "skills": [
+            "rate",
+            "extra",
+            "freeze",
+            "pierce",
+            "ricochet",
+            "damage",
+            "blast",
+            "blastRadius"
+          ],
+          "core": [
+            "rate",
+            "extra",
+            "freeze",
+            "pierce"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "magneticBrake",
+          "experiments": [
+            "unstableLens",
+            "blastCondenser"
+          ],
+          "strength": "Cobertura de grupos próximos e controle de várias linhas de aproximação.",
+          "weakness": "Alcance curto, dispersão e custos acumulados de recarga.",
+          "strategy": "Lute na borda dos grupos. Perfure primeiro; o ricochete só procura outro alvo depois de gastar a perfuração.",
+          "avoid": [
+            "Não use a receita com Disco de Retorno: ele não recebe ricochete.",
+            "Não confunda dano somado dos pellets com dano garantido em um alvo."
+          ],
+          "tags": [
+            "Pellets",
+            "Ricochete",
+            "Área"
+          ]
+        },
+        {
+          "id": "cacador-criogenico",
+          "evolution": "cryo-iceDrill",
+          "name": "Caçador Criogênico",
+          "robot": "prot",
+          "weapon": "cryo",
+          "summary": "Controle de movimento abre tempo para finalizar inimigos resistentes.",
+          "engine": "Resfriamento + perfuração mantêm grupos lentos; Finalizador amplifica o acabamento e mortes por bala de alvos resfriados geram Fratura Industrial.",
+          "skills": [
+            "damage",
+            "freeze",
+            "rate",
+            "pierce",
+            "finisher",
+            "dash",
+            "speed",
+            "range"
+          ],
+          "core": [
+            "damage",
+            "freeze",
+            "rate",
+            "pierce"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "greasedServos",
+            "spareBattery"
+          ],
+          "specialization": "tailDecoy",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Kiting e redução da pressão frontal sem depender de dano em área.",
+          "weakness": "Vida reduzida por Pernas Hidráulicas e dano inicial menor após os custos de perfuração.",
+          "strategy": "Abra corredores, termine alvos já feridos e avance para recolher XP somente depois de resfriar a passagem.",
+          "avoid": [
+            "Resfriar não cancela ataques de chefe.",
+            "O multiplicador do Finalizador exige o limiar de vida; ele não é dano permanente."
+          ],
+          "tags": [
+            "Resfriamento",
+            "Finalização",
+            "Mobilidade"
+          ]
+        },
+        {
+          "id": "forja-criogenica",
+          "evolution": "flame-fuelMixer",
+          "name": "Forja Criogênica",
+          "robot": "forge",
+          "weapon": "flame",
+          "summary": "O chassi térmico transforma inimigos resfriados em combustível.",
+          "engine": "Aplicar fogo e resfriamento no mesmo alvo ativa Choque Térmico; o FORJ amplia a queimadura, com menor dano direto.",
+          "skills": [
+            "burn",
+            "freeze",
+            "thermal",
+            "afterburn",
+            "damage",
+            "rate",
+            "range",
+            "ignition"
+          ],
+          "core": [
+            "burn",
+            "freeze",
+            "thermal",
+            "afterburn"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "thermalAmplifier",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Dano persistente que continua durante a recarga e forte conversão elemental.",
+          "weakness": "Precisa alcançar o alvo e manter os dois estados; não acumula infinitas queimaduras por pellet.",
+          "strategy": "Aplique o cone na frente da horda, recue durante a recarga e renove o resfriamento para sustentar o dano térmico.",
+          "avoid": [
+            "Não trate a queimadura como dano instantâneo.",
+            "Não reduza ainda mais o alcance sem uma forma de se aproximar com segurança."
+          ],
+          "tags": [
+            "Fogo",
+            "Resfriamento",
+            "Dano contínuo"
+          ]
+        },
+        {
+          "id": "rede-de-plasma",
+          "evolution": "tesla-branchCoil",
+          "name": "Rede de Plasma",
+          "robot": "volt",
+          "weapon": "tesla",
+          "summary": "Descargas e explosões usam inimigos agrupados como uma rede industrial.",
+          "engine": "O VOLT fortalece descargas; fogo persiste enquanto perfuração, eletricidade e explosões distribuem dano por grupos.",
+          "skills": [
+            "shock",
+            "damage",
+            "burn",
+            "blast",
+            "conductivity",
+            "freeze",
+            "pierce",
+            "stun"
+          ],
+          "core": [
+            "shock",
+            "damage",
+            "burn",
+            "blast"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "triggerRegulator",
+            "spareBattery"
+          ],
+          "specialization": "extraFork",
+          "experiments": [
+            "unstableLens",
+            "volatileReactor"
+          ],
+          "strength": "Dano distribuído, alcance elétrico e interrupção de movimento.",
+          "weakness": "Menos vida e vários custos de dano direto; perde eficiência contra um alvo isolado.",
+          "strategy": "Acerte a borda de grupos compactos. Mantenha caminhos de fuga e evite entrar no centro para buscar mais alvos.",
+          "avoid": [
+            "Descargas secundárias não devem iniciar uma recursão infinita de explosões.",
+            "Paralisar movimento não cancela um ataque já programado."
+          ],
+          "tags": [
+            "Eletricidade",
+            "Fogo",
+            "Área"
+          ]
+        },
+        {
+          "id": "demolicao-de-campo",
+          "evolution": "grenade-doubleShell",
+          "name": "Demolição de Campo",
+          "robot": "bastion",
+          "weapon": "grenade",
+          "summary": "Granadas de grande área abrem espaços e pressionam chefes.",
+          "engine": "Dano de impacto + área expandida; projéteis adicionais aumentam as detonações e a manutenção aproveita a recarga.",
+          "skills": [
+            "damage",
+            "rate",
+            "blast",
+            "blastRadius",
+            "bossHunter",
+            "magnet",
+            "repair",
+            "extra"
+          ],
+          "core": [
+            "damage",
+            "rate",
+            "blast",
+            "blastRadius"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "spareBattery",
+            "greasedServos"
+          ],
+          "specialization": "grounding",
+          "experiments": [
+            "blastCondenser",
+            "unstableLens"
+          ],
+          "strength": "Explosões grandes e dano concentrado em grupos alinhados com chefes.",
+          "weakness": "A demora de recarga exige planejamento; é possível ser cercado antes do próximo carregador.",
+          "strategy": "Atire onde os inimigos vão se reunir. Abra uma saída antes de recarregar e evite atravessar zonas de perigo para buscar XP.",
+          "avoid": [
+            "Não aceite todos os aumentos de recarga só pelo ganho de dano.",
+            "A explosão de impacto exclui o alvo que já recebeu o dano direto."
+          ],
+          "tags": [
+            "Explosão",
+            "Chefes",
+            "Recarga"
+          ]
+        },
+        {
+          "id": "oficina-viva",
+          "evolution": "shotgun-choke",
+          "name": "Oficina Viva",
+          "robot": "nano",
+          "weapon": "shotgun",
+          "summary": "Vida, recarga e resfriamento sustentam um robô pesado de reparo.",
+          "engine": "O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.",
+          "skills": [
+            "magnet",
+            "repair",
+            "armor",
+            "titan",
+            "damage",
+            "rate",
+            "freeze",
+            "coldReload"
+          ],
+          "core": [
+            "magnet",
+            "repair",
+            "armor",
+            "titan"
+          ],
+          "blessings": [
+            "spareBattery",
+            "copperPlate",
+            "greasedServos"
+          ],
+          "specialization": "repairCharge",
+          "experiments": [
+            "lithiumPack",
+            "volatileReactor"
+          ],
+          "strength": "Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.",
+          "weakness": "É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.",
+          "strategy": "Gaste munição de forma útil, recarregue com distância e use o resfriamento para abrir o próximo deslocamento.",
+          "avoid": [
+            "Recarregar uma bala não concede a cura de um carregador inteiro.",
+            "Cura com vida cheia não prepara uma carga ofensiva."
+          ],
+          "tags": [
+            "Reparo",
+            "Vida",
+            "Controle"
+          ]
+        },
+        {
+          "id": "enxame-de-sucata",
+          "evolution": "harpoon-longShaft",
+          "name": "Enxame de Sucata",
+          "robot": "swarm",
+          "weapon": "harpoon",
+          "summary": "Drones acompanham o gato enquanto o arpão mantém um corredor seguro.",
+          "engine": "O ENXA já tem um drone; a árvore amplia a frota até três, acelera disparos e permite um segundo alvo sem procs recursivos.",
+          "skills": [
+            "drones",
+            "damage",
+            "dronePair",
+            "droneOverclock",
+            "droneArc",
+            "magnet",
+            "armor",
+            "salvage"
+          ],
+          "core": [
+            "drones",
+            "damage",
+            "dronePair",
+            "droneOverclock"
+          ],
+          "blessings": [
+            "pulseCoil",
+            "greasedServos",
+            "spareBattery"
+          ],
+          "specialization": "droneBossFocus",
+          "experiments": [
+            "volatileReactor",
+            "unstableLens"
+          ],
+          "strength": "Dano contínuo em alvos no alcance mesmo durante a recarga da arma.",
+          "weakness": "A frota tem alcance e cadência limitados; não acerta inimigos do outro lado do mapa.",
+          "strategy": "Mantenha os alvos dentro do raio dos drones, use o arpão para empurrar ameaças próximas e recolha núcleos nos corredores abertos.",
+          "avoid": [
+            "Drones não disparam a arma do jogador nem multiplicam infinitamente outros efeitos.",
+            "Mais projéteis da arma não criam mais drones."
+          ],
+          "tags": [
+            "Drones",
+            "Dano contínuo",
+            "Alcance"
+          ]
+        },
+        {
+          "id": "lanca-de-fuga",
+          "evolution": "harpoon-pressurePiston",
+          "name": "Lança de Fuga",
+          "robot": "nano",
+          "weapon": "harpoon",
+          "summary": "Mobilidade, arpão e reparos na recarga sustentam a retirada.",
+          "engine": "NANO + recarga reparadora + avanço; cura real prepara uma salva perfurante. O Motor Cinético acrescenta dano quando Pernas Hidráulicas e Impacto Cinético se encontram.",
+          "skills": [
+            "damage",
+            "rate",
+            "magnet",
+            "repair",
+            "dash",
+            "speed",
+            "freeze",
+            "knock"
+          ],
+          "core": [
+            "damage",
+            "magnet",
+            "repair",
+            "dash"
+          ],
+          "blessings": [
+            "spareBattery",
+            "pulseCoil",
+            "greasedServos"
+          ],
+          "specialization": "repairCharge",
+          "experiments": [
+            "volatileReactor",
+            "lithiumPack"
+          ],
+          "strength": "Reparo frequente, coleta ampla e disparos perfurantes preparados por cura.",
+          "weakness": "Pouca munição; velocidade custa vida, e reparar exige completar recargas. Integridade cheia não prepara a carga ofensiva.",
+          "strategy": "Monte coleta e reparo antes de apostar toda a defesa na velocidade. Circule a horda, gaste o carregador mirando a saída e use o avanço para mudar de corredor durante a recarga.",
+          "avoid": [
+            "O avanço não concede invulnerabilidade.",
+            "Recargas parciais curam proporcionalmente menos.",
+            "Cura em integridade cheia não prepara a Carga de Reparo."
+          ],
+          "tags": [
+            "Mobilidade",
+            "Empurrão",
+            "Perfuração"
+          ]
+        }
+      ],
+      "policy": {
+        "fixedBeforeResults": true,
+        "structural": "6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes",
+        "numeric": "All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions",
+        "synthetic": "Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK",
+        "real": "Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.",
+        "driver": "Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling."
+      },
+      "driverVersion": 10,
+      "driverHash": "7dffe0b74a8e9073ee9e4ce633d06bb16072e107dd7177e9a2a06774e6c42541",
+      "harnessDriverHash": "7529e079103703518c6ae9d2bbb6cea6f236e7a40e38dd88f97782704ea47014",
+      "bootstrapHash": "04e15490b4a653462d4daa02ba264f0c66e4423afa53fd9143e3fa4f30870515",
+      "dt": 0.05,
+      "duration": 1200,
+      "seeds": [
+        20261103,
+        20261104
+      ],
+      "structure": {
+        "ok": true,
+        "builds": 10,
+        "catalog": 82
+      },
+      "synthetic": [],
+      "attempts": [
+        {
+          "build": "agulha-antitita",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "sniper",
+              "evolution": null,
+              "ammo": 0,
+              "reload": 1.0500000000000014,
+              "damage": 132,
+              "rate": 0.5289999999999999
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 678.3499999999308,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 100,
+          "level": 14,
+          "kills": 997,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "rate",
+            "range",
+            "freeze",
+            "dash",
+            "damage",
+            "crit",
+            "grace",
+            "pierce",
+            "bossHunter"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 50212
+          },
+          "received": 220,
+          "receivedBySource": {
+            "contact-or-projectile": 164,
+            "common-ranged": 56
+          },
+          "healing": 120,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 78.39999999999769,
+              "ttk": 18.349999999998964
+            },
+            {
+              "id": "scrapper",
+              "at": 248.6500000000223,
+              "ttk": 8.650000000001967
+            },
+            {
+              "id": "coil",
+              "at": 470.9500000000728,
+              "ttk": 50.950000000011585
+            },
+            {
+              "id": "brute",
+              "at": 634.7999999999704,
+              "ttk": 34.79999999996835
+            }
+          ],
+          "choices": [
+            {
+              "at": 32.950000000000266,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 38.84999999999993,
+              "level": 3,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 54.89999999999902,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "range"
+            },
+            {
+              "at": 78.39999999999769,
+              "level": 4,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 84.14999999999736,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 105.39999999999615,
+              "level": 6,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 130.8499999999955,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 166.55000000000362,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 213.9500000000144,
+              "level": 9,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 263.60000000002566,
+              "level": 10,
+              "kind": "specialization",
+              "id": "predatorMark"
+            },
+            {
+              "at": 278.250000000029,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "crit"
+            },
+            {
+              "at": 331.20000000004103,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 470.9500000000728,
+              "level": 12,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 548.400000000049,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 647.0499999999593,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "bossHunter"
+            }
+          ],
+          "maxEnemies": 2353,
+          "maxBullets": 4,
+          "maxHostile": 154,
+          "controlEnemySeconds": 183.60000000000178,
+          "distance": 112964.49554363945,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "agulha-antitita",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "sniper",
+              "evolution": null,
+              "ammo": 0,
+              "reload": 0.15000000000000097,
+              "damage": 132,
+              "rate": 0.5289999999999999
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 657.1499999999501,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 100,
+          "level": 14,
+          "kills": 1045,
+          "bossKills": 4,
+          "coreReached": false,
+          "recipeReached": false,
+          "acquired": [
+            "freeze",
+            "dash",
+            "pierce",
+            "rate",
+            "damage",
+            "crit",
+            "grace",
+            "range"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 51935
+          },
+          "received": 352,
+          "receivedBySource": {
+            "contact-or-projectile": 282,
+            "common-ranged": 56,
+            "boss-hazard": 14
+          },
+          "healing": 252,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 76.74999999999778,
+              "ttk": 16.699999999999058
+            },
+            {
+              "id": "scrapper",
+              "at": 266.65000000002635,
+              "ttk": 26.65000000000603
+            },
+            {
+              "id": "coil",
+              "at": 526.400000000069,
+              "ttk": 106.40000000000776
+            },
+            {
+              "id": "brute",
+              "at": 618.699999999985,
+              "ttk": 18.699999999982992
+            }
+          ],
+          "choices": [
+            {
+              "at": 31.750000000000316,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 46.849999999999476,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 59.199999999998774,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 91.69999999999693,
+              "level": 6,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 121.19999999999526,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 170.20000000000445,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 189.50000000000884,
+              "level": 9,
+              "kind": "blessing",
+              "id": "scrapMagnet"
+            },
+            {
+              "at": 191.85000000000937,
+              "level": 10,
+              "kind": "specialization",
+              "id": "predatorMark"
+            },
+            {
+              "at": 216.85000000001506,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 251.05000000002283,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "crit"
+            },
+            {
+              "at": 326.40000000003994,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 514.4000000000799,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "range"
+            },
+            {
+              "at": 526.400000000069,
+              "level": 14,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 618.699999999985,
+              "level": 14,
+              "kind": "experiment",
+              "id": "unstableLens"
+            }
+          ],
+          "maxEnemies": 2096,
+          "maxBullets": 3,
+          "maxHostile": 105,
+          "controlEnemySeconds": 175.05000000000337,
+          "distance": 96885.19298281324,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "tempestade-balistica",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "laser",
+              "evolution": "laser-pulseClock",
+              "ammo": 64,
+              "reload": 0,
+              "damage": 15.000000000000004,
+              "rate": 0.03105
+            }
+          ],
+          "weaponEvolution": "laser-pulseClock",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 120,
+          "maxHp": 120,
+          "level": 28,
+          "kills": 4811,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "damage",
+            "freeze",
+            "pierce",
+            "rate",
+            "extra",
+            "dash",
+            "burn",
+            "magnet",
+            "repair",
+            "killAmmo",
+            "grace",
+            "xp",
+            "crit",
+            "drones"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 294312.88541666645,
+            "burn": 55029.73958333333,
+            "explosion": 31059.09375,
+            "drone": 1664.375
+          },
+          "received": 522,
+          "receivedBySource": {
+            "boss-hazard": 26,
+            "common-ranged": 136,
+            "contact-or-projectile": 360
+          },
+          "healing": 522,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 66.14999999999839,
+              "ttk": 6.09999999999966
+            },
+            {
+              "id": "scrapper",
+              "at": 247.350000000022,
+              "ttk": 7.350000000001671
+            },
+            {
+              "id": "coil",
+              "at": 427.25000000006287,
+              "ttk": 7.2500000000016485
+            },
+            {
+              "id": "brute",
+              "at": 601.7000000000005,
+              "ttk": 1.6999999999984539
+            }
+          ],
+          "choices": [
+            {
+              "at": 42.04999999999975,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 50.69999999999926,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 57.54999999999887,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 66.14999999999839,
+              "level": 4,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 66.49999999999837,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 73.79999999999795,
+              "level": 6,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 79.44999999999763,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 108.39999999999598,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "extra"
+            },
+            {
+              "at": 135.49999999999656,
+              "level": 9,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 154.40000000000086,
+              "level": 10,
+              "kind": "specialization",
+              "id": "predatorMark"
+            },
+            {
+              "at": 161.90000000000256,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 208.95000000001326,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 247.350000000022,
+              "level": 14,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 269.1500000000269,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 271.6000000000275,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 289.15000000003147,
+              "level": 17,
+              "kind": "upgrade",
+              "id": "killAmmo"
+            },
+            {
+              "at": 430.30000000006356,
+              "level": 20,
+              "kind": "evolution",
+              "id": "laser-pulseClock",
+              "slot": 0
+            },
+            {
+              "at": 577.5000000000225,
+              "level": 22,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 672.9499999999357,
+              "level": 23,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 720.4499999998925,
+              "level": 24,
+              "kind": "upgrade",
+              "id": "crit"
+            },
+            {
+              "at": 774.1499999998437,
+              "level": 25,
+              "kind": "upgrade",
+              "id": "drones"
+            }
+          ],
+          "maxEnemies": 3769,
+          "maxBullets": 16,
+          "maxHostile": 200,
+          "controlEnemySeconds": 6409.950000000036,
+          "distance": 149686.75628203654,
+          "survivedWindow": true,
+          "viable": true
+        },
+        {
+          "build": "tempestade-balistica",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "laser",
+              "evolution": "laser-pulseClock",
+              "ammo": 0,
+              "reload": 1.9750000000000127,
+              "damage": 15,
+              "rate": 0.031049999999999994
+            }
+          ],
+          "weaponEvolution": "laser-pulseClock",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 96,
+          "maxHp": 120,
+          "level": 29,
+          "kills": 5119,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "magnet",
+            "damage",
+            "dash",
+            "crit",
+            "drones",
+            "xp",
+            "repair",
+            "grace",
+            "killAmmo",
+            "rate",
+            "extra",
+            "freeze",
+            "burn",
+            "pierce"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 279353.046875,
+            "drone": 5567.4375,
+            "explosion": 92481.96875,
+            "burn": 50104.0625
+          },
+          "received": 788,
+          "receivedBySource": {
+            "contact-or-projectile": 552,
+            "common-ranged": 200,
+            "boss-hazard": 36
+          },
+          "healing": 764.0000000000002,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 64.1999999999985,
+              "ttk": 4.149999999999771
+            },
+            {
+              "id": "scrapper",
+              "at": 241.15000000002058,
+              "ttk": 1.1500000000002615
+            },
+            {
+              "id": "coil",
+              "at": 424.45000000006223,
+              "ttk": 4.450000000001012
+            },
+            {
+              "id": "brute",
+              "at": 601.2500000000009,
+              "ttk": 1.2499999999988631
+            }
+          ],
+          "choices": [
+            {
+              "at": 45.04999999999958,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 47.899999999999416,
+              "level": 3,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 50.399999999999274,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 52.649999999999146,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 58.299999999998825,
+              "level": 6,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 64.1999999999985,
+              "level": 6,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 64.99999999999845,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "crit"
+            },
+            {
+              "at": 71.2499999999981,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 78.44999999999769,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 91.24999999999696,
+              "level": 10,
+              "kind": "specialization",
+              "id": "predatorMark"
+            },
+            {
+              "at": 134.24999999999628,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 144.24999999999855,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 155.10000000000102,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 166.70000000000366,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "killAmmo"
+            },
+            {
+              "at": 177.60000000000613,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 230.85000000001824,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "extra"
+            },
+            {
+              "at": 241.15000000002058,
+              "level": 18,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 256.05000000002394,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 293.8000000000325,
+              "level": 20,
+              "kind": "evolution",
+              "id": "laser-pulseClock",
+              "slot": 0
+            },
+            {
+              "at": 387.60000000005385,
+              "level": 22,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 527.8500000000677,
+              "level": 24,
+              "kind": "upgrade",
+              "id": "pierce"
+            }
+          ],
+          "maxEnemies": 3450,
+          "maxBullets": 12,
+          "maxHostile": 200,
+          "controlEnemySeconds": 4816.3000000000375,
+          "distance": 165212.949037676,
+          "survivedWindow": true,
+          "viable": true
+        },
+        {
+          "build": "escopeta-ricochete",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "shotgun",
+              "evolution": "shotgun-wideBore",
+              "ammo": 0,
+              "reload": 0.8374999999999773,
+              "damage": 10.666666666666666,
+              "rate": 0.32000000000000006
+            }
+          ],
+          "weaponEvolution": "shotgun-wideBore",
+          "time": 551.8000000000459,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 140,
+          "level": 21,
+          "kills": 1134,
+          "bossKills": 1,
+          "coreReached": true,
+          "recipeReached": false,
+          "acquired": [
+            "damage",
+            "freeze",
+            "rate",
+            "dash",
+            "pierce",
+            "extra",
+            "magnet",
+            "ricochet",
+            "xp",
+            "burn",
+            "repair",
+            "grace",
+            "blast"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 48297.66666666444,
+            "burn": 2774.2000000000353,
+            "explosion": 4619.1333333333505
+          },
+          "received": 529.3333333333334,
+          "receivedBySource": {
+            "contact-or-projectile": 452.3333333333333,
+            "boss-hazard": 77,
+            "boss-minion": 0
+          },
+          "healing": 389.3333333333333,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 79.79999999999761,
+              "ttk": 19.749999999998884
+            }
+          ],
+          "choices": [
+            {
+              "at": 27.80000000000026,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 36.850000000000044,
+              "level": 3,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 52.44999999999916,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 75.19999999999787,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 99.3499999999965,
+              "level": 6,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 126.19999999999497,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 144.09999999999852,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 178.55000000000635,
+              "level": 9,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 210.20000000001355,
+              "level": 10,
+              "kind": "specialization",
+              "id": "magneticBrake"
+            },
+            {
+              "at": 244.20000000002128,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "extra"
+            },
+            {
+              "at": 254.8500000000237,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 255.2500000000238,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "ricochet"
+            },
+            {
+              "at": 266.55000000002633,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 273.1000000000278,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 307.50000000003564,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 356.2500000000467,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 428.7000000000632,
+              "level": 20,
+              "kind": "evolution",
+              "id": "shotgun-wideBore",
+              "slot": 0
+            },
+            {
+              "at": 528.6500000000669,
+              "level": 21,
+              "kind": "upgrade",
+              "id": "blast"
+            }
+          ],
+          "maxEnemies": 1045,
+          "maxBullets": 20,
+          "maxHostile": 12,
+          "controlEnemySeconds": 1133.8999999999637,
+          "distance": 64402.99109490955,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "escopeta-ricochete",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "shotgun",
+              "evolution": null,
+              "ammo": 4,
+              "reload": 0,
+              "damage": 16,
+              "rate": 0.43200000000000005
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 659.2999999999481,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 140,
+          "level": 16,
+          "kills": 1395,
+          "bossKills": 2,
+          "coreReached": true,
+          "recipeReached": false,
+          "acquired": [
+            "rate",
+            "damage",
+            "freeze",
+            "ricochet",
+            "extra",
+            "pierce",
+            "dash"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 74026.00000000016
+          },
+          "received": 243,
+          "receivedBySource": {
+            "contact-or-projectile": 166,
+            "common-ranged": 77
+          },
+          "healing": 103,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 71.69999999999807,
+              "ttk": 11.649999999999345
+            },
+            {
+              "id": "scrapper",
+              "at": 262.15000000002533,
+              "ttk": 22.150000000005008
+            }
+          ],
+          "choices": [
+            {
+              "at": 27.00000000000025,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 43.64999999999966,
+              "level": 3,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 64.0999999999985,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 71.69999999999807,
+              "level": 4,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 88.49999999999712,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 106.59999999999609,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 132.5999999999959,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "ricochet"
+            },
+            {
+              "at": 157.10000000000147,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "extra"
+            },
+            {
+              "at": 191.5500000000093,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 216.1000000000149,
+              "level": 10,
+              "kind": "specialization",
+              "id": "magneticBrake"
+            },
+            {
+              "at": 253.80000000002346,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 262.15000000002533,
+              "level": 11,
+              "kind": "experiment",
+              "id": "blastCondenser"
+            },
+            {
+              "at": 313.8500000000371,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "dash"
+            }
+          ],
+          "maxEnemies": 1777,
+          "maxBullets": 20,
+          "maxHostile": 97,
+          "controlEnemySeconds": 1606.0499999999752,
+          "distance": 73448.07887779897,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "cacador-criogenico",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "cryo",
+              "evolution": null,
+              "ammo": 0,
+              "reload": 0.55,
+              "damage": 33,
+              "rate": 0.207
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 701.9499999999093,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 80,
+          "level": 16,
+          "kills": 1036,
+          "bossKills": 2,
+          "coreReached": true,
+          "recipeReached": false,
+          "acquired": [
+            "damage",
+            "freeze",
+            "finisher",
+            "pierce",
+            "dash",
+            "magnet",
+            "rate",
+            "speed"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 56143.83333333344,
+            "explosion": 17558.416666666642
+          },
+          "received": 266.6666666666667,
+          "receivedBySource": {
+            "contact-or-projectile": 202.66666666666666,
+            "boss-hazard": 24,
+            "common-ranged": 40
+          },
+          "healing": 168,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 83.94999999999737,
+              "ttk": 23.89999999999865
+            },
+            {
+              "id": "scrapper",
+              "at": 475.6500000000739,
+              "ttk": 235.65000000005355
+            }
+          ],
+          "choices": [
+            {
+              "at": 32.90000000000027,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 39.59999999999989,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 72.44999999999803,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 83.94999999999737,
+              "level": 4,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 98.19999999999656,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "finisher"
+            },
+            {
+              "at": 133.8999999999962,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 173.70000000000525,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 204.3000000000122,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 274.6500000000282,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 329.8500000000407,
+              "level": 10,
+              "kind": "specialization",
+              "id": "tailDecoy"
+            },
+            {
+              "at": 413.95000000005984,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 475.6500000000739,
+              "level": 12,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 476.100000000074,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 628.4999999999761,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "speed"
+            }
+          ],
+          "maxEnemies": 2556,
+          "maxBullets": 7,
+          "maxHostile": 200,
+          "controlEnemySeconds": 2468.199999999987,
+          "distance": 96433.01682661321,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "cacador-criogenico",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "cryo",
+              "evolution": "cryo-iceDrill",
+              "ammo": 1,
+              "reload": 0,
+              "damage": 28.05,
+              "rate": 0.207
+            }
+          ],
+          "weaponEvolution": "cryo-iceDrill",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 66,
+          "maxHp": 80,
+          "level": 23,
+          "kills": 2281,
+          "bossKills": 5,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "freeze",
+            "damage",
+            "finisher",
+            "magnet",
+            "pierce",
+            "rate",
+            "dash",
+            "drones",
+            "range",
+            "grace",
+            "repair",
+            "burn",
+            "speed",
+            "xp"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 112909.64375000376,
+            "explosion": 31164.71625000037,
+            "drone": 8065.337499999941,
+            "burn": 55806.423750004076
+          },
+          "received": 848,
+          "receivedBySource": {
+            "contact-or-projectile": 672,
+            "boss-hazard": 72,
+            "common-ranged": 104
+          },
+          "healing": 824.6666666666666,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 102.04999999999634,
+              "ttk": 41.99999999999762
+            },
+            {
+              "id": "scrapper",
+              "at": 340.50000000004314,
+              "ttk": 100.50000000002282
+            },
+            {
+              "id": "coil",
+              "at": 574.5500000000252,
+              "ttk": 154.54999999996397
+            },
+            {
+              "id": "brute",
+              "at": 639.8499999999658,
+              "ttk": 39.84999999996376
+            },
+            {
+              "id": "scrapper",
+              "at": 953.6999999996804,
+              "ttk": 173.64999999984207
+            }
+          ],
+          "choices": [
+            {
+              "at": 31.450000000000312,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 38.54999999999995,
+              "level": 3,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 68.29999999999826,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 102.04999999999634,
+              "level": 4,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 112.94999999999573,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "finisher"
+            },
+            {
+              "at": 127.64999999999489,
+              "level": 6,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 165.65000000000342,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 176.85000000000596,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 183.90000000000757,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 204.35000000001222,
+              "level": 10,
+              "kind": "specialization",
+              "id": "tailDecoy"
+            },
+            {
+              "at": 224.4500000000168,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 250.10000000002262,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 266.8500000000264,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 300.85000000003413,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "range"
+            },
+            {
+              "at": 340.50000000004314,
+              "level": 14,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 349.35000000004516,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 408.0000000000585,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 689.099999999921,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 797.6499999998223,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "speed"
+            },
+            {
+              "at": 867.4499999997588,
+              "level": 20,
+              "kind": "evolution",
+              "id": "cryo-iceDrill",
+              "slot": 0
+            },
+            {
+              "at": 986.6499999996504,
+              "level": 21,
+              "kind": "upgrade",
+              "id": "xp"
+            }
+          ],
+          "maxEnemies": 6298,
+          "maxBullets": 12,
+          "maxHostile": 205,
+          "controlEnemySeconds": 5990.750000000093,
+          "distance": 244044.50875901294,
+          "survivedWindow": true,
+          "viable": true
+        },
+        {
+          "build": "forja-criogenica",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "flame",
+              "evolution": "flame-fuelMixer",
+              "ammo": 22,
+              "reload": 0,
+              "damage": 4,
+              "rate": 0.07200000000000001
+            }
+          ],
+          "weaponEvolution": "flame-fuelMixer",
+          "time": 954.4499999996797,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 110,
+          "level": 23,
+          "kills": 2860,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "burn",
+            "freeze",
+            "rate",
+            "afterburn",
+            "range",
+            "thermal",
+            "damage",
+            "ignition",
+            "drones",
+            "magnet",
+            "repair",
+            "dash"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 51315.37599609373,
+            "burn": 126864.17478515278,
+            "drone": 795.78125
+          },
+          "received": 700,
+          "receivedBySource": {
+            "contact-or-projectile": 462,
+            "common-ranged": 176,
+            "boss-hazard": 62
+          },
+          "healing": 590,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 83.24999999999741,
+              "ttk": 23.19999999999869
+            },
+            {
+              "id": "scrapper",
+              "at": 265.85000000002617,
+              "ttk": 25.85000000000585
+            },
+            {
+              "id": "coil",
+              "at": 575.1500000000246,
+              "ttk": 155.14999999996343
+            },
+            {
+              "id": "brute",
+              "at": 622.6499999999814,
+              "ttk": 22.6499999999794
+            }
+          ],
+          "choices": [
+            {
+              "at": 21.45000000000017,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 27.450000000000255,
+              "level": 3,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 33.05000000000026,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 38.44999999999995,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 50.24999999999928,
+              "level": 6,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 58.099999999998836,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "afterburn"
+            },
+            {
+              "at": 65.04999999999845,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "range"
+            },
+            {
+              "at": 83.24999999999741,
+              "level": 8,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 92.3499999999969,
+              "level": 9,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 114.39999999999564,
+              "level": 10,
+              "kind": "specialization",
+              "id": "thermalAmplifier"
+            },
+            {
+              "at": 137.09999999999692,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "thermal"
+            },
+            {
+              "at": 167.20000000000377,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 201.2000000000115,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "ignition"
+            },
+            {
+              "at": 237.40000000001973,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 453.0000000000687,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 490.45000000007724,
+              "level": 20,
+              "kind": "evolution",
+              "id": "flame-fuelMixer",
+              "slot": 0
+            },
+            {
+              "at": 657.4499999999498,
+              "level": 22,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 795.0499999998246,
+              "level": 23,
+              "kind": "upgrade",
+              "id": "dash"
+            }
+          ],
+          "maxEnemies": 3260,
+          "maxBullets": 77,
+          "maxHostile": 200,
+          "controlEnemySeconds": 3614.800000000002,
+          "distance": 113303.49510657675,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "forja-criogenica",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "flame",
+              "evolution": "flame-fuelMixer",
+              "ammo": 47,
+              "reload": 0,
+              "damage": 5.4,
+              "rate": 0.0828
+            }
+          ],
+          "weaponEvolution": "flame-fuelMixer",
+          "time": 744.3999999998707,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 110,
+          "level": 25,
+          "kills": 2169,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "burn",
+            "freeze",
+            "rate",
+            "ignition",
+            "range",
+            "damage",
+            "thermal",
+            "afterburn",
+            "magnet",
+            "xp",
+            "drones",
+            "dash"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 47486.52031250485,
+            "burn": 70762.91738281264,
+            "drone": 478.67480468750296
+          },
+          "received": 382,
+          "receivedBySource": {
+            "common-ranged": 104,
+            "boss-hazard": 28,
+            "contact-or-projectile": 250
+          },
+          "healing": 272,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 74.89999999999789,
+              "ttk": 14.849999999999163
+            },
+            {
+              "id": "scrapper",
+              "at": 269.30000000002696,
+              "ttk": 29.300000000006634
+            },
+            {
+              "id": "coil",
+              "at": 545.9000000000513,
+              "ttk": 125.89999999999003
+            },
+            {
+              "id": "brute",
+              "at": 609.3499999999935,
+              "ttk": 9.349999999991496
+            }
+          ],
+          "choices": [
+            {
+              "at": 23.000000000000192,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 27.250000000000252,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 33.90000000000021,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 39.04999999999992,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 50.64999999999926,
+              "level": 6,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 57.14999999999889,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "ignition"
+            },
+            {
+              "at": 66.59999999999836,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "range"
+            },
+            {
+              "at": 74.89999999999789,
+              "level": 8,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 99.1999999999965,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 130.69999999999547,
+              "level": 10,
+              "kind": "specialization",
+              "id": "thermalAmplifier"
+            },
+            {
+              "at": 155.000000000001,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 175.60000000000568,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "thermal"
+            },
+            {
+              "at": 222.7000000000164,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "afterburn"
+            },
+            {
+              "at": 269.30000000002696,
+              "level": 13,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 351.2000000000456,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 373.6500000000507,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 391.2500000000547,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 431.7000000000639,
+              "level": 20,
+              "kind": "evolution",
+              "id": "flame-fuelMixer",
+              "slot": 0
+            },
+            {
+              "at": 559.0000000000393,
+              "level": 23,
+              "kind": "upgrade",
+              "id": "dash"
+            }
+          ],
+          "maxEnemies": 1848,
+          "maxBullets": 82,
+          "maxHostile": 200,
+          "controlEnemySeconds": 2139.3999999999687,
+          "distance": 83215.6345451129,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "rede-de-plasma",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "tesla",
+              "evolution": "tesla-branchCoil",
+              "ammo": 0,
+              "reload": 1.387500000000015,
+              "damage": 13.6,
+              "rate": 0.33000000000000007
+            }
+          ],
+          "weaponEvolution": "tesla-branchCoil",
+          "time": 646.4999999999598,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 85,
+          "level": 26,
+          "kills": 2040,
+          "bossKills": 1,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "burn",
+            "blast",
+            "damage",
+            "magnet",
+            "shock",
+            "xp",
+            "rate",
+            "repair",
+            "conductivity",
+            "stun",
+            "freeze",
+            "pierce",
+            "dash"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 11581.63500000011,
+            "electric": 85964.3499999827,
+            "burn": 2240.8749999999936,
+            "explosion": 19274.79999999893
+          },
+          "received": 635,
+          "receivedBySource": {
+            "contact-or-projectile": 563,
+            "boss-hazard": 72
+          },
+          "healing": 550,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 81.39999999999752,
+              "ttk": 21.349999999998793
+            }
+          ],
+          "choices": [
+            {
+              "at": 28.700000000000273,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 36.500000000000064,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 65.49999999999842,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "blast"
+            },
+            {
+              "at": 81.39999999999752,
+              "level": 4,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 94.64999999999677,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 119.19999999999537,
+              "level": 6,
+              "kind": "blessing",
+              "id": "scrapMagnet"
+            },
+            {
+              "at": 146.59999999999908,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 148.99999999999963,
+              "level": 9,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 163.50000000000293,
+              "level": 10,
+              "kind": "specialization",
+              "id": "extraFork"
+            },
+            {
+              "at": 165.5500000000034,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "shock"
+            },
+            {
+              "at": 188.4500000000086,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 208.2500000000131,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 226.35000000001722,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 256.8500000000241,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "conductivity"
+            },
+            {
+              "at": 257.7000000000243,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "stun"
+            },
+            {
+              "at": 278.8500000000291,
+              "level": 17,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 356.30000000004674,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 367.6500000000493,
+              "level": 20,
+              "kind": "evolution",
+              "id": "tesla-branchCoil",
+              "slot": 0
+            },
+            {
+              "at": 497.4000000000788,
+              "level": 24,
+              "kind": "upgrade",
+              "id": "dash"
+            }
+          ],
+          "maxEnemies": 994,
+          "maxBullets": 2,
+          "maxHostile": 12,
+          "controlEnemySeconds": 2661.649999999981,
+          "distance": 73995.88548922286,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "rede-de-plasma",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "tesla",
+              "evolution": "tesla-branchCoil",
+              "ammo": 0,
+              "reload": 1.803124999999997,
+              "damage": 20.4,
+              "rate": 0.9900000000000002
+            }
+          ],
+          "weaponEvolution": "tesla-branchCoil",
+          "time": 591.4500000000098,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 85,
+          "level": 23,
+          "kills": 1445,
+          "bossKills": 2,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "burn",
+            "magnet",
+            "shock",
+            "damage",
+            "freeze",
+            "xp",
+            "blast",
+            "pierce",
+            "drones",
+            "conductivity",
+            "stun",
+            "dash",
+            "repair"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 9387.839999999953,
+            "electric": 56611.72500000415,
+            "burn": 2755.767499999998,
+            "explosion": 6672.8174999999355,
+            "drone": 2324.264999999978
+          },
+          "received": 290,
+          "receivedBySource": {
+            "contact-or-projectile": 234,
+            "boss-hazard": 12,
+            "common-ranged": 32,
+            "projectile": 12
+          },
+          "healing": 205,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 78.54999999999768,
+              "ttk": 18.499999999998956
+            },
+            {
+              "id": "scrapper",
+              "at": 313.0000000000369,
+              "ttk": 73.00000000001657
+            }
+          ],
+          "choices": [
+            {
+              "at": 22.600000000000186,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 34.000000000000206,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 39.69999999999988,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 42.14999999999974,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "shock"
+            },
+            {
+              "at": 50.14999999999929,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 62.699999999998575,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 78.54999999999768,
+              "level": 7,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 78.64999999999768,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 90.24999999999702,
+              "level": 9,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 104.29999999999622,
+              "level": 10,
+              "kind": "specialization",
+              "id": "extraFork"
+            },
+            {
+              "at": 118.6999999999954,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 128.94999999999507,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "blast"
+            },
+            {
+              "at": 141.3999999999979,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "pierce"
+            },
+            {
+              "at": 178.85000000000642,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 235.1000000000192,
+              "level": 17,
+              "kind": "upgrade",
+              "id": "conductivity"
+            },
+            {
+              "at": 265.75000000002615,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "stun"
+            },
+            {
+              "at": 312.45000000003677,
+              "level": 20,
+              "kind": "evolution",
+              "id": "tesla-branchCoil",
+              "slot": 0
+            },
+            {
+              "at": 341.3000000000433,
+              "level": 21,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 428.2500000000631,
+              "level": 22,
+              "kind": "upgrade",
+              "id": "repair"
+            }
+          ],
+          "maxEnemies": 1052,
+          "maxBullets": 2,
+          "maxHostile": 122,
+          "controlEnemySeconds": 1776.7000000000019,
+          "distance": 75006.46105625547,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "demolicao-de-campo",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "grenade",
+              "evolution": "grenade-doubleShell",
+              "ammo": 0,
+              "reload": 11.204687499999952,
+              "damage": 48.75,
+              "rate": 0.54
+            }
+          ],
+          "weaponEvolution": "grenade-doubleShell",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 129,
+          "maxHp": 140,
+          "level": 31,
+          "kills": 6013,
+          "bossKills": 2,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "damage",
+            "rate",
+            "blast",
+            "bossHunter",
+            "extra",
+            "blastRadius",
+            "magnet",
+            "dash",
+            "freeze",
+            "grace",
+            "repair",
+            "xp",
+            "burn",
+            "drones"
+          ],
+          "finite": true,
+          "damage": {
+            "explosion": 514836.875,
+            "bullet": 12463.21875,
+            "drone": 6472.59375,
+            "burn": 115.6875
+          },
+          "received": 1272.3999999999999,
+          "receivedBySource": {
+            "contact-or-projectile": 1100,
+            "common-ranged": 105,
+            "boss-minion": 0,
+            "boss-contact": 19,
+            "boss-hazard": 26.400000000000006,
+            "projectile": 22
+          },
+          "healing": 1261.3999999999999,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 79.9499999999976,
+              "ttk": 19.899999999998876
+            },
+            {
+              "id": "scrapper",
+              "at": 257.75000000002433,
+              "ttk": 17.750000000004007
+            }
+          ],
+          "choices": [
+            {
+              "at": 24.95000000000022,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 33.500000000000234,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 44.24999999999962,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 47.59999999999943,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "blast"
+            },
+            {
+              "at": 86.04999999999725,
+              "level": 6,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 109.9499999999959,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "bossHunter"
+            },
+            {
+              "at": 131.04999999999555,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "extra"
+            },
+            {
+              "at": 152.90000000000052,
+              "level": 9,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 175.95000000000576,
+              "level": 10,
+              "kind": "specialization",
+              "id": "grounding"
+            },
+            {
+              "at": 181.30000000000697,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "blastRadius"
+            },
+            {
+              "at": 197.85000000001074,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 201.80000000001164,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 214.25000000001447,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 227.95000000001758,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "grace"
+            },
+            {
+              "at": 257.35000000002424,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 257.75000000002433,
+              "level": 16,
+              "kind": "experiment",
+              "id": "blastCondenser"
+            },
+            {
+              "at": 336.60000000004226,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 396.950000000056,
+              "level": 20,
+              "kind": "evolution",
+              "id": "grenade-doubleShell",
+              "slot": 0
+            },
+            {
+              "at": 652.9499999999539,
+              "level": 24,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 680.9999999999284,
+              "level": 25,
+              "kind": "upgrade",
+              "id": "drones"
+            }
+          ],
+          "maxEnemies": 3546,
+          "maxBullets": 4,
+          "maxHostile": 205,
+          "controlEnemySeconds": 22.850000000000186,
+          "distance": 173358.59092487337,
+          "survivedWindow": true,
+          "viable": false
+        },
+        {
+          "build": "demolicao-de-campo",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "grenade",
+              "evolution": "grenade-doubleShell",
+              "ammo": 0,
+              "reload": 7.604687499999908,
+              "damage": 48.75,
+              "rate": 0.675
+            }
+          ],
+          "weaponEvolution": "grenade-doubleShell",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 118,
+          "maxHp": 140,
+          "level": 32,
+          "kills": 7745,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "damage",
+            "bossHunter",
+            "rate",
+            "magnet",
+            "extra",
+            "blast",
+            "dash",
+            "burn",
+            "xp",
+            "drones",
+            "blastRadius",
+            "freeze",
+            "repair",
+            "grace"
+          ],
+          "finite": true,
+          "damage": {
+            "explosion": 609178.5625,
+            "bullet": 18537.4375,
+            "drone": 11830.90625,
+            "burn": 424.7812500000001
+          },
+          "received": 1245.6,
+          "receivedBySource": {
+            "contact-or-projectile": 1056,
+            "boss-minion": 7,
+            "boss-hazard": 23.60000000000001,
+            "common-ranged": 140,
+            "boss-contact": 19
+          },
+          "healing": 1223.6,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 79.49999999999763,
+              "ttk": 19.4499999999989
+            },
+            {
+              "id": "scrapper",
+              "at": 288.3500000000313,
+              "ttk": 48.350000000010965
+            },
+            {
+              "id": "coil",
+              "at": 720.1999999998927,
+              "ttk": 300.1999999998315
+            },
+            {
+              "id": "brute",
+              "at": 803.7999999998167,
+              "ttk": 83.54999999992401
+            }
+          ],
+          "choices": [
+            {
+              "at": 32.4000000000003,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 38.79999999999993,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 55.199999999999,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "bossHunter"
+            },
+            {
+              "at": 79.49999999999763,
+              "level": 4,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 81.19999999999753,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 107.64999999999603,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 132.24999999999582,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 132.5999999999959,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "extra"
+            },
+            {
+              "at": 132.74999999999594,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 134.04999999999623,
+              "level": 10,
+              "kind": "specialization",
+              "id": "grounding"
+            },
+            {
+              "at": 138.09999999999715,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "blast"
+            },
+            {
+              "at": 146.6999999999991,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 166.9500000000037,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 243.8500000000212,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 263.55000000002565,
+              "level": 17,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 288.3500000000313,
+              "level": 18,
+              "kind": "experiment",
+              "id": "blastCondenser"
+            },
+            {
+              "at": 297.5500000000334,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "blastRadius"
+            },
+            {
+              "at": 332.0500000000412,
+              "level": 20,
+              "kind": "evolution",
+              "id": "grenade-doubleShell",
+              "slot": 0
+            },
+            {
+              "at": 399.85000000005664,
+              "level": 22,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 546.6500000000506,
+              "level": 25,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 949.9499999996838,
+              "level": 30,
+              "kind": "upgrade",
+              "id": "grace"
+            }
+          ],
+          "maxEnemies": 2531,
+          "maxBullets": 4,
+          "maxHostile": 200,
+          "controlEnemySeconds": 20.200000000000145,
+          "distance": 168721.41511604236,
+          "survivedWindow": true,
+          "viable": true
+        },
+        {
+          "build": "oficina-viva",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "shotgun",
+              "evolution": null,
+              "ammo": 0,
+              "reload": 4.393750000000002,
+              "damage": 16,
+              "rate": 0.4000000000000001
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 685.5999999999242,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 160,
+          "level": 16,
+          "kills": 587,
+          "bossKills": 1,
+          "coreReached": false,
+          "recipeReached": false,
+          "acquired": [
+            "freeze",
+            "damage",
+            "coldReload",
+            "magnet",
+            "rate",
+            "repair",
+            "drones",
+            "dash"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 38993,
+            "drone": 1650
+          },
+          "received": 567,
+          "receivedBySource": {
+            "contact-or-projectile": 519,
+            "boss-hazard": 48
+          },
+          "healing": 407,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 85.49999999999729,
+              "ttk": 25.44999999999856
+            }
+          ],
+          "choices": [
+            {
+              "at": 33.10000000000026,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 40.39999999999984,
+              "level": 3,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 58.94999999999879,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 85.49999999999729,
+              "level": 4,
+              "kind": "experiment",
+              "id": "lithiumPack"
+            },
+            {
+              "at": 86.64999999999722,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "coldReload"
+            },
+            {
+              "at": 113.4499999999957,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 159.9000000000021,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 178.00000000000622,
+              "level": 9,
+              "kind": "blessing",
+              "id": "copperPlate"
+            },
+            {
+              "at": 216.650000000015,
+              "level": 10,
+              "kind": "specialization",
+              "id": "repairCharge"
+            },
+            {
+              "at": 250.8500000000228,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 287.050000000031,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 354.8000000000464,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 438.0500000000653,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "dash"
+            }
+          ],
+          "maxEnemies": 2839,
+          "maxBullets": 10,
+          "maxHostile": 12,
+          "controlEnemySeconds": 2929.149999999994,
+          "distance": 88173.51902081993,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "oficina-viva",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "shotgun",
+              "evolution": null,
+              "ammo": 0,
+              "reload": 3.7750000000000012,
+              "damage": 16,
+              "rate": 0.4
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 932.5999999996995,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 160,
+          "level": 17,
+          "kills": 946,
+          "bossKills": 1,
+          "coreReached": false,
+          "recipeReached": false,
+          "acquired": [
+            "rate",
+            "armor",
+            "damage",
+            "freeze",
+            "coldReload",
+            "magnet",
+            "repair",
+            "dash",
+            "salvage"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 71341
+          },
+          "received": 990,
+          "receivedBySource": {
+            "contact-or-projectile": 910,
+            "boss-hazard": 80,
+            "boss-minion": 0
+          },
+          "healing": 830,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 78.54999999999768,
+              "ttk": 18.499999999998956
+            }
+          ],
+          "choices": [
+            {
+              "at": 27.05000000000025,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 31.450000000000312,
+              "level": 3,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 37.84999999999999,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "armor"
+            },
+            {
+              "at": 49.699999999999314,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 68.89999999999823,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 78.54999999999768,
+              "level": 6,
+              "kind": "experiment",
+              "id": "lithiumPack"
+            },
+            {
+              "at": 100.24999999999645,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 171.7500000000048,
+              "level": 9,
+              "kind": "blessing",
+              "id": "copperPlate"
+            },
+            {
+              "at": 200.45000000001133,
+              "level": 10,
+              "kind": "specialization",
+              "id": "repairCharge"
+            },
+            {
+              "at": 234.85000000001915,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "coldReload"
+            },
+            {
+              "at": 279.2000000000292,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 306.30000000003537,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 387.8000000000539,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 475.8500000000739,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "salvage"
+            }
+          ],
+          "maxEnemies": 4953,
+          "maxBullets": 13,
+          "maxHostile": 12,
+          "controlEnemySeconds": 4444.999999999935,
+          "distance": 109744.33723171735,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "enxame-de-sucata",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "harpoon",
+              "evolution": "harpoon-longShaft",
+              "ammo": 0,
+              "reload": 3.150000000000001,
+              "damage": 135,
+              "rate": 0.7245
+            }
+          ],
+          "weaponEvolution": "harpoon-longShaft",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 115,
+          "maxHp": 115,
+          "level": 24,
+          "kills": 3082,
+          "bossKills": 7,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "magnet",
+            "damage",
+            "armor",
+            "burn",
+            "drones",
+            "rate",
+            "dronePair",
+            "droneArc",
+            "droneOverclock",
+            "salvage",
+            "repair",
+            "freeze"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 76298.32472826086,
+            "drone": 147317.8113677532,
+            "burn": 19758.56385869565
+          },
+          "received": 550,
+          "receivedBySource": {
+            "contact-or-projectile": 354,
+            "common-ranged": 168,
+            "boss-minion": 8,
+            "boss-hazard": 20
+          },
+          "healing": 550,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 70.69999999999813,
+              "ttk": 10.649999999999402
+            },
+            {
+              "id": "scrapper",
+              "at": 252.35000000002313,
+              "ttk": 12.350000000002808
+            },
+            {
+              "id": "coil",
+              "at": 475.50000000007384,
+              "ttk": 55.50000000001262
+            },
+            {
+              "id": "brute",
+              "at": 609.8499999999931,
+              "ttk": 9.849999999991041
+            },
+            {
+              "id": "scrapper",
+              "at": 867.8999999997584,
+              "ttk": 87.8499999999201
+            },
+            {
+              "id": "coil",
+              "at": 1079.1499999995663,
+              "ttk": 119.09999999989168
+            },
+            {
+              "id": "brute",
+              "at": 1147.699999999504,
+              "ttk": 7.649999999993042
+            }
+          ],
+          "choices": [
+            {
+              "at": 33.75000000000022,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 36.35000000000007,
+              "level": 3,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 39.449999999999896,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 45.84999999999953,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "armor"
+            },
+            {
+              "at": 53.04999999999912,
+              "level": 6,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 61.649999999998634,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "burn"
+            },
+            {
+              "at": 70.69999999999813,
+              "level": 7,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 75.44999999999786,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 84.24999999999736,
+              "level": 9,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 95.44999999999672,
+              "level": 10,
+              "kind": "specialization",
+              "id": "droneBossFocus"
+            },
+            {
+              "at": 133.14999999999603,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 161.30000000000243,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "dronePair"
+            },
+            {
+              "at": 188.25000000000855,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "droneArc"
+            },
+            {
+              "at": 252.35000000002313,
+              "level": 15,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 261.0500000000251,
+              "level": 16,
+              "kind": "upgrade",
+              "id": "droneOverclock"
+            },
+            {
+              "at": 307.7000000000357,
+              "level": 17,
+              "kind": "upgrade",
+              "id": "salvage"
+            },
+            {
+              "at": 361.4500000000479,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 540.5500000000561,
+              "level": 20,
+              "kind": "evolution",
+              "id": "harpoon-longShaft",
+              "slot": 0
+            },
+            {
+              "at": 644.0999999999619,
+              "level": 21,
+              "kind": "upgrade",
+              "id": "freeze"
+            }
+          ],
+          "maxEnemies": 5499,
+          "maxBullets": 2,
+          "maxHostile": 205,
+          "controlEnemySeconds": 220.25000000000395,
+          "distance": 123936.24957270134,
+          "survivedWindow": true,
+          "viable": true
+        },
+        {
+          "build": "enxame-de-sucata",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "harpoon",
+              "evolution": "harpoon-longShaft",
+              "ammo": 0,
+              "reload": 1.1600000000000017,
+              "damage": 134.99999999999997,
+              "rate": 0.7245
+            }
+          ],
+          "weaponEvolution": "harpoon-longShaft",
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 115,
+          "maxHp": 115,
+          "level": 24,
+          "kills": 3087,
+          "bossKills": 7,
+          "coreReached": true,
+          "recipeReached": false,
+          "acquired": [
+            "drones",
+            "dronePair",
+            "damage",
+            "droneOverclock",
+            "magnet",
+            "armor",
+            "salvage",
+            "rate",
+            "freeze",
+            "dash"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 104121.91304347826,
+            "drone": 130180.4456521746
+          },
+          "received": 442,
+          "receivedBySource": {
+            "common-ranged": 126,
+            "contact-or-projectile": 290,
+            "boss-hazard": 12,
+            "boss-minion": 4,
+            "projectile": 10
+          },
+          "healing": 442,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 74.6499999999979,
+              "ttk": 14.599999999999177
+            },
+            {
+              "id": "scrapper",
+              "at": 246.85000000002188,
+              "ttk": 6.8500000000015575
+            },
+            {
+              "id": "coil",
+              "at": 478.70000000007457,
+              "ttk": 58.70000000001335
+            },
+            {
+              "id": "brute",
+              "at": 605.549999999997,
+              "ttk": 5.549999999994952
+            },
+            {
+              "id": "scrapper",
+              "at": 794.1999999998254,
+              "ttk": 14.14999999998713
+            },
+            {
+              "id": "coil",
+              "at": 1053.4499999995896,
+              "ttk": 93.39999999991505
+            },
+            {
+              "id": "brute",
+              "at": 1166.249999999487,
+              "ttk": 26.19999999997617
+            }
+          ],
+          "choices": [
+            {
+              "at": 34.60000000000017,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 38.599999999999945,
+              "level": 3,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 47.09999999999946,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "dronePair"
+            },
+            {
+              "at": 62.64999999999858,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 74.6499999999979,
+              "level": 5,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 79.69999999999762,
+              "level": 6,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 85.44999999999729,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "droneOverclock"
+            },
+            {
+              "at": 87.39999999999718,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 88.24999999999713,
+              "level": 9,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 93.04999999999686,
+              "level": 10,
+              "kind": "specialization",
+              "id": "droneBossFocus"
+            },
+            {
+              "at": 112.64999999999574,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "armor"
+            },
+            {
+              "at": 160.7500000000023,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "salvage"
+            },
+            {
+              "at": 193.85000000000983,
+              "level": 15,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 246.85000000002188,
+              "level": 16,
+              "kind": "experiment",
+              "id": "unstableLens"
+            },
+            {
+              "at": 511.10000000008193,
+              "level": 20,
+              "kind": "evolution",
+              "id": "harpoon-longShaft",
+              "slot": 0
+            },
+            {
+              "at": 618.699999999985,
+              "level": 21,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 748.1999999998673,
+              "level": 22,
+              "kind": "upgrade",
+              "id": "dash"
+            }
+          ],
+          "maxEnemies": 5493,
+          "maxBullets": 2,
+          "maxHostile": 202,
+          "controlEnemySeconds": 332.8000000000232,
+          "distance": 143344.8353510532,
+          "survivedWindow": true,
+          "viable": true
+        },
+        {
+          "build": "lanca-de-fuga",
+          "seed": 20261103,
+          "weapons": [
+            {
+              "weapon": "harpoon",
+              "evolution": "harpoon-pressurePiston",
+              "ammo": 0,
+              "reload": 0.0180000000000083,
+              "damage": 175.5,
+              "rate": 0.905625
+            }
+          ],
+          "weaponEvolution": "harpoon-pressurePiston",
+          "time": 1092.8499999995538,
+          "state": "over",
+          "hp": 0,
+          "maxHp": 116.66666666666667,
+          "level": 21,
+          "kills": 1039,
+          "bossKills": 3,
+          "coreReached": false,
+          "recipeReached": false,
+          "acquired": [
+            "rate",
+            "damage",
+            "freeze",
+            "magnet",
+            "drones",
+            "dash",
+            "xp",
+            "speed",
+            "knock"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 54279.025,
+            "drone": 29629.875,
+            "kinetic": 698.2500000000002
+          },
+          "received": 688.6666666666666,
+          "receivedBySource": {
+            "contact-or-projectile": 543.6666666666666,
+            "boss-hazard": 86,
+            "common-ranged": 59,
+            "projectile": 0
+          },
+          "healing": 561,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 120.99999999999527,
+              "ttk": 60.94999999999654
+            },
+            {
+              "id": "scrapper",
+              "at": 485.000000000076,
+              "ttk": 245.00000000005568
+            },
+            {
+              "id": "coil",
+              "at": 904.2999999997253,
+              "ttk": 419.2499999996493
+            }
+          ],
+          "choices": [
+            {
+              "at": 32.15000000000031,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 52.69999999999914,
+              "level": 3,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 93.64999999999682,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 134.3999999999963,
+              "level": 6,
+              "kind": "blessing",
+              "id": "greasedServos"
+            },
+            {
+              "at": 148.3999999999995,
+              "level": 7,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 177.9000000000062,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 193.20000000000968,
+              "level": 9,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 229.20000000001787,
+              "level": 10,
+              "kind": "specialization",
+              "id": "repairCharge"
+            },
+            {
+              "at": 267.7000000000266,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "drones"
+            },
+            {
+              "at": 300.85000000003413,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 345.45000000004427,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "xp"
+            },
+            {
+              "at": 387.2500000000538,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "speed"
+            },
+            {
+              "at": 485.000000000076,
+              "level": 15,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 610.2499999999927,
+              "level": 18,
+              "kind": "upgrade",
+              "id": "knock"
+            },
+            {
+              "at": 879.1999999997481,
+              "level": 20,
+              "kind": "evolution",
+              "id": "harpoon-pressurePiston",
+              "slot": 0
+            },
+            {
+              "at": 904.2999999997253,
+              "level": 20,
+              "kind": "experiment",
+              "id": "lithiumPack"
+            }
+          ],
+          "maxEnemies": 6470,
+          "maxBullets": 2,
+          "maxHostile": 212,
+          "controlEnemySeconds": 151.24999999999775,
+          "distance": 265330.55497434863,
+          "survivedWindow": false,
+          "viable": false
+        },
+        {
+          "build": "lanca-de-fuga",
+          "seed": 20261104,
+          "weapons": [
+            {
+              "weapon": "harpoon",
+              "evolution": null,
+              "ammo": 1,
+              "reload": 0,
+              "damage": 135,
+              "rate": 0.7245
+            }
+          ],
+          "weaponEvolution": null,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "hp": 116.66666666666667,
+          "maxHp": 116.66666666666667,
+          "level": 19,
+          "kills": 1109,
+          "bossKills": 4,
+          "coreReached": true,
+          "recipeReached": true,
+          "acquired": [
+            "dash",
+            "damage",
+            "magnet",
+            "rate",
+            "freeze",
+            "knock",
+            "repair",
+            "speed",
+            "xp"
+          ],
+          "finite": true,
+          "damage": {
+            "bullet": 81294.5,
+            "kinetic": 1122
+          },
+          "received": 679,
+          "receivedBySource": {
+            "contact-or-projectile": 534,
+            "boss-contact": 20,
+            "boss-hazard": 53,
+            "common-ranged": 72
+          },
+          "healing": 679,
+          "bosses": [
+            {
+              "id": "brute",
+              "at": 101.0499999999964,
+              "ttk": 40.99999999999768
+            },
+            {
+              "id": "scrapper",
+              "at": 501.8000000000798,
+              "ttk": 261.8000000000595
+            },
+            {
+              "id": "coil",
+              "at": 732.4499999998816,
+              "ttk": 230.59999999980175
+            },
+            {
+              "id": "brute",
+              "at": 752.0499999998638,
+              "ttk": 19.54999999998222
+            }
+          ],
+          "choices": [
+            {
+              "at": 27.400000000000254,
+              "level": 2,
+              "kind": "upgrade",
+              "id": "dash"
+            },
+            {
+              "at": 44.24999999999962,
+              "level": 3,
+              "kind": "blessing",
+              "id": "pulseCoil"
+            },
+            {
+              "at": 66.49999999999837,
+              "level": 4,
+              "kind": "upgrade",
+              "id": "damage"
+            },
+            {
+              "at": 101.0499999999964,
+              "level": 4,
+              "kind": "experiment",
+              "id": "volatileReactor"
+            },
+            {
+              "at": 113.84999999999567,
+              "level": 5,
+              "kind": "upgrade",
+              "id": "magnet"
+            },
+            {
+              "at": 128.89999999999506,
+              "level": 6,
+              "kind": "blessing",
+              "id": "spareBattery"
+            },
+            {
+              "at": 184.60000000000773,
+              "level": 8,
+              "kind": "upgrade",
+              "id": "rate"
+            },
+            {
+              "at": 211.45000000001383,
+              "level": 9,
+              "kind": "blessing",
+              "id": "triggerRegulator"
+            },
+            {
+              "at": 235.85000000001938,
+              "level": 10,
+              "kind": "specialization",
+              "id": "repairCharge"
+            },
+            {
+              "at": 259.7000000000248,
+              "level": 11,
+              "kind": "upgrade",
+              "id": "freeze"
+            },
+            {
+              "at": 303.8500000000348,
+              "level": 12,
+              "kind": "upgrade",
+              "id": "knock"
+            },
+            {
+              "at": 363.05000000004827,
+              "level": 13,
+              "kind": "upgrade",
+              "id": "repair"
+            },
+            {
+              "at": 440.6000000000659,
+              "level": 14,
+              "kind": "upgrade",
+              "id": "speed"
+            },
+            {
+              "at": 501.8000000000798,
+              "level": 14,
+              "kind": "experiment",
+              "id": "lithiumPack"
+            },
+            {
+              "at": 1199.0999999994572,
+              "level": 19,
+              "kind": "upgrade",
+              "id": "xp"
+            }
+          ],
+          "maxEnemies": 7463,
+          "maxBullets": 2,
+          "maxHostile": 200,
+          "controlEnemySeconds": 244.70000000001323,
+          "distance": 262071.03908316893,
+          "survivedWindow": true,
+          "viable": true
+        }
+      ],
+      "errors": [],
+      "components": {
+        "ok": true,
+        "checks": [
+          "forge tradeoff+burn",
+          "volt secondary",
+          "drone count/ammo/range",
+          "nano reload fraction",
+          "effective-heal gating"
+        ]
+      },
+      "completed": true
+    }
+  ]
+}

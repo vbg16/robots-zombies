@@ -2,6 +2,8 @@
 const canvas=document.querySelector('#game'),ctx=canvas.getContext('2d'),el=id=>document.getElementById(id);
 const keys=new Set(),random=(a,b)=>a+Math.random()*(b-a);
 const HORDE={initialDelay:2,interval:6.4,minInterval:1.5,ramp:.008,waveSize:15,minSpeed:24,maxSpeed:42};
+const HORDE_DIRECTOR=Object.freeze({initialCap:60,maxCap:180,capPerMinute:12,killTrigger:8,moveTrigger:320,minCooldown:3,farMultiplier:2.5});
+let hordeDirector={cooldown:2,lastKills:0,x:0,y:0,lastReason:'initial'};
 const PLAYER_KNOCKBACK=48;
 // Keep build choices reachable before the horde's late-game acceleration.
 const PROGRESSION=Object.freeze({initialNeed:6,growth:1.2,baseMagnet:95});
@@ -345,6 +347,7 @@ function reset(){
  for(const id of selectedLoadout().slice(1))weaponSlots.push(createWeaponState(id,weaponSlots.length));
  const loadoutCost=LOADOUT_COST[weaponSlots.length];for(const slot of weaponSlots)slot.damage*=loadoutCost.damage;player.speed*=loadoutCost.speed;weaponFireCursor=0;weaponHudNodes=[];
  boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];weaponEvolutionOffered=false;offeredWeaponEvolutions=[];evolutionSlotIndex=0;evolutionPendingSlots=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=PROGRESSION.initialNeed;upgradeFlash=0;displayedHealth=null;
+ hordeDirector={cooldown:HORDE.initialDelay,lastKills:0,x:player.x,y:player.y,lastReason:'initial'};
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida');updateHUD();
 }
 function show(title,description,label){
@@ -449,7 +452,7 @@ function renderCooldowns(){
  entries.forEach((entry,i)=>{const node=cooldownNodes[i],ready=entry.left<=0,progress=Math.max(0,Math.min(100,(1-entry.left/entry.total)*100));node.item.setAttribute('data-state',entry.active?'active':ready?'ready':'waiting');node.status.textContent=entry.active?'ATIVO':ready?'PRONTO':Math.ceil(entry.left)+' s';node.fill.style.width=progress+'%';node.track.setAttribute('aria-valuenow',String(Math.round(progress)));node.track.setAttribute('aria-valuetext',ready?'Pronto':Math.ceil(entry.left)+' segundos restantes');});
 }
 function toast(text,color='#89ddff'){feedback.push({x:player.x,y:player.y-46,text,life:1.4,color});}
-function boostDamage(){player.damageStacks++;player.damage*=2;player.rate*=1.5;toast('DANO ×2 · INTERVALO ×1,5');}
+function boostDamage(){player.damageStacks++;player.damage*=2;toast('DANO ×2');}
 function fireInterval(slot=primaryWeaponState()){return slot.rate/(player.frenzy>0?3:1);}
 function shotDamage(slot=primaryWeaponState()){return slot.damage+(player.acquired.has('titan')&&player.acquired.has('armor')?Math.min(slot.damage*.75,player.maxHp*.03):0);}
 function bossRepairAmount(){return player.skills.bossHunter?40:20;}
@@ -504,11 +507,11 @@ const SKILLS=[
  moduleSkill('corrosionFuse','INICIADOR RÁPIDO','corrosion','Prazo das novas cargas ×0,5.','Dano das novas cargas ×0,75.',()=>{player.corrosionDelayMult*=.5;player.corrosionDamageMult*=.75;}),
  moduleSkill('corrosionBloom','RESPINGO REAGENTE','corrosion','Morte de um alvo com carga primária transfere metade da carga a até dois vizinhos próximos.','Recarga ×1,15. Cargas transferidas não se propagam; escudos bloqueiam o respingo.',()=>{player.skills.corrosionBloom=1;player.reloadMult*=1.15;}),
  moduleSkill('corrosionCatalyst','CATALISADOR TÉRMICO','corrosion','Detonação corrosiva causa +50% de dano se o alvo ainda estiver queimando ou resfriado.','Dano direto ÷1,15. Fogo e gelo não acumulam este bônus.',()=>{player.skills.corrosionCatalyst=1;player.damage/=1.15;}),
- moduleSkill('damage','ALTO IMPACTO',null,'Dano ×2.','Intervalo entre disparos ×1,5.',boostDamage),
+ moduleSkill('damage','ALTO IMPACTO',null,'Dano ×2.','',boostDamage),
  moduleSkill('bossHunter','CAÇA-TITÃS','damage','Dano contra chefe ×3. Derrotar um chefe recupera mais20 de integridade.','Alcance dos projéteis ÷1,5.',()=>{player.skills.bossHunter=1;player.projectileLife/=1.5;}),
  moduleSkill('finisher','FINALIZADOR','damage','Dano ×3 contra alvos com até um terço da vida.','Velocidade das balas ÷1,5.',()=>{player.skills.finisher=1;player.projectileSpeed/=1.5;}),
  moduleSkill('crit','QUINTO IMPACTO','damage','Cada quinto disparo causa dano ×3.','Capacidade do carregador ÷1,25 (mínimo 1).',()=>{player.skills.crit=1;player.magazineMult/=1.25;player.ammo=Math.min(player.ammo,magazineSize());}),
- moduleSkill('rate','OVERDRIVE',null,'Cadência ×3.','Dano de cada bala ÷1,5.',()=>{player.rateStacks++;player.rate/=3;player.damage/=1.5;}),
+ moduleSkill('rate','OVERDRIVE',null,'Cadência ×3.','',()=>{player.rateStacks++;player.rate/=3;}),
  moduleSkill('extra','CÂMARA DUPLA','rate','Projéteis por disparo ×2.','Dispersão ×1,5 e alcance ÷1,5.',()=>{player.projectileMult*=2;player.spreadMult*=1.5;player.projectileLife/=1.5;}),
  moduleSkill('ricochet','MUNIÇÃO RICOCHETE','rate','Cada bala busca um alvo adicional após esgotar perfuração.','Tempo de recarga ×1,5. Não combina com disco.',()=>{player.skills.ricochet=1;player.reloadMult*=1.5;}),
  moduleSkill('range','PROPULSÃO BALÍSTICA','rate','Alcance dos projéteis ×3.','Tamanho das balas ÷1,25.',()=>{player.projectileLife*=3;player.projectileSize/=1.25;}),
@@ -519,13 +522,13 @@ const SKILLS=[
  moduleSkill('magnet','CAMPO MAGNÉTICO',null,'Alcance de coleta ×3.','',()=>{player.magnet*=3;}),
  moduleSkill('xp','PROCESSADOR DE EXPERIÊNCIA','magnet','Experiência por núcleo ×2.','Tempo de recarga ×1,5.',()=>{player.skills.xp=1;player.reloadMult*=1.5;}),
  moduleSkill('repair','MANUTENÇÃO NA RECARGA','magnet','Recargas recuperam até5 de vida proporcionalmente à munição reposta.','Tempo de recarga ×1,25. Só funciona após gastar munição.',()=>{player.skills.repair=1;player.reloadMult*=1.25;}),
- moduleSkill('killAmmo','DEPÓSITO AMPLIADO','magnet','Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição.','Tempo de recarga ×2. Não repõe munição imediatamente.',()=>{player.skills.killAmmo=1;player.magazineMult*=3;player.reloadMult*=2;player.ammoKills=0;}),
+ moduleSkill('killAmmo','DEPÓSITO AMPLIADO','magnet','Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição. Não repõe munição ao instalar.','',()=>{player.skills.killAmmo=1;player.magazineMult*=3;player.ammoKills=0;}),
  moduleSkill('burn','MUNIÇÃO INCENDIÁRIA',null,'Impactos queimam por 3 s: metade do dano da bala por segundo. Em armas incendiárias, a queimadura ganha mais25%.','Alcance dos projéteis ÷1,25.',()=>{player.skills.burn=1;player.projectileLife/=1.25;}),
  moduleSkill('thermal','CHOQUE TÉRMICO','burn','Queimadura causa dano ×3 enquanto o alvo está resfriado.','Dano direto das balas ÷1,5. Exige resfriar o alvo.',()=>{player.skills.thermal=1;player.damage/=1.5;}),
  moduleSkill('ignition','FORNALHA','burn','Duração da queimadura ×3.','Tempo de recarga ×1,5.',()=>{player.skills.ignition=1;player.reloadMult*=1.5;}),
  moduleSkill('afterburn','COMBUSTÃO CONCENTRADA','burn','Dano da queimadura ×3.','Cadência ÷1,5.',()=>{player.skills.afterburn=1;player.rate*=1.5;}),
  moduleSkill('freeze','NÚCLEO CRIOGÊNICO',null,'Impactos deixam o movimento inimigo ÷2 por 2 s; em armas criogênicas, dura3 s.','Velocidade dos projéteis ÷1,25.',()=>{player.skills.freeze=1;player.projectileSpeed/=1.25;}),
- moduleSkill('pierce','PERFURAÇÃO','freeze','Projéteis atravessam dois alvos adicionais.','Dano direto das balas ÷1,5.',()=>{player.skills.pierce=1;player.damage/=1.5;}),
+ moduleSkill('pierce','PERFURAÇÃO','freeze','Projéteis atravessam dois alvos adicionais.','',()=>{player.skills.pierce=1;}),
  moduleSkill('knock','IMPACTO CINÉTICO','freeze','Empurra uma distância curta; chefes recebem um quarto do empurrão.','Cadência ÷1,5.',()=>{player.skills.knock=1;player.rate*=1.5;}),
  moduleSkill('coldReload','RECARGA GLACIAL','freeze','Ao terminar uma recarga, resfria alvos em uma área média por 4 s.','Tempo de recarga ×1,5.',()=>{player.skills.coldReload=1;player.reloadMult*=1.5;}),
  moduleSkill('shock','DESCARGA',null,'Impactos atingem outro alvo com metade do dano; perfuração amplia para três. Em armas elétricas, soma os alvos e aumenta o dano elétrico em25%.','Dano direto das balas ÷1,5.',()=>{player.skills.shock=1;player.damage/=1.5;}),
@@ -694,6 +697,30 @@ function spawnCircularWave(capacity){
  if(policeUnlocked)for(let i=0;i<Math.floor(count/3);i++)types[i]=(wave+i)%2?'shieldPolice':'expolice';
  if(count===HORDE.waveSize&&clock>=900&&wave%3===2)types[count-1]='heavy';
  for(let i=0;i<count;i++){const angle=start+i*Math.PI*2/count,z=createEnemy(player.x+Math.cos(angle)*radius,player.y+Math.sin(angle)*radius,types[i]);enemies.push(z);}
+}
+function hordePopulationLimit(){return Math.min(HORDE_DIRECTOR.maxCap,HORDE_DIRECTOR.initialCap+Math.floor(clock/60)*HORDE_DIRECTOR.capPerMinute);}
+function tickHordeDirector(dt){
+ spawn-=dt;hordeDirector.cooldown=Math.max(0,hordeDirector.cooldown-dt);
+ if(hordeDirector.cooldown>0&&spawn>0)return;
+ const common=enemies.filter(z=>z.hp>0&&!z.minionOwner&&!z.minionType),limit=hordePopulationLimit(),radius=waveRadius();
+ const nearby=common.filter(z=>Math.hypot(z.x-player.x,z.y-player.y)<radius*1.35).length;
+ const moved=Math.hypot(player.x-hordeDirector.x,player.y-hordeDirector.y)>=HORDE_DIRECTOR.moveTrigger;
+ const cleared=kills-hordeDirector.lastKills>=HORDE_DIRECTOR.killTrigger;
+ const reason=cleared?'kills':moved&&nearby<Math.min(limit,30+Math.floor(clock/60)*3)?'travel':spawn<=0?'timer':null;
+ if(!reason)return;
+ const capacity=Math.min(HORDE.waveSize,Math.max(0,limit-common.length));
+ if(capacity>0)spawnCircularWave(capacity);
+ // Move existing distant pursuers to the new region: preserve HP, shields and rewards.
+ // Both endpoints are outside view; never erase a living enemy or award a free kill.
+ let relocated=0;
+ if(reason==='travel'){
+  const far=common.filter(z=>Math.hypot(z.x-player.x,z.y-player.y)>radius*HORDE_DIRECTOR.farMultiplier&&
+   (z.x+60<camera.x||z.x-60>camera.x+width||z.y+60<camera.y||z.y-60>camera.y+height));
+  const start=random(0,Math.PI*2);
+  for(const z of far.slice(0,Math.max(0,HORDE.waveSize-capacity))){const angle=start+relocated*Math.PI*2/HORDE.waveSize;z.x=player.x+Math.cos(angle)*radius;z.y=player.y+Math.sin(angle)*radius;relocated++;}
+ }
+ spawn=Math.max(3.5,HORDE.interval-clock*HORDE.ramp);hordeDirector.cooldown=HORDE_DIRECTOR.minCooldown;
+ hordeDirector.lastKills=kills;hordeDirector.x=player.x;hordeDirector.y=player.y;hordeDirector.lastReason=reason;
 }
 function bossTime(index){return index<BOSS_SCHEDULE.length?BOSS_SCHEDULE[index].at:BOSS_SCHEDULE.at(-1).at+180*(index-BOSS_SCHEDULE.length+1);}
 function spawnBoss(){
@@ -1015,7 +1042,7 @@ function tick(dt){
  syncCamera(dt);
  enemies=enemies.filter(z=>z.hp>0);
  const bossAlive=!!boss&&boss.hp>0,bossDue=clock>=bossTime(bossIndex)&&!bossAlive&&!bossReward;
- {spawn-=dt;if(spawn<=0){spawn=Math.max(HORDE.minInterval,HORDE.interval-clock*HORDE.ramp);spawnCircularWave(HORDE.waveSize);}}
+ tickHordeDirector(dt);
  if(bossDue)spawnBoss();
  if(weaponSlots.length===1)tickWeaponFire(weaponSlots[0],dt);else{for(let i=0;i<weaponSlots.length;i++)tickWeaponFire(weaponSlots[(weaponFireCursor+i)%weaponSlots.length],dt);if(firing&&aim.active)weaponFireCursor=(weaponFireCursor+1)%weaponSlots.length;}
  if(bullets.length)buildCollisionGrid();

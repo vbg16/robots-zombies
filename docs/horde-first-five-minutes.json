@@ -1,0 +1,241 @@
+{
+  "build": 51,
+  "sourceHash": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+  "note": "300 seconds of combat clock; menus and choices pause the clock. Spawn counts only, not concurrent alive enemies. Immediate boss defeats are a schedule fixture, not a natural playtest.",
+  "cases": [
+    {
+      "dt": 0.016666666666666666,
+      "scenario": "first-boss-left-alive",
+      "minutes": [
+        {
+          "minute": 1,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 2,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 3,
+          "waves": 12,
+          "zombies": 180,
+          "police": 0
+        },
+        {
+          "minute": 4,
+          "waves": 13,
+          "zombies": 195,
+          "police": 0
+        },
+        {
+          "minute": 5,
+          "waves": 14,
+          "zombies": 210,
+          "police": 0
+        }
+      ],
+      "totalCommon": 885,
+      "firstWave": {
+        "at": 2.0166666666666644,
+        "count": 15,
+        "police": 0,
+        "interval": 6.383866666666667
+      },
+      "lastWave": {
+        "at": 299.65000000005614,
+        "count": 15,
+        "police": 0,
+        "interval": 4.002799999999551
+      },
+      "minions": [
+        {
+          "at": 60.01666666666454,
+          "boss": "brute",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "dt": 0.05,
+      "scenario": "first-boss-left-alive",
+      "minutes": [
+        {
+          "minute": 1,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 2,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 3,
+          "waves": 12,
+          "zombies": 180,
+          "police": 0
+        },
+        {
+          "minute": 4,
+          "waves": 12,
+          "zombies": 180,
+          "police": 0
+        },
+        {
+          "minute": 5,
+          "waves": 14,
+          "zombies": 210,
+          "police": 0
+        }
+      ],
+      "totalCommon": 870,
+      "firstWave": {
+        "at": 2.000000000000001,
+        "count": 15,
+        "police": 0,
+        "interval": 6.384
+      },
+      "lastWave": {
+        "at": 296.15000000003306,
+        "count": 15,
+        "police": 0,
+        "interval": 4.030799999999736
+      },
+      "minions": [
+        {
+          "at": 60.049999999998725,
+          "boss": "brute",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "dt": 0.016666666666666666,
+      "scenario": "bosses-defeated-immediately",
+      "minutes": [
+        {
+          "minute": 1,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 2,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 3,
+          "waves": 12,
+          "zombies": 180,
+          "police": 0
+        },
+        {
+          "minute": 4,
+          "waves": 13,
+          "zombies": 195,
+          "police": 0
+        },
+        {
+          "minute": 5,
+          "waves": 14,
+          "zombies": 210,
+          "police": 70
+        }
+      ],
+      "totalCommon": 885,
+      "firstWave": {
+        "at": 2.0166666666666644,
+        "count": 15,
+        "police": 0,
+        "interval": 6.383866666666667
+      },
+      "lastWave": {
+        "at": 299.65000000005614,
+        "count": 15,
+        "police": 5,
+        "interval": 4.002799999999551
+      },
+      "minions": [
+        {
+          "at": 60.01666666666454,
+          "boss": "brute",
+          "count": 2
+        },
+        {
+          "at": 240.00000000008313,
+          "boss": "scrapper",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "dt": 0.05,
+      "scenario": "bosses-defeated-immediately",
+      "minutes": [
+        {
+          "minute": 1,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 2,
+          "waves": 10,
+          "zombies": 150,
+          "police": 0
+        },
+        {
+          "minute": 3,
+          "waves": 12,
+          "zombies": 180,
+          "police": 0
+        },
+        {
+          "minute": 4,
+          "waves": 12,
+          "zombies": 180,
+          "police": 0
+        },
+        {
+          "minute": 5,
+          "waves": 14,
+          "zombies": 210,
+          "police": 70
+        }
+      ],
+      "totalCommon": 870,
+      "firstWave": {
+        "at": 2.000000000000001,
+        "count": 15,
+        "police": 0,
+        "interval": 6.384
+      },
+      "lastWave": {
+        "at": 296.15000000003306,
+        "count": 15,
+        "police": 5,
+        "interval": 4.030799999999736
+      },
+      "minions": [
+        {
+          "at": 60.049999999998725,
+          "boss": "brute",
+          "count": 2
+        },
+        {
+          "at": 240.00000000002032,
+          "boss": "scrapper",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

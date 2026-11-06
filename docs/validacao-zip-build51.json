@@ -1,0 +1,28 @@
+{
+  "commit": "02ccd8c7f3a284c0ace1e5ee3d26647f17192fbf",
+  "archiveSha256": "ff8e0e67e370ad5ade04a2847756dcfade37889b63d12bf795143d653cce3bb5",
+  "files": 326,
+  "runtimeFiles": {
+    "index.html": "812864c6ee7def82cf35dfc02283da38b8bd14a2cc182930849081a88911352c",
+    "game.js": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+    "balance.js": "50da247d6d13c2154b5e4508e8e519a880f8d36a54e141392a18ae670ba306f0",
+    "audio.js": "6d2c48054dd08b343549aad8c6c83079af9391f973e7cac715eeadd4a1fb2889",
+    "app-loader.js": "548d52ece13f0ae51166dfec870883e63402b3de80bca7f760290b7085a719aa",
+    "tools/skills-panel/panel.js": "e618e8d76297b9ed8e4f8ed349471a98ca79f05cc3913fd927e33b50896d832e",
+    "tools/skills-panel/panel.css": "809ca41e465ee6966196167f66f80df8267620c46621a37e4b256412d465893e"
+  },
+  "arsenalBrowser": {
+    "passed": true,
+    "entry": "extracted ZIP index.html via file://",
+    "coverage": "selection, costs, manual fire, reload, props, pause, refits, mobile and reset"
+  },
+  "panel": {
+    "commit": "02ccd8c7f3a284c0ace1e5ee3d26647f17192fbf",
+    "fileZip": true,
+    "catalog": 82,
+    "revision": 5,
+    "applyDefaultAndStart": true,
+    "errors": []
+  },
+  "limits": "Default configuration applied in a fresh browser context. Does not establish compatibility with every browser or edited configuration."
+}

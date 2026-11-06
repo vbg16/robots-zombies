@@ -20,7 +20,7 @@ assert.equal(migrated.find(s=>s.id==='drones').name,api.catalog.find(s=>s.id==='
 storage.set(api.storageKey,JSON.stringify({version:1,skills:legacy}));
 assert.equal(JSON.stringify(api.load()),JSON.stringify(migrated),'applied old settings use the same migration');
 assert.equal(api.save(migrated).ok,true);
-assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,5);
+assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,6);
 assert.equal(JSON.stringify(api.load()),JSON.stringify(migrated),'loading migrated settings is idempotent');
 console.log('BUILD39 migration passed: edited values, all54 IDs, twenty-eight additions and custom ID/reference collisions.');
 const v42=JSON.parse(fs.readFileSync('tests/fixtures/balance-catalog-v42.json','utf8'));assert.equal(v42.length,70);
@@ -32,7 +32,7 @@ const upgraded=api.load();assert.equal(upgraded.length,84);assert.equal(api.vali
 assert.equal(upgraded.find(s=>s.id==='custom-corrosionFuse').name,'Fusível personalizado antigo','empty conditional text must not hide a custom ID collision');
 assert.deepEqual(Array.from(upgraded.find(s=>s.id==='follow-fuse').prerequisites),['custom-corrosionFuse']);
 assert.equal(upgraded.find(s=>s.id==='corrosionFuse').name,'INICIADOR RÁPIDO');
-assert.equal(api.save(upgraded).ok,true);assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,5);assert.equal(JSON.stringify(api.load()),JSON.stringify(upgraded));
+assert.equal(api.save(upgraded).ok,true);assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,6);assert.equal(JSON.stringify(api.load()),JSON.stringify(upgraded));
 console.log('BUILD42 migration passed: all70 modules, edits, twelve additions and empty-condition custom collision preserved.');
 const v43=JSON.parse(fs.readFileSync('tests/fixtures/balance-catalog-v43.json','utf8'));assert.equal(v43.length,74);
 v43.find(s=>s.id==='corrosionFuse').effects[0].value=.3;
@@ -43,8 +43,8 @@ assert.equal(sensors.length,84);assert.equal(api.validate(sensors).ok,true);asse
 assert.equal(sensors.find(s=>s.id==='custom-sensorRange').name,'Sensor personalizado antigo');assert.equal(sensors.find(s=>s.id==='sensorRange').name,'LENTE DE VARREDURA');
 assert.deepEqual(Array.from(sensors.find(s=>s.id==='range-follower').prerequisites),['custom-sensorRange']);assert.equal(api.save(sensors).ok,true);assert.equal(JSON.stringify(api.load()),JSON.stringify(sensors));
 console.log('BUILD43 migration passed:74 original IDs, edited corrosion and sensor collision/reference preservation.');
-for(const revision of [0,6,2.5,'3',{}])assert.throws(()=>api.migrate(sensors,revision),/Revisão de catálogo/,'unknown metadata must not rename valid canonical modules');
-const future=JSON.stringify({version:1,catalogRevision:6,skills:sensors});storage.set(api.storageKey,future);assert.equal(api.load().length,82);assert.equal(storage.get(api.storageKey),future,'unsupported stored metadata is not overwritten by fallback');
+for(const revision of [0,7,2.5,'3',{}])assert.throws(()=>api.migrate(sensors,revision),/Revisão de catálogo/,'unknown metadata must not rename valid canonical modules');
+const future=JSON.stringify({version:1,catalogRevision:7,skills:sensors});storage.set(api.storageKey,future);assert.equal(api.load().length,82);assert.equal(storage.get(api.storageKey),future,'unsupported stored metadata is not overwritten by fallback');
 const v48=JSON.parse(fs.readFileSync('tests/fixtures/balance-catalog-v48.json','utf8'));assert.equal(v48.length,78);
 v48.find(s=>s.id==='sensorRange').effects[0].value=1.8;
 for(const id of ['rotors','rotorThird','rotorReach','rotorDrive','custom-rotors']){const custom=JSON.parse(JSON.stringify(v48[0]));Object.assign(custom,{id,name:'Antigo '+id,condition:'',prerequisites:[]});v48.push(custom);}
@@ -53,6 +53,6 @@ storage.set(api.storageKey,JSON.stringify({version:1,catalogRevision:4,skills:v4
 assert.equal(rotors.find(s=>s.id==='sensorRange').effects[0].value,1.8);assert.equal(rotors.find(s=>s.id==='custom-rotors-2').name,'Antigo rotors');
 for(const id of ['rotorThird','rotorReach','rotorDrive'])assert.equal(rotors.find(s=>s.id==='custom-'+id).name,'Antigo '+id);
 assert.deepEqual(Array.from(rotors.find(s=>s.id==='follows-rotors').prerequisites),['custom-rotors-2','custom-rotorDrive']);assert.deepEqual(Array.from(rotors.find(s=>s.id==='follows-rotors').synergies),['custom-rotors-2','custom-rotorReach']);
-assert.equal(rotors.find(s=>s.id==='rotorDrive').name,'TRANSMISSÃO ACELERADA');assert.equal(api.save(rotors).ok,true);assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,5);assert.equal(JSON.stringify(api.load()),JSON.stringify(rotors));
-assert.equal(api.catalogRevision,5);assert.equal(JSON.stringify(api.migrate(rotors,5)),JSON.stringify(rotors));
-console.log('BUILD48 migration passed:all78 modules/edits, four new IDs with empty-condition collisions, occupied custom name, dependency/synergy references and revision5 idempotence.');
+assert.equal(rotors.find(s=>s.id==='rotorDrive').name,'TRANSMISSÃO ACELERADA');assert.equal(api.save(rotors).ok,true);assert.equal(JSON.parse(storage.get(api.storageKey)).catalogRevision,6);assert.equal(JSON.stringify(api.load()),JSON.stringify(rotors));
+assert.equal(api.catalogRevision,6);assert.equal(JSON.stringify(api.migrate(rotors,6)),JSON.stringify(rotors));
+console.log('BUILD48 migration passed:all78 modules/edits, four new IDs with empty-condition collisions, occupied custom name, dependency/synergy references and revision6 idempotence.');

@@ -82,7 +82,7 @@ assert.ok(run('enemies.every(e=>e.speed<43)'),'starting zombies stay within base
 run('tick(6.35)');assert.equal(run('enemies.length'),15,'wave interval prevents an immediate repeat');
 run('tick(.04)');assert.equal(run('enemies.length'),30,'next circular wave arrives together');
 run('reset();enemies=Array.from({length:70},()=>({x:-100,y:-100,hp:100,speed:0,r:12}));spawn=0;tick(.01)');
-assert.equal(run('enemies.length'),85,'waves continue beyond old cap');
+assert.equal(run('enemies.length'),70,'director adds nothing above its live cap and preserves existing enemies');
 console.log('Integrity meter, fifteen-enemy circular waves, breathing room and continuous spawning checks passed.');
 
 run("reset();SKILLS.find(s=>s.id==='damage').apply();SKILLS.find(s=>s.id==='damage').apply()");
@@ -223,8 +223,8 @@ for(const root of run('SKILLS.filter(s=>!s.parent).map(s=>s.id)')){
 }
 fresh();run("state='upgrade';offeredSkills=[SKILLS.find(s=>s.id==='titan')];offerVersion++");
 assert.equal(run("chooseSkill('titan',offerVersion)"),false,'locked child rejected even with forged offer');
-fresh();acquire('damage');assert.equal(run('player.damage'),44);assert.ok(Math.abs(run('player.rate')-.48)<1e-9);assert.equal(acquire('damage'),false);
-acquire('rate');assert.ok(Math.abs(run('player.damage')-44/1.5)<1e-9);assert.ok(Math.abs(run('player.rate')-.48/3)<1e-9);
+fresh();acquire('damage');assert.equal(run('player.damage'),44);assert.ok(Math.abs(run('player.rate')-.32)<1e-9);assert.equal(acquire('damage'),false);
+acquire('rate');assert.ok(Math.abs(run('player.damage')-44)<1e-9);assert.ok(Math.abs(run('player.rate')-.32/3)<1e-9);
 fresh();acquire('armor');acquire('titan');assert.equal(run('player.maxHp'),300);assert.equal(run('player.hp'),300);assert.ok(Math.abs(run('player.speed')-190/1.25/1.5)<1e-9);assert.ok(Math.abs(run('reloadDuration()')-2.1)<1e-9);
 run('updateHUD()');assert.equal(elements.get('health')['aria-valuemax'],'300','expanded max integrity is announced');assert.equal(elements.get('health-fill').style.width,'100%','expanded integrity renders full meter');assert.equal(elements.get('health-value').textContent,'300 / 300');
 fresh();acquire('armor');acquire('salvage');run('player.hp=40');
@@ -337,7 +337,7 @@ console.log('Proportional reloads, three boss schedule, delayed pools, electric 
 // Readable tree labels, spatial language and dedicated cooldown HUD.
 fresh();assert.equal(run('Object.keys(TREE_INFO).length'),13);
 assert.equal(run('SKILLS.some(s=>/\\bpx\\b/.test(s.benefit+s.cost))'),false,'no implementation units in upgrade copy');
-acquire('damage');acquire('rate');assert.ok(Math.abs(run('player.damage')-44/1.5)<1e-9);assert.ok(Math.abs(run('player.rate')-.48/3)<1e-9);
+acquire('damage');acquire('rate');assert.ok(Math.abs(run('player.damage')-44)<1e-9);assert.ok(Math.abs(run('player.rate')-.32/3)<1e-9);
 fresh();acquire('shield');acquire('dash');acquire('emergency');acquire('retaliation');acquire('overload');run('updateHUD()');
 assert.equal(elements.get('cooldowns').children.length,5,'all acquired timed modules visible');
 assert.ok(run('cooldownNodes.every(n=>n.status.textContent==="PRONTO")'));
@@ -430,13 +430,13 @@ run('clock=4.99;updateHUD()');assert.equal(elements.get('combat-controls').hidde
 
 // Full waves keep arriving while fleeing, and the map never discards distant enemies.
 fresh();run('player.inv=100000;globalThis.remoteEnemy=createEnemy(player.x-50000,player.y);enemies=[remoteEnemy];tick(.01)');assert.ok(run('enemies.includes(remoteEnemy)'),'distance alone never deletes living enemies');
-run('enemies=Array.from({length:160},()=>createEnemy(player.x-50000,player.y));spawn=0;tick(.01)');assert.equal(run('enemies.length'),175,'full waves continue beyond previous population ceiling');
+run('enemies=Array.from({length:160},()=>createEnemy(player.x-50000,player.y));spawn=0;tick(.01)');assert.equal(run('enemies.length'),160,'director preserves over-cap survivors without spawning more');
 for(const [x,y] of [[50000,0],[-50000,0],[0,50000],[50000,-50000]]){const pos=run(`minimapPoint(player.x+${x},player.y+${y},160,100,7)`);assert.ok(pos.x>=7&&pos.x<=153&&pos.y>=7&&pos.y<=93,'every far marker remains inside map edge');}
 assert.ok(run('minimapPoint(player.x+100,player.y,160,100).x<minimapPoint(player.x+700,player.y,160,100).x'),'approaching markers move inward');
 fresh();run('bossIndex=1;spawnBoss();enemies=[];boss.x=player.x+600;boss.y=player.y;boss.phase="tellMortar";boss.timer=2;globalThis.oldBossX=boss.x;tickSpecialBoss(.1)');assert.ok(run('boss.x<oldBossX'),'Scrapper follows during warning');run('boss.x=player.x+100;globalThis.oldBossX=boss.x;tickSpecialBoss(.1)');assert.ok(run('boss.x>oldBossX'),'Scrapper retreats to retain distance');run('boss.x=player.x+210;globalThis.oldBossX=boss.x;tickSpecialBoss(.1)');assert.equal(run('boss.x'),run('oldBossX'),'Scrapper holds its preferred distance band');
 fresh();run('clock=0;spawn=0;tick(.01);globalThis.firstWaveInterval=spawn;clock=500;spawn=0;tick(.01)');assert.ok(run('spawn<firstWaveInterval'),'time reduces interval between full fifteen-enemy waves');
 fresh();run('enemies=[createEnemy(100,100),createEnemy(50000,50000)];buildCollisionGrid()');assert.equal(run('bulletCandidates(90,100,110,100,4).length'),1,'projectile broad phase excludes distant horde');run('enemies[0].x=400;indexTarget(enemies[0])');assert.ok(run('bulletCandidates(390,100,410,100,4).includes(enemies[0])'),'knocked targets remain indexed at their new location');run('collisionGrid=null');
-fresh();run('player.inv=100000;spawn=HORDE.initialDelay;globalThis.fleeWitness=createEnemy(player.x-50000,player.y);enemies=[fleeWitness]');for(let i=0;i<1200;i++)run('player.x+=19;tick(.1)');assert.ok(run('clock>=119'),'flee test spans two simulated minutes');assert.ok(run('enemies.length>250'),'fleeing without shooting continues spawning beyond old ceiling');assert.ok(run('enemies.includes(fleeWitness)'),'fleeing never erases the original distant enemy');console.log('Two-minute no-shot fleeing scenario preserves old enemies and continues waves.');
+fresh();run('player.inv=100000;spawn=HORDE.initialDelay;globalThis.fleeWitness=createEnemy(player.x-50000,player.y);enemies=[fleeWitness]');for(let i=0;i<1200;i++)run('player.x+=19;tick(.1)');assert.ok(run('clock>=119'),'flee test spans two simulated minutes');assert.ok(run('enemies.length<=hordePopulationLimit()+2'),'fleeing stays within the common cap plus boss minions');assert.ok(run('enemies.includes(fleeWitness)'),'fleeing never erases the original distant enemy');console.log('Two-minute no-shot fleeing scenario preserves old enemies and continues waves.');
 
 fresh();run('player.inv=100000;globalThis.normal=createEnemy(player.x+1000,player.y);normal.speed=30;enemies=[normal];tick(.1)');assert.ok(Math.abs(run('normal.x-player.x')-997)<1e-8,'distant common zombies keep normal movement speed');
 fresh();run('bossIndex=1;spawnBoss()');assert.equal(run('policeUnlocked'),false,'second boss spawning does not unlock police');run('damageEnemy(boss,10000000)');assert.equal(run('policeUnlocked'),true,'defeating second boss unlocks police');run('reset()');assert.equal(run('policeUnlocked'),false,'retry locks police again');

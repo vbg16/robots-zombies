@@ -1,0 +1,385 @@
+{
+  "release": 52,
+  "completed": true,
+  "beforePasses": 7,
+  "afterPasses": 20,
+  "attemptsPerVersion": 20,
+  "sourceHashes": {
+    "game.js": "5d4e28b4eaf62f87d01a203a53999e9c836e996767cfa14a6a2e0935e41462e1",
+    "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+    "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+  },
+  "rows": [
+    {
+      "build": "agulha-antitita",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 678.3499999999308,
+          "bosses": 4,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 657.1499999999501,
+          "bosses": 4,
+          "viable": false
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 1751
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 2278
+        }
+      ]
+    },
+    {
+      "build": "tempestade-balistica",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 143,
+          "kills": 5426
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 180,
+          "kills": 5393
+        }
+      ]
+    },
+    {
+      "build": "escopeta-ricochete",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 551.8000000000459,
+          "bosses": 1,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 659.2999999999481,
+          "bosses": 2,
+          "viable": false
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 182,
+          "kills": 3591
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true,
+          "coreReached": false,
+          "maxEnemies": 182,
+          "kills": 3901
+        }
+      ]
+    },
+    {
+      "build": "cacador-criogenico",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 701.9499999999093,
+          "bosses": 2,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 5,
+          "viable": true
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 182,
+          "kills": 3790
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 3261
+        }
+      ]
+    },
+    {
+      "build": "forja-criogenica",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 954.4499999996797,
+          "bosses": 4,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 744.3999999998707,
+          "bosses": 4,
+          "viable": false
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 5,
+          "viable": true,
+          "coreReached": false,
+          "maxEnemies": 182,
+          "kills": 2824
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 2812
+        }
+      ]
+    },
+    {
+      "build": "rede-de-plasma",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 646.4999999999598,
+          "bosses": 1,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 591.4500000000098,
+          "bosses": 2,
+          "viable": false
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 5,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 182,
+          "kills": 3920
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 5,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 181,
+          "kills": 4515
+        }
+      ]
+    },
+    {
+      "build": "demolicao-de-campo",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 2,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 182,
+          "kills": 4479
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 180,
+          "kills": 4417
+        }
+      ]
+    },
+    {
+      "build": "oficina-viva",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 685.5999999999242,
+          "bosses": 1,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 932.5999999996995,
+          "bosses": 1,
+          "viable": false
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 5,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 1249
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 182,
+          "kills": 1336
+        }
+      ]
+    },
+    {
+      "build": "enxame-de-sucata",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 3772
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 3937
+        }
+      ]
+    },
+    {
+      "build": "lanca-de-fuga",
+      "before": [
+        {
+          "seed": 20261103,
+          "time": 1092.8499999995538,
+          "bosses": 3,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 4,
+          "viable": true
+        }
+      ],
+      "after": [
+        {
+          "seed": 20261103,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 182,
+          "kills": 1057
+        },
+        {
+          "seed": 20261104,
+          "time": 1199.9999999994563,
+          "bosses": 7,
+          "viable": true,
+          "coreReached": true,
+          "maxEnemies": 183,
+          "kills": 907
+        }
+      ]
+    }
+  ],
+  "note": "Paired seeds/driver, natural progression. Director and four weapon modules changed together. Candidate run began before release-label bump; its original version metadata is retained. No claim of isolated causality or human satisfaction."
+}

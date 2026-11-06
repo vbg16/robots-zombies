@@ -1,0 +1,498 @@
+{
+  "complete": true,
+  "completed": 20,
+  "expected": 20,
+  "sourceHashes": {
+    "game.js": "e0ae3ae749e74b23d7c00c61c61672fcde1adcbebb25d1b8acd61c373052424a",
+    "balance.js": "50da247d6d13c2154b5e4508e8e519a880f8d36a54e141392a18ae670ba306f0",
+    "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+  },
+  "rows": [
+    {
+      "build": "agulha-antitita",
+      "completed": 2,
+      "expected": 2,
+      "passed": 0,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 678.3499999999308,
+          "bosses": 4,
+          "level": 14,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 647.0499999999593,
+          "received": 220,
+          "receivedBySource": {
+            "contact-or-projectile": 164,
+            "common-ranged": 56
+          },
+          "healing": 120,
+          "maxEnemies": 2353,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 657.1499999999501,
+          "bosses": 4,
+          "level": 14,
+          "coreReached": false,
+          "recipeReached": false,
+          "missingSkills": [
+            "bossHunter"
+          ],
+          "coreCompletedAt": null,
+          "received": 352,
+          "receivedBySource": {
+            "contact-or-projectile": 282,
+            "common-ranged": 56,
+            "boss-hazard": 14
+          },
+          "healing": 252,
+          "maxEnemies": 2096,
+          "viable": false
+        }
+      ]
+    },
+    {
+      "build": "tempestade-balistica",
+      "completed": 2,
+      "expected": 2,
+      "passed": 2,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 1199.9999999994563,
+          "bosses": 4,
+          "level": 28,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 720.4499999998925,
+          "received": 522,
+          "receivedBySource": {
+            "boss-hazard": 26,
+            "common-ranged": 136,
+            "contact-or-projectile": 360
+          },
+          "healing": 522,
+          "maxEnemies": 3769,
+          "viable": true
+        },
+        {
+          "seed": 20261104,
+          "seconds": 1199.9999999994563,
+          "bosses": 4,
+          "level": 29,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 230.85000000001824,
+          "received": 788,
+          "receivedBySource": {
+            "contact-or-projectile": 552,
+            "common-ranged": 200,
+            "boss-hazard": 36
+          },
+          "healing": 764.0000000000002,
+          "maxEnemies": 3450,
+          "viable": true
+        }
+      ]
+    },
+    {
+      "build": "escopeta-ricochete",
+      "completed": 2,
+      "expected": 2,
+      "passed": 0,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 551.8000000000459,
+          "bosses": 1,
+          "level": 21,
+          "coreReached": true,
+          "recipeReached": false,
+          "missingSkills": [
+            "blastRadius"
+          ],
+          "coreCompletedAt": 244.20000000002128,
+          "received": 529.3333333333334,
+          "receivedBySource": {
+            "contact-or-projectile": 452.3333333333333,
+            "boss-hazard": 77,
+            "boss-minion": 0
+          },
+          "healing": 389.3333333333333,
+          "maxEnemies": 1045,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 659.2999999999481,
+          "bosses": 2,
+          "level": 16,
+          "coreReached": true,
+          "recipeReached": false,
+          "missingSkills": [
+            "blast",
+            "blastRadius"
+          ],
+          "coreCompletedAt": 253.80000000002346,
+          "received": 243,
+          "receivedBySource": {
+            "contact-or-projectile": 166,
+            "common-ranged": 77
+          },
+          "healing": 103,
+          "maxEnemies": 1777,
+          "viable": false
+        }
+      ]
+    },
+    {
+      "build": "cacador-criogenico",
+      "completed": 2,
+      "expected": 2,
+      "passed": 1,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 701.9499999999093,
+          "bosses": 2,
+          "level": 16,
+          "coreReached": true,
+          "recipeReached": false,
+          "missingSkills": [
+            "range"
+          ],
+          "coreCompletedAt": 476.100000000074,
+          "received": 266.6666666666667,
+          "receivedBySource": {
+            "contact-or-projectile": 202.66666666666666,
+            "boss-hazard": 24,
+            "common-ranged": 40
+          },
+          "healing": 168,
+          "maxEnemies": 2556,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 1199.9999999994563,
+          "bosses": 5,
+          "level": 23,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 224.4500000000168,
+          "received": 848,
+          "receivedBySource": {
+            "contact-or-projectile": 672,
+            "boss-hazard": 72,
+            "common-ranged": 104
+          },
+          "healing": 824.6666666666666,
+          "maxEnemies": 6298,
+          "viable": true
+        }
+      ]
+    },
+    {
+      "build": "forja-criogenica",
+      "completed": 2,
+      "expected": 2,
+      "passed": 0,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 954.4499999996797,
+          "bosses": 4,
+          "level": 23,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 137.09999999999692,
+          "received": 700,
+          "receivedBySource": {
+            "contact-or-projectile": 462,
+            "common-ranged": 176,
+            "boss-hazard": 62
+          },
+          "healing": 590,
+          "maxEnemies": 3260,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 744.3999999998707,
+          "bosses": 4,
+          "level": 25,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 222.7000000000164,
+          "received": 382,
+          "receivedBySource": {
+            "common-ranged": 104,
+            "boss-hazard": 28,
+            "contact-or-projectile": 250
+          },
+          "healing": 272,
+          "maxEnemies": 1848,
+          "viable": false
+        }
+      ]
+    },
+    {
+      "build": "rede-de-plasma",
+      "completed": 2,
+      "expected": 2,
+      "passed": 0,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 646.4999999999598,
+          "bosses": 1,
+          "level": 26,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 165.5500000000034,
+          "received": 635,
+          "receivedBySource": {
+            "contact-or-projectile": 563,
+            "boss-hazard": 72
+          },
+          "healing": 550,
+          "maxEnemies": 994,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 591.4500000000098,
+          "bosses": 2,
+          "level": 23,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 128.94999999999507,
+          "received": 290,
+          "receivedBySource": {
+            "contact-or-projectile": 234,
+            "boss-hazard": 12,
+            "common-ranged": 32,
+            "projectile": 12
+          },
+          "healing": 205,
+          "maxEnemies": 1052,
+          "viable": false
+        }
+      ]
+    },
+    {
+      "build": "demolicao-de-campo",
+      "completed": 2,
+      "expected": 2,
+      "passed": 1,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 1199.9999999994563,
+          "bosses": 2,
+          "level": 31,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 181.30000000000697,
+          "received": 1272.3999999999999,
+          "receivedBySource": {
+            "contact-or-projectile": 1100,
+            "common-ranged": 105,
+            "boss-minion": 0,
+            "boss-contact": 19,
+            "boss-hazard": 26.400000000000006,
+            "projectile": 22
+          },
+          "healing": 1261.3999999999999,
+          "maxEnemies": 3546,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 1199.9999999994563,
+          "bosses": 4,
+          "level": 32,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 297.5500000000334,
+          "received": 1245.6,
+          "receivedBySource": {
+            "contact-or-projectile": 1056,
+            "boss-minion": 7,
+            "boss-hazard": 23.60000000000001,
+            "common-ranged": 140,
+            "boss-contact": 19
+          },
+          "healing": 1223.6,
+          "maxEnemies": 2531,
+          "viable": true
+        }
+      ]
+    },
+    {
+      "build": "oficina-viva",
+      "completed": 2,
+      "expected": 2,
+      "passed": 0,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 685.5999999999242,
+          "bosses": 1,
+          "level": 16,
+          "coreReached": false,
+          "recipeReached": false,
+          "missingSkills": [
+            "armor",
+            "titan"
+          ],
+          "coreCompletedAt": null,
+          "received": 567,
+          "receivedBySource": {
+            "contact-or-projectile": 519,
+            "boss-hazard": 48
+          },
+          "healing": 407,
+          "maxEnemies": 2839,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 932.5999999996995,
+          "bosses": 1,
+          "level": 17,
+          "coreReached": false,
+          "recipeReached": false,
+          "missingSkills": [
+            "titan"
+          ],
+          "coreCompletedAt": null,
+          "received": 990,
+          "receivedBySource": {
+            "contact-or-projectile": 910,
+            "boss-hazard": 80,
+            "boss-minion": 0
+          },
+          "healing": 830,
+          "maxEnemies": 4953,
+          "viable": false
+        }
+      ]
+    },
+    {
+      "build": "enxame-de-sucata",
+      "completed": 2,
+      "expected": 2,
+      "passed": 2,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 1199.9999999994563,
+          "bosses": 7,
+          "level": 24,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 261.0500000000251,
+          "received": 550,
+          "receivedBySource": {
+            "contact-or-projectile": 354,
+            "common-ranged": 168,
+            "boss-minion": 8,
+            "boss-hazard": 20
+          },
+          "healing": 550,
+          "maxEnemies": 5499,
+          "viable": true
+        },
+        {
+          "seed": 20261104,
+          "seconds": 1199.9999999994563,
+          "bosses": 7,
+          "level": 24,
+          "coreReached": true,
+          "recipeReached": false,
+          "missingSkills": [
+            "droneArc"
+          ],
+          "coreCompletedAt": 85.44999999999729,
+          "received": 442,
+          "receivedBySource": {
+            "common-ranged": 126,
+            "contact-or-projectile": 290,
+            "boss-hazard": 12,
+            "boss-minion": 4,
+            "projectile": 10
+          },
+          "healing": 442,
+          "maxEnemies": 5493,
+          "viable": true
+        }
+      ]
+    },
+    {
+      "build": "lanca-de-fuga",
+      "completed": 2,
+      "expected": 2,
+      "passed": 1,
+      "runs": [
+        {
+          "seed": 20261103,
+          "seconds": 1092.8499999995538,
+          "bosses": 3,
+          "level": 21,
+          "coreReached": false,
+          "recipeReached": false,
+          "missingSkills": [
+            "repair"
+          ],
+          "coreCompletedAt": null,
+          "received": 688.6666666666666,
+          "receivedBySource": {
+            "contact-or-projectile": 543.6666666666666,
+            "boss-hazard": 86,
+            "common-ranged": 59,
+            "projectile": 0
+          },
+          "healing": 561,
+          "maxEnemies": 6470,
+          "viable": false
+        },
+        {
+          "seed": 20261104,
+          "seconds": 1199.9999999994563,
+          "bosses": 4,
+          "level": 19,
+          "coreReached": true,
+          "recipeReached": true,
+          "missingSkills": [],
+          "coreCompletedAt": 363.05000000004827,
+          "received": 679,
+          "receivedBySource": {
+            "contact-or-projectile": 534,
+            "boss-contact": 20,
+            "boss-hazard": 53,
+            "common-ranged": 72
+          },
+          "healing": 679,
+          "maxEnemies": 7463,
+          "viable": true
+        }
+      ]
+    }
+  ],
+  "note": "Partial rows are not failures or successes for unfinished seeds. Do not tune attributes until the baseline completes. Natural progression; equipment pre-unlocked for setup only."
+}

@@ -6,7 +6,8 @@ for(const [file,pattern] of [
  ['index.html',/BUILD\s+(\d+)\s+·\s+DESENVOLVIMENTO/],
  ['README.md',/^# Screwvivors — BUILD (\d+)/],
  ['docs/contrato-atual.md',/^# Contrato vigente — Screwvivors BUILD (\d+)/],
- ['docs/README.md',/Protótipo atual BUILD(\d+)/]
+ ['docs/README.md',/Protótipo atual BUILD(\d+)/],
+ ['docs/plano-integracao-20-minutes-till-dawn.md',/Estado vigente — BUILD (\d+)/]
 ]){const match=fs.readFileSync(file,'utf8').match(pattern);assert.ok(match,'Version label missing: '+file);assert.equal(Number(match[1]),version.build,'Stale version label: '+file);}
 if(version.channel==='development')assert.equal(version.publicApproved,false,'Development must not imply public approval');
 for(const [,src] of html.matchAll(/\bsrc="([^"]+)"/g)){assert.ok(!/^(https?:)?\/\//.test(src),'Offline runtime resource must be local: '+src);assert.ok(fs.existsSync(path.resolve(src.split('?')[0])),'Missing ZIP resource: '+src);}
