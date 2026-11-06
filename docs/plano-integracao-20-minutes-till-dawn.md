@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 52:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 53:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -260,3 +260,7 @@ BAST admite atéduas armas e ENXA atétrês, opcionais e desbloqueadas. Custos p
 ### BUILD52 — Horda procedural e ganhos diretos
 
 Por pedido do jogador, substitui população ilimitada por diretor com teto crescente, reposição por abates e reentrada de perseguidores distantes ao mudar de região. Quatro módulos deixam de cobrar penalidades em atributos da arma; builds podem superar a pressão sem receber escalada proporcional ao dano. Regras e resultados em horda-procedural.md. O contrato52 prevalece sobre registros anteriores.
+
+### BUILD53 — Recompensa física e bot de partida
+
+Chefe deixa baú com escolha de hardware raro, favorecendo arma ou suporte instalado; usuário esclareceu que efeitos duram sóna tentativa.12peças, sem repetição, fora dos sorteiosnormais; experimentos anteriores ficam de fallback. Bot inteligente/simples permite partida completa no Chrome e relatório. Visual dos tiros respeita arma emissora/critico. Ver baus-de-chefe.md e bot-de-testes.md.

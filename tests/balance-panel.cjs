@@ -40,7 +40,8 @@ rejects(skills=>{skills[0].prerequisites={};},'malformed prerequisite data retur
 rejects(skills=>{skills[0].id=['damage'];},'ids must be strings rather than coercible objects');
 run('reset()');
 assert.equal(run('Object.isFrozen(runBalance)&&Object.isFrozen(runBalance[0])&&Object.isFrozen(runBalance[0].effects)&&Object.isFrozen(runBalance[0].effects[0])'),true,'run configuration is deeply frozen');
-// The fixture predates the panel integration: default behavior must remain canonical.
+// Preserve historical direct effects except four explicit positive-gain changes in BUILD52.
+const positiveGains={damage:{rate:1},rate:{damage:1},pierce:{damage:1},killAmmo:{reloadMult:1}};
 for (const item of canonical.modules.filter(item => item.kind !== 'specialization')) {
   run('reset()');
   const before = run('JSON.stringify(player)');
@@ -48,7 +49,7 @@ for (const item of canonical.modules.filter(item => item.kind !== 'specializatio
   const collection = item.kind === 'skill' ? 'SKILLS' : item.kind === 'blessing' ? 'GAMBARRAS' : 'BOSS_EXPERIMENTS';
   run(`${collection}.find(item=>item.id===${JSON.stringify(item.id)}).apply()`);
   for (const attribute of Object.keys(item.factors)) {
-    let expected = baseline[attribute] * item.factors[attribute] + item.additions[attribute];
+    let expected = baseline[attribute] * (positiveGains[item.id]?.[attribute]??item.factors[attribute]) + item.additions[attribute];
     if (item.minimumHp && ['hp','maxHp'].includes(attribute)) expected = Math.max(item.minimumHp, expected);
     near(run(`player.${attribute}`), expected, `${item.id} default ${attribute}`);
   }
@@ -93,11 +94,11 @@ console.log('Catalog scope, invalid configuration, corrupt JSON and storage isol
 run('reset()');
 const edited = clone();
 edited.find(item=>item.id==='damage').effects.find(effect=>effect.attribute==='Dano direto').value=3;
-edited.find(item=>item.id==='damage').effects.find(effect=>effect.attribute==='Intervalo de disparo').value=2;
+edited.find(item=>item.id==='damage').effects.push({id:'custom-rate-cost',attribute:'Intervalo de disparo',operator:'×',value:2,unit:''});
 assert.equal(save(edited).ok, true, 'a valid damage and penalty edit is saved');
 run("SKILLS.find(item=>item.id==='damage').apply()");
 near(run('player.damage'),44,'active run keeps original damage effect');
-near(run('player.rate'),.48,'active run keeps original penalty');
+near(run('player.rate'),.32,'active run keeps the positive-gain default');
 assert.equal(run('player.damageStacks'),1,'original shot bookkeeping is preserved');
 run('reset();SKILLS.find(item=>item.id==="damage").apply()');
 near(run('player.damage'),66,'new run applies edited damage');

@@ -131,9 +131,9 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 #overlay[data-mode="paused"]{background:rgba(8,20,38,.72);}
 /* Illustrated upgrade screen. Icons are original local SVG assets. */
 .overlay:is([data-mode="upgrade"],[data-mode="reward"]){background:radial-gradient(ellipse at 50% 15%,#1c3547f5,#07121bf9 70%);padding:32px 26px;gap:0;}
-.overlay[data-mode="experiment"]{background:radial-gradient(ellipse at 50% 12%,#503722f5,#111820fa 72%);padding:32px 26px;gap:0;}
-.overlay[data-mode="experiment"] h2{color:#ffd27c;text-shadow:0 2px #583c1d,0 0 18px #edaa4b4d;}
-.overlay[data-mode="experiment"] #description{max-width:760px;margin:6px 0 24px;font-size:13px;color:#f0dfc6;line-height:1.6;}
+.overlay:is([data-mode="experiment"],[data-mode="relic"]){background:radial-gradient(ellipse at 50% 12%,#503722f5,#111820fa 72%);padding:32px 26px;gap:0;}
+.overlay:is([data-mode="experiment"],[data-mode="relic"]) h2{color:#ffd27c;text-shadow:0 2px #583c1d,0 0 18px #edaa4b4d;}
+.overlay:is([data-mode="experiment"],[data-mode="relic"]) #description{max-width:760px;margin:6px 0 24px;font-size:13px;color:#f0dfc6;line-height:1.6;}
 .overlay:is([data-mode="upgrade"],[data-mode="reward"]) h2{font-size:clamp(24px,3.2vw,40px);letter-spacing:1px;color:#e8ddc9;margin:8px 0;}
 .overlay:is([data-mode="upgrade"],[data-mode="reward"]) #description{max-width:680px;margin:6px 0 24px;font-size:12px;}
 #choices{width:min(100%,1000px);align-items:stretch;}
@@ -149,8 +149,8 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 #choices button.upgrade-card[data-tree="shock"]{--module:#c3b6ed;}
 #choices button.upgrade-card[data-tree="dash"]{--module:#8bb8ed;}
 #choices button.upgrade-card[data-tree="blast"]{--module:#e3c279;}
-#choices button.upgrade-card[data-experiment]{--module:#f6c45f;border-color:#805b2b;border-top:4px solid #ffd27c;background:linear-gradient(160deg,#392c20,#171d22 72%);}
-#choices button.upgrade-card[data-experiment]:hover{border-color:#ffd27c;background:linear-gradient(160deg,#4a3724,#1a2329 72%);box-shadow:0 0 24px #f6c45f29,0 12px 28px #0005;}
+#choices button.upgrade-card:is([data-experiment],[data-relic]){--module:#f6c45f;border-color:#805b2b;border-top:4px solid #ffd27c;background:linear-gradient(160deg,#392c20,#171d22 72%);}
+#choices button.upgrade-card:is([data-experiment],[data-relic]):hover{border-color:#ffd27c;background:linear-gradient(160deg,#4a3724,#1a2329 72%);box-shadow:0 0 24px #f6c45f29,0 12px 28px #0005;}
 #choices .upgrade-card .skill-category{font:9px/1.5 monospace;color:var(--module);letter-spacing:1px;min-height:28px;}
 #choices .upgrade-card .skill-icon{display:block;width:80px;height:80px;margin:10px 0 16px;flex:none;}
 #choices .upgrade-card strong{font-size:16px;letter-spacing:.3px;color:#e8ddc9;margin:0 0 14px;min-height:44px;display:flex;align-items:center;justify-content:center;}
@@ -165,7 +165,7 @@ button:focus-visible{outline:2px solid #e8ddc9;outline-offset:4px;}
 #choices button.skip-upgrade:hover{color:#e8ddc9;background:#ffffff08;}
 #choices button.skip-upgrade.skip-experiment{min-height:44px;margin-top:12px;border:1px solid #566e7d;background:#111e28;color:#d4e3eb;font-size:12px;letter-spacing:1px;box-shadow:inset 0 -3px #07121b;}
 #choices button.skip-upgrade.skip-experiment:hover,#choices button.skip-upgrade.skip-experiment:focus-visible{border-color:#9bb5c3;background:#1a2a35;color:#fff;outline:2px solid #e8ddc9;outline-offset:3px;}
-@media(max-width:780px){#choices button.upgrade-card{flex-basis:190px;min-width:180px;padding-left:14px;padding-right:14px;}#choices .upgrade-card .skill-action{margin-left:-14px;margin-right:-14px;width:calc(100% + 28px);}.overlay:is([data-mode="upgrade"],[data-mode="reward"],[data-mode="experiment"]){padding:22px 14px;}}
+@media(max-width:780px){#choices button.upgrade-card{flex-basis:190px;min-width:180px;padding-left:14px;padding-right:14px;}#choices .upgrade-card .skill-action{margin-left:-14px;margin-right:-14px;width:calc(100% + 28px);}.overlay:is([data-mode="upgrade"],[data-mode="reward"],[data-mode="experiment"],[data-mode="relic"]){padding:22px 14px;}}
 @media(max-width:540px){#choices button.upgrade-card{flex:1 1 100%;max-width:370px;}#choices .upgrade-card .skill-icon{width:64px;height:64px;margin:6px 0 10px;}#choices .upgrade-card strong{min-height:0;}#choices .upgrade-card .skill-category{min-height:0;}}
 /* Arena without a surrounding frame; the infinite world remains unchanged. */
 .combat-screen .arena{border:0;border-radius:0;box-shadow:none;}

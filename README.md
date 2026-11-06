@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 52 · desenvolvimento
+# Screwvivors — BUILD 53 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -106,3 +106,5 @@ BUILD50: busca espacial dos vizinhos elétricos com estado/RNG preservados em18 
 BUILD51: BAST equipa atéduas armas e ENXA atétrês, com custos visíveis, recargas e reforjas independentes. Quatro tentativas automatizadas completas cumpriram20minutos+3chefes. [Arsenal avançado, regras e limites](docs/arsenal-avancado.md).
 
 BUILD52: diretor procedural com limite de60→180 zumbis comuns vivos, gatilhos por abates/deslocamento e reentrada fora da tela de perseguidores distantes. Quatro melhorias de arma sem penalidades. [Regras e validação](docs/horda-procedural.md).
+
+BUILD53: chefes deixam baús com12peças raras exclusivas, válidas sódurantea partida. Bot inteligente/simples executável por Testar-com-bot.cmd, com relatório e capturas. Projéteis usam a identidade da própria arma e sinalizam crítico. [Bot e uso](docs/bot-de-testes.md) · [Baús e regras](docs/baus-de-chefe.md).

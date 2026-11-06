@@ -15,7 +15,7 @@ const realOnly=process.argv.includes('--real-only');
 const useRefits=process.env.BUILD_REFITS==='1';
 const dt=.05;
 const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
-const driverVersion=10; // Attack an in-range boss while retaining a sixty-pixel immediate-threat guard.
+const driverVersion=11; // Driver10 combat policy plus natural chest collection and temporary relic choices.
 const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
 const frozenBootstrap=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 
@@ -95,7 +95,7 @@ function synthetic(b,stage,group,bossTarget=false){
 }
 
 const simulation=String.raw`
-globalThis.qaDecision=0;globalThis.qaChoices=0;globalThis.qaFinite=true;globalThis.qaLast={x:player.x,y:player.y};globalThis.qaCenter={x:player.x,y:player.y};globalThis.qaTarget=null;
+globalThis.qaDecision=0;globalThis.qaChoices=0;globalThis.qaFinite=true;globalThis.qaLast={x:player.x,y:player.y};globalThis.qaCenter={x:player.x,y:player.y};globalThis.qaTarget=null;globalThis.qaChestIds=new Set();qa.chestsSeen=0;qa.chestsCollected=0;
 globalThis.qaFireWeapon=fireWeapon;fireWeapon=function(slot){if(qaTarget?.hp>0)aim={x:qaTarget.x-camera.x,y:qaTarget.y-camera.y,active:true};return qaFireWeapon(slot);};
 function qaChoose(){
  let options=[],want=[],choose=null;
@@ -110,6 +110,7 @@ function qaChoose(){
  else if(state==='experiment'){options=offeredExperiments;choose=qaBuild.experiments.map(id=>options.find(s=>s.id===id)).find(Boolean);if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseExperiment(choose.id,offerVersion);}else declineExperiment(offerVersion);}
  else if(state==='evolution'){const id=qaUseRefits?(evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id):'declined';qa.choices.push({at:clock,level,kind:state,id,slot:evolutionSlotIndex});if(qaUseRefits)chooseWeaponEvolution(id,offerVersion);else declineWeaponEvolution(offerVersion);}
  else if(state==='specialization'){choose=offeredSpecializations.find(s=>s.id===qaBuild.specialization)||offeredSpecializations[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSpecialization(choose.id,offerVersion);}}
+ else if(state==='relic'){choose=offeredRelics[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseRelic(choose.id,offerVersion);}else declineRelic(offerVersion);}
 }
 function qaDrive(){
  const pool=targets().filter(z=>z.hp>0);
@@ -120,7 +121,8 @@ function qaDrive(){
  qaTarget=target;
  if(target){const d=Math.hypot(target.x-player.x,target.y-player.y)||1,flight=Math.min(.5,d/((runWeapon.speed||570)*player.projectileSpeed)),status=target.stunTime>0?0:target.slowTime>0?.5:1;let vx=(player.x-target.x)/d*(target.speed||0)*status,vy=(player.y-target.y)/d*(target.speed||0)*status;if(target.policePhase==='charge'){vx=target.chargeDx*340*status;vy=target.chargeDy*340*status;}if(target===boss&&boss.phase!=='approach'){vx=boss.phase==='dash'?boss.dx*360*status:0;vy=boss.phase==='dash'?boss.dy*360*status:0;}aim={x:target.x+vx*flight-camera.x,y:target.y+vy*flight-camera.y,active:true};firing=true;}else firing=false;
  const threat=nearest.slice(0,18);const shots=hostile.filter(b=>Math.hypot(b.x-player.x,b.y-player.y)<350);
- const xpTarget=gems.map(g=>({g,d:Math.hypot(g.x-player.x,g.y-player.y)})).filter(x=>x.d<500).sort((a,b)=>a.d-b.d)[0]?.g;
+ globalThis.qaChestTarget=typeof bossChests!=='undefined'?bossChests.slice().sort((a,b)=>Math.hypot(a.x-player.x,a.y-player.y)-Math.hypot(b.x-player.x,b.y-player.y))[0]:null;
+ const xpTarget=qaChestTarget||gems.map(g=>({g,d:Math.hypot(g.x-player.x,g.y-player.y)})).filter(x=>x.d<500).sort((a,b)=>a.d-b.d)[0]?.g;
  const center=boss?.hp>0?boss:qaCenter,orbitRadius=boss?.hp>0?Math.max(80,Math.min(280,weaponRange*.65)):230,orbitAngle=Math.atan2(player.y-center.y,player.x-center.x)+.7,orbitX=center.x+Math.cos(orbitAngle)*orbitRadius,orbitY=center.y+Math.sin(orbitAngle)*orbitRadius;
  let best=-Infinity,bestX=0,bestY=0;
  for(let i=0;i<9;i++){
@@ -134,7 +136,7 @@ function qaDrive(){
   if(boss?.hp>0&&(boss.phase==='tellDash'||boss.phase==='dash')){const d=segmentDistance(px,py,boss.x,boss.y,boss.x+boss.dx*234,boss.y+boss.dy*234);if(d<boss.r+35)score-=6000;}
   for(const {z} of threat)if(z.policePhase==='aim'||z.policePhase==='charge'){const d=segmentDistance(px,py,z.x,z.y,z.x+z.chargeDx*z.chargeRemaining,z.y+z.chargeDy*z.chargeRemaining);if(d<z.r+30)score-=4000;}
   score-=Math.hypot(orbitX-px,orbitY-py)*.55;
-  if(xpTarget)score-=Math.hypot(xpTarget.x-px,xpTarget.y-py)*.25;
+  if(xpTarget)score-=Math.hypot(xpTarget.x-px,xpTarget.y-py)*(qaChestTarget?1.2:.25);
   else if(target)score-=Math.abs(Math.hypot(target.x-px,target.y-py)-Math.min(230,weaponRange*.75))*.5;
   score+=Math.sin(clock*.11+i)*.1;
   if(score>best){best=score;bestX=x;bestY=y;}
@@ -145,7 +147,9 @@ function qaDrive(){
 for(let step=0;step<Math.ceil(qaDuration/.05)&&state!=='over';){
  if(state!=='playing'){qaChoose();if(++qaChoices>10000)throw Error('Progression choice did not resolve');continue;}
  qaChoices=0;if(step%4===0)qaDrive();
+ const chestIds=typeof bossChests!=='undefined'?bossChests.map(c=>c.id):[];
  tick(.05);step++;
+ if(typeof bossChests!=='undefined'){for(const c of bossChests)if(!qaChestIds.has(c.id)){qaChestIds.add(c.id);qa.chestsSeen++;}if(state!=='over')qa.chestsCollected+=chestIds.filter(id=>!bossChests.some(c=>c.id===id)).length;}
  qa.distance+=Math.hypot(player.x-qaLast.x,player.y-qaLast.y);qaLast={x:player.x,y:player.y};
  qa.maxEnemies=Math.max(qa.maxEnemies,enemies.length);qa.maxBullets=Math.max(qa.maxBullets,bullets.length);qa.maxHostile=Math.max(qa.maxHostile,hostile.length);
  qa.controlEnemySeconds+=enemies.filter(z=>z.slowTime>0||z.stunTime>0).length*.05;

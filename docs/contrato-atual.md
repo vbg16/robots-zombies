@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 52
+# Contrato vigente — Screwvivors BUILD 53
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -10,7 +10,7 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Dano recebido | Empurrão de 48 px para longe da fonte; direção de fallback. | combat.cjs: empurrões opostos e fontes tipadas. |
 | Horda | Grupos de até15 fora da tela; limite comum60 +12/minuto, máximo180. Reposição por tempo, oito abates ou deslocamento320px com baixa presença local; intervalo mínimo3s entre grupos. Perseguidores distantes podem reentrar fora da tela preservando vida/escudo. Chefes e lacaios têm agenda própria. | horde-director.cjs: teto, gatilhos, deslocamento, pausa/reset e preservação de sobreviventes; combat.cjs: integração e minimapa. |
 | Policiais | Só após derrotar o segundo chefe: cinco dos 15, alternando rifle/escudo. Escudo 100 absorve integralmente o golpe de quebra. Só o sobrevivente que perdeu o escudo passa a parar, mirar e correr até 240 px numa direção fixa. Sem aceleração de aproximação nos comuns. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
-| Chefes | Três identidades recorrentes e seus lacaios; Sucateiro acompanha e mantém distância. Peça única salva, cura até 20 (40 com Caça-Titãs), escolha temporária. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
+| Chefes | Três identidades recorrentes e seus lacaios; Sucateiro acompanha e mantém distância. Peça de garagem salva e cura até20 (40 com Caça-Titãs). Baú físico no local da derrota oferece uma entre atétrês peças raras elegíveis; efeito sóaté o fim da partida. Ao esgotar peças elegíveis, oferece experimento antigo e, após esgotá-los, módulo comum. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
 | Perfil | Parafusos coletados e peças conquistadas permanecem ao morrer. Sem bônus permanentes de atributo. Compras verificam saldo/peça e devolvem recursos em falha de gravação. | combat.cjs: compras, saves, migração e morte. |
 | Equipamento | Seis chassis e12armas:um espaço por padrão, BAST permite até2armas e ENXA até3, opcionais, distintas e desbloqueadas. Duas usam dano×0,7 por arma/movimento×0,9; três×0,55/×0,8. Escolha na garagem, conjunto e chassi fixos durante combate. Novos chassis não são concedidos pela migração de perfil antigo. | combat.cjs, build-mechanics.cjs e Chrome. |
 | Progressão | XP inicial 6, crescimento ×1,2, coleta inicial 95. Catálogo de 82 aprimoramentos: 52 normais, seis gambiarras, seis experimentos e 18 especializações. | balance-panel.cjs e build-mechanics.cjs. |
@@ -74,3 +74,7 @@ No20cada arma recebe uma oferta própria, escolher/recusar avança para a próxi
 ## Poder de arma — BUILD52
 
 Alto Impacto dobra dano sem piorar cadência; Overdrive triplica cadência sem reduzir dano; Perfuração acrescenta dois alvos sem reduzir dano; Depósito Ampliado triplica carregador sem aumentar recarga e conserva reposição por dez abates. Instalar não repõe munição. Revisão6 migra apenas defaults antigos intactos e preserva configurações editadas. Ver positive-weapon-upgrades.cjs.
+
+## Baús e bot — BUILD53
+
+São12peças raras fora do pool normal e do catálogo editável82; compêndio consulta94entradas. Sem repetição por tentativa, coleta até40px, sem atração automática/expiração. Escolhas1–3 ou botão; R recusa. Perfil não recebe atributos. Bot sócarrega pelo launcher/CLI e usa contexto isolado. Driver11 passa a procurar baús; não comparar resultados diretamente com driver10 como pareamento. Projéteis desenham o snapshot da arma emissora, inclusive armas auxiliares e tiros anteriores a reforjas.
