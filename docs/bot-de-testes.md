@@ -25,7 +25,7 @@ node tools/playtest-bot.cjs --mode dumb --minutes 20 --speed 1000 --seed 2026110
 
 `--build` aceita as dez receitas do guia em builds.js. `--output outputs/bot/meu-teste.json` escolhe um arquivo de relatório; sem essa opção, cada execução ganha nome com data, modo e receita. Não reutilize o mesmo arquivo se quiser guardar tentativas anteriores.
 
-O modo inteligente reaproveita a política do driver11: evita ameaças previstas em oito direções, procura XP, prioriza chefes no alcance, usa propulsor somente se adquirido e escolhe módulos oferecidos conforme a receita. Também procura os baús de chefe e resolve a escolha de relíquias. O simples usa as mesmas escolhas da receita, mas seu movimento foge do inimigo mais próximo sem prever projéteis, perigos ou rotas de coleta. Isso permite testar se fugir continua sendo uma estratégia dominante.
+O modo inteligente reaproveita a política do driver13: evita ameaças previstas em oito direções, procura XP, prioriza chefes no alcance, usa propulsor somente se adquirido e escolhe módulos oferecidos conforme a receita. Também procura os baús de chefe e resolve a escolha de relíquias. O simples usa as mesmas escolhas da receita, mas seu movimento foge do inimigo mais próximo sem prever projéteis, perigos ou rotas de coleta. Isso permite testar se fugir continua sendo uma estratégia dominante.
 
 O bot escreve comandos de movimento, mira/disparo e escolhas no estado do jogo de teste. Não adiciona atributos, invulnerabilidade, cura, remoção de vivos, supressão de ondas ou mortes programadas. Os equipamentos ficam previamente liberados apenas para montar a receita, em save descartável. Portanto esta ferramenta avalia o combate e a progressão de módulos, não o ritmo de desbloqueios da garagem.
 
@@ -49,3 +49,5 @@ Chrome, semente20261106, driver11, sem imunidade ou bônus ocultos:
 | Tempestade / simples | Morte aos317,55s | 2 | 0/2 |
 
 Os dados completos estão em bot-playtest-build53.json. Agulha/Oficina e Tempestade foram executadas em snapshots de código distintos registrados por hash; somente o par Tempestade inteligente/simples usa o mesmo snapshot e a mesma semente. A política11 inclui coleta de baús, então não é pareamento com os resultados históricos da BUILD52, que usaram driver10. Oficina terminou no nível19: sobreviver e matar chefes não comprova que todas as funcionalidades de progressão tenham sido alcançadas naquela tentativa.
+
+A política atual checa o corredor imediato e a integridade antes de buscar baú. Os ensaios de abertura em180s avaliam somente essa janela; aprovação de20minutos exige a janela completa e três chefes. Ver bot-rotas-seguras.md para os candidatos preservados e limitações.

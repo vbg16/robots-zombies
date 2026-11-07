@@ -3,7 +3,7 @@ const assert=require('node:assert/strict'),{parseArgs,policySource,runBot}=requi
 assert.deepEqual(parseArgs(['--mode','simples','--headed','--minutes','.1','--seed','0']).mode,'dumb');
 assert.equal(parseArgs(['--headed']).speed,1);assert.equal(parseArgs([]).minutes,20);
 for(const args of [['--seed','-1'],['--minutes','0'],['--minutes','NaN'],['--speed','0'],['--mode','invincible'],['--unknown'],['--build']])assert.throws(()=>parseArgs(args));
-const policy=policySource();assert.ok(policy.includes('function qaDrive()'));assert.ok(policy.includes('Array.from(el(\'choices\').children).at(-1)'));assert.ok(policy.includes('qaChestTarget?1.2:.25'));
+const policy=policySource();assert.ok(policy.includes('function qaDrive()'));assert.ok(policy.includes('Array.from(el(\'choices\').children).at(-1)'));assert.ok(policy.includes("qaChestPolicy==='legacy'?1.2:.8"));
 (async()=>{
  for(const mode of ['smart','dumb']){
   const report=await runBot(parseArgs(['--mode',mode,'--minutes','.2','--speed','1000','--seed','20261106','--output','outputs/bot/test-'+mode+'.json']));

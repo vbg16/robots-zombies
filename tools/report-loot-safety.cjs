@@ -1,0 +1,21 @@
+'use strict';
+const fs=require('node:fs'),assert=require('node:assert/strict');
+const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
+const baseline=read('docs/cryo-early-build53.json').executions.at(-1);
+const control=read('docs/cryo-opening-driver12-control.json').executions.at(-1);
+const conservative=read('docs/cryo-opening-driver12-safe.json').executions.at(-1);
+const shortRoute=read('docs/cryo-opening-driver13-safe.json').executions.at(-1);
+assert.deepEqual(baseline.attempts,control.attempts,'legacy replay must reproduce the original attempts');
+for(const e of [control,conservative,shortRoute]){assert.equal(e.completed,true);assert.deepEqual(e.errors,[]);assert.equal(e.attempts.length,8);assert.deepEqual(e.sourceHashes,baseline.sourceHashes);assert.equal(e.duration,180);}
+const full=read('docs/cryo-full-driver13-safe.json').executions.at(-1);
+const browserFiles=['safe-loot-cryo-full','safe-loot-laser-full','safe-loot-oficina-full','short-loot-oficina-full','short-loot-laser-full','short-loot-oficina-holdout'];
+const archived=fs.existsSync('docs/bot-loot-browser-raw.json')?read('docs/bot-loot-browser-raw.json').runs:[];
+const browser=browserFiles.map(name=>{const file='outputs/bot/'+name+'.json';const record=fs.existsSync(file)?read(file):archived.find(r=>r.file===file);assert.ok(record,'Missing browser evidence: '+file);return {file,...record};});
+assert.equal(full.completed,true,'full holdout is not yet complete');assert.deepEqual(full.errors,[]);assert.equal(full.driverVersion,13);assert.equal(full.attempts.length,3);assert.equal(full.duration,1200);assert.deepEqual(full.seeds,[20261106,20261111,20261112]);assert.deepEqual(full.sourceHashes,baseline.sourceHashes);
+assert.equal(full.driverHash,shortRoute.driverHash);
+for(const e of [control,conservative,shortRoute,full])for(const a of e.attempts){assert.equal(a.finite,true);if(e.duration<1200)assert.equal(a.viable,null,'short runs cannot approve full viability');else assert.equal(a.viable,a.time>=1199.9&&a.bossKills>=3);}
+for(const r of browser){assert.ok(['duration-reached','player-death'].includes(r.status));assert.deepEqual(r.errors,[]);assert.ok(r.result);assert.equal(r.viable,r.result.time>=1199.9&&r.result.bossKills>=3);}
+const report={runtimeUnchangedFromBuild:53,openingSeeds:control.seeds,openingSeconds:180,rows:control.attempts.map(a=>({seed:a.seed,legacy:{seconds:a.time,level:a.level,hp:a.hp,survived:a.survivedWindow},strict:conservative.attempts.filter(b=>b.seed===a.seed).map(b=>({seconds:b.time,level:b.level,hp:b.hp,survived:b.survivedWindow}))[0],shortRoute:shortRoute.attempts.filter(b=>b.seed===a.seed).map(b=>({seconds:b.time,level:b.level,hp:b.hp,survived:b.survivedWindow}))[0]})),fullCryo:full.attempts.map(a=>({seed:a.seed,seconds:a.time,bosses:a.bossKills,level:a.level,chests:a.chestsCollected,viable:a.viable})),browser:browser.map(r=>({file:r.file,driver:r.driver,status:r.status,seed:r.options.seed,build:r.recipe.id,seconds:r.result.time,bosses:r.result.bossKills,chests:r.result.chestsCollected,viable:r.viable,sourceHashes:r.sourceHashes})),limitations:'Policy changed, gameplay did not. Headless1000x600 and Chrome1280x900 are distinct fixtures. Opening survival is not full-run approval. Strict-route candidate failure and original death retained. Results do not guarantee human difficulty or universally successful bots.'};
+fs.writeFileSync('docs/bot-loot-route-results.json',JSON.stringify(report,null,2)+'\n');
+fs.writeFileSync('docs/bot-loot-browser-raw.json',JSON.stringify({note:'Original browser reports, including rejected strict-route candidate. Files and screenshots remain under outputs/bot locally.',runs:browser},null,2)+'\n');
+console.log(JSON.stringify({opening:[control,conservative,shortRoute].map(e=>({driver:e.driverVersion,policy:e.chestPolicy,survived:e.attempts.filter(a=>a.survivedWindow).length,total:8})),full:{complete:full.completed,errors:full.errors,attempts:full.attempts.map(a=>({seed:a.seed,time:a.time,bosses:a.bossKills,viable:a.viable}))},browser:browser.map(r=>({file:r.file,status:r.status,errors:r.errors,driver:r.driver,time:r.result?.time,bosses:r.result?.bossKills,chests:r.result?.chestsCollected,viable:r.viable}))},null,2));

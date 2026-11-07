@@ -24,7 +24,7 @@ function loadPlaywright(){
 }
 function policySource(){
  const source=fs.readFileSync(path.join(root,'tests/builds-balance.cjs'),'utf8');
- if(!source.includes('const driverVersion=11;'))throw Error('A política compartilhada mudou de versão; revisar a integração do bot antes de executar.');
+ if(!source.includes('const driverVersion=13;'))throw Error('A política compartilhada mudou de versão; revisar a integração do bot antes de executar.');
  const policy=source.split('const simulation=String.raw`')[1]?.split('for(let step=')[0];
  if(!policy||!policy.includes('function qaDrive()')||!policy.includes('function qaChoose()'))throw Error('Política de testes não reconhecida; não iniciar com um piloto diferente silenciosamente.');
  return policy.replace("el('choices').children.at(-1)","Array.from(el('choices').children).at(-1)");
@@ -35,7 +35,7 @@ async function runBot(options){
  const stamp=new Date().toISOString().replace(/[:.]/g,'-'),base=path.resolve(root,options.output||`outputs/bot/${stamp}-${options.mode}-${recipe.id}.json`);
  fs.mkdirSync(path.dirname(base),{recursive:true});
  const policy=policySource(),hash=s=>crypto.createHash('sha256').update(s).digest('hex');
- const report={startedAt:new Date().toISOString(),status:'starting',options:{...options},recipe,version:JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')),driver:'browser-bot-v1 / shared driver11 movement and offers',policyHash:hash(policy),sourceHashes:Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,hash(fs.readFileSync(path.join(root,file)))])),fixture:'Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.',errors:[],result:null};
+ const report={startedAt:new Date().toISOString(),status:'starting',options:{...options},recipe,version:JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')),driver:'browser-bot-v1 / shared driver13 movement and offers',policyHash:hash(policy),sourceHashes:Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,hash(fs.readFileSync(path.join(root,file)))])),fixture:'Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.',errors:[],result:null};
  const save=()=>fs.writeFileSync(base,JSON.stringify(report,null,2)+'\n');save();
  let browser,page;
  try{
@@ -49,7 +49,7 @@ async function runBot(options){
    globalThis.qaSeed=options.seed>>>0;Math.random=()=>{qaSeed=(Math.imul(qaSeed,1664525)+1013904223)>>>0;return qaSeed/4294967296;};
    profile=emptyProfile();profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));saveProfile();
    selectedRobot=recipe.robot;selectedWeapon=recipe.weapon;selectedAuxWeapons=[];reset();
-   globalThis.qaBuild=recipe;globalThis.qaUseRefits=true;globalThis.qaMode=options.mode;globalThis.qa={damage:{},received:0,receivedBySource:{},healing:0,bosses:[],choices:[],maxEnemies:0,maxBullets:0,maxHostile:0,controlEnemySeconds:0,distance:0,shots:0,minutes:[],chestsSeen:0,chestsCollected:0};
+   globalThis.qaBuild=recipe;globalThis.qaUseRefits=true;globalThis.qaMode=options.mode;globalThis.qaChestPolicy='safe';globalThis.qa={damage:{},received:0,receivedBySource:{},healing:0,bosses:[],choices:[],maxEnemies:0,maxBullets:0,maxHostile:0,controlEnemySeconds:0,distance:0,shots:0,minutes:[],chestsSeen:0,chestsCollected:0};
    globalThis.qaChestIds=new Set();
    globalThis.qaDamage=damageEnemy;damageEnemy=function(z,n,source='direct',origin=null){const before=z.hp,wasBoss=z===boss;const result=qaDamage(z,n,source,origin);qa.damage[source]=(qa.damage[source]||0)+Math.max(0,before-z.hp);if(wasBoss&&before>0&&z.hp===0)qa.bosses.push({id:z.id,at:clock,ttk:clock-(z.qaSpawnAt||0)});return result;};
    globalThis.qaSpawn=spawnBoss;spawnBoss=function(){const result=qaSpawn();if(boss)boss.qaSpawnAt=clock;return result;};

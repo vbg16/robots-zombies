@@ -1,0 +1,3272 @@
+{
+  "note": "Original browser reports, including rejected strict-route candidate. Files and screenshots remain under outputs/bot locally.",
+  "runs": [
+    {
+      "file": "outputs/bot/safe-loot-cryo-full.json",
+      "startedAt": "2026-11-06T04:07:09.189Z",
+      "status": "duration-reached",
+      "options": {
+        "mode": "smart",
+        "minutes": 20,
+        "seed": 20261106,
+        "build": "cacador-criogenico",
+        "headed": false,
+        "speed": 1000,
+        "output": "outputs/bot/safe-loot-cryo-full.json"
+      },
+      "recipe": {
+        "id": "cacador-criogenico",
+        "evolution": "cryo-iceDrill",
+        "name": "Caçador Criogênico",
+        "robot": "prot",
+        "weapon": "cryo",
+        "summary": "Controle de movimento abre tempo para finalizar inimigos resistentes.",
+        "engine": "Resfriamento + perfuração mantêm grupos lentos; Finalizador amplifica o acabamento e mortes por bala de alvos resfriados geram Fratura Industrial.",
+        "skills": [
+          "damage",
+          "freeze",
+          "rate",
+          "pierce",
+          "finisher",
+          "dash",
+          "speed",
+          "range"
+        ],
+        "core": [
+          "damage",
+          "freeze",
+          "rate",
+          "pierce"
+        ],
+        "blessings": [
+          "pulseCoil",
+          "greasedServos",
+          "spareBattery"
+        ],
+        "specialization": "tailDecoy",
+        "experiments": [
+          "unstableLens",
+          "volatileReactor"
+        ],
+        "strength": "Kiting e redução da pressão frontal sem depender de dano em área.",
+        "weakness": "Vida reduzida por Pernas Hidráulicas e dano inicial menor após os custos de perfuração.",
+        "strategy": "Abra corredores, termine alvos já feridos e avance para recolher XP somente depois de resfriar a passagem.",
+        "avoid": [
+          "Resfriar não cancela ataques de chefe.",
+          "O multiplicador do Finalizador exige o limiar de vida; ele não é dano permanente."
+        ],
+        "tags": [
+          "Resfriamento",
+          "Finalização",
+          "Mobilidade"
+        ]
+      },
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Baús de chefe com12peças raras temporárias e bot inteligente/simples de partida no Chrome. Projéteis porarma com marcador crítico. Catálogo editável82/revisão6, compêndio94. Desenvolvimento, sem aprovação pública.",
+        "build": 53
+      },
+      "driver": "browser-bot-v1 / shared driver12 movement and offers",
+      "policyHash": "26a649a99968e890007fbb29877c58b8b45312b525229d1873956eb5236a9f25",
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "fixture": "Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.",
+      "errors": [],
+      "result": {
+        "done": true,
+        "stop": false,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 96.66666666666667,
+        "maxHp": 96.66666666666667,
+        "level": 25,
+        "kills": 3277,
+        "bossKills": 7,
+        "coreReached": true,
+        "recipeReached": true,
+        "acquired": [
+          "rate",
+          "burn",
+          "damage",
+          "finisher",
+          "freeze",
+          "pierce",
+          "dash",
+          "grace",
+          "speed",
+          "range",
+          "magnet",
+          "repair"
+        ],
+        "damage": {
+          "bullet": 165687.9007812496,
+          "burn": 61568.592968751545,
+          "explosion": 36271.18203125001
+        },
+        "received": 146,
+        "receivedBySource": {
+          "contact-or-projectile": 108,
+          "boss-hazard": 14,
+          "common-ranged": 24
+        },
+        "healing": 176,
+        "bosses": [
+          {
+            "id": "brute",
+            "at": 71.2499999999981,
+            "ttk": 11.19999999999937
+          },
+          {
+            "id": "scrapper",
+            "at": 265.40000000002607,
+            "ttk": 25.400000000005747
+          },
+          {
+            "id": "coil",
+            "at": 487.1000000000765,
+            "ttk": 67.10000000001526
+          },
+          {
+            "id": "brute",
+            "at": 608.5999999999942,
+            "ttk": 8.599999999992178
+          },
+          {
+            "id": "scrapper",
+            "at": 798.1999999998218,
+            "ttk": 18.149999999983493
+          },
+          {
+            "id": "coil",
+            "at": 977.3999999996588,
+            "ttk": 17.34999999998422
+          },
+          {
+            "id": "brute",
+            "at": 1150.0499999995018,
+            "ttk": 9.999999999990905
+          }
+        ],
+        "choices": [
+          {
+            "at": 37.200000000000024,
+            "level": 2,
+            "kind": "upgrade",
+            "id": "rate"
+          },
+          {
+            "at": 55.149999999999004,
+            "level": 3,
+            "kind": "blessing",
+            "id": "scrapMagnet"
+          },
+          {
+            "at": 59.349999999998765,
+            "level": 4,
+            "kind": "upgrade",
+            "id": "burn"
+          },
+          {
+            "at": 80.44999999999757,
+            "level": 5,
+            "kind": "upgrade",
+            "id": "damage"
+          },
+          {
+            "at": 93.59999999999683,
+            "level": 6,
+            "kind": "blessing",
+            "id": "pulseCoil"
+          },
+          {
+            "at": 100.19999999999645,
+            "level": 7,
+            "kind": "upgrade",
+            "id": "finisher"
+          },
+          {
+            "at": 134.54999999999634,
+            "level": 9,
+            "kind": "blessing",
+            "id": "greasedServos"
+          },
+          {
+            "at": 160.60000000000227,
+            "level": 10,
+            "kind": "specialization",
+            "id": "tailDecoy"
+          },
+          {
+            "at": 170.55000000000453,
+            "level": 10,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 218.05000000001533,
+            "level": 12,
+            "kind": "upgrade",
+            "id": "freeze"
+          },
+          {
+            "at": 242.40000000002087,
+            "level": 13,
+            "kind": "upgrade",
+            "id": "pierce"
+          },
+          {
+            "at": 267.2500000000265,
+            "level": 13,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 270.65000000002726,
+            "level": 14,
+            "kind": "upgrade",
+            "id": "dash"
+          },
+          {
+            "at": 322.45000000003904,
+            "level": 15,
+            "kind": "upgrade",
+            "id": "grace"
+          },
+          {
+            "at": 456.7500000000696,
+            "level": 17,
+            "kind": "upgrade",
+            "id": "speed"
+          },
+          {
+            "at": 515.9500000000785,
+            "level": 17,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 609.3499999999935,
+            "level": 18,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 632.1999999999728,
+            "level": 19,
+            "kind": "upgrade",
+            "id": "range"
+          },
+          {
+            "at": 725.0499999998883,
+            "level": 20,
+            "kind": "evolution",
+            "id": "cryo-iceDrill",
+            "slot": 0
+          },
+          {
+            "at": 879.5499999997478,
+            "level": 22,
+            "kind": "upgrade",
+            "id": "magnet"
+          },
+          {
+            "at": 913.2999999997171,
+            "level": 23,
+            "kind": "upgrade",
+            "id": "repair"
+          },
+          {
+            "at": 1126.1999999995235,
+            "level": 24,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 1150.5499999995013,
+            "level": 24,
+            "kind": "experiment",
+            "id": "unstableLens"
+          }
+        ],
+        "maxEnemies": 183,
+        "maxBullets": 15,
+        "maxHostile": 42,
+        "controlEnemySeconds": 0,
+        "distance": 245898.89572284275,
+        "shots": 3267,
+        "minutes": [
+          {
+            "minute": 0,
+            "time": 0.05,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 1,
+            "kills": 0,
+            "bossKills": 0,
+            "enemies": 0,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 1,
+            "time": 59.99999999999873,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 4,
+            "kills": 54,
+            "bossKills": 0,
+            "enemies": 55,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 2,
+            "time": 119.99999999999532,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 8,
+            "kills": 139,
+            "bossKills": 1,
+            "enemies": 69,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 3,
+            "time": 180.00000000000668,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 10,
+            "kills": 249,
+            "bossKills": 1,
+            "enemies": 79,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 4,
+            "time": 240.00000000002032,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 12,
+            "kills": 353,
+            "bossKills": 1,
+            "enemies": 97,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 5,
+            "time": 300.00000000003394,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 14,
+            "kills": 503,
+            "bossKills": 2,
+            "enemies": 104,
+            "received": 12,
+            "healing": 12
+          },
+          {
+            "minute": 6,
+            "time": 360.0000000000476,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 15,
+            "kills": 603,
+            "bossKills": 2,
+            "enemies": 120,
+            "received": 24,
+            "healing": 24
+          },
+          {
+            "minute": 7,
+            "time": 420.0000000000612,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 16,
+            "kills": 724,
+            "bossKills": 2,
+            "enemies": 133,
+            "received": 24,
+            "healing": 24
+          },
+          {
+            "minute": 8,
+            "time": 480.00000000007486,
+            "hp": 52.66666666666667,
+            "maxHp": 66.66666666666667,
+            "level": 17,
+            "kills": 808,
+            "bossKills": 2,
+            "enemies": 146,
+            "received": 38,
+            "healing": 24
+          },
+          {
+            "minute": 9,
+            "time": 540.0000000000566,
+            "hp": 88.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 18,
+            "kills": 911,
+            "bossKills": 3,
+            "enemies": 155,
+            "received": 58,
+            "healing": 80
+          },
+          {
+            "minute": 10,
+            "time": 600.000000000002,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 18,
+            "kills": 1010,
+            "bossKills": 3,
+            "enemies": 168,
+            "received": 70,
+            "healing": 100
+          },
+          {
+            "minute": 11,
+            "time": 659.9999999999475,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 19,
+            "kills": 1204,
+            "bossKills": 4,
+            "enemies": 134,
+            "received": 70,
+            "healing": 100
+          },
+          {
+            "minute": 12,
+            "time": 719.9999999998929,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 19,
+            "kills": 1429,
+            "bossKills": 4,
+            "enemies": 164,
+            "received": 90,
+            "healing": 120
+          },
+          {
+            "minute": 13,
+            "time": 779.9999999998383,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 20,
+            "kills": 1671,
+            "bossKills": 4,
+            "enemies": 176,
+            "received": 98,
+            "healing": 128
+          },
+          {
+            "minute": 14,
+            "time": 839.9999999997838,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 21,
+            "kills": 1886,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 110,
+            "healing": 140
+          },
+          {
+            "minute": 15,
+            "time": 899.9999999997292,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 22,
+            "kills": 2160,
+            "bossKills": 5,
+            "enemies": 171,
+            "received": 110,
+            "healing": 140
+          },
+          {
+            "minute": 16,
+            "time": 959.9999999996746,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 23,
+            "kills": 2390,
+            "bossKills": 5,
+            "enemies": 171,
+            "received": 122,
+            "healing": 152
+          },
+          {
+            "minute": 17,
+            "time": 1019.9999999996201,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 23,
+            "kills": 2523,
+            "bossKills": 6,
+            "enemies": 180,
+            "received": 134,
+            "healing": 164
+          },
+          {
+            "minute": 18,
+            "time": 1079.9999999995655,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 24,
+            "kills": 2784,
+            "bossKills": 6,
+            "enemies": 180,
+            "received": 134,
+            "healing": 164
+          },
+          {
+            "minute": 19,
+            "time": 1139.999999999511,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 24,
+            "kills": 3012,
+            "bossKills": 6,
+            "enemies": 175,
+            "received": 146,
+            "healing": 176
+          },
+          {
+            "minute": 20,
+            "time": 1199.9999999994563,
+            "hp": 96.66666666666667,
+            "maxHp": 96.66666666666667,
+            "level": 25,
+            "kills": 3277,
+            "bossKills": 7,
+            "enemies": 149,
+            "received": 146,
+            "healing": 176
+          }
+        ],
+        "chestsSeen": 7,
+        "chestsCollected": 7
+      },
+      "viable": true,
+      "screenshot": "C:\\Users\\vi-ni\\OneDrive\\Documentos\\ChatGPT\\Jogo\\outputs\\bot\\safe-loot-cryo-full.png",
+      "finishedAt": "2026-11-06T04:07:25.323Z"
+    },
+    {
+      "file": "outputs/bot/safe-loot-laser-full.json",
+      "startedAt": "2026-11-06T04:07:19.530Z",
+      "status": "duration-reached",
+      "options": {
+        "mode": "smart",
+        "minutes": 20,
+        "seed": 20261106,
+        "build": "tempestade-balistica",
+        "headed": false,
+        "speed": 1000,
+        "output": "outputs/bot/safe-loot-laser-full.json"
+      },
+      "recipe": {
+        "id": "tempestade-balistica",
+        "evolution": "laser-pulseClock",
+        "name": "Tempestade Balística",
+        "robot": "prot",
+        "weapon": "laser",
+        "summary": "Muitos disparos alimentam o quinto impacto e a reposição por abates.",
+        "engine": "Cadência + dois projéteis + crítico a cada quinto disparo ativam o Crivo Balístico, com um pulso de área por projétil crítico.",
+        "skills": [
+          "rate",
+          "extra",
+          "damage",
+          "crit",
+          "magnet",
+          "killAmmo",
+          "freeze",
+          "pierce"
+        ],
+        "core": [
+          "rate",
+          "extra",
+          "damage",
+          "crit"
+        ],
+        "blessings": [
+          "triggerRegulator",
+          "pulseCoil",
+          "spareBattery"
+        ],
+        "specialization": "predatorMark",
+        "experiments": [
+          "volatileReactor",
+          "unstableLens"
+        ],
+        "strength": "Boa frequência de acertos, progressão de crítico previsível e limpeza de corredores.",
+        "weakness": "Perde força durante a recarga e cada projétil isolado é relativamente fraco.",
+        "strategy": "Varra a frente da horda, mantenha o alvo marcado em chefes e recolha núcleos nas janelas abertas.",
+        "avoid": [
+          "Dispersão não garante que os dois projéteis acertem o mesmo alvo.",
+          "Evite aumentar repetidamente a recarga sem obter sustentação."
+        ],
+        "tags": [
+          "Cadência",
+          "Crítico",
+          "Munição"
+        ]
+      },
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Baús de chefe com12peças raras temporárias e bot inteligente/simples de partida no Chrome. Projéteis porarma com marcador crítico. Catálogo editável82/revisão6, compêndio94. Desenvolvimento, sem aprovação pública.",
+        "build": 53
+      },
+      "driver": "browser-bot-v1 / shared driver12 movement and offers",
+      "policyHash": "26a649a99968e890007fbb29877c58b8b45312b525229d1873956eb5236a9f25",
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "fixture": "Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.",
+      "errors": [],
+      "result": {
+        "done": true,
+        "stop": false,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 130,
+        "maxHp": 130,
+        "level": 28,
+        "kills": 3624,
+        "bossKills": 7,
+        "coreReached": true,
+        "recipeReached": true,
+        "acquired": [
+          "damage",
+          "crit",
+          "rate",
+          "extra",
+          "freeze",
+          "pierce",
+          "dash",
+          "magnet",
+          "grace",
+          "killAmmo",
+          "xp",
+          "repair",
+          "drones",
+          "burn"
+        ],
+        "damage": {
+          "bullet": 187123.234375,
+          "explosion": 46780.1171875,
+          "drone": 10285.69140625,
+          "burn": 10880.48828125
+        },
+        "received": 92,
+        "receivedBySource": {
+          "common-ranged": 32,
+          "contact-or-projectile": 60
+        },
+        "healing": 122,
+        "bosses": [
+          {
+            "id": "brute",
+            "at": 62.59999999999858,
+            "ttk": 2.549999999999855
+          },
+          {
+            "id": "scrapper",
+            "at": 243.4500000000211,
+            "ttk": 3.4500000000007844
+          },
+          {
+            "id": "coil",
+            "at": 421.00000000006145,
+            "ttk": 1.0000000000002274
+          },
+          {
+            "id": "brute",
+            "at": 604.449999999998,
+            "ttk": 4.449999999995953
+          },
+          {
+            "id": "scrapper",
+            "at": 781.5999999998369,
+            "ttk": 1.5499999999985903
+          },
+          {
+            "id": "coil",
+            "at": 972.0999999996636,
+            "ttk": 12.04999999998904
+          },
+          {
+            "id": "brute",
+            "at": 1141.09999999951,
+            "ttk": 1.049999999999045
+          }
+        ],
+        "choices": [
+          {
+            "at": 42.799999999999706,
+            "level": 2,
+            "kind": "upgrade",
+            "id": "damage"
+          },
+          {
+            "at": 49.44999999999933,
+            "level": 3,
+            "kind": "blessing",
+            "id": "pulseCoil"
+          },
+          {
+            "at": 55.79999999999897,
+            "level": 4,
+            "kind": "upgrade",
+            "id": "crit"
+          },
+          {
+            "at": 59.149999999998776,
+            "level": 5,
+            "kind": "upgrade",
+            "id": "rate"
+          },
+          {
+            "at": 242.1000000000208,
+            "level": 5,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 244.05000000002124,
+            "level": 6,
+            "kind": "blessing",
+            "id": "triggerRegulator"
+          },
+          {
+            "at": 248.05000000002215,
+            "level": 7,
+            "kind": "upgrade",
+            "id": "extra"
+          },
+          {
+            "at": 248.45000000002224,
+            "level": 8,
+            "kind": "upgrade",
+            "id": "freeze"
+          },
+          {
+            "at": 251.750000000023,
+            "level": 9,
+            "kind": "blessing",
+            "id": "greasedServos"
+          },
+          {
+            "at": 252.2500000000231,
+            "level": 10,
+            "kind": "specialization",
+            "id": "predatorMark"
+          },
+          {
+            "at": 256.55000000002406,
+            "level": 11,
+            "kind": "upgrade",
+            "id": "pierce"
+          },
+          {
+            "at": 273.0500000000278,
+            "level": 12,
+            "kind": "upgrade",
+            "id": "dash"
+          },
+          {
+            "at": 298.4000000000336,
+            "level": 13,
+            "kind": "upgrade",
+            "id": "magnet"
+          },
+          {
+            "at": 298.65000000003363,
+            "level": 14,
+            "kind": "upgrade",
+            "id": "grace"
+          },
+          {
+            "at": 298.70000000003364,
+            "level": 15,
+            "kind": "upgrade",
+            "id": "killAmmo"
+          },
+          {
+            "at": 302.0500000000344,
+            "level": 17,
+            "kind": "upgrade",
+            "id": "xp"
+          },
+          {
+            "at": 314.0000000000371,
+            "level": 19,
+            "kind": "upgrade",
+            "id": "repair"
+          },
+          {
+            "at": 352.35000000004584,
+            "level": 20,
+            "kind": "evolution",
+            "id": "laser-pulseClock",
+            "slot": 0
+          },
+          {
+            "at": 397.4000000000561,
+            "level": 20,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 397.5500000000561,
+            "level": 21,
+            "kind": "upgrade",
+            "id": "drones"
+          },
+          {
+            "at": 424.8000000000623,
+            "level": 21,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 539.7000000000569,
+            "level": 24,
+            "kind": "upgrade",
+            "id": "burn"
+          },
+          {
+            "at": 605.6499999999969,
+            "level": 24,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 965.6499999996695,
+            "level": 27,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 1089.1999999995571,
+            "level": 28,
+            "kind": "relic",
+            "id": "feedServo"
+          }
+        ],
+        "maxEnemies": 183,
+        "maxBullets": 12,
+        "maxHostile": 40,
+        "controlEnemySeconds": 0,
+        "distance": 140583.92634297683,
+        "shots": 14074,
+        "minutes": [
+          {
+            "minute": 0,
+            "time": 0.05,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 1,
+            "kills": 0,
+            "bossKills": 0,
+            "enemies": 0,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 1,
+            "time": 59.99999999999873,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 130,
+            "bossKills": 0,
+            "enemies": 55,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 2,
+            "time": 119.99999999999532,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 332,
+            "bossKills": 1,
+            "enemies": 67,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 3,
+            "time": 180.00000000000668,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 573,
+            "bossKills": 1,
+            "enemies": 78,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 4,
+            "time": 240.00000000002032,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 847,
+            "bossKills": 1,
+            "enemies": 92,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 5,
+            "time": 300.00000000003394,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 16,
+            "kills": 1020,
+            "bossKills": 2,
+            "enemies": 105,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 6,
+            "time": 360.0000000000476,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 20,
+            "kills": 1199,
+            "bossKills": 2,
+            "enemies": 108,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 7,
+            "time": 420.0000000000612,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 21,
+            "kills": 1286,
+            "bossKills": 2,
+            "enemies": 135,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 8,
+            "time": 480.00000000007486,
+            "hp": 92,
+            "maxHp": 100,
+            "level": 22,
+            "kills": 1516,
+            "bossKills": 3,
+            "enemies": 138,
+            "received": 8,
+            "healing": 0
+          },
+          {
+            "minute": 9,
+            "time": 540.0000000000566,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 24,
+            "kills": 1710,
+            "bossKills": 3,
+            "enemies": 146,
+            "received": 20,
+            "healing": 20
+          },
+          {
+            "minute": 10,
+            "time": 600.000000000002,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 24,
+            "kills": 1909,
+            "bossKills": 3,
+            "enemies": 166,
+            "received": 40,
+            "healing": 40
+          },
+          {
+            "minute": 11,
+            "time": 659.9999999999475,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 25,
+            "kills": 2124,
+            "bossKills": 4,
+            "enemies": 172,
+            "received": 48,
+            "healing": 48
+          },
+          {
+            "minute": 12,
+            "time": 719.9999999998929,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 25,
+            "kills": 2171,
+            "bossKills": 4,
+            "enemies": 178,
+            "received": 48,
+            "healing": 48
+          },
+          {
+            "minute": 13,
+            "time": 779.9999999998383,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 26,
+            "kills": 2359,
+            "bossKills": 4,
+            "enemies": 177,
+            "received": 48,
+            "healing": 48
+          },
+          {
+            "minute": 14,
+            "time": 839.9999999997838,
+            "hp": 97,
+            "maxHp": 100,
+            "level": 26,
+            "kills": 2561,
+            "bossKills": 5,
+            "enemies": 149,
+            "received": 56,
+            "healing": 53
+          },
+          {
+            "minute": 15,
+            "time": 899.9999999997292,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 26,
+            "kills": 2743,
+            "bossKills": 5,
+            "enemies": 168,
+            "received": 68,
+            "healing": 68
+          },
+          {
+            "minute": 16,
+            "time": 959.9999999996746,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 27,
+            "kills": 2839,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 68,
+            "healing": 68
+          },
+          {
+            "minute": 17,
+            "time": 1019.9999999996201,
+            "hp": 118,
+            "maxHp": 130,
+            "level": 27,
+            "kills": 3050,
+            "bossKills": 6,
+            "enemies": 154,
+            "received": 80,
+            "healing": 98
+          },
+          {
+            "minute": 18,
+            "time": 1079.9999999995655,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 27,
+            "kills": 3196,
+            "bossKills": 6,
+            "enemies": 180,
+            "received": 80,
+            "healing": 110
+          },
+          {
+            "minute": 19,
+            "time": 1139.999999999511,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 28,
+            "kills": 3458,
+            "bossKills": 6,
+            "enemies": 152,
+            "received": 92,
+            "healing": 122
+          },
+          {
+            "minute": 20,
+            "time": 1199.9999999994563,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 28,
+            "kills": 3624,
+            "bossKills": 7,
+            "enemies": 177,
+            "received": 92,
+            "healing": 122
+          }
+        ],
+        "chestsSeen": 7,
+        "chestsCollected": 6
+      },
+      "viable": true,
+      "screenshot": "C:\\Users\\vi-ni\\OneDrive\\Documentos\\ChatGPT\\Jogo\\outputs\\bot\\safe-loot-laser-full.png",
+      "finishedAt": "2026-11-06T04:07:35.675Z"
+    },
+    {
+      "file": "outputs/bot/safe-loot-oficina-full.json",
+      "startedAt": "2026-11-06T04:07:29.729Z",
+      "status": "duration-reached",
+      "options": {
+        "mode": "smart",
+        "minutes": 20,
+        "seed": 20261106,
+        "build": "oficina-viva",
+        "headed": false,
+        "speed": 1000,
+        "output": "outputs/bot/safe-loot-oficina-full.json"
+      },
+      "recipe": {
+        "id": "oficina-viva",
+        "evolution": "shotgun-choke",
+        "name": "Oficina Viva",
+        "robot": "nano",
+        "weapon": "shotgun",
+        "summary": "Vida, recarga e resfriamento sustentam um robô pesado de reparo.",
+        "engine": "O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.",
+        "skills": [
+          "magnet",
+          "repair",
+          "armor",
+          "titan",
+          "damage",
+          "rate",
+          "freeze",
+          "coldReload"
+        ],
+        "core": [
+          "magnet",
+          "repair",
+          "armor",
+          "titan"
+        ],
+        "blessings": [
+          "spareBattery",
+          "copperPlate",
+          "greasedServos"
+        ],
+        "specialization": "repairCharge",
+        "experiments": [
+          "lithiumPack",
+          "volatileReactor"
+        ],
+        "strength": "Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.",
+        "weakness": "É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.",
+        "strategy": "Gaste munição de forma útil, recarregue com distância e use o resfriamento para abrir o próximo deslocamento.",
+        "avoid": [
+          "Recarregar uma bala não concede a cura de um carregador inteiro.",
+          "Cura com vida cheia não prepara uma carga ofensiva."
+        ],
+        "tags": [
+          "Reparo",
+          "Vida",
+          "Controle"
+        ]
+      },
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Baús de chefe com12peças raras temporárias e bot inteligente/simples de partida no Chrome. Projéteis porarma com marcador crítico. Catálogo editável82/revisão6, compêndio94. Desenvolvimento, sem aprovação pública.",
+        "build": 53
+      },
+      "driver": "browser-bot-v1 / shared driver12 movement and offers",
+      "policyHash": "26a649a99968e890007fbb29877c58b8b45312b525229d1873956eb5236a9f25",
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "fixture": "Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.",
+      "errors": [],
+      "result": {
+        "done": true,
+        "stop": false,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 371,
+        "maxHp": 390,
+        "level": 22,
+        "kills": 2117,
+        "bossKills": 1,
+        "coreReached": true,
+        "recipeReached": true,
+        "acquired": [
+          "armor",
+          "magnet",
+          "repair",
+          "damage",
+          "rate",
+          "titan",
+          "burn",
+          "dash",
+          "freeze",
+          "drones",
+          "coldReload"
+        ],
+        "damage": {
+          "bullet": 127744.0300000014,
+          "burn": 11230.565000000155,
+          "drone": 3900.0000000000355
+        },
+        "received": 693,
+        "receivedBySource": {
+          "contact-or-projectile": 234,
+          "projectile": 0,
+          "boss-hazard": 459
+        },
+        "healing": 674,
+        "bosses": [
+          {
+            "id": "brute",
+            "at": 93.9499999999968,
+            "ttk": 33.89999999999808
+          }
+        ],
+        "choices": [
+          {
+            "at": 32.05000000000032,
+            "level": 2,
+            "kind": "upgrade",
+            "id": "armor"
+          },
+          {
+            "at": 40.04999999999986,
+            "level": 3,
+            "kind": "blessing",
+            "id": "copperPlate"
+          },
+          {
+            "at": 66.54999999999836,
+            "level": 4,
+            "kind": "upgrade",
+            "id": "magnet"
+          },
+          {
+            "at": 67.99999999999828,
+            "level": 5,
+            "kind": "upgrade",
+            "id": "repair"
+          },
+          {
+            "at": 71.94999999999806,
+            "level": 6,
+            "kind": "blessing",
+            "id": "spareBattery"
+          },
+          {
+            "at": 94.89999999999675,
+            "level": 7,
+            "kind": "upgrade",
+            "id": "damage"
+          },
+          {
+            "at": 112.14999999999577,
+            "level": 8,
+            "kind": "upgrade",
+            "id": "rate"
+          },
+          {
+            "at": 126.94999999999493,
+            "level": 9,
+            "kind": "blessing",
+            "id": "scrapMagnet"
+          },
+          {
+            "at": 138.54999999999725,
+            "level": 10,
+            "kind": "specialization",
+            "id": "repairCharge"
+          },
+          {
+            "at": 156.85000000000142,
+            "level": 11,
+            "kind": "upgrade",
+            "id": "titan"
+          },
+          {
+            "at": 176.95000000000599,
+            "level": 12,
+            "kind": "upgrade",
+            "id": "burn"
+          },
+          {
+            "at": 278.7500000000291,
+            "level": 15,
+            "kind": "upgrade",
+            "id": "dash"
+          },
+          {
+            "at": 375.25000000005105,
+            "level": 17,
+            "kind": "upgrade",
+            "id": "freeze"
+          },
+          {
+            "at": 619.5999999999842,
+            "level": 20,
+            "kind": "evolution",
+            "id": "shotgun-choke",
+            "slot": 0
+          },
+          {
+            "at": 747.4499999998679,
+            "level": 21,
+            "kind": "upgrade",
+            "id": "drones"
+          },
+          {
+            "at": 948.8999999996847,
+            "level": 22,
+            "kind": "upgrade",
+            "id": "coldReload"
+          }
+        ],
+        "maxEnemies": 180,
+        "maxBullets": 15,
+        "maxHostile": 12,
+        "controlEnemySeconds": 0,
+        "distance": 93559.79325273157,
+        "shots": 1146,
+        "minutes": [
+          {
+            "minute": 0,
+            "time": 0.05,
+            "hp": 110,
+            "maxHp": 110,
+            "level": 1,
+            "kills": 0,
+            "bossKills": 0,
+            "enemies": 0,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 1,
+            "time": 59.99999999999873,
+            "hp": 110,
+            "maxHp": 110,
+            "level": 3,
+            "kills": 56,
+            "bossKills": 0,
+            "enemies": 57,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 2,
+            "time": 119.99999999999532,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 8,
+            "kills": 108,
+            "bossKills": 1,
+            "enemies": 72,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 3,
+            "time": 180.00000000000668,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 12,
+            "kills": 252,
+            "bossKills": 1,
+            "enemies": 83,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 4,
+            "time": 240.00000000002032,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 14,
+            "kills": 380,
+            "bossKills": 1,
+            "enemies": 91,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 5,
+            "time": 300.00000000003394,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 15,
+            "kills": 505,
+            "bossKills": 1,
+            "enemies": 108,
+            "received": 63,
+            "healing": 63
+          },
+          {
+            "minute": 6,
+            "time": 360.0000000000476,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 16,
+            "kills": 646,
+            "bossKills": 1,
+            "enemies": 114,
+            "received": 126,
+            "healing": 126
+          },
+          {
+            "minute": 7,
+            "time": 420.0000000000612,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 17,
+            "kills": 764,
+            "bossKills": 1,
+            "enemies": 130,
+            "received": 153,
+            "healing": 153
+          },
+          {
+            "minute": 8,
+            "time": 480.00000000007486,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 18,
+            "kills": 890,
+            "bossKills": 1,
+            "enemies": 139,
+            "received": 207,
+            "healing": 207
+          },
+          {
+            "minute": 9,
+            "time": 540.0000000000566,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 19,
+            "kills": 1012,
+            "bossKills": 1,
+            "enemies": 155,
+            "received": 225,
+            "healing": 225
+          },
+          {
+            "minute": 10,
+            "time": 600.000000000002,
+            "hp": 381,
+            "maxHp": 390,
+            "level": 19,
+            "kills": 1154,
+            "bossKills": 1,
+            "enemies": 168,
+            "received": 297,
+            "healing": 288
+          },
+          {
+            "minute": 11,
+            "time": 659.9999999999475,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 20,
+            "kills": 1294,
+            "bossKills": 1,
+            "enemies": 174,
+            "received": 342,
+            "healing": 342
+          },
+          {
+            "minute": 12,
+            "time": 719.9999999998929,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 20,
+            "kills": 1434,
+            "bossKills": 1,
+            "enemies": 180,
+            "received": 378,
+            "healing": 378
+          },
+          {
+            "minute": 13,
+            "time": 779.9999999998383,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 21,
+            "kills": 1524,
+            "bossKills": 1,
+            "enemies": 179,
+            "received": 387,
+            "healing": 387
+          },
+          {
+            "minute": 14,
+            "time": 839.9999999997838,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 21,
+            "kills": 1620,
+            "bossKills": 1,
+            "enemies": 172,
+            "received": 396,
+            "healing": 396
+          },
+          {
+            "minute": 15,
+            "time": 899.9999999997292,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 21,
+            "kills": 1714,
+            "bossKills": 1,
+            "enemies": 176,
+            "received": 441,
+            "healing": 441
+          },
+          {
+            "minute": 16,
+            "time": 959.9999999996746,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 22,
+            "kills": 1802,
+            "bossKills": 1,
+            "enemies": 180,
+            "received": 459,
+            "healing": 459
+          },
+          {
+            "minute": 17,
+            "time": 1019.9999999996201,
+            "hp": 371,
+            "maxHp": 390,
+            "level": 22,
+            "kills": 1891,
+            "bossKills": 1,
+            "enemies": 175,
+            "received": 540,
+            "healing": 521
+          },
+          {
+            "minute": 18,
+            "time": 1079.9999999995655,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 22,
+            "kills": 1969,
+            "bossKills": 1,
+            "enemies": 180,
+            "received": 594,
+            "healing": 594
+          },
+          {
+            "minute": 19,
+            "time": 1139.999999999511,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 22,
+            "kills": 2033,
+            "bossKills": 1,
+            "enemies": 180,
+            "received": 603,
+            "healing": 603
+          },
+          {
+            "minute": 20,
+            "time": 1199.9999999994563,
+            "hp": 371,
+            "maxHp": 390,
+            "level": 22,
+            "kills": 2117,
+            "bossKills": 1,
+            "enemies": 179,
+            "received": 693,
+            "healing": 674
+          }
+        ],
+        "chestsSeen": 1,
+        "chestsCollected": 0
+      },
+      "viable": false,
+      "screenshot": "C:\\Users\\vi-ni\\OneDrive\\Documentos\\ChatGPT\\Jogo\\outputs\\bot\\safe-loot-oficina-full.png",
+      "finishedAt": "2026-11-06T04:07:41.431Z"
+    },
+    {
+      "file": "outputs/bot/short-loot-oficina-full.json",
+      "startedAt": "2026-11-06T04:13:54.011Z",
+      "status": "duration-reached",
+      "options": {
+        "mode": "smart",
+        "minutes": 20,
+        "seed": 20261106,
+        "build": "oficina-viva",
+        "headed": false,
+        "speed": 1000,
+        "output": "outputs/bot/short-loot-oficina-full.json"
+      },
+      "recipe": {
+        "id": "oficina-viva",
+        "evolution": "shotgun-choke",
+        "name": "Oficina Viva",
+        "robot": "nano",
+        "weapon": "shotgun",
+        "summary": "Vida, recarga e resfriamento sustentam um robô pesado de reparo.",
+        "engine": "O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.",
+        "skills": [
+          "magnet",
+          "repair",
+          "armor",
+          "titan",
+          "damage",
+          "rate",
+          "freeze",
+          "coldReload"
+        ],
+        "core": [
+          "magnet",
+          "repair",
+          "armor",
+          "titan"
+        ],
+        "blessings": [
+          "spareBattery",
+          "copperPlate",
+          "greasedServos"
+        ],
+        "specialization": "repairCharge",
+        "experiments": [
+          "lithiumPack",
+          "volatileReactor"
+        ],
+        "strength": "Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.",
+        "weakness": "É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.",
+        "strategy": "Gaste munição de forma útil, recarregue com distância e use o resfriamento para abrir o próximo deslocamento.",
+        "avoid": [
+          "Recarregar uma bala não concede a cura de um carregador inteiro.",
+          "Cura com vida cheia não prepara uma carga ofensiva."
+        ],
+        "tags": [
+          "Reparo",
+          "Vida",
+          "Controle"
+        ]
+      },
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Baús de chefe com12peças raras temporárias e bot inteligente/simples de partida no Chrome. Projéteis porarma com marcador crítico. Catálogo editável82/revisão6, compêndio94. Desenvolvimento, sem aprovação pública.",
+        "build": 53
+      },
+      "driver": "browser-bot-v1 / shared driver13 movement and offers",
+      "policyHash": "83cd7d78bc7ff45f151c62b5618e4ca5fba3ad83538dda7eb2dcd9f706574c9c",
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "fixture": "Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.",
+      "errors": [],
+      "result": {
+        "done": true,
+        "stop": false,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 480,
+        "maxHp": 480,
+        "level": 22,
+        "kills": 1072,
+        "bossKills": 7,
+        "coreReached": true,
+        "recipeReached": true,
+        "acquired": [
+          "armor",
+          "magnet",
+          "repair",
+          "damage",
+          "rate",
+          "freeze",
+          "coldReload",
+          "xp",
+          "dash",
+          "drones",
+          "titan"
+        ],
+        "damage": {
+          "bullet": 68312.12812499999,
+          "drone": 8057.356249999993
+        },
+        "received": 68,
+        "receivedBySource": {
+          "contact-or-projectile": 36,
+          "projectile": 0,
+          "boss-minion": 5,
+          "boss-hazard": 22,
+          "common-ranged": 5
+        },
+        "healing": 104,
+        "bosses": [
+          {
+            "id": "brute",
+            "at": 93.9499999999968,
+            "ttk": 33.89999999999808
+          },
+          {
+            "id": "scrapper",
+            "at": 733.8499999998803,
+            "ttk": 493.84999999985996
+          },
+          {
+            "id": "coil",
+            "at": 768.3999999998489,
+            "ttk": 34.49999999996862
+          },
+          {
+            "id": "brute",
+            "at": 786.8999999998321,
+            "ttk": 18.44999999998322
+          },
+          {
+            "id": "scrapper",
+            "at": 864.999999999761,
+            "ttk": 78.04999999992901
+          },
+          {
+            "id": "coil",
+            "at": 1089.5499999995568,
+            "ttk": 129.49999999988222
+          },
+          {
+            "id": "brute",
+            "at": 1187.7999999994674,
+            "ttk": 47.74999999995657
+          }
+        ],
+        "choices": [
+          {
+            "at": 32.05000000000032,
+            "level": 2,
+            "kind": "upgrade",
+            "id": "armor"
+          },
+          {
+            "at": 40.04999999999986,
+            "level": 3,
+            "kind": "blessing",
+            "id": "copperPlate"
+          },
+          {
+            "at": 66.54999999999836,
+            "level": 4,
+            "kind": "upgrade",
+            "id": "magnet"
+          },
+          {
+            "at": 67.99999999999828,
+            "level": 5,
+            "kind": "upgrade",
+            "id": "repair"
+          },
+          {
+            "at": 71.94999999999806,
+            "level": 6,
+            "kind": "blessing",
+            "id": "spareBattery"
+          },
+          {
+            "at": 94.84999999999675,
+            "level": 7,
+            "kind": "upgrade",
+            "id": "damage"
+          },
+          {
+            "at": 107.89999999999601,
+            "level": 8,
+            "kind": "upgrade",
+            "id": "rate"
+          },
+          {
+            "at": 120.3499999999953,
+            "level": 9,
+            "kind": "blessing",
+            "id": "greasedServos"
+          },
+          {
+            "at": 134.24999999999628,
+            "level": 10,
+            "kind": "specialization",
+            "id": "repairCharge"
+          },
+          {
+            "at": 151.4500000000002,
+            "level": 11,
+            "kind": "upgrade",
+            "id": "freeze"
+          },
+          {
+            "at": 167.00000000000372,
+            "level": 11,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 180.35000000000676,
+            "level": 12,
+            "kind": "upgrade",
+            "id": "coldReload"
+          },
+          {
+            "at": 219.95000000001576,
+            "level": 13,
+            "kind": "upgrade",
+            "id": "xp"
+          },
+          {
+            "at": 290.2500000000317,
+            "level": 15,
+            "kind": "upgrade",
+            "id": "dash"
+          },
+          {
+            "at": 398.8500000000564,
+            "level": 17,
+            "kind": "upgrade",
+            "id": "drones"
+          },
+          {
+            "at": 773.5999999998442,
+            "level": 19,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 810.5499999998106,
+            "level": 19,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 811.5499999998096,
+            "level": 20,
+            "kind": "evolution",
+            "id": "shotgun-choke",
+            "slot": 0
+          },
+          {
+            "at": 837.499999999786,
+            "level": 20,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 920.4999999997106,
+            "level": 20,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 985.3499999996516,
+            "level": 21,
+            "kind": "upgrade",
+            "id": "titan"
+          },
+          {
+            "at": 1185.1499999994699,
+            "level": 22,
+            "kind": "experiment",
+            "id": "volatileReactor"
+          }
+        ],
+        "maxEnemies": 183,
+        "maxBullets": 15,
+        "maxHostile": 26,
+        "controlEnemySeconds": 0,
+        "distance": 132567.33061577418,
+        "shots": 930,
+        "minutes": [
+          {
+            "minute": 0,
+            "time": 0.05,
+            "hp": 110,
+            "maxHp": 110,
+            "level": 1,
+            "kills": 0,
+            "bossKills": 0,
+            "enemies": 0,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 1,
+            "time": 59.99999999999873,
+            "hp": 110,
+            "maxHp": 110,
+            "level": 3,
+            "kills": 56,
+            "bossKills": 0,
+            "enemies": 57,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 2,
+            "time": 119.99999999999532,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 8,
+            "kills": 120,
+            "bossKills": 1,
+            "enemies": 67,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 3,
+            "time": 180.00000000000668,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 11,
+            "kills": 245,
+            "bossKills": 1,
+            "enemies": 84,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 4,
+            "time": 240.00000000002032,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 13,
+            "kills": 326,
+            "bossKills": 1,
+            "enemies": 98,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 5,
+            "time": 300.00000000003394,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 15,
+            "kills": 392,
+            "bossKills": 1,
+            "enemies": 102,
+            "received": 18,
+            "healing": 18
+          },
+          {
+            "minute": 6,
+            "time": 360.0000000000476,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 16,
+            "kills": 460,
+            "bossKills": 1,
+            "enemies": 121,
+            "received": 27,
+            "healing": 27
+          },
+          {
+            "minute": 7,
+            "time": 420.0000000000612,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 17,
+            "kills": 500,
+            "bossKills": 1,
+            "enemies": 134,
+            "received": 27,
+            "healing": 27
+          },
+          {
+            "minute": 8,
+            "time": 480.00000000007486,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 17,
+            "kills": 550,
+            "bossKills": 1,
+            "enemies": 146,
+            "received": 36,
+            "healing": 36
+          },
+          {
+            "minute": 9,
+            "time": 540.0000000000566,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 18,
+            "kills": 597,
+            "bossKills": 1,
+            "enemies": 158,
+            "received": 41,
+            "healing": 41
+          },
+          {
+            "minute": 10,
+            "time": 600.000000000002,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 18,
+            "kills": 645,
+            "bossKills": 1,
+            "enemies": 170,
+            "received": 41,
+            "healing": 41
+          },
+          {
+            "minute": 11,
+            "time": 659.9999999999475,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 19,
+            "kills": 684,
+            "bossKills": 1,
+            "enemies": 182,
+            "received": 41,
+            "healing": 41
+          },
+          {
+            "minute": 12,
+            "time": 719.9999999998929,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 19,
+            "kills": 720,
+            "bossKills": 1,
+            "enemies": 181,
+            "received": 41,
+            "healing": 41
+          },
+          {
+            "minute": 13,
+            "time": 779.9999999998383,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 19,
+            "kills": 742,
+            "bossKills": 3,
+            "enemies": 180,
+            "received": 52,
+            "healing": 52
+          },
+          {
+            "minute": 14,
+            "time": 839.9999999997838,
+            "hp": 160,
+            "maxHp": 160,
+            "level": 20,
+            "kills": 785,
+            "bossKills": 4,
+            "enemies": 176,
+            "received": 52,
+            "healing": 82
+          },
+          {
+            "minute": 15,
+            "time": 899.9999999997292,
+            "hp": 160,
+            "maxHp": 160,
+            "level": 20,
+            "kills": 829,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 52,
+            "healing": 82
+          },
+          {
+            "minute": 16,
+            "time": 959.9999999996746,
+            "hp": 160,
+            "maxHp": 160,
+            "level": 20,
+            "kills": 860,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 52,
+            "healing": 82
+          },
+          {
+            "minute": 17,
+            "time": 1019.9999999996201,
+            "hp": 480,
+            "maxHp": 480,
+            "level": 21,
+            "kills": 914,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 63,
+            "healing": 99
+          },
+          {
+            "minute": 18,
+            "time": 1079.9999999995655,
+            "hp": 480,
+            "maxHp": 480,
+            "level": 21,
+            "kills": 972,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 63,
+            "healing": 99
+          },
+          {
+            "minute": 19,
+            "time": 1139.999999999511,
+            "hp": 480,
+            "maxHp": 480,
+            "level": 21,
+            "kills": 1027,
+            "bossKills": 6,
+            "enemies": 173,
+            "received": 68,
+            "healing": 104
+          },
+          {
+            "minute": 20,
+            "time": 1199.9999999994563,
+            "hp": 480,
+            "maxHp": 480,
+            "level": 22,
+            "kills": 1072,
+            "bossKills": 7,
+            "enemies": 166,
+            "received": 68,
+            "healing": 104
+          }
+        ],
+        "chestsSeen": 7,
+        "chestsCollected": 6
+      },
+      "viable": true,
+      "screenshot": "C:\\Users\\vi-ni\\OneDrive\\Documentos\\ChatGPT\\Jogo\\outputs\\bot\\short-loot-oficina-full.png",
+      "finishedAt": "2026-11-06T04:14:07.712Z"
+    },
+    {
+      "file": "outputs/bot/short-loot-laser-full.json",
+      "startedAt": "2026-11-06T04:16:04.459Z",
+      "status": "duration-reached",
+      "options": {
+        "mode": "smart",
+        "minutes": 20,
+        "seed": 20261106,
+        "build": "tempestade-balistica",
+        "headed": false,
+        "speed": 1000,
+        "output": "outputs/bot/short-loot-laser-full.json"
+      },
+      "recipe": {
+        "id": "tempestade-balistica",
+        "evolution": "laser-pulseClock",
+        "name": "Tempestade Balística",
+        "robot": "prot",
+        "weapon": "laser",
+        "summary": "Muitos disparos alimentam o quinto impacto e a reposição por abates.",
+        "engine": "Cadência + dois projéteis + crítico a cada quinto disparo ativam o Crivo Balístico, com um pulso de área por projétil crítico.",
+        "skills": [
+          "rate",
+          "extra",
+          "damage",
+          "crit",
+          "magnet",
+          "killAmmo",
+          "freeze",
+          "pierce"
+        ],
+        "core": [
+          "rate",
+          "extra",
+          "damage",
+          "crit"
+        ],
+        "blessings": [
+          "triggerRegulator",
+          "pulseCoil",
+          "spareBattery"
+        ],
+        "specialization": "predatorMark",
+        "experiments": [
+          "volatileReactor",
+          "unstableLens"
+        ],
+        "strength": "Boa frequência de acertos, progressão de crítico previsível e limpeza de corredores.",
+        "weakness": "Perde força durante a recarga e cada projétil isolado é relativamente fraco.",
+        "strategy": "Varra a frente da horda, mantenha o alvo marcado em chefes e recolha núcleos nas janelas abertas.",
+        "avoid": [
+          "Dispersão não garante que os dois projéteis acertem o mesmo alvo.",
+          "Evite aumentar repetidamente a recarga sem obter sustentação."
+        ],
+        "tags": [
+          "Cadência",
+          "Crítico",
+          "Munição"
+        ]
+      },
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Baús de chefe com12peças raras temporárias e bot inteligente/simples de partida no Chrome. Projéteis porarma com marcador crítico. Catálogo editável82/revisão6, compêndio94. Desenvolvimento, sem aprovação pública.",
+        "build": 53
+      },
+      "driver": "browser-bot-v1 / shared driver13 movement and offers",
+      "policyHash": "83cd7d78bc7ff45f151c62b5618e4ca5fba3ad83538dda7eb2dcd9f706574c9c",
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "fixture": "Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.",
+      "errors": [],
+      "result": {
+        "done": true,
+        "stop": false,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 130,
+        "maxHp": 130,
+        "level": 26,
+        "kills": 4048,
+        "bossKills": 7,
+        "coreReached": true,
+        "recipeReached": true,
+        "acquired": [
+          "damage",
+          "crit",
+          "rate",
+          "freeze",
+          "pierce",
+          "extra",
+          "magnet",
+          "killAmmo",
+          "burn",
+          "dash",
+          "grace",
+          "xp"
+        ],
+        "damage": {
+          "bullet": 224018.1201171875,
+          "explosion": 54865.7216796875,
+          "burn": 12891.189453125
+        },
+        "received": 22,
+        "receivedBySource": {
+          "contact-or-projectile": 22
+        },
+        "healing": 52,
+        "bosses": [
+          {
+            "id": "brute",
+            "at": 62.59999999999858,
+            "ttk": 2.549999999999855
+          },
+          {
+            "id": "scrapper",
+            "at": 243.4500000000211,
+            "ttk": 3.4500000000007844
+          },
+          {
+            "id": "coil",
+            "at": 421.90000000006165,
+            "ttk": 1.900000000000432
+          },
+          {
+            "id": "brute",
+            "at": 600.5500000000015,
+            "ttk": 0.5499999999994998
+          },
+          {
+            "id": "scrapper",
+            "at": 782.7499999998358,
+            "ttk": 2.6999999999975444
+          },
+          {
+            "id": "coil",
+            "at": 961.6499999996731,
+            "ttk": 1.5999999999985448
+          },
+          {
+            "id": "brute",
+            "at": 1140.89999999951,
+            "ttk": 0.8499999999992269
+          }
+        ],
+        "choices": [
+          {
+            "at": 42.799999999999706,
+            "level": 2,
+            "kind": "upgrade",
+            "id": "damage"
+          },
+          {
+            "at": 49.44999999999933,
+            "level": 3,
+            "kind": "blessing",
+            "id": "pulseCoil"
+          },
+          {
+            "at": 55.79999999999897,
+            "level": 4,
+            "kind": "upgrade",
+            "id": "crit"
+          },
+          {
+            "at": 59.149999999998776,
+            "level": 5,
+            "kind": "upgrade",
+            "id": "rate"
+          },
+          {
+            "at": 242.1000000000208,
+            "level": 5,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 244.05000000002124,
+            "level": 6,
+            "kind": "blessing",
+            "id": "triggerRegulator"
+          },
+          {
+            "at": 250.15000000002263,
+            "level": 7,
+            "kind": "upgrade",
+            "id": "freeze"
+          },
+          {
+            "at": 250.75000000002277,
+            "level": 8,
+            "kind": "upgrade",
+            "id": "pierce"
+          },
+          {
+            "at": 251.05000000002283,
+            "level": 9,
+            "kind": "blessing",
+            "id": "copperPlate"
+          },
+          {
+            "at": 252.15000000002308,
+            "level": 10,
+            "kind": "specialization",
+            "id": "predatorMark"
+          },
+          {
+            "at": 256.7000000000241,
+            "level": 11,
+            "kind": "upgrade",
+            "id": "extra"
+          },
+          {
+            "at": 257.7000000000243,
+            "level": 12,
+            "kind": "upgrade",
+            "id": "magnet"
+          },
+          {
+            "at": 257.9500000000244,
+            "level": 13,
+            "kind": "upgrade",
+            "id": "killAmmo"
+          },
+          {
+            "at": 260.90000000002505,
+            "level": 15,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 265.6000000000261,
+            "level": 16,
+            "kind": "upgrade",
+            "id": "burn"
+          },
+          {
+            "at": 390.4500000000545,
+            "level": 20,
+            "kind": "evolution",
+            "id": "laser-pulseClock",
+            "slot": 0
+          },
+          {
+            "at": 423.0000000000619,
+            "level": 20,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 474.30000000007357,
+            "level": 21,
+            "kind": "upgrade",
+            "id": "dash"
+          },
+          {
+            "at": 602.6499999999996,
+            "level": 22,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 689.6499999999205,
+            "level": 23,
+            "kind": "upgrade",
+            "id": "grace"
+          },
+          {
+            "at": 918.5499999997123,
+            "level": 24,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 962.5999999996723,
+            "level": 24,
+            "kind": "experiment",
+            "id": "volatileReactor"
+          },
+          {
+            "at": 1001.8499999996366,
+            "level": 25,
+            "kind": "upgrade",
+            "id": "xp"
+          }
+        ],
+        "maxEnemies": 182,
+        "maxBullets": 14,
+        "maxHostile": 30,
+        "controlEnemySeconds": 0,
+        "distance": 117448.85972902857,
+        "shots": 17745,
+        "minutes": [
+          {
+            "minute": 0,
+            "time": 0.05,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 1,
+            "kills": 0,
+            "bossKills": 0,
+            "enemies": 0,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 1,
+            "time": 59.99999999999873,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 130,
+            "bossKills": 0,
+            "enemies": 55,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 2,
+            "time": 119.99999999999532,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 332,
+            "bossKills": 1,
+            "enemies": 67,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 3,
+            "time": 180.00000000000668,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 573,
+            "bossKills": 1,
+            "enemies": 78,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 4,
+            "time": 240.00000000002032,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 5,
+            "kills": 847,
+            "bossKills": 1,
+            "enemies": 92,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 5,
+            "time": 300.00000000003394,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 16,
+            "kills": 1044,
+            "bossKills": 2,
+            "enemies": 108,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 6,
+            "time": 360.0000000000476,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 19,
+            "kills": 1202,
+            "bossKills": 2,
+            "enemies": 108,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 7,
+            "time": 420.0000000000612,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 20,
+            "kills": 1351,
+            "bossKills": 2,
+            "enemies": 134,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 8,
+            "time": 480.00000000007486,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 21,
+            "kills": 1581,
+            "bossKills": 3,
+            "enemies": 131,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 9,
+            "time": 540.0000000000566,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 21,
+            "kills": 1804,
+            "bossKills": 3,
+            "enemies": 129,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 10,
+            "time": 600.000000000002,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 22,
+            "kills": 1959,
+            "bossKills": 3,
+            "enemies": 166,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 11,
+            "time": 659.9999999999475,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 22,
+            "kills": 2191,
+            "bossKills": 4,
+            "enemies": 157,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 12,
+            "time": 719.9999999998929,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 23,
+            "kills": 2354,
+            "bossKills": 4,
+            "enemies": 176,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 13,
+            "time": 779.9999999998383,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 23,
+            "kills": 2509,
+            "bossKills": 4,
+            "enemies": 175,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 14,
+            "time": 839.9999999997838,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 24,
+            "kills": 2741,
+            "bossKills": 5,
+            "enemies": 161,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 15,
+            "time": 899.9999999997292,
+            "hp": 100,
+            "maxHp": 100,
+            "level": 24,
+            "kills": 2899,
+            "bossKills": 5,
+            "enemies": 180,
+            "received": 11,
+            "healing": 11
+          },
+          {
+            "minute": 16,
+            "time": 959.9999999996746,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 24,
+            "kills": 3122,
+            "bossKills": 5,
+            "enemies": 125,
+            "received": 11,
+            "healing": 41
+          },
+          {
+            "minute": 17,
+            "time": 1019.9999999996201,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 25,
+            "kills": 3337,
+            "bossKills": 6,
+            "enemies": 160,
+            "received": 22,
+            "healing": 52
+          },
+          {
+            "minute": 18,
+            "time": 1079.9999999995655,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 25,
+            "kills": 3622,
+            "bossKills": 6,
+            "enemies": 140,
+            "received": 22,
+            "healing": 52
+          },
+          {
+            "minute": 19,
+            "time": 1139.999999999511,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 26,
+            "kills": 3777,
+            "bossKills": 6,
+            "enemies": 164,
+            "received": 22,
+            "healing": 52
+          },
+          {
+            "minute": 20,
+            "time": 1199.9999999994563,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 26,
+            "kills": 4048,
+            "bossKills": 7,
+            "enemies": 149,
+            "received": 22,
+            "healing": 52
+          }
+        ],
+        "chestsSeen": 7,
+        "chestsCollected": 6
+      },
+      "viable": true,
+      "screenshot": "C:\\Users\\vi-ni\\OneDrive\\Documentos\\ChatGPT\\Jogo\\outputs\\bot\\short-loot-laser-full.png",
+      "finishedAt": "2026-11-06T04:16:17.569Z"
+    },
+    {
+      "file": "outputs/bot/short-loot-oficina-holdout.json",
+      "startedAt": "2026-11-06T04:16:04.583Z",
+      "status": "duration-reached",
+      "options": {
+        "mode": "smart",
+        "minutes": 20,
+        "seed": 20261111,
+        "build": "oficina-viva",
+        "headed": false,
+        "speed": 1000,
+        "output": "outputs/bot/short-loot-oficina-holdout.json"
+      },
+      "recipe": {
+        "id": "oficina-viva",
+        "evolution": "shotgun-choke",
+        "name": "Oficina Viva",
+        "robot": "nano",
+        "weapon": "shotgun",
+        "summary": "Vida, recarga e resfriamento sustentam um robô pesado de reparo.",
+        "engine": "O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.",
+        "skills": [
+          "magnet",
+          "repair",
+          "armor",
+          "titan",
+          "damage",
+          "rate",
+          "freeze",
+          "coldReload"
+        ],
+        "core": [
+          "magnet",
+          "repair",
+          "armor",
+          "titan"
+        ],
+        "blessings": [
+          "spareBattery",
+          "copperPlate",
+          "greasedServos"
+        ],
+        "specialization": "repairCharge",
+        "experiments": [
+          "lithiumPack",
+          "volatileReactor"
+        ],
+        "strength": "Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.",
+        "weakness": "É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.",
+        "strategy": "Gaste munição de forma útil, recarregue com distância e use o resfriamento para abrir o próximo deslocamento.",
+        "avoid": [
+          "Recarregar uma bala não concede a cura de um carregador inteiro.",
+          "Cura com vida cheia não prepara uma carga ofensiva."
+        ],
+        "tags": [
+          "Reparo",
+          "Vida",
+          "Controle"
+        ]
+      },
+      "version": {
+        "channel": "development",
+        "status": "experimental",
+        "publicApproved": false,
+        "publicWorktree": "../Jogo-publico",
+        "publicBaseCommit": "99522e5",
+        "notes": "Baús de chefe com12peças raras temporárias e bot inteligente/simples de partida no Chrome. Projéteis porarma com marcador crítico. Catálogo editável82/revisão6, compêndio94. Desenvolvimento, sem aprovação pública.",
+        "build": 53
+      },
+      "driver": "browser-bot-v1 / shared driver13 movement and offers",
+      "policyHash": "83cd7d78bc7ff45f151c62b5618e4ca5fba3ad83538dda7eb2dcd9f706574c9c",
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      },
+      "fixture": "Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.",
+      "errors": [],
+      "result": {
+        "done": true,
+        "stop": false,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 390,
+        "maxHp": 390,
+        "level": 20,
+        "kills": 1299,
+        "bossKills": 4,
+        "coreReached": true,
+        "recipeReached": true,
+        "acquired": [
+          "magnet",
+          "armor",
+          "freeze",
+          "coldReload",
+          "repair",
+          "damage",
+          "rate",
+          "titan",
+          "burn",
+          "salvage",
+          "drones"
+        ],
+        "damage": {
+          "bullet": 81906.60374999828,
+          "burn": 9324.493749999954,
+          "drone": 3521.938749999992
+        },
+        "received": 412,
+        "receivedBySource": {
+          "contact-or-projectile": 165,
+          "boss-hazard": 174,
+          "boss-minion": 30,
+          "common-ranged": 25,
+          "projectile": 18
+        },
+        "healing": 412,
+        "bosses": [
+          {
+            "id": "brute",
+            "at": 86.19999999999725,
+            "ttk": 26.14999999999852
+          },
+          {
+            "id": "scrapper",
+            "at": 711.8499999999003,
+            "ttk": 471.84999999987997
+          },
+          {
+            "id": "coil",
+            "at": 1035.7499999996057,
+            "ttk": 323.84999999970546
+          },
+          {
+            "id": "brute",
+            "at": 1062.5499999995814,
+            "ttk": 26.74999999997567
+          }
+        ],
+        "choices": [
+          {
+            "at": 31.40000000000031,
+            "level": 2,
+            "kind": "upgrade",
+            "id": "magnet"
+          },
+          {
+            "at": 34.200000000000195,
+            "level": 3,
+            "kind": "blessing",
+            "id": "spareBattery"
+          },
+          {
+            "at": 40.24999999999985,
+            "level": 4,
+            "kind": "upgrade",
+            "id": "armor"
+          },
+          {
+            "at": 48.1999999999994,
+            "level": 5,
+            "kind": "upgrade",
+            "id": "freeze"
+          },
+          {
+            "at": 59.99999999999873,
+            "level": 6,
+            "kind": "blessing",
+            "id": "copperPlate"
+          },
+          {
+            "at": 84.09999999999737,
+            "level": 7,
+            "kind": "upgrade",
+            "id": "coldReload"
+          },
+          {
+            "at": 107.64999999999603,
+            "level": 8,
+            "kind": "upgrade",
+            "id": "repair"
+          },
+          {
+            "at": 138.49999999999724,
+            "level": 9,
+            "kind": "blessing",
+            "id": "greasedServos"
+          },
+          {
+            "at": 157.50000000000156,
+            "level": 9,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 179.35000000000653,
+            "level": 10,
+            "kind": "specialization",
+            "id": "repairCharge"
+          },
+          {
+            "at": 230.90000000001825,
+            "level": 11,
+            "kind": "upgrade",
+            "id": "damage"
+          },
+          {
+            "at": 279.6000000000293,
+            "level": 12,
+            "kind": "upgrade",
+            "id": "rate"
+          },
+          {
+            "at": 318.7500000000382,
+            "level": 13,
+            "kind": "upgrade",
+            "id": "titan"
+          },
+          {
+            "at": 534.3000000000618,
+            "level": 16,
+            "kind": "upgrade",
+            "id": "burn"
+          },
+          {
+            "at": 626.3499999999781,
+            "level": 17,
+            "kind": "upgrade",
+            "id": "salvage"
+          },
+          {
+            "at": 739.699999999875,
+            "level": 17,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 750.649999999865,
+            "level": 18,
+            "kind": "upgrade",
+            "id": "drones"
+          },
+          {
+            "at": 1036.9999999996046,
+            "level": 19,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 1081.3999999995642,
+            "level": 19,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 1122.7499999995266,
+            "level": 20,
+            "kind": "evolution",
+            "id": "shotgun-choke",
+            "slot": 0
+          }
+        ],
+        "maxEnemies": 183,
+        "maxBullets": 13,
+        "maxHostile": 29,
+        "controlEnemySeconds": 0,
+        "distance": 115109.60671455156,
+        "shots": 934,
+        "minutes": [
+          {
+            "minute": 0,
+            "time": 0.05,
+            "hp": 110,
+            "maxHp": 110,
+            "level": 1,
+            "kills": 0,
+            "bossKills": 0,
+            "enemies": 0,
+            "received": 0,
+            "healing": 0
+          },
+          {
+            "minute": 1,
+            "time": 59.99999999999873,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 6,
+            "kills": 55,
+            "bossKills": 0,
+            "enemies": 53,
+            "received": 12,
+            "healing": 12
+          },
+          {
+            "minute": 2,
+            "time": 119.99999999999532,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 8,
+            "kills": 101,
+            "bossKills": 1,
+            "enemies": 70,
+            "received": 12,
+            "healing": 12
+          },
+          {
+            "minute": 3,
+            "time": 180.00000000000668,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 10,
+            "kills": 152,
+            "bossKills": 1,
+            "enemies": 83,
+            "received": 12,
+            "healing": 12
+          },
+          {
+            "minute": 4,
+            "time": 240.00000000002032,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 11,
+            "kills": 201,
+            "bossKills": 1,
+            "enemies": 93,
+            "received": 12,
+            "healing": 12
+          },
+          {
+            "minute": 5,
+            "time": 300.00000000003394,
+            "hp": 130,
+            "maxHp": 130,
+            "level": 12,
+            "kills": 271,
+            "bossKills": 1,
+            "enemies": 108,
+            "received": 30,
+            "healing": 30
+          },
+          {
+            "minute": 6,
+            "time": 360.0000000000476,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 13,
+            "kills": 353,
+            "bossKills": 1,
+            "enemies": 120,
+            "received": 39,
+            "healing": 39
+          },
+          {
+            "minute": 7,
+            "time": 420.0000000000612,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 14,
+            "kills": 430,
+            "bossKills": 1,
+            "enemies": 121,
+            "received": 48,
+            "healing": 48
+          },
+          {
+            "minute": 8,
+            "time": 480.00000000007486,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 15,
+            "kills": 482,
+            "bossKills": 1,
+            "enemies": 143,
+            "received": 48,
+            "healing": 48
+          },
+          {
+            "minute": 9,
+            "time": 540.0000000000566,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 16,
+            "kills": 560,
+            "bossKills": 1,
+            "enemies": 156,
+            "received": 84,
+            "healing": 84
+          },
+          {
+            "minute": 10,
+            "time": 600.000000000002,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 16,
+            "kills": 654,
+            "bossKills": 1,
+            "enemies": 168,
+            "received": 102,
+            "healing": 102
+          },
+          {
+            "minute": 11,
+            "time": 659.9999999999475,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 17,
+            "kills": 718,
+            "bossKills": 1,
+            "enemies": 180,
+            "received": 102,
+            "healing": 102
+          },
+          {
+            "minute": 12,
+            "time": 719.9999999998929,
+            "hp": 387,
+            "maxHp": 390,
+            "level": 17,
+            "kills": 789,
+            "bossKills": 2,
+            "enemies": 181,
+            "received": 122,
+            "healing": 119
+          },
+          {
+            "minute": 13,
+            "time": 779.9999999998383,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 18,
+            "kills": 865,
+            "bossKills": 2,
+            "enemies": 182,
+            "received": 160,
+            "healing": 160
+          },
+          {
+            "minute": 14,
+            "time": 839.9999999997838,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 18,
+            "kills": 921,
+            "bossKills": 2,
+            "enemies": 180,
+            "received": 210,
+            "healing": 210
+          },
+          {
+            "minute": 15,
+            "time": 899.9999999997292,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 18,
+            "kills": 969,
+            "bossKills": 2,
+            "enemies": 178,
+            "received": 231,
+            "healing": 231
+          },
+          {
+            "minute": 16,
+            "time": 959.9999999996746,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 19,
+            "kills": 1035,
+            "bossKills": 2,
+            "enemies": 175,
+            "received": 254,
+            "healing": 254
+          },
+          {
+            "minute": 17,
+            "time": 1019.9999999996201,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 19,
+            "kills": 1097,
+            "bossKills": 2,
+            "enemies": 179,
+            "received": 297,
+            "healing": 297
+          },
+          {
+            "minute": 18,
+            "time": 1079.9999999995655,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 19,
+            "kills": 1160,
+            "bossKills": 4,
+            "enemies": 176,
+            "received": 349,
+            "healing": 349
+          },
+          {
+            "minute": 19,
+            "time": 1139.999999999511,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 20,
+            "kills": 1242,
+            "bossKills": 4,
+            "enemies": 178,
+            "received": 394,
+            "healing": 394
+          },
+          {
+            "minute": 20,
+            "time": 1199.9999999994563,
+            "hp": 390,
+            "maxHp": 390,
+            "level": 20,
+            "kills": 1299,
+            "bossKills": 4,
+            "enemies": 176,
+            "received": 412,
+            "healing": 412
+          }
+        ],
+        "chestsSeen": 4,
+        "chestsCollected": 4
+      },
+      "viable": true,
+      "screenshot": "C:\\Users\\vi-ni\\OneDrive\\Documentos\\ChatGPT\\Jogo\\outputs\\bot\\short-loot-oficina-holdout.png",
+      "finishedAt": "2026-11-06T04:16:16.388Z"
+    }
+  ]
+}

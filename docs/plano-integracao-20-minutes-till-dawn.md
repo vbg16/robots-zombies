@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 53:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 54:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -264,3 +264,7 @@ Por pedido do jogador, substitui população ilimitada por diretor com teto cres
 ### BUILD53 — Recompensa física e bot de partida
 
 Chefe deixa baú com escolha de hardware raro, favorecendo arma ou suporte instalado; usuário esclareceu que efeitos duram sóna tentativa.12peças, sem repetição, fora dos sorteiosnormais; experimentos anteriores ficam de fallback. Bot inteligente/simples permite partida completa no Chrome e relatório. Visual dos tiros respeita arma emissora/critico. Ver baus-de-chefe.md e bot-de-testes.md.
+
+### BUILD54 — Investigação de risco e coleta do bot
+
+Reprodução em oito sementes separou política de coleta e atributos da build. Primeiro candidato cauteloso travou a coleta da Oficina e foi rejeitado; Driver13 verifica a aproximação imediata. Testes, mortes e fontes preservados em bot-rotas-seguras.md. Isso melhora a base de medição para equilíbrio, sem presumir dificuldade humana a partir de um bot.

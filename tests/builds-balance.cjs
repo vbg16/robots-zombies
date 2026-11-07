@@ -15,7 +15,9 @@ const realOnly=process.argv.includes('--real-only');
 const useRefits=process.env.BUILD_REFITS==='1';
 const dt=.05;
 const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
-const driverVersion=11; // Driver10 combat policy plus natural chest collection and temporary relic choices.
+const driverVersion=13; // Safe loot routing; legacy mode remains available for controlled comparison.
+const chestPolicy=process.env.BUILD_CHEST_POLICY||'safe';
+assert.ok(['safe','legacy'].includes(chestPolicy),'Unsupported chest policy');
 const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
 const frozenBootstrap=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 
@@ -24,7 +26,7 @@ function harness(seed){
  setup=setup.replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage');
  setup=setup.replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","window.localStorage=localStorage;vm.runInContext("+JSON.stringify(frozenSources['balance.js'])+",context);vm.runInContext("+JSON.stringify(frozenSources['game.js'])+",context);");
  const h=new Function('require',setup+';return {context,run:s=>vm.runInContext(s,context)};')(require);
- h.context.qaSeed=seed>>>0;h.context.qaUseRefits=useRefits;
+ h.context.qaSeed=seed>>>0;h.context.qaUseRefits=useRefits;h.context.qaChestPolicy=chestPolicy;
  h.run(`Math.random=()=>{qaSeed=(Math.imul(qaSeed,1664525)+1013904223)>>>0;return qaSeed/4294967296};
  profile=emptyProfile();profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));saveProfile();
  globalThis.qa={damage:{},received:0,receivedBySource:{},healing:0,bosses:[],choices:[],maxEnemies:0,maxBullets:0,maxHostile:0,controlEnemySeconds:0,distance:0};
@@ -121,7 +123,8 @@ function qaDrive(){
  qaTarget=target;
  if(target){const d=Math.hypot(target.x-player.x,target.y-player.y)||1,flight=Math.min(.5,d/((runWeapon.speed||570)*player.projectileSpeed)),status=target.stunTime>0?0:target.slowTime>0?.5:1;let vx=(player.x-target.x)/d*(target.speed||0)*status,vy=(player.y-target.y)/d*(target.speed||0)*status;if(target.policePhase==='charge'){vx=target.chargeDx*340*status;vy=target.chargeDy*340*status;}if(target===boss&&boss.phase!=='approach'){vx=boss.phase==='dash'?boss.dx*360*status:0;vy=boss.phase==='dash'?boss.dy*360*status:0;}aim={x:target.x+vx*flight-camera.x,y:target.y+vy*flight-camera.y,active:true};firing=true;}else firing=false;
  const threat=nearest.slice(0,18);const shots=hostile.filter(b=>Math.hypot(b.x-player.x,b.y-player.y)<350);
- globalThis.qaChestTarget=typeof bossChests!=='undefined'?bossChests.slice().sort((a,b)=>Math.hypot(a.x-player.x,a.y-player.y)-Math.hypot(b.x-player.x,b.y-player.y))[0]:null;
+ const lootCandidates=typeof bossChests==='undefined'?[]:bossChests.filter(c=>typeof qaChestPolicy!=='undefined'&&qaChestPolicy==='legacy'||Math.hypot(c.x-player.x,c.y-player.y)<=1200&&player.hp>=player.maxHp*.35&&!pool.some(z=>{const d=Math.hypot(c.x-player.x,c.y-player.y)||1,step=Math.min(d,Math.max(70,Math.min(130,player.speed*.35))),x=player.x+(c.x-player.x)/d*step,y=player.y+(c.y-player.y)/d*step;return segmentDistance(z.x,z.y,player.x,player.y,x,y)<(z.r||14)+32;}));
+ globalThis.qaChestTarget=lootCandidates.slice().sort((a,b)=>Math.hypot(a.x-player.x,a.y-player.y)-Math.hypot(b.x-player.x,b.y-player.y))[0]||null;
  const xpTarget=qaChestTarget||gems.map(g=>({g,d:Math.hypot(g.x-player.x,g.y-player.y)})).filter(x=>x.d<500).sort((a,b)=>a.d-b.d)[0]?.g;
  const center=boss?.hp>0?boss:qaCenter,orbitRadius=boss?.hp>0?Math.max(80,Math.min(280,weaponRange*.65)):230,orbitAngle=Math.atan2(player.y-center.y,player.x-center.x)+.7,orbitX=center.x+Math.cos(orbitAngle)*orbitRadius,orbitY=center.y+Math.sin(orbitAngle)*orbitRadius;
  let best=-Infinity,bestX=0,bestY=0;
@@ -136,7 +139,7 @@ function qaDrive(){
   if(boss?.hp>0&&(boss.phase==='tellDash'||boss.phase==='dash')){const d=segmentDistance(px,py,boss.x,boss.y,boss.x+boss.dx*234,boss.y+boss.dy*234);if(d<boss.r+35)score-=6000;}
   for(const {z} of threat)if(z.policePhase==='aim'||z.policePhase==='charge'){const d=segmentDistance(px,py,z.x,z.y,z.x+z.chargeDx*z.chargeRemaining,z.y+z.chargeDy*z.chargeRemaining);if(d<z.r+30)score-=4000;}
   score-=Math.hypot(orbitX-px,orbitY-py)*.55;
-  if(xpTarget)score-=Math.hypot(xpTarget.x-px,xpTarget.y-py)*(qaChestTarget?1.2:.25);
+  if(xpTarget)score-=Math.hypot(xpTarget.x-px,xpTarget.y-py)*(qaChestTarget?(typeof qaChestPolicy!=='undefined'&&qaChestPolicy==='legacy'?1.2:.8):.25);
   else if(target)score-=Math.abs(Math.hypot(target.x-px,target.y-py)-Math.min(230,weaponRange*.75))*.5;
   score+=Math.sin(clock*.11+i)*.1;
   if(score>best){best=score;bestX=x;bestY=y;}
@@ -162,7 +165,7 @@ function realAttempt(b,seed){const h=harness(seed);equip(h,b);h.context.qaDurati
 const file=process.env.BUILD_REPORT||'docs/builds-results.json';
 let history=[];try{history=JSON.parse(fs.readFileSync(file,'utf8')).executions||[];}catch{}
 const release=JSON.parse(fs.readFileSync('version.json','utf8'));
-const execution={at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),harnessDriverHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
+const execution={at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,chestPolicy,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),harnessDriverHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
 history.push(execution);
 function persist(){fs.writeFileSync(file,JSON.stringify({note:'All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.',executions:history},null,2)+'\n');}
 try{
@@ -171,4 +174,4 @@ try{
  if(!benchOnly)for(const b of builds.filter(b=>!only||b.id===only))for(const seed of seeds){if(excludedCases.has(b.id+':'+seed))continue;const result=realAttempt(b,seed);execution.attempts.push({...result,survivedWindow:result.time>=duration-.1,viable:duration>=1200?result.time>=duration-.1&&result.bossKills>=3:null});persist();console.log('REAL',b.id,seed,Math.round(result.time),result.state,'bosses',result.bossKills,'level',result.level,'core',result.coreReached);}
  execution.completed=true;persist();
 }catch(error){execution.errors.push({message:error.message,stack:error.stack});persist();throw error;}
-console.log('Results:',file,'real viability',execution.attempts.filter(r=>r.viable).length+'/'+execution.attempts.length);
+console.log('Results:',file,duration>=1200?'real viability':'survival window (full viability not assessed)',execution.attempts.filter(r=>duration>=1200?r.viable:r.survivedWindow).length+'/'+execution.attempts.length);

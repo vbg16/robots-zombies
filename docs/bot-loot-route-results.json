@@ -1,0 +1,309 @@
+{
+  "runtimeUnchangedFromBuild": 53,
+  "openingSeeds": [
+    20261103,
+    20261104,
+    20261105,
+    20261106,
+    20261107,
+    20261108,
+    20261109,
+    20261110
+  ],
+  "openingSeconds": 180,
+  "rows": [
+    {
+      "seed": 20261103,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 10,
+        "hp": 86.66666666666667,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 9,
+        "hp": 86.66666666666667,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 66.66666666666667,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261104,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 6,
+        "hp": 100,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 9,
+        "hp": 120,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 80,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261105,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 13,
+        "hp": 80,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 10,
+        "hp": 100,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 100,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261106,
+      "legacy": {
+        "seconds": 115.1999999999956,
+        "level": 5,
+        "hp": 0,
+        "survived": false
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 7,
+        "hp": 100,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 54.66666666666667,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261107,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 11,
+        "hp": 120,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 7,
+        "hp": 100,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 10,
+        "hp": 100,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261108,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 9,
+        "hp": 66.66666666666667,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 66.66666666666667,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 100,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261109,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 66.66666666666667,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 66.66666666666667,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 8,
+        "hp": 66.66666666666667,
+        "survived": true
+      }
+    },
+    {
+      "seed": 20261110,
+      "legacy": {
+        "seconds": 180.00000000000668,
+        "level": 6,
+        "hp": 120,
+        "survived": true
+      },
+      "strict": {
+        "seconds": 180.00000000000668,
+        "level": 9,
+        "hp": 100,
+        "survived": true
+      },
+      "shortRoute": {
+        "seconds": 180.00000000000668,
+        "level": 7,
+        "hp": 66.66666666666667,
+        "survived": true
+      }
+    }
+  ],
+  "fullCryo": [
+    {
+      "seed": 20261106,
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "level": 25,
+      "chests": 7,
+      "viable": true
+    },
+    {
+      "seed": 20261111,
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "level": 24,
+      "chests": 5,
+      "viable": true
+    },
+    {
+      "seed": 20261112,
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "level": 28,
+      "chests": 6,
+      "viable": true
+    }
+  ],
+  "browser": [
+    {
+      "file": "outputs/bot/safe-loot-cryo-full.json",
+      "driver": "browser-bot-v1 / shared driver12 movement and offers",
+      "status": "duration-reached",
+      "seed": 20261106,
+      "build": "cacador-criogenico",
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "chests": 7,
+      "viable": true,
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      }
+    },
+    {
+      "file": "outputs/bot/safe-loot-laser-full.json",
+      "driver": "browser-bot-v1 / shared driver12 movement and offers",
+      "status": "duration-reached",
+      "seed": 20261106,
+      "build": "tempestade-balistica",
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "chests": 6,
+      "viable": true,
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      }
+    },
+    {
+      "file": "outputs/bot/safe-loot-oficina-full.json",
+      "driver": "browser-bot-v1 / shared driver12 movement and offers",
+      "status": "duration-reached",
+      "seed": 20261106,
+      "build": "oficina-viva",
+      "seconds": 1199.9999999994563,
+      "bosses": 1,
+      "chests": 0,
+      "viable": false,
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      }
+    },
+    {
+      "file": "outputs/bot/short-loot-oficina-full.json",
+      "driver": "browser-bot-v1 / shared driver13 movement and offers",
+      "status": "duration-reached",
+      "seed": 20261106,
+      "build": "oficina-viva",
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "chests": 6,
+      "viable": true,
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      }
+    },
+    {
+      "file": "outputs/bot/short-loot-laser-full.json",
+      "driver": "browser-bot-v1 / shared driver13 movement and offers",
+      "status": "duration-reached",
+      "seed": 20261106,
+      "build": "tempestade-balistica",
+      "seconds": 1199.9999999994563,
+      "bosses": 7,
+      "chests": 6,
+      "viable": true,
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      }
+    },
+    {
+      "file": "outputs/bot/short-loot-oficina-holdout.json",
+      "driver": "browser-bot-v1 / shared driver13 movement and offers",
+      "status": "duration-reached",
+      "seed": 20261111,
+      "build": "oficina-viva",
+      "seconds": 1199.9999999994563,
+      "bosses": 4,
+      "chests": 4,
+      "viable": true,
+      "sourceHashes": {
+        "game.js": "e491e0f642336a690a1bbcf5fb452c7020cc671e488143c99312662e946f801f",
+        "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+        "builds.js": "e19960ca75b766ccfdade67c8ad7f36634d4bd979c22ca9b2e727837d7855fce"
+      }
+    }
+  ],
+  "limitations": "Policy changed, gameplay did not. Headless1000x600 and Chrome1280x900 are distinct fixtures. Opening survival is not full-run approval. Strict-route candidate failure and original death retained. Results do not guarantee human difficulty or universally successful bots."
+}

@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 53
+# Contrato vigente — Screwvivors BUILD 54
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -78,3 +78,7 @@ Alto Impacto dobra dano sem piorar cadência; Overdrive triplica cadência sem r
 ## Baús e bot — BUILD53
 
 São12peças raras fora do pool normal e do catálogo editável82; compêndio consulta94entradas. Sem repetição por tentativa, coleta até40px, sem atração automática/expiração. Escolhas1–3 ou botão; R recusa. Perfil não recebe atributos. Bot sócarrega pelo launcher/CLI e usa contexto isolado. Driver11 passa a procurar baús; não comparar resultados diretamente com driver10 como pareamento. Projéteis desenham o snapshot da arma emissora, inclusive armas auxiliares e tiros anteriores a reforjas.
+
+## Testador — BUILD54
+
+Driver13 avalia a aproximação imediata de baús: integridade ao menos35%, distância até1200px e corredor imediato de70–130px sem inimigo vivo a menos do raio+32px. O objetivo de baú usa peso0,8; ao descartá-lo, retoma XP e ameaças normais. Modo legacy de laboratório reproduz a política anterior para comparação; não altera o jogo normal. Resultados curtos têm viabilidade completa nula. Atributos e mecânicas do runtime continuam os da BUILD53.
