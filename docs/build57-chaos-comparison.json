@@ -1,0 +1,165 @@
+{
+  "baselineHash": "ade34fac783b2695d4a6ab3c42f0e64443f425adf96295bd792a6766c8900461",
+  "candidateHash": "2a56f4b0dc388befc686d287d0c3ac00771a8ec00d824c5720414394246c16ef",
+  "changedSources": [
+    "game.js"
+  ],
+  "benchmarkHash": "05be3aba0b70bb782fe6177d6a8e40601fad5417124e9fd3e4b0bf7c53c25813",
+  "cells": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scene": "normal",
+      "before": {
+        "samples": 60,
+        "meanMs": 15.636666666716337,
+        "medianMs": 15,
+        "p95Ms": 16,
+        "p99Ms": 40.200000000186265,
+        "minMs": 13.599999999627471,
+        "maxMs": 40.200000000186265
+      },
+      "after": {
+        "samples": 60,
+        "meanMs": 5.146666666741172,
+        "medianMs": 5,
+        "p95Ms": 5.400000002235174,
+        "p99Ms": 10.5,
+        "minMs": 4.599999997764826,
+        "maxMs": 10.5
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scene": "chaos",
+      "before": {
+        "samples": 60,
+        "meanMs": 682.6999999999379,
+        "medianMs": 678.2999999998137,
+        "p95Ms": 732.7999999998137,
+        "p99Ms": 750.6999999992549,
+        "minMs": 631.2999999998137,
+        "maxMs": 750.6999999992549
+      },
+      "after": {
+        "samples": 60,
+        "meanMs": 260.2916666666667,
+        "medianMs": 255.30000000074506,
+        "p95Ms": 306.1000000014901,
+        "p99Ms": 318.19999999925494,
+        "minMs": 222.29999999701977,
+        "maxMs": 318.19999999925494
+      }
+    },
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scene": "coincident",
+      "before": {
+        "samples": 60,
+        "meanMs": 855.3883333332836,
+        "medianMs": 716.2000000001863,
+        "p95Ms": 1241.2000000001863,
+        "p99Ms": 1258.2999999998137,
+        "minMs": 639.2000000001863,
+        "maxMs": 1258.2999999998137
+      },
+      "after": {
+        "samples": 60,
+        "meanMs": 268.56500000016143,
+        "medianMs": 260.19999999925494,
+        "p95Ms": 313.5999999977648,
+        "p99Ms": 342.1000000014901,
+        "minMs": 232.40000000223517,
+        "maxMs": 342.1000000014901
+      }
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "scene": "normal",
+      "before": {
+        "samples": 60,
+        "meanMs": 16.19666666658595,
+        "medianMs": 15.699999999254942,
+        "p95Ms": 19.699999999254942,
+        "p99Ms": 32.90000000037253,
+        "minMs": 14.799999999813735,
+        "maxMs": 32.90000000037253
+      },
+      "after": {
+        "samples": 60,
+        "meanMs": 5.714999999850988,
+        "medianMs": 5.5,
+        "p95Ms": 6.899999998509884,
+        "p99Ms": 10.400000002235174,
+        "minMs": 5.099999997764826,
+        "maxMs": 10.400000002235174
+      }
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "scene": "chaos",
+      "before": {
+        "samples": 60,
+        "meanMs": 712.8083333334109,
+        "medianMs": 710.5,
+        "p95Ms": 760.3999999994412,
+        "p99Ms": 782.8999999994412,
+        "minMs": 675,
+        "maxMs": 782.8999999994412
+      },
+      "after": {
+        "samples": 60,
+        "meanMs": 269.83000000032285,
+        "medianMs": 262.30000000074506,
+        "p95Ms": 323.4000000022352,
+        "p99Ms": 344.30000000074506,
+        "minMs": 231.5,
+        "maxMs": 344.30000000074506
+      }
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "scene": "coincident",
+      "before": {
+        "samples": 60,
+        "meanMs": 730.351666666645,
+        "medianMs": 722.9000000003725,
+        "p95Ms": 777.5,
+        "p99Ms": 830.1000000005588,
+        "minMs": 678.5,
+        "maxMs": 830.1000000005588
+      },
+      "after": {
+        "samples": 60,
+        "meanMs": 403.6816666662072,
+        "medianMs": 438.69999999925494,
+        "p95Ms": 482.30000000074506,
+        "p99Ms": 498.69999999925494,
+        "minMs": 240.30000000074506,
+        "maxMs": 498.69999999925494
+      }
+    }
+  ],
+  "limits": [
+    "Observed isolated tick submissions, not FPS or mobile hardware. Host automation may contend.",
+    "Same controlled highHP/immunity/400bullet fixture; this is not naturally earned sustained load.",
+    "No claim that the extreme peak is solved; further cosmetic allocation/dispatch profiling is required."
+  ]
+}

@@ -54,3 +54,10 @@ Complementos por agentes autorizados pelo usuário:
 - Revisor conferiu ponte/API, movimento efetivo, IDs e capturas; apontou a captura do canvas mantida durante modal e quebra de linha na munição. O Dev corrigiu os dois. O agente complementou a prova nativa de captura do Chrome em pausa/oferta/morte, arquivada em build56-capture.json.
 
 A rodada foi integrada e passou nas verificações declaradas; não equivale à aprovação do canal público, de hardware móvel ou de balanceamento humano. Relatórios intermediários e suas falhas continuam em outputs. As próximas medições são progressão/alcance e desempenho no caos atual, com fontes e pilotos comparáveis.
+
+
+## Rodada BUILD57
+
+Tester inteligente implementou o coletor puro e seus testes de conservação, com contrato fixado pelo Dev. Revisor documentou armadilhas de dano líquido, escudo, XP e retarget exato; o Dev separou esses canais e explicou limites. tester burro distinguiu fuga com tiro de piloto imperfeito e propôs400ms/12graus; os perfis são perturbações sintéticas, não humanos calibrados. Dev designer apontou que telemetria técnica deve ficar nos relatórios e que HUD/pausa compactos ainda têm oportunidades de acabamento; não aprovou áudio por escuta.
+
+Os agentes complementaram a bancada atual do caos, auditoria do mapa e equivalência do observador. Dois agentes atingiram limite de uso; o Dev conferiu os resultados efetivamente salvos e concluiu a verificação do piloto, testes pareados, integração e estudos. Não afirmar entrega de tarefas de agente que foram interrompidas. A revisão final do cache foi encaminhada ao chat Revisor. Seu retorno foi um fluxo exploratório no navegador:28s, cinco abates e derrota, sem alcançar o experimento. Isso não é parecer de código do cache nem teste humano de dificuldade. O Dev concluiu a análise da invalidação/liveness e as comparações contra função publicada e busca completa; o escopo verificado continua o dos testes descritos.

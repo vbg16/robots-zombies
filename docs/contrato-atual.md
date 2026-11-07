@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 56
+# Contrato vigente — Screwvivors BUILD 57
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -90,3 +90,7 @@ Avisos em região de status separada: até2visíveis,4nafila,2,4s de combate, de
 ## Entrada móvel — BUILD56
 
 Dois direcionais manuais em paisagem, mira unitária fora da zona neutra, sem alvo automático. Cada ponteiro tem ciclo próprio; transições limpam comandos/rajadas e rotação para retrato pausa sem retomada automática. Recarga e propulsor usam as funções existentes; propulsor requer skill. Teclado tem prioridade no movimento, mouse passivo não sequestra mira do dedo e cancelamento só encerra disparo de mouse do ponteiro dono. Ver controles-touch.md.
+
+## Consultas e observação — BUILD57
+
+Cache geométrico das descargas é local à fase de projéteis; indexTarget invalida por movimento, vida é lida em cada consulta e ordem é preservada. Sem nerf nem RNG novo. Instrumentação é exclusiva do testador e deve conservar estado, retorno e próximos sorteios. Perfis de entrada são experiências explícitas, não poderes do jogo nem modelo de habilidade humana. Ver telemetria-e-balanceamento.md e disposicao-sistemas.md.

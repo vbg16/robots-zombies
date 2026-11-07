@@ -5,9 +5,9 @@ assert.equal(parseArgs(['--headed']).speed,1);assert.equal(parseArgs([]).minutes
 for(const args of [['--seed','-1'],['--minutes','0'],['--minutes','NaN'],['--speed','0'],['--mode','invincible'],['--unknown'],['--build']])assert.throws(()=>parseArgs(args));
 const policy=policySource();assert.ok(policy.includes('function qaDrive()'));assert.ok(policy.includes('Array.from(el(\'choices\').children).at(-1)'));assert.ok(policy.includes("qaChestPolicy==='legacy'?1.2:.8"));
 (async()=>{
- for(const mode of ['smart','dumb']){
+ for(const mode of ['smart','dumb','limited','flee']){
   const report=await runBot(parseArgs(['--mode',mode,'--minutes','.2','--speed','1000','--seed','20261106','--output','outputs/bot/test-'+mode+'.json']));
-  assert.equal(report.status,'duration-reached');assert.ok(report.result.time>=11.99);assert.ok(report.result.kills>0);assert.ok(report.result.shots>0);assert.equal(report.errors.length,0);assert.ok(report.result.distance>0);assert.equal(report.viable,null);
+  if(['smart','dumb'].includes(mode)){assert.equal(report.status,'duration-reached');assert.ok(report.result.time>=11.99);assert.ok(report.result.kills>0);}else assert.ok(['duration-reached','player-death'].includes(report.status));if(mode==='flee'){assert.equal(report.result.shots,0);assert.equal(report.result.kills,0);}else assert.ok(report.result.shots>0);assert.ok(report.telemetry.totals.seconds>0);assert.equal(report.telemetry.droppedByKind.offer,0);assert.equal(report.errors.length,0);assert.ok(report.result.distance>0);assert.equal(report.viable,null);
  }
- console.log('Browser bot: CLI guards, shared strategy, two isolated modes, natural combat/movement, terminal reports and no runtime errors passed.');
+ console.log('Browser bot: CLI guards, shared strategy, four isolated input profiles, natural combat/movement, terminal reports and no runtime errors passed.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

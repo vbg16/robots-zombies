@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 56 · desenvolvimento
+# Screwvivors — BUILD 57 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -114,3 +114,5 @@ BUILD54: bot avalia o risco imediato antes de buscar baús, preserva a busca de 
 BUILD55: avisos laterais, números de dano agrupados por alvo/fonte e crítico destacado. HUD compacto para celular na horizontal. Garagem e Configuração abrem no topo com foco no título. Correções revisadas pelos chats do projeto. [Leitura do combate e limites](docs/feedback-combate.md).
 
 BUILD56: controles de toque para celular na horizontal, com movimento e mira independentes, recarga e propulsor adquirido. Rotação pausa sem retomar sozinha. [Regras e escopo dos testes](docs/controles-touch.md).
+
+BUILD57: consultas de descarga reaproveitam geometria sem mudar poder/efeitos/RNG. Testador registra XP, alternativas e rotas e compara quatro perfis de entrada. [Medição e limites](docs/telemetria-e-balanceamento.md).

@@ -1,0 +1,41 @@
+{
+  "at": "2026-11-07T12:21:55.504Z",
+  "build": 57,
+  "sourceHashes": {
+    "game.js": "2a56f4b0dc388befc686d287d0c3ac00771a8ec00d824c5720414394246c16ef",
+    "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+    "builds.js": "e366c833d759277af03997326492285549c66754c85b8e24f537f72c7c9d36d8",
+    "index.html": "4ba964da23ab2320352d544a2c24892796253fe732b57f1d0c67783b54c4f86a",
+    "tools/run-telemetry.js": "52e2f1f089f57a96489bdaa377984c14703a41105fe5dc86b6633c7206605123",
+    "tools/run-observer.js": "afd771fae223e8834f755de686ce0b0dcfc7410c4dd7d942a899dc9f9c778e82",
+    "tools/bot-pilot.js": "b855b7471ed6986c7701d0436cf0d7c2bfef18c233b147f3721b4c1505e0c31d",
+    "tools/playtest-bot.cjs": "a3535e8291909d409096d46136cd69e4d712c4f9dfc1857f5643d30136194394",
+    "tests/builds-balance.cjs": "0053704017afb834c9e57571be5e636e6ece30367167fad06adc2f82a9c39eb7",
+    "tests/nearest-cache.cjs": "5a7a430b4534133ec67e8552dd048c32c42518c4ccc17d4da8d1757fc99f761c",
+    "tests/bot-pilot.cjs": "d6daf448b24d0af66688cad35bdf9e6df9dec31e9cd1742358f66dc1eaa8f697",
+    "tests/run-observer-equivalence.cjs": "980c5909dd0f72673616c304c8c2187f955042d486cfb149042b755f7d47f373",
+    "tests/shotgun-guide.cjs": "3e448167584e8c3466e822bf4b3c7acbdf08377f056b6f8f1c4cb402eb7e858f"
+  },
+  "checks": {
+    "release": "passed",
+    "collector": "passed",
+    "observer": "12worlds/76checkpoints,returns/save/nextRNG",
+    "pilot": "3x180s published driver13 smart equivalence plus limited/flee input contracts",
+    "nearest": "12worlds/108checkpoints and18full-scan scenarios",
+    "combat": "25minute controlled suite passed",
+    "gameplayEquivalence": "32worlds/416checkpoints passed",
+    "browserBot": "4input profiles,12s isolated contexts, no runtime errors",
+    "touch": "3emulated viewports passed",
+    "shotgun": "controlled280px boss plus5natural1200s attempts"
+  },
+  "naturalStudy": {
+    "latestCanonical": "29of30 meet1200s+3boss; failure retained",
+    "extraShotgunHoldouts": "2of2 passed",
+    "inputProfiles": "36attempts,3recipes/3seeds/4profiles; partly overlaps canonical matrix"
+  },
+  "limitations": [
+    "Not human balance approval, real mobile GPU/FPS or physical-touch comfort.",
+    "Extreme synthetic400bullet state remains costly; no claim it is solved.",
+    "Raw source byte hashes may differ in Git ZIP due newline conversion; test extracted archive and compare normalized text."
+  ]
+}

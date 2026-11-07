@@ -9,11 +9,19 @@ const builds=recipeSource?JSON.parse(recipeSource):require('../builds.js').build
 const duration=Number(process.env.BUILD_DURATION||1200);
 const seeds=(process.env.BUILD_SEEDS||'20261102').split(',').map(Number);
 const only=process.env.BUILD_ONLY;
+const selectedBuilds=new Set((process.env.BUILD_SELECT||'').split(',').filter(Boolean));
+for(const id of selectedBuilds)assert.ok(builds.some(b=>b.id===id),'Unknown selected build: '+id);
+const included=b=>(!only||b.id===only)&&(!selectedBuilds.size||selectedBuilds.has(b.id));
 const excludedCases=new Set((process.env.BUILD_EXCLUDE_CASES||'').split(',').filter(Boolean));
 const benchOnly=process.argv.includes('--bench-only');
 const realOnly=process.argv.includes('--real-only');
 const useRefits=process.env.BUILD_REFITS==='1';
 const dt=.05;
+const pilotMode=process.env.BUILD_PILOT||'smart';
+assert.ok(['smart','dumb','limited','flee'].includes(pilotMode),'Unsupported pilot');
+const pilotSource=fs.readFileSync('tools/bot-pilot.js','utf8');
+const telemetryEnabled=process.env.BUILD_TELEMETRY==='1';
+const observerSource=telemetryEnabled?['tools/run-telemetry.js','tools/run-observer.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'):null;
 const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
 const driverVersion=13; // Safe loot routing; legacy mode remains available for controlled comparison.
 const chestPolicy=process.env.BUILD_CHEST_POLICY||'safe';
@@ -26,7 +34,7 @@ function harness(seed){
  setup=setup.replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage');
  setup=setup.replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","window.localStorage=localStorage;vm.runInContext("+JSON.stringify(frozenSources['balance.js'])+",context);vm.runInContext("+JSON.stringify(frozenSources['game.js'])+",context);");
  const h=new Function('require',setup+';return {context,run:s=>vm.runInContext(s,context)};')(require);
- h.context.qaSeed=seed>>>0;h.context.qaUseRefits=useRefits;h.context.qaChestPolicy=chestPolicy;
+ h.context.qaSeed=seed>>>0;h.context.qaPilotSeed=seed>>>0;h.context.qaPilotMode=pilotMode;h.context.qaUseRefits=useRefits;h.context.qaChestPolicy=chestPolicy;
  h.run(`Math.random=()=>{qaSeed=(Math.imul(qaSeed,1664525)+1013904223)>>>0;return qaSeed/4294967296};
  profile=emptyProfile();profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));saveProfile();
  globalThis.qa={damage:{},received:0,receivedBySource:{},healing:0,bosses:[],choices:[],maxEnemies:0,maxBullets:0,maxHostile:0,controlEnemySeconds:0,distance:0};
@@ -99,20 +107,21 @@ function synthetic(b,stage,group,bossTarget=false){
 const simulation=String.raw`
 globalThis.qaDecision=0;globalThis.qaChoices=0;globalThis.qaFinite=true;globalThis.qaLast={x:player.x,y:player.y};globalThis.qaCenter={x:player.x,y:player.y};globalThis.qaTarget=null;globalThis.qaChestIds=new Set();qa.chestsSeen=0;qa.chestsCollected=0;
 globalThis.qaFireWeapon=fireWeapon;fireWeapon=function(slot){if(qaTarget?.hp>0)aim={x:qaTarget.x-camera.x,y:qaTarget.y-camera.y,active:true};return qaFireWeapon(slot);};
+function qaExplain(reason,chosen=null){if(typeof qaObserver!=='undefined')qaObserver.record('decision',{type:'choice-policy',kind:state,level,version:offerVersion,reason,chosen});}
 function qaChoose(){
  let options=[],want=[],choose=null;
  if(state==='upgrade'||state==='reward'){
   options=offeredSkills;want=qaBuild.skills;
   const wanted=want.find(id=>options.some(s=>s.id===id));
-  if(!wanted&&state==='upgrade'&&rerollsRemaining>0&&want.some(id=>SKILLS.some(s=>s.id===id&&s.available()))){rerollUpgrade(offerVersion);options=offeredSkills;}
+  if(!wanted&&state==='upgrade'&&rerollsRemaining>0&&want.some(id=>SKILLS.some(s=>s.id===id&&s.available()))){qaExplain('reroll-no-recipe-option');rerollUpgrade(offerVersion);options=offeredSkills;}
   choose=want.map(id=>options.find(s=>s.id===id)).find(Boolean)||['magnet','dash','damage','rate','freeze','burn','xp','repair','grace','salvage','drones'].map(id=>options.find(s=>s.id===id)).find(Boolean);
-  if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSkill(choose.id,offerVersion);}
-  else {const skip=el('choices').children.at(-1);skip?.onclick?.();}
- }else if(state==='blessing'){options=offeredBlessings;choose=qaBuild.blessings.map(id=>options.find(s=>s.id===id)).find(Boolean)||options[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseBlessing(choose.id,offerVersion);}}
- else if(state==='experiment'){options=offeredExperiments;choose=qaBuild.experiments.map(id=>options.find(s=>s.id===id)).find(Boolean);if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseExperiment(choose.id,offerVersion);}else declineExperiment(offerVersion);}
- else if(state==='evolution'){const id=qaUseRefits?(evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id):'declined';qa.choices.push({at:clock,level,kind:state,id,slot:evolutionSlotIndex});if(qaUseRefits)chooseWeaponEvolution(id,offerVersion);else declineWeaponEvolution(offerVersion);}
- else if(state==='specialization'){choose=offeredSpecializations.find(s=>s.id===qaBuild.specialization)||offeredSpecializations[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSpecialization(choose.id,offerVersion);}}
- else if(state==='relic'){choose=offeredRelics[0];if(choose){qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseRelic(choose.id,offerVersion);}else declineRelic(offerVersion);}
+  if(choose){qaExplain(want.includes(choose.id)?'recipe-priority':'fallback-priority',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSkill(choose.id,offerVersion);}
+  else {qaExplain('no-ranked-option-use-existing-last-action');const skip=el('choices').children.at(-1);skip?.onclick?.();}
+ }else if(state==='blessing'){options=offeredBlessings;choose=qaBuild.blessings.map(id=>options.find(s=>s.id===id)).find(Boolean)||options[0];if(choose){qaExplain(qaBuild.blessings.includes(choose.id)?'recipe-priority':'first-offered',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseBlessing(choose.id,offerVersion);}}
+ else if(state==='experiment'){options=offeredExperiments;choose=qaBuild.experiments.map(id=>options.find(s=>s.id===id)).find(Boolean);if(choose){qaExplain('recipe-priority',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseExperiment(choose.id,offerVersion);}else {qaExplain('decline-not-in-recipe');declineExperiment(offerVersion);}}
+ else if(state==='evolution'){const id=qaUseRefits?(evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id):'declined';qaExplain(qaUseRefits?'recipe-refit':'refits-disabled',id);qa.choices.push({at:clock,level,kind:state,id,slot:evolutionSlotIndex});if(qaUseRefits)chooseWeaponEvolution(id,offerVersion);else declineWeaponEvolution(offerVersion);}
+ else if(state==='specialization'){choose=offeredSpecializations.find(s=>s.id===qaBuild.specialization)||offeredSpecializations[0];if(choose){qaExplain(choose.id===qaBuild.specialization?'recipe-priority':'first-offered',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSpecialization(choose.id,offerVersion);}}
+ else if(state==='relic'){choose=offeredRelics[0];if(choose){qaExplain('first-offered-driver13',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseRelic(choose.id,offerVersion);}else declineRelic(offerVersion);}
 }
 function qaDrive(){
  const pool=targets().filter(z=>z.hp>0);
@@ -146,10 +155,12 @@ function qaDrive(){
  }
  keys.clear();if(bestX>.3)keys.add('d');if(bestX<-.3)keys.add('a');if(bestY>.3)keys.add('s');if(bestY<-.3)keys.add('w');
  if(threat[0]?.d<85&&player.skills.dash&&player.dashCooldown<=0)activateDash();
+ if(typeof qaObserver!=='undefined'&&(typeof qaLastRouteTime==='undefined'||clock-qaLastRouteTime>=1)){globalThis.qaLastRouteTime=clock;qaObserver.record('decision',{type:'route',reason:qaChestTarget?'eligible-chest':xpTarget?'nearby-xp':target?'enemy-orbit':'idle-orbit',chestRejected:typeof bossChests!=='undefined'&&bossChests.length>0&&!qaChestTarget,hpFraction:player.hp/player.maxHp,looseOrbs:gems.length,nearestEnemyDistance:nearest[0]?.d??null,bossDistance:boss?.hp>0?Math.hypot(boss.x-player.x,boss.y-player.y):null,estimatedPrimaryRange:weaponRange,targetPosition:xpTarget?{x:xpTarget.x,y:xpTarget.y}:target?{x:target.x,y:target.y}:null,policySuggestedMove:{x:bestX,y:bestY}});}
 }
+globalThis.qaPilot=typeof ScrewBotPilot==='undefined'?null:ScrewBotPilot.create(qaPilotMode,{seed:qaPilotSeed});
 for(let step=0;step<Math.ceil(qaDuration/.05)&&state!=='over';){
  if(state!=='playing'){qaChoose();if(++qaChoices>10000)throw Error('Progression choice did not resolve');continue;}
- qaChoices=0;if(step%4===0)qaDrive();
+ qaChoices=0;if(step%4===0){if(qaPilot)qaPilot.drive();else qaDrive();}if(qaPilot)qaPilot.beforeTick();
  const chestIds=typeof bossChests!=='undefined'?bossChests.map(c=>c.id):[];
  tick(.05);step++;
  if(typeof bossChests!=='undefined'){for(const c of bossChests)if(!qaChestIds.has(c.id)){qaChestIds.add(c.id);qa.chestsSeen++;}if(state!=='over')qa.chestsCollected+=chestIds.filter(id=>!bossChests.some(c=>c.id===id)).length;}
@@ -160,18 +171,18 @@ for(let step=0;step<Math.ceil(qaDuration/.05)&&state!=='over';){
 }
 globalThis.qaResult={weapons:weaponSlots.map(s=>({weapon:s.weapon.id,evolution:s.weaponEvolution?.id||null,ammo:s.ammo,reload:s.reloadTime,damage:s.damage,rate:s.rate})),weaponEvolution:player.weaponEvolution?.id||null,time:clock,state,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,coreReached:qaBuild.core.every(id=>player.acquired.has(id)),recipeReached:qaBuild.skills.every(id=>player.acquired.has(id)),acquired:[...player.acquired],finite:qaFinite,...qa};
 `;
-function realAttempt(b,seed){const h=harness(seed);equip(h,b);h.context.qaDuration=duration;h.run(simulation);return {build:b.id,seed,...read(h,'qaResult')};}
+function realAttempt(b,seed){const h=harness(seed);equip(h,b);h.context.qaDuration=duration;if(observerSource)h.run(observerSource+'\nglobalThis.qaObserver=ScrewRunObserver.install({maxEvents:5000});');h.run(pilotSource);h.run(simulation);const result={build:b.id,seed,...read(h,'qaResult')};if(telemetryEnabled)result.telemetry=read(h,'qaObserver.finish()');return result;}
 
 const file=process.env.BUILD_REPORT||'docs/builds-results.json';
 let history=[];try{history=JSON.parse(fs.readFileSync(file,'utf8')).executions||[];}catch{}
 const release=JSON.parse(fs.readFileSync('version.json','utf8'));
-const execution={at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,chestPolicy,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),harnessDriverHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
+const execution={selectedBuilds:[...selectedBuilds],pilotMode,pilotHash:crypto.createHash('sha256').update(pilotSource).digest('hex'),telemetryEnabled,observerHash:observerSource?crypto.createHash('sha256').update(observerSource).digest('hex'):null,at:new Date().toISOString(),version:release,gameplayRevision:process.env.BUILD_REVISION||('build'+release.build+'-refits'),recipeOverride:recipeSource?{file:recipeFile,sha256:crypto.createHash('sha256').update(recipeSource).digest('hex')}:null,refitsEnabled:useRefits,excludedCases:[...excludedCases],sourceHashes:Object.fromEntries(Object.entries(frozenSources).map(([file,source])=>[file,crypto.createHash('sha256').update(source).digest('hex')])),recipes:builds,policy,driverVersion,chestPolicy,driverHash:crypto.createHash('sha256').update(simulation).digest('hex'),harnessDriverHash:crypto.createHash('sha256').update(fs.readFileSync(__filename)).digest('hex'),bootstrapHash:crypto.createHash('sha256').update(frozenBootstrap).digest('hex'),dt,duration,seeds,structure:null,synthetic:[],attempts:[],errors:[]};
 history.push(execution);
 function persist(){fs.writeFileSync(file,JSON.stringify({note:'All recorded executions retained, including failures. Synthetic fixtures do not represent earned progression.',executions:history},null,2)+'\n');}
 try{
  execution.structure=structure();execution.components=components();persist();
- if(!realOnly)for(const b of builds.filter(b=>!only||b.id===only)){for(const stage of ['base','core','mature'])for(const group of [false,true])execution.synthetic.push({build:b.id,...synthetic(b,stage,group)});execution.synthetic.push({build:b.id,...synthetic(b,'mature',false,true)});console.log('SYNTHETIC',b.id);persist();}
- if(!benchOnly)for(const b of builds.filter(b=>!only||b.id===only))for(const seed of seeds){if(excludedCases.has(b.id+':'+seed))continue;const result=realAttempt(b,seed);execution.attempts.push({...result,survivedWindow:result.time>=duration-.1,viable:duration>=1200?result.time>=duration-.1&&result.bossKills>=3:null});persist();console.log('REAL',b.id,seed,Math.round(result.time),result.state,'bosses',result.bossKills,'level',result.level,'core',result.coreReached);}
+ if(!realOnly)for(const b of builds.filter(included)){for(const stage of ['base','core','mature'])for(const group of [false,true])execution.synthetic.push({build:b.id,...synthetic(b,stage,group)});execution.synthetic.push({build:b.id,...synthetic(b,'mature',false,true)});console.log('SYNTHETIC',b.id);persist();}
+ if(!benchOnly)for(const b of builds.filter(included))for(const seed of seeds){if(excludedCases.has(b.id+':'+seed))continue;const result=realAttempt(b,seed);execution.attempts.push({...result,survivedWindow:result.time>=duration-.1,viable:duration>=1200?result.time>=duration-.1&&result.bossKills>=3:null});persist();console.log('REAL',b.id,seed,Math.round(result.time),result.state,'bosses',result.bossKills,'level',result.level,'core',result.coreReached);}
  execution.completed=true;persist();
 }catch(error){execution.errors.push({message:error.message,stack:error.stack});persist();throw error;}
 console.log('Results:',file,duration>=1200?'real viability':'survival window (full viability not assessed)',execution.attempts.filter(r=>duration>=1200?r.viable:r.survivedWindow).length+'/'+execution.attempts.length);

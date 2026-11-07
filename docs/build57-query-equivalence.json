@@ -1,0 +1,8 @@
+{
+  "baseline": "812b5e2e04858091f732a4842e3cb9c0917f3184",
+  "baselineQueryHash": "d8f87713d3746471977a1fdb3b65e84453e439c8dc22e84a83d904fdd9b50254",
+  "candidateHash": "2a56f4b0dc388befc686d287d0c3ac00771a8ec00d824c5720414394246c16ef",
+  "worlds": 12,
+  "checkpoints": 108,
+  "scope": "Stable target order, count changes, deaths, indexed movement, radius changes and complete post-tick gameplay/effects/RNG; cache internals intentionally excluded."
+}

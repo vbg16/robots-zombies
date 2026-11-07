@@ -1,0 +1,43 @@
+{
+  "scope": "Published BUILD56 driver13 vs current smart plus observer, same current physics/seed and inputs; limited/flee input contracts are synthetic perturbations, not human accuracy claims.",
+  "baseline": "812b5e2e04858091f732a4842e3cb9c0917f3184",
+  "baselineHash": "edc56099a70be6788ea74325677a69193d4ab0f1904f3b3bb6ae33332b09d4d9",
+  "candidatePolicyHash": "c3a8635bac7d38ec1b970fea1ecb7369278698bd36922acfd21f3524eaa41721",
+  "pilotHash": "b855b7471ed6986c7701d0436cf0d7c2bfef18c233b147f3721b4c1505e0c31d",
+  "results": [
+    {
+      "build": "tempestade-balistica",
+      "checkpoints": 31,
+      "final": {
+        "time": 180.00000000000668,
+        "state": "playing",
+        "level": 16,
+        "kills": 600,
+        "bossKills": 1
+      }
+    },
+    {
+      "build": "lanca-de-fuga",
+      "checkpoints": 31,
+      "final": {
+        "time": 180.00000000000668,
+        "state": "playing",
+        "level": 9,
+        "kills": 175,
+        "bossKills": 1
+      }
+    },
+    {
+      "build": "oficina-viva",
+      "checkpoints": 31,
+      "final": {
+        "time": 180.00000000000668,
+        "state": "playing",
+        "level": 13,
+        "kills": 310,
+        "bossKills": 1
+      }
+    }
+  ],
+  "limitedAndFleeContracts": true
+}

@@ -863,8 +863,8 @@ function hurtPlayer(amount,sourceX,sourceY,source='contact'){
 }
 function targets(){return boss&&boss.hp>0?[...enemies,boss]:enemies;}
 let collisionGrid=null;
-function indexTarget(z){if(!collisionGrid)return;const key=Math.floor(z.x/128)+','+Math.floor(z.y/128);if(!collisionGrid.cells.has(key))collisionGrid.cells.set(key,new Set());collisionGrid.cells.get(key).add(z);collisionGrid.radius=Math.max(collisionGrid.radius,z.r||0);}
-function buildCollisionGrid(){const list=targets();collisionGrid={cells:new Map(),radius:0,list,rank:new Map(list.map((z,i)=>[z,i]))};for(const z of list)if(z.hp>0)indexTarget(z);}
+function indexTarget(z){if(!collisionGrid)return;collisionGrid.motionVersion++;const key=Math.floor(z.x/128)+','+Math.floor(z.y/128);if(!collisionGrid.cells.has(key))collisionGrid.cells.set(key,new Set());collisionGrid.cells.get(key).add(z);collisionGrid.radius=Math.max(collisionGrid.radius,z.r||0);}
+function buildCollisionGrid(){const list=targets();collisionGrid={cells:new Map(),radius:0,list,motionVersion:0,nearestCache:new WeakMap(),rank:new Map(list.map((z,i)=>[z,i]))};for(const z of list)if(z.hp>0)indexTarget(z);}
 // Valid only during the projectile phase. Movement invalidates and clears this index.
 function radiusTargets(x,y,radius,body=false,exclude=null){
  let pool;
@@ -876,7 +876,19 @@ function radiusTargets(x,y,radius,body=false,exclude=null){
  return pool.filter(z=>z!==exclude&&z.hp>0&&Math.hypot(z.x-x,z.y-y)<=radius+(body?z.r:0));
 }
 function bulletCandidates(ax,ay,bx,by,r){const result=new Set(),pad=r+collisionGrid.radius;for(let x=Math.floor((Math.min(ax,bx)-pad)/128);x<=Math.floor((Math.max(ax,bx)+pad)/128);x++)for(let y=Math.floor((Math.min(ay,by)-pad)/128);y<=Math.floor((Math.max(ay,by)+pad)/128);y++)for(const z of collisionGrid.cells.get(x+','+y)||[])result.add(z);return [...result];}
+// Cache geometry only, within one projectile phase. Liveness is checked on every use.
 function nearestTargets(x,y,radius,count,exclude=null){
+ const grid=collisionGrid,n=Math.floor(count);
+ if(!grid||!exclude||typeof exclude!=='object'||!(n>0)||n>32||!Number.isFinite(x)||!Number.isFinite(y)||!Number.isFinite(radius)||radius<0)return uncachedNearestTargets(x,y,radius,count,exclude);
+ let entry=grid.nearestCache.get(exclude);
+ if(!entry||entry.x!==x||entry.y!==y||entry.radius!==radius||entry.version!==grid.motionVersion){
+  grid.nearestCache.set(exclude,{x,y,radius,version:grid.motionVersion,list:null});
+  return uncachedNearestTargets(x,y,radius,count,exclude);
+ }
+ if(!entry.list)entry.list=grid.list.map((t,rank)=>({t,rank,d:Math.hypot(t.x-x,t.y-y)})).filter(e=>e.t!==exclude&&e.d<=radius).sort((a,b)=>a.d-b.d||a.rank-b.rank).map(e=>e.t);
+ const result=[];for(const t of entry.list)if(t.hp>0){result.push(t);if(result.length>=n)break;}return result;
+}
+function uncachedNearestTargets(x,y,radius,count,exclude=null){
  count=Math.floor(count);if(!(count>0))return [];
  const grid=collisionGrid,left=Math.floor((x-radius)/128),right=Math.floor((x+radius)/128),top=Math.floor((y-radius)/128),bottom=Math.floor((y+radius)/128);
  const linear=()=>targets().filter(t=>t!==exclude&&t.hp>0&&Math.hypot(t.x-x,t.y-y)<=radius).map((t,rank)=>({t,rank,d:Math.hypot(t.x-x,t.y-y)})).sort((a,b)=>a.d-b.d||a.rank-b.rank).slice(0,count).map(entry=>entry.t);

@@ -4,12 +4,12 @@ const root=path.resolve(__dirname,'..');
 function parseArgs(args){
  const options={mode:'smart',minutes:20,seed:20261106,build:'tempestade-balistica',headed:false,speed:null,output:null};
  for(let i=0;i<args.length;i++){
-  const key=args[i];if(key==='--headed'){options.headed=true;continue;}if(key==='--help'){options.help=true;continue;}
+  const key=args[i];if(key==='--no-telemetry'){options.telemetry=false;continue;}if(key==='--headed'){options.headed=true;continue;}if(key==='--help'){options.help=true;continue;}
   const names={'--mode':'mode','--minutes':'minutes','--seed':'seed','--build':'build','--speed':'speed','--output':'output'};
   if(!names[key]||args[i+1]===undefined)throw Error('Opção inválida: '+key);options[names[key]]=args[++i];
  }
- options.mode=({inteligente:'smart',simples:'dumb',burro:'dumb',fuga:'dumb'})[options.mode]||options.mode;
- if(!['smart','dumb'].includes(options.mode))throw Error('Modo deve ser smart/inteligente ou dumb/simples.');
+ options.mode=({inteligente:'smart',simples:'dumb',burro:'dumb',fuga:'dumb',limitado:'limited','sem-tiro':'flee'})[options.mode]||options.mode;
+ if(!['smart','dumb','limited','flee'].includes(options.mode))throw Error('Modo deve ser smart, dumb, limited ou flee.');
  options.minutes=Number(options.minutes);options.seed=Number(options.seed);options.speed=options.speed===null?(options.headed?1:20):Number(options.speed);
  if(!Number.isFinite(options.minutes)||options.minutes<=0||options.minutes>180)throw Error('Minutos devem estar entre 0 e 180.');
  if(!Number.isInteger(options.seed)||options.seed<0||options.seed>4294967295)throw Error('Semente deve ser um inteiro de 0 a 4294967295.');
@@ -34,8 +34,10 @@ async function runBot(options){
  if(!recipe)throw Error('Build desconhecida. Opções: '+recipes.map(b=>b.id).join(', '));
  const stamp=new Date().toISOString().replace(/[:.]/g,'-'),base=path.resolve(root,options.output||`outputs/bot/${stamp}-${options.mode}-${recipe.id}.json`);
  fs.mkdirSync(path.dirname(base),{recursive:true});
+ const pilotSource=fs.readFileSync(path.join(__dirname,'bot-pilot.js'),'utf8');
+ const observerSource=options.telemetry===false?null:['run-telemetry.js','run-observer.js'].map(f=>fs.readFileSync(path.join(__dirname,f),'utf8')).join('\n');
  const policy=policySource(),hash=s=>crypto.createHash('sha256').update(s).digest('hex');
- const report={startedAt:new Date().toISOString(),status:'starting',options:{...options},recipe,version:JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')),driver:'browser-bot-v1 / shared driver13 movement and offers',policyHash:hash(policy),sourceHashes:Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,hash(fs.readFileSync(path.join(root,file)))])),fixture:'Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.',errors:[],result:null};
+ const report={startedAt:new Date().toISOString(),status:'starting',options:{...options},recipe,version:JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')),driver:'browser-bot-v2 / driver13 base and explicit input profile',policyHash:hash(policy),pilotHash:hash(pilotSource),telemetryEnabled:!!observerSource,observerHash:observerSource?hash(observerSource):null,sourceHashes:Object.fromEntries(['game.js','balance.js','builds.js'].map(file=>[file,hash(fs.readFileSync(path.join(root,file)))])),fixture:'Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.',errors:[],result:null};
  const save=()=>fs.writeFileSync(base,JSON.stringify(report,null,2)+'\n');save();
  let browser,page;
  try{
@@ -45,7 +47,7 @@ async function runBot(options){
   page.on('pageerror',e=>report.errors.push({kind:'pageerror',message:e.message}));
   await page.addInitScript(()=>{window.requestAnimationFrame=()=>0;});
   await page.goto(pathToFileURL(path.join(root,'index.html')).href);await page.waitForFunction(()=>window.ScrewBalance&&typeof tick==='function');
-  await page.evaluate(({recipe,options,policy})=>{
+  await page.evaluate(({recipe,options,policy,observerSource,pilotSource})=>{
    globalThis.qaSeed=options.seed>>>0;Math.random=()=>{qaSeed=(Math.imul(qaSeed,1664525)+1013904223)>>>0;return qaSeed/4294967296;};
    profile=emptyProfile();profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));saveProfile();
    selectedRobot=recipe.robot;selectedWeapon=recipe.weapon;selectedAuxWeapons=[];reset();
@@ -56,11 +58,14 @@ async function runBot(options){
    globalThis.qaHurt=hurtPlayer;hurtPlayer=function(...args){const before=player.hp;const result=qaHurt(...args);const loss=Math.max(0,before-player.hp),source=args[3]||'contact-or-projectile';qa.received+=loss;qa.receivedBySource[source]=(qa.receivedBySource[source]||0)+loss;return result;};
    globalThis.qaHeal=healPlayer;healPlayer=function(...args){const before=player.hp,result=qaHeal(...args);qa.healing+=Math.max(0,player.hp-before);return result;};
    globalThis.qaFireCount=fireWeapon;fireWeapon=function(slot){const result=qaFireCount(slot);if(result)qa.shots++;return result;};
+   if(observerSource){(0,eval)(observerSource);globalThis.qaObserver=ScrewRunObserver.install({maxEvents:5000});}
+   (0,eval)(pilotSource);globalThis.qaPilotMode=options.mode;globalThis.qaPilotSeed=options.seed;
    (0,eval)(policy);
    globalThis.qaStop=false;globalThis.qaSteps=0;globalThis.qaOfferSteps=0;globalThis.qaLastMinute=-1;
    const panel=document.createElement('aside');panel.id='bot-test-panel';panel.style.cssText='position:fixed;bottom:12px;left:12px;z-index:99999;max-width:300px;background:#071725ed;border:1px solid #71d7f2;color:#d6f6ff;padding:10px;font:12px monospace;pointer-events:auto';
-   const label=document.createElement('strong');label.textContent='BOT '+(qaMode==='smart'?'INTELIGENTE':'SIMPLES')+' · TESTE ISOLADO';const status=document.createElement('div');status.id='bot-test-status';const stop=document.createElement('button');stop.textContent='ENCERRAR TESTE';stop.onclick=()=>{qaStop=true;};panel.append(label,status,stop);document.body.append(panel);
-  },{recipe,options,policy});
+   const label=document.createElement('strong');label.textContent='BOT '+({smart:'INTELIGENTE',dumb:'FUGA COM TIRO',limited:'REAÇÃO LIMITADA',flee:'FUGA SEM TIRO'}[qaMode])+' · TESTE ISOLADO';const status=document.createElement('div');status.id='bot-test-status';const stop=document.createElement('button');stop.textContent='ENCERRAR TESTE';stop.onclick=()=>{qaStop=true;};panel.append(label,status,stop);document.body.append(panel);
+  },{recipe,options,policy,observerSource,pilotSource});
+  report.pilot=await page.evaluate(()=>qaPilot.describe());
   report.status='running';save();
   const totalSteps=Math.ceil(options.minutes*60/.05),batch=options.headed?Math.max(1,Math.min(20,Math.floor(options.speed))):Math.min(400,Math.max(20,Math.floor(options.speed*4)));
   let latest=null,lastSaved=-Infinity;
@@ -70,12 +75,9 @@ async function runBot(options){
      if(state!=='playing'){qaChoose();if(++qaOfferSteps>100)throw Error('Bot não conseguiu resolver a oferta: '+state);continue;}
      qaOfferSteps=0;
      if(qaSteps%4===0){
-      qaDrive();
-      if(qaMode==='dumb'){
-       const nearest=targets().filter(z=>z.hp>0).sort((a,b)=>Math.hypot(a.x-player.x,a.y-player.y)-Math.hypot(b.x-player.x,b.y-player.y))[0];
-       keys.clear();if(nearest){const dx=player.x-nearest.x,dy=player.y-nearest.y;keys.add(Math.abs(dx)>Math.abs(dy)?dx>=0?'d':'a':dy>=0?'s':'w');}else keys.add('d');
-      }
+      qaPilot.drive();
      }
+     qaPilot.beforeTick();
      const chestIds=typeof bossChests!=='undefined'?bossChests.map(c=>c.id):[];
      tick(.05);qaSteps++;i++;qa.distance+=Math.hypot(player.x-qaLast.x,player.y-qaLast.y);qaLast={x:player.x,y:player.y};
      if(typeof bossChests!=='undefined'){for(const c of bossChests)if(!qaChestIds.has(c.id)){qaChestIds.add(c.id);qa.chestsSeen++;}if(state!=='over')qa.chestsCollected+=chestIds.filter(id=>!bossChests.some(c=>c.id===id)).length;}
@@ -86,7 +88,7 @@ async function runBot(options){
     window.ScrewAudio?.setScene(null);updateHUD();draw();document.querySelector('#bot-test-status').textContent=Math.floor(clock/60)+':'+String(Math.floor(clock%60)).padStart(2,'0')+' · LV '+level+' · '+kills+' ABATES · '+bossKills+' CHEFES';
     return {done:qaStop||qaSteps>=totalSteps||state==='over',stop:qaStop,time:clock,state,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,coreReached:qaBuild.core.every(id=>player.acquired.has(id)),recipeReached:qaBuild.skills.every(id=>player.acquired.has(id)),acquired:[...player.acquired],...qa};
    },{batch,totalSteps});
-   report.result=latest;if(latest.done||latest.time-lastSaved>=5){save();lastSaved=latest.time;}if(latest.done)break;
+   report.result=latest;if(latest.done||latest.time-lastSaved>=5){if(observerSource)report.telemetry=await page.evaluate(()=>qaObserver.finish());save();lastSaved=latest.time;}if(latest.done)break;
    const targetMs=batch*.05*1000/options.speed,delay=Math.max(0,targetMs-(Date.now()-began));if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
   }
   report.status=latest.stop?'user-stop':latest.state==='over'?'player-death':'duration-reached';
@@ -97,5 +99,5 @@ async function runBot(options){
  console.log(`BOT ${options.mode}: ${report.status}, ${Math.round(report.result.time)}s, ${report.result.kills} abates, ${report.result.bossKills} chefes.`);
  return report;
 }
-if(require.main===module){let options;try{options=parseArgs(process.argv.slice(2));if(options.help){console.log('node tools/playtest-bot.cjs [--headed] [--mode smart|dumb] [--minutes 20] [--seed 20261106] [--build tempestade-balistica] [--speed 1] [--output outputs/bot/teste.json]');}else runBot(options).catch(e=>{console.error(e.message);process.exitCode=1;});}catch(error){console.error(error.message);process.exitCode=1;}}
+if(require.main===module){let options;try{options=parseArgs(process.argv.slice(2));if(options.help){console.log('node tools/playtest-bot.cjs [--headed] [--no-telemetry] [--mode smart|dumb|limited|flee] [--minutes 20] [--seed 20261106] [--build tempestade-balistica] [--speed 1] [--output outputs/bot/teste.json]');}else runBot(options).catch(e=>{console.error(e.message);process.exitCode=1;});}catch(error){console.error(error.message);process.exitCode=1;}}
 module.exports={parseArgs,policySource,runBot};

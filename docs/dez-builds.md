@@ -1,4 +1,4 @@
-# Dez projetos de build do Screwvivors — estado atual BUILD56
+# Dez projetos de build do Screwvivors — estado atual BUILD57
 
 Implementações originais para combinar chassi, arma, aprimoramentos, condição de ativação e uma forma de sobreviver. O catálogo jogável está em `builds.js`. No menu ou na garagem, abra **PROJETOS DE BUILD** para consultar as receitas e acompanhar a montagem durante a partida.
 
@@ -10,7 +10,7 @@ Implementações originais para combinar chassi, arma, aprimoramentos, condiçã
 |---|---|---|---|
 | Agulha Antititã | PROT + Canhão de precisão | Impacto, dano de chefe, perfuração e uma bateria extra ao vencer chefes | Recarga e pressão lateral |
 | Tempestade Balística | PROT + Emissor laser | Frequência, múltiplos projéteis e pulso de área no quinto impacto crítico | Consumo de munição e recarga |
-| Escopeta de Ricochetes | BAST + Escopeta | Pellets atravessam alvos e depois ricocheteiam; explosões ampliam cobertura | Dispersão e alcance curto |
+| Escopeta de Ricochetes | BAST + Escopeta | Pellets atravessam e ricocheteiam; Propulsão Balística compensa custos de alcance antes das explosões | Dispersão e alcance curto |
 | Caçador Criogênico | PROT + Lançador criogênico | Resfriar, perfurar e finalizar; mortes por bala em alvos já resfriados provocam fratura | Vida reduzida e necessidade de acertar a linha |
 | Forja Criogênica | FORJ + Lança-chamas | Queimadura, resfriamento e conversão térmica | Alcance e necessidade dos dois estados |
 | Rede de Plasma | VOLT + Carabina Tesla | Descargas, fogo e explosões distribuídas por grupos | Menor eficiência contra um alvo isolado |
@@ -77,3 +77,5 @@ A BUILD44 acrescenta [Sensores de campo](sensores-de-campo.md), sem modificar as
 ## Pool82 — BUILD49
 
 As dez receitas canônicas não mudaram nesta etapa. O catálogo cresceu com Rotores de Sucata, alterando a elegibilidade das ofertas; resultados anteriores não aprovam automaticamente este pool. build49-builds-bench.json registra70cenários controlados das receitas originais. O ensaio ENXA+criogênico+rotores é um override isolado, não uma substituição do guia Enxame de Sucata; suas duas mortes e parâmetros estão em rotores-de-sucata.md.
+
+BUILD57: a Escopeta troca a recomendação de raio ampliado por alcance, preservando pré-requisitos e o catálogo. A candidata passou em cinco tentativas naturais, incluindo duas sementes novas. [Matriz das dez receitas e falha preservada](telemetria-e-balanceamento.md).

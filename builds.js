@@ -27,11 +27,11 @@ const builds=[
  {
   id:'escopeta-ricochete',evolution:'shotgun-wideBore',name:'Escopeta de Ricochetes',robot:'bastion',weapon:'shotgun',
   summary:'Uma salva atravessa os primeiros inimigos e procura os que ficaram atrás.',
-  engine:'Pellets + perfuração + ricochete espalham os impactos; explosões ampliam a cobertura nas últimas peças.',
-  skills:['rate','extra','freeze','pierce','ricochet','damage','blast','blastRadius'],core:['rate','extra','freeze','pierce'],
+  engine:'Pellets, perfuração e ricochete espalham os impactos. Propulsão Balística compensa as perdas de alcance antes das peças finais de dano e explosão.',
+  skills:['rate','extra','freeze','pierce','range','ricochet','damage','blast'],core:['rate','extra','freeze','pierce'],
   blessings:['pulseCoil','triggerRegulator','spareBattery'],specialization:'magneticBrake',experiments:['unstableLens','blastCondenser'],
   strength:'Cobertura de grupos próximos e controle de várias linhas de aproximação.',
-  weakness:'Alcance curto, dispersão e custos acumulados de recarga.',
+  weakness:'Depende da Propulsão Balística para compensar o alcance perdido; mantém dispersão e recargas longas.',
   strategy:'Lute na borda dos grupos. Perfure primeiro; o ricochete só procura outro alvo depois de gastar a perfuração.',
   avoid:['Não use a receita com Disco de Retorno: ele não recebe ricochete.','Não confunda dano somado dos pellets com dano garantido em um alvo.'],tags:['Pellets','Ricochete','Área']
  },

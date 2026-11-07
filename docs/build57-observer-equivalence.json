@@ -1,0 +1,970 @@
+{
+  "at": "2026-11-07T11:52:59.701Z",
+  "scope": "12 controlled paired Node VM worlds; identical input/seed, complete serializable gameplay/effects/input/save state, function returns and next 16 RNG values at each checkpoint. Direct fixtures establish critical edges; not natural progression, balance, performance, hardware or DOM/pixel equivalence. Function wrapper identities, adapter-only collectors, WeakMap internals and DOM handles are intentionally outside state serialization.",
+  "sourceHashes": {
+    "game.js": "2a56f4b0dc388befc686d287d0c3ac00771a8ec00d824c5720414394246c16ef",
+    "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+    "tools/run-observer.js": "afd771fae223e8834f755de686ce0b0dcfc7410c4dd7d942a899dc9f9c778e82",
+    "tools/run-telemetry.js": "52e2f1f089f57a96489bdaa377984c14703a41105fe5dc86b6633c7206605123"
+  },
+  "testHash": "980c5909dd0f72673616c304c8c2187f955042d486cfb149042b755f7d47f373",
+  "cases": [
+    {
+      "name": "kill-then-pickup",
+      "seed": 20261107,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "1a1151597f5958a475338ae0811d8186e93c11d89b3dab68ff293d208638578f"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "20fc89fb1509a475b6153a8490fdf10789eb7c119056a0e9c5eaf1d63d7d8045"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "06a7b67e67ce09b5bd0c02128869e58970c23011701cd496af7c5a1b69f53353"
+        },
+        {
+          "label": "finished",
+          "stateHash": "758d003400236e387cf140b5627f4385ac7d32585250e06865b81e88c3a720f8"
+        },
+        {
+          "label": "restored",
+          "stateHash": "019193a170d0073ce6d00d033500cddbae8119dff5aa83c213dc1f001f322ee8"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        }
+      ],
+      "metrics": {
+        "seconds": 0.01,
+        "xpProduced": 1,
+        "xpCollected": 1,
+        "xpAwarded": 1,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 5
+            },
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": 100,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.01,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.01,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "same-tick-corrosion-kill-and-pickup",
+      "seed": 20261108,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "cf4b175ff56dd7c41d1d370e22c89c04e30fc38c019fb3bc1f8e001b5788eef1"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "7dba6f4faed61af01a464e075656a977de8f0da90838e66c71981e0125ab513c"
+        },
+        {
+          "label": "finished",
+          "stateHash": "818afae25e18a28460c30adaa76a9f186b55157ee100caf3bd9a58bd2183484b"
+        },
+        {
+          "label": "restored",
+          "stateHash": "9c318fb7d326f57eb9b3ac8d094ca5667d49e57950f2a2ac22308a64fdbc000f"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        }
+      ],
+      "metrics": {
+        "seconds": 0.01,
+        "xpProduced": 1,
+        "xpCollected": 1,
+        "xpAwarded": 1,
+        "damage": {
+          "dealt": {
+            "body": {
+              "corrosion": 5
+            },
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": 100,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.01,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.01,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "six-point-threshold-is-spent-not-collected",
+      "seed": 20261109,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "6942f369f7a4badfefc90bcdfe8525dfa0d3fec2941d751a43a5d42ea61a0c1b"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "a0f0a5659d7172020fc1c2db0eef41d2cd6be14c29ed148140e1e38cf4b91b0c"
+        },
+        {
+          "label": "finished",
+          "stateHash": "d830006efe268446d394ccb756987d8e17488d4bceafbfc8766bcce3ca8e2843"
+        },
+        {
+          "label": "restored",
+          "stateHash": "90558257fdded2fc4bf45381af69407fc6aaa07ffb43a255fd4b35a3b453ed1a"
+        }
+      ],
+      "returns": [
+        {
+          "type": "object",
+          "value": {
+            "level": 2,
+            "xp": 0,
+            "need": 8
+          }
+        }
+      ],
+      "metrics": {
+        "seconds": 0.01,
+        "xpProduced": 0,
+        "xpCollected": 1,
+        "xpAwarded": 1,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": 100,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.01,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.01,
+        "offers": 1,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 1,
+        "decision": 0
+      }
+    },
+    {
+      "name": "double-xp-base-orbs-vs-award",
+      "seed": 20261110,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "3f3d536ccea90d226cd83f30e97fbee7ce5babf40377208997f1e79e6cc3275e"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "6258c7ff9c7acd01daf3fb86ed40a1d5aec47a415b1ed74b9829fd3204240a80"
+        },
+        {
+          "label": "finished",
+          "stateHash": "435ba7d9b7a8c2fefd6a898e0cea8d60e16a3674178abca74bd38639a648b285"
+        },
+        {
+          "label": "restored",
+          "stateHash": "5a126e0048177debf9f6979c4fedf40b9e99e062dd6c07d6ecb19b6b8057cfd1"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        }
+      ],
+      "metrics": {
+        "seconds": 0.01,
+        "xpProduced": 0,
+        "xpCollected": 3,
+        "xpAwarded": 6,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": 100,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.01,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.01,
+        "offers": 1,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 1,
+        "decision": 0
+      }
+    },
+    {
+      "name": "shield-break-overkill-body-cap",
+      "seed": 20261111,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "d4a380534c4ca9cbb7b3b3845694a10dae2e2494ab8add6a26531561377ef8e8"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "1bf92ffd4ab860e2fc633bbae1d2c3cfc09b25dada691d277a3fc1d5006a949a"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "52a271a7c36e11452ddd75b91f69f1f9f9f94052c6f2741ba76db639f36abbe1"
+        },
+        {
+          "label": "action 2",
+          "stateHash": "e1d96447f1cb17b80f1bbfc3d8ead74144b15609c6ce68f5208ae9eb04475900"
+        },
+        {
+          "label": "action 3",
+          "stateHash": "85eed844ead81101458de62000e9a54e4aa8577a915a9f8c890986931ddfb959"
+        },
+        {
+          "label": "finished",
+          "stateHash": "6ca6d3e1aeee644f2ed29fab853ad89cc473e582c3ff727cc58191400cebb05a"
+        },
+        {
+          "label": "restored",
+          "stateHash": "a183326489eb72b7c196bc694eaa8f29680d9f34e61f95107562236c10e0f2e5"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        }
+      ],
+      "metrics": {
+        "seconds": 0,
+        "xpProduced": 1,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 40
+            },
+            "shield": {
+              "bullet": 100
+            }
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": null,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "nested-retaliation-salvage-heals-during-hurt",
+      "seed": 20261112,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "f098d50ca4efab11e7bd24a9945f70b0ac82b6e8f8d6225bb58dc5b094a0b40b"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "fc86ff26b1b7649693c5c5f219bc178c0fe248d027d3c62ed3c0958e6244b5f9"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "87e384d017f81ddb18b2d9be5afd5c481f784626ba8a01e342d930ebfbc447c4"
+        },
+        {
+          "label": "finished",
+          "stateHash": "6793cd0b07f6554524187c23872521142c0ef37c17f6467935f056c4c3df3494"
+        },
+        {
+          "label": "restored",
+          "stateHash": "d2a570b7e46dfb3148261d7e16d5d0acd76f504eee49d6e030e24155fd90c1c5"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        }
+      ],
+      "metrics": {
+        "seconds": 0.01,
+        "xpProduced": 1,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {
+              "explosion": 1
+            },
+            "shield": {}
+          },
+          "received": {
+            "body": {
+              "contact": 11
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "kill-effects:explosion": 11
+        },
+        "hpMin": 110,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.01,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.01,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": 99,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "triple-reload-effective-heal-per-slot",
+      "seed": 20261113,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "430803df886081d37da691f86f5eb4f3fea3dd233d77a09291991234d9f7729b"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "05a78e1e4f4ab9966af76f9702f40f3b28e1731bef5e200e5e0889caaa1e5c0f"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "07967de3146ff8f64ae0affcc8e9cbc45d321cb7c3706fe82b95bdce2364463a"
+        },
+        {
+          "label": "finished",
+          "stateHash": "ca3892d71782e87cd9fa43f18077cce887c899cbd5c690778dc8b992dc79e00c"
+        },
+        {
+          "label": "restored",
+          "stateHash": "d712af0306edda6f35789ae1924d1eaed65b9d5e046f255af455bbc6122f0f59"
+        }
+      ],
+      "returns": [
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "object",
+          "value": [
+            null,
+            null,
+            null
+          ]
+        }
+      ],
+      "metrics": {
+        "seconds": 0,
+        "xpProduced": 0,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {
+          "reload:machine": 1.6666666666666714,
+          "reload:shotgun": 1.6666666666666714,
+          "reload:cryo": 1.6666666666666714
+        },
+        "hpMin": null,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "effective-heal-cap-and-zero",
+      "seed": 20261114,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "a2420f1bafbf991659508d0c3f7dd4ccc4533205dc97f22970a0fc95ab8c1d5c"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "f427ad397bcd867cbd9c3d715eb232a537ea295d0b9f2d6f3ca613b662d113e4"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "a233155261731653c9d00042882c2dcf30e8ea49bb3b64b2e37f8b5602dc75a2"
+        },
+        {
+          "label": "action 2",
+          "stateHash": "d4c7aaa8cbca68f2da071f3b3c9c86f800816055c7ed7261aa169900761a0b1a"
+        },
+        {
+          "label": "finished",
+          "stateHash": "678c2d675401d030909979e4cabff1e5955adf78aac6f52bfd03a6bce93b6384"
+        },
+        {
+          "label": "restored",
+          "stateHash": "0536c5a3d33d419bc0bb189156a55d8114944f8061b1bdba0338e37ce49f5edc"
+        }
+      ],
+      "returns": [
+        {
+          "type": "number",
+          "value": 3
+        },
+        {
+          "type": "number",
+          "value": 0
+        },
+        {
+          "type": "number",
+          "value": 0
+        }
+      ],
+      "metrics": {
+        "seconds": 0,
+        "xpProduced": 0,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 3
+        },
+        "hpMin": null,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "reroll-stale-invalid-and-accepted-choices",
+      "seed": 20261115,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "21b46cc25f7eee979a74d7f453911df767d3d9fde8b6334f2f9ffea1d97a756b"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "30515352e3a989bce55f47c9d1d7bb1a86b8ed76eb0111e76a426293720ff617"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "1296d4b5ecd7c7e71872273ad248a36f2c3c6cfb549b3a4eb09d4c0ec284c5e6"
+        },
+        {
+          "label": "action 2",
+          "stateHash": "1595797f7196ce0dd51ed5b087d81fa1c0dffd250f02998e62a88e2ee2731e7c"
+        },
+        {
+          "label": "action 3",
+          "stateHash": "ed238d50767786a980daf693340241429ab88ad97ccb364dca87f31c77bdc52d"
+        },
+        {
+          "label": "action 4",
+          "stateHash": "f0b3554ce9c7547fa2ddb12dbe99c6a8a09590b3823c3914b08a4498397a38b2"
+        },
+        {
+          "label": "action 5",
+          "stateHash": "6f5c62be512a98c8b3e4fcf8c51be9b45667ae46b849d4c13288deb7c8f7ed52"
+        },
+        {
+          "label": "finished",
+          "stateHash": "eeb39e3ebe4380d2e1993a5bfd162b3b51e193462c48e2e3c345cc8e38f74b21"
+        },
+        {
+          "label": "restored",
+          "stateHash": "abbb9566c4188f61e60c3cf121197fb07c5ee9e507ab55b17c4cedfb9c470cb8"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "boolean",
+          "value": false
+        },
+        {
+          "type": "boolean",
+          "value": true
+        }
+      ],
+      "metrics": {
+        "seconds": 0,
+        "xpProduced": 0,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": null,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0,
+        "offers": 2,
+        "decisions": 5
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 2,
+        "decision": 5
+      }
+    },
+    {
+      "name": "boss-reward-chest-offer-no-boss-xp",
+      "seed": 20261116,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "40c2354b69002b08960aa2823db6715aa5349adbac1ccf7bdd9b061022a1417c"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "692040585f69ba6997179ccb42bc4ae38c5c0ab383e64990988542dc4569a322"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "d8e84d4e9404aaa25804baaf67d196aff21cf808a3baa7a9618f9e118b9bb70d"
+        },
+        {
+          "label": "action 2",
+          "stateHash": "ef974d174e3220d7be8f459809c82a112676550906ef849b0d8c5ed460b437e3"
+        },
+        {
+          "label": "action 3",
+          "stateHash": "f83cf1c106e88e757dab3cc6fa441b31057b3aecd7fca8bdc35b4a8888ae23ad"
+        },
+        {
+          "label": "finished",
+          "stateHash": "33c4dfd278d2aef8b508ad1995485a5f4f8924ed19f98de70d7294d1e23e18b9"
+        },
+        {
+          "label": "restored",
+          "stateHash": "9070e3580b39f0b41d719af419c6faaa666e9e92235c03b75ef54c76b0847fa1"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "boolean",
+          "value": true
+        }
+      ],
+      "metrics": {
+        "seconds": 0.02,
+        "xpProduced": 0,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 650
+            },
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 20
+        },
+        "hpMin": 85,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.02,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.02,
+        "offers": 1,
+        "decisions": 1
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 1,
+        "decision": 1
+      }
+    },
+    {
+      "name": "pause-and-death-no-fake-time",
+      "seed": 20261117,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "d941f544ccc32e6e294bc5f1838224b45ce168d255c838008a89b6e49beeefc1"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "3e88ce2a99c4a0b5637a9831763089ffb44838d018dbc5d0e2f1ede7b84b80e4"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "3ec3c2aa7d66d230a9ea0260f8aa6ef566104df870df975067692a5495ea83f0"
+        },
+        {
+          "label": "action 2",
+          "stateHash": "b547265876dee3654159c3ca042fc674f84e423d08a54d7b934242af6b3acb38"
+        },
+        {
+          "label": "action 3",
+          "stateHash": "fb3297126fb0199326225b34b881c64e56adda16c91fcb98b996236e76deec85"
+        },
+        {
+          "label": "action 4",
+          "stateHash": "a71a348d44810d6cfb5d22a03cf6c44cd0f2ab74e87e45fe31a37554263670ef"
+        },
+        {
+          "label": "finished",
+          "stateHash": "254b04d170dc9d1976c9ce040a21fa1b4c5e091fca9dcf04c952587e2c7a0f28"
+        },
+        {
+          "label": "restored",
+          "stateHash": "67c66c592e11316f2b31c78d507c58686e657ec04866eeb37be21d74d2258e2d"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "undefined"
+        }
+      ],
+      "metrics": {
+        "seconds": 0.2,
+        "xpProduced": 0,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {
+              "contact": 100
+            },
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": 100,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0.2,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0.2,
+        "offers": 0,
+        "decisions": 0
+      },
+      "minimumHpAfterDamage": 0,
+      "retainedDetailCounts": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "name": "offer-families-multi-weapon-evolution",
+      "seed": 20261118,
+      "identical": true,
+      "checkpoints": [
+        {
+          "label": "installed",
+          "stateHash": "e7d66f50692e54162d75883ab8504d070e924c793eeedc9ab61952ba6002c90d"
+        },
+        {
+          "label": "action 0",
+          "stateHash": "6b6c5088c99f984aec18bdbe39f4e344bc91977832f4f501321052fcdf02285f"
+        },
+        {
+          "label": "action 1",
+          "stateHash": "870aacfb75e845b928c37c7ca0c71f755acd060bb358977866fa15c8a7dbdfdc"
+        },
+        {
+          "label": "action 2",
+          "stateHash": "3c321565cd67bd984af6d2bba4c1fd16815f410ea69f3c3395bae46bc5528ee2"
+        },
+        {
+          "label": "action 3",
+          "stateHash": "19ebb34de1625f102586a7f72a92173c4bfd90ef76b772cfaabda5f40ec3c6d3"
+        },
+        {
+          "label": "action 4",
+          "stateHash": "20aa385e253a25c6896d64b04aaffa4b76f1773b7b73a4b34d55775b6e9794d9"
+        },
+        {
+          "label": "action 5",
+          "stateHash": "a826fb152421021853050ec8c81fd635930e847f5d18fec1c41c1fc91afa1be3"
+        },
+        {
+          "label": "action 6",
+          "stateHash": "7f288066d57a5be58b5a751232b4c519c8740419daaa38937df2a40261155d96"
+        },
+        {
+          "label": "action 7",
+          "stateHash": "204cd45b6e270ef6a5789665671633aca4a530e68a039272de8f8a049099b043"
+        },
+        {
+          "label": "action 8",
+          "stateHash": "c4763e88c5251ab640bede76ffad7a3db80cf6f490d78d418f5636179495f8f9"
+        },
+        {
+          "label": "finished",
+          "stateHash": "bf51fc52b023b187370d1deb3c32f7f5074ced0464df9338cfd4dd2bbd97f84b"
+        },
+        {
+          "label": "restored",
+          "stateHash": "e7e3ea84c317e7ddfe8bb19ccff883f9b66ff94333ec7ffb8d8186c7a00f8d88"
+        }
+      ],
+      "returns": [
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "undefined"
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "boolean",
+          "value": true
+        },
+        {
+          "type": "boolean",
+          "value": true
+        }
+      ],
+      "metrics": {
+        "seconds": 0,
+        "xpProduced": 0,
+        "xpCollected": 0,
+        "xpAwarded": 0,
+        "damage": {
+          "dealt": {
+            "body": {},
+            "shield": {}
+          },
+          "received": {
+            "body": {},
+            "shield": {}
+          }
+        },
+        "heal": {},
+        "hpMin": null,
+        "bossAliveSeconds": 0,
+        "bossInRangeSeconds": 0,
+        "firingSeconds": 0,
+        "noTargetSeconds": 0,
+        "reloadingSlotSeconds": 0,
+        "weaponSlotSeconds": 0,
+        "offers": 5,
+        "decisions": 5
+      },
+      "minimumHpAfterDamage": null,
+      "retainedDetailCounts": {
+        "offer": 5,
+        "decision": 5
+      }
+    }
+  ]
+}

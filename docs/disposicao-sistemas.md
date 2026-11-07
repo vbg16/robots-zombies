@@ -1,0 +1,130 @@
+# Disposição dos sistemas pesquisados — revisão para BUILD57
+
+Data:07/11/2026. Inventário revisado pelo Dev, baseado no inventário local `docs/pesquisa-builds-20mtd.md` e no runtime da candidata56. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
+
+## Como ler
+
+- **Integrado:** existe um motor original com a função descrita, código rastreável e teste correspondente. Isso não significa equivalência de coeficientes ou de todas as variantes externas.
+- **Adaptado diferente:** uma função foi atendida de outro modo; a diferença indicada decorre de decisão vigente do contrato. Quando não há decisão específica comprovada, a parte não equivalente fica **pendente**.
+- **Não aplicável:** conflita com regra explícita atual; a regra é citada. Não ampliar essa categoria por conveniência.
+- **Pendente:** falta motor equivalente, rastreabilidade ou disposição de design. Não significa obrigação de criar uma cópia. Pode ser resolvido por design original, classificação de fora do escopo devidamente fundamentada ou implementação futura.
+
+Autoridades: `docs/contrato-atual.md:7` (identidade),`:8` (arena infinita),`:9` (mira/fogo manuais; propulsor sem invulnerabilidade),`:14` (sem atributos permanentes),`:15` (loadout fixo),`:17` (marcos de oferta),`:18` (reforja),`:20` (cura/drones),`:22` (corrosão),`:23` (sensores),`:24` (rotores),`:42` (exclusões). Linhas de código abaixo referem-se à fonte desta rodada; usar também nomes de funções/IDs ao integrar, pois novas edições podem deslocá-las.
+
+## A. As25 árvores do inventário local
+
+Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige25 árvores próprias. Screwvivors tem13 raízes originais/52 nós normais; o importante é não chamar um motor ausente de implementado.
+
+| Entrada/motor pesquisado | Disposição | Implementação própria, limite e evidência |
+|---|---|---|
+| Fast Bullets: precisão/perfuração | Integrado no eixo funcional | Canhão/Arpão e `pierce`/`range`; `game.js:17`,`:25`,`:615`. Testes `combat.cjs` de perfuração/armas e `weapon-evolution.cjs:46` para arma evoluída/escudo. Não há árvore autônoma com o mesmo nome. |
+| Bullet Damage: impacto/fragmentação | Integrado no eixo funcional | `damage`, `blast`, perfuração+explosão e Crivo Balístico; `game.js:594`,`:624`,`:454`, função `impact:1024`. `build-mechanics.cjs:28` protege pulso único por projétil; `positive-weapon-upgrades.cjs` protege ganho direto sem penalidade antiga. |
+| Fire Rate: frequência/conservação | Integrado no eixo funcional | `rate`, `killAmmo`, VOLT `chargeRecovery`; `game.js:598`,`:609`,`:286`,`:934`. `build-mechanics.cjs` testa reposição e conservação no limite; `weapon-state.cjs`/`weapon-state-balance.cjs` e `combat.cjs` protegem emissão/rajadas por arma. Não há período genérico ilimitado de munição gratuita. |
+| Multi Shots: cobertura e último disparo | Integrado para cobertura; pendente para último tiro | `extra` e pellets/rajadas em `emitProjectiles:1033`; crítico usa contagem módulo5 (`:1038`), não esvaziamento. `build-mechanics.cjs:24`,`:28` protege contagem normalizada/pulso. Não confundir quinto disparo com último do carregador. |
+| Reload Boost: ciclo/janela ofensiva | Integrado para ciclo/conversões; pendente para dano exclusivo durante recarga | Reforja `burst-quickBreech:38`, `feedServo:86`, `repair`/`coldReload`, NANO/`repairCharge`; `tickWeaponReload:550`, `healPlayer:902`. `build-mechanics.cjs:14`–`:18`, `weapon-evolution.cjs:37` protegem proporção, carga/estado. Rotores/drones atacam enquanto recarrega, mas não são um motor que converte a duração da recarga em dano. |
+| Dragon: maturação temporal | Pendente | Drones têm atributos definidos e timer de ataque, não maturação por tempo. `tickDrones:906`, nós`:632`–`:635`. O inventário alerta em `pesquisa:49` que cadência imediata não equivale a crescimento temporal. Sem teste equivalente. |
+| Ghost Friend: acompanhante atacante/efeitos por acerto | Adaptado diferente | Drones atacam com dano e arco próprios; não herdam procs de bala. Restrição vigente `contrato:20`; `game.js:905`/`:906`. `build-mechanics.cjs:19`–`:23` verifica teto3, alvo/arco, pausa e ausência de munição/proc recursivo. A transmissão genérica de todos os estados não foi implementada nem prometida para drones. |
+| Magic Lens: conversão posicional de projéteis | Pendente | Não foi encontrado objeto espacial que transforme uma bala ao atravessá-lo. `sensorLock` expõe o alvo, não intercepta trajetória (`game.js:589`, `tickSensor:979`). Não são equivalentes. |
+| Magic Scythe: contato orbital | Integrado como Rotores de Sucata | `game.js:582`–`:585`, `tickRotors:952`. `tests/rotors.cjs:15`–`:24` protege varredura, período por disco/alvo, escudo, pausa/reset e isolamento de procs. Contrato`:24`. |
+| Magic Spear: vida/recursos no suporte | Pendente como motor de suporte ligado à vida | Há vida→dano balístico no Chassi Titânico (`shotDamage:541`), cura→salva no NANO (`healPlayer:902`) e drone→cura no ENXA (`SPECIALIZATIONS:288`). Isso não prova um suporte cuja potência/conversão dependa da vida. `build-mechanics.cjs:16`,`:21`,`:33` prova apenas os motores existentes. |
+| Trainer: dano/crescimento de summons | Integrado para atributos; pendente para crescimento temporal | `dronePair`, `droneRack` e foco de chefe; `game.js:80`,`:288`,`:633`. `build-mechanics.cjs:19`,`:22`. Aumento por instalação não é maturação; tratar junto da pendência Dragon se o design escolher essa família. |
+| Frenzy: frequência/estados de summons | Integrado para frequência; adaptado diferente nos estados | `droneOverclock` tem piso0,35s (`game.js:634`, `tickDrones:906`). Drones não herdam estados de bala por contrato`:20`; estados transmitidos ficam no suporte sensor, restritos a fogo/frio por`:23`. Testes `build-mechanics.cjs:19`–`:20` e `sensors.cjs`. |
+| Electromancy: raio/munição | Integrado | Tesla/Descarga/Condutividade/Curto-Circuito e VOLT reposição a cada6 alvos; `game.js:23`,`:618`–`:620`, `shockAt:930`. `build-mechanics.cjs:11`–`:13`,`:27` testa carga, alcance/atributos elétricos. |
+| Ice: controle/estilhaço | Integrado | Criogênico, `freeze`, `finisher` e Fratura Industrial; `game.js:20`,`:614`, `damageEnemy:911`. `build-mechanics.cjs:24`,`:26`,`:29` protege duração e uma geração da fratura. |
+| Pyromancy: fogo/recuperação | Integrado | Lança-chamas, quatro nós de fogo, FORJ `heatRecovery`; `game.js:19`,`:610`–`:613`,`:285`, `applyStatus:941`. `build-mechanics.cjs:9`–`:10`,`:25`, `combat.cjs:260`. |
+| Dark Arts: dano adiado/propagação/crescimento | Integrado para dano adiado/propagação; pendente para crescimento acumulativo | Corrosão captura dano/prazo e respinga uma geração (`game.js:590`–`:593`, `applyCorrosion:993`, `tickCorrosion:1003`). Contrato`:22`; `corrosion.cjs`/`corrosion-balance.cjs`. Não há contador de maldições que aumente dano indefinidamente. |
+| Holy Arts: último tiro convertido por vida | Pendente nesse circuito | `titan` converte vida em dano de todo projétil (`:541`,`:603`), enquanto quinto impacto usa contagem (`:1038`). Nenhum deles prova gatilho de última munição com pulso por vida. `build-mechanics.cjs:33` só prova conversão balística limitada. |
+| Health: reserva/reação | Integrado | BAST/NANO, `armor`/`titan`, reparos, `nineLives`, `retaliation`, `overload`; `game.js:93`,`:96`,`:238`,`:602`–`:605`,`:626`. `combat.cjs:414`, `build-mechanics.cjs:16`–`:17`,`:33`. |
+| Shield Boost: proteção/benefício ativo | Integrado para escudo e reação; pendente para benefício contínuo enquanto escudo intacto | `shield` absorve um golpe/recarga120s, `grace`/`emergency` são pós-dano; `game.js:621`–`:625`. `combat.cjs:267` protege absorção/recarga. Não foi identificado multiplicador ofensivo condicionado a `shieldReady===true`. |
+| Dodge Boost: esquiva/mobilidade | Adaptado diferente para mobilidade ativa; pendente para esquiva probabilística | `dash` é avanço manual adquirido, sem invulnerabilidade por decisão explícita (`contrato:9`, `game.js:622`). `combat.cjs` testa avanço/recarga e dano durante ele. Não declarar “chance de esquiva” implementada. |
+| Soul Heart: reserva/conversão | Pendente para reserva distinta de HP; proteção existente adaptada como capacitor | A pesquisa`:145` sugere capacitor, mas contrato/código só comprovam escudo de um impacto (`:621`) e vida normal. Não existe barra/reserva Soul Heart consumível separada. Se a intenção de adaptação for apenas esse escudo, registrar isso como decisão explícita de escopo, sem chamar reservas equivalentes. |
+| Magnet XP: coleta/continuidade | Integrado | `magnet`, `xp`, `repair`, `killAmmo`; `game.js:606`–`:609`. `combat.cjs` testa coleta/XP/perfil; `build-mechanics.cjs:14`–`:15`,`:31` protege coleta e cura efetiva. Equilíbrio da curva ainda não aprovado. |
+| Speed Boost: velocidade/manutenção | Integrado | `dash`, `speed`, Motor Cinético e Lança de Fuga; `game.js:622`–`:623`, função `impact:1024`, `builds.js` receita `lanca-de-fuga`. `build-mechanics.cjs:30` protege empurrão/escudo; builds-balance mede progressão. |
+| Vision: pulso/transmissão | Integrado como Sensores de Campo | `sensor`/`sensorRelay`/`sensorLock` (`game.js:586`–`:589`, `tickSensor:979`), contrato`:23`. `sensors.cjs` verifica snapshots, fonte, pausa/reset, escudos, exposição só de balas e estados permitidos. |
+| Aero: vento/conversão cinética | Integrado para conversão de movimento; pendente para entidade/ataque de vento | Motor Cinético converte velocidade do robô em dano limitado de impacto, com `speed`+`knock`; `game.js:454`, `impact:1024`; `build-mechanics.cjs:30`. Não há projétil/entidade vento original identificado; o contrato não exige estética/nomes da referência. |
+
+## B. Gatilhos dos13 personagens pesquisados
+
+Fonte: `pesquisa-builds-20mtd.md:51`. O jogo não precisa13 personagens equivalentes; esta tabela rastreia os motores estudados.
+
+| Motor do inventário | Disposição | Evidência e diferença |
+|---|---|---|
+| Shana: reroll | Adaptado diferente | Reroll é ferramenta de todos os chassis por nível comum, não passiva de um personagem. Decisão vigente `contrato:17`; `game.js:738`; `build-mechanics.cjs:32` e `combat.cjs:393`–`:400`. |
+| Diamond: vida/cura/risco | Integrado funcionalmente | NANO/BAST, Titânico e protocolos de cura; `game.js:541`,`:287`,`:902`; `build-mechanics.cjs:14`–`:17`,`:33`. Crescimento acumulativo por cura durante a tentativa permanece pendente. O contrato`:14` proíbe atributos entre tentativas; não impede um crescimento temporário futuro. |
+| Scarlett: contagem de tiros→fogo | Pendente no gatilho exato | Contagem→crítico existe (`:1038`); fogo por impacto existe (`:941`), mas não há emissão periódica de fogo a cadaN disparos. Não combinar dois sistemas separados no relatório como um só. |
+| Hina: ação ativa→clone/reposição | Adaptado diferente para reposição; pendente clone ativo | Avanço exige skill e não dá imunidade (`contrato:9`); eco do PROT nasce após dano, não da ação ativa (`:238`, hurtPlayer). Testes `combat.cjs:424` e especialização. Não afirmar clone ativo integrado. |
+| Spark: acerto→raio | Integrado | `shockAt:930`, VOLT `:286`, testes `build-mechanics.cjs:11`–`:13`,`:27`. |
+| Lilith: morte→cascata | Adaptado diferente no circuito de propagação | Respingo reagente parte da morte de alvo carregado, no máximo uma geração/dois vizinhos por contrato`:22`; `game.js:592`, `damageEnemy:911`; `corrosion.cjs`. Não invoca espíritos nem cria cadeia ilimitada. |
+| Abby: ação ativa→esvaziar carregador | Pendente | Burst respeita pressão/cadência/munição, mas não há ação separada que descarregue instantaneamente o carregador. `game.js:560`, `emitProjectiles:1033`; contrato exige fogo manual, mas não proíbe por si só uma habilidade manual futura desse tipo. |
+| Yuki: contagem→gelo | Pendente no gatilho exato | Frio vem de impacto, recarga ou sensor; quinto tiro é crítico. `game.js:554`,`:941`,`:979`,`:1038`. |
+| Luna: recarga→aglomeração espacial | Pendente | Recarga Glacial e Circuito Refrigerante afetam área/estado, não atraem corpos para um ponto. `tickWeaponReload:550`, `build-mechanics.cjs:18`. |
+| Dasher: ciclo→transformação móvel | Pendente | Há avanço ativo e passada visual, sem alternância temporal entre formas de combate. Não confundir animação com transformação mecânica. |
+| Hastur: intervalo→ataque invocado | Integrado funcionalmente | Drones e sensores adquirem alvos/pulsam em intervalos próprios; `tickDrones:906`, `tickSensor:979`; `build-mechanics.cjs:19`–`:23`, `sensors.cjs`. Não exige entidades/nomes da referência. |
+| Raven: acompanhante→dano adiado | Adaptado diferente no dano adiado; não aplicável a procs genéricos do drone atual | Corrosão parte de bala por contrato`:22`, drones não semeiam (`:20`). Fonte adiada está integrada; a ligação acompanhante→corrosão conflita com o isolamento vigente do drone. `corrosion.cjs` testa ausência em fontes secundárias. |
+| Katana: fim de recarga→arma invocada | Pendente | Fim de recarga cura/resfria/prepara um disparo; não materializa suporte novo. `tickWeaponReload:550`, `healPlayer:902`, `build-mechanics.cjs:16`–`:18`. |
+
+## C. Propriedades das11 armas pesquisadas
+
+Fonte: `pesquisa-builds-20mtd.md:73`. Não há requisito de reproduzir11 modelos ou seus riscos; existem12 armas industriais próprias, fixas durante a tentativa.
+
+| Propriedade estudada | Disposição | Evidência ou pendência |
+|---|---|---|
+| Revolver: referência equilibrada | Integrado funcionalmente | Metralhadora é referência de tiro simples manual (`game.js:14`), testada por `combat.cjs`. Não equivale a importar um revólver. |
+| Shotgun: muitos contatos/carregador curto | Integrado | Escopeta5pellets/6munições (`:15`,`:27`), `combat.cjs`, `weapon-evolution.cjs` (reforjas de escopeta) e contagem em `build-mechanics.cjs:24`. |
+| Dual SMGs: frequência de gatilhos | Integrado funcionalmente | Laser/rajada e arsenal opcional independente (`:16`,`:18`, `tickWeaponFire:558`), contratos`:15`. `weapon-state.cjs`/`weapon-state-balance.cjs` protegem estados separados. |
+| Crossbow: carga/carregador unitário | Integrado para carregador unitário; pendente carga manual | Foguete tem1munição (`:27`) e projétil próprio (`:21`); não há arma cujo dano cresça enquanto segura antes de liberar. |
+| Flame Cannon: fogo contínuo | Integrado | Lança-chamas (`:19`), `applyStatus:941`, `build-mechanics.cjs:25`, `audio-gameplay.cjs` e `player-weapons.cjs`. |
+| Grenade Launcher: explosão/autoimpacto | Integrado para explosão; pendente disposição do autoimpacto | Granada explode por contato/fim de prazo (`:22`, tick projéteis), `weapon-evolution.cjs:45`. Explosões próprias não causam auto-dano no caminho atual; não há decisão local explícita suficiente para chamar esse aspecto “incompatível” ou “feito”. |
+| Magic Bow: retorno associado à recarga | Adaptado diferente no retorno; pendente ligação à recarga | Disco retorna pela metade da vida útil, com velocidade/snapshot (`game.js:24`,`:1158`), contrato`:18`; `weapon-evolution.cjs:41`. A regra original do nosso disco é temporal, não consequência de recarregar. |
+| Batgun: projétil perseguidor/escalas híbridas | Pendente | Drone escolhe alvo, mas não é bala perseguidora. Projetéis manuais atuais conservam direção, salvo retorno/ricochete explicitamente definidos. Não transformar mira manual em seleção automática por conveniência (`contrato:9`); homing pós-emissão exigiria desenho próprio e teste. |
+| Salvo Knife: rastreamento favorecido por movimento | Integrado para dano cinético; pendente rastreamento | `speed`+`knock` converte movimento em dano limitado; `impact:1024`, `build-mechanics.cjs:30`. Não há projétil rastreador ligado à passada. |
+| Watering Gun: tiros ativam entidade | Pendente | Acertos aplicam estados/cargas, mas não ativam uma entidade estacionária que depois ataca. Sensores pulsantes não exigem alimentação por tiros. |
+| Cyclone Sword: dano durante recarga | Integrado para cobertura da janela; pendente conversão da duração | Drones/rotores seguem ativos ao recarregar (`build-mechanics.cjs:20`, `rotors.cjs:15`); não foram limitados só à janela nem escalam pelo tempo de recarga. Não marcar esses motores como iguais. |
+
+## D. As12 conversões de sinergia pesquisadas
+
+Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa sinergias originais em `game.js:454`.
+
+| Conversão estudada | Disposição | Evidência própria ou limite |
+|---|---|---|
+| Death Rounds: velocidade/perfuração→dano plano | Integrado em eixos balísticos separados; pendente conversão exata | Perfuração e velocidade coexistem com dano; Motor Cinético usa velocidade do robô, não velocidade da bala/perfuração como entrada. `game.js:594`,`:615`, `impact:1024`. Não afirmar conversão equivalente. |
+| Frost Fire: gelo aplica fogo | Adaptado diferente no híbrido elemental; pendente aplicação automática de fogo pelo gelo | Choque Térmico exige os dois estados já aplicados (`:611`, `tickStatuses:1059`), sensor só transmite estados instalados (`contrato:23`). `combat.cjs:260`, `sensors.cjs`. Regra atual permite híbrido sem conceder fogo por ter frio. |
+| Gun Mastery: combinação balística | Integrado funcionalmente | Alto Impacto/Overdrive/Câmara Dupla/Perfuração e crítico de área; `game.js:594`–`:601`, `activeSynergies:454`; `positive-weapon-upgrades.cjs` e `build-mechanics.cjs:28`. |
+| Mini Clip: menos munição→ciclo eficiente | Pendente como conversão específica | Carregador/recarga têm modificadores locais, mas não há combo que conceda eficiência por capacidade menor. Crítico reduz capacidade como custo e a cura é proporcional à reposição, sem explorar recarga de uma bala (`build-mechanics.cjs:14`–`:16`). |
+| Overload: fogo+raio→explosão | Adaptado diferente no motor de área/eletricidade | PLASMA exige `blast`+`shock`, não fogo; `activeSynergies:454`, `explodeAt:1017`. A sinergia própria não precisa copiar pré-requisitos externos; restrições contra recursão são protegidas por `combat.cjs`. O nó `overload` do jogo é pós-dano e tem outra função; não identificá-lo pelo nome externo. |
+| Stand your Ground: imobilidade→saturação | Pendente para ofensiva; motor defensivo distinto já integrado | Oficina Estacionária recupera vida depois3s parada (`game.js:605`, tick:1148). `combat.cjs:238` prova reparo e interrupção; não prova bônus de disparo por ficar parado. |
+| Summon Mastery: ceder tiro→fortalecer suporte | Integrado no eixo funcional | Raiz drone aumenta recarga, Dupla reduz dano direto, Rotores reduzem dano direto, peças específicas reforçam suportes; `game.js:582`,`:632`–`:635`,`:80`–`:82`. Testes `build-mechanics.cjs:19`–`:23`/`rotors.cjs`. Não implica modificador único global de todos os summons. |
+| Death Plague: morte→propagar carga | Adaptado diferente por limite deliberado | Respingo Reagente uma geração, dois vizinhos/100px, sem recursão; `game.js:592`,`:993`, contrato`:22`; `corrosion.cjs`. |
+| Generator: reposição→cadência | Integrado para reposição; pendente conversão em cadência | Abate/eletricidade devolvem munição (`:925`,`:934`), mas não elevam cadência quando isso acontece. `fireInterval:540` só usa `frenzy` pós-dano. |
+| Kunoichi: tempo sem dano→crescimento | Pendente | Escudo/cooldowns recuperam por tempo e a proteção pós-dano expira; não existe crescimento ofensivo condicionado a uma sequência sem dano. |
+| Sword and Shield: abate por pulso→proteger | Pendente nesse vínculo | Sensor pode matar e contador geral pode curar; escudo capacitivo só recarrega por timer, não por abate do pulso. `game.js:621`, `damageEnemy:911`, `tickSensor:979`; `combat.cjs:267`. |
+| Titan: vida→presença/dano | Integrado funcionalmente | Chassi Titânico e Blindagem convertem3%HP máximo em dano, com teto75% da base (`shotDamage:541`, `game.js:603`); `build-mechanics.cjs:33`. Sem crescimento permanente fora da partida (`contrato:14`). |
+
+## E. Sistemas de progressão e decisões de escopo
+
+| Sistema do mapa/inventário | Disposição | Regra vigente e prova |
+|---|---|---|
+| XP, escolha de melhorias e10 receitas | Integrado; equilíbrio em avaliação | Catálogo52normais/82editáveis e10receitas em builds.js; contrato`:16`–`:19`; `build-mechanics.cjs`, `builds-balance.cjs`, relatórios52/53/54. Guia não altera sorteios. |
+| Bênçãos iniciais | Adaptado diferente | Gambiarras3/6/9 (seis opções), por decisão vigente`:17`; `game.js:105`–`:112`, `offerBlessing:717`; `combat.cjs`. Não são runas de atributo pré-partida. |
+| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com12relíquias elegíveis temporárias; fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
+| Metaprogressão/runas permanentes | Adaptado diferente em desbloqueios; não aplicável para bônus permanentes | Parafusos/peças persistem, compram equipamentos; atributos/skills não persistem (`contrato:14`,`:42`); `awardBossPart:145`, perfil/compras; `combat.cjs` compras/migração/reembolso/morte. |
+| Especialização de personagem | Adaptado diferente |18protocolos próprios/seis chassis no10; `game.js:236`/`:284`, contrato`:17`; `combat.cjs` e `build-mechanics.cjs`. Não exige13personagens externos. |
+| Evolução de arma | Adaptado diferente |24reforjas, duas por arma no20, conjunto fixo; contrato`:18`; `game.js:28`,`:30`, `chooseWeaponEvolution:253`; `weapon-evolution.cjs:47`. Não importar três opções externas por arma nem fusão/troca. |
+| Reroll, compêndio, diagnóstico | Integrado | `rerollUpgrade:738`, `renderCompendium:563`, `renderRunStats`, contrato`:17`/`:19`; `combat.cjs:383`–`:400` e `weapon-evolution-browser.cjs` (guia/garagem/reforja). |
+| Chefes, lacaios, horda | Adaptado diferente | Três identidades/ciclos, comuns continuam durante chefe, diretor cap60→180; contrato`:11`–`:13`. `horde-director.cjs`, `combat.cjs`. Não restaurar suspensão da horda do documento histórico. |
+| Vitória cronometrada/loop pós-vitória | Não aplicável ao modo padrão | Arena infinita/semvitória por relógio; contrato`:8`/`:42`; `combat.cjs`25min controlados. “Partida20min” é janela de avaliação, não objetivo de vitória do jogo. |
+| Retenção de skills após morrer/fusão de armas | Não aplicável | Proibição explícita`:42`, loadout fixo`:15`/`:18`; testes reset/reforja/perfil. |
+| Ranking/nuvem/conquistas | Fora do protótipo conforme disposição atual; etapa futura | Contrato`:42`, mapa principal linha plataforma. Não é pendência de copiar sistemas da referência nesta implementação local. Implementar exigiria contrato de plataforma/integridade próprio. |
+| Arte, nomes, personagens, trilhas e código externos | Não aplicável | Identidade original`:7`, regra de adaptação do mapa`:9`. Não importar conteúdo do estudo. |
+
+## Pendências que a tabela torna explícitas
+
+Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia externa:
+
+1. **Maturação temporal de suporte**, incluindo a parcela de Trainer/Dragon. Cadência/dano comprados não resolvem essa função.
+2. **Conversão espacial de projéteis/entidade alimentada por tiros**, discutida em Lens/Watering. Exposição de alvo é outro motor.
+3. **Último tiro/ciclo de munição e janela de recarga**, que pode ou não ganhar projeto original; não confundir com quinto tiro ou com suporte sempre ativo.
+4. **Reserva de proteção e condições de manutenção**, envolvendo Soul Heart, escudo intacto, tempo sem dano e abateporpulso→proteção. As defesas atuais não provam essas conversões.
+5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
+
+A tabela registra a disposição do inventário estudado e conserva pendências explícitas. Não autoriza declarar “todos os motores integrados”. O próximo plano pode classificar cada grupo quanto ao valor para as builds próprias e implementar os escolhidos com custo operacional, HUD, fonte de dano, limites de recursão, pausa/reset, migração e avaliação natural. A decisão deve ampliar o jogo pretendido pelo criador, sem inventar requisitos de equivalência total à referência.

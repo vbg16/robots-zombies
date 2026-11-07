@@ -2,13 +2,15 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 56:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 57:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
 Screwvivors pode aproveitar princípios de progressão, combate e legibilidade. Não reutilizar nomes, personagens, arte, texto de upgrades, áudio ou código de *20 Minutes Till Dawn*. A versão própria continua centrada no gato piloto, robôs, sucata, zumbis e na cidade do Dr. Biruta.
 
 O contrato atual que toda etapa deve preservar é: arena sem bordas e sem tempo final; mira e disparo manuais; chassi e armas escolhidos na garagem e fixos durante a tentativa; skills temporárias que se perdem ao reiniciar; hordas circulares crescentes; chefes recorrentes. A referência do 20MTD não altera esses preceitos.
+
+O inventário detalhado de famílias, gatilhos, armas e conversões está em [disposição dos sistemas pesquisados](disposicao-sistemas.md). Ele separa motores integrados, adaptações deliberadas e pendências; não afirma que cada combinação externa tenha sido copiada ou que os motores ainda pendentes estejam concluídos.
 
 ## Mapa dos sistemas
 
@@ -276,3 +278,7 @@ Avisos deduplicados fora do centro, números agrupados, critical/escudo/fontes p
 ### BUILD56 — Entrada móvel manual
 
 Dois direcionais para celular na horizontal, recarga e propulsor condicionado à skill. Cancelamento e rotação seguros, preservando mira/disparo manuais e comandos de PC. Regras e limites em controles-touch.md. Auditoria de escopo confirmou as dez receitas reais e identificou como próximas etapas a telemetria de progressão/alcance e o desempenho no caos atual, sem interpretar builds fortes como defeito.
+
+### BUILD57 — Custo do caos e medição causal
+
+Consultas de descarga reutilizam geometria e mantêm vida/ordem/RNG. Observador test-only e quatro perfis separam poder de coleta, alcance e comportamento. Matriz atual das dez receitas:29/30no critério controlado, com uma morte mantida; guia da Escopeta revisado após teste pareado e duas sementes novas. Não equivale a aprovação humana do equilíbrio ou desempenho extremo resolvido. Ver telemetria-e-balanceamento.md e disposição detalhada dos motores estudados.
