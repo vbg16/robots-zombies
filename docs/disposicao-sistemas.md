@@ -1,4 +1,4 @@
-# Disposição dos sistemas pesquisados — revisão para BUILD58
+# Disposição dos sistemas pesquisados — revisão para BUILD59
 
 Data:07/11/2026. Inventário revisado pelo Dev, baseado no inventário local `docs/pesquisa-builds-20mtd.md` e no runtime da candidata56. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
 
@@ -24,7 +24,7 @@ Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige2
 | Reload Boost: ciclo/janela ofensiva | Integrado para ciclo/conversões; pendente para dano exclusivo durante recarga | Reforja `burst-quickBreech:38`, `feedServo:86`, `repair`/`coldReload`, NANO/`repairCharge`; `tickWeaponReload:550`, `healPlayer:902`. `build-mechanics.cjs:14`–`:18`, `weapon-evolution.cjs:37` protegem proporção, carga/estado. Rotores/drones atacam enquanto recarrega, mas não são um motor que converte a duração da recarga em dano. |
 | Dragon: maturação temporal | Adaptado pela Baia de Comando na BUILD58 | Peça de chefe elegível para drones mantém bônus imediato e acrescenta estágios aos30/60/90s ativos desde a instalação. Sem ovo ou conteúdo externo. `droneMaturity`, `tickDrones`, `tools/drone-maturity.js`; testes `drone-maturity-model.cjs` e `drone-maturity.cjs`. [Regras e limites](maturacao-e-desempenho.md). |
 | Ghost Friend: acompanhante atacante/efeitos por acerto | Adaptado diferente | Drones atacam com dano e arco próprios; não herdam procs de bala. Restrição vigente `contrato:20`; `game.js:905`/`:906`. `build-mechanics.cjs:19`–`:23` verifica teto3, alvo/arco, pausa e ausência de munição/proc recursivo. A transmissão genérica de todos os estados não foi implementada nem prometida para drones. |
-| Magic Lens: conversão posicional de projéteis | Pendente | Não foi encontrado objeto espacial que transforme uma bala ao atravessá-lo. `sensorLock` expõe o alvo, não intercepta trajetória (`game.js:589`, `tickSensor:979`). Não são equivalentes. |
+| Magic Lens: conversão posicional de projéteis | Adaptado pelo Colimador de Campo na BUILD59 | Campo ancorado no mundo, à frente da mira manual, transforma dano do objeto-projétil que entra uma única vez. Sem procs novos ou trajetória automática. `tickCollimator`, pipeline de projéteis e `tests/field-collimator.cjs`; [contrato](colimador-de-campo.md). Sensor continua sendo exposição de alvo, motor diferente. |
 | Magic Scythe: contato orbital | Integrado como Rotores de Sucata | `game.js:582`–`:585`, `tickRotors:952`. `tests/rotors.cjs:15`–`:24` protege varredura, período por disco/alvo, escudo, pausa/reset e isolamento de procs. Contrato`:24`. |
 | Magic Spear: vida/recursos no suporte | Pendente como motor de suporte ligado à vida | Há vida→dano balístico no Chassi Titânico (`shotDamage:541`), cura→salva no NANO (`healPlayer:902`) e drone→cura no ENXA (`SPECIALIZATIONS:288`). Isso não prova um suporte cuja potência/conversão dependa da vida. `build-mechanics.cjs:16`,`:21`,`:33` prova apenas os motores existentes. |
 | Trainer: dano/crescimento de summons | Adaptado para drones na BUILD58 | Baia multiplica o dano já modificado por1,1/1,2/1,3 nos três marcos ativos, com teto e reset. Sem crescimento de todos os suportes nem procs de bala. Testes de dano real, arco, escudo, pausa e reinício em `drone-maturity.cjs`. |
@@ -122,7 +122,7 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia externa:
 
 1. **Maturação temporal de suporte: adaptada na BUILD58** pela Baia de Comando para drones. Outros suportes não recebem esse crescimento; isso não bloqueia os motores distintos abaixo.
-2. **Conversão espacial de projéteis/entidade alimentada por tiros**, discutida em Lens/Watering. Exposição de alvo é outro motor.
+2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering) segue pendente**: o campo modifica o tiro que atravessa e não acumula carga nem executa ataque próprio. Exposição de alvo continua sendo outro motor.
 3. **Último tiro/ciclo de munição e janela de recarga**, que pode ou não ganhar projeto original; não confundir com quinto tiro ou com suporte sempre ativo.
 4. **Reserva de proteção e condições de manutenção**, envolvendo Soul Heart, escudo intacto, tempo sem dano e abateporpulso→proteção. As defesas atuais não provam essas conversões.
 5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.

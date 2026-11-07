@@ -26,12 +26,13 @@ const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal
 const driverVersion=13; // Safe loot routing; legacy mode remains available for controlled comparison.
 const chestPolicy=process.env.BUILD_CHEST_POLICY||'safe';
 assert.ok(['safe','legacy'].includes(chestPolicy),'Unsupported chest policy');
-const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
+const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js','tools/segment-circle.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
 const frozenBootstrap=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 
 function harness(seed){
  let setup=frozenBootstrap;
  setup=setup.replace("vm.runInContext(fs.readFileSync('tools/drone-maturity.js','utf8'),context);","vm.runInContext("+JSON.stringify(frozenSources['tools/drone-maturity.js'])+",context);");
+ setup=setup.replace("vm.runInContext(fs.readFileSync('tools/segment-circle.js','utf8'),context);","vm.runInContext("+JSON.stringify(frozenSources['tools/segment-circle.js'])+",context);");
  setup=setup.replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage');
  setup=setup.replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","window.localStorage=localStorage;vm.runInContext("+JSON.stringify(frozenSources['balance.js'])+",context);vm.runInContext("+JSON.stringify(frozenSources['game.js'])+",context);");
  const h=new Function('require',setup+';return {context,run:s=>vm.runInContext(s,context)};')(require);

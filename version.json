@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Baia de Comando com maturação temporária em30/60/90s ativos, LEDs e diagnóstico. Partículas e números de dano otimizados sem mudar poder/RNG. Equilíbrio e custo extremo seguem experimentais; sem aprovação pública.",
-  "build": 58
+  "notes": "Colimador de Campo: conversão espacial temporária de projéteis, uma vez por tiro, com posição fixa e mira manual.13relíquias/95compêndio,82editáveis preservados. Equilíbrio experimental; sem aprovação pública.",
+  "build": 59
 }

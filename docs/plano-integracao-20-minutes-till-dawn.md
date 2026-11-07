@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 58:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 59:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -286,3 +286,7 @@ Consultas de descarga reutilizam geometria e mantêm vida/ordem/RNG. Observador 
 ### BUILD58 — Calibração temporária e trabalho dos impactos
 
 Motor de maturação adaptado pela Baia de Comando já existente: três marcos ativos, teto explícito, LEDs e diagnóstico. Buffer de faíscas e texto de dano conservam estado observável após tick e sorteios. Comparação com restauração completa mostra redução do custo extremo, ainda alto. Dez receitas passaram numa semente nova; hipótese de coleta do Plasma foi rejeitada após3/5casos viáveis. [Evidências e limitações](maturacao-e-desempenho.md). Conversão espacial, ciclo de munição, proteção e gatilhos específicos permanecem no mapa de pendências.
+
+### BUILD59 — Conversão espacial e guia da Oficina
+
+Colimador de Campo adapta a transformação espacial do tiro numa área fixa à frente da mira manual. Relíquias13/compêndio95; painel82 preservado. Varredura separa contato anterior/posterior e fim da vida, sem mudar ordem legada dos impactos. Matriz inicial9/10; guia Oficina trocou pulso de recarga por alcance após candidata5/5, com controles/falhas mantidos. Estado atual e limites em colimador-de-campo.md. Entidade alimentada por tiros continua pendente.

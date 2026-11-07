@@ -1,4 +1,8 @@
-# Contrato vigente — Screwvivors BUILD 58
+# Contrato vigente — Screwvivors BUILD 59
+
+## Adição vigente — BUILD59
+
+Colimador de Campo é a13ª relíquia temporária de baú e alternativa universal. Primeiro campo ao apontar, depois a cada6s ativos; círculo raio36 a96px à frente, fixo por4s. Cada projétil que entra ganha dano×1,35 uma vez, sem nova munição/procs/tiros/autoaim. Contato anterior ao campo conserva dano base; fim da vida vence empate com entrada. Pausa/morte/ofertas congelam, reset elimina. Catálogo editável82 e compêndio95. [Regras e provas](colimador-de-campo.md).
 
 ## Adição vigente — BUILD58
 
@@ -81,7 +85,7 @@ Alto Impacto dobra dano sem piorar cadência; Overdrive triplica cadência sem r
 
 ## Baús e bot — BUILD53
 
-São12peças raras fora do pool normal e do catálogo editável82; compêndio consulta94entradas. Sem repetição por tentativa, coleta até40px, sem atração automática/expiração. Escolhas1–3 ou botão; R recusa. Perfil não recebe atributos. Bot sócarrega pelo launcher/CLI e usa contexto isolado. Driver11 passa a procurar baús; não comparar resultados diretamente com driver10 como pareamento. Projéteis desenham o snapshot da arma emissora, inclusive armas auxiliares e tiros anteriores a reforjas.
+Na BUILD53 eram12peças raras/94entradas; na BUILD59 são13/95. Continuam fora do pool normal e do catálogo editável82. Sem repetição por tentativa, coleta até40px, sem atração automática/expiração. Escolhas1–3 ou botão; R recusa. Perfil não recebe atributos. Bot sócarrega pelo launcher/CLI e usa contexto isolado. Driver11 passa a procurar baús; não comparar resultados diretamente com driver10 como pareamento. Projéteis desenham o snapshot da arma emissora, inclusive armas auxiliares e tiros anteriores a reforjas.
 
 ## Testador — BUILD54
 

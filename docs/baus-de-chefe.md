@@ -1,4 +1,4 @@
-# Baús de chefe — BUILD53
+# Baús de chefe — regras atuais na BUILD59
 
 O chefe deixa um baú dourado no local da derrota. Aproxime o robô a menos de40px para abrir e escolher uma entre atétrês peças raras. O mapa marca baús distantes na borda. Eles não expiram e não são atraídos pelo ímã.
 
@@ -11,7 +11,7 @@ Conforme esclarecido pelo jogador, o efeito dura **somente até o fim da partida
 | Câmara de Combustão | Fogo adquirido ou arma incendiária | Queimadura +50% |
 | Cristal de Estase | Frio adquirido ou arma criogênica | Duração do frio de impacto +50% |
 | Capacitor de Tempestade | Descarga adquirida ou arma elétrica | Dano elétrico +40% |
-| Baia de Comando | Drone ativo | Dano dos drones +50%, alcance +20% |
+| Baia de Comando | Drone ativo | Dano imediato×1,5, alcance×1,2; treino em30/60/90s ativos multiplica dano por1,1/1,2/1,3 |
 | Matriz de Caça | Sensor adquirido | Dano do sensor +50%, intervalo ×0,8 |
 | Rolamento de Cerâmica | Rotores adquiridos | Dano dos rotores +50%, período ×0,8 |
 | Cápsula Reagente | Corrosão adquirida | Novas cargas: dano +50%, prazo ×0,75 |
@@ -20,10 +20,13 @@ Conforme esclarecido pelo jogador, o efeito dura **somente até o fim da partida
 | Servo de Alimentação | Qualquer arma | Tempo de recarga ×0,75 |
 | Coração do Reator | Qualquer build | Integridade máxima +30, cura até30 |
 | Núcleo de Potência | Qualquer arma | Dano direto +25% |
+| Colimador de Campo | Qualquer arma | Campo ancorado à frente da mira: tiro que cruza ganha dano×1,35 uma vez |
+
+Colimador é uma alternativa universal, junto de Servo/Coração/Núcleo; sua posição exige alinhamento manual. As regras de cruzamento estão em [Colimador de Campo](colimador-de-campo.md).
 
 Peças específicas são priorizadas na oferta quando a arma ou o suporte correspondente já existe. Armas auxiliares também contam para a elegibilidade. As três opções são distintas; cada peça pode ser instalada uma única vez na tentativa. Não há penalidade de atributo. Instalar não repõe munição nem conclui uma recarga em andamento.
 
-O catálogo comum/painel conserva82 entradas. As12 peças de chefe são um catálogo próprio, consultável no compêndio (94 entradas no total), como as reforjas têm catálogo próprio. Elas não aparecem no level-up e ainda não são editáveis no painel de skills. Depois de esgotar as peças elegíveis daquela build, o baú oferece um Experimento do Biruta anterior, com seu custo descrito; após esgotar também esses experimentos, oferece módulo comum.
+O catálogo comum/painel conserva82 entradas. As13 peças de chefe são um catálogo próprio, consultável no compêndio (95 entradas no total), como as reforjas têm catálogo próprio. Elas não aparecem no level-up e ainda não são editáveis no painel de skills. Depois de esgotar as peças elegíveis daquela build, o baú oferece um Experimento do Biruta anterior, com seu custo descrito; após esgotar também esses experimentos, oferece módulo comum.
 
 ## Integridade da partida
 
@@ -33,7 +36,7 @@ Corrosão já armada conserva seu snapshot; bônus vale para novas cargas. Buffs
 
 ## Verificação
 
-`tests/boss-relics.cjs` cobre as12 peças, elegibilidade, equipamentos auxiliares, buffs seletivos, munição/recarga/perfil, snapshot, três chefes, fronteira de coleta, pausa, recusa, callbacks antigos, baús simultâneos, morte/reset e minimapa. `tests/boss-relics-browser.cjs` verifica Chrome offline em1280×900 e390×844, teclas e rolagem até a última ação, sem transbordamento ou erros.
+`tests/boss-relics.cjs` cobre as13 peças, elegibilidade, equipamentos auxiliares, buffs seletivos, munição/recarga/perfil, snapshot, três chefes, fronteira de coleta, pausa, recusa, callbacks antigos, baús simultâneos, morte/reset e minimapa. `tests/boss-relics-browser.cjs` verifica Chrome offline em1280×900 e390×844, teclas e rolagem até a última ação, sem transbordamento ou erros.
 
 `docs/bot-playtest-build53.json` preserva partidas Chrome completas e uma morte do bot simples. Cada execução inclui seu próprio hash: candidatas com hashes diferentes não são apresentadas como pareamento. O driver11 busca baús pela rota normal, sem teleporte, imunidade ou dano adicional.
 

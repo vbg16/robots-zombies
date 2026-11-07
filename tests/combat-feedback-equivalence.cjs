@@ -6,13 +6,21 @@ const candidate=fs.readFileSync('game.js','utf8'),balance=fs.readFileSync('balan
 const prefix=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 assert.equal(fixture.commit,baselineCommit);assert.equal(hash(baseline),fixture.sha256,'published baseline fixture must retain its exact bytes');
+function legacyPoolSource(source){
+ // Freeze the pre-BUILD59 offer pool for this legacy equivalence experiment.
+ // The new thirteenth relic intentionally changes normal chest RNG/options.
+ const pool="const candidates=BOSS_RELICS.filter(r=>";assert.ok(source.includes(pool),'legacy offer pool hook changed');
+ return source.replace(pool,pool+"r.id!=='fieldCollimator'&&");
+}
 function harness(source){
+ const legacySource=legacyPoolSource(source);
  const setup=prefix.replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage').replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","window.localStorage=localStorage;vm.runInContext(balanceSource,context);vm.runInContext(gameSource,context);");
- const {context}=new Function('require','balanceSource','gameSource',setup+';return {context};')(require,balance,source);
+ const {context}=new Function('require','balanceSource','gameSource',setup+';return {context};')(require,balance,legacySource);
  return script=>vm.runInContext(script,context);
 }
 // Every field below is gameplay or a pre-existing combat effect. Feedback records and
 // the new cosmetic IDs/notice queue are deliberately excluded, because those are the change. Maturation acquisition time is bookkeeping;
+// The BUILD59 spatial relic is not installed in this legacy fixture.
 // these6s worlds explicitly stop before its first30s gameplay stage.
 const snapshot=`JSON.stringify({state,clock,spawn,shot,kills,level,xp,need,player,enemies,boss,bullets,gems,scrap,sparks,effects,hostile,hazards,weaponSlots,weaponFireCursor,runWeapon,runRobot,burstQueue,hordeDirector,commonWaveIndex,bossIndex,bossKills,policeUnlocked,bossSpawned,bossDefeated,bossReward,bossChests,offerVersion,offerSource,specializationOffered,weaponEvolutionOffered,evolutionSlotIndex,evolutionPendingSlots,rerollsRemaining,offeredSkills:offeredSkills.map(s=>s.id),offeredBlessings:offeredBlessings.map(s=>s.id),offeredExperiments:offeredExperiments.map(s=>s.id),offeredRelics:offeredRelics.map(s=>s.id),offeredSpecializations:offeredSpecializations.map(s=>s.id),offeredWeaponEvolutions:offeredWeaponEvolutions.map(s=>s.id),profile,aim,camera,keys:[...keys],firing,selectedRobot,selectedWeapon,selectedAuxWeapons,next:Array.from({length:16},()=>Math.random())},(key,value)=>key==='droneGrowthStart'?undefined:value instanceof Set?[...value]:value)`;
 const modules=['damage','rate','extra','pierce','blast','blastRadius','shock','conductivity','crit','burn','freeze','knock','magnet','repair','killAmmo','coldReload','drones','rotors','sensor','corrosion'];
@@ -33,7 +41,7 @@ for(const spec of cases){
  for(const run of [old,current]){
   run(setup);
   if(spec.mode==='modules')run(`for(const id of ${JSON.stringify(modules)})SKILLS.find(s=>s.id===id).apply()`);
-  if(spec.relics)run(`for(const item of BOSS_RELICS)if(item.eligible()){state='relic';offeredRelics=[item];offerVersion++;chooseRelic(item.id,offerVersion)}`);
+  if(spec.relics)run(`for(const item of BOSS_RELICS)if(item.id!=='fieldCollimator'&&item.eligible()){state='relic';offeredRelics=[item];offerVersion++;chooseRelic(item.id,offerVersion)}`);
   if(spec.bossIndex!==undefined)run(`bossIndex=${spec.bossIndex};spawnBoss();boss.x=player.x+150;boss.y=player.y;`);
   if(spec.shield)run(`globalThis.feedbackShield=createEnemy(player.x+65,player.y,'shieldPolice');feedbackShield.speed=0;enemies.unshift(feedbackShield)`);
   if(spec.death)run('player.hp=6;enemies=[{x:player.x,y:player.y,hp:1000,maxHp:1000,speed:0,r:15,enemyType:"chaser"}]');
@@ -57,6 +65,6 @@ for(const spec of cases){
  }
  results.push({name:spec.name,steps:360,checkpoints:hashes.length,identical:true,stateHashes:hashes});
 }
-const report={bookkeepingExclusions:['droneGrowthStart'],newMechanicScope:'All worlds stay below first30s maturation stage; damage/range/state/RNG still exact. New stages have separate integration tests.',kind:'combat-feedback-gameplay-equivalence',baselineCommit,baselineHash:hash(baseline),candidateHash:hash(candidate),balanceHash:hash(balance),harnessHash:hash(prefix),verifierHash:hash(fs.readFileSync(__filename)),excluded:['feedback','cosmetic IDs','notice queue/DOM'],note:'32 controlled fixtures,360steps each. High-HP targets/immunity are fixture retention only; separate death/retry world uses real damage. Not natural progression, balance approval, graphic performance, or subjective readability.',cases:results};
+const report={legacyOfferPool:true,executionBaselineHash:hash(legacyPoolSource(baseline)),executionCandidateHash:hash(legacyPoolSource(candidate)),bookkeepingExclusions:['droneGrowthStart'],newMechanicScope:'The thirteenth relic is excluded from this controlled legacy offer pool and not installed. All worlds stay below first30s maturation stage; damage/range/state/RNG still exact. New features and normal13-relic offers have separate integration tests.',kind:'combat-feedback-gameplay-equivalence',baselineCommit,baselineHash:hash(baseline),candidateHash:hash(candidate),balanceHash:hash(balance),harnessHash:hash(prefix),verifierHash:hash(fs.readFileSync(__filename)),excluded:['feedback','cosmetic IDs','notice queue/DOM'],note:'32 controlled fixtures,360steps each. High-HP targets/immunity are fixture retention only; separate death/retry world uses real damage. Not natural progression, balance approval, graphic performance, or subjective readability.',cases:results};
 fs.mkdirSync('outputs/combat-feedback',{recursive:true});fs.writeFileSync('outputs/combat-feedback/equivalence.json',JSON.stringify(report,null,2)+'\n');
 console.log(results.length+' feedback worlds match BUILD54: full gameplay/effects/profile/rewards and next RNG at '+results.reduce((n,r)=>n+r.checkpoints,0)+' checkpoints.');

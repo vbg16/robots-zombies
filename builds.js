@@ -82,8 +82,8 @@ const builds=[
  {
   id:'oficina-viva',evolution:'shotgun-choke',name:'Oficina Viva',robot:'nano',weapon:'shotgun',
   summary:'Vida, recarga e resfriamento sustentam um robô pesado de reparo.',
-  engine:'O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações, enquanto o pulso glacial cria espaço.',
-  skills:['magnet','repair','armor','titan','damage','rate','freeze','coldReload'],core:['magnet','repair','armor','titan'],
+  engine:'O NANO repara a fração recarregada. Chassi Titânico converte vida em dano; cura efetiva prepara uma salva com mais50% e duas perfurações. Propulsão Balística alcança chefes distantes e os impactos frios abrem espaço.',
+  skills:['magnet','repair','armor','titan','damage','rate','freeze','range'],core:['magnet','repair','armor','titan'],
   blessings:['spareBattery','copperPlate','greasedServos'],specialization:'repairCharge',experiments:['lithiumPack','volatileReactor'],
   strength:'Reserva de vida alta, reparo recorrente e proteção operacional durante as recargas.',
   weakness:'É lenta e a cura não acompanha dano recebido sem parar; ficar parado em áreas de chefe continua perigoso.',
