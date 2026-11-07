@@ -1,0 +1,598 @@
+{
+  "at": "2026-11-07T03:55:43.524Z",
+  "fixture": "Injected static feedback fixture; not a natural playtest.",
+  "sourceHashes": {
+    "game.js": "4717cf8e42645d3592cfc42e3681c3949dec25c9cec6bd549dfdb3cee29e3742",
+    "style.css": "2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a",
+    "ui-redesign.css": "d3d516bf5ffaefaeade3d57c930eba7933366d58db91f351828a1528152ace89",
+    "index.html": "d822bc7e57242839ebbabe41d8080b49412c0ddc606150513845c641b7b4cef9"
+  },
+  "testHash": "05a365b5100a836cb7ca00ebc93022b360e197a47bfad7f6d3e8498b8cb7182a",
+  "errors": [],
+  "evidence": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "noticeRect": {
+        "x": 944,
+        "y": 260,
+        "width": 320,
+        "height": 76
+      },
+      "dangerRect": {
+        "x": 724,
+        "y": 300,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 1136,
+          "y": 112,
+          "width": 130,
+          "height": 130
+        },
+        "health": {
+          "x": 92,
+          "y": 48,
+          "width": 166,
+          "height": 14
+        },
+        "boss-hud": {
+          "x": 362,
+          "y": 14,
+          "width": 606,
+          "height": 86
+        },
+        "ammo-count": {
+          "x": 26,
+          "y": 839,
+          "width": 101.03125,
+          "height": 26
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 1320,
+        "height": 900
+      },
+      "resizedRect": {
+        "x": 984,
+        "y": 260,
+        "width": 320,
+        "height": 76
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "noticeRect": {
+        "x": 12,
+        "y": 212,
+        "width": 250,
+        "height": 65
+      },
+      "dangerRect": {
+        "x": 279,
+        "y": 272,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 298,
+          "y": 198,
+          "width": 84,
+          "height": 84
+        },
+        "health": {
+          "x": 13,
+          "y": 38.375,
+          "width": 146,
+          "height": 11
+        },
+        "boss-hud": {
+          "x": 8,
+          "y": 100,
+          "width": 374,
+          "height": 82
+        },
+        "ammo-count": {
+          "x": 20,
+          "y": 788,
+          "width": 107,
+          "height": 18
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 360,
+        "height": 844
+      },
+      "resizedRect": {
+        "x": 12,
+        "y": 304,
+        "width": 220,
+        "height": 65
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 500
+      },
+      "noticeRect": {
+        "x": 12,
+        "y": 351,
+        "width": 250,
+        "height": 29
+      },
+      "dangerRect": {
+        "x": 279,
+        "y": 100,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 298,
+          "y": 198,
+          "width": 84,
+          "height": 84
+        },
+        "health": {
+          "x": 13,
+          "y": 38.375,
+          "width": 146,
+          "height": 11
+        },
+        "boss-hud": {
+          "x": 8,
+          "y": 100,
+          "width": 374,
+          "height": 82
+        },
+        "ammo-count": {
+          "x": 20,
+          "y": 444,
+          "width": 107,
+          "height": 18
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 360,
+        "height": 500
+      },
+      "resizedRect": {
+        "x": 12,
+        "y": 351,
+        "width": 220,
+        "height": 29
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 900,
+        "height": 500
+      },
+      "noticeRect": {
+        "x": 710,
+        "y": 206,
+        "width": 180,
+        "height": 34.5
+      },
+      "dangerRect": {
+        "x": 534,
+        "y": 100,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 814,
+          "y": 76,
+          "width": 76,
+          "height": 76
+        },
+        "health": {
+          "x": 54,
+          "y": 29.890625,
+          "width": 118.3125,
+          "height": 10
+        },
+        "boss-hud": {
+          "x": 246.3125,
+          "y": 8,
+          "width": 407.359375,
+          "height": 58
+        },
+        "ammo-count": {
+          "x": 18,
+          "y": 449,
+          "width": 74.03125,
+          "height": 22
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 940,
+        "height": 500
+      },
+      "resizedRect": {
+        "x": 690,
+        "y": 345.5,
+        "width": 240,
+        "height": 34.5
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 900,
+        "height": 768
+      },
+      "noticeRect": {
+        "x": 644,
+        "y": 340,
+        "width": 240,
+        "height": 76
+      },
+      "dangerRect": {
+        "x": 534,
+        "y": 234,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 770,
+          "y": 208,
+          "width": 116,
+          "height": 116
+        },
+        "health": {
+          "x": 92,
+          "y": 46.5,
+          "width": 166,
+          "height": 14
+        },
+        "boss-hud": {
+          "x": 14,
+          "y": 108,
+          "width": 872,
+          "height": 82
+        },
+        "ammo-count": {
+          "x": 26,
+          "y": 707,
+          "width": 101.03125,
+          "height": 26
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 940,
+        "height": 768
+      },
+      "resizedRect": {
+        "x": 684,
+        "y": 340,
+        "width": 240,
+        "height": 76
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "noticeRect": {
+        "x": 654,
+        "y": 206,
+        "width": 180,
+        "height": 34.5
+      },
+      "dangerRect": {
+        "x": 506,
+        "y": 45,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 758,
+          "y": 76,
+          "width": 76,
+          "height": 76
+        },
+        "health": {
+          "x": 54,
+          "y": 29.890625,
+          "width": 103.578125,
+          "height": 10
+        },
+        "boss-hud": {
+          "x": 231.578125,
+          "y": 8,
+          "width": 380.828125,
+          "height": 58
+        },
+        "ammo-count": {
+          "x": 18,
+          "y": 339,
+          "width": 74.03125,
+          "height": 22
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 884,
+        "height": 390
+      },
+      "resizedRect": {
+        "x": 694,
+        "y": 206,
+        "width": 180,
+        "height": 34.5
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "noticeRect": {
+        "x": 550,
+        "y": 206,
+        "width": 180,
+        "height": 34.5
+      },
+      "dangerRect": {
+        "x": 454,
+        "y": 30,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 654,
+          "y": 76,
+          "width": 76,
+          "height": 76
+        },
+        "health": {
+          "x": 54,
+          "y": 29.890625,
+          "width": 76.203125,
+          "height": 10
+        },
+        "boss-hud": {
+          "x": 204.203125,
+          "y": 8,
+          "width": 331.578125,
+          "height": 58
+        },
+        "ammo-count": {
+          "x": 18,
+          "y": 309,
+          "width": 74.03125,
+          "height": 22
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 780,
+        "height": 360
+      },
+      "resizedRect": {
+        "x": 590,
+        "y": 206,
+        "width": 180,
+        "height": 34.5
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    },
+    {
+      "viewport": {
+        "width": 932,
+        "height": 430
+      },
+      "noticeRect": {
+        "x": 682,
+        "y": 275.5,
+        "width": 240,
+        "height": 34.5
+      },
+      "dangerRect": {
+        "x": 550,
+        "y": 65,
+        "width": 92,
+        "height": 234
+      },
+      "hudRects": {
+        "minimap": {
+          "x": 846,
+          "y": 76,
+          "width": 76,
+          "height": 76
+        },
+        "health": {
+          "x": 54,
+          "y": 29.890625,
+          "width": 126.734375,
+          "height": 10
+        },
+        "boss-hud": {
+          "x": 254.734375,
+          "y": 8,
+          "width": 422.515625,
+          "height": 58
+        },
+        "ammo-count": {
+          "x": 18,
+          "y": 379,
+          "width": 74.03125,
+          "height": 22
+        }
+      },
+      "initialControls": true,
+      "resizedViewport": {
+        "width": 972,
+        "height": 430
+      },
+      "resizedRect": {
+        "x": 722,
+        "y": 275.5,
+        "width": 240,
+        "height": 34.5
+      },
+      "numericDrawCalls": 10,
+      "numericTexts": [
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "15",
+        "CRIT 45",
+        "135",
+        "90"
+      ],
+      "pureDraw": true,
+      "pause": true,
+      "expiry": true,
+      "reset": true,
+      "dedup": true
+    }
+  ]
+}

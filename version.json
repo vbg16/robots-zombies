@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Bot driver13 com aproximação segura de baús, verificação de integridade e retomada de XP. Comparação de oito sementes e candidatos preservados. Runtime de combate da BUILD53; desenvolvimento, sem aprovação pública.",
-  "build": 54
+  "notes": "Feedback visual agrupado e avisos laterais; HUD compacto em paisagem para celular. Navegação abre no topo. Revisão coordenada nos chats do projeto. Controles de toque ainda pendentes; desenvolvimento sem aprovação pública.",
+  "build": 55
 }

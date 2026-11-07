@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 54 · desenvolvimento
+# Screwvivors — BUILD 55 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -110,3 +110,5 @@ BUILD52: diretor procedural com limite de60→180 zumbis comuns vivos, gatilhos 
 BUILD53: chefes deixam baús com12peças raras exclusivas, válidas sódurantea partida. Bot inteligente/simples executável por Testar-com-bot.cmd, com relatório e capturas. Projéteis usam a identidade da própria arma e sinalizam crítico. [Bot e uso](docs/bot-de-testes.md) · [Baús e regras](docs/baus-de-chefe.md).
 
 BUILD54: bot avalia o risco imediato antes de buscar baús, preserva a busca de XP e consegue se aproximar sem exigir uma rota inteira vazia. A comparação conserva a morte original e o candidato rejeitado. [Evidências e limites](docs/bot-rotas-seguras.md).
+
+BUILD55: avisos laterais, números de dano agrupados por alvo/fonte e crítico destacado. HUD compacto para celular na horizontal. Garagem e Configuração abrem no topo com foco no título. Correções revisadas pelos chats do projeto. [Leitura do combate e limites](docs/feedback-combate.md).

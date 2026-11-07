@@ -1,0 +1,113 @@
+{
+  "at": "2026-11-07T03:57:46.720Z",
+  "fixture": "Fresh browser saves; no gear/resource fixtures.",
+  "sourceHashes": {
+    "game.js": "4717cf8e42645d3592cfc42e3681c3949dec25c9cec6bd549dfdb3cee29e3742",
+    "index.html": "d822bc7e57242839ebbabe41d8080b49412c0ddc606150513845c641b7b4cef9",
+    "style.css": "2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a",
+    "ui-redesign.css": "d3d516bf5ffaefaeade3d57c930eba7933366d58db91f351828a1528152ace89"
+  },
+  "testHash": "d54761fd0ba7a9d9d1696600a756bc2ea0dbf786a8b53a374632b878cf9a805c",
+  "results": [
+    {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "garage": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 72,
+        "overflow": false
+      },
+      "config": {
+        "scroll": 0,
+        "focus": "config-title",
+        "top": 79.6875,
+        "overflow": false
+      },
+      "returned": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 72,
+        "overflow": false
+      },
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "garage": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 72,
+        "overflow": false
+      },
+      "config": {
+        "scroll": 0,
+        "focus": "config-title",
+        "top": 62.25,
+        "overflow": false
+      },
+      "returned": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 72,
+        "overflow": false
+      },
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "garage": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 72,
+        "overflow": false
+      },
+      "config": {
+        "scroll": 0,
+        "focus": "config-title",
+        "top": 58.09375,
+        "overflow": false
+      },
+      "returned": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 72,
+        "overflow": false
+      },
+      "errors": []
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "garage": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 60,
+        "overflow": false
+      },
+      "config": {
+        "scroll": 0,
+        "focus": "config-title",
+        "top": 52.5,
+        "overflow": false
+      },
+      "returned": {
+        "scroll": 0,
+        "focus": "garage-title",
+        "top": 60,
+        "overflow": false
+      },
+      "errors": []
+    }
+  ]
+}

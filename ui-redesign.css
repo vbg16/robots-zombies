@@ -155,4 +155,33 @@ body:has(#run-config:not([hidden])) main{width:100%;height:auto;min-height:100dv
 @media(max-width:430px){.combat-screen .hud-unit>img{display:none}.combat-screen .hud>div:first-child.hud-unit{gap:0}.combat-screen .xp-cue{font-size:8px;letter-spacing:.25px}}
 .combat-screen .hud #hud-robot-name{font-size:14px;line-height:1.25}.combat-screen .hud #health-value{font-size:11px;line-height:1.2}@media(max-width:720px){.combat-screen .hud #hud-robot-name{font-size:10px}.combat-screen .hud #health-value{font-size:9px}}@media(max-width:430px){.combat-screen .hud #hud-robot-name{font-size:9px}.combat-screen .hud #health-value{font-size:8px}}
 
+/* Landscape is the gameplay layout for phones; keep the centre of the arena clear. */
+@media(orientation:landscape) and (max-height:600px) and (max-width:1100px){
+ .combat-screen .hud{inset:8px 10px auto;display:grid;grid-template-columns:minmax(175px,1fr) minmax(215px,1.8fr) minmax(145px,1fr);gap:10px;align-items:start;}
+ .combat-screen .hud>div:first-child.hud-unit{position:static;left:auto;top:auto;width:100%;max-width:none;min-width:0;min-height:58px;padding:6px;gap:6px;}
+ .combat-screen .hud-unit>img{display:block;width:32px;height:36px;}
+ .combat-screen .hud #hud-robot-name{font-size:10px;}.combat-screen .hud #health-value{font-size:9px;min-width:50px;}
+ .combat-screen .hud-unit-heading{margin-bottom:3px;}.combat-screen .hud-unit-heading b:last-child{display:block;font-size:8px;}.combat-screen .hud-unit-heading #level{font-size:10px;}
+ .combat-screen .health-track{height:10px;}.combat-screen .xp-cue{font-size:7px;letter-spacing:0;}
+ .combat-screen .hud .boss-hud{position:static;left:auto;right:auto;top:auto;width:100%;min-height:58px;padding:5px 8px;font-size:9px;letter-spacing:.2px;}
+ .combat-screen .hud #boss-support{font-size:7px;}.combat-screen .hud .boss-track{height:8px;margin-top:4px;}
+ .combat-screen .hud .hud-right{position:relative;top:auto;right:auto;width:100%;grid-column:3;}
+ .combat-screen .hud .hud-stats{width:100%;min-height:58px;padding:6px;gap:5px;}.combat-screen .hud .hud-stats>div{min-width:32px;}
+ .combat-screen .hud .hud-stats b{font-size:15px;}.combat-screen .hud .hud-stats small{font-size:7px;letter-spacing:.3px;}
+ .combat-screen #pause{min-width:36px;padding:7px;font-size:12px;}
+ .combat-screen .hud #minimap{position:absolute;top:68px;right:0;width:76px;}
+ .combat-screen .combat-controls{left:10px;top:78px;transform:none;width:calc(100% - 132px);max-width:none;padding:6px 8px;gap:2px;text-align:left;}
+ .combat-screen .combat-controls strong{font-size:9px;}.combat-screen .combat-controls span{font-size:8px;}
+ .combat-screen .combat-notices{left:auto;right:10px;width:240px;max-width:calc(100% - 24px);}
+ .combat-screen .salvage-hint{top:160px;bottom:auto;right:10px;max-width:240px;padding:4px 6px;font-size:8px;letter-spacing:0;}
+ .combat-screen .salvage-hint span{font-size:10px;}
+ .combat-screen .combat-build{left:10px;bottom:10px;width:200px;}.combat-screen .ammo-panel{padding:6px 8px!important;}
+ .combat-screen .ammo-panel>b{font-size:18px;}.combat-screen .ammo-panel>span{font-size:8px;}
+}
+@media(orientation:landscape) and (max-height:600px) and (max-width:900px){
+ .combat-screen .combat-notices,.combat-screen .combat-controls:not([hidden])~.combat-notices{top:206px;bottom:auto;width:180px;}
+ .combat-screen .salvage-hint{max-width:180px;}
+ .combat-screen .combat-notice:last-child{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;max-height:53px;overflow:hidden;}
+}
+
 @media(max-width:720px){.combat-screen .cooldown-hud{flex-wrap:wrap;overflow:visible;align-content:flex-end}.combat-screen:has(#cooldowns .cooldown-item:nth-child(4)) .salvage-hint{bottom:180px;right:8px;max-width:calc(100% - 16px)}}

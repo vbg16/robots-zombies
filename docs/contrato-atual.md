@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 54
+# Contrato vigente — Screwvivors BUILD 55
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -82,3 +82,7 @@ São12peças raras fora do pool normal e do catálogo editável82; compêndio co
 ## Testador — BUILD54
 
 Driver13 avalia a aproximação imediata de baús: integridade ao menos35%, distância até1200px e corredor imediato de70–130px sem inimigo vivo a menos do raio+32px. O objetivo de baú usa peso0,8; ao descartá-lo, retoma XP e ameaças normais. Modo legacy de laboratório reproduz a política anterior para comparação; não altera o jogo normal. Resultados curtos têm viabilidade completa nula. Atributos e mecânicas do runtime continuam os da BUILD53.
+
+## Leitura visual e navegação — BUILD55
+
+Avisos em região de status separada: até2visíveis,4nafila,2,4s de combate, dedup e pausa/reset preservados. Dano agrupa por alvo/fonte/crit em160ms; escudo separado, até3rótulosrecentes poralvo. Móvel tem como alvo gameplay horizontal, com HUDcompacto. Essa etapa cobre layout, não conclui controlesdetoque. Garagem/configuração voltam ao topo e focam seus títulos semrolagem automática atéCTA. Physics/RNG protegidos em32mundos, apresentação em8viewports e navegação em4. Ver feedback-combate.md e coordenacao-chats.md.

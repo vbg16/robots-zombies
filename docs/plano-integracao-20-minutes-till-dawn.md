@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 54:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 55:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -268,3 +268,7 @@ Chefe deixa baú com escolha de hardware raro, favorecendo arma ou suporte insta
 ### BUILD54 — Investigação de risco e coleta do bot
 
 Reprodução em oito sementes separou política de coleta e atributos da build. Primeiro candidato cauteloso travou a coleta da Oficina e foi rejeitado; Driver13 verifica a aproximação imediata. Testes, mortes e fontes preservados em bot-rotas-seguras.md. Isso melhora a base de medição para equilíbrio, sem presumir dificuldade humana a partir de um bot.
+
+### BUILD55 — Clareza de combate e paisagem móvel
+
+Avisos deduplicados fora do centro, números agrupados, critical/escudo/fontes preservados. HUDhorizontal compacto por definição do usuário. Os chats Tester inteligente, tester burro, Dev designer e Revisor do projeto participaram da avaliação; problemas de tutorial, compactos e rolagem foram tratados. Testes e limitações em feedback-combate.md. Controles de toque e avaliações amplas de equilíbrio permanecem etapas próprias.
