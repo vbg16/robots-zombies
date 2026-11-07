@@ -185,3 +185,6 @@ body:has(#run-config:not([hidden])) main{width:100%;height:auto;min-height:100dv
 }
 
 @media(max-width:720px){.combat-screen .cooldown-hud{flex-wrap:wrap;overflow:visible;align-content:flex-end}.combat-screen:has(#cooldowns .cooldown-item:nth-child(4)) .salvage-hint{bottom:180px;right:8px;max-width:calc(100% - 16px)}}
+.landscape-hint{position:absolute;inset:0;z-index:12;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:28px;background:rgba(7,19,24,.97);text-align:center;color:#d9f5f4;}
+.landscape-hint[hidden]{display:none;}.landscape-hint strong{font-size:24px;color:#7ce4e1;letter-spacing:3px;}.landscape-hint p{max-width:300px;line-height:1.6;}.landscape-hint button{min-height:44px;}
+.touch-help{display:none;}@media(pointer:coarse){.touch-help{display:block;}.desktop-help{display:none!important;}}

@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 55:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 56:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -20,7 +20,7 @@ O contrato atual que toda etapa deve preservar é: arena sem bordas e sem tempo 
 | Pulsos em área e transmissão de estados | **Adaptado na BUILD44.** Sensores de campo: pulso, alcance, relé e exposição. | A arma principal permanece manual. Relé só fogo/frio, sem crítico/descarga/explosão/corrosão/empurrão; exposição só em balas e escudo bloqueia estados. |
 | Dano adiado e propagação | **Adaptado na BUILD43.** Reagentes de sucata: raiz corrosiva e três derivações, com prazo, respingo limitado e catalisador térmico. | Uma carga por alvo, snapshot, escudos respeitados e sem recursão; números no painel, migração 70→74 e tentativas negativas preservadas. |
 | Bênçãos escolhidas no início da tentativa | **Adaptado parcialmente.** “Gambiarras do Biruta” surgem nos níveis 3, 6 e 9 como três escolhas únicas entre seis efeitos temporários; também podem ser puladas. | A cadência, efeitos e pool são experimentais. Não persistir na garagem. Testar escolha de teclado, seleção obsoleta, ausência de repetição, reset e corrida longa. |
-| Tomes/recompensas de chefe | **Adaptado parcialmente.** Chefes curam, entregam uma peça persistente e abrem um “Experimento do Biruta” temporário com vantagem e custo. Após esgotar seis opções únicas na tentativa, a recompensa volta a oferecer um módulo comum. | Efeitos e valores são experimentais. Ajustar só após playtest; nunca salvar os experimentos no perfil. A peça persistente permanece independente da escolha. |
+| Tomes/recompensas de chefe | **Adaptado.** Chefe cura, salva uma peça de garagem e deixa baú físico com escolha entre12relíquias temporárias, favorecendo o equipamento e a build. | Sem repetição por tentativa; coleta manual até40px. Sem elegíveis, usa seis experimentos e depois módulo comum. Efeitos não persistem após morrer; peça de garagem é recurso independente. Ver baus-de-chefe.md. |
 | Runas e progresso entre tentativas | **Adaptado parcialmente.** Perfil local conserva parafusos/peças após a morte e usa esses recursos para desbloquear equipamento sem bônus permanentes de atributos. | Custos e velocidade de progressão são experimentais. Não adicionar vantagens de atributo que persistam entre tentativas. |
 | Elenco de personagens e armas | **Adaptado parcialmente.** Perfis novos começam com PROT-0001 + Metralhadora; compras na garagem desbloqueiam as outras armas e cinco chassis adicionais. Saves v1 migram com acesso a todo o catálogo do protótipo preservado. | Preços e cadência são experimentais. Arsenal avançado implementado na BUILD51: BAST até2armas, ENXA até3, com custos explícitos. Especializações e reforjas já existem. |
 | Especializações de personagem/arma | **Chassi: 18 protocolos, escolha no nível 10. Armas: 24 reforjas, escolha no nível 20.** | Uma entre três especializações do robô no nível 10 e uma entre duas reforjas da arma no nível 20. Não permitir troca/fusão do loadout; escolhas somem no reset. |
@@ -272,3 +272,7 @@ Reprodução em oito sementes separou política de coleta e atributos da build. 
 ### BUILD55 — Clareza de combate e paisagem móvel
 
 Avisos deduplicados fora do centro, números agrupados, critical/escudo/fontes preservados. HUDhorizontal compacto por definição do usuário. Os chats Tester inteligente, tester burro, Dev designer e Revisor do projeto participaram da avaliação; problemas de tutorial, compactos e rolagem foram tratados. Testes e limitações em feedback-combate.md. Controles de toque e avaliações amplas de equilíbrio permanecem etapas próprias.
+
+### BUILD56 — Entrada móvel manual
+
+Dois direcionais para celular na horizontal, recarga e propulsor condicionado à skill. Cancelamento e rotação seguros, preservando mira/disparo manuais e comandos de PC. Regras e limites em controles-touch.md. Auditoria de escopo confirmou as dez receitas reais e identificou como próximas etapas a telemetria de progressão/alcance e o desempenho no caos atual, sem interpretar builds fortes como defeito.

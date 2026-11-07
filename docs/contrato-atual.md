@@ -1,4 +1,4 @@
-# Contrato vigente — Screwvivors BUILD 55
+# Contrato vigente — Screwvivors BUILD 56
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 
@@ -86,3 +86,7 @@ Driver13 avalia a aproximação imediata de baús: integridade ao menos35%, dist
 ## Leitura visual e navegação — BUILD55
 
 Avisos em região de status separada: até2visíveis,4nafila,2,4s de combate, dedup e pausa/reset preservados. Dano agrupa por alvo/fonte/crit em160ms; escudo separado, até3rótulosrecentes poralvo. Móvel tem como alvo gameplay horizontal, com HUDcompacto. Essa etapa cobre layout, não conclui controlesdetoque. Garagem/configuração voltam ao topo e focam seus títulos semrolagem automática atéCTA. Physics/RNG protegidos em32mundos, apresentação em8viewports e navegação em4. Ver feedback-combate.md e coordenacao-chats.md.
+
+## Entrada móvel — BUILD56
+
+Dois direcionais manuais em paisagem, mira unitária fora da zona neutra, sem alvo automático. Cada ponteiro tem ciclo próprio; transições limpam comandos/rajadas e rotação para retrato pausa sem retomada automática. Recarga e propulsor usam as funções existentes; propulsor requer skill. Teclado tem prioridade no movimento, mouse passivo não sequestra mira do dedo e cancelamento só encerra disparo de mouse do ponteiro dono. Ver controles-touch.md.

@@ -1,0 +1,221 @@
+/*
+ * ScrewTouchControls contract
+ * Host: #touch-controls inside #combat. mount(host, callbacks) adds the layer;
+ * setEnabled(true/false) unhides/hides the host. The game toggles .touch-active
+ * on #combat for the mobile HUD layout.
+ * Public hooks: #touch-move, #touch-aim, #touch-reload, #touch-dash and the
+ * data-touch-* attributes created by touch-controls.js.
+ */
+#touch-controls.touch-controls-host {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+#touch-controls .touch-controls-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#touch-controls .touch-controls-layer[hidden] {
+  display: none;
+}
+
+#touch-controls .touch-pad,
+#touch-controls .touch-action-stack {
+  position: absolute;
+  pointer-events: auto;
+}
+
+#touch-controls .touch-pad {
+  --touch-pad-size: clamp(96px, 28vh, 124px);
+  width: var(--touch-pad-size);
+  height: var(--touch-pad-size);
+  box-sizing: border-box;
+  border: 1px solid #84dff477;
+  border-radius: 50%;
+  background: radial-gradient(circle, #0c2436b8 0 36%, #091b2cb8 37% 68%, #061321ad 69%);
+  box-shadow: inset 0 0 0 5px #18364b99, 0 0 18px #35bfe31c;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#touch-controls .touch-pad::before,
+#touch-controls .touch-pad::after {
+  position: absolute;
+  content: "";
+  left: 50%;
+  top: 50%;
+  background: #9beaff24;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+#touch-controls .touch-pad::before { width: 1px; height: 68%; }
+#touch-controls .touch-pad::after { width: 68%; height: 1px; }
+
+#touch-controls .touch-pad--move { left: 14px; bottom: 12px; }
+#touch-controls .touch-pad--aim { right: 14px; bottom: 12px; }
+
+#touch-controls .touch-pad-ring {
+  position: absolute;
+  inset: 17%;
+  border: 1px dashed #87e5f45c;
+  border-radius: 50%;
+}
+
+#touch-controls .touch-pad-axis {
+  position: absolute;
+  inset: 36%;
+  border: 1px solid #9ceafa50;
+  border-radius: 50%;
+}
+
+#touch-controls .touch-pad-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30%;
+  height: 30%;
+  border: 1px solid #c5f6ff;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #78e7f8, #167ba7 72%);
+  box-shadow: 0 0 12px #56dafa85, inset 0 0 0 3px #14334a;
+  transform: translate(calc(-50% + var(--touch-knob-x, 0px)), calc(-50% + var(--touch-knob-y, 0px)));
+  pointer-events: none;
+  transition: box-shadow .12s ease;
+}
+
+#touch-controls .touch-pad--aim .touch-pad-knob {
+  background: radial-gradient(circle at 35% 30%, #d6faff, #38bedf 72%);
+}
+
+#touch-controls .touch-pad.is-active .touch-pad-knob {
+  box-shadow: 0 0 18px #56e5ffbd, inset 0 0 0 3px #14334a;
+}
+
+#touch-controls .touch-pad-caption {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  z-index: 1;
+  padding: 2px 5px;
+  border: 1px solid #80dcec42;
+  background: #061321d9;
+  color: #bcecf6;
+  font: 700 7px/1.2 monospace;
+  letter-spacing: .45px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+#touch-controls .touch-pad--aim .touch-pad-caption { color: #90eaff; }
+
+#touch-controls .touch-action-stack {
+  right: calc(14px + clamp(96px, 28vh, 124px) + 10px);
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#touch-controls .touch-action-button {
+  display: flex;
+  width: 48px;
+  min-height: 48px;
+  padding: 4px 2px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid #75d9ed99;
+  border-radius: 4px;
+  background: linear-gradient(145deg, #112c40ed, #071726f2);
+  color: #c5f2fa;
+  box-shadow: inset 0 0 0 2px #1c4154ad, 0 2px 8px #0008;
+  font-family: monospace;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#touch-controls .touch-action-button[hidden] { display: none; }
+#touch-controls .touch-action-button:active,
+#touch-controls .touch-action-button.is-pressed {
+  background: #16506a;
+  border-color: #b2f5ff;
+  color: #effdff;
+}
+
+#touch-controls .touch-action-icon {
+  font: 700 19px/1 monospace;
+  color: #6ee2f7;
+}
+
+#touch-controls .touch-action-label {
+  font: 700 6px/1 monospace;
+  letter-spacing: .25px;
+  white-space: nowrap;
+}
+
+/* Lift dense HUD pieces out of the thumb zones while touch play is active. */
+#combat.touch-active #combat-controls { display: none !important; }
+#combat.touch-active .combat-build {
+  pointer-events: auto;
+  touch-action: pan-y;
+  left: 10px;
+  top: 76px;
+  bottom: auto;
+  width: min(190px, calc(100% - 205px));
+  max-height: calc(100% - clamp(96px, 28vh, 124px) - 94px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+#combat.touch-active .combat-build .ammo-panel { padding: 5px 7px !important; }
+#combat.touch-active .combat-build .ammo-panel>b { font-size: 16px; white-space: nowrap; }
+#combat.touch-active .combat-build .ammo-panel>span { font-size: 7px; }
+#combat.touch-active #minimap { top: 68px; right: 10px; width: 72px; }
+#combat.touch-active .salvage-hint {
+  top: 150px;
+  right: 10px;
+  bottom: auto;
+  max-width: 174px;
+  font-size: 7px;
+}
+#combat.touch-active .combat-notices {
+  top: 194px;
+  right: 10px;
+  bottom: auto;
+  left: auto;
+  width: 174px;
+  max-width: calc(100% - 210px);
+}
+
+@media (orientation: landscape) and (max-height: 400px) {
+  #touch-controls .touch-pad { --touch-pad-size: clamp(90px, 26vh, 108px); }
+  #touch-controls .touch-action-stack {
+    right: calc(14px + clamp(90px, 26vh, 108px) + 8px);
+    bottom: 24px;
+    gap: 5px;
+  }
+  #touch-controls .touch-action-button { width: 42px; min-height: 42px; }
+}
+
+@media (orientation: landscape) and (max-width: 760px) {
+  #touch-controls .touch-pad--move { left: 9px; }
+  #touch-controls .touch-pad--aim { right: 9px; }
+  #touch-controls .touch-action-stack {
+    right: calc(9px + clamp(96px, 28vh, 124px) + 7px);
+  }
+  #combat.touch-active .combat-build { left: 8px; width: 158px; }
+  #combat.touch-active .combat-notices { right: 8px; width: 152px; max-width: 152px; }
+  #combat.touch-active .salvage-hint { right: 8px; max-width: 152px; }
+}

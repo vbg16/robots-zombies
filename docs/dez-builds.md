@@ -1,4 +1,4 @@
-# Dez projetos de build do Screwvivors — BUILD 49
+# Dez projetos de build do Screwvivors — estado atual BUILD56
 
 Implementações originais para combinar chassi, arma, aprimoramentos, condição de ativação e uma forma de sobreviver. O catálogo jogável está em `builds.js`. No menu ou na garagem, abra **PROJETOS DE BUILD** para consultar as receitas e acompanhar a montagem durante a partida.
 
@@ -32,7 +32,7 @@ As ordens completas de oito skills, quatro peças centrais, gambiarras, experime
 | NANO-0005 |110|165|0|Recarga integral repara até 3; uma recarga parcial repara proporcionalmente |
 | ENXA-0006 |95|170|0|Começa com um drone independente da arma |
 
-Os quatro chassis novos têm três protocolos próprios cada. Suas aparências usam variações provisórias dos sprites industriais existentes. Os desbloqueios são compras da garagem; o guia não entrega equipamento bloqueado. Perfis antigos mantêm seus desbloqueios anteriores.
+Os seis chassis têm três protocolos próprios cada. Possuem sprites e retratos próprios; os cinco chassis adicionais têm arte raster e fallback vetorial. Veja chassis-e-chefes.md para a integração e os limites de acabamento. Os desbloqueios são compras da garagem; o guia não entrega equipamento bloqueado. Perfis antigos mantêm seus desbloqueios anteriores.
 
 ## Regras das interações
 
@@ -44,7 +44,7 @@ Os quatro chassis novos têm três protocolos próprios cada. Suas aparências u
 - **Drones:** máximo de três, intervalo mínimo de 0,35 s e alcance definido. Não consomem a munição da arma nem iniciam procs de projétil. O arco secundário não é recursivo.
 - **Reparo:** só a vida efetivamente recuperada ativa os protocolos de cura. Recarregar uma bala não concede o reparo de um carregador inteiro. A carga ofensiva não acumula e é consumida em uma emissão.
 
-O catálogo passa a 78 registros: 48 skills normais em 12 árvores, seis gambiarras, seis experimentos e 18 protocolos de chassi. Os 54 IDs anteriores continuam existentes. Configurações e rascunhos da BUILD 39 são migrados preservando as edições; um ID personalizado que passe a colidir com um novo módulo é renomeado com suas referências.
+O catálogo editável atual tem82 registros:52skills normais em13árvores, seis gambiarras, seis experimentos e18protocolos de chassi. A revisão6 preserva edições do painel nas migrações. Há ainda24reforjas de arma e12relíquias temporárias de baú fora desse catálogo; o compêndio de módulos e relíquias mostra94entradas. Consulte contrato-atual.md e baus-de-chefe.md.
 
 ## Ajustes gerais de balanceamento
 

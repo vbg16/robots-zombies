@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Feedback visual agrupado e avisos laterais; HUD compacto em paisagem para celular. Navegação abre no topo. Revisão coordenada nos chats do projeto. Controles de toque ainda pendentes; desenvolvimento sem aprovação pública.",
-  "build": 55
+  "notes": "Controles manuais de toque para celular na horizontal, dois direcionais independentes, recarga e propulsor adquirido. Rotação pausa sem retomada automática. Desenvolvimento sem aprovação pública; conforto em aparelho físico ainda precisa de playtest.",
+  "build": 56
 }

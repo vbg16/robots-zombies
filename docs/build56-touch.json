@@ -1,0 +1,190 @@
+{
+  "scope": "Chrome CDP multi-touch emulation, synthetic isolated input fixtures, no physical-device or progression claim",
+  "selectors": {
+    "move": "[data-touch-pad=\"move\"]",
+    "aim": "[data-touch-pad=\"aim\"]",
+    "reload": "[data-touch-action=\"reload\"]",
+    "dash": "[data-touch-action=\"dash\"]"
+  },
+  "hashes": {
+    "game.js": "ade34fac783b2695d4a6ab3c42f0e64443f425adf96295bd792a6766c8900461",
+    "index.html": "09329c40ce0c6547cc09515c668e09c94d01bef0cdcba2c622f8443ba0f22b94",
+    "touch-controls.js": "69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34",
+    "touch-controls.css": "bddb514a8028b9d60a7340dfbf6d1bac256fe77e637f29089b4d51467b4f2ec4"
+  },
+  "errors": [],
+  "cases": [
+    {
+      "viewport": {
+        "width": 844,
+        "height": 390
+      },
+      "checks": [
+        "movement dead zone",
+        "aim dead zone",
+        "simultaneous movement/fire and move release independence",
+        "aim release independence",
+        "touchCancel clears both fingers",
+        "normalized diagonal",
+        "reload",
+        "dash skill gate",
+        "pause/offer/death/reset cancel commands and prevent stale resume",
+        "portrait pause and explicit continue after rotation",
+        "mouse/keyboard compatibility in touch context",
+        "synthetic ENXA three-weapon HUD, clear center, real overflow swipe"
+      ],
+      "layout": {
+        "weapons": [
+          "machine",
+          "laser",
+          "shotgun"
+        ],
+        "panel": {
+          "x": 10,
+          "y": 76,
+          "right": 200,
+          "bottom": 254,
+          "width": 190,
+          "height": 178
+        },
+        "scrollHeight": 178,
+        "clientHeight": 178,
+        "pointerEvents": "auto",
+        "touchAction": "pan-y",
+        "move": {
+          "x": 14,
+          "y": 276.609375,
+          "right": 115.390625,
+          "bottom": 378,
+          "width": 101.390625,
+          "height": 101.390625
+        },
+        "aim": {
+          "x": 728.609375,
+          "y": 276.609375,
+          "right": 830,
+          "bottom": 378,
+          "width": 101.390625,
+          "height": 101.390625
+        },
+        "overflow": false
+      },
+      "status": "passed"
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "checks": [
+        "movement dead zone",
+        "aim dead zone",
+        "simultaneous movement/fire and move release independence",
+        "aim release independence",
+        "touchCancel clears both fingers",
+        "normalized diagonal",
+        "reload",
+        "dash skill gate",
+        "pause/offer/death/reset cancel commands and prevent stale resume",
+        "portrait pause and explicit continue after rotation",
+        "mouse/keyboard compatibility in touch context",
+        "synthetic ENXA three-weapon HUD, clear center, real overflow swipe"
+      ],
+      "layout": {
+        "weapons": [
+          "machine",
+          "laser",
+          "shotgun"
+        ],
+        "panel": {
+          "x": 8,
+          "y": 76,
+          "right": 166,
+          "bottom": 241.1875,
+          "width": 158,
+          "height": 165.1875
+        },
+        "scrollHeight": 178,
+        "clientHeight": 165,
+        "pointerEvents": "auto",
+        "touchAction": "pan-y",
+        "move": {
+          "x": 9,
+          "y": 254.40625,
+          "right": 102.59375,
+          "bottom": 348,
+          "width": 93.59375,
+          "height": 93.59375
+        },
+        "aim": {
+          "x": 637.40625,
+          "y": 254.40625,
+          "right": 731,
+          "bottom": 348,
+          "width": 93.59375,
+          "height": 93.59375
+        },
+        "overflow": false,
+        "scrolledTo": 13
+      },
+      "status": "passed"
+    },
+    {
+      "viewport": {
+        "width": 932,
+        "height": 430
+      },
+      "checks": [
+        "movement dead zone",
+        "aim dead zone",
+        "simultaneous movement/fire and move release independence",
+        "aim release independence",
+        "touchCancel clears both fingers",
+        "normalized diagonal",
+        "reload",
+        "dash skill gate",
+        "pause/offer/death/reset cancel commands and prevent stale resume",
+        "portrait pause and explicit continue after rotation",
+        "mouse/keyboard compatibility in touch context",
+        "synthetic ENXA three-weapon HUD, clear center, real overflow swipe"
+      ],
+      "layout": {
+        "weapons": [
+          "machine",
+          "laser",
+          "shotgun"
+        ],
+        "panel": {
+          "x": 10,
+          "y": 76,
+          "right": 200,
+          "bottom": 254,
+          "width": 190,
+          "height": 178
+        },
+        "scrollHeight": 178,
+        "clientHeight": 178,
+        "pointerEvents": "auto",
+        "touchAction": "pan-y",
+        "move": {
+          "x": 14,
+          "y": 297.609375,
+          "right": 134.390625,
+          "bottom": 418,
+          "width": 120.390625,
+          "height": 120.390625
+        },
+        "aim": {
+          "x": 797.609375,
+          "y": 297.609375,
+          "right": 918,
+          "bottom": 418,
+          "width": 120.390625,
+          "height": 120.390625
+        },
+        "overflow": false
+      },
+      "status": "passed"
+    }
+  ]
+}

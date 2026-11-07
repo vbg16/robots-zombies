@@ -10,5 +10,6 @@ for(const [file,pattern] of [
  ['docs/plano-integracao-20-minutes-till-dawn.md',/Estado vigente — BUILD (\d+)/]
 ]){const match=fs.readFileSync(file,'utf8').match(pattern);assert.ok(match,'Version label missing: '+file);assert.equal(Number(match[1]),version.build,'Stale version label: '+file);}
 if(version.channel==='development')assert.equal(version.publicApproved,false,'Development must not imply public approval');
-for(const [,src] of html.matchAll(/\bsrc="([^"]+)"/g)){assert.ok(!/^(https?:)?\/\//.test(src),'Offline runtime resource must be local: '+src);assert.ok(fs.existsSync(path.resolve(src.split('?')[0])),'Missing ZIP resource: '+src);}
+const resources=[...html.matchAll(/\bsrc="([^"]+)"/g),...html.matchAll(/<link\b[^>]*\bhref="([^"]+)"/g)];
+for(const [,src] of resources){assert.ok(!/^(https?:)?\/\//.test(src),'Offline runtime resource must be local: '+src);assert.ok(fs.existsSync(path.resolve(src.split('?')[0])),'Missing ZIP resource: '+src);}
 console.log('Release labels, local HTML resources and development approval flag agree with BUILD'+version.build+'.');

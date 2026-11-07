@@ -1,0 +1,283 @@
+{
+  "at": "2026-11-07T04:23:28.442Z",
+  "scope": "Native Chrome real mouse pointer capture, with isolated browser saves, frozen RAF and direct state-transition fixtures. No physical device, natural progression or performance claim.",
+  "hashes": {
+    "game.js": "ade34fac783b2695d4a6ab3c42f0e64443f425adf96295bd792a6766c8900461",
+    "index.html": "09329c40ce0c6547cc09515c668e09c94d01bef0cdcba2c622f8443ba0f22b94",
+    "touch-controls.js": "69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34",
+    "touch-controls.css": "bddb514a8028b9d60a7340dfbf6d1bac256fe77e637f29089b4d51467b4f2ec4",
+    "tests\\touch-hybrid-browser.cjs": "5d4bb27a628af4363beb1bc64c7d4231391dc46122ccbbfafec6830dd117be16"
+  },
+  "cases": [
+    {
+      "transition": "pause",
+      "checks": [
+        "native mouse down established confirmed canvas capture",
+        "transition releases capture and all firing ownership while physical button remains down",
+        "original mouseup reaches overlay button without capture retargeting",
+        "fresh overlay click works; resumed tick has no stale fire or bursts"
+      ],
+      "capture": {
+        "id": 1,
+        "has": true,
+        "firing": true,
+        "owner": "mouse",
+        "got": true
+      },
+      "released": {
+        "has": false,
+        "firing": false,
+        "owner": null,
+        "pointer": null,
+        "state": "paused"
+      },
+      "overlayMouseUp": {
+        "type": "pointerup",
+        "id": 1,
+        "target": "start",
+        "pointerType": "mouse"
+      },
+      "resumed": {
+        "firing": false,
+        "owner": null,
+        "pointer": null,
+        "bursts": [
+          0
+        ],
+        "ammo": 24
+      },
+      "errors": [],
+      "events": [
+        {
+          "type": "pointerdown",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "gotpointercapture",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "lostpointercapture",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerup",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "click",
+          "id": 1,
+          "target": "combat",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerdown",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerup",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "click",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "transition": "upgrade",
+      "checks": [
+        "native mouse down established confirmed canvas capture",
+        "transition releases capture and all firing ownership while physical button remains down",
+        "original mouseup reaches overlay button without capture retargeting",
+        "fresh overlay click works; resumed tick has no stale fire or bursts"
+      ],
+      "capture": {
+        "id": 1,
+        "has": true,
+        "firing": true,
+        "owner": "mouse",
+        "got": true
+      },
+      "released": {
+        "has": false,
+        "firing": false,
+        "owner": null,
+        "pointer": null,
+        "state": "upgrade"
+      },
+      "overlayMouseUp": {
+        "type": "pointerup",
+        "id": 1,
+        "target": "skip-upgrade",
+        "pointerType": "mouse"
+      },
+      "resumed": {
+        "firing": false,
+        "owner": null,
+        "pointer": null,
+        "bursts": [
+          0
+        ],
+        "ammo": 24
+      },
+      "errors": [],
+      "events": [
+        {
+          "type": "pointerdown",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "gotpointercapture",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "lostpointercapture",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerup",
+          "id": 1,
+          "target": "skip-upgrade",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "click",
+          "id": 1,
+          "target": "combat",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerdown",
+          "id": 1,
+          "target": "skip-upgrade",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerup",
+          "id": 1,
+          "target": "skip-upgrade",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "click",
+          "id": 1,
+          "target": "skip-upgrade",
+          "pointerType": "mouse"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "transition": "death",
+      "checks": [
+        "native mouse down established confirmed canvas capture",
+        "transition releases capture and all firing ownership while physical button remains down",
+        "original mouseup reaches overlay button without capture retargeting",
+        "fresh overlay click works; resumed tick has no stale fire or bursts"
+      ],
+      "capture": {
+        "id": 1,
+        "has": true,
+        "firing": true,
+        "owner": "mouse",
+        "got": true
+      },
+      "released": {
+        "has": false,
+        "firing": false,
+        "owner": null,
+        "pointer": null,
+        "state": "over"
+      },
+      "overlayMouseUp": {
+        "type": "pointerup",
+        "id": 1,
+        "target": "start",
+        "pointerType": "mouse"
+      },
+      "resumed": {
+        "firing": false,
+        "owner": null,
+        "pointer": null,
+        "bursts": [
+          0
+        ],
+        "ammo": 24
+      },
+      "errors": [],
+      "events": [
+        {
+          "type": "pointerdown",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "gotpointercapture",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "lostpointercapture",
+          "id": 1,
+          "target": "game",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerup",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "click",
+          "id": 1,
+          "target": "combat",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerdown",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "pointerup",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        },
+        {
+          "type": "click",
+          "id": 1,
+          "target": "start",
+          "pointerType": "mouse"
+        }
+      ],
+      "status": "passed"
+    }
+  ]
+}

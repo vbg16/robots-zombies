@@ -25,3 +25,32 @@ Para continuar a coordenação, usar list_threads/read_thread para localizar con
 - Revisor do projeto apontou a lacuna entre relatório antigo e teste ampliado; o relatório passou a registrar oito viewports e hashes de HTML/CSS/runtime/teste. O chat conferiu a correspondência e o escopo declarado, sem alegar inspeção natural de jogo ou desempenho.
 
 Os ensaios automatizados de equivalência e renderização complementam esses pareceres. Evidência da fonte final fica em build55-feedback-equivalence.json, build55-feedback-browser.json e build55-navigation.json. As capturas e os relatórios exploratórios originais dos chats permanecem em outputs, com seus limites e versões identificados.
+
+
+## Controles de celular — rodada em andamento
+
+O usuário definiu celular na horizontal e autorizou agentes para o que os chats não conseguirem suprir. Os chats continuam sendo a primeira via; lacunas verificadas podem ser encaminhadas a agentes, com escopo e arquivos separados.
+
+- Dev designer: módulo isolado touch-controls.js/css, dois direcionais com captura independente e botões de recarga/propulsor.
+- Dev: ponte com os comandos existentes, cancelamento no ciclo da partida, orientação e integração.
+- Tester inteligente: teste repetível de dois contatos reais do protocolo CDP em Chrome emulado, sem afirmar aparelho físico.
+- tester burro: exploração pela interface e clareza dos gestos, separando a preparação técnica da validação do jogo integrado.
+- Revisor do projeto: invariantes de entrada e transições, proteção contra comandos presos e limitações da evidência.
+
+Não há aprovação desta rodada antes da execução dos testes e integração dos pareceres.
+
+
+Complementos por agentes autorizados pelo usuário:
+
+- touch_ciclos cobriu a lacuna híbrida de hover/clique de mouse com dedo mantido, IDs e cancelamento. Reproduziu a mira roubada por hover, corrigida pelo Dev, e deixou touch-hybrid.cjs. Depois recebeu a prova de captura real do canvas, apontada pelo Revisor, como escopo separado.
+- auditoria_escopo verificou a implementação global enquanto os chats focavam o toque. Confirmou dez IDs de build e os catálogos, apontou documentos desatualizados (corrigidos no resumo de baús e no catálogo de builds) e distinguiu evidência histórica da aprovação integral de equilíbrio/desempenho. Relatório exploratório em outputs/agent-auditoria-escopo.
+
+
+## Resultado integrado da BUILD56
+
+- Dev designer entregou touch-controls.js/css e confirmou a cascata que impedia rolar o painel de três armas. O Dev integrou o override. O PROT inicial simples foi preservado.
+- Tester inteligente executou aceitação CDP em844×390,740×360 e932×430, incluindo área neutra, soltura independente, diagonal, skill, cancelamentos, rotação e ENXA com três armas. O Dev identificou uma falsa retomada no harness; o chat corrigiu para escolher e afirmar playing. A fonte final foi repetida pelo Dev, com relatório em build56-touch.json.
+- tester burro percorreu menu/garagem/configuração/partida por UI com perfil isolado nos dois tamanhos menores. Observou munição estável por3,65s após soltar a mira, recarga24/24 e retomada neutra após rotação. Não chegou a chefe nem adquiriu propulsor nessa exploração; esses limites estão no relato original em outputs/chat-tester-burro-touch. O cabeçalho inicial do relato usava55 e o chat o corrigiu para56 após a confirmação da candidata.
+- Revisor conferiu ponte/API, movimento efetivo, IDs e capturas; apontou a captura do canvas mantida durante modal e quebra de linha na munição. O Dev corrigiu os dois. O agente complementou a prova nativa de captura do Chrome em pausa/oferta/morte, arquivada em build56-capture.json.
+
+A rodada foi integrada e passou nas verificações declaradas; não equivale à aprovação do canal público, de hardware móvel ou de balanceamento humano. Relatórios intermediários e suas falhas continuam em outputs. As próximas medições são progressão/alcance e desempenho no caos atual, com fontes e pilotos comparáveis.
