@@ -1,4 +1,8 @@
-# Contrato vigente — Screwvivors BUILD 57
+# Contrato vigente — Screwvivors BUILD 58
+
+## Adição vigente — BUILD58
+
+Baia de Comando preserva dano×1,5/alcance×1,2 imediato e calibra drones após30/60/90s ativos desde sua aquisição. Fator temporal1,1/1,2/1,3, máximo próprio1,95vezes o dano pré-peça; pausa/ofertas/morte não contam e reset remove tudo. Sem novos drones, procs de bala, bônus permanentes ou aumento do catálogo. LEDs e pausa mostram estágio/dano. Partículas finais600 e feedback100 mantêm saída e RNG após tick, com armazenamento/formatacão otimizados. [Contrato detalhado, testes e limites](maturacao-e-desempenho.md).
 
 Este documento e o código atual prevalecem sobre descrições históricas das entregas anteriores. O plano de integração mantém o histórico para rastrear decisões; regras antigas de população ilimitada, quatro zumbis por onda, pausa da horda em chefe ou uma renovação por tentativa não estão vigentes.
 

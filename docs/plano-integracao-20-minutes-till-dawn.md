@@ -2,7 +2,7 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 57:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
+> **Estado vigente — BUILD 58:** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) documenta a etapa atual.
 
 ## Regra de adaptação
 
@@ -282,3 +282,7 @@ Dois direcionais para celular na horizontal, recarga e propulsor condicionado à
 ### BUILD57 — Custo do caos e medição causal
 
 Consultas de descarga reutilizam geometria e mantêm vida/ordem/RNG. Observador test-only e quatro perfis separam poder de coleta, alcance e comportamento. Matriz atual das dez receitas:29/30no critério controlado, com uma morte mantida; guia da Escopeta revisado após teste pareado e duas sementes novas. Não equivale a aprovação humana do equilíbrio ou desempenho extremo resolvido. Ver telemetria-e-balanceamento.md e disposição detalhada dos motores estudados.
+
+### BUILD58 — Calibração temporária e trabalho dos impactos
+
+Motor de maturação adaptado pela Baia de Comando já existente: três marcos ativos, teto explícito, LEDs e diagnóstico. Buffer de faíscas e texto de dano conservam estado observável após tick e sorteios. Comparação com restauração completa mostra redução do custo extremo, ainda alto. Dez receitas passaram numa semente nova; hipótese de coleta do Plasma foi rejeitada após3/5casos viáveis. [Evidências e limitações](maturacao-e-desempenho.md). Conversão espacial, ciclo de munição, proteção e gatilhos específicos permanecem no mapa de pendências.

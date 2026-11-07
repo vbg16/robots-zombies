@@ -1,4 +1,4 @@
-# Screwvivors — BUILD 57 · desenvolvimento
+# Screwvivors — BUILD 58 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
@@ -8,7 +8,7 @@ Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de ex
 
 No GitHub, use **Code → Download ZIP**, extraia e abra **index.html** no Chrome/Edge/Firefox. O ZIP antigo da pasta downloads não contém as atualizações.
 
-Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peças de chefe para desbloquear os outros equipamentos e avance por **Configurar incursão** e **Iniciar incursão**. Cada chassi possui um slot nesta versão. A arma não muda durante a tentativa. Saves antigos mantêm acesso ao equipamento do protótipo.
+Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peças de chefe para desbloquear os outros equipamentos e avance por **Configurar incursão** e **Iniciar incursão**. BAST permite até duas armas e ENXA até três, com custos por quantidade; os demais usam uma. A arma não muda durante a tentativa. Saves antigos mantêm acesso ao equipamento do protótipo.
 
 - WASD/setas: mover.
 - Mouse: mirar.
@@ -32,7 +32,7 @@ Alternativa com servidor local:
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-Abra http://127.0.0.1:8000/. Toque/controle não implementados; use teclado e mouse.
+Abra http://127.0.0.1:8000/. No celular, jogue na horizontal com os dois direcionais de toque. Girar para retrato pausa a partida; voltar para horizontal exige continuar manualmente.
 
 ## Configurar skills
 
@@ -116,3 +116,5 @@ BUILD55: avisos laterais, números de dano agrupados por alvo/fonte e crítico d
 BUILD56: controles de toque para celular na horizontal, com movimento e mira independentes, recarga e propulsor adquirido. Rotação pausa sem retomar sozinha. [Regras e escopo dos testes](docs/controles-touch.md).
 
 BUILD57: consultas de descarga reaproveitam geometria sem mudar poder/efeitos/RNG. Testador registra XP, alternativas e rotas e compara quatro perfis de entrada. [Medição e limites](docs/telemetria-e-balanceamento.md).
+
+BUILD58: Baia de Comando calibra drones em três estágios durante a tentativa; LEDs mostram o progresso. Efeitos de impacto usam menos trabalho sem reduzir dano ou mudar sorteios. [Regras, medições e limites](docs/maturacao-e-desempenho.md).

@@ -14,6 +14,7 @@ canvas.setPointerCapture=()=>{};
 const window = surface('window');
 const document = Object.assign(surface('document'), {hidden:false,querySelector:()=>canvas,getElementById(id){if(!elements.has(id)){const node=surface(id);if(id==='minimap'){node.width=160;node.height=100;node.getContext=()=>new Proxy({}, {get:(target,key)=>target[key]||(()=>{})});}elements.set(id,node);}return elements.get(id);},createElement:()=>surface('button'),createTextNode:t=>t});
 const context=vm.createContext({window,document,devicePixelRatio:2,requestAnimationFrame:()=>{},Math,Set,localStorage});
+vm.runInContext(fs.readFileSync('tools/drone-maturity.js','utf8'),context);
 vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 assert.match(fs.readFileSync('index.html','utf8'),/SUCATA DOURADA → \+1 PARAFUSO/,'combat HUD teaches the salvage-to-bolt conversion');
 assert.match(fs.readFileSync('index.html','utf8'),/NÚCLEO CIANO → XP/,'combat HUD maps the cyan pickup to experience');
@@ -367,15 +368,15 @@ fresh();acquire('damage');acquire('magnet');run('player.ammo=7;pause();globalThi
 assert.equal(run('clock'),run('statsBefore.clock'));assert.equal(run('player.damage'),run('statsBefore.damage'));assert.equal(run('player.ammo'),7);
 assert.equal(elements.get('choices').children.length,1,'pause shows one diagnosis panel');
 const diagnosis=elements.get('choices').children[0];assert.equal(diagnosis['aria-label'],'Diagnóstico da tentativa');
-const values=diagnosis.children[1].children.map(item=>item.textContent);
+const values=diagnosis.children.find(n=>n.className==='run-attributes').children.map(item=>item.textContent);
 assert.equal(values[values.indexOf('Dano direto por projétil')+1],'44','diagnosis uses the modified projectile damage');
 assert.equal(values[values.indexOf('Carregador')+1],'7 / 24','diagnosis shows current ammo and capacity');
 assert.equal(values[values.indexOf('Atração de itens')+1],'285 px','diagnosis includes the installed magnet modifier');
-assert.ok(diagnosis.children[3].textContent.includes('CAMPO MAGNÉTICO'),'installed modules are named');
-run('pause();reset();pause()');assert.ok(elements.get('choices').children[0].children[3].textContent.includes('Nenhum módulo temporário.'),'retry diagnosis clears previous build');
+assert.ok(diagnosis.children.find(n=>n.className==='run-modules').textContent.includes('CAMPO MAGNÉTICO'),'installed modules are named');
+run('pause();reset();pause()');assert.ok(elements.get('choices').children[0].children.find(n=>n.className==='run-modules').textContent.includes('Nenhum módulo temporário.'),'retry diagnosis clears previous build');
 run('pause();upgrade()');assert.ok(elements.get('choices').children.every(item=>item.className!=='run-stats'),'diagnosis does not leak into upgrade choices');
 console.log('Pause diagnosis reflects build modifiers, freezes combat and clears on retry.');
-fresh();run('player.frenzy=6;pause()');const overloadValues=elements.get('choices').children[0].children[1].children.map(item=>item.textContent);assert.equal(overloadValues[overloadValues.indexOf('Intervalo entre disparos')+1],'0,11 s','diagnosis reflects the active overload fire interval');run('pause();aim.active=true;fireWeapon()');assert.ok(Math.abs(run('shot')-.32/3)<1e-9,'weapon and diagnosis share the effective fire interval');
+fresh();run('player.frenzy=6;pause()');const overloadValues=elements.get('choices').children[0].children.find(n=>n.className==='run-attributes').children.map(item=>item.textContent);assert.equal(overloadValues[overloadValues.indexOf('Intervalo entre disparos')+1],'0,11 s','diagnosis reflects the active overload fire interval');run('pause();aim.active=true;fireWeapon()');assert.ok(Math.abs(run('shot')-.32/3)<1e-9,'weapon and diagnosis share the effective fire interval');
 
 // The garage manual reads the canonical catalog without granting modules or spending materials.
 fresh();const beforeManual=run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})');run('renderCompendium()');

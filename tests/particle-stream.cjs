@@ -1,0 +1,22 @@
+'use strict';
+const fs=require('node:fs'),vm=require('node:vm'),zlib=require('node:zlib'),crypto=require('node:crypto'),assert=require('node:assert/strict');
+const baseline=JSON.parse(zlib.gunzipSync(fs.readFileSync('tests/fixtures/game-build57.json.gz'))),candidate=fs.readFileSync('game.js','utf8'),balance=fs.readFileSync('balance.js','utf8'),prefix=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
+assert.equal(crypto.createHash('sha256').update(baseline.source).digest('hex'),baseline.sha256);
+const snapshot=fs.readFileSync('tests/run-observer-equivalence.cjs','utf8').match(/const snapshot=`([\s\S]*?)`;/)[1];
+function world(source){const setup=prefix.replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage').replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","window.localStorage=localStorage;vm.runInContext(balance,context);vm.runInContext(source,context);");const {context}=new Function('require','source','balance',setup+';return {context};')(require,source,balance);return code=>vm.runInContext(code,context);}
+const cases=[
+ {name:'direct-hits-outside-tick-retain-original-array',setup:`globalThis.target=createEnemy(player.x+200,player.y);target.hp=target.maxHp=1e8;enemies=[target];`,actions:[`for(let i=0;i<400;i++)damageEnemy(target,1,'bullet')`,`tick(.04)`]},
+ ...[0,.01,.04,.249,.25,.5,1].map(dt=>({name:'expiry-and-order-dt-'+dt,setup:`sparks=Array.from({length:1300},(_,i)=>({x:i,y:-i,vx:i%7,vy:i%11,life:[0,.01,.08,.249,.25,.9,2][i%7]}));globalThis.target=createEnemy(player.x+220,player.y);target.hp=target.maxHp=1e8;enemies=[target];target.burnTime=1;target.burnDps=20;target.burnAccum=0;`,actions:[`tick(${dt})`]})),
+ {name:'duplicate-external-reference-fallback',setup:`const p={x:1,y:2,vx:3,vy:4,life:.05};sparks=[p,p,...Array.from({length:800},(_,i)=>({x:i,y:0,vx:1,vy:1,life:.2}))];`,actions:[`tick(.04)`]},
+ {name:'pause-resume-and-reset',actions:[`pause();tick(1)`,`pause();tick(.04)`,`reset();tick(.01)`]},
+ {name:'exception-releases-stream',setup:`globalThis.savedStatuses=tickStatuses;globalThis.expectedError=new Error('fixture');tickStatuses=()=>{throw expectedError;};`,actions:[`globalThis.sameException=false;try{tick(.04)}catch(error){sameException=error===expectedError;}if(!sameException)throw Error('original exception not propagated');tickStatuses=savedStatuses;`,`damageEnemy(createEnemy(player.x+300,player.y),1);tick(.04)`]},
+ {name:'dense400-projectile-procs',setup:`for(const id of ['rate','extra','pierce','blast','blastRadius','shock','conductivity','burn','freeze']){SKILLS.find(s=>s.id===id).apply();player.acquired.add(id);}enemies=Array.from({length:180},(_,i)=>{const z=createEnemy(player.x+60+(i%15)*9,player.y-55+Math.floor(i/15)*9);z.hp=z.maxHp=1e8;z.speed=0;return z;});for(let i=0;i<250&&bullets.length<400;i++){player.ammo=1000;emitProjectiles(0);}if(bullets.length!==400)throw Error('400projectile fixture missing');for(let i=0;i<bullets.length;i++){const z=enemies[i%enemies.length],b=bullets[i];b.x=z.x-15;b.y=z.y;b.vx=600;b.vy=0;b.life=1;}`,actions:[`tick(.04)`]}
+];
+const results=[];
+for(let index=0;index<cases.length;index++){
+ const spec=cases[index],old=world(baseline.source),next=world(candidate),setup=`globalThis.qaSeed=${20261107+index};Math.random=()=>{qaSeed=(Math.imul(qaSeed,1664525)+1013904223)>>>0;return qaSeed/4294967296};reset();spawn=1e9;bossIndex=1e6;player.inv=1e9;${spec.setup||''}`;
+ for(const run of [old,next])run(setup);
+ for(const action of spec.actions){old(action);next(action);assert.equal(next(snapshot),old(snapshot),spec.name+' complete state, effects, particles and next RNG');assert.equal(next('sparkStream===null'),true,'no stream survives tick/exception');}
+ results.push({name:spec.name,checkpoints:spec.actions.length,identical:true,particles:next('sparks.length')});
+}
+fs.mkdirSync('outputs/particle-stream',{recursive:true});fs.writeFileSync('outputs/particle-stream/equivalence.json',JSON.stringify({at:new Date().toISOString(),baseline:baseline.commit,candidateHash:crypto.createHash('sha256').update(candidate).digest('hex'),scope:'Complete serializable post-call gameplay/effects/input/save state and next16RNG match frozen BUILD57, including400-projectile fixture. Stream/cache internals excluded; renderable particle fields retained.',cases:results},null,2)+'\n');console.log('Particle stream: '+cases.length+' paired worlds preserve gameplay, visible particle order/fields and RNG, including400projectiles, expiry, duplicates, direct calls and exception cleanup.');

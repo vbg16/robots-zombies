@@ -77,7 +77,7 @@ const BOSS_RELICS=Object.freeze([
  {id:'thermalRelay',name:'CÂMARA DE COMBUSTÃO',icon:'burn',benefit:'Queimaduras causam +50% de dano.',eligible:()=>player.skills.burn||weaponSlots.some(s=>s.weapon.burn),apply:()=>{player.relicBurnMult=1.5;}},
  {id:'cryoLens',name:'CRISTAL DE ESTASE',icon:'freeze',benefit:'Resfriamento dos impactos dura +50%.',eligible:()=>player.skills.freeze||weaponSlots.some(s=>s.weapon.freeze),apply:()=>{player.relicColdMult=1.5;}},
  {id:'arcCapacitor',name:'CAPACITOR DE TEMPESTADE',icon:'shock',benefit:'Descargas causam +40% de dano.',eligible:()=>player.skills.shock||weaponSlots.some(s=>s.weapon.chain),apply:()=>{player.relicShockMult=1.4;}},
- {id:'droneRack',name:'BAIA DE COMANDO',icon:'drones',benefit:'Drones causam +50% de dano e ganham 20% de alcance.',eligible:()=>droneCount()>0,apply:()=>{player.droneDamageMult*=1.5;player.droneRange*=1.2;}},
+ {id:'droneRack',name:'BAIA DE COMANDO',icon:'drones',benefit:'Drones: dano +50% e alcance +20%. Aos 30/60/90 s ativos, o treino aumenta o dano já modificado em +10%/+20%/+30%.',eligible:()=>droneCount()>0,apply:()=>{player.droneDamageMult*=1.5;player.droneRange*=1.2;player.droneGrowthStart=clock;}},
  {id:'scanArray',name:'MATRIZ DE CAÇA',icon:'sensor',benefit:'Sensores causam +50% de dano e pulsam 20% mais rápido.',eligible:()=>player.skills.sensor,apply:()=>{player.sensorDamageMult*=1.5;player.sensorIntervalMult*=.8;}},
  {id:'rotorBearing',name:'ROLAMENTO DE CERÂMICA',icon:'rotors',benefit:'Rotores causam +50% de dano e completam a volta 20% mais rápido.',eligible:()=>player.skills.rotors,apply:()=>{player.rotorDamageMult*=1.5;player.rotorPeriodMult*=.8;}},
  {id:'corrosionChamber',name:'CÁPSULA REAGENTE',icon:'corrosion',benefit:'Novas cargas corrosivas causam +50% de dano e detonam 25% antes.',eligible:()=>player.skills.corrosion,apply:()=>{player.corrosionDamageMult*=1.5;player.corrosionDelayMult*=.75;}},
@@ -180,6 +180,9 @@ let selectedAuxWeapons=[],weaponFireCursor=0,weaponHudNodes=[];
 let weaponSlots=[];
 let selectedWeapon='machine',runWeapon=null,player=null,enemies=[],bullets=[],gems=[],scrap=[],sparks=[],feedback=[],effects=[],hostile=[];
 // Cosmetic state only: never used by damage, AI, loot or combat randomness.
+let sparkStream=null,feedbackMembers=null;
+const DEFERRED_DAMAGE_TEXT=Symbol('deferred damage text');
+const DAMAGE_FEEDBACK_COLORS=Object.freeze({burn:'#ffbd80',electric:'#ceb8ff',corrosion:'#b5ed8c',drone:'#ffe6a0',sensor:'#91dcff',rotor:'#d6e4e8',explosion:'#ffcb91'});
 let combatNotices=[],noticeLayout='',damageFeedbackTargets=new WeakMap(),damageFeedbackSerial=0;
 let touchController=null,touchMode=false,touchEnabled=false,touchSyncing=false,firingOwner=null,mouseFirePointer=null;
 let touchMove={x:0,y:0},touchAim={x:1,y:0,active:false,hasDirection:false};
@@ -390,7 +393,7 @@ function reset(){
  sanitizeAuxWeapons();configureRunBalance();clearInput();offerVersion++;if(protAnimation){protAnimation.play('idle','down');protAnimation.time=0;}for(const animation of chassisAnimations.values()){animation.play('idle','down');animation.time=0;}runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
  el('run-config').hidden=true;el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
  player={rotorDamageMult:1,rotorPeriodMult:1,rotorRange:72,rotorPhase:0,rotorTime:0,rotorX:width/2,rotorY:height/2,rotorHits:[new WeakMap(),new WeakMap(),new WeakMap()],weaponKick:0,sensorDamageMult:1,sensorIntervalMult:1,sensorRange:170,sensorTimer:0,sensorTotal:3,corrosionDamageMult:1,corrosionDelayMult:1,weaponEvolution:null,specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,facing:'down',inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
- enemies=[];bullets=[];gems=[];scrap=[];sparks=[];feedback=[];effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
+ enemies=[];bullets=[];gems=[];scrap=[];sparks=[];sparkStream=null;feedback=[];feedbackMembers=null;effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
  combatNotices=[];noticeLayout='';damageFeedbackTargets=new WeakMap();damageFeedbackSerial=0;el('combat-notices').replaceChildren();
  bindPrimaryWeaponState();
  for(const id of selectedLoadout().slice(1))weaponSlots.push(createWeaponState(id,weaponSlots.length));
@@ -409,18 +412,19 @@ function show(title,description,label){
  if(label)el('start').focus();
 }
 function renderRunStats(){
- const panel=document.createElement('section'),heading=document.createElement('h3'),stats=document.createElement('dl');panel.className='run-stats';panel.setAttribute('aria-label','Diagnóstico da tentativa');heading.textContent=runRobot.name+' / '+runWeapon.name;
+ const panel=document.createElement('section'),heading=document.createElement('h3'),stats=document.createElement('dl');panel.className='run-stats';stats.className='run-attributes';panel.setAttribute('aria-label','Diagnóstico da tentativa');heading.textContent=runRobot.name+' / '+runWeapon.name;const calibration=droneMaturity();if(calibration)heading.textContent+=' · BAIA '+calibration.tier+'/3';
  const number=value=>Number(value.toFixed(2)).toLocaleString('pt-BR');
  const rows=[['Integridade',number(player.hp)+' / '+number(player.maxHp)],['Dano direto por projétil',number(shotDamage())],['Intervalo entre disparos',number(fireInterval())+' s'],['Carregador',player.ammo+' / '+magazineSize()],['Recarga completa',number(reloadDuration())+' s'],['Movimento',number(player.speed)+' px/s'],['Redução de dano',number(player.armor)],['Atração de itens',number(player.magnet)+' px']];
  for(const slot of weaponSlots.slice(1))rows.push(['Arma '+(slot.index+1),slot.weapon.name+(slot.weaponEvolution?' / '+slot.weaponEvolution.name:'')],['Arma '+(slot.index+1)+' · dano',number(shotDamage(slot))],['Arma '+(slot.index+1)+' · intervalo',number(fireInterval(slot))+' s'],['Arma '+(slot.index+1)+' · munição',slot.ammo+' / '+magazineSize(slot)],['Arma '+(slot.index+1)+' · recarga',number(reloadDuration(slot))+' s']);
  if(rotorCount())rows.push(['Rotores de sucata',String(rotorCount())],['Dano por contato de rotor',number(rotorDamage())],['Volta dos rotores',number(rotorPeriod())+' s'],['Raio dos rotores',number(rotorRange())+' px']);
  if(player.skills.sensor)rows.push(['Sensor · dano por alvo',number(Math.min(1e9,player.damage*.35*player.sensorDamageMult))],['Sensor · próximo intervalo',number(sensorInterval())+' s'],['Sensor · alcance',number(sensorRange())+' px']);
  if(player.skills.corrosion)rows.push(['Prazo de novas cargas corrosivas',number(Math.max(.25,Math.min(30,2*player.corrosionDelayMult)))+' s'],['Base da carga corrosiva',number(player.corrosionDamageMult*100)+'% do dano do projétil']);
- if(droneCount())rows.push(['Drones de apoio',String(droneCount())],['Dano por drone',number(player.damage*.25*player.droneDamageMult)],['Intervalo dos drones',number(Math.max(.35,.8*player.droneRateMult))+' s'],['Alcance dos drones',number(player.droneRange+(player.specialization==='droneRelay'?100:0))+' px']);
+ if(droneCount())rows.push(['Drones de apoio',String(droneCount())],['Dano por drone',number(player.damage*.25*player.droneDamageMult*(calibration?.damageFactor||1))],['Intervalo dos drones',number(Math.max(.35,.8*player.droneRateMult))+' s'],['Alcance dos drones',number(player.droneRange+(player.specialization==='droneRelay'?100:0))+' px']);
+ if(calibration)rows.push(['Calibração da Baia',calibration.tier+'/3 · dano extra +'+calibration.tier*10+'% · '+(calibration.maxed?'MÁXIMO':'próximo em '+Math.ceil(calibration.nextIn)+' s de combate')+' · pausa e ofertas não contam']);
  for(const [label,value] of rows){const term=document.createElement('dt'),detail=document.createElement('dd');term.textContent=label;detail.textContent=value;stats.append(term,detail);}
  const note=document.createElement('p');note.textContent='Valores atuais da build. Críticos, efeitos condicionais, rajadas e dano de área não estão somados ao dano direto.';
- const installed=document.createElement('p');installed.className='run-modules';const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name).concat(GAMBARRAS.filter(s=>player.blessings.has(s.id)).map(s=>s.name),BOSS_EXPERIMENTS.filter(s=>player.experiments.has(s.id)).map(s=>s.name));installed.textContent='INSTALADOS: '+(names.join(' · ')||'Nenhum módulo temporário.');
- const synergies=document.createElement('p');synergies.textContent='SINERGIAS: '+(activeSynergies().join(' · ')||'Nenhuma ativa.');const specialization=document.createElement('p');specialization.textContent='ESPECIALIZAÇÃO: '+(specializationInfo()?.name||'Nenhuma escolhida.')+(player.specializationCooldown>0?' · RECARGA '+Math.ceil(player.specializationCooldown)+' s':player.specialization&&['tailDecoy','nineLives'].includes(player.specialization)?' · PRONTO':'');const evolution=document.createElement('p');evolution.textContent='REFORJA DA ARMA: '+(player.weaponEvolution?player.weaponEvolution.name+' · '+player.weaponEvolution.benefit+' Custo: '+player.weaponEvolution.cost:'Nenhuma escolhida; oferta no nível '+WEAPON_EVOLUTION_LEVEL+'.');panel.append(heading,stats,note,installed,synergies,specialization,evolution);el('choices').append(panel);
+ const installed=document.createElement('p');installed.className='run-modules';const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name).concat(GAMBARRAS.filter(s=>player.blessings.has(s.id)).map(s=>s.name),BOSS_EXPERIMENTS.filter(s=>player.experiments.has(s.id)).map(s=>s.name),BOSS_RELICS.filter(s=>player.relics?.has(s.id)).map(s=>s.name));installed.textContent='INSTALADOS: '+(names.join(' · ')||'Nenhum módulo temporário.');
+ const synergies=document.createElement('p');synergies.textContent='SINERGIAS: '+(activeSynergies().join(' · ')||'Nenhuma ativa.');const specialization=document.createElement('p');specialization.textContent='ESPECIALIZAÇÃO: '+(specializationInfo()?.name||'Nenhuma escolhida.')+(player.specializationCooldown>0?' · RECARGA '+Math.ceil(player.specializationCooldown)+' s':player.specialization&&['tailDecoy','nineLives'].includes(player.specialization)?' · PRONTO':'');const evolution=document.createElement('p');evolution.textContent='REFORJA DA ARMA: '+(player.weaponEvolution?player.weaponEvolution.name+' · '+player.weaponEvolution.benefit+' Custo: '+player.weaponEvolution.cost:'Nenhuma escolhida; oferta no nível '+WEAPON_EVOLUTION_LEVEL+'.');const scrollHint=document.createElement('p');scrollHint.className='run-scroll-hint';scrollHint.textContent='↓ DESLIZE OU ROLE PARA VER MAIS';scrollHint.hidden=true;panel.append(heading,scrollHint,stats,note,installed,synergies,specialization,evolution);el('choices').append(panel);scrollHint.hidden=!(panel.scrollHeight>panel.clientHeight);
 }
 function pause(){if(state==='playing'){sound('pause');state='paused';show('Sistema em espera.','A partida está pausada.','CONTINUAR');renderRunStats();el('pause').textContent='▶';el('pause').setAttribute('aria-label','Continuar partida (P ou Esc)');}else if(state==='paused'){sound('resume');state='playing';clearInput();el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida (P ou Esc)');syncTouchControls();}}
 function unlockAudio(){window.ScrewAudio?.unlock()?.then(ok=>{if(ok)el('enable-audio').hidden=true;});}
@@ -451,7 +455,7 @@ function activateDash(){
  const d=Math.hypot(dx,dy)||1;player.dashDx=dx/d;player.dashDy=dy/d;player.dashTime=.15;player.dashCooldown=4;sound("dash");
  effects.push({x:player.x,y:player.y,r:38,life:.2,max:.2,color:'#b9efff'});toast('PROPULSOR');return true;
 }
-function activeSynergies(){const s=player.skills,has=trait=>weaponSlots.some(slot=>slot.weapon[trait]);return [s.rotors&&(s.freeze||has('freeze'))?'ANEL DE CONTENÇÃO: resfriar alvos ajuda a mantê-los na faixa dos rotores; discos não aplicam frio':null,s.sensor&&s.sensorRelay&&(s.burn||s.freeze||runWeapon.burn||runWeapon.freeze)?'VARREDURA ELEMENTAL: pulsos transmitem fogo e frio instalados':null,s.sensor&&s.sensorLock?'PONTO FRACO: tiros manuais aproveitam a exposição do sensor':null,s.corrosion&&s.corrosionCatalyst&&(s.burn||s.freeze||has('burn')||has('freeze'))?'REAGENTE TÉRMICO: corrosão amplificada em alvos com fogo ou gelo':null,s.crit&&player.acquired.has('extra')?'CRIVO BALÍSTICO: quinto impacto cria um pulso de área':null,s.freeze&&s.finisher?'FRATURA INDUSTRIAL: finalizações de alvos resfriados atingem vizinhos':null,s.knock&&player.acquired.has('speed')?'MOTOR CINÉTICO: velocidade amplia o impacto':null,s.pierce&&s.blast?'ESTILHAÇOS: explosão em cada alvo atravessado':null,s.pierce&&s.shock?'CONDUTOR: descarga atinge até 3 alvos':null,s.blast&&s.shock?'PLASMA: explosões eletrocutam sobreviventes':null,s.thermal&&(s.freeze||has('freeze'))?'CHOQUE TÉRMICO: queimadura ×3 em alvos resfriados':null,s.knock&&s.pierce?'LANÇA INDUSTRIAL: perfuração com empurrão':null,s.ricochet&&s.blast?'DEMOLIÇÃO: explosões em ricochetes':null,s.stun&&(s.shock||has('chain'))?'PANE: descargas interrompem movimento':null].filter(Boolean);}
+function activeSynergies(){const s=player.skills,has=trait=>weaponSlots.some(slot=>slot.weapon[trait]);return [player.relics?.has('droneRack')?'BAIA DE COMANDO: calibração '+(droneMaturity()?.tier||0)+'/3':null,s.rotors&&(s.freeze||has('freeze'))?'ANEL DE CONTENÇÃO: resfriar alvos ajuda a mantê-los na faixa dos rotores; discos não aplicam frio':null,s.sensor&&s.sensorRelay&&(s.burn||s.freeze||runWeapon.burn||runWeapon.freeze)?'VARREDURA ELEMENTAL: pulsos transmitem fogo e frio instalados':null,s.sensor&&s.sensorLock?'PONTO FRACO: tiros manuais aproveitam a exposição do sensor':null,s.corrosion&&s.corrosionCatalyst&&(s.burn||s.freeze||has('burn')||has('freeze'))?'REAGENTE TÉRMICO: corrosão amplificada em alvos com fogo ou gelo':null,s.crit&&player.acquired.has('extra')?'CRIVO BALÍSTICO: quinto impacto cria um pulso de área':null,s.freeze&&s.finisher?'FRATURA INDUSTRIAL: finalizações de alvos resfriados atingem vizinhos':null,s.knock&&player.acquired.has('speed')?'MOTOR CINÉTICO: velocidade amplia o impacto':null,s.pierce&&s.blast?'ESTILHAÇOS: explosão em cada alvo atravessado':null,s.pierce&&s.shock?'CONDUTOR: descarga atinge até 3 alvos':null,s.blast&&s.shock?'PLASMA: explosões eletrocutam sobreviventes':null,s.thermal&&(s.freeze||has('freeze'))?'CHOQUE TÉRMICO: queimadura ×3 em alvos resfriados':null,s.knock&&s.pierce?'LANÇA INDUSTRIAL: perfuração com empurrão':null,s.ricochet&&s.blast?'DEMOLIÇÃO: explosões em ricochetes':null,s.stun&&(s.shock||has('chain'))?'PANE: descargas interrompem movimento':null].filter(Boolean);}
 function updateAuxWeaponHUD(){
  const box=el('aux-ammo');box.hidden=weaponSlots.length===1;
  if(weaponHudNodes.length!==weaponSlots.length-1){
@@ -519,12 +523,14 @@ function renderCombatNotices(){
  if(layout===noticeLayout)return;noticeLayout=layout;panel.replaceChildren();
  for(const notice of visible){const row=document.createElement('div');row.className='combat-notice';row.textContent=notice.text;row.style.borderLeftColor=notice.color;panel.append(row);}
 }
+function damageFeedbackText(f){return (f.shield?'ESCUDO -':'')+f.amount.toFixed(f.shield?0:1);}
+function finishFeedbackPhase(){if(!feedbackMembers)return;feedbackMembers=null;for(const f of feedback)if(f.text===DEFERRED_DAMAGE_TEXT)f.text=damageFeedbackText(f);}
 function damageFeedback(z,amount,source='direct',critical=false,shield=false){
  let target=damageFeedbackTargets.get(z);if(!target){target={id:++damageFeedbackSerial,last:new Map()};damageFeedbackTargets.set(z,target);}
  const key=(shield?'shield':source)+(critical?'-crit':''),previous=target.last.get(key);
- const color=shield?'#88d9ff':critical?'#ffe09a':({burn:'#ffbd80',electric:'#ceb8ff',corrosion:'#b5ed8c',drone:'#ffe6a0',sensor:'#91dcff',rotor:'#d6e4e8',explosion:'#ffcb91'}[source]||'#f1f8ff');
- if(previous&&previous.life>0&&clock-previous.started<.16&&feedback.includes(previous)){previous.amount+=amount;previous.life=.6;previous.x=z.x;previous.y=z.y-(shield?38:z.r+8);previous.text=(shield?'ESCUDO -':'')+previous.amount.toFixed(shield?0:1);return;}
- const item={x:z.x,y:z.y-(shield?38:z.r+8),text:(shield?'ESCUDO -':'')+amount.toFixed(shield?0:1),life:.6,color,kind:'damage',targetId:target.id,amount,critical,shield,started:clock};target.last.set(key,item);feedback.push(item);
+ const color=shield?'#88d9ff':critical?'#ffe09a':(DAMAGE_FEEDBACK_COLORS[source]||'#f1f8ff');
+ if(previous&&previous.life>0&&clock-previous.started<.16&&(feedbackMembers?feedbackMembers.has(previous):feedback.includes(previous))){previous.amount+=amount;previous.life=.6;previous.x=z.x;previous.y=z.y-(shield?38:z.r+8);previous.text=feedbackMembers?DEFERRED_DAMAGE_TEXT:damageFeedbackText(previous);return;}
+ const item={x:z.x,y:z.y-(shield?38:z.r+8),text:feedbackMembers?DEFERRED_DAMAGE_TEXT:(shield?'ESCUDO -':'')+amount.toFixed(shield?0:1),life:.6,color,kind:'damage',targetId:target.id,amount,critical,shield,started:clock};target.last.set(key,item);feedback.push(item);feedbackMembers?.add(item);
 }
 function drawCombatFeedback(){
  const rows=new Map();
@@ -914,12 +920,35 @@ function uncachedNearestTargets(x,y,radius,count,exclude=null){
 function healPlayer(amount){
  const before=player.hp;if(before<=0||!Number.isFinite(amount)||amount<=0)return 0;player.hp=Math.min(player.maxHp,before+amount);const actual=player.hp-before;if(actual>0){sound('repair');if(player.specialization==='repairCharge')player.repairShotReady=true;if(player.specialization==='repairPlating')player.repairArmorTime=2;}return actual;
 }
+function droneMaturity(at=clock){if(!player?.relics?.has('droneRack')||!Number.isFinite(player.droneGrowthStart)||!Number.isFinite(at))return null;return globalThis.ScrewDroneMaturity.get(at-player.droneGrowthStart);}
 function droneCount(){return Math.min(3,(runRobot.id==='swarm'?1:0)+(player.skills.drones?1:0)+(player.skills.dronePair?1:0));}
 function tickDrones(dt){
  const count=droneCount();if(!count)return;player.droneTimer=Math.max(0,player.droneTimer-dt);if(player.droneTimer>0)return;player.droneTimer=Math.max(.35,.8*player.droneRateMult);const range=player.droneRange+(player.specialization==='droneRelay'?100:0),pool=targets().filter(z=>z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=range);
- for(let i=0;i<count;i++){let target=null,best=Infinity;if(player.specialization==='droneBossFocus'&&boss?.hp>0&&pool.includes(boss))target=boss;else for(const z of pool)if(z.hp>0){const d=Math.hypot(z.x-player.x,z.y-player.y);if(d<best){best=d;target=z;}}if(!target||target.hp<=0)continue;sound('drone');const a=clock*1.8+i*Math.PI*2/count,origin={x:player.x+Math.cos(a)*42,y:player.y+Math.sin(a)*30},damage=player.damage*.25*player.droneDamageMult*(target===boss&&player.specialization==='droneBossFocus'?1.25:1);effects.push({x:origin.x,y:origin.y,x2:target.x,y2:target.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(target,damage,'drone');if(player.skills.droneArc){let next=null,distance=Infinity;for(const z of pool)if(z!==target&&z.hp>0){const d=Math.hypot(z.x-target.x,z.y-target.y);if(d<=160&&d<distance){distance=d;next=z;}}if(next){effects.push({x:target.x,y:target.y,x2:next.x,y2:next.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(next,damage*.5,'drone');}}}
+ for(let i=0;i<count;i++){let target=null,best=Infinity;if(player.specialization==='droneBossFocus'&&boss?.hp>0&&pool.includes(boss))target=boss;else for(const z of pool)if(z.hp>0){const d=Math.hypot(z.x-player.x,z.y-player.y);if(d<best){best=d;target=z;}}if(!target||target.hp<=0)continue;sound('drone');const a=clock*1.8+i*Math.PI*2/count,origin={x:player.x+Math.cos(a)*42,y:player.y+Math.sin(a)*30},damage=player.damage*.25*player.droneDamageMult*(droneMaturity()?.damageFactor||1)*(target===boss&&player.specialization==='droneBossFocus'?1.25:1);effects.push({x:origin.x,y:origin.y,x2:target.x,y2:target.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(target,damage,'drone');if(player.skills.droneArc){let next=null,distance=Infinity;for(const z of pool)if(z!==target&&z.hp>0){const d=Math.hypot(z.x-target.x,z.y-target.y);if(d<=160&&d<distance){distance=d;next=z;}}if(next){effects.push({x:target.x,y:target.y,x2:next.x,y2:next.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(next,damage*.5,'drone');}}}
 }
-function drawDrones(){const count=droneCount();for(let i=0;i<count;i++){const a=clock*1.8+i*Math.PI*2/count,x=Math.round(player.x+Math.cos(a)*42),y=Math.round(player.y+Math.sin(a)*30);ctx.fillStyle='#07121b';ctx.fillRect(x-8,y-5,16,10);ctx.fillStyle='#b6a668';ctx.fillRect(x-6,y-3,12,6);ctx.fillStyle='#ffe6a0';ctx.fillRect(x-3,y-2,6,3);ctx.fillStyle='#617b88';ctx.fillRect(x-11,y-2,4,3);ctx.fillRect(x+7,y-2,4,3);}}
+function drawDrones(){const count=droneCount(),maturity=droneMaturity(),tier=maturity?.tier||0;for(let i=0;i<count;i++){const a=clock*1.8+i*Math.PI*2/count,x=Math.round(player.x+Math.cos(a)*42),y=Math.round(player.y+Math.sin(a)*30);if(tier>0&&clock-player.droneGrowthStart-tier*30<.35){ctx.fillStyle='#81e4f755';ctx.fillRect(x-9,y-6,18,12);}ctx.fillStyle='#07121b';ctx.fillRect(x-8,y-5,16,10);ctx.fillStyle='#b6a668';ctx.fillRect(x-6,y-3,12,6);ctx.fillStyle='#ffe6a0';ctx.fillRect(x-3,y-2,6,3);ctx.fillStyle='#617b88';ctx.fillRect(x-11,y-2,4,3);ctx.fillRect(x+7,y-2,4,3);if(maturity)for(let led=0;led<3;led++){ctx.fillStyle=led<tier?'#7de7f6':'#26414c';ctx.fillRect(x-5+led*4,y+4,2,2);}}}
+// Stream only particles that can remain visible at the end of this tick.
+// The same two RNG calls are made for every generated particle, including discarded ones.
+function beginSparkStream(dt){
+ if(!Number.isFinite(dt)||dt<0||new Set(sparks).size!==sparks.length)return null;
+ const items=sparks.filter(p=>p.life>dt).slice(-600);
+ return {items,owned:[],cursor:items.length%600,count:items.length,keepNew:.25>dt};
+}
+function emitHitSparks(z){
+ for(let i=0;i<5;i++){
+  const x=z.x,y=z.y,vx=random(-90,90),vy=random(-90,90);
+  if(!sparkStream){sparks.push({x,y,vx,vy,life:.25});continue;}
+  if(!sparkStream.keepNew)continue;
+  const at=sparkStream.cursor;
+  if(!sparkStream.owned[at]){sparkStream.items[at]={x,y,vx,vy,life:.25};sparkStream.owned[at]=true;}
+  else{const p=sparkStream.items[at];p.x=x;p.y=y;p.vx=vx;p.vy=vy;p.life=.25;}
+  sparkStream.cursor=(at+1)%600;sparkStream.count=Math.min(600,sparkStream.count+1);
+ }
+}
+function finishSparkStream(){
+ const stream=sparkStream;if(!stream)return;sparkStream=null;
+ sparks=stream.count===600?stream.items.slice(stream.cursor).concat(stream.items.slice(0,stream.cursor)):stream.items.slice(0,stream.count);
+}
 function damageEnemy(z,damage,source='direct',origin=null){
  if(z.hp<=0)return;
  if(player.specialization==='predatorMark'){if(player.markedTarget===z&&player.markTime>0)damage*=1.25;else{player.markedTarget=z;player.markTime=2.5;}}
@@ -928,7 +957,7 @@ function damageEnemy(z,damage,source='direct',origin=null){
  if(player.skills.finisher&&z.hp<=(z.maxHp||30)/3)damage*=3;
  if(z.enemyType==='shieldPolice'&&z.shieldHp>0){const absorbed=Math.min(z.shieldHp,damage);z.shieldHp=Math.max(0,z.shieldHp-damage);z.hit=.12;damageFeedback(z,absorbed,source,false,true);z.minionBadge='ESCUDO '+Math.ceil(z.shieldHp);if(z.shieldHp===0){preparePoliceCharge(z);effects.push({x:z.x,y:z.y,r:34,life:.4,max:.4,color:'#88d9ff'});sound('shieldBreak');}return;}
  z.hp=Math.max(0,z.hp-damage);z.hit=.12;damageFeedback(z,damage,source,source==='bullet'&&!!origin?.crit);
- for(let i=0;i<5;i++)sparks.push({x:z.x,y:z.y,vx:random(-90,90),vy:random(-90,90),life:.25});
+ emitHitSparks(z);
  if(z.hp===0){
   if(z!==boss)releaseCorrosion(z);effects.push({x:z.x,y:z.y,r:z.r+16,life:.3,max:.3,color:'#78978b'});
   if(z===boss){sound('bossDefeat');bossDefeated=true;bossKills++;if(z.id==='scrapper')policeUnlocked=true;bossReward=true;bossChests.push({id:bossKills,bossId:z.id,bossName:z.name,x:z.x,y:z.y});awardBossPart(z.id);for(const minion of enemies)if(minion.minionOwner===z.id)minion.hp=0;enemies=enemies.filter(minion=>minion.minionOwner!==z.id);hostile=[];hazards=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});releaseCorrosion(z);}
@@ -1150,7 +1179,9 @@ function drawHazards(){
 }
 function tick(dt){
  if(state!=='playing')return;
- clock+=dt;
+ sparkStream=beginSparkStream(dt);feedbackMembers=new Set(feedback);
+ try{
+ const previousDroneTier=droneMaturity()?.tier||0;clock+=dt;const currentDroneTier=droneMaturity()?.tier||0;if(currentDroneTier>previousDroneTier){sound('upgrade');toast(currentDroneTier===3?'DRONES CALIBRADOS · 3/3':'CALIBRAÇÃO DOS DRONES · '+currentDroneTier+'/3','#7de7f6');}
  player.inv=Math.max(0,player.inv-dt);for(const slot of weaponSlots)slot.weaponKick=Math.max(0,slot.weaponKick-dt*12);tickStatuses(dt);
  const {x:dx,y:dy}=effectiveMovement(),length=Math.hypot(dx,dy)||1;
  const dashDt=Math.min(dt,player.dashTime),normalDt=dt-dashDt;
@@ -1198,9 +1229,10 @@ function tick(dt){
  for(const piece of scrap){piece.life-=dt;const d=Math.hypot(piece.x-player.x,piece.y-player.y);if(d<player.magnet){piece.x+=(player.x-piece.x)*Math.min(1,dt*9);piece.y+=(player.y-piece.y)*Math.min(1,dt*9);}if(d<18){piece.collected=true;if(piece.repair)healPlayer(piece.repair);else recoveredBolts+=piece.value;effects.push({x:player.x,y:player.y,r:20,life:.2,max:.2,color:piece.repair?'#8ff0ab':'#ffd27c'});}}
  scrap=scrap.filter(piece=>!piece.collected&&piece.life>0);
  if(recoveredBolts){profile.bolts=profileCount(profile.bolts+recoveredBolts);saveProfile();toast('PARAFUSOS RECUPERADOS · +'+recoveredBolts,'#ffd27c');}
+ finishSparkStream();
  for(const p of sparks){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;}sparks=sparks.filter(p=>p.life>0).slice(-600);
  for(const notice of combatNotices)notice.life-=dt;combatNotices=combatNotices.filter(n=>n.life>0);
- for(const f of feedback){f.y-=28*dt;f.life-=dt;}feedback=feedback.filter(f=>f.life>0).slice(-100);
+ for(const f of feedback){f.y-=28*dt;f.life-=dt;}feedback=feedback.filter(f=>f.life>0).slice(-100);finishFeedbackPhase();
  for(const e of effects)e.life-=dt;effects=effects.filter(e=>e.life>0).slice(-150);upgradeFlash=Math.max(0,upgradeFlash-dt);
  if(state==='playing'){
   if(bossReward){bossReward=false;healPlayer(bossRepairAmount());}
@@ -1209,6 +1241,7 @@ function tick(dt){
  }
  if(feedback.length>100)feedback.splice(0,feedback.length-100);if(effects.length>150)effects.splice(0,effects.length-150);
  updateHUD();
+ }finally{sparkStream=null;finishFeedbackPhase();}
 }
 function drawRobot(){
  const animation=chassisAnimations.get(runRobot?.id);if(animation){ctx.save();ctx.strokeStyle='rgba(60,199,244,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(player.x,player.y+25,30,9,0,0,Math.PI*2);ctx.stroke();if(player.inv>0)ctx.globalAlpha=.6;animation.draw(ctx,player.x,player.y+28);ctx.restore();return;}

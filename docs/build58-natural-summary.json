@@ -1,0 +1,1295 @@
+{
+  "startedAt": "2026-11-07T13:41:10.339Z",
+  "sourceHashes": {
+    "game.js": "8275c9614622905cf57bab680d26c82c24db5bc554ea74943d985c2e8ca9ef88",
+    "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+    "builds.js": "e366c833d759277af03997326492285549c66754c85b8e24f537f72c7c9d36d8",
+    "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
+    "tools/bot-pilot.js": "b855b7471ed6986c7701d0436cf0d7c2bfef18c233b147f3721b4c1505e0c31d",
+    "tools/run-telemetry.js": "52e2f1f089f57a96489bdaa377984c14703a41105fe5dc86b6633c7206605123",
+    "tools/run-observer.js": "afd771fae223e8834f755de686ce0b0dcfc7410c4dd7d942a899dc9f9c778e82",
+    "tests/builds-balance.cjs": "19c6fb61ecdc9aca0bd776fc98942b1381780a9ff2e2c8b15bea038c441bbd1f",
+    "tests/combat.cjs": "ecd3c27c25325764ea3573eb9170898d676dc944fd9a45c82feafe5f76a368d7",
+    "version.json": "691410e5ade24daeb825fbc015463cbecec855f1859e63e97a41993a51207627"
+  },
+  "primary": {
+    "attempts": [
+      {
+        "build": "agulha-antitita",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 130,
+        "maxHp": 130,
+        "level": 24,
+        "kills": 3049,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "sniper-railDrill",
+        "chestsSeen": 7,
+        "chestsCollected": 6,
+        "received": 96,
+        "healing": 126,
+        "damageBySource": {
+          "bullet": 126440,
+          "drone": 74685.5,
+          "burn": 16862.5
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            604.2499999999982
+          ],
+          "intendedChoiceTimes": [
+            604.2499999999982
+          ],
+          "offered": [
+            {
+              "at": 520.1000000000747,
+              "level": 19,
+              "options": [
+                "thermalRelay",
+                "droneRack",
+                "reactorHeart"
+              ]
+            },
+            {
+              "at": 593.5500000000079,
+              "level": 20,
+              "options": [
+                "precisionBreech",
+                "droneRack",
+                "overclockCore"
+              ]
+            },
+            {
+              "at": 604.2499999999982,
+              "level": 20,
+              "options": [
+                "droneRack",
+                "overclockCore",
+                "feedServo"
+              ]
+            }
+          ],
+          "acquiredAt": 604.2499999999982,
+          "activeAgeAtEnd": 595.7499999994582,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 305.85000000003527,
+            "level": 14,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 520.1000000000747,
+            "level": 19,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 593.5500000000079,
+            "level": 20,
+            "kind": "relic",
+            "id": "precisionBreech"
+          },
+          {
+            "at": 604.2499999999982,
+            "level": 20,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 783.8999999998348,
+            "level": 22,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 964.8499999996702,
+            "level": 23,
+            "kind": "relic",
+            "id": "reactorHeart"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 3049,
+          "xpCollected": 3025,
+          "xpAwarded": 3025,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 126440,
+                "drone": 74685.5,
+                "burn": 16862.5
+              },
+              "shield": {
+                "bullet": 23277.6,
+                "drone": 12577.4
+              }
+            },
+            "received": {
+              "body": {
+                "contact": 48,
+                "common-ranged": 48
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "unattributed": 96,
+            "boss-relic": 30
+          },
+          "hpMin": 76,
+          "bossAliveSeconds": 23.699999999996656,
+          "bossInRangeSeconds": 23.699999999996656,
+          "firingSeconds": 1194.0499999994572,
+          "noTargetSeconds": 128.0499999999368,
+          "reloadingSlotSeconds": 1059.6999999994753,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 41,
+          "decisions": 2214
+        }
+      },
+      {
+        "build": "tempestade-balistica",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 150,
+        "maxHp": 150,
+        "level": 29,
+        "kills": 4979,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "laser-pulseClock",
+        "chestsSeen": 7,
+        "chestsCollected": 7,
+        "received": 8,
+        "healing": 38,
+        "damageBySource": {
+          "bullet": 295708.8564453125,
+          "drone": 16251.48828125,
+          "burn": 17937.15234375,
+          "explosion": 13290.43359375
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            248.95000000002236
+          ],
+          "intendedChoiceTimes": [
+            248.95000000002236
+          ],
+          "offered": [
+            {
+              "at": 231.85000000001847,
+              "level": 16,
+              "options": [
+                "cryoLens",
+                "droneRack",
+                "feedServo"
+              ]
+            },
+            {
+              "at": 248.95000000002236,
+              "level": 18,
+              "options": [
+                "droneRack",
+                "feedServo",
+                "reactorHeart"
+              ]
+            }
+          ],
+          "acquiredAt": 248.95000000002236,
+          "activeAgeAtEnd": 951.049999999434,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 231.85000000001847,
+            "level": 16,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 248.95000000002236,
+            "level": 18,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 446.50000000006725,
+            "level": 22,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 634.5999999999706,
+            "level": 26,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 785.3499999998335,
+            "level": 27,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 963.999999999671,
+            "level": 29,
+            "kind": "relic",
+            "id": "feedServo"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 4979,
+          "xpCollected": 4801,
+          "xpAwarded": 7826,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 295708.8564453125,
+                "drone": 16251.48828125,
+                "burn": 17937.15234375,
+                "explosion": 13290.43359375
+              },
+              "shield": {
+                "bullet": 56001.8310546875,
+                "drone": 2547.5634765625,
+                "burn": 2949.70703125,
+                "explosion": 2629.140625
+              }
+            },
+            "received": {
+              "body": {
+                "common-ranged": 8
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "unattributed": 8,
+            "boss-relic": 30
+          },
+          "hpMin": 100,
+          "bossAliveSeconds": 23.749999999995467,
+          "bossInRangeSeconds": 22.549999999995194,
+          "firingSeconds": 1193.9999999994568,
+          "noTargetSeconds": 261.69999999991273,
+          "reloadingSlotSeconds": 362.39999999980216,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 52,
+          "decisions": 2231
+        }
+      },
+      {
+        "build": "escopeta-ricochete",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 150,
+        "maxHp": 150,
+        "level": 24,
+        "kills": 4401,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "shotgun-wideBore",
+        "chestsSeen": 7,
+        "chestsCollected": 4,
+        "received": 296,
+        "healing": 326,
+        "damageBySource": {
+          "bullet": 157423.92500000005,
+          "explosion": 148420.25000000006,
+          "drone": 10657.325000000088,
+          "burn": 7867.7999999999
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            378.40000000005176
+          ],
+          "intendedChoiceTimes": [
+            378.40000000005176
+          ],
+          "offered": [
+            {
+              "at": 378.40000000005176,
+              "level": 16,
+              "options": [
+                "droneRack",
+                "reactorHeart",
+                "feedServo"
+              ]
+            }
+          ],
+          "acquiredAt": 378.40000000005176,
+          "activeAgeAtEnd": 821.5999999994046,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 152.75000000000048,
+            "level": 10,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 378.40000000005176,
+            "level": 16,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 611.099999999992,
+            "level": 19,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 972.2499999996635,
+            "level": 22,
+            "kind": "relic",
+            "id": "thermalRelay"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 4401,
+          "xpCollected": 2814,
+          "xpAwarded": 2814,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 157423.92500000005,
+                "explosion": 148420.25000000006,
+                "drone": 10657.325000000088,
+                "burn": 7867.7999999999
+              },
+              "shield": {
+                "bullet": 29261.599999999973,
+                "explosion": 27354.499999999996,
+                "drone": 1933.5000000000048,
+                "burn": 784.0999999999993
+              }
+            },
+            "received": {
+              "body": {
+                "contact": 250,
+                "common-ranged": 36,
+                "boss-hazard": 10
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "unattributed": 296,
+            "boss-relic": 30
+          },
+          "hpMin": 84,
+          "bossAliveSeconds": 454.7499999997572,
+          "bossInRangeSeconds": 174.54999999992575,
+          "firingSeconds": 1194.449999999457,
+          "noTargetSeconds": 71.0499999999729,
+          "reloadingSlotSeconds": 950.6999999995389,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 31,
+          "decisions": 2194
+        }
+      },
+      {
+        "build": "cacador-criogenico",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 66.66666666666667,
+        "maxHp": 66.66666666666667,
+        "level": 28,
+        "kills": 3235,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "cryo-iceDrill",
+        "chestsSeen": 7,
+        "chestsCollected": 5,
+        "received": 169,
+        "healing": 169,
+        "damageBySource": {
+          "bullet": 150746.3984375,
+          "drone": 19464.27734375,
+          "burn": 33208.8125,
+          "explosion": 40956.8203125
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            692.9499999999175
+          ],
+          "intendedChoiceTimes": [
+            692.9499999999175
+          ],
+          "offered": [
+            {
+              "at": 692.9499999999175,
+              "level": 24,
+              "options": [
+                "droneRack",
+                "thermalRelay",
+                "feedServo"
+              ]
+            }
+          ],
+          "acquiredAt": 692.9499999999175,
+          "activeAgeAtEnd": 507.04999999953884,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 136.39999999999677,
+            "level": 8,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 252.75000000002322,
+            "level": 12,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 692.9499999999175,
+            "level": 24,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 912.8999999997175,
+            "level": 26,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 1052.3999999995906,
+            "level": 27,
+            "kind": "relic",
+            "id": "feedServo"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 3235,
+          "xpCollected": 3104,
+          "xpAwarded": 5649,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 150746.3984375,
+                "drone": 19464.27734375,
+                "burn": 33208.8125,
+                "explosion": 40956.8203125
+              },
+              "shield": {
+                "bullet": 24030.3046875,
+                "drone": 3746.05859375,
+                "burn": 5268.6171875,
+                "explosion": 8183.296875
+              }
+            },
+            "received": {
+              "body": {
+                "contact": 121,
+                "common-ranged": 35,
+                "boss-hazard": 13
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "unattributed": 88,
+            "reload:cryo": 81
+          },
+          "hpMin": 53.66666666666667,
+          "bossAliveSeconds": 196.2499999998574,
+          "bossInRangeSeconds": 114.24999999993199,
+          "firingSeconds": 1193.849999999457,
+          "noTargetSeconds": 68.24999999998363,
+          "reloadingSlotSeconds": 878.7999999995571,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 44,
+          "decisions": 2218
+        }
+      },
+      {
+        "build": "forja-criogenica",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 140,
+        "maxHp": 140,
+        "level": 25,
+        "kills": 2951,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "flame-fuelMixer",
+        "chestsSeen": 7,
+        "chestsCollected": 7,
+        "received": 498,
+        "healing": 528,
+        "damageBySource": {
+          "bullet": 108113.9236328125,
+          "burn": 91870.54194335939,
+          "drone": 2462.076904296875
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            712.6999999998995
+          ],
+          "intendedChoiceTimes": [
+            712.6999999998995
+          ],
+          "offered": [
+            {
+              "at": 494.7000000000782,
+              "level": 20,
+              "options": [
+                "thermalRelay",
+                "droneRack",
+                "reactorHeart"
+              ]
+            },
+            {
+              "at": 712.6999999998995,
+              "level": 22,
+              "options": [
+                "droneRack",
+                "overclockCore",
+                "reactorHeart"
+              ]
+            }
+          ],
+          "acquiredAt": 712.6999999998995,
+          "activeAgeAtEnd": 487.2999999995568,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 139.44999999999746,
+            "level": 12,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 494.7000000000782,
+            "level": 20,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 712.6999999998995,
+            "level": 22,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 720.1499999998928,
+            "level": 22,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 1008.1499999996308,
+            "level": 23,
+            "kind": "relic",
+            "id": "reactorHeart"
+          },
+          {
+            "at": 1186.149999999469,
+            "level": 24,
+            "kind": "relic",
+            "id": "feedServo"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 2951,
+          "xpCollected": 2869,
+          "xpAwarded": 3149,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 108113.9236328125,
+                "burn": 91870.54194335939,
+                "drone": 2462.076904296875
+              },
+              "shield": {
+                "drone": 321.65625,
+                "bullet": 9177.305908203125,
+                "burn": 10101.037841796875
+              }
+            },
+            "received": {
+              "body": {
+                "projectile": 12,
+                "contact": 384,
+                "boss-minion": 8,
+                "boss-hazard": 78,
+                "common-ranged": 16
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "unattributed": 498,
+            "boss-relic": 30
+          },
+          "hpMin": 58,
+          "bossAliveSeconds": 456.99999999990354,
+          "bossInRangeSeconds": 62.99999999995746,
+          "firingSeconds": 1193.749999999457,
+          "noTargetSeconds": 112.04999999998313,
+          "reloadingSlotSeconds": 584.149999999711,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 38,
+          "decisions": 2206
+        }
+      },
+      {
+        "build": "rede-de-plasma",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 105,
+        "maxHp": 105,
+        "level": 27,
+        "kills": 3222,
+        "bossKills": 4,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "tesla-branchCoil",
+        "chestsSeen": 4,
+        "chestsCollected": 4,
+        "received": 234,
+        "healing": 234,
+        "damageBySource": {
+          "bullet": 22130.91049999985,
+          "electric": 179631.93574999805,
+          "explosion": 20772.474999999493,
+          "drone": 15701.381999999812,
+          "burn": 1491.726249999997
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            196.20000000001036
+          ],
+          "intendedChoiceTimes": [
+            196.20000000001036
+          ],
+          "offered": [
+            {
+              "at": 196.20000000001036,
+              "level": 8,
+              "options": [
+                "droneRack",
+                "arcCapacitor",
+                "feedServo"
+              ]
+            }
+          ],
+          "acquiredAt": 196.20000000001036,
+          "activeAgeAtEnd": 1003.799999999446,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 196.20000000001036,
+            "level": 8,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 273.950000000028,
+            "level": 10,
+            "kind": "relic",
+            "id": "arcCapacitor"
+          },
+          {
+            "at": 909.5999999997205,
+            "level": 25,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 971.0999999996645,
+            "level": 25,
+            "kind": "relic",
+            "id": "cryoLens"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 3222,
+          "xpCollected": 2992,
+          "xpAwarded": 5162,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 22130.91049999985,
+                "electric": 179631.93574999805,
+                "explosion": 20772.474999999493,
+                "drone": 15701.381999999812,
+                "burn": 1491.726249999997
+              },
+              "shield": {
+                "bullet": 3518.0877499999956,
+                "drone": 3185.1012500000006,
+                "electric": 31948.316250000677,
+                "explosion": 3533.2080000000105,
+                "burn": 167.56925
+              }
+            },
+            "received": {
+              "body": {
+                "contact": 120,
+                "boss-hazard": 82,
+                "common-ranged": 32
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "unattributed": 234
+          },
+          "hpMin": 73,
+          "bossAliveSeconds": 843.149999999401,
+          "bossInRangeSeconds": 205.84999999989537,
+          "firingSeconds": 1193.2999999994577,
+          "noTargetSeconds": 67.34999999998345,
+          "reloadingSlotSeconds": 893.7999999995444,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 44,
+          "decisions": 2218
+        }
+      },
+      {
+        "build": "demolicao-de-campo",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 170,
+        "maxHp": 170,
+        "level": 27,
+        "kills": 4839,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "grenade-doubleShell",
+        "chestsSeen": 7,
+        "chestsCollected": 7,
+        "received": 754.8000000000002,
+        "healing": 784.8,
+        "damageBySource": {
+          "explosion": 320795.51125000283,
+          "bullet": 14234.046874999987,
+          "drone": 31201.116875,
+          "burn": 361.50000000000006
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            81.14999999999753
+          ],
+          "intendedChoiceTimes": [
+            81.14999999999753
+          ],
+          "offered": [
+            {
+              "at": 81.14999999999753,
+              "level": 8,
+              "options": [
+                "droneRack",
+                "blastManifold",
+                "reactorHeart"
+              ]
+            }
+          ],
+          "acquiredAt": 81.14999999999753,
+          "activeAgeAtEnd": 1118.8499999994588,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 81.14999999999753,
+            "level": 8,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 304.700000000035,
+            "level": 18,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 616.3999999999871,
+            "level": 23,
+            "kind": "relic",
+            "id": "blastManifold"
+          },
+          {
+            "at": 674.9999999999338,
+            "level": 23,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 851.5499999997733,
+            "level": 25,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 1002.9999999996355,
+            "level": 26,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 1147.1499999995044,
+            "level": 27,
+            "kind": "relic",
+            "id": "reactorHeart"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 4839,
+          "xpCollected": 4833,
+          "xpAwarded": 4833,
+          "damage": {
+            "dealt": {
+              "body": {
+                "explosion": 320795.51125000283,
+                "bullet": 14234.046874999987,
+                "drone": 31201.116875,
+                "burn": 361.50000000000006
+              },
+              "shield": {
+                "drone": 5241.946875000002,
+                "explosion": 56030.691875,
+                "bullet": 2328.8831250000003
+              }
+            },
+            "received": {
+              "body": {
+                "boss-hazard": 83.80000000000007,
+                "contact": 560.9999999999999,
+                "common-ranged": 91,
+                "boss-contact": 19
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "reload:grenade": 236,
+            "unattributed": 518.8000000000001,
+            "boss-relic": 30
+          },
+          "hpMin": 103,
+          "bossAliveSeconds": 346.4999999998654,
+          "bossInRangeSeconds": 58.8000000000012,
+          "firingSeconds": 1193.6499999994573,
+          "noTargetSeconds": 71.54999999997627,
+          "reloadingSlotSeconds": 1052.3999999995128,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 42,
+          "decisions": 2213
+        }
+      },
+      {
+        "build": "oficina-viva",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 373,
+        "maxHp": 390,
+        "level": 22,
+        "kills": 1168,
+        "bossKills": 3,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": "shotgun-choke",
+        "chestsSeen": 3,
+        "chestsCollected": 2,
+        "received": 331,
+        "healing": 314,
+        "damageBySource": {
+          "bullet": 70879.37250000189,
+          "burn": 9071.746250000033
+        },
+        "baia": {
+          "acceptedChoiceTimes": [],
+          "intendedChoiceTimes": [],
+          "offered": [],
+          "acquiredAt": null,
+          "activeAgeAtEnd": null,
+          "derivedTierAtEnd": null,
+          "derivedDamageFactorAtEnd": null,
+          "observedWith90ActiveSeconds": false,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 244.00000000002123,
+            "level": 12,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 1086.04999999956,
+            "level": 22,
+            "kind": "relic",
+            "id": "thermalRelay"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 1168,
+          "xpCollected": 1162,
+          "xpAwarded": 2083,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 70879.37250000189,
+                "burn": 9071.746250000033
+              },
+              "shield": {
+                "bullet": 1534.6331249999994,
+                "burn": 265.3668750000001
+              }
+            },
+            "received": {
+              "body": {
+                "contact": 171,
+                "boss-hazard": 148,
+                "boss-minion": 3,
+                "projectile": 9
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "reload:shotgun": 224,
+            "unattributed": 27,
+            "kill-effects:bullet": 52,
+            "kill-effects:burn": 11
+          },
+          "hpMin": 110,
+          "bossAliveSeconds": 985.2499999994347,
+          "bossInRangeSeconds": 105.74999999994756,
+          "firingSeconds": 1194.899999999457,
+          "noTargetSeconds": 60.89999999997783,
+          "reloadingSlotSeconds": 949.7499999995126,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 31,
+          "decisions": 2196
+        }
+      },
+      {
+        "build": "enxame-de-sucata",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 95,
+        "maxHp": 95,
+        "level": 27,
+        "kills": 5273,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": false,
+        "weaponEvolution": "harpoon-longShaft",
+        "chestsSeen": 7,
+        "chestsCollected": 6,
+        "received": 6,
+        "healing": 6,
+        "damageBySource": {
+          "bullet": 67618.55604619565,
+          "drone": 316690.5798233696,
+          "burn": 15111.395380434784
+        },
+        "baia": {
+          "acceptedChoiceTimes": [
+            257.9500000000244
+          ],
+          "intendedChoiceTimes": [
+            257.9500000000244
+          ],
+          "offered": [
+            {
+              "at": 109.7999999999959,
+              "level": 8,
+              "options": [
+                "precisionBreech",
+                "droneRack",
+                "overclockCore"
+              ]
+            },
+            {
+              "at": 257.9500000000244,
+              "level": 17,
+              "options": [
+                "droneRack",
+                "cryoLens",
+                "reactorHeart"
+              ]
+            }
+          ],
+          "acquiredAt": 257.9500000000244,
+          "activeAgeAtEnd": 942.049999999432,
+          "derivedTierAtEnd": 3,
+          "derivedDamageFactorAtEnd": 1.3,
+          "observedWith90ActiveSeconds": true,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 109.7999999999959,
+            "level": 8,
+            "kind": "relic",
+            "id": "precisionBreech"
+          },
+          {
+            "at": 257.9500000000244,
+            "level": 17,
+            "kind": "relic",
+            "id": "droneRack"
+          },
+          {
+            "at": 465.2000000000715,
+            "level": 21,
+            "kind": "relic",
+            "id": "thermalRelay"
+          },
+          {
+            "at": 603.9999999999984,
+            "level": 23,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 788.7999999998303,
+            "level": 25,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 1059.8999999995838,
+            "level": 27,
+            "kind": "relic",
+            "id": "overclockCore"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 5273,
+          "xpCollected": 5270,
+          "xpAwarded": 5270,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 67618.55604619565,
+                "drone": 316690.5798233696,
+                "burn": 15111.395380434784
+              },
+              "shield": {
+                "drone": 60712.81080163044,
+                "bullet": 13947.150135869564
+              }
+            },
+            "received": {
+              "body": {
+                "common-ranged": 6
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "reload:harpoon": 5,
+            "unattributed": 1
+          },
+          "hpMin": 89,
+          "bossAliveSeconds": 33.19999999998833,
+          "bossInRangeSeconds": 33.19999999998833,
+          "firingSeconds": 1193.149999999457,
+          "noTargetSeconds": 347.19999999982076,
+          "reloadingSlotSeconds": 995.9999999995255,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 48,
+          "decisions": 2225
+        }
+      },
+      {
+        "build": "lanca-de-fuga",
+        "seed": 20261107,
+        "time": 1199.9999999994563,
+        "state": "playing",
+        "hp": 146.66666666666669,
+        "maxHp": 146.66666666666669,
+        "level": 18,
+        "kills": 839,
+        "bossKills": 7,
+        "viable": true,
+        "coreReached": true,
+        "recipeReached": true,
+        "weaponEvolution": null,
+        "chestsSeen": 7,
+        "chestsCollected": 6,
+        "received": 153,
+        "healing": 183,
+        "damageBySource": {
+          "bullet": 61008.35,
+          "kinetic": 950.3999999999994,
+          "drone": 1168.375
+        },
+        "baia": {
+          "acceptedChoiceTimes": [],
+          "intendedChoiceTimes": [],
+          "offered": [],
+          "acquiredAt": null,
+          "activeAgeAtEnd": null,
+          "derivedTierAtEnd": null,
+          "derivedDamageFactorAtEnd": null,
+          "observedWith90ActiveSeconds": false,
+          "evidence": "Accepted observer choice + elapsed game clock, which freezes on offers/pause. Tier/factor derived from frozen maturation model; no direct natural damage-isolation claim.",
+          "telemetryDropped": 0
+        },
+        "relicChoices": [
+          {
+            "at": 178.45000000000633,
+            "level": 10,
+            "kind": "relic",
+            "id": "precisionBreech"
+          },
+          {
+            "at": 336.20000000004217,
+            "level": 13,
+            "kind": "relic",
+            "id": "cryoLens"
+          },
+          {
+            "at": 542.6000000000543,
+            "level": 14,
+            "kind": "relic",
+            "id": "feedServo"
+          },
+          {
+            "at": 628.599999999976,
+            "level": 15,
+            "kind": "relic",
+            "id": "overclockCore"
+          },
+          {
+            "at": 876.5499999997505,
+            "level": 16,
+            "kind": "relic",
+            "id": "reactorHeart"
+          }
+        ],
+        "telemetryTotals": {
+          "seconds": 1199.9999999994563,
+          "xpProduced": 839,
+          "xpCollected": 835,
+          "xpAwarded": 835,
+          "damage": {
+            "dealt": {
+              "body": {
+                "bullet": 61008.35,
+                "kinetic": 950.3999999999994,
+                "drone": 1168.375
+              },
+              "shield": {
+                "bullet": 6500
+              }
+            },
+            "received": {
+              "body": {
+                "boss-hazard": 42,
+                "contact": 111
+              },
+              "shield": {}
+            }
+          },
+          "heal": {
+            "reload:harpoon": 136,
+            "boss-relic": 30,
+            "unattributed": 17
+          },
+          "hpMin": 74.66666666666667,
+          "bossAliveSeconds": 249.54999999989784,
+          "bossInRangeSeconds": 249.54999999989784,
+          "firingSeconds": 1194.7499999994568,
+          "noTargetSeconds": 46.74999999998549,
+          "reloadingSlotSeconds": 1111.5999999994476,
+          "weaponSlotSeconds": 1199.9999999994563,
+          "offers": 29,
+          "decisions": 2193
+        }
+      }
+    ],
+    "viable": 10,
+    "total": 10
+  },
+  "extras": {
+    "needed": false,
+    "reason": "Primary matrix already observed an accepted natural BAIA with at least90 active seconds."
+  },
+  "completed": true,
+  "errors": [],
+  "finishedAt": "2026-11-07T13:43:52.092Z",
+  "worktreeChangesSinceFreeze": [
+    "version.json"
+  ]
+}
