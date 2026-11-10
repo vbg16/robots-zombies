@@ -1,9 +1,9 @@
 {
-  "data_cliente": "2026-11-09",
+  "data_cliente": "2026-11-10",
   "timezone": "America/Sao_Paulo",
   "estado": "EM_DESENVOLVIMENTO",
   "ultima_publicacao_no_inicio_do_levantamento": "BUILD59/c8164b482ccdbbc116a81d26fe6b14e014eba4f1",
-  "commit_pai": "c8164b482ccdbbc116a81d26fe6b14e014eba4f1",
+  "commit_pai": "ebb3fe21957a5831f59634f67c75dcf1c5c2ebf0",
   "snapshot_tem_alteracoes_locais": true,
   "contagens": {
     "chassis": 6,
@@ -25,6 +25,20 @@
     "index.html": "9db80083e2ddd51a3f93f870de07ae59530a4a0779a5253bd2d1e7dc89838dfb",
     "style.css": "2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a",
     "ui-redesign.css": "42bf05e2aba4cc60a6499a39aaba9b780e849f9e2a8c268ff884adc10ea04190",
+    "audio.js": "747b6ab310cf53c6ce082fc06a2b8843027cdca7a07621b9542330fb2533422e",
+    "touch-controls.js": "69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34",
+    "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
+    "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
+    "tools/segment-circle.js": "ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4",
+    "tools/rupture-chamber.js": "0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03"
+  },
+  "source_text_hashes": {
+    "game.js": "37f2681aa927257899593b25542256d451dae0a61c6b874a46cbcd4943198f79",
+    "balance.js": "6694c640ed8e49cec83521b522ae02f1082768b5771af0ebcd14afd29b67d980",
+    "builds.js": "8ab6d2341024c575d992de4b2ca713545525d3660bc39f486d762e881e142715",
+    "index.html": "bc3efd1ab2a98c9c3297d88a1a5925390f6cd878296a04b0e1e4ae11e43f815c",
+    "style.css": "bae75f6e1eda94dcb5b784956684d6c099da8cfbc8bef3a83f97c5130322da05",
+    "ui-redesign.css": "a81062e6c2c5f7f9a662c195088523a702c136fe986a0626383aba80ece947f3",
     "audio.js": "747b6ab310cf53c6ce082fc06a2b8843027cdca7a07621b9542330fb2533422e",
     "touch-controls.js": "69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34",
     "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",

@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. Esta especificação foi preparada sobre a candidata BUILD60 antes de sua publicação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates.
+Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. Esta especificação foi preparada sobre a candidata BUILD60 antes de sua publicação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -5539,7 +5539,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: c8164b482ccdbbc116a81d26fe6b14e014eba4f1. O snapshot possui alterações locais da candidata60 e da correção de escudo; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: ebb3fe21957a5831f59634f67c75dcf1c5c2ebf0. O snapshot possui alterações locais da candidata60 e da correção de escudo; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|

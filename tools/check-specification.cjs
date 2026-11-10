@@ -38,10 +38,14 @@ for(const [category,items]of Object.entries(live)){
 }
 assert.equal(ids.filter(id=>id.startsWith('QA-ATTR-')).length,live.atributos.length,'Attribute coverage missing');
 assert.equal(live.editaveis.length,live.normais.length+live.gambiarras.length+live.experimentos.length+live.protocolos.length);
-const checkedSources=[];
+const checkedSources=[],lineEndingDifferences=[];
 for(const [relative,expected]of Object.entries(matrix.source_hashes)){
  const file=path.resolve(root,relative);assert.ok(file.startsWith(root+path.sep),'Source path escapes workspace');
- assert.equal(sha(fs.readFileSync(file)),expected,'Documentation snapshot stale: '+relative);checkedSources.push(relative);
+ const bytes=fs.readFileSync(file),normalized=Buffer.from(bytes.toString('utf8').replace(/\r\n/g,'\n'));
+ assert.ok(matrix.source_text_hashes?.[relative],'Missing portable source fingerprint: '+relative);
+ assert.equal(sha(normalized),matrix.source_text_hashes[relative],'Documentation snapshot stale: '+relative);
+ if(sha(bytes)!==expected)lineEndingDifferences.push({file:relative,workspaceSnapshotSha256:expected,actualSha256:sha(bytes),verifiedCanonicalSha256:sha(normalized),normalization:'CRLF to LF only'});
+ checkedSources.push(relative);
 }
 const links=[];
 for(const [,raw]of master.matchAll(/\[[^\]]*\]\(([^)]+)\)/g)){
@@ -56,6 +60,6 @@ if(matrix.gate_final_aprovado){
 }
 const report={at:new Date().toISOString(),scope:'Structural coverage/hash/link/schema checks only; not execution or final project approval',
  masterSha256:sha(master),matrixSha256:sha(fs.readFileSync(matrixFile)),cases:ids.length,counts:Object.fromEntries(Object.entries(live).map(([k,v])=>[k,v.length])),
- checkedSources,localLinks:links.length,finalGateApproved:matrix.gate_final_aprovado,passed:true};
+ checkedSources,lineEndingDifferences,localLinks:links.length,finalGateApproved:matrix.gate_final_aprovado,passed:true};
 fs.mkdirSync('outputs',{recursive:true});fs.writeFileSync('outputs/specification-check.json',JSON.stringify(report,null,2)+'\n');
 console.log('Specification structure: '+ids.length+' unique cases, current catalogs/attributes, source hashes and local links agree. This does not approve the final gates.');
