@@ -212,3 +212,10 @@ body:has(#run-config:not([hidden])) main{width:100%;height:auto;min-height:100dv
 .combat-screen .combat-build>.ammo-panel{grid-template-columns:minmax(0,1fr);gap:3px 0;max-height:none;overflow:visible;}
 .combat-screen .combat-build>.ammo-panel>b{grid-column:1;white-space:nowrap;margin-right:0;line-height:1.2;}
 .combat-screen .combat-build>.ammo-panel>span{grid-column:1;min-width:0;white-space:normal;overflow-wrap:anywhere;text-align:left;line-height:1.3;}
+#matrix-hud[hidden]{display:none!important}
+.combat-screen .combat-build>#matrix-hud{display:grid;gap:4px;max-height:none;overflow:visible;padding:6px 8px;box-sizing:border-box;}
+.combat-screen #matrix-action{pointer-events:auto;min-height:44px;width:100%;padding:5px 4px;font:700 9px/1.3 monospace;color:#a8f1ff;}
+.combat-screen #matrix-action:disabled{cursor:default;color:#9db4be;}
+.combat-screen #matrix-action:focus-visible{outline:2px solid #a8f1ff!important;outline-offset:-3px!important;}
+.combat-screen #matrix-status{display:block;font:700 8px/1.4 monospace;color:#a8f1ff;overflow-wrap:anywhere;}
+.combat-screen .combat-build:has(#matrix-hud:not([hidden])){max-height:calc(100% - 112px);overflow-y:auto;overscroll-behavior:contain;pointer-events:auto;scrollbar-width:thin;}

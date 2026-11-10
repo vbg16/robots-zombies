@@ -1,0 +1,20 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Isolated ScrewTouchControls matrix adapter fixture</title>
+<link rel="stylesheet" href="../../touch-controls.css">
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#091625}#combat{position:relative;width:100vw;height:100dvh;overflow:hidden}.fixture-caption{position:absolute;left:10px;top:8px;color:#fff;font:12px monospace;z-index:1}</style>
+<div id="combat" class="touch-active"><span class="fixture-caption">ISOLATED TOUCH ADAPTER — NO GAME ENGINE</span><div id="touch-controls"></div></div>
+<script src="../../touch-controls.js"></script>
+<script>
+window.qa={moves:[],aims:[],matrices:0,reloads:0,dashes:0,pointers:[],clicks:[]};window.addEventListener('click',e=>qa.clicks.push({target:e.target.closest?.('[data-touch-action]')?.id||e.target.id,detail:e.detail}),true);
+for(const type of ['pointerdown','pointerup','pointercancel','gotpointercapture','lostpointercapture'])window.addEventListener(type,e=>qa.pointers.push({type,id:e.pointerId,pointerType:e.pointerType,target:e.target.closest?.('[data-touch-action]')?.id||e.target.closest?.('[data-touch-pad]')?.getAttribute('data-touch-pad')||e.target.id}),true);
+window.adapter=ScrewTouchControls.mount(document.querySelector('#touch-controls'),{
+ onMove:v=>qa.moves.push({x:v.x,y:v.y}),
+ onAim:v=>qa.aims.push({x:v.x,y:v.y,active:v.active}),
+ onMatrix:()=>qa.matrices++,
+ onReload:()=>qa.reloads=(qa.reloads||0)+1,
+ onDash:()=>qa.dashes=(qa.dashes||0)+1
+});
+adapter.setEnabled(true);adapter.setDashAvailable(true);
+</script>

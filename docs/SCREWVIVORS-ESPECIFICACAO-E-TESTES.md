@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. Esta especificação foi preparada sobre a candidata BUILD60 antes de sua publicação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A BUILD60 foi publicada no commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. Esta edição descreve a candidata BUILD61 ainda em implementação/validação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -39,11 +39,11 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
-| Relíquias de baú |14|
+| Relíquias de baú |15|
 | Receitas de build |10|
 | Registros editáveis padrão |82|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |96|
+| Artigos do compêndio de módulos/relíquias |97|
 
 Os82editáveis são52+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
@@ -730,7 +730,7 @@ Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de e
 
 ## Especificação de combate, mundo, apresentação e verificação
 
-Extração da implementação local candidata BUILD60, em 09/11/2026. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A candidata60 não deve ser confundida com a última versão publicada59. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
+Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo e o motor de Matriz61 incorporados nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A publicação60é histórica; a candidata61nãoestáaprovada e sua Matriz está especificada integralmente na ParteIII-A. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
 
 ### 1. Produto e estrutura da tentativa
 
@@ -1303,9 +1303,9 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 | ENXA-0006 | droneRelay | RELÉ DO ENXAME | Alcance dos drones +100px; coleta ×1,25. | Não aumenta o número de drones. |
 
 
-### Quatorze relíquias de baú — inclui a candidata60
+### Quinze relíquias de baú — inclui a candidata61
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos82editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador e Culatra; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos82editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra e Matriz de Rebites; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
 | ID | Nome | Elegibilidade | Ganho |
 | --- | --- | --- | --- |
@@ -1323,6 +1323,8 @@ Baú físico fica no local da morte, sem expiração ou atração por ímã; col
 | overclockCore | NÚCLEO DE POTÊNCIA | Universal | Todas as armas causam +25% de dano. |
 | fieldCollimator | COLIMADOR DE CAMPO | Universal; nascimento do campo espera direção manual válida | Ao mirar, fixa um campo por 4 s; repete a cada 6 s. Tiros que o atravessam ganham +35% de dano uma única vez. |
 | ruptureChamber | CULATRA DE RUPTURA | Universal; energia começa0para cada arma ao instalar | Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas. |
+| rivetMatrix | MATRIZ DE REBITES | Universal; estação depende de implantação manual após adquirir | [E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. |
+
 
 
 #### Baia, Colimador e Culatra em detalhes
@@ -1457,7 +1459,7 @@ Receitas são recomendações de equipamento e prioridade entre escolhas realmen
 
 ### Painel editável:82registros e25atributos
 
-Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas24 e relíquias14 são catálogos separados; compêndio atual tem96entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para96por contar as peças raras. Revisão de migração do catálogo:6; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:6,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
+Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas24 e relíquias15 são catálogos separados; compêndio atual tem97entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para97por contar as peças raras. Revisão de migração do catálogo:6; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:6,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
 
 #### Campos numéricos suportados
 
@@ -1510,7 +1512,7 @@ Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas2
 
 ### Divergências e limites desta extração
 
-- A candidata local anunciaBUILD60 e já contém14relíquias/96entradas de compêndio; documentos históricos deBUILD59 indicam13/95e não são a especificação atual da Culatra. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD61 contém15relíquias/97entradas de compêndio. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Matriz. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -1520,6 +1522,153 @@ Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas2
 #### Contagem de mortes e reposição
 
 Depósito Ampliado usa um contador global de mortes válidas de não-chefe. A décima morte devolve1cartucho ao slot identificado na origem desse dano, limitado à capacidade; origem semslot recai no primário. Não transformar um reembolso em emissão nem em carga da Culatra. O protocolo chargeRecovery usa contador de seis alvos que realmente perderamHP por descarga e cooldown0,25s; também repõe somente um cartucho à origem. Célula de reparo a cada25mortes cura12quando coletada e não é dinheiro; Bateria de Sucata cura20automaticamente a cada20mortes e não deixa um item extra.
+
+
+## Parte III-A — contrato completo da Matriz de Rebites
+
+
+## Matriz de Rebites — candidata BUILD61
+
+**Estado: validada funcionalmente na candidata de desenvolvimento.** Este documento registra o contrato e evidências locais; não é aprovação de equilíbrio final, desempenho real, canal público ou conclusão da versão1.0. A [meta de conclusão](META-DE-CONCLUSAO.md) continua aberta.
+
+### Função no jogo e aquisição
+
+A Matriz é uma peça temporária de baú de chefe. O jogador instala uma estação física no chão, direciona seus próprios tiros à entrada, acumula energia e recebe uma salva própria do aparelho. O tiro alimentador é consumido: a entidade não é um contador de acertos em inimigos, um drone que escolhe alvos nem um campo que apenas amplia uma bala.
+
+A peça usa ID `rivetMatrix`, é elegível para todos os chassis/armas, só pode ser escolhida uma vez na tentativa e não integra o painel editável de 82 módulos. Não é comprada como atributo permanente. Adquirir não repõe vida, munição, recarga ou projéteis e não instala uma estação sem comando. Recusa, callback antigo e morte seguem o token de oferta das demais peças.
+
+### Implantação manual
+
+Com a peça adquirida e a partida em `playing`, o jogador mira e usa E ou o botão correspondente. O ponto de mundo é `aim+camera`; a distância entre ele e o centro do robô deve pertencer à faixa inclusiva 48–180 px, com tolerância numérica de 1e-7 px nas bordas. Exigir direção de mira válida e aparelho ausente. Vetor zero, tentativa sem peça, pausa, tecla repetida e ponto fora da faixa não instalam, não corrigem a posição e não escolhem inimigos.
+
+No toque, o direcional direito fornece uma direção manual unitária; o ponto retido é 180 px à frente. O terceiro dedo pode acionar a Matriz enquanto movimento/mira permanecem ativos. Não exigir que o jogador abandone um dos dois pads para perder a direção. A disposição do botão não pode obstruir recarga ou propulsor. O cenário decorativo não introduz obstáculos físicos novos para esse posicionamento.
+
+Limite: uma estação por vez. Durante sua vida não se pode movê-la nem instalar outra. Quando ela expira, uma implantação posterior captura referências novas; não reutiliza a energia antiga.
+
+### Referência e orçamento energético
+
+Ao implantar, capturar `P=clamp(shotDamage(arma primária)×N,0.001,1e9)`, onde `N=min(400,max(1,floor(pellets×projectileMult)))`. O dano normal de `shotDamage` inclui as conversões normais já presentes na build, como o componente de vida do Titânico quando elegível. P não recebe o crítico de um disparo futuro, Culatra, Carga de Reparo ou vulnerabilidade de um alvo. Não recalcular P depois por troca de atributos ou reforja.
+
+- Limiar de descarga: `T=2P`.
+- Capacidade: `Emax=4P`.
+- Uma salva consome T uma vez.
+- Orçamento balístico total da salva: `1,10T=2,2P`.
+- Cada um dos três rebites: `2,2P/3` antes dos multiplicadores centrais por alvo.
+
+A energia deriva exclusivamente das balas efetivamente absorvidas. Cada emissão que gasta cartucho compartilha um token entre seus pellets. O teto desse token é a soma do dano dos projéteis realmente emitidos, multiplicada por 1,35 para permitir o Colimador atravessado antes da entrada. Se apenas um pellet coube no teto de 400, o token não recebe orçamento dos pellets que não nasceram.
+
+Cada bala só entrega seu próprio dano no instante válido de contato, limitado ao saldo do token; o acréscimo na estação é limitado à capacidade. A bala é consumida mesmo quando a energia já está cheia: o excedente é descartado e não fica guardado no token para devolver depois. O token não concede o orçamento inteiro por pellet. Crítico, Culatra e reparo já capturados na bala fazem parte do dano emitido; a conversão espacial só entra se geometricamente ocorrer antes da absorção. Não somar dano de explosão, fogo, eletricidade, corrosão, exposição ou efeitos dependentes de um alvo ao payload de alimentação.
+
+Tiros automáticos mantidos são válidos por cada munição gasta. Uma rajada usa um token por subdisparo consumidor de cartucho. Todas as armas de um conjunto podem contribuir; o número de slots não multiplica energia de uma bala. Tokens devem ficar referenciados apenas por projéteis vivos, sem cadastro global que cresça durante o modo infinito.
+
+#### Exemplos padrão sem módulos
+
+Tabela de PROT com uma arma, sem crítico/reparo/Culatra/Colimador. P usa o dano nominal de todos os pellets do cartucho; acertos parciais na entrada contribuem menos. A tabela não promete que todos os pellets tocarão o aparelho.
+
+| Arma | Dano/pellet | Pellets/cartucho | P | Limiar2P | Cap4P | Dano/rebite | Carregador / recarga cheia |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Metralhadora | 22 | 1 | 22 | 44 | 88 | 16.1333 | 24 / 1.4s |
+| Escopeta | 12 | 5 | 60 | 120 | 240 | 44 | 6 / 2.2s |
+| Fuzil de rajada | 14 | 1 | 14 | 28 | 56 | 10.2667 | 30 / 1.8s |
+| Canhão de precisão | 88 | 1 | 88 | 176 | 352 | 64.5333 | 3 / 2.6s |
+| Emissor laser | 10 | 1 | 10 | 20 | 40 | 7.33333 | 60 / 1.6s |
+| Lança-chamas | 5 | 3 | 15 | 30 | 60 | 11 | 80 / 2.4s |
+| Lançador criogênico | 22 | 1 | 22 | 44 | 88 | 16.1333 | 12 / 2.4s |
+| Lança-foguetes | 70 | 1 | 70 | 140 | 280 | 51.3333 | 1 / 4.8s |
+| Lança-granadas | 45 | 1 | 45 | 90 | 180 | 33 | 4 / 3.6s |
+| Carabina Tesla | 24 | 1 | 24 | 48 | 96 | 17.6 | 8 / 3s |
+| Disco de retorno | 24 | 1 | 24 | 48 | 96 | 17.6 | 3 / 3.4s |
+| Arpão pneumático | 60 | 1 | 60 | 120 | 240 | 44 | 2 / 2.4s |
+
+O ganho de 110% é orçamento bruto da energia consumida numa salva completa, antes de erros de trajetória, expiração, capacidade, escudos e multiplicadores por alvo. Não é 110% de DPS adicional nem um multiplicador permanente dos tiros do jogador. A alimentação retira dano que poderia atingir diretamente os zumbis.
+
+### Contato físico, tempo e prioridades
+
+A entrada é circular, com raio de 14 px. Para testar uma bala de raio R, expandir esse círculo para 14+R. A entrada deve ser testada pelo segmento percorrido da bala e pelo tempo de contato; comparar apenas o endpoint não basta. O teste precisa respeitar a vida restante da bala e da estação. Um cruzamento geométrico que acontece depois de alguma expiração não alimenta. Expiração vence empate.
+
+Início dentro e tangência contam como entrada; endpoint do segmento também conta quando as duas vidas ainda permitem o contato. Em empate de corpo e entrada, processar o corpo primeiro. O pipeline deve preservar o caminho legado quando a peça não está presente. Antes de processar os projéteis, ordenar cronologicamente apenas os espaços da lista que têm contato potencial válido com a entrada naquele passo. Predizer a velocidade de retorno do disco sem mutar o projétil; ordenar pelo parâmetro de entrada e manter ordem original em empate. Os demais projéteis conservam sua ordem relativa. Isso evita um cartucho lento iniciar uma salva no futuro e bloquear um cartucho rápido que chegaria antes. Não fazer essa ordenação sem dispositivo implantado. Um corpo que encerra ou ricocheteia a bala antes do aparelho impede alimentação no trecho não percorrido. Se houver perfuração legítima antes e a bala sobreviver até a entrada, o consumo posterior pode ocorrer, mas não repetir impactos. Uma bala absorvida termina sem chamar os ramos de impacto/explosão/status. Corpo posterior não recebe esse projétil. O disco ou ricochete não pode reapresentar um objeto já consumido.
+
+O Colimador é uma conversão distinta: se a bala o atravessou antes da entrada, a energia pode refletir aquela multiplicação única; campo posterior não age num tiro que já foi ingerido. As três trajetórias da própria Matriz não são alimentadores e não recebem Colimador.
+
+### Descarga, limites e fila
+
+A estação fica 18 segundos de combate ativo e realiza no máximo três salvas. Uma salva usa a direção do último projétil absorvido e mantém essa direção durante os três ataques. Leque: −0,08/0/+0,08rad. Não procurar alvos nem retarget durante voo.
+
+Os três rebites nascem em 0/0,6/1,2 s relativos ao início da descarga. Velocidade 520 px/s, alcance 260 px, raio 4; tempo nominal de voo 0,5 s. O início é agendado no instante físico do contato de alimentação; as emissões usam timestamps absolutos desse início. Projétil recém-criado só percorre o intervalo residual entre seu nascimento e o fim do passo, nunca o dt anterior. Um passo longo pode emitir as posições de salva vencidas dentro daquele intervalo, sempre respeitando expiração/capacidade, sem criar disparos de um período em que não havia salva. Não confundir isso com backlog após lotação. Durante descarga, tiros manuais passam pelo aparelho sem alimentar. O bloqueio usa o instante absoluto feedBlockedUntil, inicialmente inícioDaSalva+1,2s. Contatos anteriores a esse instante passam sem alimentar; contato exatamente no fim ou depois pode alimentar, inclusive quando fim e contato caem no mesmo tick. Cancelar por lotação encerra a janela no instante da emissão cancelada. Não bloquear o frame inteiro por ter começado ocupado.
+
+Os rebites pertencem ao teto compartilhado de 400 projéteis. Se o teto está cheio antes de começar uma descarga, não gastar 2P nem criar uma fila de ataques. Se faltar vaga no meio da descarga, cancelar os tiros restantes daquela salva, sem reembolso, sem backlog e sem retirar projéteis vivos para abrir espaço. Expiração da estação vence uma emissão no mesmo instante. O contador salvos cresce ao INICIAR cada salva, incluindo uma que depois seja cancelada por lotação. Após três iniciadas, remover o dispositivo quando não existe salva ativa; não restaurar uma tentativa porque seus rebites restantes foram cancelados.
+
+### Esquema de estado e ordem de atualização
+
+Uma reconstrução pode usar outra organização interna, mas precisa preservar estes observáveis. Guardar na estação: posição fixa x/y, P, raio14, energia, instante absoluto de expiração (`implantação+18`), vida restante para apresentação, janela válida do passo, instante absoluto de fim do bloqueio de alimentação, número de salvas iniciadas, direção da última alimentação e salva ativa ou nula. A salva guarda direção/dano capturados, índice do próximo rebite e instante absoluto do próximo ataque. Cada rebite guarda nascimento, último instante avançado, posição, velocidade, dano, raio4 e vida0,5s.
+
+1. Avançar o relógio somente em playing. Antes de atualizar a Matriz, guardar a vida que existia no começo do passo; ela determina a janela física de entrada. Usar feedBlockedUntil para comparar o instante de cada contato com o fim da descarga.
+2. Atualizar a vida de apresentação pela expiração absoluta. Processar rebites programados que venceram até o relógio atual, sempre recusando evento no/depois da expiração. Se estava ociosa e havia energia/capacidade, iniciar no instante de início do passo; se a energia veio de um contato novo, usar o instante desse contato.
+3. Emitir cartuchos manuais pela cadência normal. Cada emissão após adquirir a peça recebe um token compartilhado pelos pellets realmente criados; antes de adquirir, não acrescentar esse dado.
+4. No movimento das balas manuais, procurar a entrada válida e processar os contatos anteriores pela ordem legada. Se sobreviver até a entrada, consumir a bala, atualizar token/energia/direção e, se possível, iniciar a descarga naquele instante. Alvos posteriores não recebem esse projétil.
+5. Nos rebites da entidade, avançar somente `min(dt,agora−últimoAvanço)`, limitado à vida restante; usar colisão varrida e o primeiro contato de corpo. Não executar o pipeline manual de procs.
+6. Remover projéteis encerrados e então remover a estação se vida≤0 ou se três salvas foram iniciadas e não há salva ativa. A remoção natural da estação não apaga rebites já emitidos; morte/garagem os removem.
+
+Comparações numéricas da implementação candidata: faixa de posição tolera1e-7px; limiar energético e agenda absoluta usam tolerância1e-9; empates espaciais/TTL usam8×Number.EPSILON no parâmetro do segmento. Esses valores não autorizam contato após uma expiração real nem um ataque extra.
+
+### Fontes de dano e recompensas
+
+Rebites usam `source='matrix'` no caminho central de dano, e não `impact` da arma. Não aplicam crítico, exposição balística, queimadura, frio, corrosão, eletricidade, explosão, perfuração, ricochete, retorno ou procs manuais. Não alimentam a própria Matriz, a Culatra ou outra entidade.
+
+Preservar as condições gerais do caminho central de dano explicitamente aplicáveis à fonte, incluindo escudo policial, marca do Predador, Caça-Titãs e finalização por vida baixa. Elas não alteram P armazenado. O escudo absorve o golpe inteiro, inclusive o de quebra; não transferir excedente nem instalar estados proibidos.
+
+Abates normais concedem XP, sucata, contador de mortes e célula global de reparo na frequência usual; chefes mantêm cura, peça e baú pela regra geral. A fonte matrix não ativa Depósito Ampliado (`killAmmo`) nem Sucata (`salvage`). Não transformar a palavra “sem procs” em retirada de recompensas básicas nem em liberação de cadeias balísticas. A cura normal de derrota de chefe pode armar Carga de Reparo pela regra global de cura, e a morte pode liberar corrosão previamente instalada por outra fonte. Esses eventos gerais permanecem; o rebite não semeia estado novo nem chama impact. A proibição de procs não remove os contratos de recompensa e morte do jogo.
+
+### Estados e limpeza
+
+| Estado | Condição | Atualização | Saída |
+|---|---|---|---|
+| Sem peça | rivetMatrix não adquirida | Nenhuma entidade/token novo | Oferta legal |
+| Pronta | Peça adquirida e nenhuma estação | Botão/tecla, espera direção válida | Implantação manual |
+| Carregando | Estação viva, sem salva ativa | Absorve payload válido, capacidade 4P | Limiar 2P e vaga para ataque |
+| Descarregando | Salva em execução | Três instantes e direção fixa; sem alimentação | Fim/cancelamento da salva |
+| Pausada | Jogo fora de playing | Vida, energia e ataques congelados | Retomada explícita |
+| Expirada | Vida esgotada ou limite de salvas | Remove estação; sem ataque atrasado | Peça permanece pronta para nova implantação |
+| Morte/reset | Fim/reinício da tentativa | Limpa entidade e estado temporário conforme política de projéteis da tentativa | Nova tentativa sem relíquia |
+
+Desenho, HUD, minimapa e painel de pausa só consultam estado. Não avançam vida, energia, disparos, posições ou RNG. Ao expirar normalmente, remover a estação e permitir nova implantação; rebites já emitidos completam sua própria vida restante. Morte e retorno à garagem removem também os rebites ativos; reset recria a tentativa sem peça/campo e limpa todas as balas. Morte e reset não podem manter captura de entrada ou comandos antigos. O perfil permanente não recebe a peça, seus números ou tokens.
+
+### Apresentação e evidências
+
+Estação compacta de chapa escura, entrada e bobina ciano, indicação local de carga/direção; sem círculo amplo que esconda inimigos. O marcador do minimapa é único e permanece identificável quando o aparelho está longe. Rebites precisam ser distinguíveis das balas da arma e das descargas hostis. O HUD mostra energia/limiar, salvas e tempo; o botão desktopusa E e o toque usa sua ação própria. O status de energia não anuncia mutações por frame em região aria-live.
+
+#### Sons próprios da estação
+
+Eventos usam o barramento de efeitos já existente, seus controles de volume/mute e o RNG de ruído próprio do áudio. Não sortear no RNG de combate. Limites mínimos entre cues iguais: implantação 0,25 s, alimentação 0,12 s, rebite 0,12 s, expiração 0,3 s.
+
+- Implantação: ruído curto 0,055 s com ganho 0,025, somado a oscilador triangular 165→245 Hz durante 0,16 s, ganho 0,04.
+- Alimentação efetiva: seno 510→620 Hz durante 0,045 s, ganho 0,022. Só emitir quando a energia realmente aumenta, não por tiro descartado em capacidade cheia.
+- Rebite emitido: ruído 0,04 s/ganho 0,035 e triangular 390→150 Hz durante 0,085 s/ganho 0,05.
+- Expiração natural: seno 190→85 Hz durante 0,18 s/ganho 0,03. Limpeza por morte não deve criar pilha tardia de sons de expiração.
+
+A descrição e os casos da [especificação mestre](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) são critérios, não resultados. A candidata precisa comprovar geometria, TTL, orçamento por cartucho, doze armas, cap400, pause/reset, procs, controle e leitura real em 1280×900/844×390/740×360. Partidas naturais, desempenho real e celular físico são provas separadas e continuam pendentes até execução identificada.
+
+### Validação da candidata
+
+A fonte congelada 8ab6faf1792a01c05a7a38c4f14024ef64905f041db24588f3bed4f92de4deee passou na prova de transparência dos observadores e na matriz intermediária de dez receitas: todas sobreviveram1200s e derrotaram pelo menos três chefes, mas somente8/10 adquiriram as quatro skills centrais. Demolição e Lança não montaram o core e continuam falhas no denominador. Não chamar essa matriz de aprovada.
+
+Experimento separado com preferência pela Matriz somente quando legalmente oferecida e ação manual de implantação passou4/4 (Tempestade/Escopeta×20261124/25), com aquisição, alimentação, salvas e acertos reais nos quatro casos. Não substitui as falhas canônicas nem as30tentativas finais. Depois do congelamento, uma correção de entrada permitiu E quando o foco fica no botão de pausa após escolher a peça; o piloto desse ensaio chama a ação diretamente e não exercita o atalho. A interface e as correções visuais posteriores têm testes de navegador separados.
+
+A revisão temporal adicional reproduziu um P1: duas velocidades diferentes alimentavam em ordem de emissão, mudando a energia e o início da salva ao dividir o passo. A ordenação de candidatos por tempo de entrada corrigiu o caso; tests/matrix-time-order.cjs conserva a regressão e verifica que o término da terceira salva não absorve tiros posteriores. A matriz natural v3 anterior foi preservada como histórica e uma execução v4 foi iniciada após a correção. Não herdar aprovação de v3 para v4.
+
+### Aparência e entrada verificadas
+
+A base mede48×36px, em azul-noturno, com grampos de cobre; corpo34×26px e moldura de metal claro. Oito indicadores representam degraus de0,5P: quatro ciano até o limiar2P e quatro âmbar até o teto4P. A entrada brilha por0,1s após energia efetivamente recebida; um rebite emitido causa recuo visual de2px por0,08s. lastFeedAt/lastShotAt são gravados apenas nos eventos da simulação; desenho consulta clock, sem mudar estado ou consumir RNG. O minimapa usa marcador aliado quadrado e não aumenta a hitbox.
+
+No teclado, E funciona mesmo quando o foco permanece no botão de pausa depois da escolha da peça; campos editáveis continuam protegidos. No toque, a liberação do próprio dedo dentro do botão executa a ação sem depender de click sintético de contato primário. Movimento e mira mantêm seus captures. Liberação fora do botão, cancelamento, blur e indisponibilidade não executam. Click touch/pen posterior é ignorado para não duplicar; teclado e mouse mantêm ativação normal. Uma ponte MouseEvent legada sem pointerType é suprimida por500ms somente após toque já tratado; ativação de teclado detail0 continua permitida.
+
+O controle negativo de três dedos reproduziu na BUILD60 a falha de recarga e propulsor enquanto os dois pads ficavam pressionados: zero callbacks. A fonte atual chamou cada ação uma vez e os14cenários isolados passaram. Isso é correção de P1 de controle, não apenas adição cosmética da Matriz. As provas são em Chrome emulado; celular físico continua pendente.
+
+### Evidência consolidada após a correção temporal
+
+A execução v4 repetiu os dois braços com a fonte física atual:8/10viáveis no canônico e4/4no experimento de escolha legal+implantação. As falhas canônicas de Demolição e Lança por core incompleto permanecem. Os quatro casos experimentais tiveram aquisição, alimentação, salvas e acertos; isso prova uso natural sob aquela política, sem aprovar balanceamento universal. [Resumo](build61-balance-summary.json) e [arquivo integral](data/build61-runs.json.gz) preservam resultados, protocolos, fontes, pilotos, diferenças de instrumentação e provas de transparência. v1/v2 pararam em fixtures de observação sem rodar tentativas naturais; v3 é histórico anterior à correção de ordem dos contatos. Não contar esses ensaios como uma única matriz homogênea.
+
+As verificações locais concluídas incluem22grupos de engine, cronologia entre cartuchos e término da terceira salva,14cenários de toque isolado, browser em1280×900/844×390/740×360, cues de áudio, escudos, Culatra, Colimador, armas/reforjas, equivalência legada32mundos/416checkpoints, partículas12mundos e simulação integrada25minutos. O browser confirma aquisição pela carta, E após foco em pausa, três dedos, alimentação real, ancoragem, pausa,3armas e avisos fora dos botões. São fixtures explícitas; não são celular físico nem métricas de FPS. As provas finais1.0 de30tentativas,60minutos e desempenho real continuam abertas.
 
 
 ## Parte IV — especificação visual complementar
@@ -1828,9 +1977,9 @@ As sementes finais usam o LCG dos pilotos de teste, separado do RNG próprio do 
 ## Parte VI — disposição dos sistemas pesquisados e pendências
 
 
-## Disposição dos sistemas pesquisados — revisão para BUILD60
+## Disposição dos sistemas pesquisados — revisão para BUILD61
 
-Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:09/11/2026, candidata60 e objetivo aprovado. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
+Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:10/11/2026, BUILD60 publicada e candidata61 em implementação/validação. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
 
 ### Como ler
 
@@ -1850,7 +1999,7 @@ Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige2
 | Fast Bullets: precisão/perfuração | Integrado no eixo funcional | Canhão/Arpão e `pierce`/`range`; `game.js:17`,`:25`,`:615`. Testes `combat.cjs` de perfuração/armas e `weapon-evolution.cjs:46` para arma evoluída/escudo. Não há árvore autônoma com o mesmo nome. |
 | Bullet Damage: impacto/fragmentação | Integrado no eixo funcional | `damage`, `blast`, perfuração+explosão e Crivo Balístico; `game.js:594`,`:624`,`:454`, função `impact:1024`. `build-mechanics.cjs:28` protege pulso único por projétil; `positive-weapon-upgrades.cjs` protege ganho direto sem penalidade antiga. |
 | Fire Rate: frequência/conservação | Integrado no eixo funcional | `rate`, `killAmmo`, VOLT `chargeRecovery`; `game.js:598`,`:609`,`:286`,`:934`. `build-mechanics.cjs` testa reposição e conservação no limite; `weapon-state.cjs`/`weapon-state-balance.cjs` e `combat.cjs` protegem emissão/rajadas por arma. Não há período genérico ilimitado de munição gratuita. |
-| Multi Shots: cobertura e último disparo | Cobertura integrada; último tiro implementado na candidata60, validação final pendente | `extra` e pellets/rajadas mantêm cobertura; Culatra de Ruptura usa cartucho realmente gasto, reserva por slot e fator no último. `rupture-chamber.cjs` verifica12armas, pellets, reembolso/cap e snapshots. Crítico módulo5 continua motor independente. |
+| Multi Shots: cobertura e último disparo | Cobertura integrada; último tiro publicado na BUILD60, validação final pendente | `extra` e pellets/rajadas mantêm cobertura; Culatra de Ruptura usa cartucho realmente gasto, reserva por slot e fator no último. `rupture-chamber.cjs` verifica12armas, pellets, reembolso/cap e snapshots. Crítico módulo5 continua motor independente. |
 | Reload Boost: ciclo/janela ofensiva | Integrado para ciclo/conversões; pendente para dano exclusivo durante recarga | Reforja `burst-quickBreech:38`, `feedServo:86`, `repair`/`coldReload`, NANO/`repairCharge`; `tickWeaponReload:550`, `healPlayer:902`. `build-mechanics.cjs:14`–`:18`, `weapon-evolution.cjs:37` protegem proporção, carga/estado. Rotores/drones atacam enquanto recarrega, mas não são um motor que converte a duração da recarga em dano. |
 | Dragon: maturação temporal | Adaptado pela Baia de Comando na BUILD58 | Peça de chefe elegível para drones mantém bônus imediato e acrescenta estágios aos30/60/90s ativos desde a instalação. Sem ovo ou conteúdo externo. `droneMaturity`, `tickDrones`, `tools/drone-maturity.js`; testes `drone-maturity-model.cjs` e `drone-maturity.cjs`. [Regras e limites](maturacao-e-desempenho.md). |
 | Ghost Friend: acompanhante atacante/efeitos por acerto | Adaptado diferente | Drones atacam com dano e arco próprios; não herdam procs de bala. Restrição vigente `contrato:20`; `game.js:905`/`:906`. `build-mechanics.cjs:19`–`:23` verifica teto3, alvo/arco, pausa e ausência de munição/proc recursivo. A transmissão genérica de todos os estados não foi implementada nem prometida para drones. |
@@ -1908,7 +2057,7 @@ Fonte: `pesquisa-builds-20mtd.md:73`. Não há requisito de reproduzir11 modelos
 | Magic Bow: retorno associado à recarga | Adaptado diferente no retorno; pendente ligação à recarga | Disco retorna pela metade da vida útil, com velocidade/snapshot (`game.js:24`,`:1158`), contrato`:18`; `weapon-evolution.cjs:41`. A regra original do nosso disco é temporal, não consequência de recarregar. |
 | Batgun: projétil perseguidor/escalas híbridas | Pendente | Drone escolhe alvo, mas não é bala perseguidora. Projetéis manuais atuais conservam direção, salvo retorno/ricochete explicitamente definidos. Não transformar mira manual em seleção automática por conveniência (`contrato:9`); homing pós-emissão exigiria desenho próprio e teste. |
 | Salvo Knife: rastreamento favorecido por movimento | Integrado para dano cinético; pendente rastreamento | `speed`+`knock` converte movimento em dano limitado; `impact:1024`, `build-mechanics.cjs:30`. Não há projétil rastreador ligado à passada. |
-| Watering Gun: tiros ativam entidade | Pendente | Acertos aplicam estados/cargas, mas não ativam uma entidade estacionária que depois ataca. Sensores pulsantes não exigem alimentação por tiros. |
+| Watering Gun: tiros ativam entidade | Adaptado e validado funcionalmente na candidata61; aceite final1.0 aberto | Matriz de Rebites (`rivetMatrix`, `deployRivetMatrix`) é estação física ancorada manualmente, absorve balas e converte energia em ataque próprio de direção fixa. Não é Colimador, sensor nem contador de acertos em zumbis. Fórmulas/estados e casos: [contrato da Matriz](matriz-de-rebites.md). Geometria/orçamento/controles passaram nas suítes específicas; partidas canônicas8/10 e experimento de uso4/4 estão separados em build61-balance-summary.json. Não equivale a equilíbrio final. |
 | Cyclone Sword: dano durante recarga | Integrado para cobertura da janela; pendente conversão da duração | Drones/rotores seguem ativos ao recarregar (`build-mechanics.cjs:20`, `rotors.cjs:15`); não foram limitados só à janela nem escalam pelo tempo de recarga. Não marcar esses motores como iguais. |
 
 ### D. As12 conversões de sinergia pesquisadas
@@ -1936,7 +2085,7 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 |---|---|---|
 | XP, escolha de melhorias e10 receitas | Integrado; equilíbrio em avaliação | Catálogo52normais/82editáveis e10receitas em builds.js; contrato`:16`–`:19`; `build-mechanics.cjs`, `builds-balance.cjs`, relatórios52/53/54. Guia não altera sorteios. |
 | Bênçãos iniciais | Adaptado diferente | Gambiarras3/6/9 (seis opções), por decisão vigente`:17`; `game.js:105`–`:112`, `offerBlessing:717`; `combat.cjs`. Não são runas de atributo pré-partida. |
-| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com14relíquias elegíveis temporárias na candidata60; fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
+| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com15relíquias elegíveis temporárias na candidata61; fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
 | Metaprogressão/runas permanentes | Adaptado diferente em desbloqueios; não aplicável para bônus permanentes | Parafusos/peças persistem, compram equipamentos; atributos/skills não persistem (`contrato:14`,`:42`); `awardBossPart:145`, perfil/compras; `combat.cjs` compras/migração/reembolso/morte. |
 | Especialização de personagem | Adaptado diferente |18protocolos próprios/seis chassis no10; `game.js:236`/`:284`, contrato`:17`; `combat.cjs` e `build-mechanics.cjs`. Não exige13personagens externos. |
 | Evolução de arma | Adaptado diferente |24reforjas, duas por arma no20, conjunto fixo; contrato`:18`; `game.js:28`,`:30`, `chooseWeaponEvolution:253`; `weapon-evolution.cjs:47`. Não importar três opções externas por arma nem fusão/troca. |
@@ -1952,12 +2101,12 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia externa:
 
 1. **Maturação temporal de suporte: adaptada na BUILD58** pela Baia de Comando para drones. Outros suportes não recebem esse crescimento; isso não bloqueia os motores distintos abaixo.
-2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering) segue pendente**: o campo modifica o tiro que atravessa e não acumula carga nem executa ataque próprio. Exposição de alvo continua sendo outro motor.
-3. **Último tiro/ciclo de munição: implementado na candidata60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga permanece pendente**; suportes sempre ativos e crítico do quinto tiro não resolvem essa função.
+2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering): adaptada e validada funcionalmente na candidata61** pela Matriz de Rebites, estação independente com consumo de balas e ataque próprio. O campo continua modificando a bala, sem substituir esse motor. Testes de engine, cronologia, browser e uso natural experimental preservam evidências; a auditoria final continua aberta e exposição de alvo é motor distinto.
+3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga permanece pendente**; suportes sempre ativos e crítico do quinto tiro não resolvem essa função.
 4. **Reserva de proteção e condições de manutenção**, envolvendo Soul Heart, escudo intacto, tempo sem dano e abateporpulso→proteção. As defesas atuais não provam essas conversões.
 5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
 
-A tabela registra a disposição do inventário estudado e conserva pendências explícitas. Não autoriza declarar “todos os motores integrados”. O próximo plano pode classificar cada grupo quanto ao valor para as builds próprias e implementar os escolhidos com custo operacional, HUD, fonte de dano, limites de recursão, pausa/reset, migração e avaliação natural. A decisão deve ampliar o jogo pretendido pelo criador, sem inventar requisitos de equivalência total à referência.
+A tabela registra a disposição do inventário estudado e conserva pendências explícitas. Não autoriza declarar “todos os motores integrados”. Pela meta aprovada, todas as pendências compatíveis devem receber disposição concreta e ser resolvidas com custo operacional, HUD, fonte de dano, limites de recursão, pausa/reset, migração e avaliação natural. Não retirar itens por dificuldade ou escolher apenas os mais fáceis de testar. A decisão deve ampliar o jogo pretendido pelo criador, sem inventar requisitos de equivalência total à referência.
 
 
 ## Parte VII — verificação por requisito e item
@@ -2476,6 +2625,214 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Resultado esperado:** HP não cai, mas o projétil que colide é consumido mesmo com invulnerabilidade. Com dano permitido, aplica uma vez e também é consumido.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Freio magnético definido pela posição inicial; vida diminui pelo dt inteiro, não pelo dt×0,75.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-DEPLOY — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Peça rivetMatrix obtida por oferta legal; mouse com ponto de mira conhecido; contextos sem peça/pausado em paralelo.
+- **Entradas e passos:** PressionarE semrepeat ou acionar botão; testar distâncias47,999/48/180/180,001, vetor zero e tentativa enquanto há dispositivo.
+- **Resultado esperado:** Somente playing+peça+direção ativa+faixa48..180permitem instalar exatamente no ponto do mundo; limite1; recusas não gastam munição/recarga/HP nem criam dispositivo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Entrada focada em controles de formulário, Esegurado, pausa, morte e recusa de oferta; não inventar bloqueio em piso decorativo.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-BASE — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Instalar com cada uma das12armas primárias sem módulos; repetir Titânico com armadura e emissão multiarma.
+- **Entradas e passos:** Capturar P ao instalar, mudar dano/pellets/reforja depois e observar limiar/teto/dano dos rebites.
+- **Resultado esperado:** P=clamp(shotDamage primário×pellets planejados daquela arma,0.001,1e9), até400pellets; limiar2P, teto4P, orçamento de salva2,2P e dano por rebite2,2P/3. Alterações posteriores não reescrevem a instalação.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** P inclui componentes normais de shotDamage permitidos; sem crítico/Culatra/reparo de um disparo específico no referencialP.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-FEED — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Matriz ativa e balas emitidas realmente, com tokens por cartucho; chassi legal de1/2/3armas.
+- **Entradas e passos:** Atravessar entrada com parte/todos os pellets, rajada e fogo mantido; comparar energia ao dano das balas consumidas.
+- **Resultado esperado:** Cada bala consumida contribui sóseu dano; pellets compartilham orçamento do cartucho efetivamente emitido, limitado×1,35para conversão espacial anterior. Burst tem unidade independente por munição; slots não multiplicam energia por contagem.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** 399balas e salva planejada10: somente1pellet emitido compõe o token, não o payload de10que não coube.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-GEOMETRY — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Segmentos com entrada física da matriz e inimigo antes/depois; casco de escudo, ricochete e disco em mundos separados.
+- **Entradas e passos:** Executar contatos de um tick e passos menores; inverter ordem de superfícies sem inventar ordem dos centros.
+- **Resultado esperado:** Inimigo que encerra/ricocheteia a bala antes do aparelho impede alimentação. Contato real com aparelho consome a bala e impede corpo posterior; sem detonação/status/proc no ponto consumido.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Comparar regra de empate, raio do aparelho e raio da bala ao contrato detalhado; caminho sem peça mantém ordem legada.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-TTL — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Bala chegando ao aparelho antes/no/depois de expirar; aparelho com vida restante menor que dt.
+- **Entradas e passos:** Avançar um tick que atravessa geometricamente o aparelho mas cujo tempo de contato varia.
+- **Resultado esperado:** Nenhuma absorção depois da vida da bala ou do aparelho. Expiração vence empate. Não conceder energia porque endpoint longo ultrapassou o aparelho após a janela válida.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Disco retornando e bala que começa dentro; dtgrande éfixture de limite, não desempenho real.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-SPATIAL — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Culatra/crítico/reparo reais e Colimador antes/depois da entrada, com token e projétil identificados.
+- **Entradas e passos:** Emitir, atravessar campo e depois alimentar; repetir entrada antes do campo.
+- **Resultado esperado:** Energia deriva do dano capturado real acrescido de conversão espacial somente se ocorrida antes do consumo. Não converter rebite da entidade nem contar fator espacial duas vezes.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corpo protegido antes do campo, ricochete, campo expirando e cartucho parcial; instantâneo do token não pode crescer por hits de alvo.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-SALVO — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Energia alcança2P; alvo fora e dentro das três trajetórias; RNG monitorado.
+- **Entradas e passos:** Observar emissões0/0,6/1,2s e mover inimigo/mira do jogador durante a salva.
+- **Resultado esperado:** Três rebites com direção capturada no disparo de carga, leque±0,08rad, velocidade520px/s, raio4, alcance260px e orçamento total2,2P. Sem homing/retarget e sem movimento retroativo no tick de nascimento.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** No tick em que uma salva começa ativa, tiros do jogador não alimentam até o próximo tick mesmo se a salva termina durante aquele passo.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-TIME — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Mundos determinísticos com mesmo contato de alimentação em instante conhecido, sem alvos nem limite cheio.
+- **Entradas e passos:** Avançar o mesmo intervalo em um passo longo e em passos subdivididos; registrar instantes de contato/nascimento e trajetória residual.
+- **Resultado esperado:** Salva é agendada a partir do instante físico do contato:0/0,6/1,2s, sem deslocar pelo dt inteiro quem nasceu no meio do passo. Expiração continua em18s ativos desde implantação e vence empate; diferenças de discretização não criam tiro extra.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Limitar tolerância ao contrato temporal; não usar número de ticks para esconder atraso de emissões.
+- **Falha:** P1.
+- **Evidência:** Fixtures whole/divided com tempos absolutos, posições e energia.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-CAP — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** 400projéteis totais; energia≥2P; depois liberar uma vaga; mundo separado onde a falta de vaga acontece no meio da salva.
+- **Entradas e passos:** Tentar início cheio; iniciar com vaga; preencher antes do segundo/terceiro rebite e retomar.
+- **Resultado esperado:** Início cheio conserva energia e não cria salva. Cada rebite compartilha teto400com balas manuais. Falta de vaga durante salva cancela restantes sem backlog/reembolso e sem remover vivos; nada reaparece atrasado depois.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Limites pertencem ao array compartilhado, não400manuais mais3da entidade.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-SOURCES — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Inimigos comuns, chefe e policial com escudo; habilidades de proc/recuperação ativas.
+- **Entradas e passos:** Alimentar e acertar com rebites; provocar abates e quebra do escudo.
+- **Resultado esperado:** Consumo não chama impacto. Fonte matrix causa dano central e recompensa comum; não ativa crítico, exposição balística, estados, corrosão, ricochete, Colimador, killAmmo ou salvage. Escudo absorve inclusive quebra.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** XP/loot/contador de mortes e célula global de reparo continuam pela regra geral; bossHunter/finisher/marca são multiplicadores centrais explicitamente documentados, não novos procs.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-LIFECYCLE — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Aparelho com vida18s e até3salvas; pausas/ofertas preparadas nos três instantes de emissão.
+- **Entradas e passos:** Avançar relógio ativo, pausar, escolher, expirar e reinstalar; morrer/reiniciar em cada estado.
+- **Resultado esperado:** Vida e emissões congelam fora de playing. Expiração ou limite de salvas remove dispositivo; nova instalação cria P/energia novos. Morte/reset limpa a tentativa; tokens vivem sócom balas, sem Map/Setglobal de IDs eterno.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Expiração no instante do último rebite não gera ataque após o fim; projéteis da entidade já emitidos seguem o contrato de limpeza/morte.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-TIMEORDER — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Duas balas com tempos de entrada0,08s e0,02s em ordem inversa, energia préviaP, payloads diferentes.
+- **Entradas e passos:** Comparar tick0,1 com dois ticks0,05; repetir com disco e pellets/slots se aplicável.
+- **Resultado esperado:** Contato de0,02alimenta primeiro; energia, projétil consumido e início da salva coincidem. Ordenar apenas candidatos físicos, sem RNG e sem ordenar caminho sem dispositivo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corpo terminal e TTL ainda podem impedir a absorção ordenada.
+- **Falha:** P1.
+- **Evidência:** tests/matrix-time-order.cjs + baseline-failure.json.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-LASTEND — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Terceira salva termina1,2s; bala entra1,25s num passo1,1→1,3.
+- **Entradas e passos:** Avançar o passo e observar corpo do dispositivo e bala posterior.
+- **Resultado esperado:** Estação removida; bala posterior não some nem entrega energia ao dispositivo já concluído.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Expiração de18s e término por três salvas são condições independentes.
+- **Falha:** P1.
+- **Evidência:** tests/matrix-time-order.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-INPUT — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Matriz adquirida; mouse/teclado e toque emulado com dois dedos emmove/aim; aparelho pronto ou ativo.
+- **Entradas e passos:** Pressionar ação de matriz com terceiro dedo, cancelar sóele, perder foco, girar retrato, abrir pausa e reiniciar.
+- **Resultado esperado:** Implantação não sequestra movimento/mira/disparo dos outros dedos. Botão indisponível não cria dispositivo; desaparecimento do botão libera somente seu próprio capture. Blur/transição limpa todos os comandos e não retoma sozinho.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Toque usa ponto180px na direção manual retida; ainda exige direção válida, sem escolher alvo automático.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-UI — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** 1280×900,844×390e740×360; arsenal1/2/3, peça pronta/carregando/descarregando.
+- **Entradas e passos:** Capturar botão desktopE, touch-matrix, status, dispositivo e marcador do minimapa; rolar painel se preciso.
+- **Resultado esperado:** Controles e status alcançáveis sem transbordamento; carga/limiar, tempo e salvas distinguíveis; dispositivo tem entrada/bobina legível e tiro próprio distinto. Nenhum botão essencial fica atrás dos pads.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** A forma do desenho não aumenta hitbox; status não deve anunciar mutações por frame em aria-live.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MATRIX-PURE — Matriz
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js.
+- **Comando/procedimento:** node tests/rivet-matrix.cjs; fixtures browser da Matriz.
+- **Preparação:** Snapshot de todo estado de combate/RNG com e sem aparelho; posições e carga conhecidas.
+- **Entradas e passos:** Desenhar100vezes, abrir pausa/diagnóstico e consultar HUD/minimapa semtick.
+- **Resultado esperado:** Nenhum dano, energia, emissão, relógio, posição ou RNGdecombate muda por render/HUD. Caminho sem peça não cria tokens/filas nem custo de update de entidade.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Não contar efeitos ou IDs cosméticos como mudança física; ainda comparar campos relevantes e próximos sorteios.
 - **Falha:** P1.
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
@@ -4095,7 +4452,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-thermalRelay — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar thermalRelay, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Queimaduras causam +50% de dano. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4108,7 +4465,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-cryoLens — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar cryoLens, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Resfriamento dos impactos dura +50%. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4121,7 +4478,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-arcCapacitor — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar arcCapacitor, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Descargas causam +40% de dano. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4134,7 +4491,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-droneRack — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar droneRack, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Drones: dano +50% e alcance +20%. Aos 30/60/90 s ativos, o treino aumenta o dano já modificado em +10%/+20%/+30%. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4147,7 +4504,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-scanArray — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar scanArray, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Sensores causam +50% de dano e pulsam 20% mais rápido. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4160,7 +4517,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-rotorBearing — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar rotorBearing, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Rotores causam +50% de dano e completam a volta 20% mais rápido. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4173,7 +4530,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-corrosionChamber — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar corrosionChamber, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Novas cargas corrosivas causam +50% de dano e detonam 25% antes. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4186,7 +4543,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-precisionBreech — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar precisionBreech, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Canhão de precisão e arpão causam +40% de dano. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4199,7 +4556,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-blastManifold — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar blastManifold, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Lança-foguetes e lança-granadas causam +40% de dano. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4212,7 +4569,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-feedServo — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar feedServo, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Todas as armas recarregam 25% mais rápido. Não repõe munição ao instalar. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4225,7 +4582,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-reactorHeart — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar reactorHeart, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Ganha 30 de integridade máxima e recupera até 30 de integridade. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4238,7 +4595,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-overclockCore — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar overclockCore, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Todas as armas causam +25% de dano. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4251,7 +4608,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RELIC-fieldCollimator — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar fieldCollimator, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Ao mirar, fixa um campo por 4 s; repete a cada 6 s. Tiros que o atravessam ganham +35% de dano uma única vez. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -4261,10 +4618,23 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-RELIC-rivetMatrix — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar rivetMatrix, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** [E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-RELIC-ruptureChamber — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
-- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar ruptureChamber, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
@@ -5539,18 +5909,19 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: ebb3fe21957a5831f59634f67c75dcf1c5c2ebf0. O snapshot possui alterações locais da candidata60 e da correção de escudo; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 7fee5285bdfe3583b66d3eb5572294e5c7a22380. O snapshot possui alterações locais da candidata61 e da Matriz de Rebites; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 6ab2f00a8abf356809e05b98de5d4cf15dcd5d0fcd92cbbb03eca169587349f7 |
+| game.js | 417c576cce4508f4984c730a44af89067ee71b52bbf50a9536820f0394371a01 |
 | balance.js | 4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | 9db80083e2ddd51a3f93f870de07ae59530a4a0779a5253bd2d1e7dc89838dfb |
+| index.html | 588925d7ab3669517e1f969e5f2d248a4c91b0b5fe633e612cf51d986f6ec4a4 |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | 42bf05e2aba4cc60a6499a39aaba9b780e849f9e2a8c268ff884adc10ea04190 |
-| audio.js | 747b6ab310cf53c6ce082fc06a2b8843027cdca7a07621b9542330fb2533422e |
-| touch-controls.js | 69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34 |
+| ui-redesign.css | e73afab70c5094f91f2e320de3570a89c42541e7a20c24778234629919563236 |
+| audio.js | 6c3bce80522cd71c0ab535758f0f03c9a5af88996affb5d3a5b91266dc9efa20 |
+| touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
+| touch-controls.css | 0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200 |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
 | tools/drone-maturity.js | 97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0 |
 | tools/segment-circle.js | ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4 |
@@ -5558,7 +5929,7 @@ Commit pai: ebb3fe21957a5831f59634f67c75dcf1c5c2ebf0. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há274casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há291casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

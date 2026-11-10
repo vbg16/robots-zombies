@@ -87,6 +87,7 @@ const BOSS_RELICS=Object.freeze([
  {id:'reactorHeart',name:'CORAÇÃO DO REATOR',icon:'armor',benefit:'Ganha 30 de integridade máxima e recupera até 30 de integridade.',eligible:()=>true,apply:()=>{player.maxHp+=30;healPlayer(30);}},
  {id:'overclockCore',name:'NÚCLEO DE POTÊNCIA',icon:'damage',benefit:'Todas as armas causam +25% de dano.',eligible:()=>true,apply:()=>{for(const s of weaponSlots)s.damage*=1.25;}},
  {id:'fieldCollimator',name:'COLIMADOR DE CAMPO',icon:'range',benefit:'Ao mirar, fixa um campo por 4 s; repete a cada 6 s. Tiros que o atravessam ganham +35% de dano uma única vez.',eligible:()=>true,apply:()=>{player.collimator={cooldown:0,field:null};}},
+ {id:'rivetMatrix',name:'MATRIZ DE REBITES',icon:'sensor',benefit:'E ou botão MATRIZ: instala na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos.',eligible:()=>true,apply:()=>{player.rivetMatrix=null;}},
  {id:'ruptureChamber',name:'CULATRA DE RUPTURA',icon:'damage',benefit:'Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas.',eligible:()=>true,apply:()=>{for(const slot of weaponSlots)slot.ruptureCharge=0;}}
 ]);
 let bossChests=[],offeredRelics=[];
@@ -337,12 +338,14 @@ function syncTouchControls(){
      else{touchAim.active=false;if(firingOwner==='touch'){firing=false;firingOwner=null;clearWeaponBursts();}}
     },
     onReload:()=>{if(touchEnabled&&state==='playing')reloadAllWeapons();},
-    onDash:()=>{if(touchEnabled&&state==='playing')activateDash();}
+    onDash:()=>{if(touchEnabled&&state==='playing')activateDash();},
+    onMatrix:()=>{if(touchEnabled&&state==='playing')deployRivetMatrix();}
    });
   }
   const enabled=touchMode&&inCombat&&!portrait&&state==='playing';
   if(enabled!==touchEnabled){touchEnabled=enabled;touchController?.setEnabled(enabled);}
   touchController?.setDashAvailable(!!player?.skills.dash);
+  touchController?.setMatrixAvailable?.(!!player?.relics?.has('rivetMatrix')&&!player.rivetMatrix);
  }finally{touchSyncing=false;}
 }
 function syncTouchAim(){if(touchEnabled&&touchAim.hasDirection){aim={x:player.x-camera.x+touchAim.x*180,y:player.y-camera.y+touchAim.y*180,active:true};if(touchAim.active){firing=true;firingOwner='touch';}}}
@@ -382,7 +385,7 @@ function openMenu(){
  el('enter-garage').focus();
 }
 function openGarage(){
- screenTransition();
+ clearRivetMatrix();screenTransition();
  el('run-config').hidden=true;clearInput();offerVersion++;state='garage';el('title-screen').hidden=true;el('garage').hidden=false;el('combat').hidden=true;
  el('overlay').hidden=true;el('garage-feedback').textContent='';renderLoadout();renderCompendium();focusViewHeading('garage-title');
 }
@@ -424,6 +427,7 @@ function renderRunStats(){
  if(droneCount())rows.push(['Drones de apoio',String(droneCount())],['Dano por drone',number(player.damage*.25*player.droneDamageMult*(calibration?.damageFactor||1))],['Intervalo dos drones',number(Math.max(.35,.8*player.droneRateMult))+' s'],['Alcance dos drones',number(player.droneRange+(player.specialization==='droneRelay'?100:0))+' px']);
  if(calibration)rows.push(['Calibração da Baia',calibration.tier+'/3 · dano extra +'+calibration.tier*10+'% · '+(calibration.maxed?'MÁXIMO':'próximo em '+Math.ceil(calibration.nextIn)+' s de combate')+' · pausa e ofertas não contam']);
  if(player.collimator)rows.push(['Colimador de Campo',player.collimator.field?'ATIVO · '+Math.ceil(player.collimator.field.life)+' s · tiros que cruzam: dano +35%':'próximo em '+Math.ceil(player.collimator.cooldown)+' s · requer direção de mira']);
+ if(player.relics.has('rivetMatrix'))rows.push(['Matriz de Rebites',rivetMatrixStatus()]);
  if(player.relics.has('ruptureChamber'))for(const slot of weaponSlots)rows.push(['Culatra · arma '+(slot.index+1),(slot.ruptureCharge??0)+' / 60 cargas · '+(slot.ammo===1?'último disparo ×'+number(globalThis.ScrewRuptureChamber.emit(slot.ruptureCharge??0,1).factor):'esvaziar libera; recarregar antes descarta')]);
  for(const [label,value] of rows){const term=document.createElement('dt'),detail=document.createElement('dd');term.textContent=label;detail.textContent=value;stats.append(term,detail);}
  const note=document.createElement('p');note.textContent='Valores atuais da build. Críticos, efeitos condicionais, rajadas e dano de área não estão somados ao dano direto.';
@@ -439,8 +443,9 @@ el('launch').onclick=openRunConfig;el('deploy-run').onclick=()=>{if(state==='con
 el('enter-garage').onclick=openGarage;el('garage-back').onclick=openMenu;el('landscape-back').onclick=openGarage;
 for(const id of Object.keys(WEAPONS))el('weapon-'+id).onclick=()=>activateGear('weapons',id);
 renderRobotOptions();for(const id of Object.keys(ROBOTS))el('robot-'+id).onclick=()=>activateGear('robots',id);
+el('matrix-action').onclick=deployRivetMatrix;
 el('start').onclick=()=>state==='paused'?pause():reset();el('pause').onclick=pause;el('return-garage').onclick=openGarage;
-window.addEventListener('keydown',e=>{if(e.target?.closest?.('#build-project-dialog'))return;if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='evolution'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineWeaponEvolution(offerVersion);return;}if(state==='relic'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineRelic(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization','evolution','relic'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='relic'){const choice=offeredRelics[index];if(choice)chooseRelic(choice.id,offerVersion);}else if(state==='evolution'){const choice=offeredWeaponEvolutions[index];if(choice)chooseWeaponEvolution(choice.id,offerVersion);}else if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)reloadAllWeapons();if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
+window.addEventListener('keydown',e=>{if(e.target?.closest?.('#build-project-dialog'))return;if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='evolution'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineWeaponEvolution(offerVersion);return;}if(state==='relic'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineRelic(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization','evolution','relic'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='relic'){const choice=offeredRelics[index];if(choice)chooseRelic(choice.id,offerVersion);}else if(state==='evolution'){const choice=offeredWeaponEvolutions[index];if(choice)chooseWeaponEvolution(choice.id,offerVersion);}else if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)reloadAllWeapons();if(state==='playing'&&e.key.toLowerCase()==='e'&&!e.repeat&&!e.target?.closest?.('input,select,textarea,[contenteditable]')){e.preventDefault();deployRivetMatrix();}if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){window.ScrewAudio?.setScene(null);clearInput();if(state==='playing')pause();}});
@@ -477,6 +482,7 @@ function updateAuxWeaponHUD(){
  }
 }
 function updateHUD(){
+ const matrixOwned=!!player.relics?.has('rivetMatrix');el('matrix-hud').hidden=!matrixOwned;el('matrix-action').hidden=!matrixOwned;el('matrix-action').disabled=state!=='playing'||!!player.rivetMatrix;el('matrix-action').textContent=player.rivetMatrix?'MATRIZ INSTALADA':'[E] INSTALAR MATRIZ';el('matrix-status').textContent=matrixOwned?rivetMatrixStatus():'';touchController?.setMatrixAvailable?.(matrixOwned&&!player.rivetMatrix);
  syncTouchControls();
  renderCombatNotices();
  el('combat-controls').hidden=clock>=5||touchMode;el('salvage-hint').hidden=clock>=5;el('dash-hint').hidden=!player.skills.dash||touchMode;
@@ -500,6 +506,7 @@ function drawMinimap(){
  for(const enemy of enemies){if(enemy.hp<=0)continue;const p=minimapPoint(enemy.x,enemy.y,w,h);m.fillStyle='#f05f55';m.fillRect(Math.round(p.x)-2,Math.round(p.y)-2,4,4);}
  if(boss&&boss.hp>0){const p=minimapPoint(boss.x,boss.y,w,h,7);m.fillStyle='#ffc84f';m.fillRect(Math.round(p.x)-4,Math.round(p.y)-4,8,8);m.strokeStyle='#fff1be';m.strokeRect(Math.round(p.x)-5,Math.round(p.y)-5,10,10);}
  for(const chest of bossChests){const p=minimapPoint(chest.x,chest.y,w,h,6);m.fillStyle='#ffd27c';m.fillRect(p.x-3,p.y-3,6,6);m.strokeStyle='#fff1be';m.strokeRect(p.x-4.5,p.y-4.5,9,9);}
+ if(player.rivetMatrix){const p=minimapPoint(player.rivetMatrix.x,player.rivetMatrix.y,w,h,6);m.strokeStyle='#7de7f6';m.lineWidth=2;m.strokeRect(p.x-3,p.y-3,6,6);m.fillStyle='#e7fcff';m.fillRect(p.x-1,p.y-1,2,2);}
  m.fillStyle='#71e7ff';m.fillRect(cx-3,cy-3,6,6);m.strokeStyle='#b8f5ff';m.strokeRect(cx-4.5,cy-4.5,9,9);
 }
 function cooldownEntries(){
@@ -704,7 +711,7 @@ function offerBossRelic(chest){
  const candidates=BOSS_RELICS.filter(r=>!player.relics.has(r.id)&&r.eligible());
  if(!candidates.length){offerExperiment();return;}
  // Prefer hardware that fits the equipped weapon/support; retain a universal alternative.
- const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber'].includes(r.id));
+ const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix'].includes(r.id));
  for(const pool of [specific,general])for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
  offeredRelics=[...specific.slice(0,2),...general,...specific.slice(2)].slice(0,3);
  state='relic';offerSource='boss-chest';show('PEÇA RARA / '+chest.bossName,'Escolha uma peça exclusiva do baú. Favorece sua build e dura até o fim desta partida. Sem penalidade; não é salva na garagem.','');const version=++offerVersion;
@@ -875,7 +882,7 @@ function hurtPlayer(amount,sourceX,sourceY,source='contact'){
   if(player.skills.overload&&player.hitCooldowns.overload<=0){player.hitCooldowns.overload=120;player.frenzy=6;toast('SOBRECARGA: CADÊNCIA ×3');}
  }
 
- if(!player.hp){sound('death');state='over';show('Fim da transmissão.','Sobreviveu '+Math.floor(clock)+' s · '+kills+' eliminações. Skills encerradas.','REPETIR CONFIGURAÇÃO');}
+ if(!player.hp){clearRivetMatrix();sound('death');state='over';show('Fim da transmissão.','Sobreviveu '+Math.floor(clock)+' s · '+kills+' eliminações. Skills encerradas.','REPETIR CONFIGURAÇÃO');}
 }
 function targets(){return boss&&boss.hp>0?[...enemies,boss]:enemies;}
 let collisionGrid=null;
@@ -973,7 +980,7 @@ function damageEnemy(z,damage,source='direct',origin=null){
   if(z===boss){sound('bossDefeat');bossDefeated=true;bossKills++;if(z.id==='scrapper')policeUnlocked=true;bossReward=true;bossChests.push({id:bossKills,bossId:z.id,bossName:z.name,x:z.x,y:z.y});awardBossPart(z.id);for(const minion of enemies)if(minion.minionOwner===z.id)minion.hp=0;enemies=enemies.filter(minion=>minion.minionOwner!==z.id);hostile=[];hazards=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});releaseCorrosion(z);}
   else{
    if(source==='burn'&&player.specialization==='heatRecovery'&&player.specializationCooldown<=0){healPlayer(1);player.specializationCooldown=2;}if(source==='drone'&&player.specialization==='droneSalvage'&&player.specializationCooldown<=0){healPlayer(1);player.specializationCooldown=1.5;}sound("kill");kills++;gems.push({x:z.x,y:z.y});scrap.push({x:z.x,y:z.y,value:1,life:60});if(kills%REPAIR_CELL.everyKills===0)scrap.push({x:z.x,y:z.y,value:0,repair:REPAIR_CELL.healing,life:60});if(scrap.length>250)scrap=scrap.slice(-250);
-   if(state==='playing'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;healPlayer(20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;const slot=sourceWeapon(origin);slot.ammo=Math.min(magazineSize(slot),slot.ammo+1);}}
+   if(state==='playing'&&source!=='matrix'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;healPlayer(20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;const slot=sourceWeapon(origin);slot.ammo=Math.min(magazineSize(slot),slot.ammo+1);}}
    if(source==='bullet'&&z.slowTime>0&&player.skills.freeze&&player.skills.finisher)explodeAt(z.x,z.y,(origin?.directDamage??player.damage)*.5,70,z,origin);
   }
  }
@@ -1081,6 +1088,101 @@ function impact(z,b){
  const radius=Math.max(w.explosion||0,player.skills.blast?64:0);
  if(radius)explodeAt(z.x,z.y,b.damage*(w.splash||.5)*(w.explosion&&player.skills.blast?1.25:1),radius,z,b);
 }
+// A deployed matrix is a separate, manually fed entity. Its reference is held only
+// by this run; cartridge feed budgets are shared by surviving pellets, never a Map.
+function rivetMatrixStatus(){
+ const m=player.rivetMatrix;if(!m)return touchMode?'MIRE NO DIRECIONAL DIREITO · TOQUE EM MATRIZ':'MIRE A 48–180 PX · [E] INSTALAR';
+ return (m.burst?'SALVA '+m.salvos+'/3':'CARGA '+Math.round(m.energy/(2*m.p)*100)+'%')+' · '+Math.ceil(m.life)+' s · '+(3-m.salvos)+' salvas restantes';
+}
+function deployRivetMatrix(){
+ if(state!=='playing'||!player.relics?.has('rivetMatrix')||player.rivetMatrix)return false;
+ const x=aim.x+camera.x,y=aim.y+camera.y,d=Math.hypot(x-player.x,y-player.y);
+ if(!aim.active||!Number.isFinite(d)||d<48-1e-7||d>180+1e-7){toast('MATRIZ: MIRE ENTRE 48 E 180 PX');return false;}
+ const slot=primaryWeaponState(),count=Math.min(400,Math.max(1,Math.floor(slot.weapon.pellets*slot.projectileMult))),p=Math.min(1e9,Math.max(.001,shotDamage(slot)*count));
+ player.rivetMatrix={x,y,p,r:14,energy:0,life:18,expiresAt:clock+18,windowLife:18,feedBlockedUntil:clock,salvos:0,burst:null,angle:Math.atan2(y-player.y,x-player.x)};
+ sound('matrixDeploy');toast('MATRIZ INSTALADA · ALIMENTE COM SEUS TIROS');updateHUD();syncTouchControls();return true;
+}
+function clearRivetMatrix(){
+ if(!player?.relics?.has('rivetMatrix'))return;
+ player.rivetMatrix=null;bullets=bullets.filter(b=>!b.entityShot);
+}
+function emitRivetProjectile(m,index,angle,damage,bornAt=clock){
+ if(bullets.length>=400)return false;
+ const a=angle+(index-1)*.08;
+ bullets.push({entityShot:true,weapon:{id:'matrix-rivet',radius:4},x:m.x,y:m.y,vx:Math.cos(a)*520,vy:Math.sin(a)*520,damage,radius:4,life:.5,maxLife:.5,bornAt,lastAdvancedAt:bornAt});
+ m.lastShotAt=bornAt;sound('matrixShot');return true;
+}
+function pumpRivetBurst(m,until){
+ const burst=m.burst;if(!burst)return;
+ while(burst.index<3&&burst.nextAt<=until+1e-9){
+  // The device's expiration wins ties; a full cap cancels all remaining shots.
+  if(burst.nextAt>=m.expiresAt-1e-9||!emitRivetProjectile(m,burst.index,burst.angle,burst.damage,burst.nextAt)){m.feedBlockedUntil=Math.min(m.feedBlockedUntil,burst.nextAt);m.burst=null;return;}
+  burst.index++;burst.nextAt+=.6;
+ }
+ if(burst.index>=3)m.burst=null;
+}
+function startRivetBurst(m,eventAt=clock){
+ if(m.burst||m.salvos>=3||eventAt>=m.expiresAt-1e-9||m.energy+1e-9<2*m.p||bullets.length>=400)return false;
+ m.energy=Math.max(0,m.energy-2*m.p);m.salvos++;m.feedBlockedUntil=eventAt+1.2;m.burst={angle:m.angle,damage:2.2*m.p/3,nextAt:eventAt,index:0};
+ pumpRivetBurst(m,clock);return true;
+}
+function tickRivetMatrix(dt){
+ const m=player.rivetMatrix;if(!m)return;
+ m.windowLife=m.life;m.life=Math.max(0,m.expiresAt-clock);
+ if(m.burst)pumpRivetBurst(m,clock);
+ else if(m.life>0)startRivetBurst(m,clock-dt);
+}
+function finishRivetMatrixTick(){const m=player.rivetMatrix;if(m&&(m.life<=0||m.salvos>=3&&!m.burst)){player.rivetMatrix=null;sound('matrixExpire');}}
+function orderRivetFeedContacts(dt){
+ const m=player.rivetMatrix;if(!m)return;
+ const contacts=[];
+ for(let index=0;index<bullets.length;index++){
+  const b=bullets[index];if(b.entityShot||!b.matrixFeed||b.life<=0)continue;
+  let vx=b.vx,vy=b.vy;
+  if((b.weapon||runWeapon).returning&&b.life<=b.maxLife/2){const d=Math.hypot(player.x-b.x,player.y-b.y);if(d<16)continue;const speed=b.returnSpeed??(runWeapon.speed||360)*player.projectileSpeed;vx=(player.x-b.x)/d*speed;vy=(player.y-b.y)/d*speed;}
+  const entry=globalThis.ScrewSegmentCircle.entry(b.x,b.y,b.x+vx*dt,b.y+vy*dt,m.x,m.y,m.r+b.radius);
+  if(entry!==null&&entry*dt<Math.min(b.life,m.windowLife)-8*Number.EPSILON)contacts.push({b,index,entry});
+ }
+ // Reorder only the candidate slots. Other projectiles retain their relative
+ // order; no work or bookkeeping is added when there is no deployed device.
+ const chronological=contacts.slice().sort((a,b)=>a.entry-b.entry||a.index-b.index);
+ for(let i=0;i<contacts.length;i++)bullets[contacts[i].index]=chronological[i].b;
+}
+function absorbRivetProjectile(b,ax,ay,dt,lifeBefore,fieldEntry,baseDamage){
+ const m=player.rivetMatrix,unit=b.matrixFeed;if(!m||!unit||lifeBefore<=0)return false;
+ const entry=globalThis.ScrewSegmentCircle.entry(ax,ay,b.x,b.y,m.x,m.y,m.r+b.radius);
+ if(entry===null||entry*dt>=Math.min(lifeBefore,m.windowLife)-8*Number.EPSILON)return false;
+ const eventAt=clock-dt+entry*dt;if(eventAt<m.feedBlockedUntil-1e-9)return false;if(m.salvos>=3&&!m.burst&&eventAt>=m.feedBlockedUntil-1e-9)return false;
+ const hit=bulletCandidates(ax,ay,b.x,b.y,b.radius).filter(z=>z.hp>0&&!b.hit.has(z)).map(z=>({z,contact:globalThis.ScrewSegmentCircle.entry(ax,ay,b.x,b.y,z.x,z.y,z.r+b.radius)})).filter(v=>v.contact!==null&&v.contact<=entry+8*Number.EPSILON).sort((a,z)=>Math.hypot(a.z.x-ax,a.z.y-ay)-Math.hypot(z.z.x-ax,z.z.y-ay));
+ // Preserve the legacy order among earlier bodies. A surviving piercing shot
+ // reaches the intake; terminal hits and ricochets end this original segment.
+ for(const {z,contact} of hit){
+  if(z.hp<=0)continue;b.hit.add(z);
+  if(fieldEntry!==null){b.damage=baseDamage*(contact+8*Number.EPSILON>=fieldEntry?1.35:1);try{impact(z,b);}finally{b.damage=baseDamage;}}else impact(z,b);
+  b.remaining--;
+  if(b.remaining<=0){const bounced=bounceProjectile(b,z);if(!bounced)b.life=0;if(fieldEntry!==null&&fieldEntry<=contact+8*Number.EPSILON)collimateProjectile(b,baseDamage);return true;}
+ }
+ if(fieldEntry!==null&&fieldEntry<=entry+8*Number.EPSILON)collimateProjectile(b,baseDamage);
+ const damage=Math.max(0,Math.min(b.damage,unit.budget-unit.delivered));unit.delivered+=damage;
+ const before=m.energy;m.energy=Math.min(4*m.p,m.energy+damage);if(m.energy>before){m.lastFeedAt=eventAt;sound('matrixFeed');}m.angle=Math.atan2(b.vy,b.vx);b.life=0;
+ b.x=ax+(b.x-ax)*entry;b.y=ay+(b.y-ay)*entry;
+ startRivetBurst(m,eventAt);return true;
+}
+function tickRivetProjectile(b,dt){
+ if(b.life<=0)return;
+ const elapsed=Math.max(0,Math.min(dt,clock-b.lastAdvancedAt));if(elapsed<=0)return;b.lastAdvancedAt=clock;
+ const ax=b.x,ay=b.y,life=b.life,travel=Math.min(elapsed,life);b.x+=b.vx*travel;b.y+=b.vy*travel;b.life=Math.max(0,life-elapsed);
+ const hit=bulletCandidates(ax,ay,b.x,b.y,b.radius).filter(z=>z.hp>0).map(z=>({z,t:globalThis.ScrewSegmentCircle.entry(ax,ay,b.x,b.y,z.x,z.y,z.r+b.radius)})).filter(v=>v.t!==null&&(life>elapsed||v.t<1-8*Number.EPSILON)).sort((a,b)=>a.t-b.t)[0];
+ if(hit){damageEnemy(hit.z,b.damage,'matrix');b.life=0;}
+}
+function drawRivetMatrix(){
+ const m=player.rivetMatrix;
+ if(!m){if(player.relics?.has('rivetMatrix')&&aim.active&&state==='playing'){const x=aim.x+camera.x,y=aim.y+camera.y,d=Math.hypot(x-player.x,y-player.y);if(d>=48&&d<=180){ctx.save();ctx.strokeStyle='#7de7f6';ctx.lineWidth=1;ctx.strokeRect(x-14,y-14,28,28);ctx.beginPath();ctx.moveTo(player.x,player.y);ctx.lineTo(x,y);ctx.stroke();ctx.restore();}}return;}
+ ctx.save();ctx.translate(m.x,m.y);ctx.rotate(m.angle);const kick=clock-(m.lastShotAt??-Infinity)<.08?2:0,feeding=clock-(m.lastFeedAt??-Infinity)<.1;ctx.translate(-kick,0);ctx.fillStyle='#101923';ctx.fillRect(-24,-18,48,36);ctx.fillStyle='#c95f43';for(const side of [-1,1]){ctx.fillRect(-19,side*15-2,9,4);ctx.fillRect(9,side*15-2,9,4);}ctx.fillStyle='#07121b';ctx.fillRect(-20,-16,40,32);ctx.fillStyle='#365768';ctx.fillRect(-17,-13,34,26);ctx.fillStyle='#193747';ctx.fillRect(-13,-10,26,20);ctx.strokeStyle='#e8ddc9';ctx.lineWidth=2;ctx.strokeRect(-15,-11,30,22);ctx.strokeStyle='#c95f43';ctx.lineWidth=2;ctx.strokeRect(-7,-9,13,18);
+ ctx.fillStyle=feeding?'#ffffff':'#7de7f6';ctx.fillRect(-16,-7,5,14);ctx.fillRect(10,-4,12,8);ctx.strokeStyle='#07121b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(13,-4);ctx.lineTo(18,0);ctx.lineTo(13,4);ctx.stroke();
+ const lit=Math.min(8,Math.floor(m.energy/(m.p*.5)));for(let i=0;i<8;i++){ctx.fillStyle=i<lit?(i<4?'#3cc7f4':'#f0b85b'):'#071c2b';ctx.fillRect(-10+i*3,-5,2,10);}ctx.restore();
+ ctx.save();ctx.fillStyle='#e7fcff';ctx.font='bold 8px monospace';ctx.textAlign='center';ctx.fillText(m.burst?'REBITE '+m.burst.index+'/3':Math.round(m.energy/(2*m.p)*100)+'%',m.x,m.y-22);ctx.restore();
+}
 function tickCollimator(dt){
  const device=player.collimator;if(!device)return;
  device.cooldown=Math.max(0,device.cooldown-dt);
@@ -1102,9 +1204,10 @@ function emitProjectiles(angle,slot=primaryWeaponState()){
  if(slot.reloadTime>0||slot.ammo<=0){if(slot.ammo<=0)startReload(slot);return false;}
  const rupture=player.relics.has('ruptureChamber')?globalThis.ScrewRuptureChamber.emit(slot.ruptureCharge??0,slot.ammo):null;if(rupture)slot.ruptureCharge=rupture.stored;
  const origin=weaponOrigin(slot,angle);const repairBoost=player.repairShotReady?1.5:1;player.repairShotReady=false;slot.ammo--;slot.shotCount++;const w=slot.weapon,count=Math.min(400,Math.max(1,Math.floor(w.pellets*slot.projectileMult))),spread=Math.max(w.spread,count>1?.16:0)*slot.spreadMult;
+ const matrixFeed=player.relics.has('rivetMatrix')?{budget:shotDamage(slot)*(player.skills.crit&&slot.shotCount%5===0?3:1)*repairBoost*(rupture?.factor||1)*Math.min(count,400-bullets.length)*1.35,delivered:0}:null;
  for(let i=0;i<count&&bullets.length<400;i++){
   const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=!!player.skills.crit&&slot.shotCount%5===0,speed=(w.speed||570)*slot.projectileSpeed,life=w.life*slot.projectileLife;
-  bullets.push({weapon:w,evolutionTraits:slot.weaponEvolution?.traits||null,...(rupture?.last?{ruptureFactor:rupture.factor}:{}),...(weaponSlots.length>1?{slot:slot.index,directDamage:slot.damage}:{}),x:origin.x,y:origin.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,returnSpeed:speed,damage:shotDamage(slot)*(crit?3:1)*repairBoost*(rupture?.factor||1),radius:(w.radius||6)*slot.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:slot.weapon.returning?0:player.skills.ricochet});
+  bullets.push({...(matrixFeed?{matrixFeed}:{}),weapon:w,evolutionTraits:slot.weaponEvolution?.traits||null,...(rupture?.last?{ruptureFactor:rupture.factor}:{}),...(weaponSlots.length>1?{slot:slot.index,directDamage:slot.damage}:{}),x:origin.x,y:origin.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,returnSpeed:speed,damage:shotDamage(slot)*(crit?3:1)*repairBoost*(rupture?.factor||1),radius:(w.radius||6)*slot.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:slot.weapon.returning?0:player.skills.ricochet});
  }
  slot.weaponKick=1;sound('shot-'+w.id);if(slot.ammo===0)startReload(slot);return true;
 }
@@ -1217,20 +1320,23 @@ function tick(dt){
  const moving=dx!==0||dy!==0||dashDt>0;const priorStationary=player.stationary;player.stationary=moving?0:player.stationary+dt;if(player.skills.regen&&!moving)healPlayer(Math.max(0,player.stationary-Math.max(3,priorStationary))*2);player.stride+=(Number(moving)-player.stride)*(1-Math.exp(-14*dt));if(moving)player.walkPhase+=player.speed*dt*.055;
  {const mx=dashDt>0?player.dashDx:dx,my=dashDt>0?player.dashDy:dy;if(moving)player.facing=Math.abs(mx)>Math.abs(my)?(mx>0?'right':'left'):(my>0?'down':'up');const animation=runRobot.id==='prot'?protAnimation:chassisAnimations.get(runRobot.id);if(animation){animation.play(moving?'walk':'idle',player.facing||'down');animation.update(dt);}}
  syncCamera(dt);syncTouchAim();
- tickCollimator(dt);
+ tickCollimator(dt);tickRivetMatrix(dt);
  enemies=enemies.filter(z=>z.hp>0);
  const bossAlive=!!boss&&boss.hp>0,bossDue=clock>=bossTime(bossIndex)&&!bossAlive&&!bossReward;
  tickHordeDirector(dt);
  if(bossDue)spawnBoss();
  if(weaponSlots.length===1)tickWeaponFire(weaponSlots[0],dt);else{for(let i=0;i<weaponSlots.length;i++)tickWeaponFire(weaponSlots[(weaponFireCursor+i)%weaponSlots.length],dt);if(firing&&aim.active)weaponFireCursor=(weaponFireCursor+1)%weaponSlots.length;}
+ orderRivetFeedContacts(dt);
  if(bullets.length)buildCollisionGrid();
  for(const b of bullets){
+  if(b.entityShot){tickRivetProjectile(b,dt);continue;}
   const ax=b.x,ay=b.y;
   if((b.weapon||runWeapon).returning&&b.life<=b.maxLife/2){if(!b.returning){b.returning=true;b.hit.clear();}const d=Math.hypot(player.x-b.x,player.y-b.y)||1;b.vx=(player.x-b.x)/d*(b.returnSpeed??(runWeapon.speed||360)*player.projectileSpeed);b.vy=(player.y-b.y)/d*(b.returnSpeed??(runWeapon.speed||360)*player.projectileSpeed);if(d<16)b.life=0;}
   const lifeBefore=b.life;b.x+=b.vx*dt;b.y+=b.vy*dt;b.life-=dt;
   const field=player.collimator?.field,crossing=!b.collimated&&field&&lifeBefore>0?globalThis.ScrewSegmentCircle.entry(ax,ay,b.x,b.y,field.x,field.y,field.r):null;
   // Preserve the legacy detonation position, while refusing a crossing after the fuse ended.
   const entry=crossing!==null&&(b.life>0||crossing<lifeBefore/dt-8*Number.EPSILON)?crossing:null,baseDamage=b.damage;let travelled=1;
+  if(absorbRivetProjectile(b,ax,ay,dt,lifeBefore,entry,baseDamage))continue;
   if(b.life<=0){if(entry!==null)collimateProjectile(b,baseDamage);const w=b.weapon||runWeapon;if(w.detonate&&!b.detonated){b.detonated=true;explodeAt(b.x,b.y,b.damage,w.explosion,null,b);}continue;}
   const hit=bulletCandidates(ax,ay,b.x,b.y,b.radius).filter(z=>z.hp>0&&!b.hit.has(z)&&segmentDistance(z.x,z.y,ax,ay,b.x,b.y)<z.r+b.radius).sort((a,z)=>Math.hypot(a.x-ax,a.y-ay)-Math.hypot(z.x-ax,z.y-ay));
   for(const z of hit){if(b.remaining<=0)break;if(z.hp<=0)continue;
@@ -1242,7 +1348,7 @@ function tick(dt){
   }
   if(entry!==null&&entry<=travelled+8*Number.EPSILON)collimateProjectile(b,baseDamage);
  }
- collisionGrid=null;bullets=bullets.filter(b=>b.life>0);
+ collisionGrid=null;bullets=bullets.filter(b=>b.life>0);finishRivetMatrixTick();
  for(const z of enemies){
   if(z.hp<=0)continue;z.hit=Math.max(0,z.hit-dt);const playerDistance=Math.hypot(player.x-z.x,player.y-z.y),chase=player.decoy&&commonPursuer(z)?player.decoy:player,dx=chase.x-z.x,dy=chase.y-z.y,d=Math.hypot(dx,dy)||1;
   if(z.enemyType==='shieldPolice'&&z.shieldHp===0){const oldX=z.x,oldY=z.y;tickPoliceCharge(z,dt);globalThis.ScrewEnemyAnimation?.advance(z,oldX,oldY);if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);continue;}
@@ -1416,6 +1522,7 @@ function drawBossChests(){
  }
 }
 function drawProjectile(b){
+ if(b.entityShot){ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));ctx.fillStyle='#294b5e';ctx.fillRect(-9,-4,16,8);ctx.fillStyle='#b9f7ff';ctx.fillRect(-5,-2,13,4);ctx.fillStyle='#ffffff';ctx.fillRect(6,-3,3,6);ctx.restore();return;}
  const w=b.weapon||runWeapon,id=w.id,color=w.burn?'#ffb363':w.freeze?'#9df2ef':id==='tesla'?'#c5b4ff':w.explosion?'#ffc17a':'#89ddff';
  ctx.save();ctx.translate(b.x,b.y);ctx.rotate(Math.atan2(b.vy,b.vx));const visualScale=(b.radius||(w.radius||6))/(w.radius||6);ctx.scale(visualScale,visualScale);
  ctx.strokeStyle=color;ctx.lineWidth=id==='laser'?4:2;ctx.globalAlpha=.45;
@@ -1476,7 +1583,7 @@ function draw(){
  }
  if(player.skills.corrosion)for(const z of targets())if(z.hp>0&&z.corrosion&&z.x>camera.x-60&&z.x<camera.x+width+60&&z.y>camera.y-80&&z.y<camera.y+height+80){ctx.strokeStyle='#a6e87d';ctx.lineWidth=2;ctx.strokeRect(z.x-z.r-4,z.y-z.r-4,z.r*2+8,z.r*2+8);ctx.fillStyle='#c6f1a8';ctx.font='bold 10px monospace';ctx.textAlign='center';ctx.fillText('COR '+Math.ceil(z.corrosion.remaining*10)/10+'s',z.x,z.y+z.r+16);}
  if(player.skills.sensorLock)for(const z of targets())if(z.hp>0&&z.scanLock>0&&z.x>camera.x-60&&z.x<camera.x+width+60&&z.y>camera.y-80&&z.y<camera.y+height+80){ctx.strokeStyle='#83c9ff';ctx.lineWidth=2;ctx.strokeRect(z.x-7,z.y-7,14,14);}
- drawCollimator();for(const b of bullets)drawProjectile(b);
+ drawCollimator();drawRivetMatrix();for(const b of bullets)drawProjectile(b);
  for(const b of hostile){ctx.fillStyle=b.color||'#ff9b6c';ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();}
  for(const e of effects){ctx.globalAlpha=e.life/e.max;ctx.strokeStyle=e.color;ctx.lineWidth=3;ctx.beginPath();if(e.x2!==undefined){ctx.moveTo(e.x,e.y);ctx.lineTo(e.x2,e.y2);}else ctx.arc(e.x,e.y,e.r*(1-e.life/e.max),0,Math.PI*2);ctx.stroke();}ctx.globalAlpha=1;
  for(const p of sparks){ctx.globalAlpha=Math.max(0,p.life/.25);ctx.strokeStyle='#b7eaff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*.035,p.y-p.vy*.035);ctx.stroke();}ctx.globalAlpha=1;

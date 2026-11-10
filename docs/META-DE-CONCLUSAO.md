@@ -4,7 +4,7 @@ Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão i
 
 **Objetivo:** entregar Screwvivors 1.0 completo no escopo local para navegador em PC e celular horizontal, com os sistemas compatíveis do mapa resolvidos, dez builds funcionais, controles manuais, progressão temporária e metaprogressão por desbloqueios; comprovar qualidade, estabilidade, desempenho real e documentação suficiente para reconstrução independente.
 
-**Situação de partida:** NÃO CONCLUÍDO. Última versão publicada: BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. O workspace contém candidata BUILD60 com alterações ainda não publicadas. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
+**Referência ao iniciar esta etapa:** NÃO CONCLUÍDO. A última versão publicada era BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. O workspace está preparando a candidata BUILD61. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
 
 ## Critérios obrigatórios de aceite
 
@@ -47,13 +47,13 @@ Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão i
 
 ## Estado inicial das evidências — não é aceite
 
-- Há suítes históricas aprovadas e BUILD59 publicada. A candidata60 ainda está em trabalho e não herda automaticamente a aprovação dos gates finais.
+- BUILD60 foi publicada em7fee5285bdfe3583b66d3eb5572294e5c7a22380, com relatório enviado. Seus resultados continuam limitados ao escopo registrado. A candidata61 não herda automaticamente aprovação dos gates finais.
 - A matriz candidata60 anteriormente observou9/10viáveis numa única semente; isso não satisfaz G03/G04. A Oficina falhou em chefes e permanece no denominador.
 - Benchmarks recentes de carga extrema registraram mais de100ms por tick em algumas fixtures. Não satisfazem G06 nem podem ser convertidos diretamente em FPS.
 - Falta evidência de celular físico para G07.
 - A matriz intermediária com ambas as correções de escudo, fonte6ab2f00a8abf356809e05b98de5d4cf15dcd5d0fcd92cbbb03eca169587349f7, obteve10/10viáveis em20261107; quatro skills centrais,4–7chefes,1200s e estado finito. Fontes/dados estão em build60-current-summary.json e data/build60-current-runs.json.gz. Não substitui G03/G04 nem aprova as30tentativas finais.
 - A especificação mestre descreve274casos de aceite e passa na checagem estrutural de catálogos/hashes/links. Isso não é execução dos274casos nem aprovação automática de G15.
-- Há pendências compatíveis no mapa (entidade alimentada por tiros, janela ofensiva de recarga, proteção condicionada e outros gatilhos). G11 está aberto.
+- A entidade alimentada por tiros está em implementação/validação na candidata61 como Matriz de Rebites; ainda não é aceite final. Janela ofensiva de recarga, proteção condicionada e demais gatilhos compatíveis continuam pendentes. G11 está aberto.
 - A extração reproduziu um P1 de escudo (fogo/frio atravessavam absorção). Correção aplicada à candidata local e retestada em17fixtures; fonte anterior falha, evidência preservada. Regressões de baús/reforjas/Culatra/Colimador passaram. Uma segunda reprodução de stun elétrico no escudo também foi corrigida, com14fixtures adicionais. A matriz intermediária pós-impacto/pré-correção elétrica obteve10/10viáveis na semente20261107, sem aprovar a fonte posterior. A auditoria final de G01/G02 ainda está aberta; a comparação legada identifica a correção intencional da referência histórica.
 - O limite200 de hostis só protege algumas fontes; não deve constar como teto global até haver implementação/medição que o prove.
 
@@ -67,3 +67,7 @@ Somente quando G01–G16 estiverem APROVADOS com evidência no commit final e a 
 - Publicar o pacote validado, enviar o relatório autorizado e encerrar a expansão automática. Novas funcionalidades passam a ser uma nova meta, não condição móvel adicionada depois do aceite.
 
 Até lá: **EM DESENVOLVIMENTO / NÃO CONCLUÍDO**. Não há porcentagem global inventada; reportar gates aprovados/abertos e suas evidências.
+
+## Evidência intermediária61
+
+Matriz física alimentada por tiros validada em engine/browser e experimento natural de uso; fontes/dados congelados em build61-balance-summary.json e data/build61-runs.json.gz. Canônico10×20261107:8/10viáveis, falhas de core em Demolição/Lança preservadas; experimento separado de preferência legal/implantação:4/4. Não aprova G03/G04. Correções de P1 de ordem temporal e de ações touch com terceiro dedo passaram em regressões dedicadas. A meta continua aberta para janela ofensiva de recarga, proteção condicionada, demais pendências compatíveis e todos os ensaios finais.

@@ -3,7 +3,7 @@
   "timezone": "America/Sao_Paulo",
   "estado": "EM_DESENVOLVIMENTO",
   "ultima_publicacao_no_inicio_do_levantamento": "BUILD59/c8164b482ccdbbc116a81d26fe6b14e014eba4f1",
-  "commit_pai": "ebb3fe21957a5831f59634f67c75dcf1c5c2ebf0",
+  "commit_pai": "7fee5285bdfe3583b66d3eb5572294e5c7a22380",
   "snapshot_tem_alteracoes_locais": true,
   "contagens": {
     "chassis": 6,
@@ -13,34 +13,36 @@
     "experimentos": 6,
     "protocolos": 18,
     "reforjas": 24,
-    "reliquias": 14,
+    "reliquias": 15,
     "receitas": 10,
     "editaveis": 82,
     "atributos": 25
   },
   "source_hashes": {
-    "game.js": "6ab2f00a8abf356809e05b98de5d4cf15dcd5d0fcd92cbbb03eca169587349f7",
+    "game.js": "417c576cce4508f4984c730a44af89067ee71b52bbf50a9536820f0394371a01",
     "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
     "builds.js": "4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8",
-    "index.html": "9db80083e2ddd51a3f93f870de07ae59530a4a0779a5253bd2d1e7dc89838dfb",
+    "index.html": "588925d7ab3669517e1f969e5f2d248a4c91b0b5fe633e612cf51d986f6ec4a4",
     "style.css": "2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a",
-    "ui-redesign.css": "42bf05e2aba4cc60a6499a39aaba9b780e849f9e2a8c268ff884adc10ea04190",
-    "audio.js": "747b6ab310cf53c6ce082fc06a2b8843027cdca7a07621b9542330fb2533422e",
-    "touch-controls.js": "69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34",
+    "ui-redesign.css": "e73afab70c5094f91f2e320de3570a89c42541e7a20c24778234629919563236",
+    "audio.js": "6c3bce80522cd71c0ab535758f0f03c9a5af88996affb5d3a5b91266dc9efa20",
+    "touch-controls.js": "4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d",
+    "touch-controls.css": "0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200",
     "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
     "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
     "tools/segment-circle.js": "ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4",
     "tools/rupture-chamber.js": "0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03"
   },
   "source_text_hashes": {
-    "game.js": "37f2681aa927257899593b25542256d451dae0a61c6b874a46cbcd4943198f79",
+    "game.js": "b2b46665874f1069f999995c11fc2d4d135a3b2eb373ce19a6895ba3608c8aa8",
     "balance.js": "6694c640ed8e49cec83521b522ae02f1082768b5771af0ebcd14afd29b67d980",
     "builds.js": "8ab6d2341024c575d992de4b2ca713545525d3660bc39f486d762e881e142715",
-    "index.html": "bc3efd1ab2a98c9c3297d88a1a5925390f6cd878296a04b0e1e4ae11e43f815c",
+    "index.html": "52359efbdac89754f4f179a4275054d4661f3a671641d526726c16edd2c2e3a8",
     "style.css": "bae75f6e1eda94dcb5b784956684d6c099da8cfbc8bef3a83f97c5130322da05",
-    "ui-redesign.css": "a81062e6c2c5f7f9a662c195088523a702c136fe986a0626383aba80ece947f3",
-    "audio.js": "747b6ab310cf53c6ce082fc06a2b8843027cdca7a07621b9542330fb2533422e",
-    "touch-controls.js": "69e997faa863cdc73e5a881a9d80f062f5b403769ab24f4b080f0fca54fb9c34",
+    "ui-redesign.css": "2eccf2b42ded34778cebd77fb2ed4295c93c36a536ebf851f02e6435755f8c54",
+    "audio.js": "8b7492110fd7aade278efbc2a4f2965452de83fdd6c19b0250e1bd7af7c965e6",
+    "touch-controls.js": "4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d",
+    "touch-controls.css": "eb9bc93cb50acb589922d87b8c560f5742f5136b30b338b338afb874174892dc",
     "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
     "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
     "tools/segment-circle.js": "ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4",
@@ -670,6 +672,262 @@
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: tick/damageEnemy/impact/IA/horda/loot; helpers",
       "comando_ou_procedimento": "node tests/combat.cjs; testes específicos por caso"
+    },
+    {
+      "id": "QA-MATRIX-DEPLOY",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Peça rivetMatrix obtida por oferta legal; mouse com ponto de mira conhecido; contextos sem peça/pausado em paralelo.",
+      "entradas_e_passos": "PressionarE semrepeat ou acionar botão; testar distâncias47,999/48/180/180,001, vetor zero e tentativa enquanto há dispositivo.",
+      "resultado_esperado": "Somente playing+peça+direção ativa+faixa48..180permitem instalar exatamente no ponto do mundo; limite1; recusas não gastam munição/recarga/HP nem criam dispositivo.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Entrada focada em controles de formulário, Esegurado, pausa, morte e recusa de oferta; não inventar bloqueio em piso decorativo.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-BASE",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Instalar com cada uma das12armas primárias sem módulos; repetir Titânico com armadura e emissão multiarma.",
+      "entradas_e_passos": "Capturar P ao instalar, mudar dano/pellets/reforja depois e observar limiar/teto/dano dos rebites.",
+      "resultado_esperado": "P=clamp(shotDamage primário×pellets planejados daquela arma,0.001,1e9), até400pellets; limiar2P, teto4P, orçamento de salva2,2P e dano por rebite2,2P/3. Alterações posteriores não reescrevem a instalação.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "P inclui componentes normais de shotDamage permitidos; sem crítico/Culatra/reparo de um disparo específico no referencialP.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-FEED",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Matriz ativa e balas emitidas realmente, com tokens por cartucho; chassi legal de1/2/3armas.",
+      "entradas_e_passos": "Atravessar entrada com parte/todos os pellets, rajada e fogo mantido; comparar energia ao dano das balas consumidas.",
+      "resultado_esperado": "Cada bala consumida contribui sóseu dano; pellets compartilham orçamento do cartucho efetivamente emitido, limitado×1,35para conversão espacial anterior. Burst tem unidade independente por munição; slots não multiplicam energia por contagem.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "399balas e salva planejada10: somente1pellet emitido compõe o token, não o payload de10que não coube.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-GEOMETRY",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Segmentos com entrada física da matriz e inimigo antes/depois; casco de escudo, ricochete e disco em mundos separados.",
+      "entradas_e_passos": "Executar contatos de um tick e passos menores; inverter ordem de superfícies sem inventar ordem dos centros.",
+      "resultado_esperado": "Inimigo que encerra/ricocheteia a bala antes do aparelho impede alimentação. Contato real com aparelho consome a bala e impede corpo posterior; sem detonação/status/proc no ponto consumido.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Comparar regra de empate, raio do aparelho e raio da bala ao contrato detalhado; caminho sem peça mantém ordem legada.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-TTL",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Bala chegando ao aparelho antes/no/depois de expirar; aparelho com vida restante menor que dt.",
+      "entradas_e_passos": "Avançar um tick que atravessa geometricamente o aparelho mas cujo tempo de contato varia.",
+      "resultado_esperado": "Nenhuma absorção depois da vida da bala ou do aparelho. Expiração vence empate. Não conceder energia porque endpoint longo ultrapassou o aparelho após a janela válida.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Disco retornando e bala que começa dentro; dtgrande éfixture de limite, não desempenho real.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-SPATIAL",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Culatra/crítico/reparo reais e Colimador antes/depois da entrada, com token e projétil identificados.",
+      "entradas_e_passos": "Emitir, atravessar campo e depois alimentar; repetir entrada antes do campo.",
+      "resultado_esperado": "Energia deriva do dano capturado real acrescido de conversão espacial somente se ocorrida antes do consumo. Não converter rebite da entidade nem contar fator espacial duas vezes.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Corpo protegido antes do campo, ricochete, campo expirando e cartucho parcial; instantâneo do token não pode crescer por hits de alvo.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-SALVO",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Energia alcança2P; alvo fora e dentro das três trajetórias; RNG monitorado.",
+      "entradas_e_passos": "Observar emissões0/0,6/1,2s e mover inimigo/mira do jogador durante a salva.",
+      "resultado_esperado": "Três rebites com direção capturada no disparo de carga, leque±0,08rad, velocidade520px/s, raio4, alcance260px e orçamento total2,2P. Sem homing/retarget e sem movimento retroativo no tick de nascimento.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "No tick em que uma salva começa ativa, tiros do jogador não alimentam até o próximo tick mesmo se a salva termina durante aquele passo.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-TIME",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Mundos determinísticos com mesmo contato de alimentação em instante conhecido, sem alvos nem limite cheio.",
+      "entradas_e_passos": "Avançar o mesmo intervalo em um passo longo e em passos subdivididos; registrar instantes de contato/nascimento e trajetória residual.",
+      "resultado_esperado": "Salva é agendada a partir do instante físico do contato:0/0,6/1,2s, sem deslocar pelo dt inteiro quem nasceu no meio do passo. Expiração continua em18s ativos desde implantação e vence empate; diferenças de discretização não criam tiro extra.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Limitar tolerância ao contrato temporal; não usar número de ticks para esconder atraso de emissões.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Fixtures whole/divided com tempos absolutos, posições e energia",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-CAP",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "400projéteis totais; energia≥2P; depois liberar uma vaga; mundo separado onde a falta de vaga acontece no meio da salva.",
+      "entradas_e_passos": "Tentar início cheio; iniciar com vaga; preencher antes do segundo/terceiro rebite e retomar.",
+      "resultado_esperado": "Início cheio conserva energia e não cria salva. Cada rebite compartilha teto400com balas manuais. Falta de vaga durante salva cancela restantes sem backlog/reembolso e sem remover vivos; nada reaparece atrasado depois.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Limites pertencem ao array compartilhado, não400manuais mais3da entidade.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-SOURCES",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Inimigos comuns, chefe e policial com escudo; habilidades de proc/recuperação ativas.",
+      "entradas_e_passos": "Alimentar e acertar com rebites; provocar abates e quebra do escudo.",
+      "resultado_esperado": "Consumo não chama impacto. Fonte matrix causa dano central e recompensa comum; não ativa crítico, exposição balística, estados, corrosão, ricochete, Colimador, killAmmo ou salvage. Escudo absorve inclusive quebra.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "XP/loot/contador de mortes e célula global de reparo continuam pela regra geral; bossHunter/finisher/marca são multiplicadores centrais explicitamente documentados, não novos procs.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-LIFECYCLE",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Aparelho com vida18s e até3salvas; pausas/ofertas preparadas nos três instantes de emissão.",
+      "entradas_e_passos": "Avançar relógio ativo, pausar, escolher, expirar e reinstalar; morrer/reiniciar em cada estado.",
+      "resultado_esperado": "Vida e emissões congelam fora de playing. Expiração ou limite de salvas remove dispositivo; nova instalação cria P/energia novos. Morte/reset limpa a tentativa; tokens vivem sócom balas, sem Map/Setglobal de IDs eterno.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Expiração no instante do último rebite não gera ataque após o fim; projéteis da entidade já emitidos seguem o contrato de limpeza/morte.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-TIMEORDER",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Duas balas com tempos de entrada0,08s e0,02s em ordem inversa, energia préviaP, payloads diferentes.",
+      "entradas_e_passos": "Comparar tick0,1 com dois ticks0,05; repetir com disco e pellets/slots se aplicável.",
+      "resultado_esperado": "Contato de0,02alimenta primeiro; energia, projétil consumido e início da salva coincidem. Ordenar apenas candidatos físicos, sem RNG e sem ordenar caminho sem dispositivo.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Corpo terminal e TTL ainda podem impedir a absorção ordenada.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/matrix-time-order.cjs + baseline-failure.json",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-LASTEND",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Terceira salva termina1,2s; bala entra1,25s num passo1,1→1,3.",
+      "entradas_e_passos": "Avançar o passo e observar corpo do dispositivo e bala posterior.",
+      "resultado_esperado": "Estação removida; bala posterior não some nem entrega energia ao dispositivo já concluído.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Expiração de18s e término por três salvas são condições independentes.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/matrix-time-order.cjs",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-INPUT",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Matriz adquirida; mouse/teclado e toque emulado com dois dedos emmove/aim; aparelho pronto ou ativo.",
+      "entradas_e_passos": "Pressionar ação de matriz com terceiro dedo, cancelar sóele, perder foco, girar retrato, abrir pausa e reiniciar.",
+      "resultado_esperado": "Implantação não sequestra movimento/mira/disparo dos outros dedos. Botão indisponível não cria dispositivo; desaparecimento do botão libera somente seu próprio capture. Blur/transição limpa todos os comandos e não retoma sozinho.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Toque usa ponto180px na direção manual retida; ainda exige direção válida, sem escolher alvo automático.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-UI",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "1280×900,844×390e740×360; arsenal1/2/3, peça pronta/carregando/descarregando.",
+      "entradas_e_passos": "Capturar botão desktopE, touch-matrix, status, dispositivo e marcador do minimapa; rolar painel se preciso.",
+      "resultado_esperado": "Controles e status alcançáveis sem transbordamento; carga/limiar, tempo e salvas distinguíveis; dispositivo tem entrada/bobina legível e tiro próprio distinto. Nenhum botão essencial fica atrás dos pads.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "A forma do desenho não aumenta hitbox; status não deve anunciar mutações por frame em aria-live.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
+    },
+    {
+      "id": "QA-MATRIX-PURE",
+      "area": "Matriz",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Snapshot de todo estado de combate/RNG com e sem aparelho; posições e carga conhecidas.",
+      "entradas_e_passos": "Desenhar100vezes, abrir pausa/diagnóstico e consultar HUD/minimapa semtick.",
+      "resultado_esperado": "Nenhum dano, energia, emissão, relógio, posição ou RNGdecombate muda por render/HUD. Caminho sem peça não cria tokens/filas nem custo de update de entidade.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Não contar efeitos ou IDs cosméticos como mudança física; ainda comparar campos relevantes e próximos sorteios.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: deployRivetMatrix/tickRivetMatrix e pipeline físico de projéteis; touch-controls.js",
+      "comando_ou_procedimento": "node tests/rivet-matrix.cjs; fixtures browser da Matriz"
     },
     {
       "id": "QA-COMBAT-W01",
@@ -2669,7 +2927,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-cryoLens",
@@ -2685,7 +2943,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-arcCapacitor",
@@ -2701,7 +2959,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-droneRack",
@@ -2717,7 +2975,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-scanArray",
@@ -2733,7 +2991,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-rotorBearing",
@@ -2749,7 +3007,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-corrosionChamber",
@@ -2765,7 +3023,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-precisionBreech",
@@ -2781,7 +3039,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-blastManifold",
@@ -2797,7 +3055,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-feedServo",
@@ -2813,7 +3071,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-reactorHeart",
@@ -2829,7 +3087,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-overclockCore",
@@ -2845,7 +3103,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-fieldCollimator",
@@ -2861,7 +3119,23 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
+    },
+    {
+      "id": "QA-RELIC-rivetMatrix",
+      "area": "Relíquia",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
+      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar rivetMatrix, tentar repetir, executar condição e iniciar outra tentativa.",
+      "resultado_esperado": "[E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-RELIC-ruptureChamber",
@@ -2877,7 +3151,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
-      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra"
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
     },
     {
       "id": "QA-PROTOCOL-tailDecoy",

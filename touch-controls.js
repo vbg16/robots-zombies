@@ -63,8 +63,10 @@
 
     const reloadButton = makeAction('reload', '↻', 'RECARGA', 'Recarregar todas as armas');
     const dashButton = makeAction('dash', '⇧', 'PROPULSOR', 'Ativar propulsor');
+    const matrixButton = makeAction('matrix', '▥', 'MATRIZ', 'Instalar Matriz de Rebites na direção manual de mira');
     dashButton.hidden = true;
-    actionStack.append(reloadButton, dashButton);
+    matrixButton.hidden = true;
+    actionStack.append(reloadButton, dashButton, matrixButton);
     layer.append(movePad.root, aimPad.root, actionStack);
     container.appendChild(layer);
 
@@ -72,8 +74,10 @@
     const pointers = new Map();
     const padPointers = { move: null, aim: null };
     const buttonPointers = new Set();
+    const touchClickUntil = new WeakMap();
     let enabled = false;
     let dashAvailable = false;
+    let matrixAvailable = false;
     let destroyed = false;
     let destroying = false;
     let trackingInstalled = false;
@@ -230,6 +234,7 @@
       setKnob(aimPad, 0, 0);
       reloadButton.classList.remove('is-pressed');
       dashButton.classList.remove('is-pressed');
+      matrixButton.classList.remove('is-pressed');
       const stopMove = moveActive || moveVector.x !== 0 || moveVector.y !== 0;
       const stopAim = aimActive;
       moveActive = false;
@@ -250,7 +255,17 @@
     }
 
     function onWindowPointerUp(event) {
+      const entry = pointers.get(event.pointerId);
       finishPointer(event.pointerId);
+      if (entry?.kind === 'button' && entry.pointerType !== 'mouse') {
+        const rect = entry.target.getBoundingClientRect();
+        if (event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom) {
+          // Non-primary touch contacts need not generate click. Dispatch from
+          // their own release, without ending either thumb's pad gesture.
+          touchClickUntil.set(entry.target, Date.now() + 500);
+          invokeAction(entry.action);
+        }
+      }
     }
 
     function onWindowPointerCancel(event) {
@@ -267,8 +282,8 @@
 
     function trackButton(button, action) {
       button.addEventListener('pointerdown', event => {
-        if (!enabled || event.button !== 0 || pointers.has(event.pointerId)) return;
-        const entry = { kind: 'button', target: button, action };
+        if (!enabled || event.button !== 0 || pointers.has(event.pointerId) || (action === 'matrix' && !matrixAvailable)) return;
+        const entry = { kind: 'button', target: button, action, pointerType: event.pointerType || 'mouse' };
         pointers.set(event.pointerId, entry);
         buttonPointers.add(event.pointerId);
         button.classList.add('is-pressed');
@@ -277,10 +292,15 @@
       });
 
       button.addEventListener('click', event => {
-        if (!enabled || destroyed || (action === 'dash' && !dashAvailable)) return;
         event.preventDefault();
-        safeCall(action === 'reload' ? 'onReload' : 'onDash');
+        if (event.pointerType === 'touch' || event.pointerType === 'pen' || (!event.pointerType && event.detail > 0 && (touchClickUntil.get(button) || 0) > Date.now())) return;
+        invokeAction(action);
       });
+    }
+
+    function invokeAction(action) {
+      if (!enabled || destroyed || (action === 'dash' && !dashAvailable) || (action === 'matrix' && !matrixAvailable)) return;
+      safeCall(action === 'reload' ? 'onReload' : action === 'matrix' ? 'onMatrix' : 'onDash');
     }
 
     movePad.root.addEventListener('pointerdown', event => pointerDown(event, 'move', movePad.root));
@@ -288,6 +308,7 @@
     layer.addEventListener('lostpointercapture', onLostPointerCapture);
     trackButton(reloadButton, 'reload');
     trackButton(dashButton, 'dash');
+    trackButton(matrixButton, 'matrix');
 
     function makePad(kind, label, description) {
       const root = global.document.createElement('div');
@@ -319,7 +340,7 @@
       const button = global.document.createElement('button');
       button.type = 'button';
       button.className = 'touch-action-button touch-action-button--' + action;
-      button.id = action === 'reload' ? 'touch-reload' : 'touch-dash';
+      button.id = 'touch-' + action;
       button.setAttribute('data-touch-action', action);
       button.setAttribute('aria-label', ariaLabel);
       const icon = global.document.createElement('span');
@@ -363,6 +384,17 @@
       cancelAll();
     }
 
+    function setMatrixAvailable(value) {
+      if (destroyed) return;
+      const next = !!value;
+      if (next === matrixAvailable) return;
+      matrixAvailable = next;
+      if (!next) for (const [pointerId, entry] of pointers) {
+        if (entry.action === 'matrix') finishPointer(pointerId);
+      }
+      matrixButton.hidden = !next;
+    }
+
     function destroy() {
       if (destroyed || destroying) return;
       destroying = true;
@@ -376,7 +408,7 @@
       destroying = false;
     }
 
-    const api = { setEnabled, setDashAvailable, reset, destroy };
+    const api = { setEnabled, setDashAvailable, setMatrixAvailable, reset, destroy };
     mounted.set(container, api);
     return api;
   }

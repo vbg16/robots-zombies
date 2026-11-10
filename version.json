@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Culatra de Ruptura concentra cargas de disparos no último cartucho por arma; recarga antecipada descarta energia, sem novas balas/procs.14relíquias/96compêndio,82editáveis. Balanceamento experimental; sem aprovação pública.",
-  "build": 60
+  "notes": "Matriz de Rebites: entidade estacionária instalada na mira e alimentada por projéteis reais, com salvas próprias e controles manuais em PC/toque.15relíquias/97compêndio,82editáveis. Candidata experimental em validação, sem aprovação pública.",
+  "build": 61
 }

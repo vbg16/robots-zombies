@@ -3,7 +3,7 @@
  * Host: #touch-controls inside #combat. mount(host, callbacks) adds the layer;
  * setEnabled(true/false) unhides/hides the host. The game toggles .touch-active
  * on #combat for the mobile HUD layout.
- * Public hooks: #touch-move, #touch-aim, #touch-reload, #touch-dash and the
+ * Public hooks: #touch-move, #touch-aim, #touch-reload, #touch-dash, #touch-matrix and the
  * data-touch-* attributes created by touch-controls.js.
  */
 #touch-controls.touch-controls-host {
@@ -147,6 +147,16 @@
 }
 
 #touch-controls .touch-action-button[hidden] { display: none; }
+#touch-controls #touch-matrix { min-height: 44px; }
+#combat.touch-active #matrix-action { display: none; }
+/* Keep hardware notices out of the three-finger action stack. */
+#combat.touch-active:has(#matrix-hud:not([hidden])) .combat-notices {
+  top: 76px;
+  right: 100px;
+  left: auto;
+  width: 220px;
+  max-width: calc(100% - 280px);
+}
 #touch-controls .touch-action-button:active,
 #touch-controls .touch-action-button.is-pressed {
   background: #16506a;

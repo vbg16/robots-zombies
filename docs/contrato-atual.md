@@ -1,12 +1,20 @@
-# Contrato vigente — Screwvivors BUILD 60
+# Contrato vigente — Screwvivors BUILD 61
 
-Estado: candidata local em desenvolvimento; a última publicação confirmada permanece BUILD59. A [meta aprovada](OBJETIVO-APROVADO.md) e os [critérios de conclusão](META-DE-CONCLUSAO.md) governam o encerramento. O rótulo60 não significa versão publicada ou projeto terminado.
+Estado: candidata local BUILD61 em desenvolvimento. A última publicação confirmada é BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. A [meta aprovada](OBJETIVO-APROVADO.md) e os [critérios de conclusão](META-DE-CONCLUSAO.md) governam o encerramento; o rótulo da candidata não significa publicação, aprovação pública ou projeto terminado.
 
-## Adição candidata — BUILD60
+## Adição candidata — BUILD61
+
+Matriz de Rebites (`rivetMatrix`) é a15ªrelíquia universal de baú. Após adquirir, o jogador usaE ou ação de toque e um ponto de mira manual entre 48 e 180 px para instalar uma estação fixa por 18 s, no máximo uma. O referencial P é o dano normal do cartucho completo da arma primária ao implantar, limitado a 0,001..1e9; limiar2P/capacidade4P. Balas que realmente entram no aparelho são consumidas e somam somente seu dano capturado, respeitando orçamento compartilhado por cartucho. Pellets não multiplicam esse orçamento; cada subdisparo consumidor de munição de uma rajada é distinto.
+
+Cada salva consome 2P e emite três rebites de direção fixa,0/0,6/1,2s após o contato, orçamento bruto total2,2P, sem homing ou procs balísticos. Até três salvas iniciadas; ataques compartilham o teto400com as balas do jogador. Cap cheio antes de iniciar conserva energia; falta de vaga durante salva descarta restantes sem reembolso/backlog. Perfuração sobrevivente anterior pode chegaràentrada no mesmo segmento; terminal/ricochete anterior impede; corpo vence empate. TTL/expiração vencem empate e timestamps absolutos preservam apenas a idade residual dos projéteis novos. Pausa congela; morte/garagem limpa estação/rebites e reset remove a peça.
+
+Inventário candidato:15relíquias/97artigos de módulo/relíquia; editor continua82. Fonte matrix usa dano central, preserva XP/loot/célula global e recompensa de chefe, mas não executa impact, estados/procs manuais, killAmmo ou salvage. [Fórmulas, tabela das12armas, apresentação e casos](matriz-de-rebites.md). Implementação em verificação; não aprova balanceamento, desempenho ou os gates finais.
+
+## Adição vigente — BUILD60
 
 Culatra de Ruptura é a14ªrelíquia universal de baú. Cada cartucho realmente gasto armazena uma carga por slot, até60. O último cartucho recebe dano×(1+0,25×cargas incluindo a atual), captura o fator nos pellets e consome a reserva antes da autorrecarga. Recarga antecipada só descarta quando inicia de fato; bloqueio400, tentativa recusada e reembolso não geram carga. Instalar não muda munição/recarga/HP; reset recria slots sem energia. Catálogo editável82, compêndio96; pico máximo16×é do último projétil, não DPS sustentado.
 
-Correção de contrato no impacto: o estado blindado é capturado antes do golpe; corrosão e estados/empurrão não se aplicam quando havia escudo, inclusive no golpe da quebra. A fonte anterior falha na reprodução;17fixtures e regressões específicas passaram na candidata. A referência histórica usada na equivalência identifica explicitamente essa correção, sem alegar preservação do defeito antigo.
+Correções de contrato na BUILD60: shockAt captura a proteção antes do dano e impede novo atordoamento no alvo elétrico blindado, inclusive na quebra;14fixtures específicas passaram. No impacto, o estado blindado é capturado antes do golpe; corrosão e estados/empurrão não se aplicam quando havia escudo, inclusive no golpe da quebra. A fonte anterior falha na reprodução;17fixtures e regressões específicas passaram na candidata. A referência histórica usada na equivalência identifica explicitamente essa correção, sem alegar preservação do defeito antigo.
 
 ## Adição vigente — BUILD59
 
