@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Matriz de Rebites: entidade estacionária instalada na mira e alimentada por projéteis reais, com salvas próprias e controles manuais em PC/toque.15relíquias/97compêndio,82editáveis. Candidata experimental em validação, sem aprovação pública.",
-  "build": 61
+  "notes": "Lâmina de Recarga: segurar disparo com mira durante as próximas recargas ativa corte frontal por arma, com dano integrado proporcional ao tempo efetivo.16relíquias/98compêndio,82editáveis. Desenvolvimento experimental, sem aprovação pública.",
+  "build": 62
 }

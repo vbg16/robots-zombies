@@ -78,7 +78,7 @@
  function play(name){
   if(typeof name!=='string'||!context||context.state!=='running'||effectsVolume===0||effectVoices.size>=24)return;
   const weapon=name.startsWith('shot-')?name.slice(5):null,throttleName=weapon?'shot':name;
-  const now=context.currentTime,limits={shot:.06,kill:.1,pickup:.08,hit:.12,reload:.15,reloadReady:.15,upgrade:.3,dash:.15,boss:.5,bossAttack:.3,bossDefeat:1,death:1,transition:.08,pause:.1,resume:.1,rotor:.15,sensor:.35,corrosion:.14,drone:.12,shield:.2,shieldBreak:.3,repair:.3,matrixDeploy:.25,matrixFeed:.12,matrixShot:.12,matrixExpire:.3};
+  const now=context.currentTime,limits={shot:.06,kill:.1,pickup:.08,hit:.12,reload:.15,reloadReady:.15,upgrade:.3,dash:.15,boss:.5,bossAttack:.3,bossDefeat:1,death:1,transition:.08,pause:.1,resume:.1,rotor:.15,sensor:.35,corrosion:.14,drone:.12,shield:.2,shieldBreak:.3,repair:.3,matrixDeploy:.25,matrixFeed:.12,matrixShot:.12,matrixExpire:.3,reloadBladeOn:.2,reloadBladeHit:.12};
   if(!Object.prototype.hasOwnProperty.call(limits,throttleName))return;
   if(weapon&&!['machine','shotgun','burst','sniper','laser','flame','cryo','rocket','grenade','tesla','disc','harpoon'].includes(weapon))return;
   if(now-(lastEffect.get(throttleName)??-Infinity)<limits[throttleName])return;lastEffect.set(throttleName,now);
@@ -101,6 +101,8 @@
    else{beep(210,75,0,.065,.1,'triangle');hiss(now,.04,.075,effectsBus,effectVoices);}
   }
   else if(name==='rotor'){hiss(now,.05,.025,effectsBus,effectVoices);beep(320,145,0,.065,.035,'triangle');}
+  else if(name==='reloadBladeOn'){beep(125,250,0,.1,.025,'triangle');}
+  else if(name==='reloadBladeHit'){hiss(now,.04,.025,effectsBus,effectVoices);beep(210,140,0,.045,.025,'triangle');}
   else if(name==='matrixDeploy'){hiss(now,.055,.025,effectsBus,effectVoices);beep(165,245,0,.16,.04,'triangle');}
   else if(name==='matrixFeed'){beep(510,620,0,.045,.022,'sine');}
   else if(name==='matrixShot'){hiss(now,.04,.035,effectsBus,effectVoices);beep(390,150,0,.085,.05,'triangle');}

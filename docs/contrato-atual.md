@@ -1,14 +1,20 @@
-# Contrato vigente — Screwvivors BUILD 61
+# Contrato vigente — Screwvivors BUILD 62
 
-Estado: candidata local BUILD61 em desenvolvimento. A última publicação confirmada é BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. A [meta aprovada](OBJETIVO-APROVADO.md) e os [critérios de conclusão](META-DE-CONCLUSAO.md) governam o encerramento; o rótulo da candidata não significa publicação, aprovação pública ou projeto terminado.
+Estado: candidata local BUILD62 em desenvolvimento. A última publicação confirmada é BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. A [meta aprovada](OBJETIVO-APROVADO.md) e os [critérios de conclusão](META-DE-CONCLUSAO.md) governam o encerramento; o rótulo da candidata não significa publicação, aprovação pública ou projeto terminado.
 
-## Adição candidata — BUILD61
+## Adição candidata — BUILD62
+
+LÂMINA DE RECARGA (`reloadBlade`) é a16ª peça universal temporária de baú. Segurar o disparo com mira manual durante uma recarga efetiva ataca uma cápsula frontal por arma, segmento36..110px da origem deslocada do slot, raio12. Recarga válida iniciada após adquirir captura P=clamp(shotDamage×pellets planejados,0,1e9). Dano integrado por intervalo: P×a×(0,6+0,3×(u0+u1)); DPS0,6P→1,2P, orçamento de janela inteira0,9PT. Recarga parcial conserva proporcionalidade; adquirir no meio não aplica retroativamente. Reforja conserva timers atuais e P; modificadores novos sóna próxima recarga.
+
+Fonte reloadBlade não executa impacto/procs/munição/salvage; preserva globais de dano, XP/loot/célula e recompensa/cura de chefe. Sem botão novo; HUD por arma. Validada funcionalmente em engine/browser. Natural62 congelada pré-correção finita: canônico9/10viáveis; experimento de preferência1/4viável, embora uso positivo4/4. Fonte atual troca somente inicialização de cue para valor finito, com prova controlada de equivalência; sem aceite final. Inventário16/98 confirmado por extração VM viva; editor82. [Contrato completo e casos](lamina-de-recarga.md). Katana ao fim da recarga continua pendente. Evidências61 abaixo permanecem históricas.
+
+## Adição histórica — BUILD61
 
 Matriz de Rebites (`rivetMatrix`) é a15ªrelíquia universal de baú. Após adquirir, o jogador usaE ou ação de toque e um ponto de mira manual entre 48 e 180 px para instalar uma estação fixa por 18 s, no máximo uma. O referencial P é o dano normal do cartucho completo da arma primária ao implantar, limitado a 0,001..1e9; limiar2P/capacidade4P. Balas que realmente entram no aparelho são consumidas e somam somente seu dano capturado, respeitando orçamento compartilhado por cartucho. Pellets não multiplicam esse orçamento; cada subdisparo consumidor de munição de uma rajada é distinto.
 
 Cada salva consome 2P e emite três rebites de direção fixa,0/0,6/1,2s após o contato, orçamento bruto total2,2P, sem homing ou procs balísticos. Até três salvas iniciadas; ataques compartilham o teto400com as balas do jogador. Cap cheio antes de iniciar conserva energia; falta de vaga durante salva descarta restantes sem reembolso/backlog. Perfuração sobrevivente anterior pode chegaràentrada no mesmo segmento; terminal/ricochete anterior impede; corpo vence empate. TTL/expiração vencem empate e timestamps absolutos preservam apenas a idade residual dos projéteis novos. Pausa congela; morte/garagem limpa estação/rebites e reset remove a peça.
 
-Inventário candidato:15relíquias/97artigos de módulo/relíquia; editor continua82. Fonte matrix usa dano central, preserva XP/loot/célula global e recompensa de chefe, mas não executa impact, estados/procs manuais, killAmmo ou salvage. [Fórmulas, tabela das12armas, apresentação e casos](matriz-de-rebites.md). Implementação em verificação; não aprova balanceamento, desempenho ou os gates finais.
+Inventário histórico61:15relíquias/97artigos de módulo/relíquia; editor continua82. Fonte matrix usa dano central, preserva XP/loot/célula global e recompensa de chefe, mas não executa impact, estados/procs manuais, killAmmo ou salvage. [Fórmulas, tabela das12armas, apresentação e casos](matriz-de-rebites.md). Implementação em verificação; não aprova balanceamento, desempenho ou os gates finais.
 
 ## Adição vigente — BUILD60
 

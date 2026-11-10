@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD61:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD62:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -11,12 +11,16 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 
 ## Documentos
 
+- [Investigação das falhas de montagem na BUILD62](analise-montagem-builds62.md): elegibilidade, ofertas e renovações, sem alterar resultados ou receitas.
+
+- [Lâmina de Recarga na candidata BUILD62](lamina-de-recarga.md): corte manual durante recarga, orçamento proporcional, fontes de dano e testes.
+
 - [Matriz de Rebites na candidata BUILD61](matriz-de-rebites.md): implantação manual, tiros absorvidos, orçamento de energia, salvas próprias e testes.
 
 - [Culatra de Ruptura na BUILD60](culatra-de-ruptura.md): último cartucho por arma, escudos, testes e limites das evidências naturais.
 
 - [Objetivo aprovado](OBJETIVO-APROVADO.md) e [meta de conclusão](META-DE-CONCLUSAO.md): escopo, métricas e evidências exigidas para terminar a versão 1.0.
-- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 291 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
+- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 302 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
 
 - [Colimador de Campo na BUILD59](colimador-de-campo.md): conversão espacial, tempo ativo, colisões e limites de validação.
 

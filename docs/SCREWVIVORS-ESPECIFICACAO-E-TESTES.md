@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A BUILD60 foi publicada no commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. Esta edição descreve a candidata BUILD61 ainda em implementação/validação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A BUILD60 foi publicada no commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. Esta edição descreve a candidata BUILD62 ainda em implementação/validação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -39,11 +39,11 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
-| Relíquias de baú |15|
+| Relíquias de baú |16|
 | Receitas de build |10|
 | Registros editáveis padrão |82|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |97|
+| Artigos do compêndio de módulos/relíquias |98|
 
 Os82editáveis são52+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
@@ -730,7 +730,7 @@ Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de e
 
 ## Especificação de combate, mundo, apresentação e verificação
 
-Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo e o motor de Matriz61 incorporados nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A publicação60é histórica; a candidata61nãoestáaprovada e sua Matriz está especificada integralmente na ParteIII-A. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
+Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61 e a Lâmina62 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A publicação60é histórica; a candidata62nãoestáaprovada; Matriz e Lâmina estão especificadas integralmente nas PartesIII-A eIII-B. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
 
 ### 1. Produto e estrutura da tentativa
 
@@ -1305,7 +1305,7 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 
 ### Quinze relíquias de baú — inclui a candidata61
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos82editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra e Matriz de Rebites; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos82editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites e Lâmina de Recarga; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
 | ID | Nome | Elegibilidade | Ganho |
 | --- | --- | --- | --- |
@@ -1324,6 +1324,7 @@ Baú físico fica no local da morte, sem expiração ou atração por ímã; col
 | fieldCollimator | COLIMADOR DE CAMPO | Universal; nascimento do campo espera direção manual válida | Ao mirar, fixa um campo por 4 s; repete a cada 6 s. Tiros que o atravessam ganham +35% de dano uma única vez. |
 | ruptureChamber | CULATRA DE RUPTURA | Universal; energia começa0para cada arma ao instalar | Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas. |
 | rivetMatrix | MATRIZ DE REBITES | Universal; estação depende de implantação manual após adquirir | [E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. |
+| reloadBlade | LÂMINA DE RECARGA | Universal; somente próximas recargas válidas após adquirir | Segurar fogo e mira durante recarga efetiva ataca cápsula frontal36..110px/r12 por arma. P=clamp(shotDamage×pellets planejados,0,1e9); DPS0,6P→1,2P, integral0,9PT, sem procs balísticos. |
 
 
 
@@ -1512,7 +1513,7 @@ Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas2
 
 ### Divergências e limites desta extração
 
-- A candidata local BUILD61 contém15relíquias/97entradas de compêndio. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Matriz. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD62 contém16relíquias/98entradas de compêndio, confirmadas por extração VM. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -1522,6 +1523,10 @@ Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas2
 #### Contagem de mortes e reposição
 
 Depósito Ampliado usa um contador global de mortes válidas de não-chefe. A décima morte devolve1cartucho ao slot identificado na origem desse dano, limitado à capacidade; origem semslot recai no primário. Não transformar um reembolso em emissão nem em carga da Culatra. O protocolo chargeRecovery usa contador de seis alvos que realmente perderamHP por descarga e cooldown0,25s; também repõe somente um cartucho à origem. Célula de reparo a cada25mortes cura12quando coletada e não é dinheiro; Bateria de Sucata cura20automaticamente a cada20mortes e não deixa um item extra.
+
+#### Lâmina de Recarga e fontes secundárias
+
+A16ª peça universal captura P individual por slot somente em startReload válido após adquirir. Aquisição durante janela corrente não retroage. Reforja conserva exatamente reloadTotal/reloadTime/P da recarga corrente; novo multiplicador vale na próxima. Usar integral P×a×(0,6+0,3×(u0+u1)), a=min(dt,r), u0=clamp(1-r/T),u1=clamp(u0+a/T). Alvo presente na cápsula recebe somente trecho efetivamente segurado; rampa0,6P→1,2P, integral0,9PT na janela cheia. Geometria frontal36..110px/r12 da origem deslocada por arma é amostrada antes de movimento, sem varredura dos corpos em deslocamento. Fonte reloadBlade exclui killAmmo/salvage, preservando XP/loot/célula/boss e globais normais; não tratar essa fonte como o fallback semslot da regra geral de reposição acima. O contrato completo da Lâmina está incorporado integralmente ao documento mestre.
 
 
 ## Parte III-A — contrato completo da Matriz de Rebites
@@ -1669,6 +1674,104 @@ O controle negativo de três dedos reproduziu na BUILD60 a falha de recarga e pr
 A execução v4 repetiu os dois braços com a fonte física atual:8/10viáveis no canônico e4/4no experimento de escolha legal+implantação. As falhas canônicas de Demolição e Lança por core incompleto permanecem. Os quatro casos experimentais tiveram aquisição, alimentação, salvas e acertos; isso prova uso natural sob aquela política, sem aprovar balanceamento universal. [Resumo](build61-balance-summary.json) e [arquivo integral](data/build61-runs.json.gz) preservam resultados, protocolos, fontes, pilotos, diferenças de instrumentação e provas de transparência. v1/v2 pararam em fixtures de observação sem rodar tentativas naturais; v3 é histórico anterior à correção de ordem dos contatos. Não contar esses ensaios como uma única matriz homogênea.
 
 As verificações locais concluídas incluem22grupos de engine, cronologia entre cartuchos e término da terceira salva,14cenários de toque isolado, browser em1280×900/844×390/740×360, cues de áudio, escudos, Culatra, Colimador, armas/reforjas, equivalência legada32mundos/416checkpoints, partículas12mundos e simulação integrada25minutos. O browser confirma aquisição pela carta, E após foco em pausa, três dedos, alimentação real, ancoragem, pausa,3armas e avisos fora dos botões. São fixtures explícitas; não são celular físico nem métricas de FPS. As provas finais1.0 de30tentativas,60minutos e desempenho real continuam abertas.
+
+
+## Parte III-B — contrato completo da Lâmina de Recarga
+
+
+## Lâmina de Recarga — candidata BUILD62
+
+**Estado: validada funcionalmente em engine/browser na candidata de desenvolvimento.** Não aprova balanceamento final, desempenho real, publicação ou conclusão1.0. Resultados BUILD61 continuam históricos; evidências62 e suas fontes exatas estão registradas ao final.
+
+### Aquisição e ativação manual
+
+LÂMINA DE RECARGA (`reloadBlade`) é a16ª peça universal temporária de baú, elegível para qualquer chassi/arma, sem repetição na tentativa. Editor permanece82; inventário98 artigos confirmado por extração VM do catálogo vivo. Não concede atributos permanentes, cura, munição ou recarga ao instalar. A recarga que já estava em curso na aquisição não ganha lâmina retroativamente. Somente o próximo `startReload` bem-sucedido com a peça captura o motor.
+
+Durante uma recarga efetiva, manter intenção manual de disparo (`firing`) e mira ativa permite ataque frontal. Soltar o disparo ou perder a mira interrompe o dano imediatamente; voltar a segurar retoma somente o restante da recarga. Não escolhe alvos, não cria projéteis e não exige botão novo: mouse ou pad direito usam o mesmo disparo manual. R continua sendo recarga. Tentativa de recarregar carregador cheio, recarga já ativa ou entrada bloqueada não cria janela nova.
+
+### Referência por arma e integração exata
+
+Ao iniciar uma recarga válida, capturar `P=clamp(shotDamage(slot) × N,0,1e9)`, com `N=min(400,max(1,floor(pelletsDaArma × projectileMult)))`, os pellets planejados do cartucho. É a base normal de dano da arma naquele instante, incluindo conversões normais de shotDamage. Não incorporar crítico de um disparo específico, Culatra, Carga de Reparo, dano de outro slot ou vulnerabilidade de alvo. Alterações de atributos ou reforja posteriores não reescrevem P.
+
+Sejam T a duração total da recarga atual, r o tempo restante antes do tick e dt o passo ativo em segundos. Integrar antes de decrementar o timer, dentro de `tickStatuses`, antes do movimento do jogador:
+
+- `a=min(dt,r)`; não avançar além da conclusão.
+- `u0=clamp(1-r/T,0,1)`; `u1=clamp(u0+a/T,0,1)`.
+- Dano nominal por alvo na cápsula: `D=P × a × (0,6+0,3×(u0+u1))`.
+- DPS instantâneo sobe linearmente de `0,6P` para `1,2P`; é taxa por segundo, não multiplicador de impacto.
+- Segurando toda a janela e mantendo o alvo dentro, integral `0,9P×T`. Uma janela parcial recebe somente a integral do trecho segurado, sem recuperar tempo perdido.
+
+Entradas não finitas, P≤0, r≤0, T≤0 ou dt≤0 devolvem dano0. O cálculo usa integral do intervalo, não amostra pontual por frame. Particionar o mesmo intervalo não altera o dano nominal em alvo estático, salvo tolerância de ponto flutuante. Dano central ainda aplica modificadores globais e escudo; por isso HP observado pode diferir da integral nominal.
+
+Recarga parcial já tem duração proporcional à falta de cartuchos. Recarregar uma bala de cada vez não concede orçamento de carregador cheio: sem mudança de atributos, a soma de janelas completas com igual quantidade total reposta equivale à janela agregada pela soma de durações. Não há pulso gratuito ao iniciar ou terminar. Reforja durante a recarga conserva exatamente `reloadTotal` e `reloadTime`, inclusive no caminho legado de uma arma. Modificadores novos de duração valem apenas para a próxima recarga. A integral restante usa o T e o progresso reais já em curso, conservando P; não reinicia rampa, prazo ou referência de dano.
+
+### Referência das12armas sem módulos
+
+Baseline de PROT, uma arma, sem módulos/reforja e disparo normal. P não é o dano de um crítico nem Culatra. A duração é a recarga cheia da arma; parcial usa a fração ausente. Outros chassis e penalidades de2/3armas alteram shotDamage e portanto P; não copiar estes números para um arsenal diferente.
+
+| Arma | Pellets planejados | P | T cheio (s) | DPS inicial→final | Integral nominal0,9PT |
+|---|---:|---:|---:|---:|---:|
+| Metralhadora | 1 | 22 | 1,4 | 13,2→26,4 | 27,72 |
+| Escopeta | 5 | 60 | 2,2 | 36→72 | 118,8 |
+| Fuzil de rajada | 1 | 14 | 1,8 | 8,4→16,8 | 22,68 |
+| Canhão de precisão | 1 | 88 | 2,6 | 52,8→105,6 | 205,92 |
+| Emissor laser | 1 | 10 | 1,6 | 6→12 | 14,4 |
+| Lança-chamas | 3 | 15 | 2,4 | 9→18 | 32,4 |
+| Lançador criogênico | 1 | 22 | 2,4 | 13,2→26,4 | 47,52 |
+| Lança-foguetes | 1 | 70 | 4,8 | 42→84 | 302,4 |
+| Lança-granadas | 1 | 45 | 3,6 | 27→54 | 145,8 |
+| Carabina Tesla | 1 | 24 | 3 | 14,4→28,8 | 64,8 |
+| Disco de retorno | 1 | 24 | 3,4 | 14,4→28,8 | 73,44 |
+| Arpão pneumático | 1 | 60 | 2,4 | 36→72 | 129,6 |
+
+### Geometria, ordem e slots
+
+Cada arma equipada mantém sua própria captura P, timer e geometria. A lâmina é uma cápsula frontal: segmento de36 a110px a partir de `weaponOrigin(slot,angle)`, raio12px. A origem aplica o deslocamento lateral normal dos slots: uma arma0; com várias, índices0/1/2 usam−16/+16/+32px perpendicularmente à mira. O teste de contato soma o raio do inimigo ao raio12 e mede distância ao segmento. Direção é a mira manual do tick, sem homing ou prioridade de inimigo.
+
+Múltiplas armas em recarga podem atingir o mesmo inimigo, cada uma pela própria base/duração. Uma arma pronta ou sem captura elegível não herda a recarga de outra. O tick usa posição anterior ao movimento; o desenho utiliza apenas a geometria armazenada pelo último tick elegível. Não recalcular dano, relógio ou geometria no render. Pausa congela a imagem; morte/reset eliminam estados temporários. Sem mapa crescente por inimigo ou fila de ticks atrasados. Geometria/render não sorteiam; dano central mantém seus efeitos cosméticos e sorteios existentes. O teste amostra os corpos no tick; não existe varredura contínua do movimento do jogador ou inimigos.
+
+### Fonte, escudos e combinações
+
+Aplicar fonte `reloadBlade` pelo dano central. Não chamar `impact`, não instalar fogo/frio/corrosão/eletricidade, não gerar explosão de bala, crítico, Motor Cinético, Fratura por impacto ou nova munição. Não consumir Carga de Reparo, não avançar contagem de disparos ou Culatra, não alimentar Matriz nem converter Colimador. Abate da lâmina não aciona `killAmmo` ou `salvage`.
+
+Regras globais continuam: finalizador (`finisher`), Caça-Titãs (`bossHunter`), marca de alvo, XP/loot, contador global/célula de cura e recompensa/cura/peça/baú de chefe. Não reinterpretar esses efeitos como procs de bala. Escudo policial absorve o golpe completo, inclusive a quebra, sem excedente ao corpo e sem estados novos. O próximo tick desprotegido pode atingir o corpo; não dividir artificialmente um golpe para atravessar escudo.
+
+### Apresentação e limites de aceite
+
+HUD acrescenta `· LÂMINA` ao status da recarga por arma enquanto o corte está ativo. A pausa lista base capturada, corte ativo ou instrução de segurar disparo com mira, e segundos restantes; sem captura, mostra aguardando próxima recarga. Não acrescentar botão que concorra com pads, recarga, Matriz ou propulsor. O desenho é uma barra industrial no segmento armazenado: casco#101923, metal#4f6b7a, contorno#e8ddc9, dentes#c95f43 e núcleo ciano#3cc7f4 na primeira metade/#a8f1ff na segunda, ponta#e7fcff. Ele aparece após inimigos/chefe e Matriz, antes dos projéteis, efeitos e robô, sem ser usado como hitbox. áudio usa eventos próprios com RNG sonoro separado: `reloadBladeOn`, throttle0,2s, beep triangular125→250Hz/0,1s/ganho0,025; `reloadBladeHit`, throttle0,12s, hiss0,04s/ganho0,025 e beep triangular210→140Hz/0,045s/ganho0,025. Pausa e render repetido não acumulam som nem dano.
+
+Esta é adaptação funcional de janela ofensiva/duração para as linhas Reload Boost e Cyclone Sword, sustentada pelas provas locais descritas abaixo. Não promete reprodução exata de coeficientes, entidades ou identidade externos. Katana (fim da recarga invoca arma) é motor diferente e permanece pendente; a lâmina desaparece ao terminar a recarga.
+
+### Casos obrigatórios e evidências
+
+Todos começam **não executados no commit final**. Capturar fontes/hash, ambiente, comando, saída, entradas e estado antes/depois; fixtures não são partidas naturais.
+
+1. Captura:12armas, uma/duas/três armas legais, pellets planejados e Titânico/armadura; conferir P próprio e preservação após reforja/atributo. Comparar aquisição antes/durante/depois da recarga.
+2. Integral: alvo imóvel de HP alto dentro da cápsula; comparar passo único,60Hz,20Hz e partições irregulares; erro absoluto≤1e−6 ou relativo≤1e−9. Verificar r<dt e r=0, início/meio/fim da rampa e orçamento0,9PT.
+3. Parcial: um cartucho faltante versus carregador; repetir recargas pequenas sem dano de bala entre medições. Orçamento proporcional à duração, sem pulso por início/fim, recarga cheia recusada e nenhum ganho por reentrada.
+4. Tempo: reforjar no meio da recarga single e multi; timers exatamente preservados, P imutável, novo modificador somente na próxima recarga. Último tick ataca antes de concluir; alvo fora do segmento não recebe dano.
+5. Geometria: alvo no centro, extremidades36/110, tangência por raio, fora/atrás/lateral;12armas não alteram cápsula. Repetir com offsets dos3slots, mira esquerda/direita e jogador em movimento, conferindo ordem anterior ao deslocamento.
+6. Fonte: alvo normal/chefe/marcado/resfriado e escudo em dano abaixo/igual/acima da proteção. Sem excedente, estados/procs/munição/salvage; globais de dano/morte e recompensa únicos continuam. Repetir com skills de bala e suportes simultâneos.
+7. Entrada: mouse down/up, dois pads e terceiro dedo, cancel/lostcapture, blur, escolha, pausa, morte, reinício e rotação; nenhum fogo preso ou retomada automática. Sem peça não existe dano de lâmina.
+8. Save/reset: adquirir, morrer, nova tentativa, migrar perfil/config; não serializar peça, referência P, geometria ou timer no progresso permanente. Editor82 permanece inalterado; catálogo vivo16/98 sem duplicatas.
+9. Apresentação:1280×900,844×390,740×360,3slots e textos completos alcançáveis por rolagem; zero botão novo/obstrução. Render repetido e pausa conservam estado/RNG; som respeita mute/limites.
+10. Longa duração/natural: contagens de estados temporários limitadas pelos slots; sem mapa crescente. Reexecutar avaliação afetada com fontes62 e guardar falhas; resultados61 (8/10 e4/4experimental) não aprovam o novo pool. Matriz final30tentativas, hardware físico e auditoria1.0 continuam pendentes.
+
+### Evidências intermediárias62 e atribuição das fontes
+
+Suítes de engine/browser validaram funcionalmente o motor; não aprovam equilíbrio final, qualidade humana, desempenho físico ou1.0. `tests/reload-blade.cjs` registrou12grupos sintéticos aprovados/0falhas em `outputs/reload-engine62/results.json`, fonte game.js `45ac996705344056724b6ec5c53d827b191b5b593cd0e2370058e66b8e7055b6`. Browser em `outputs/reload-browser62/result.json`: casos aprovados, sem erros ou mudança de fonte durante execução, em Chrome desktop e toque emulado, com proteção/ondas suspensas declaradas. A rodada final da regressão voltou a executar o navegador na fonte corrigida `45ac996705344056724b6ec5c53d827b191b5b593cd0e2370058e66b8e7055b6`, com hashes estáveis; rodadas anteriores foram registradas em5b0228…. Não é teste de celular físico nem partida natural.
+
+A fonte atual inicializa `lastCue=clock−0,12`, valor finito. A anterior armazenava `−Infinity`; esse metadado violava o requisito numérico e as amostras naturais antigas não inspecionavam todos os campos. `outputs/reload-cue-finite62/result.json` comprova que a única diferença entre as fontes é essa expressão e que, após o primeiro contato e em seis passos incluindo soltar/retomar, pausa e conclusão, estado, dano, eventos sonoros e16sorteios seguintes são idênticos. É prova controlada dessa correção, não auditoria numérica global nem repetição natural da fonte atual.
+
+O resumo versionável [build62-balance-summary.json](build62-balance-summary.json) e os dados [build62-runs.json.gz](data/build62-runs.json.gz) preservam14tentativas na fonte congelada `5b0228…`, anterior à correção finita, sem reinícios ou substituição de falhas:
+
+- A, canônico:10receitas na semente20261107, **9/10viáveis**; Forja Criogênica não adquiriu `thermal`. Lâmina adquirida legalmente em5/10, com dano corporal observado em5/5aquisições.
+- B, experimento separado de preferência legal pela Lâmina:4tentativas, **1/4viável**. Forja20261126 faltou `thermal`, Forja20261127 faltou `afterburn`, Oficina20261127 faltou `titan`. Lâmina adquirida4/4 e usada com dano corporal positivo4/4; isso não significa4/4viáveis.
+- Todas as14sobreviveram1200s ativos e derrotaram≥3chefes. Sobrevivência/chefes não compensam falta das quatro melhorias centrais. Dano corporal observado não inclui absorção em escudos e não mede segundos exatos de contato ativo. Amostragem finita selecionada não aprova todos os metadados da fonte congelada.
+
+Esses denominadores não formam30tentativas canônicas e não usam as três sementes finais do objetivo. Histórico61 (8/10 e experimento4/4) permanece separado. Gates finais G01/G03/G04/G11/G15, matriz30, longa duração, hardware real, auditoria e publicação continuam abertos.
+
+A regressão final da candidata executou20comandos com saída0 e fontes estáveis, incluindo as suítes da Lâmina, armas, baús, Matriz, Culatra, Colimador, escudos, áudio, entrada, equivalências e integração25minutos. A primeira rodada foi preservada como histórica porque a correção de lastCue ocorreu durante um ensaio e o guard detectou alteração de fonte; a rodada coerente posterior usa45ac996…. Isso não executa todos os302casos finais nem aprova1.0.
 
 
 ## Parte IV — especificação visual complementar
@@ -1977,9 +2080,9 @@ As sementes finais usam o LCG dos pilotos de teste, separado do RNG próprio do 
 ## Parte VI — disposição dos sistemas pesquisados e pendências
 
 
-## Disposição dos sistemas pesquisados — revisão para BUILD61
+## Disposição dos sistemas pesquisados — revisão para BUILD62
 
-Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:10/11/2026, BUILD60 publicada e candidata61 em implementação/validação. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
+Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:10/11/2026, BUILD60 publicada e candidata62 em implementação/validação. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
 
 ### Como ler
 
@@ -2000,7 +2103,7 @@ Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige2
 | Bullet Damage: impacto/fragmentação | Integrado no eixo funcional | `damage`, `blast`, perfuração+explosão e Crivo Balístico; `game.js:594`,`:624`,`:454`, função `impact:1024`. `build-mechanics.cjs:28` protege pulso único por projétil; `positive-weapon-upgrades.cjs` protege ganho direto sem penalidade antiga. |
 | Fire Rate: frequência/conservação | Integrado no eixo funcional | `rate`, `killAmmo`, VOLT `chargeRecovery`; `game.js:598`,`:609`,`:286`,`:934`. `build-mechanics.cjs` testa reposição e conservação no limite; `weapon-state.cjs`/`weapon-state-balance.cjs` e `combat.cjs` protegem emissão/rajadas por arma. Não há período genérico ilimitado de munição gratuita. |
 | Multi Shots: cobertura e último disparo | Cobertura integrada; último tiro publicado na BUILD60, validação final pendente | `extra` e pellets/rajadas mantêm cobertura; Culatra de Ruptura usa cartucho realmente gasto, reserva por slot e fator no último. `rupture-chamber.cjs` verifica12armas, pellets, reembolso/cap e snapshots. Crítico módulo5 continua motor independente. |
-| Reload Boost: ciclo/janela ofensiva | Integrado para ciclo/conversões; pendente para dano exclusivo durante recarga | Reforja `burst-quickBreech:38`, `feedServo:86`, `repair`/`coldReload`, NANO/`repairCharge`; `tickWeaponReload:550`, `healPlayer:902`. `build-mechanics.cjs:14`–`:18`, `weapon-evolution.cjs:37` protegem proporção, carga/estado. Rotores/drones atacam enquanto recarrega, mas não são um motor que converte a duração da recarga em dano. |
+| Reload Boost: ciclo/janela ofensiva | Adaptado funcionalmente na candidata62; gates finais abertos | Lâmina de Recarga (`reloadBlade`) captura dano por arma ao iniciar recarga válida, exige fogo/mira manuais e integra DPS crescente somente durante a janela real. Integral0,9PT na janela completa, duração parcial proporcional; adquirir no meio não retroage. [Contrato completo](lamina-de-recarga.md). Engine/browser aprovados; natural canônico9/10 e experimento de preferência1/4viável na fonte congelada pré-correção finita. Não afirmar equivalência exata ou equilíbrio final. |
 | Dragon: maturação temporal | Adaptado pela Baia de Comando na BUILD58 | Peça de chefe elegível para drones mantém bônus imediato e acrescenta estágios aos30/60/90s ativos desde a instalação. Sem ovo ou conteúdo externo. `droneMaturity`, `tickDrones`, `tools/drone-maturity.js`; testes `drone-maturity-model.cjs` e `drone-maturity.cjs`. [Regras e limites](maturacao-e-desempenho.md). |
 | Ghost Friend: acompanhante atacante/efeitos por acerto | Adaptado diferente | Drones atacam com dano e arco próprios; não herdam procs de bala. Restrição vigente `contrato:20`; `game.js:905`/`:906`. `build-mechanics.cjs:19`–`:23` verifica teto3, alvo/arco, pausa e ausência de munição/proc recursivo. A transmissão genérica de todos os estados não foi implementada nem prometida para drones. |
 | Magic Lens: conversão posicional de projéteis | Adaptado pelo Colimador de Campo na BUILD59 | Campo ancorado no mundo, à frente da mira manual, transforma dano do objeto-projétil que entra uma única vez. Sem procs novos ou trajetória automática. `tickCollimator`, pipeline de projéteis e `tests/field-collimator.cjs`; [contrato](colimador-de-campo.md). Sensor continua sendo exposição de alvo, motor diferente. |
@@ -2058,7 +2161,7 @@ Fonte: `pesquisa-builds-20mtd.md:73`. Não há requisito de reproduzir11 modelos
 | Batgun: projétil perseguidor/escalas híbridas | Pendente | Drone escolhe alvo, mas não é bala perseguidora. Projetéis manuais atuais conservam direção, salvo retorno/ricochete explicitamente definidos. Não transformar mira manual em seleção automática por conveniência (`contrato:9`); homing pós-emissão exigiria desenho próprio e teste. |
 | Salvo Knife: rastreamento favorecido por movimento | Integrado para dano cinético; pendente rastreamento | `speed`+`knock` converte movimento em dano limitado; `impact:1024`, `build-mechanics.cjs:30`. Não há projétil rastreador ligado à passada. |
 | Watering Gun: tiros ativam entidade | Adaptado e validado funcionalmente na candidata61; aceite final1.0 aberto | Matriz de Rebites (`rivetMatrix`, `deployRivetMatrix`) é estação física ancorada manualmente, absorve balas e converte energia em ataque próprio de direção fixa. Não é Colimador, sensor nem contador de acertos em zumbis. Fórmulas/estados e casos: [contrato da Matriz](matriz-de-rebites.md). Geometria/orçamento/controles passaram nas suítes específicas; partidas canônicas8/10 e experimento de uso4/4 estão separados em build61-balance-summary.json. Não equivale a equilíbrio final. |
-| Cyclone Sword: dano durante recarga | Integrado para cobertura da janela; pendente conversão da duração | Drones/rotores seguem ativos ao recarregar (`build-mechanics.cjs:20`, `rotors.cjs:15`); não foram limitados só à janela nem escalam pelo tempo de recarga. Não marcar esses motores como iguais. |
+| Cyclone Sword: dano durante recarga | Adaptado funcionalmente para janela e duração na candidata62; gates finais abertos | Lâmina de Recarga converte duração efetiva em orçamento ofensivo frontal manual, por slot; DPS0,6P→1,2P e integral0,9PT. Drones/rotores continuam motores distintos. [Contrato e casos](lamina-de-recarga.md); engine/browser e provas naturais intermediárias registradas, com fontes distintas identificadas; coeficientes/entidade externos não são equivalência exata. Katana ao fim permanece pendente. |
 
 ### D. As12 conversões de sinergia pesquisadas
 
@@ -2085,7 +2188,7 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 |---|---|---|
 | XP, escolha de melhorias e10 receitas | Integrado; equilíbrio em avaliação | Catálogo52normais/82editáveis e10receitas em builds.js; contrato`:16`–`:19`; `build-mechanics.cjs`, `builds-balance.cjs`, relatórios52/53/54. Guia não altera sorteios. |
 | Bênçãos iniciais | Adaptado diferente | Gambiarras3/6/9 (seis opções), por decisão vigente`:17`; `game.js:105`–`:112`, `offerBlessing:717`; `combat.cjs`. Não são runas de atributo pré-partida. |
-| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com15relíquias elegíveis temporárias na candidata61; fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
+| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com16relíquias elegíveis temporárias na candidata62; fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
 | Metaprogressão/runas permanentes | Adaptado diferente em desbloqueios; não aplicável para bônus permanentes | Parafusos/peças persistem, compram equipamentos; atributos/skills não persistem (`contrato:14`,`:42`); `awardBossPart:145`, perfil/compras; `combat.cjs` compras/migração/reembolso/morte. |
 | Especialização de personagem | Adaptado diferente |18protocolos próprios/seis chassis no10; `game.js:236`/`:284`, contrato`:17`; `combat.cjs` e `build-mechanics.cjs`. Não exige13personagens externos. |
 | Evolução de arma | Adaptado diferente |24reforjas, duas por arma no20, conjunto fixo; contrato`:18`; `game.js:28`,`:30`, `chooseWeaponEvolution:253`; `weapon-evolution.cjs:47`. Não importar três opções externas por arma nem fusão/troca. |
@@ -2102,7 +2205,7 @@ Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia 
 
 1. **Maturação temporal de suporte: adaptada na BUILD58** pela Baia de Comando para drones. Outros suportes não recebem esse crescimento; isso não bloqueia os motores distintos abaixo.
 2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering): adaptada e validada funcionalmente na candidata61** pela Matriz de Rebites, estação independente com consumo de balas e ataque próprio. O campo continua modificando a bala, sem substituir esse motor. Testes de engine, cronologia, browser e uso natural experimental preservam evidências; a auditoria final continua aberta e exposição de alvo é motor distinto.
-3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga permanece pendente**; suportes sempre ativos e crítico do quinto tiro não resolvem essa função.
+3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga foi adaptada funcionalmente na candidata62** pela Lâmina, com engine/browser aprovados e naturais intermediárias9/10canônicas e1/4experimentais, fontes identificadas. Suportes sempre ativos e crítico do quinto tiro continuam distintos. Gates finais e equilíbrio permanecem abertos; Katana ao terminar é pendência diferente.
 4. **Reserva de proteção e condições de manutenção**, envolvendo Soul Heart, escudo intacto, tempo sem dano e abateporpulso→proteção. As defesas atuais não provam essas conversões.
 5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
 
@@ -2627,6 +2730,136 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Bordas:** Freio magnético definido pela posição inicial; vida diminui pelo dt inteiro, não pelo dt×0,75.
 - **Falha:** P1.
 - **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-CAPTURE — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Peça adquirida antes de uma recarga válida; alvo de HP elevado;12armas em fixtures isoladas.
+- **Entradas e passos:** Iniciar recarga, capturar P, mudar atributos/reforja; repetir adquirindo no meio de recarga já em curso.
+- **Resultado esperado:** P=clamp(shotDamage(slot)×min(400,max(1,floor(pellets×projectileMult))),0,1e9) capturado somente no início válido com peça. Captura anterior não muda; aquisição tardia só vale na próxima recarga.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Sem crítico/Culatra/reparo na captura; Titânico/armadura entra por shotDamage; carregador cheio/recarga ativa recusam sem orçamento.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-INTEGRAL — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Alvo imóvel sem escudo/modificadores globais dentro da cápsula; P e T conhecidos.
+- **Entradas e passos:** Segurar fogo/mira toda janela e comparar passo único,60Hz,20Hz e partições irregulares; repetir soltando no meio.
+- **Resultado esperado:** a=min(dt,r); u0=clamp(1-r/T); u1=clamp(u0+a/T); D=P×a×(0,6+0,3×(u0+u1)); integral total0,9PT. Trechos soltos não geram dano nem backlog.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** r<dt corta no fim; dt0/r0 não geram pulso; comparação de nominal sem escudo/finisher/chefe/marca.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-PARTIAL — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Mesma arma/P estável, quantidade total reposta igual; alvo imóvel.
+- **Entradas e passos:** Comparar recarga cheia com soma de recargas de1cartucho, mantendo fogo durante cada janela; tentar R com carregador cheio.
+- **Resultado esperado:** Orçamento0,9P×soma das durações efetivas; recargas pequenas não multiplicam referência nem ganham pulso de início/fim. Tentativa inválida não muda captura/munição.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Mudar dano intencionalmente entre janelas exige nova P; não confundir essa mudança com invariância de estado fixo.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-GEOMETRY — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Mira manual conhecida; inimigos em36/110px e nas margens laterais/raio; slots legais.
+- **Entradas e passos:** Executar tick antes de mover jogador; testar alvo dentro/fora/atrás/tangente e mira esquerda/direita.
+- **Resultado esperado:** Cápsula do segmento36..110 a partir de weaponOrigin, raio12 somado ao alvo; usa posição pré-movimento e direção manual. Nenhuma busca ou giro automático.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Uma arma offset0; multiarma offsets−16/+16/+32 perpendiculares.12modelos não alteram cápsula; não inferir hitbox da arte.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-SLOTS — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** PROT1,BAST2,ENXA3slots distintos, com munições e timers diferentes.
+- **Entradas e passos:** Recarregar todos e depois sóum; comparar captura/dano; reforjar durante janela em single e multi.
+- **Resultado esperado:** Cada slot tem P/timer/geometria próprios; arma pronta não ataca. Reforja conserva exatamente reloadTime/reloadTotal e P correntes, novos modificadores só na próxima recarga.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Sem triplicar cura/atributos globais, copiar P primário para auxiliares, transferir munição/carga ou reescrever projéteis antigos.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-SOURCES — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Skills de impacto/procs/munição/salvage instaladas, globais em fixtures separadas; normal/chefe/marcado/resfriado.
+- **Entradas e passos:** Matar somente com reloadBlade e capturar callbacks, munição, contadores, loot, cura e baú.
+- **Resultado esperado:** Fonte reloadBlade passa pelo dano central; sem impact/estados/procs/killAmmo/salvage, consumo de reparo/munição/Culatra ou alimentação de Matriz. Globais finisher/bossHunter/marca/XP/loot/célula e recompensa/cura de chefe normais.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Chefe recompensa uma vez; não confundir global de morte com proc balístico; sem recursão ou crítico próprio.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-SHIELD — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Policial com escudo100; dano por tick abaixo/igual/acima100 e estados/procs equipados.
+- **Entradas e passos:** Aplicar um tick e depois outro com corpo desprotegido, registrar shieldHp/hp/estados.
+- **Resultado esperado:** Golpe blindado absorvido integralmente inclusive quebra, sem excedente no corpo ou estado novo. Próximo tick pode atingir corpo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Não fracionar um único tick para atravessar escudo; partição em ticks após quebra pode legitimamente mudar HP, separada da prova de integral nominal.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-INPUT — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Mouse e toque paisagem com dois pads; peça e recarga válidas; também contexto sem peça.
+- **Entradas e passos:** Segurar/soltar fogo, cancelar ponteiro, blur, lostcapture, abrir escolha/pausa, morrer/reiniciar/rotacionar; tentar terceiro dedo nas ações existentes.
+- **Resultado esperado:** Dano só durante playing com captura+recarga+firing+mira ativa. Transições limpam entrada, sem retomada automática; sem peça não há dano. Sem botão novo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Não exigir abandonar movimento/mira para recarregar; callbacks velhos não ativam motor.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-PAUSE — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Lâmina ativa com geometria armazenada; RNG conhecido.
+- **Entradas e passos:** Pausar/desenhar100vezes; repetir ofertas/morte/reset e áudio mute.
+- **Resultado esperado:** Pausa congela timers/dano/geometria; render não altera simulação/RNG e usa geometria armazenada. Reset remove peça/captura. Áudio não acumula vozes.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Sem mapa por alvo crescente ou backlog; estado limitado aos slots; input solto interrompe no próximo tick ativo.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-BLADE-SAVE-UI — Lâmina
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickReloadBlade/tickStatuses/drawReloadBlades/updateHUD e dano central.
+- **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
+- **Preparação:** Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.
+- **Entradas e passos:** Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.
+- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;16relíquias/98artigos no catálogo vivo, editor82. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.
+- **Falha:** P1.
+- **Evidência:** Extração VM viva, logs de save, capturas, computed styles/clipping e interação.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
 ### QA-MATRIX-DEPLOY — Matriz
@@ -4624,7 +4857,20 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar rivetMatrix, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** [E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Resultado esperado:** E ou botão MATRIZ: instala na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RELIC-reloadBlade — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar reloadBlade, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Nas próximas recargas, segure o disparo para cortar à frente da mira. A lâmina ganha força durante a recarga; soltar o disparo interrompe o corte. Cada arma tem sua própria lâmina. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
 - **Falha:** P1.
@@ -5909,17 +6155,17 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: 7fee5285bdfe3583b66d3eb5572294e5c7a22380. O snapshot possui alterações locais da candidata61 e da Matriz de Rebites; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 734581dd0f21c0ccf1e52e1bc3be29c7019246ba. O snapshot possui alterações locais da candidata62 e da Lâmina de Recarga; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 417c576cce4508f4984c730a44af89067ee71b52bbf50a9536820f0394371a01 |
+| game.js | 45ac996705344056724b6ec5c53d827b191b5b593cd0e2370058e66b8e7055b6 |
 | balance.js | 4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | 588925d7ab3669517e1f969e5f2d248a4c91b0b5fe633e612cf51d986f6ec4a4 |
+| index.html | e59e879a127bd7697b535da62e8ac3cbd7caa70147f38d19604447fda8503cae |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
 | ui-redesign.css | e73afab70c5094f91f2e320de3570a89c42541e7a20c24778234629919563236 |
-| audio.js | 6c3bce80522cd71c0ab535758f0f03c9a5af88996affb5d3a5b91266dc9efa20 |
+| audio.js | 365457a32c89c40be0a24f163cda1642e048e6fc5f80ee80cafe0103c985732a |
 | touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
 | touch-controls.css | 0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200 |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
@@ -5929,7 +6175,7 @@ Commit pai: 7fee5285bdfe3583b66d3eb5572294e5c7a22380. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há291casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há302casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

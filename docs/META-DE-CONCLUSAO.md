@@ -4,7 +4,7 @@ Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão i
 
 **Objetivo:** entregar Screwvivors 1.0 completo no escopo local para navegador em PC e celular horizontal, com os sistemas compatíveis do mapa resolvidos, dez builds funcionais, controles manuais, progressão temporária e metaprogressão por desbloqueios; comprovar qualidade, estabilidade, desempenho real e documentação suficiente para reconstrução independente.
 
-**Referência ao iniciar esta etapa:** NÃO CONCLUÍDO. A última versão publicada era BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. O workspace está preparando a candidata BUILD61. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
+**Referência ao iniciar esta etapa:** NÃO CONCLUÍDO. A última versão publicada era BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. O workspace está preparando a candidata BUILD62. A evidência intermediária61 está preservada abaixo. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
 
 ## Critérios obrigatórios de aceite
 
@@ -53,7 +53,7 @@ Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão i
 - Falta evidência de celular físico para G07.
 - A matriz intermediária com ambas as correções de escudo, fonte6ab2f00a8abf356809e05b98de5d4cf15dcd5d0fcd92cbbb03eca169587349f7, obteve10/10viáveis em20261107; quatro skills centrais,4–7chefes,1200s e estado finito. Fontes/dados estão em build60-current-summary.json e data/build60-current-runs.json.gz. Não substitui G03/G04 nem aprova as30tentativas finais.
 - A especificação mestre descreve274casos de aceite e passa na checagem estrutural de catálogos/hashes/links. Isso não é execução dos274casos nem aprovação automática de G15.
-- A entidade alimentada por tiros está em implementação/validação na candidata61 como Matriz de Rebites; ainda não é aceite final. Janela ofensiva de recarga, proteção condicionada e demais gatilhos compatíveis continuam pendentes. G11 está aberto.
+- Registro histórico da preparação61: entidade alimentada por tiros estava em implementação/validação como Matriz; janela ofensiva de recarga, proteção condicionada e demais gatilhos estavam pendentes. A evidência intermediária61 e a seção candidata62 abaixo atualizam essa situação. G11 continua aberto.
 - A extração reproduziu um P1 de escudo (fogo/frio atravessavam absorção). Correção aplicada à candidata local e retestada em17fixtures; fonte anterior falha, evidência preservada. Regressões de baús/reforjas/Culatra/Colimador passaram. Uma segunda reprodução de stun elétrico no escudo também foi corrigida, com14fixtures adicionais. A matriz intermediária pós-impacto/pré-correção elétrica obteve10/10viáveis na semente20261107, sem aprovar a fonte posterior. A auditoria final de G01/G02 ainda está aberta; a comparação legada identifica a correção intencional da referência histórica.
 - O limite200 de hostis só protege algumas fontes; não deve constar como teto global até haver implementação/medição que o prove.
 
@@ -71,3 +71,11 @@ Até lá: **EM DESENVOLVIMENTO / NÃO CONCLUÍDO**. Não há porcentagem global 
 ## Evidência intermediária61
 
 Matriz física alimentada por tiros validada em engine/browser e experimento natural de uso; fontes/dados congelados em build61-balance-summary.json e data/build61-runs.json.gz. Canônico10×20261107:8/10viáveis, falhas de core em Demolição/Lança preservadas; experimento separado de preferência legal/implantação:4/4. Não aprova G03/G04. Correções de P1 de ordem temporal e de ações touch com terceiro dedo passaram em regressões dedicadas. A meta continua aberta para janela ofensiva de recarga, proteção condicionada, demais pendências compatíveis e todos os ensaios finais.
+
+## Evidência intermediária62 — gates finais abertos
+
+Lâmina de Recarga validada funcionalmente:12grupos sintéticos de engine aprovados/0falhas e browser desktop/toque emulado aprovado. Catálogo VM16relíquias/98artigos; editor82. Reload Boost/Cyclone Sword são adaptações funcionais de janela/duração, sem equivalência exata. Katana ao terminar recarga, proteção condicionada e demais gatilhos compatíveis continuam pendentes.
+
+Natural na fonte congelada pré-correção finita5b0228…: canônico9/10viáveis (Forja20261107 sem thermal); experimento separado de preferência1/4viável (Forja26sem thermal,Forja27sem afterburn,Oficina27sem titan). Todas14sobreviveram1200s/≥3chefes, mas falhas de core permanecem no denominador. Aquisição/uso positivo da Lâmina:5/5no canônico e4/4no experimento; uso não é viabilidade. Resumo/dados em build62-balance-summary.json e data/build62-runs.json.gz. Não substitui G03/G04 de30tentativas nas sementes finais.
+
+Fonte atual45ac996… altera somente lastCue de−Infinity para clock−0,12. Prova controlada em outputs/reload-cue-finite62/result.json conserva estado/dano/cues e16sorteios após primeiro contato, com pausa/soltura/conclusão. Corrige esse metadado; não transfere retrospectivamente auditoria numérica completa às naturais antigas nem aprova G01geral. Histórico61 permanece separado. G01/G03/G04/G11/G15 e demais gates finais continuam abertos.
