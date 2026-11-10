@@ -1,8 +1,10 @@
-# Screwvivors — BUILD 59 · desenvolvimento
+# Screwvivors — BUILD 60 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
 Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de execução. A [documentação](docs/README.md) distingue decisões aprovadas e propostas. Arte atual é provisória.
+
+O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 274 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
 
 ## Jogar
 

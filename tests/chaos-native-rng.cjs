@@ -7,7 +7,7 @@ const root=path.resolve('.'),out=path.resolve(process.env.NATIVE_RNG_OUTPUT||'ou
 const fixtureSource=fs.readFileSync('tests/current-chaos-browser.cjs','utf8'),start=fixtureSource.indexOf('async function installFixture(page)'),end=fixtureSource.indexOf('\nfunction summary(',start);assert.ok(start>=0&&end>start);
 const installerSource=fixtureSource.slice(start,end),installFixture=new Function(installerSource+';return installFixture;')();
 const frozen=new Map(fs.readdirSync(root).filter(f=>/\.(?:html|js|css|json)$/.test(f)&&fs.statSync(path.join(root,f)).isFile()).map(f=>[f,fs.readFileSync(path.join(root,f))]));
-for(const f of ['tools/drone-maturity.js','tools/segment-circle.js'])if(fs.existsSync(f))frozen.set(f,fs.readFileSync(f));
+for(const f of ['tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'])if(fs.existsSync(f))frozen.set(f,fs.readFileSync(f));
 const worktreeHashesAtStart=Object.fromEntries([...frozen].map(([f,b])=>[f,sha(b)]));
 if(process.env.NATIVE_RNG_GAME_OVERRIDE)frozen.set('game.js',fs.readFileSync(path.resolve(process.env.NATIVE_RNG_GAME_OVERRIDE)));
 fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'runner.cjs'),fs.readFileSync(__filename));

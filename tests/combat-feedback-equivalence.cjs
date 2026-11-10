@@ -5,12 +5,19 @@ const fixture=JSON.parse(fs.readFileSync('tests/fixtures/game-build54.json','utf
 const candidate=fs.readFileSync('game.js','utf8'),balance=fs.readFileSync('balance.js','utf8');
 const prefix=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
+const legacyRelicIds=['thermalRelay','cryoLens','arcCapacitor','droneRack','scanArray','rotorBearing','corrosionChamber','precisionBreech','blastManifold','feedServo','reactorHeart','overclockCore'];
 assert.equal(fixture.commit,baselineCommit);assert.equal(hash(baseline),fixture.sha256,'published baseline fixture must retain its exact bytes');
 function legacyPoolSource(source){
+ const isReference=source===baseline;
+ // Correct only the archived reference's known shield-status defect. Production
+ // candidate code is never normalized here; shield-status.cjs tests it directly.
+ if(isReference){const previous="damageEnemy(z,b.damage,'bullet',b);if(!shielded)applyCorrosion(z,b);applyStatus(z,b);";assert.ok(source.includes(previous),'archived shield impact hook changed');source=source.replace(previous,"damageEnemy(z,b.damage,'bullet',b);if(!shielded){applyCorrosion(z,b);applyStatus(z,b);}");}
+ // A second archived defect applied stun after absorbed electrical damage.
+ if(isReference){const previous='for(const t of near){const before=t.hp;effects.push(';assert.ok(source.includes(previous),'archived electrical hook changed');source=source.replace(previous,"for(const t of near){const before=t.hp,shielded=t.enemyType==='shieldPolice'&&t.shieldHp>0;effects.push(");const status='if(stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);';assert.ok(source.includes(status),'archived stun hook changed');source=source.replace(status,'if(!shielded&&stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);');}
  // Freeze the pre-BUILD59 offer pool for this legacy equivalence experiment.
- // The new thirteenth relic intentionally changes normal chest RNG/options.
+ // The new thirteenth/fourteenth relics intentionally change normal chest RNG/options.
  const pool="const candidates=BOSS_RELICS.filter(r=>";assert.ok(source.includes(pool),'legacy offer pool hook changed');
- return source.replace(pool,pool+"r.id!=='fieldCollimator'&&");
+ return source.replace(pool,pool+JSON.stringify(legacyRelicIds)+'.includes(r.id)&&');
 }
 function harness(source){
  const legacySource=legacyPoolSource(source);
@@ -41,7 +48,7 @@ for(const spec of cases){
  for(const run of [old,current]){
   run(setup);
   if(spec.mode==='modules')run(`for(const id of ${JSON.stringify(modules)})SKILLS.find(s=>s.id===id).apply()`);
-  if(spec.relics)run(`for(const item of BOSS_RELICS)if(item.id!=='fieldCollimator'&&item.eligible()){state='relic';offeredRelics=[item];offerVersion++;chooseRelic(item.id,offerVersion)}`);
+  if(spec.relics)run(`for(const item of BOSS_RELICS)if(${JSON.stringify(legacyRelicIds)}.includes(item.id)&&item.eligible()){state='relic';offeredRelics=[item];offerVersion++;chooseRelic(item.id,offerVersion)}`);
   if(spec.bossIndex!==undefined)run(`bossIndex=${spec.bossIndex};spawnBoss();boss.x=player.x+150;boss.y=player.y;`);
   if(spec.shield)run(`globalThis.feedbackShield=createEnemy(player.x+65,player.y,'shieldPolice');feedbackShield.speed=0;enemies.unshift(feedbackShield)`);
   if(spec.death)run('player.hp=6;enemies=[{x:player.x,y:player.y,hp:1000,maxHp:1000,speed:0,r:15,enemyType:"chaser"}]');
@@ -65,6 +72,6 @@ for(const spec of cases){
  }
  results.push({name:spec.name,steps:360,checkpoints:hashes.length,identical:true,stateHashes:hashes});
 }
-const report={legacyOfferPool:true,executionBaselineHash:hash(legacyPoolSource(baseline)),executionCandidateHash:hash(legacyPoolSource(candidate)),bookkeepingExclusions:['droneGrowthStart'],newMechanicScope:'The thirteenth relic is excluded from this controlled legacy offer pool and not installed. All worlds stay below first30s maturation stage; damage/range/state/RNG still exact. New features and normal13-relic offers have separate integration tests.',kind:'combat-feedback-gameplay-equivalence',baselineCommit,baselineHash:hash(baseline),candidateHash:hash(candidate),balanceHash:hash(balance),harnessHash:hash(prefix),verifierHash:hash(fs.readFileSync(__filename)),excluded:['feedback','cosmetic IDs','notice queue/DOM'],note:'32 controlled fixtures,360steps each. High-HP targets/immunity are fixture retention only; separate death/retry world uses real damage. Not natural progression, balance approval, graphic performance, or subjective readability.',cases:results};
+const report={referenceCorrections:[{id:'shield-electric-stun',scope:'archived baseline only',reason:'absorbed electrical hits cannot install stun, including shield break; shield-shock.cjs reproduces the old failure independently'},{id:'shield-status',scope:'archived baseline only',reason:'approved contract blocks impact states while shielded, including break; shield-status.cjs independently reproduces old failure and verifies production'}],legacyOfferPoolIds:legacyRelicIds,legacyOfferPool:true,executionBaselineHash:hash(legacyPoolSource(baseline)),executionCandidateHash:hash(legacyPoolSource(candidate)),bookkeepingExclusions:['droneGrowthStart'],newMechanicScope:'The thirteenth/fourteenth relics are excluded from this controlled legacy offer pool and not installed. All worlds stay below first30s maturation stage; damage/range/state/RNG still exact. New features and normal14-relic offers have separate integration tests.',kind:'combat-feedback-gameplay-equivalence',baselineCommit,baselineHash:hash(baseline),candidateHash:hash(candidate),balanceHash:hash(balance),harnessHash:hash(prefix),verifierHash:hash(fs.readFileSync(__filename)),excluded:['feedback','cosmetic IDs','notice queue/DOM'],note:'32 controlled fixtures,360steps each. High-HP targets/immunity are fixture retention only; separate death/retry world uses real damage. Not natural progression, balance approval, graphic performance, or subjective readability.',cases:results};
 fs.mkdirSync('outputs/combat-feedback',{recursive:true});fs.writeFileSync('outputs/combat-feedback/equivalence.json',JSON.stringify(report,null,2)+'\n');
-console.log(results.length+' feedback worlds match BUILD54: full gameplay/effects/profile/rewards and next RNG at '+results.reduce((n,r)=>n+r.checkpoints,0)+' checkpoints.');
+console.log(results.length+' feedback worlds match the corrected legacy contract (12-relic pool and two shield-state fixes): gameplay/effects/profile/rewards and next RNG at '+results.reduce((n,r)=>n+r.checkpoints,0)+' checkpoints.');

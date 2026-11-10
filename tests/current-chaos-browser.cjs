@@ -5,7 +5,7 @@ function playwright(){for(const p of ['playwright',path.resolve('outputs/01a1900
 const root=path.resolve('.'),out=path.resolve(process.env.CHAOS_OUTPUT||'outputs/agent-chaos-current'),samples=Number(process.env.CHAOS_SAMPLES||60),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 assert.ok([60,120].includes(samples),'Use60 or120 samples; this is not a timing threshold test.');
 const frozen=new Map(fs.readdirSync(root).filter(f=>/\.(?:js|css|html|json)$/.test(f)&&fs.statSync(path.join(root,f)).isFile()).map(f=>[f,fs.readFileSync(path.join(root,f))]));
-for(const file of ['tools/drone-maturity.js','tools/segment-circle.js'])if(fs.existsSync(path.join(root,file)))frozen.set(file,fs.readFileSync(path.join(root,file)));
+for(const file of ['tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'])if(fs.existsSync(path.join(root,file)))frozen.set(file,fs.readFileSync(path.join(root,file)));
 const gameOverride=process.env.CHAOS_GAME_SOURCE;if(gameOverride)frozen.set('game.js',fs.readFileSync(path.resolve(gameOverride)));
 const mime={'.html':'text/html','.js':'application/javascript','.css':'text/css','.png':'image/png','.svg':'image/svg+xml','.json':'application/json'};
 const report={gameOverride:gameOverride||null,at:new Date().toISOString(),kind:'current-build-controlled-chaos-cpu-canvas',samplesPerCell:samples,sourceHashes:Object.fromEntries([...frozen].map(([f,b])=>[f,sha(b)])),testHash:sha(fs.readFileSync(__filename)),host:{platform:process.platform,arch:process.arch,cpu:os.cpus()[0]?.model,logicalCpus:os.cpus().length},limits:[

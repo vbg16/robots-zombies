@@ -8,7 +8,7 @@ assert.ok(!fs.existsSync(path.join(out,'report.json')),'Preserve previous attemp
 const fixtureSource=fs.readFileSync('tests/current-chaos-browser.cjs','utf8'),start=fixtureSource.indexOf('async function installFixture(page)'),end=fixtureSource.indexOf('\nfunction summary(',start);assert.ok(start>=0&&end>start);
 const installerSource=fixtureSource.slice(start,end),installFixture=new Function(installerSource+';return installFixture;')();
 const frozen=new Map(fs.readdirSync(root).filter(f=>/\.(?:html|js|css|json)$/.test(f)&&fs.statSync(path.join(root,f)).isFile()).map(f=>[f,fs.readFileSync(path.join(root,f))]));
-for(const f of ['tools/drone-maturity.js','tools/segment-circle.js'])frozen.set(f,fs.readFileSync(f));
+for(const f of ['tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'])frozen.set(f,fs.readFileSync(f));
 const sourceHashes=Object.fromEntries([...frozen].map(([f,b])=>[f,sha(b)]));
 const report={at:new Date().toISOString(),kind:'synthetic-collimator-device-overhead',samplesPerCell:60,viewport:{width:1280,height:900},sourceHashes,testHash:sha(fs.readFileSync(__filename)),fixtureFileHash:sha(fixtureSource),installerHash:sha(installerSource),warmup:{ticks:8,draws:12,restoredPerTick:true},dt:1/60,host:{cpu:os.cpus()[0]?.model,logicalCpus:os.cpus().length},notes:[
  'One chaos scene only, ENXA laser/Tesla/disc:180 common enemies,3 minions,1 boss and400 player projectiles. High enemy HP/player invulnerability,600s injected, waves suppressed; all statuses/supports installed by the reused fixture. No BAIA.',

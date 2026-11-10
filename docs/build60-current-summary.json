@@ -1,0 +1,1100 @@
+{
+  "schemaVersion": 1,
+  "label": "BUILD60 current intermediate natural matrix after both shield corrections",
+  "at": "2026-11-10T16:07:15.121Z",
+  "sourceGameSha256": "6ab2f00a8abf356809e05b98de5d4cf15dcd5d0fcd92cbbb03eca169587349f7",
+  "sourceHashes": {
+    "game.js": "6ab2f00a8abf356809e05b98de5d4cf15dcd5d0fcd92cbbb03eca169587349f7",
+    "balance.js": "4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb",
+    "builds.js": "4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8",
+    "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
+    "tools/segment-circle.js": "ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4",
+    "tools/rupture-chamber.js": "0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03",
+    "tools/bot-pilot.js": "b855b7471ed6986c7701d0436cf0d7c2bfef18c233b147f3721b4c1505e0c31d",
+    "tools/run-telemetry.js": "52e2f1f089f57a96489bdaa377984c14703a41105fe5dc86b6633c7206605123",
+    "tools/run-observer.js": "afd771fae223e8834f755de686ce0b0dcfc7410c4dd7d942a899dc9f9c778e82",
+    "tests/builds-balance.cjs": "1b5e4904bb23c0e53a42c9be01741d711398c4acc0891e7938475b760c1d28f3",
+    "tests/combat.cjs": "c33e7e4c46ce577d098fd9716ce0ffc8f29dfa18894ea5b1150c7e4262f61428",
+    "version.json": "099aa454dfb13c46f24039328417bc954741a9c04b00d4019366f916a3325c83"
+  },
+  "finalGateApproved": false,
+  "intermediateNotFinal": true,
+  "scope": "Intermediate natural-progression validation of frozen BUILD60 source after both impact-status and shockAt electric-stun shield corrections. Ten canonical recipes × one nonfinal seed20261107; not final30, not browser performance, not physical-phone testing, not 60-minute stability or public approval.",
+  "protocol": {
+    "seeds": [
+      20261107
+    ],
+    "duration": 1200,
+    "physicsDt": 0.05,
+    "physicsHz": 20,
+    "decisionEveryTicks": 4,
+    "decisionHz": 5,
+    "pilotMode": "smart",
+    "driverVersion": 13,
+    "chestPolicy": "safe",
+    "refits": true,
+    "telemetry": true
+  },
+  "completed": true,
+  "exitCode": 0,
+  "errors": [],
+  "survived": 10,
+  "strictViable": 10,
+  "total": 10,
+  "worktreeChangesSinceFreeze": [],
+  "frozenFilesChanged": [],
+  "viabilityRule": "time>=1199.9 && bossKills>=3 && coreReached===true && finite===true; completed runner with no errors. Raw upstream viable is retained and does not include coreReached.",
+  "attempts": [
+    {
+      "build": "agulha-antitita",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 130,
+      "maxHp": 130,
+      "level": 23,
+      "kills": 2370,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "sniper-railDrill",
+      "chestsSeen": 7,
+      "chestsCollected": 7,
+      "received": 28,
+      "healing": 58,
+      "relicChoices": [
+        {
+          "at": 296.50000000003314,
+          "level": 14,
+          "kind": "relic",
+          "id": "precisionBreech"
+        },
+        {
+          "at": 329.05000000004054,
+          "level": 15,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 550.8000000000468,
+          "level": 18,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 633.5999999999715,
+          "level": 19,
+          "kind": "relic",
+          "id": "ruptureChamber"
+        },
+        {
+          "at": 839.9499999997838,
+          "level": 21,
+          "kind": "relic",
+          "id": "fieldCollimator"
+        },
+        {
+          "at": 1052.7999999995902,
+          "level": 22,
+          "kind": "relic",
+          "id": "overclockCore"
+        },
+        {
+          "at": 1143.4499999995078,
+          "level": 23,
+          "kind": "relic",
+          "id": "reactorHeart"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 2370,
+        "xpCollected": 2320,
+        "xpAwarded": 2320,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 89737,
+              "drone": 78077
+            },
+            "shield": {
+              "bullet": 15591,
+              "drone": 14209
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 12,
+              "common-ranged": 16
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 28,
+          "boss-relic": 30
+        },
+        "hpMin": 88,
+        "bossAliveSeconds": 23.999999999994166,
+        "bossInRangeSeconds": 23.999999999994166,
+        "firingSeconds": 1194.249999999457,
+        "noTargetSeconds": 123.94999999994087,
+        "reloadingSlotSeconds": 1124.9499999994482,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 34,
+        "decisions": 2200
+      }
+    },
+    {
+      "build": "tempestade-balistica",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 120,
+      "maxHp": 120,
+      "level": 26,
+      "kills": 4043,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "laser-pulseClock",
+      "chestsSeen": 7,
+      "chestsCollected": 4,
+      "received": 48,
+      "healing": 48,
+      "relicChoices": [
+        {
+          "at": 231.85000000001847,
+          "level": 16,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 343.65000000004386,
+          "level": 20,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 492.70000000007775,
+          "level": 22,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 1134.499999999516,
+          "level": 25,
+          "kind": "relic",
+          "id": "fieldCollimator"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 4043,
+        "xpCollected": 3836,
+        "xpAwarded": 3836,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 202574.30859375,
+              "drone": 13164.4375,
+              "explosion": 49167.390625,
+              "burn": 9637.39453125
+            },
+            "shield": {
+              "bullet": 34580.46875,
+              "drone": 1588.4375,
+              "explosion": 11304.140625
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 24,
+              "common-ranged": 24
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "reload:laser": 19.913043478260875,
+          "unattributed": 28.086956521739125
+        },
+        "hpMin": 100,
+        "bossAliveSeconds": 107.29999999990703,
+        "bossInRangeSeconds": 15.399999999990612,
+        "firingSeconds": 1194.1499999994564,
+        "noTargetSeconds": 168.39999999996007,
+        "reloadingSlotSeconds": 339.9999999998174,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 36,
+        "decisions": 2203
+      }
+    },
+    {
+      "build": "escopeta-ricochete",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 150,
+      "maxHp": 150,
+      "level": 25,
+      "kills": 3382,
+      "bossKills": 5,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "shotgun-wideBore",
+      "chestsSeen": 5,
+      "chestsCollected": 5,
+      "received": 530,
+      "healing": 560,
+      "relicChoices": [
+        {
+          "at": 152.75000000000048,
+          "level": 10,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 482.15000000007535,
+          "level": 19,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 653.5999999999533,
+          "level": 21,
+          "kind": "relic",
+          "id": "reactorHeart"
+        },
+        {
+          "at": 950.749999999683,
+          "level": 23,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 1006.3999999996324,
+          "level": 23,
+          "kind": "relic",
+          "id": "ruptureChamber"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 3382,
+        "xpCollected": 3206,
+        "xpAwarded": 3206,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 92135.70000000024,
+              "explosion": 154555.40000000002,
+              "burn": 6006.6499999999605,
+              "drone": 3678.5999999999776
+            },
+            "shield": {
+              "bullet": 14841.599999999999,
+              "explosion": 28220.800000000003,
+              "drone": 548.7000000000002
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 340,
+              "common-ranged": 84,
+              "boss-hazard": 70,
+              "boss-contact": 36
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 530,
+          "boss-relic": 30
+        },
+        "hpMin": 72,
+        "bossAliveSeconds": 818.4999999994046,
+        "bossInRangeSeconds": 102.74999999994424,
+        "firingSeconds": 1194.1999999994568,
+        "noTargetSeconds": 86.84999999996762,
+        "reloadingSlotSeconds": 941.3499999995438,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 41,
+        "decisions": 2212
+      }
+    },
+    {
+      "build": "cacador-criogenico",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 110,
+      "maxHp": 110,
+      "level": 25,
+      "kills": 3764,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "cryo-iceDrill",
+      "chestsSeen": 7,
+      "chestsCollected": 7,
+      "received": 115,
+      "healing": 145,
+      "relicChoices": [
+        {
+          "at": 136.39999999999677,
+          "level": 8,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 410.300000000059,
+          "level": 15,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 619.0999999999847,
+          "level": 19,
+          "kind": "relic",
+          "id": "ruptureChamber"
+        },
+        {
+          "at": 635.0999999999701,
+          "level": 19,
+          "kind": "relic",
+          "id": "feedServo"
+        },
+        {
+          "at": 947.8999999996856,
+          "level": 22,
+          "kind": "relic",
+          "id": "fieldCollimator"
+        },
+        {
+          "at": 983.749999999653,
+          "level": 23,
+          "kind": "relic",
+          "id": "reactorHeart"
+        },
+        {
+          "at": 1194.849999999461,
+          "level": 24,
+          "kind": "relic",
+          "id": "overclockCore"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 3764,
+        "xpCollected": 3123,
+        "xpAwarded": 3123,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 214440.2624999994,
+              "burn": 44049.19250000066,
+              "explosion": 26760.894218750007
+            },
+            "shield": {
+              "bullet": 44045.01250000001,
+              "explosion": 6475.674999999999
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 88,
+              "common-ranged": 14,
+              "boss-hazard": 13
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 115,
+          "boss-relic": 30
+        },
+        "hpMin": 45,
+        "bossAliveSeconds": 63.54999999997731,
+        "bossInRangeSeconds": 63.54999999997731,
+        "firingSeconds": 1193.4999999994577,
+        "noTargetSeconds": 86.49999999997198,
+        "reloadingSlotSeconds": 689.9499999996849,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 39,
+        "decisions": 2208
+      }
+    },
+    {
+      "build": "forja-criogenica",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 140,
+      "maxHp": 140,
+      "level": 24,
+      "kills": 2326,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "flame-fuelMixer",
+      "chestsSeen": 7,
+      "chestsCollected": 6,
+      "received": 168,
+      "healing": 198,
+      "relicChoices": [
+        {
+          "at": 139.44999999999746,
+          "level": 12,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 292.95000000003233,
+          "level": 17,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 657.19999999995,
+          "level": 20,
+          "kind": "relic",
+          "id": "feedServo"
+        },
+        {
+          "at": 675.1499999999337,
+          "level": 20,
+          "kind": "relic",
+          "id": "fieldCollimator"
+        },
+        {
+          "at": 820.5999999998014,
+          "level": 21,
+          "kind": "relic",
+          "id": "ruptureChamber"
+        },
+        {
+          "at": 1148.9999999995027,
+          "level": 24,
+          "kind": "relic",
+          "id": "reactorHeart"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 2326,
+        "xpCollected": 2257,
+        "xpAwarded": 2736,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 88208.37558594017,
+              "burn": 69156.62441406256
+            },
+            "shield": {
+              "bullet": 20114.999999999964
+            }
+          },
+          "received": {
+            "body": {
+              "projectile": 12,
+              "contact": 156
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 108,
+          "reload:flame": 60,
+          "boss-relic": 30
+        },
+        "hpMin": 86,
+        "bossAliveSeconds": 275.4499999999227,
+        "bossInRangeSeconds": 63.099999999974536,
+        "firingSeconds": 1193.849999999457,
+        "noTargetSeconds": 87.89999999998042,
+        "reloadingSlotSeconds": 601.9499999997086,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 35,
+        "decisions": 2203
+      }
+    },
+    {
+      "build": "rede-de-plasma",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 85,
+      "maxHp": 85,
+      "level": 24,
+      "kills": 2927,
+      "bossKills": 5,
+      "coreReached": true,
+      "recipeReached": false,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "tesla-branchCoil",
+      "chestsSeen": 5,
+      "chestsCollected": 4,
+      "received": 140,
+      "healing": 140,
+      "relicChoices": [
+        {
+          "at": 196.20000000001036,
+          "level": 8,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 383.25000000005286,
+          "level": 14,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 742.5499999998724,
+          "level": 20,
+          "kind": "relic",
+          "id": "arcCapacitor"
+        },
+        {
+          "at": 832.1499999997909,
+          "level": 21,
+          "kind": "relic",
+          "id": "ruptureChamber"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 2927,
+        "xpCollected": 2890,
+        "xpAwarded": 2890,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 25427.198499999755,
+              "electric": 154359.4292499977,
+              "explosion": 19241.41349999963,
+              "drone": 16119.386499999813,
+              "burn": 3161.70699999999
+            },
+            "shield": {
+              "electric": 26774.62375000039,
+              "drone": 2867.2437499999996,
+              "explosion": 3647.8492500000098,
+              "bullet": 4348.690249999999
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 120,
+              "common-ranged": 8,
+              "boss-hazard": 12
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 140
+        },
+        "hpMin": 49,
+        "bossAliveSeconds": 814.6499999994268,
+        "bossInRangeSeconds": 179.54999999991736,
+        "firingSeconds": 1193.849999999457,
+        "noTargetSeconds": 75.14999999997482,
+        "reloadingSlotSeconds": 863.0499999995939,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 41,
+        "decisions": 2213
+      }
+    },
+    {
+      "build": "demolicao-de-campo",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 150,
+      "maxHp": 150,
+      "level": 29,
+      "kills": 3975,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "grenade-doubleShell",
+      "chestsSeen": 7,
+      "chestsCollected": 7,
+      "received": 1090,
+      "healing": 1120,
+      "relicChoices": [
+        {
+          "at": 81.14999999999753,
+          "level": 8,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 297.05000000003326,
+          "level": 20,
+          "kind": "relic",
+          "id": "blastManifold"
+        },
+        {
+          "at": 571.9000000000276,
+          "level": 25,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 719.6999999998932,
+          "level": 26,
+          "kind": "relic",
+          "id": "reactorHeart"
+        },
+        {
+          "at": 1068.399999999576,
+          "level": 29,
+          "kind": "relic",
+          "id": "fieldCollimator"
+        },
+        {
+          "at": 1074.2499999995707,
+          "level": 29,
+          "kind": "relic",
+          "id": "overclockCore"
+        },
+        {
+          "at": 1148.2499999995034,
+          "level": 29,
+          "kind": "relic",
+          "id": "feedServo"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 3975,
+        "xpCollected": 3962,
+        "xpAwarded": 7627,
+        "damage": {
+          "dealt": {
+            "body": {
+              "explosion": 248949.80312499867,
+              "bullet": 8520.935156249994,
+              "drone": 35604.8828124995
+            },
+            "shield": {
+              "explosion": 44398.60859375005,
+              "drone": 7407.367187500017,
+              "bullet": 1170.3101562499999
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 924,
+              "boss-hazard": 49.99999999999994,
+              "common-ranged": 105,
+              "projectile": 11
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "reload:grenade": 247.8,
+          "unattributed": 842.2,
+          "boss-relic": 30
+        },
+        "hpMin": 76,
+        "bossAliveSeconds": 368.799999999805,
+        "bossInRangeSeconds": 38.04999999999733,
+        "firingSeconds": 1193.2999999994574,
+        "noTargetSeconds": 53.14999999998395,
+        "reloadingSlotSeconds": 1096.5499999994884,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 42,
+        "decisions": 2211
+      }
+    },
+    {
+      "build": "oficina-viva",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 390,
+      "maxHp": 390,
+      "level": 21,
+      "kills": 1056,
+      "bossKills": 4,
+      "coreReached": true,
+      "recipeReached": false,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "shotgun-choke",
+      "chestsSeen": 4,
+      "chestsCollected": 3,
+      "received": 309,
+      "healing": 309,
+      "relicChoices": [
+        {
+          "at": 122.34999999999519,
+          "level": 9,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 864.3499999997616,
+          "level": 20,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 1151.4499999995005,
+          "level": 21,
+          "kind": "relic",
+          "id": "droneRack"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 1056,
+        "xpCollected": 1050,
+        "xpAwarded": 1733,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 60664.54906250086,
+              "burn": 6583.964687500021,
+              "drone": 2817.3975000000014
+            },
+            "shield": {
+              "drone": 40.192500000000024,
+              "bullet": 659.8074999999998
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 117,
+              "boss-hazard": 172,
+              "common-ranged": 5,
+              "boss-minion": 6,
+              "projectile": 9
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "reload:shotgun": 236,
+          "unattributed": 73
+        },
+        "hpMin": 110,
+        "bossAliveSeconds": 985.1999999994348,
+        "bossInRangeSeconds": 153.7499999999251,
+        "firingSeconds": 1195.099999999457,
+        "noTargetSeconds": 73.74999999997559,
+        "reloadingSlotSeconds": 852.7999999995261,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 35,
+        "decisions": 2204
+      }
+    },
+    {
+      "build": "enxame-de-sucata",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 115,
+      "maxHp": 115,
+      "level": 30,
+      "kills": 4212,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "harpoon-longShaft",
+      "chestsSeen": 7,
+      "chestsCollected": 6,
+      "received": 14,
+      "healing": 14,
+      "relicChoices": [
+        {
+          "at": 109.7999999999959,
+          "level": 8,
+          "kind": "relic",
+          "id": "precisionBreech"
+        },
+        {
+          "at": 263.20000000002557,
+          "level": 19,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 581.1500000000192,
+          "level": 25,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 845.6999999997786,
+          "level": 27,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 873.4999999997533,
+          "level": 27,
+          "kind": "relic",
+          "id": "fieldCollimator"
+        },
+        {
+          "at": 968.1499999996672,
+          "level": 28,
+          "kind": "relic",
+          "id": "feedServo"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 4212,
+        "xpCollected": 4181,
+        "xpAwarded": 7995,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 49548.87364130435,
+              "drone": 257968.05638586957,
+              "burn": 2985.163722826088
+            },
+            "shield": {
+              "drone": 42951.25,
+              "bullet": 11813.28125
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 10,
+              "boss-minion": 4
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "unattributed": 14
+        },
+        "hpMin": 95,
+        "bossAliveSeconds": 54.099999999974436,
+        "bossInRangeSeconds": 48.29999999997971,
+        "firingSeconds": 1192.2999999994574,
+        "noTargetSeconds": 344.7999999998381,
+        "reloadingSlotSeconds": 1058.2999999995034,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 48,
+        "decisions": 2223
+      }
+    },
+    {
+      "build": "lanca-de-fuga",
+      "seed": 20261107,
+      "time": 1199.9999999994563,
+      "state": "playing",
+      "hp": 86.66666666666667,
+      "maxHp": 86.66666666666667,
+      "level": 22,
+      "kills": 1263,
+      "bossKills": 7,
+      "coreReached": true,
+      "recipeReached": true,
+      "finite": true,
+      "upstreamViable": true,
+      "strictViable": true,
+      "weaponEvolution": "harpoon-pressurePiston",
+      "chestsSeen": 7,
+      "chestsCollected": 7,
+      "received": 110,
+      "healing": 110,
+      "relicChoices": [
+        {
+          "at": 178.45000000000633,
+          "level": 10,
+          "kind": "relic",
+          "id": "precisionBreech"
+        },
+        {
+          "at": 375.5000000000511,
+          "level": 13,
+          "kind": "relic",
+          "id": "cryoLens"
+        },
+        {
+          "at": 457.3500000000697,
+          "level": 14,
+          "kind": "relic",
+          "id": "thermalRelay"
+        },
+        {
+          "at": 607.749999999995,
+          "level": 15,
+          "kind": "relic",
+          "id": "feedServo"
+        },
+        {
+          "at": 818.4999999998033,
+          "level": 18,
+          "kind": "relic",
+          "id": "droneRack"
+        },
+        {
+          "at": 1011.4999999996278,
+          "level": 20,
+          "kind": "relic",
+          "id": "overclockCore"
+        },
+        {
+          "at": 1144.7499999995066,
+          "level": 22,
+          "kind": "relic",
+          "id": "ruptureChamber"
+        }
+      ],
+      "telemetryTotals": {
+        "seconds": 1199.9999999994563,
+        "xpProduced": 1263,
+        "xpCollected": 1263,
+        "xpAwarded": 1974,
+        "damage": {
+          "dealt": {
+            "body": {
+              "bullet": 54907.09375,
+              "burn": 4931.443750000003,
+              "kinetic": 395.9999999999995,
+              "drone": 41974.7125
+            },
+            "shield": {
+              "bullet": 2726.75,
+              "drone": 3373.25
+            }
+          },
+          "received": {
+            "body": {
+              "contact": 96,
+              "boss-hazard": 14
+            },
+            "shield": {}
+          }
+        },
+        "heal": {
+          "reload:harpoon": 72,
+          "unattributed": 38
+        },
+        "hpMin": 56.66666666666667,
+        "bossAliveSeconds": 77.74999999996703,
+        "bossInRangeSeconds": 74.99999999996953,
+        "firingSeconds": 1193.5499999994577,
+        "noTargetSeconds": 91.44999999995427,
+        "reloadingSlotSeconds": 1014.5999999995163,
+        "weaponSlotSeconds": 1199.9999999994563,
+        "offers": 33,
+        "decisions": 2200
+      }
+    }
+  ],
+  "telemetryDrops": [
+    {
+      "build": "agulha-antitita",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "tempestade-balistica",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "escopeta-ricochete",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "cacador-criogenico",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "forja-criogenica",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "rede-de-plasma",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "demolicao-de-campo",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "oficina-viva",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "enxame-de-sucata",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    },
+    {
+      "build": "lanca-de-fuga",
+      "droppedByKind": {
+        "offer": 0,
+        "decision": 0
+      }
+    }
+  ],
+  "evidenceArchive": "docs/data/build60-current-runs.json.gz",
+  "archive": {
+    "bytes": 1025797,
+    "sha256": "6f5af6eb47ba766005b8aa7c1c22dbddbdc4d1e8712876af487279ad601952a4",
+    "fileCount": 19,
+    "roundtripVerified": true
+  }
+}

@@ -1,4 +1,12 @@
-# Contrato vigente — Screwvivors BUILD 59
+# Contrato vigente — Screwvivors BUILD 60
+
+Estado: candidata local em desenvolvimento; a última publicação confirmada permanece BUILD59. A [meta aprovada](OBJETIVO-APROVADO.md) e os [critérios de conclusão](META-DE-CONCLUSAO.md) governam o encerramento. O rótulo60 não significa versão publicada ou projeto terminado.
+
+## Adição candidata — BUILD60
+
+Culatra de Ruptura é a14ªrelíquia universal de baú. Cada cartucho realmente gasto armazena uma carga por slot, até60. O último cartucho recebe dano×(1+0,25×cargas incluindo a atual), captura o fator nos pellets e consome a reserva antes da autorrecarga. Recarga antecipada só descarta quando inicia de fato; bloqueio400, tentativa recusada e reembolso não geram carga. Instalar não muda munição/recarga/HP; reset recria slots sem energia. Catálogo editável82, compêndio96; pico máximo16×é do último projétil, não DPS sustentado.
+
+Correção de contrato no impacto: o estado blindado é capturado antes do golpe; corrosão e estados/empurrão não se aplicam quando havia escudo, inclusive no golpe da quebra. A fonte anterior falha na reprodução;17fixtures e regressões específicas passaram na candidata. A referência histórica usada na equivalência identifica explicitamente essa correção, sem alegar preservação do defeito antigo.
 
 ## Adição vigente — BUILD59
 

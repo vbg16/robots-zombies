@@ -22,17 +22,18 @@ assert.ok(['smart','dumb','limited','flee'].includes(pilotMode),'Unsupported pil
 const pilotSource=fs.readFileSync('tools/bot-pilot.js','utf8');
 const telemetryEnabled=process.env.BUILD_TELEMETRY==='1';
 const observerSource=telemetryEnabled?['tools/run-telemetry.js','tools/run-observer.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'):null;
-const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s and defeat at least3 bosses with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
+const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,52 normal nodes,18 chassis protocols,82 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s, defeat at least3 bosses, acquire all4 core skills and remain finite with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
 const driverVersion=13; // Safe loot routing; legacy mode remains available for controlled comparison.
 const chestPolicy=process.env.BUILD_CHEST_POLICY||'safe';
 assert.ok(['safe','legacy'].includes(chestPolicy),'Unsupported chest policy');
-const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js','tools/segment-circle.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
+const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
 const frozenBootstrap=fs.readFileSync('tests/combat.cjs','utf8').split('assert.match(')[0];
 
 function harness(seed){
  let setup=frozenBootstrap;
  setup=setup.replace("vm.runInContext(fs.readFileSync('tools/drone-maturity.js','utf8'),context);","vm.runInContext("+JSON.stringify(frozenSources['tools/drone-maturity.js'])+",context);");
  setup=setup.replace("vm.runInContext(fs.readFileSync('tools/segment-circle.js','utf8'),context);","vm.runInContext("+JSON.stringify(frozenSources['tools/segment-circle.js'])+",context);");
+ setup=setup.replace("vm.runInContext(fs.readFileSync('tools/rupture-chamber.js','utf8'),context);","vm.runInContext("+JSON.stringify(frozenSources['tools/rupture-chamber.js'])+",context);");
  setup=setup.replace('Math,Set,localStorage','Math:Object.create(Math),Set,localStorage');
  setup=setup.replace("vm.runInContext(fs.readFileSync('game.js','utf8'),context);","window.localStorage=localStorage;vm.runInContext("+JSON.stringify(frozenSources['balance.js'])+",context);vm.runInContext("+JSON.stringify(frozenSources['game.js'])+",context);");
  const h=new Function('require',setup+';return {context,run:s=>vm.runInContext(s,context)};')(require);
@@ -184,7 +185,7 @@ function persist(){fs.writeFileSync(file,JSON.stringify({note:'All recorded exec
 try{
  execution.structure=structure();execution.components=components();persist();
  if(!realOnly)for(const b of builds.filter(included)){for(const stage of ['base','core','mature'])for(const group of [false,true])execution.synthetic.push({build:b.id,...synthetic(b,stage,group)});execution.synthetic.push({build:b.id,...synthetic(b,'mature',false,true)});console.log('SYNTHETIC',b.id);persist();}
- if(!benchOnly)for(const b of builds.filter(included))for(const seed of seeds){if(excludedCases.has(b.id+':'+seed))continue;const result=realAttempt(b,seed);execution.attempts.push({...result,survivedWindow:result.time>=duration-.1,viable:duration>=1200?result.time>=duration-.1&&result.bossKills>=3:null});persist();console.log('REAL',b.id,seed,Math.round(result.time),result.state,'bosses',result.bossKills,'level',result.level,'core',result.coreReached);}
+ if(!benchOnly)for(const b of builds.filter(included))for(const seed of seeds){if(excludedCases.has(b.id+':'+seed))continue;const result=realAttempt(b,seed);const survivedWindow=result.time>=duration-1e-6&&result.state!=='over';execution.attempts.push({...result,survivedWindow,viable:duration>=1200?survivedWindow&&result.bossKills>=3&&result.coreReached&&result.finite:null});persist();console.log('REAL',b.id,seed,Math.round(result.time),result.state,'bosses',result.bossKills,'level',result.level,'core',result.coreReached);}
  execution.completed=true;persist();
 }catch(error){execution.errors.push({message:error.message,stack:error.stack});persist();throw error;}
 console.log('Results:',file,duration>=1200?'real viability':'survival window (full viability not assessed)',execution.attempts.filter(r=>duration>=1200?r.viable:r.survivedWindow).length+'/'+execution.attempts.length);

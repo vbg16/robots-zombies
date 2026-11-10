@@ -16,6 +16,7 @@ const document = Object.assign(surface('document'), {hidden:false,querySelector:
 const context=vm.createContext({window,document,devicePixelRatio:2,requestAnimationFrame:()=>{},Math,Set,localStorage});
 vm.runInContext(fs.readFileSync('tools/drone-maturity.js','utf8'),context);
 vm.runInContext(fs.readFileSync('tools/segment-circle.js','utf8'),context);
+vm.runInContext(fs.readFileSync('tools/rupture-chamber.js','utf8'),context);
 vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 assert.match(fs.readFileSync('index.html','utf8'),/SUCATA DOURADA → \+1 PARAFUSO/,'combat HUD teaches the salvage-to-bolt conversion');
 assert.match(fs.readFileSync('index.html','utf8'),/NÚCLEO CIANO → XP/,'combat HUD maps the cyan pickup to experience');
@@ -383,11 +384,11 @@ fresh();run('player.frenzy=6;pause()');const overloadValues=elements.get('choice
 fresh();const beforeManual=run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})');run('renderCompendium()');
 assert.equal(run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})'),beforeManual,'consulting catalog is read only');
 const manual=elements.get('module-compendium');assert.equal(manual.children.length,22,'manual includes thirteen trees, blessings, experiments and six chassis');
-const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,95);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,95,'all catalog entries appear once');
+const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,96);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,96,'all catalog entries appear once');
 const pierceManual=manualCards.find(card=>card['data-module']==='pierce');assert.equal(pierceManual.children[3].textContent,'REQUISITO: NÚCLEO CRIOGÊNICO');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[2].textContent.includes(run("SKILLS.find(s=>s.id==='ricochet').cost")),'manual uses current canonical costs');
 run('renderCompendium()');assert.equal(manual.children.length,22,'reopening catalog replaces instead of duplicating entries');
-console.log('Garage compendium covers82 modules and13 exclusive boss relics without mutating the run or profile.');
+console.log('Garage compendium covers82 modules and14 exclusive boss relics without mutating the run or profile.');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].textContent.includes('projéteis de retorno; exige ao menos uma arma sem retorno'),'manual explains mixed-arsenal ricochet eligibility');
 
 // One run-only reroll replaces level-up choices without granting a skill or advancing combat.

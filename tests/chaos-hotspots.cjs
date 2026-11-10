@@ -8,7 +8,7 @@ const fixtureSource=fs.readFileSync('tests/current-chaos-browser.cjs','utf8'),fr
 assert.ok(from>=0&&to>from,'Fixture installer boundaries must remain explicit');
 const fixtureInstaller=fixtureSource.slice(from,to),installFixture=new Function(fixtureInstaller+';return installFixture;')();
 const frozen=new Map(fs.readdirSync(root).filter(f=>/\.(js|css|html|json)$/.test(f)&&fs.statSync(path.join(root,f)).isFile()).map(f=>[f,fs.readFileSync(path.join(root,f))]));
-for(const f of ['tools/drone-maturity.js','tools/segment-circle.js'])if(fs.existsSync(f))frozen.set(f,fs.readFileSync(f));
+for(const f of ['tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'])if(fs.existsSync(f))frozen.set(f,fs.readFileSync(f));
 const report={at:new Date().toISOString(),kind:'short-current-chaos-hotspots',samplesPerScene:12,viewport:{width:1280,height:900},testHash:sha(fs.readFileSync(__filename)),fixtureInstallerHash:sha(fixtureInstaller),fixtureFileHash:sha(fixtureSource),sourceHashes:Object.fromEntries([...frozen].map(([f,b])=>[f,sha(b)])),notes:[
  'Two scenes only: same synthetic ENXA laser/Tesla/disc fixture as current-chaos-browser, no BAIA/droneRack relic acquired. No natural progression, mortality or human-play claim.',
  '12instrumented ticks per scene; warmed draw/cache first. Restoring the fixture and HUD is outside the measured phase.',
