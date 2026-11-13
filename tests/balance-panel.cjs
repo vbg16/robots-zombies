@@ -20,8 +20,8 @@ const defaults = JSON.parse(catalog);
 run('reset()');
 assert.equal(run("SKILLS.find(s=>s.id==='damage').benefit"),'Dano ×2.','default cards retain authored benefit text instead of exposing numeric adapter internals');
 assert.equal(run("SKILLS.find(s=>s.id==='corrosionFuse').cost"),'Dano das novas cargas ×0,75.','default corrosion cost remains explicit');
-assert.equal(defaults.length, 82, 'the panel contains the original54 plus twenty-eight added modules');
-assert.equal(new Set(defaults.map(item => item.id)).size, 82, 'catalog ids are unique');
+assert.equal(defaults.length, 86, 'the panel contains the original54 plus thirty-two added modules');
+assert.equal(new Set(defaults.map(item => item.id)).size, 86, 'catalog ids are unique');
 assert.deepEqual(defaults.filter(item=>canonical.modules.some(legacy=>legacy.id===item.id)).map(item=>item.id).sort(), canonical.modules.map(item => item.id).sort(), 'new modules must preserve all54 original IDs');
 assert.deepEqual(JSON.parse(run('JSON.stringify([...BASE_NORMAL,...BASE_BLESSINGS,...BASE_EXPERIMENTS,...Object.values(BASE_SPECIALIZATIONS).flat()].map(item=>item.id).sort())')),defaults.map(item=>item.id).sort(),'every module implemented in the game must be represented in the editable catalog');
 function validate(skills) { return JSON.parse(run(`JSON.stringify(window.ScrewBalance.validate(${JSON.stringify(skills)}))`)); }
@@ -61,7 +61,7 @@ rejects(skills => skills[1].id = skills[0].id, 'duplicate ids are rejected');
 rejects(skills => skills.splice(skills.findIndex(item=>item.id==='tailDecoy'), 1), 'canonical leaf modules remain registered; disable them instead of deleting');
 const disabledLeaf=clone();disabledLeaf.find(item=>item.id==='tailDecoy').enabled=false;
 assert.equal(validate(disabledLeaf).ok,true,'a canonical leaf can be explicitly disabled');
-assert.equal(run('window.ScrewBalance.catalog.length'),82,'editing a catalog never mutates the immutable defaults');
+assert.equal(run('window.ScrewBalance.catalog.length'),86,'editing a catalog never mutates the immutable defaults');
 rejects(skills => skills.find(item => item.id === 'damage').effects[0].attribute = 'Dano inventado', 'unknown attributes are rejected');
 rejects(skills => {const effect=skills.find(item => item.id === 'damage').effects[0];effect.operator='÷';effect.value=0;}, 'division by zero is rejected');
 rejects(skills => skills.find(item => item.id === 'damage').effects[0].value = NaN, 'nonfinite effects are rejected');
@@ -76,7 +76,7 @@ run('profile=emptyProfile();profile.bolts=37;profile.bossParts.brute=2;saveProfi
 const profileKey = run('PROFILE_KEY');
 const savedProfile = h.storage.get(profileKey);
 h.storage.set('screwvivors.balance.v1', '{bad JSON');
-assert.equal(run('window.ScrewBalance.load().length'), 82, 'corrupt custom configuration falls back to canonical skills');
+assert.equal(run('window.ScrewBalance.load().length'), 86, 'corrupt custom configuration falls back to canonical skills');
 assert.equal(h.storage.get(profileKey), savedProfile, 'corrupt balance storage preserves player save');
 h.storage.delete('screwvivors.balance.v1');
 const originalSet = h.localStorage.setItem;
@@ -86,7 +86,7 @@ assert.equal(h.storage.get(profileKey), savedProfile, 'denied balance storage pr
 h.localStorage.setItem = originalSet;
 const originalGet = h.localStorage.getItem;
 h.localStorage.getItem = () => {throw new Error('storage denied');};
-assert.equal(run('window.ScrewBalance.load().length'), 82, 'blocked storage still permits canonical play');
+assert.equal(run('window.ScrewBalance.load().length'), 86, 'blocked storage still permits canonical play');
 h.localStorage.getItem = originalGet;
 console.log('Catalog scope, invalid configuration, corrupt JSON and storage isolation passed.');
 
@@ -160,9 +160,9 @@ assert.equal(save(disabled).ok,true,'canonical leaf modules may be disabled expl
 run('reset()');
 assert.equal(run('SKILLS.some(item=>item.id==="bossHunter")'),false,'disabled normal module leaves the next-run offer pool');
 assert.equal(run('SPECIALIZATIONS.prot.some(item=>item.id==="tailDecoy")'),false,'disabled chassis protocol leaves next-run offer pool');
-assert.equal(run('window.ScrewBalance.catalog.length'),82,'disabled modules remain in the canonical registry');
+assert.equal(run('window.ScrewBalance.catalog.length'),86,'disabled modules remain in the canonical registry');
 assert.equal(h.storage.get(profileKey),savedProfile,'all configuration edits leave persistent player progress intact');
 assert.equal(save(defaults).ok,true);
 run('reset()');
-assert.equal(run('SKILLS.length'),52,'resetting configuration removes custom modules from the next run');
+assert.equal(run('SKILLS.length'),56,'resetting configuration removes custom modules from the next run');
 console.log('Next-run snapshots, edited benefits/costs, conditional flags and new Normal modules passed.');

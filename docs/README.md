@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD62:** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD63 (candidata ainda não publicada):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -10,6 +10,8 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 Este diretório é a fonte de referência para as decisões de produto e design do jogo. Consolida a conversa de definição do projeto até 27/10/2026.
 
 ## Documentos
+
+- [Reserva e manutenção na candidata BUILD63](reserva-e-manutencao.md): Banco consumível, escudo intacto, sequência sem impactos, proteção por abates do sensor e migração7; equilíbrio/aceite final pendentes.
 
 - [Investigação das falhas de montagem na BUILD62](analise-montagem-builds62.md): elegibilidade, ofertas e renovações, sem alterar resultados ou receitas.
 

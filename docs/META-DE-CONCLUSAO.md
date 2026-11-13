@@ -4,7 +4,7 @@ Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão i
 
 **Objetivo:** entregar Screwvivors 1.0 completo no escopo local para navegador em PC e celular horizontal, com os sistemas compatíveis do mapa resolvidos, dez builds funcionais, controles manuais, progressão temporária e metaprogressão por desbloqueios; comprovar qualidade, estabilidade, desempenho real e documentação suficiente para reconstrução independente.
 
-**Referência ao iniciar esta etapa:** NÃO CONCLUÍDO. A última versão publicada era BUILD60, commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. O workspace está preparando a candidata BUILD62. A evidência intermediária61 está preservada abaixo. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
+**Referência ao iniciar esta etapa:** NÃO CONCLUÍDO. A última versão publicada confirmada é BUILD62, commit24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. O workspace está preparando a candidata BUILD63, ainda não publicada. A evidência intermediária61 está preservada abaixo. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
 
 ## Critérios obrigatórios de aceite
 

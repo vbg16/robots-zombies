@@ -6,7 +6,7 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
  const context=await browser.newContext({viewport:{width:1440,height:1000}}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));fs.mkdirSync('outputs/build44',{recursive:true});
  try{
-  await page.goto(process.env.GAME_URL||'http://127.0.0.1:8001/');await page.waitForFunction(()=>window.ScrewBuildGuide);assert.equal(await page.evaluate(()=>ScrewBalance.catalog.length),82);
+  await page.goto(process.env.GAME_URL||'http://127.0.0.1:8001/');await page.waitForFunction(()=>window.ScrewBuildGuide);assert.equal(await page.evaluate(()=>ScrewBalance.catalog.length),86);
   await page.locator('#enter-garage').click();assert.equal(await page.locator('[data-module="sensor"],[data-module="sensorRange"],[data-module="sensorRelay"],[data-module="sensorLock"]').count(),4);
   await page.locator('#launch').click();await page.locator('#deploy-run').click();await page.evaluate(()=>{spawn=10000;upgrade('level',availableSkills().filter(s=>s.id!=='sensor').map(s=>s.id));});await page.locator('[data-skill="sensor"]').click();assert.equal(await page.locator('#module-detail .module-branch').count(),4);
   assert.ok(await page.locator('[data-skill="sensor"] img').evaluate(e=>e.complete&&e.naturalWidth>0));await page.screenshot({path:'outputs/build44/sensor-desktop.png',fullPage:true});
@@ -19,9 +19,9 @@ const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=r
   const custom=structuredClone(legacy[0]);Object.assign(custom,{id:'sensorRange',name:'SENSOR ANTIGO PERSONALIZADO',condition:'',prerequisites:[]});legacy.push(custom);
   await page.evaluate(legacy=>localStorage.setItem('screwvivors.balance.draft.v1',JSON.stringify({version:1,catalogRevision:3,skills:legacy})),legacy);
   const editor=await context.newPage();editor.on('pageerror',e=>errors.push(e.message));await editor.goto((process.env.GAME_URL||'http://127.0.0.1:8001/')+'?painel=skills');await editor.getByRole('button',{name:'Aplicar ao jogo',exact:true}).waitFor();
-  const migrated=await editor.evaluate(()=>JSON.parse(localStorage.getItem('screwvivors.balance.draft.v1')));assert.equal(migrated.catalogRevision,6);assert.equal(migrated.skills.length,83);assert.ok(migrated.skills.some(s=>s.id==='custom-sensorRange'));assert.equal(migrated.skills.find(s=>s.id==='corrosionFuse').effects[0].value,.3);
+  const migrated=await editor.evaluate(()=>JSON.parse(localStorage.getItem('screwvivors.balance.draft.v1')));assert.equal(migrated.catalogRevision,7);assert.equal(migrated.skills.length,87);assert.ok(migrated.skills.some(s=>s.id==='custom-sensorRange'));assert.equal(migrated.skills.find(s=>s.id==='corrosionFuse').effects[0].value,.3);
   await editor.evaluate(()=>{const d=JSON.parse(localStorage.getItem('screwvivors.balance.draft.v1'));d.skills.find(s=>s.id==='sensor').effects.push({id:'first-cycle',attribute:'Intervalo do sensor',operator:'×',value:.5,unit:''});localStorage.setItem('screwvivors.balance.draft.v1',JSON.stringify(d));});await editor.reload();await editor.getByRole('button',{name:'Aplicar ao jogo',exact:true}).click();assert.equal(await page.evaluate(()=>player.sensorIntervalMult),1.2,'current snapshot remains unchanged');
   const next=await page.evaluate(()=>{reset();SKILLS.find(s=>s.id==='sensor').apply();return {timer:player.sensorTimer,interval:player.sensorIntervalMult};});assert.equal(next.timer,1.5);assert.equal(next.interval,.5);
-  assert.deepEqual(errors,[]);console.log('Chrome passed: sensor tree, icons, mobile, pulse/exposure/cold, cooldown, no bullets/ammo,74→82 migration and edited first cycle next run.');
+  assert.deepEqual(errors,[]);console.log('Chrome passed: sensor tree, icons, mobile, pulse/exposure/cold, cooldown, no bullets/ammo,74→86 migration and edited first cycle next run.');
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

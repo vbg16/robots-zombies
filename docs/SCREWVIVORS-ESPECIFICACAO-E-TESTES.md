@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em10/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A BUILD60 foi publicada no commit7fee5285bdfe3583b66d3eb5572294e5c7a22380. Esta edição descreve a candidata BUILD62 ainda em implementação/validação; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD62, commit24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. Esta edição descreve a candidata BUILD63 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -33,19 +33,19 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 |---|---:|
 | Chassis |6|
 | Armas |12|
-| Módulos normais |52|
-| Árvores normais |13|
+| Módulos normais |56|
+| Árvores normais |14|
 | Gambiarras |6|
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
 | Relíquias de baú |16|
 | Receitas de build |10|
-| Registros editáveis padrão |82|
+| Registros editáveis padrão |86|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |98|
+| Artigos do compêndio de módulos/relíquias |102|
 
-Os82editáveis são52+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
+Os86editáveis são56+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
 ## Glossário matemático obrigatório — dano não é uma variável única
 
@@ -730,7 +730,7 @@ Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de e
 
 ## Especificação de combate, mundo, apresentação e verificação
 
-Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61 e a Lâmina62 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A publicação60é histórica; a candidata62nãoestáaprovada; Matriz e Lâmina estão especificadas integralmente nas PartesIII-A eIII-B. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
+Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61, a Lâmina62 e a reserva/manutenção63 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A publicação62estáconfirmada; a candidata63nãoestáaprovada nem publicada; Matriz, Lâmina e Reserva estão especificadas nas PartesIII-A,III-B eIII-C. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
 
 ### 1. Produto e estrutura da tentativa
 
@@ -1057,9 +1057,9 @@ Particularidade observada: esse caminho testa o segmento antes da filtragem fina
 ## Parte III — todos os catálogos, fórmulas e receitas
 
 
-## Catálogos e equações completos — fonte local candidata BUILD60
+## Catálogos e equações completos — fonte local candidata BUILD63
 
-Extraído do código atual e executado em VM isolada com perfil/configuração vazios. Data de levantamento: 09/11/2026. Trata-se da candidata local BUILD60, não de uma declaração de publicação ou aprovação de equilíbrio. O último estágio publicado deve ser conferido pelo commit Git e pela branch, separadamente. Todas as medidas espaciais estão em pixels lógicos do mundo e os tempos em segundos ativos de simulação; o tamanho CSS da tela não muda o alcance físico.
+Extraído do código atual e executado em VM isolada com perfil/configuração vazios. Base levantada em09/11/2026; catálogo reextraído em VMdefault em13/11/2026. Trata-se da candidata local BUILD63, não de uma declaração de publicação ou aprovação de equilíbrio. O último estágio publicado deve ser conferido pelo commit Git e pela branch, separadamente. Todas as medidas espaciais estão em pixels lógicos do mundo e os tempos em segundos ativos de simulação; o tamanho CSS da tela não muda o alcance físico.
 
 ### Convenções de implementação
 
@@ -1177,12 +1177,16 @@ Cada uma das12armas tem duas opções. No nível20, ofertar a arma primária e d
 
 Notas de aplicação: multiplicadores se aplicam aos atributos do slot; adições de pellets/perfuração/rajada/empurrão/chain se aplicam à definição congelada da arma. `burnMult` modifica a queimadura, `coldBonus` soma duração do frio, `explosionMult` muda o raio intrínseco, e`minSpread` impõe abertura mínima antes do multiplicador. Misturador de combustível resulta em0,8×1,5=1,2vez a queimadura anterior quando só esses dois fatores mudam; não chamar de+50% líquido.
 
-### Cinquenta e dois módulos normais — treze raízes
+### Cinquenta e seis módulos normais — quatorze raízes
 
 Cada raiz tem três filhos combináveis; não é necessário escolher só um filho. Cada ID só pode ser adquirido uma vez por tentativa. Pré-requisito indica ID que já deve estar adquirido, não um custo pago. Custos abaixo são aplicados imediatamente à tentativa. Se não houver custo, não inventar uma penalidade. No catálogo padrão, todos têm nível mínimo1, mas filhos continuam dependentes do pai. Ricochete só é elegível se houver ao menos uma arma equipada que não retorne.
 
 | ID | Nome | Pré-requisito | Ganho/comportamento | Custo/limite |
 | --- | --- | --- | --- | --- |
+| reserveBank | BANCO DE RESERVA | Nenhum — raiz | Proteção consumível separada: começa em 20, máximo 40. Converte 50% do excesso de cura. Dano que excede a reserva atinge a integridade. | Recarga das armas ×1,10. |
+| shieldDrive | PONTE DE POTÊNCIA | reserveBank, shield | Dano dos cartuchos ×1,20 enquanto o Escudo Capacitivo estiver pronto. | Exige Banco e Escudo Capacitivo. Reserva sozinha não mantém o bônus. |
+| cleanCircuit | CIRCUITO PRESERVADO | reserveBank | Dano dos cartuchos +10% após 15 s sem impactos; +20% após 30 s, máximo. | Qualquer impacto aceito, inclusive absorvido, zera a sequência. |
+| pulseRecovery | RETORNO DE VARREDURA | reserveBank, sensor | Abate direto do sensor repõe 4 de reserva e antecipa em 8 s o Escudo Capacitivo descarregado. | Exige Banco e Sensor. Até 3 abates beneficiados por pulso; estados transmitidos não contam. |
 | rotors | ROTORES DE SUCATA | Nenhum — raiz | Dois discos orbitam o robô e causam 55% do dano direto por contato. Cada disco acerta o mesmo alvo no máximo uma vez por volta. | Dano direto ×0,9. Suporte não ativa efeitos de bala. |
 | rotorThird | TERCEIRO ROTOR | rotors | Acrescenta um disco orbital; máximo três. | Dano dos rotores ÷1,25. |
 | rotorReach | BRAÇOS MAGNÉTICOS | rotors | Raio da órbita ×1,5. A faixa de contato se afasta do robô. | Duração de cada volta ×1,25. |
@@ -1195,11 +1199,11 @@ Cada raiz tem três filhos combináveis; não é necessário escolher só um fil
 | corrosionFuse | INICIADOR RÁPIDO | corrosion | Prazo das novas cargas ×0,5. | Dano das novas cargas ×0,75. |
 | corrosionBloom | RESPINGO REAGENTE | corrosion | Morte de um alvo com carga primária transfere metade da carga a até dois vizinhos próximos. | Recarga ×1,15. Cargas transferidas não se propagam; escudos bloqueiam o respingo. |
 | corrosionCatalyst | CATALISADOR TÉRMICO | corrosion | Detonação corrosiva causa +50% de dano se o alvo ainda estiver queimando ou resfriado. | Dano direto ÷1,15. Fogo e gelo não acumulam este bônus. |
-| damage | ALTO IMPACTO | Nenhum — raiz | Dano ×2. | Nenhum custo direto |
+| damage | ALTO IMPACTO | Nenhum — raiz | Dano ×2. |  |
 | bossHunter | CAÇA-TITÃS | damage | Dano contra chefe ×3. Derrotar um chefe recupera mais20 de integridade. | Alcance dos projéteis ÷1,5. |
 | finisher | FINALIZADOR | damage | Dano ×3 contra alvos com até um terço da vida. | Velocidade das balas ÷1,5. |
 | crit | QUINTO IMPACTO | damage | Cada quinto disparo causa dano ×3. | Capacidade do carregador ÷1,25 (mínimo 1). |
-| rate | OVERDRIVE | Nenhum — raiz | Cadência ×3. | Nenhum custo direto |
+| rate | OVERDRIVE | Nenhum — raiz | Cadência ×3. |  |
 | extra | CÂMARA DUPLA | rate | Projéteis por disparo ×2. | Dispersão ×1,5 e alcance ÷1,5. |
 | ricochet | MUNIÇÃO RICOCHETE | rate | Cada bala busca um alvo adicional após esgotar perfuração. | Tempo de recarga ×1,5. Não combina com disco. |
 | range | PROPULSÃO BALÍSTICA | rate | Alcance dos projéteis ×3. | Tamanho das balas ÷1,25. |
@@ -1207,16 +1211,16 @@ Cada raiz tem três filhos combináveis; não é necessário escolher só um fil
 | titan | CHASSI TITÂNICO | armor | Vida máxima e atual ×3. Com Blindagem Reforçada, converte3% da vida máxima em dano por projétil, limitado a75% do dano direto. | Velocidade ÷1,5 e tempo de recarga ×1,5. |
 | salvage | BATERIA DE SUCATA | armor | A cada 20 zumbis mortos, recupera uma bateria (20 de vida). | Alcance de coleta ÷1,25. Não ultrapassa a vida máxima. |
 | regen | OFICINA ESTACIONÁRIA | armor | Após 3 s parado, recupera 2 de vida por segundo. | Dano das balas ÷1,25. Mover interrompe o reparo. |
-| magnet | CAMPO MAGNÉTICO | Nenhum — raiz | Alcance de coleta ×3. | Nenhum custo direto |
+| magnet | CAMPO MAGNÉTICO | Nenhum — raiz | Alcance de coleta ×3. |  |
 | xp | PROCESSADOR DE EXPERIÊNCIA | magnet | Experiência por núcleo ×2. | Tempo de recarga ×1,5. |
 | repair | MANUTENÇÃO NA RECARGA | magnet | Recargas recuperam até5 de vida proporcionalmente à munição reposta. | Tempo de recarga ×1,25. Só funciona após gastar munição. |
-| killAmmo | DEPÓSITO AMPLIADO | magnet | Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição. Não repõe munição ao instalar. | Nenhum custo direto |
+| killAmmo | DEPÓSITO AMPLIADO | magnet | Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição. Não repõe munição ao instalar. |  |
 | burn | MUNIÇÃO INCENDIÁRIA | Nenhum — raiz | Impactos queimam por 3 s: metade do dano da bala por segundo. Em armas incendiárias, a queimadura ganha mais25%. | Alcance dos projéteis ÷1,25. |
 | thermal | CHOQUE TÉRMICO | burn | Queimadura causa dano ×3 enquanto o alvo está resfriado. | Dano direto das balas ÷1,5. Exige resfriar o alvo. |
 | ignition | FORNALHA | burn | Duração da queimadura ×3. | Tempo de recarga ×1,5. |
 | afterburn | COMBUSTÃO CONCENTRADA | burn | Dano da queimadura ×3. | Cadência ÷1,5. |
 | freeze | NÚCLEO CRIOGÊNICO | Nenhum — raiz | Impactos deixam o movimento inimigo ÷2 por 2 s; em armas criogênicas, dura3 s. | Velocidade dos projéteis ÷1,25. |
-| pierce | PERFURAÇÃO | freeze | Projéteis atravessam dois alvos adicionais. | Nenhum custo direto |
+| pierce | PERFURAÇÃO | freeze | Projéteis atravessam dois alvos adicionais. |  |
 | knock | IMPACTO CINÉTICO | freeze | Empurra uma distância curta; chefes recebem um quarto do empurrão. | Cadência ÷1,5. |
 | coldReload | RECARGA GLACIAL | freeze | Ao terminar uma recarga, resfria alvos em uma área média por 4 s. | Tempo de recarga ×1,5. |
 | shock | DESCARGA | Nenhum — raiz | Impactos atingem outro alvo com metade do dano; perfuração amplia para três. Em armas elétricas, soma os alvos e aumenta o dano elétrico em25%. | Dano direto das balas ÷1,5. |
@@ -1303,9 +1307,9 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 | ENXA-0006 | droneRelay | RELÉ DO ENXAME | Alcance dos drones +100px; coleta ×1,25. | Não aumenta o número de drones. |
 
 
-### Quinze relíquias de baú — inclui a candidata61
+### Dezesseis relíquias de baú — inventário preservado da BUILD62
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos82editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites e Lâmina de Recarga; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites e Lâmina de Recarga; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
 | ID | Nome | Elegibilidade | Ganho |
 | --- | --- | --- | --- |
@@ -1458,9 +1462,9 @@ Receitas são recomendações de equipamento e prioridade entre escolhas realmen
 - Uso: Monte coleta e reparo antes de apostar toda a defesa na velocidade. Circule a horda, gaste o carregador mirando a saída e use o avanço para mudar de corredor durante a recarga.
 - Evitar: O avanço não concede invulnerabilidade.; Recargas parciais curam proporcionalmente menos.; Cura em integridade cheia não prepara a Carga de Reparo.
 
-### Painel editável:82registros e25atributos
+### Painel editável:86registros e25atributos
 
-Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas24 e relíquias15 são catálogos separados; compêndio atual tem97entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para97por contar as peças raras. Revisão de migração do catálogo:6; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:6,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
+Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas24 e relíquias16 são catálogos separados; compêndio atual tem102entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para102por contar as peças raras. Revisão de migração do catálogo:7; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:7,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
 
 #### Campos numéricos suportados
 
@@ -1496,7 +1500,7 @@ Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas2
 #### Formato e validação do editor
 
 - Cada registro tem `id`, `name`, `description`, `group`, `type`, `rarity`, `unlockLevel`, `tree`, `prerequisites`, `condition`, `effects`, `notes`, `accent`, `updatedAt`; protocolos também têm `robot`. `enabled` e `synergies` são opcionais. Cada efeito tem `id`, `attribute`, `operator`, `value`, `unit`.
-- Validar lista com até256registros, incluindo os82canônicos. ID: letra inicial seguida de letras/dígitos/underscore/hífen, no máximo64caracteres; deve ser único. Nome não vazio e até120caracteres. Campos textuais obrigatórios até8000caracteres. `unlockLevel` inteiro1–999. `enabled` booleano. `updatedAt` string ou nulo.
+- Validar lista com até256registros, incluindo os86canônicos. ID: letra inicial seguida de letras/dígitos/underscore/hífen, no máximo64caracteres; deve ser único. Nome não vazio e até120caracteres. Campos textuais obrigatórios até8000caracteres. `unlockLevel` inteiro1–999. `enabled` booleano. `updatedAt` string ou nulo.
 - Cada registro aceita até32efeitos. Operadores aceitos: `+`, `−`, `×`, `÷`, `=`. Valor numérico finito com módulo≤10000; multiplicar/dividir exige valor>0. `unit` deve ser string vazia: texto de unidade não muda aritmética. IDs de efeito não podem se repetir dentro do registro.
 - Todos os IDs canônicos devem continuar presentes; desativar porenabled=falseem vez de apagar. Em canônicos, tipo/chassi/condição são fixos. Nos especiais, nível e ausência de pré-requisitos também são fixos. Novos registros só podem serNormais, semchassi e semcondição programada, com ao menos um efeito direto suportado.
 - Pré-requisitos devem serNormais existentes, únicos e ativos quando o módulo dependente está ativo. Rejeitar ciclos, referências ausentes e referências a tipo especial. IDs de sinergia organizam relações visuais e não criam um callback novo de combate.
@@ -1511,9 +1515,11 @@ Catálogo padrão:52normais+6gambiarras+6experimentos+18protocolos=82. Reforjas2
 5. Ao carregar config legada, acrescentar defaults introduzidos em revisões posteriores. SeIDde módulo personalizado antigo colide comIDcanônico novo, renomear para `custom-ID` com sufixo livre e redirecionar pré-requisitos/sinergias. A migração textual deve ser idempotente.
 6. Revisão6 retira penalidades antigas de damage,rate,pierce e killAmmo, mas atualiza automaticamente sóregistros integralmente iguais ao default antigo. Preservar números/textos que o designer editou. O cabeçalho histórico do arquivo-fonte ainda contém defaults antigos; usar o catálogo final exportado, não copiar apenas as primeiras linhas de balance.js.
 
+7. Revisão7 acrescenta reserveBank/shieldDrive/cleanCircuit/pulseRecovery. Preservar82registros anteriores e edições válidas; colisão com IDs novos em revisões1..6 exige renomear personalizado e redirecionar referências, inclusive condition vazia. O Banco/estágio nunca entram no perfil permanente. Pré-requisitos padrão múltiplos: shieldDrive exige Banco+Escudo; pulseRecovery exige Banco+Sensor.
+
 ### Divergências e limites desta extração
 
-- A candidata local BUILD62 contém16relíquias/98entradas de compêndio, confirmadas por extração VM. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD63 contém16relíquias/102entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -1527,6 +1533,11 @@ Depósito Ampliado usa um contador global de mortes válidas de não-chefe. A d�
 #### Lâmina de Recarga e fontes secundárias
 
 A16ª peça universal captura P individual por slot somente em startReload válido após adquirir. Aquisição durante janela corrente não retroage. Reforja conserva exatamente reloadTotal/reloadTime/P da recarga corrente; novo multiplicador vale na próxima. Usar integral P×a×(0,6+0,3×(u0+u1)), a=min(dt,r), u0=clamp(1-r/T),u1=clamp(u0+a/T). Alvo presente na cápsula recebe somente trecho efetivamente segurado; rampa0,6P→1,2P, integral0,9PT na janela cheia. Geometria frontal36..110px/r12 da origem deslocada por arma é amostrada antes de movimento, sem varredura dos corpos em deslocamento. Fonte reloadBlade exclui killAmmo/salvage, preservando XP/loot/célula/boss e globais normais; não tratar essa fonte como o fallback semslot da regra geral de reposição acima. O contrato completo da Lâmina está incorporado integralmente ao documento mestre.
+
+
+#### Reserva e manutenção na candidata63
+
+Banco cria reserva20/40 e converte50% do excesso de cura; custo recarga×1,10. Ponte aplica cartuchos×1,20somente com escudo binário pronto. Circuito aplica+10% aos15s/+20% aos30s sem impacto aceito, zerando inclusive em absorção. Retorno de Varredura converte até3abates diretos/pulso em4reserva e−8s de escudo por crédito. Capacidade e HP são separados; dano que excede reserva atravessa ao HP, golpe absorvido pelo escudo binário não atravessa. Fórmulas completas, fontes, ordem e casos constam da ParteIII-C desta especificação. Aumento do pool requer nova avaliação natural; números não aprovados por balanceamento.
 
 
 ## Parte III-A — contrato completo da Matriz de Rebites
@@ -1772,6 +1783,173 @@ O resumo versionável [build62-balance-summary.json](build62-balance-summary.jso
 Esses denominadores não formam30tentativas canônicas e não usam as três sementes finais do objetivo. Histórico61 (8/10 e experimento4/4) permanece separado. Gates finais G01/G03/G04/G11/G15, matriz30, longa duração, hardware real, auditoria e publicação continuam abertos.
 
 A regressão final da candidata executou20comandos com saída0 e fontes estáveis, incluindo as suítes da Lâmina, armas, baús, Matriz, Culatra, Colimador, escudos, áudio, entrada, equivalências e integração25minutos. A primeira rodada foi preservada como histórica porque a correção de lastCue ocorreu durante um ensaio e o guard detectou alteração de fonte; a rodada coerente posterior usa45ac996…. Isso não executa todos os302casos finais nem aprova1.0.
+
+
+## Parte III-C — reserva de proteção e manutenção
+
+
+## Reserva e manutenção — candidata BUILD63
+
+Estado em 13/11/2026: **implementação candidata, sem aprovação final e sem publicação da BUILD63**. A última publicação confirmada é BUILD62, commit `24eb4b6859bb3197a0c95fab9fe0fb96db8a5473`. A família está sendo integrada e verificada; os coeficientes abaixo são a hipótese autoral implementada para ensaio, não números de balanceamento aprovados. Os hashes da especificação mestre identificam a fonte extraída e precisam ser renovados após alterações.
+
+A família resolve quatro vínculos distintos: proteção numérica separada de HP; benefício enquanto um escudo binário está intacto; ganho ofensivo mantido por tempo sem impactos; e abate direto de pulso convertido em proteção. Não confundir o Banco de Reserva com a habilidade antiga Reserva de Emergência: esta última concede proteção temporária após dano e conserva seu timer próprio.
+
+### Catálogo e aquisição
+
+São quatro módulos normais, adquiridos em ofertas legais durante a tentativa, uma vez por ID. Eles somam uma árvore de quatro nós: total56normais,86editáveis,16relíquias e102artigos de módulos/relíquias no compêndio. O painel não passa a editar relíquias ou reforjas. As dez receitas existentes não foram redefinidas para exigir a árvore.
+
+| ID | Nome | Pré-requisitos padrão, todos obrigatórios | Efeito padrão | Custo ou condição |
+|---|---|---|---|---|
+| reserveBank | BANCO DE RESERVA | Nenhum | Proteção inicial20, capacidade40;50% do excesso de cura vira reserva | Recarga das armas×1,10; não repõe munição nem termina recarga ativa |
+| shieldDrive | PONTE DE POTÊNCIA | reserveBank e shield | Cartuchos×1,20 enquanto o Escudo Capacitivo está pronto | Reserva sozinha não ativa; perder o escudo retira o fator para novas capturas |
+| cleanCircuit | CIRCUITO PRESERVADO | reserveBank | Cartuchos+10% após15s e+20% após30s sem impactos aceitos | Máximo20%; impacto aceito, inclusive absorvido, zera a sequência |
+| pulseRecovery | RETORNO DE VARREDURA | reserveBank e sensor | Abate direto do sensor:4de reserva e8s a menos de recarga do Escudo Capacitivo | Máximo3créditos/pulso; estados transmitidos não contam |
+
+Os pré-requisitos múltiplos são reais, tanto no catálogo configurado quanto no fallback sem painel. Não basta ter somente o Banco para instalar Ponte ou Retorno no catálogo padrão. Configurações editadas continuam sujeitas ao validador e só entram na próxima tentativa. Condições canônicas permanecem internas; não importar código executável.
+
+### Estado temporário e limites
+
+Ao instalar o Banco, criar `reserveBank={value:20,max:40}`. Ao instalar Circuito, criar `cleanCircuitElapsed=0` e sua flag; não dar crédito pelo tempo anterior da tentativa. Os outros filhos habilitam suas flags. A capacidade40 não depende de vida máxima, Titânico, chassi, número de armas ou cura recebida. Não manter listas de abates ou referências a inimigos no Banco.
+
+Todas as entradas de cura/reposição precisam ser finitas e positivas. A reserva deve permanecer no intervalo0..40. Não armazenar NaN, Infinity ou sentinelas infinitas, mesmo como metadado. Valores extremos do editor não autorizam crescimento sem limite.
+
+Reposição, para valorV e quantidadeQ:
+
+`ganho=min(40−V,Q)`; `novoV=V+ganho`.
+
+A operação exige jogador vivo e Banco presente. Reserva cheia descarta o excedente; não converte a sobra em HP, munição, moedas ou novo evento de cura.
+
+### Ordem do dano recebido
+
+1. Fora de playing, jogador morto ou invulnerabilidade já ativa: retornar sem resetar Circuito, gastar Banco/escudo, empurrar ou executar reação.
+2. Rejeitar quantidade não finita ou não positiva antes de modificar o novo estado. Esta guarda explícita também evita contaminação numérica no caminho de dano recebido.
+3. Se Circuito foi adquirido, zerar a sequência neste impacto aceito.
+4. Se Escudo Capacitivo está pronto, consumir somente esse escudo: absorção integral, recarga120s e proteção0,25s. Banco e HP não mudam; não transferir excedente. Manter a exceção legada sem empurrão nesse caminho.
+5. Sem escudo pronto, aplicar Grounding×0,7 apenas à fonte boss-hazard, se essa especialização está instalada. Calcular `D=max(1,amount−armor−repairArmor)`, com repairArmor2enquanto o protocolo estiver ativo. Não aplicar armadura duas vezes.
+6. Banco absorve `A=min(V,D)`, fica `V−A`; HP perde `D−A`. **O excedente atravessa o Banco**, ao contrário do escudo binário.
+7. Esse contato mantém empurrão48px oposto à fonte e proteção normal0,65s, dobrada por Grace, mesmo quando Banco cobre tudo. Fonte coincidente usa o fallback de movimento/direção já definido no combate.
+8. Reações pós-dano e especializações de sobrevivência só disparam se HP realmente diminuiu e o jogador sobreviveu. Absorção integral não gera Retaliação, Sobrecarga, Emergência, isca ou nove vidas.
+9. Dano fatal mantém o fluxo de morte, limpa reserva/manutenção e os dispositivos temporários previstos. Não ressuscitar por cura/reposição atrasada.
+
+Exemplos PROT/armadura0/HP100: reserva20 e golpe12 resultam em reserva8/HP100; outro golpe12 depois da proteção resulta em reserva0/HP96. Golpe50 com reserva20 resulta em HP70. Se escudo estiver pronto antes do golpe50, sóele é consumido e permanecem reserva20/HP100. Impactos durante a proteção posterior são ignorados, sem nova quebra de Circuito.
+
+### Cura efetiva, excesso e callbacks
+
+Para tentativa de cura positiva e finitaQ em jogador vivo:
+
+- `curaHP=min(Q,maxHp−hp)`;
+- `excesso=max(0,Q−curaHP)`;
+- `ganhoBanco=min(40−V,excesso×0,5)`.
+
+Curar HP primeiro; nunca retirar HP para alimentar Banco. `healPlayer` continua retornando somente a cura efetiva de HP. Apenas essa parcela ativa Carga de Reparo e Armadura de Reparo; reposição do Banco não chama healPlayer e não produz recursão.
+
+HP95/100, Banco20, cura10: HP100, retorno5, Banco22,5. HPcheio, Banco39, cura10: retorno0, Banco40, sem especializações de cura. Jogador morto não recebe nenhum dos dois ganhos. Cura de chefe, célula coletada, reparo e outras fontes legítimas passam pela mesma regra; a fonte não ganha multiplicadores escondidos.
+
+### Manutenção, dano e snapshots
+
+`intacto=(shieldDrive adquirido && shield adquirido && shieldReady)`.
+
+`fEscudo=intacto?1,20:1`.
+
+`estágio=min(2,floor(cleanCircuitElapsed/15))`, somente se Circuito está adquirido; fora disso0.
+
+`fCircuito=1+0,10×estágio`.
+
+`cartucho=(danoLocal+conversãoTitânicoPermitida)×fEscudo×fCircuito`.
+
+A conversão Titânico continua `min(0,75×danoLocal,0,03×maxHp)`, exigindo Titânico e Blindagem conforme seu contrato. O teto próprio dos novos fatores combinados é1,44×; isso não é uma promessa de DPS total. Nunca multiplicar slot.damage a cada tick para manter o bônus: calcular o fator a partir do estado atual evita acúmulo indevido.
+
+Tempo do Circuito avança apenas em combate ativo, limitado30s. Pausa, ofertas, menu, garagem, morte e retrato não concedem tempo. A fase de relógios atualiza antes das emissões previstas no tick; impacto aceito posterior zera imediatamente o estado para capturas seguintes. Não alegar uma cronologia contínua subframe que não exista no runtime. Aos14,999/15/29,999/30s, os estágios esperados são0/1/1/2, respeitando tolerância numérica declarada.
+
+As armas compartilham o estado defensivo do robô, mas usam dano local independente. Não multiplicar o ganho pelo número de slots. Balas já emitidas preservam o snapshot de dano; frio/fogo/corrosão derivados conservam suas regras de captura, sem reaplicar o fator novo na fonte secundária. Drones, sensores e rotores não passam a usar shotDamage por causa desses módulos.
+
+Lâmina de Recarga captura a base ao iniciar uma recarga válida; Matriz de Rebites captura a base ao implantar. Esses snapshots podem incluir o fator vigente, pois já usam shotDamage. Quebrar escudo ou reiniciar Circuito depois não reescreve a entidade/recarga anterior. Crítico, Culatra e Colimador continuam aplicados nas fases documentadas, sem duplicação.
+
+### Abates do sensor e proteção
+
+Cada execução real de tickSensor inicia contador local0. Sócontar transição de alvo vivo para HP0 causada pela chamada direta `damageEnemy(...,'sensor')` desse pulso. Quebrar escudo de policial sem matar não conta; golpes absorvidos não transferem dano ao corpo. Alvo já morto é ignorado. Fogo transmitido, corrosão, explosão, raio, rotor, drone, Matriz ou Lâmina não são abates diretos desse pulso.
+
+Após terminar o laço:
+
+- `n=min(3,abatesDiretos)`;
+- repor `4×n`de Banco, respeitando40;
+- se Escudo Capacitivo existe e está descarregado, `timer=max(0,timer−8×n)`;
+- se timer chega a0, marcar escudo pronto imediatamente para ações posteriores;
+- escudo já pronto não acumula crédito para uso futuro.
+
+O limite é de recompensa, não do dano ou número de alvos atingidos. Dez mortes diretas continuam sendo dez mortes/XP/loot normais, mas dão até12reserva/24s de antecipação. Chefe diretamente morto conta uma vez; seus lacaios removidos pelo fluxo de chefe não contam como mortes diretas do pulso. Baú/peça/cura continuam únicos. Cura legítima de chefe pode produzir excesso pelo mecanismo anterior e deve ser distinguida da parcela4×n na auditoria. Nenhuma reposição cria ataque, pulso ou sorteio novo.
+
+### Interface, arte e áudio
+
+A proposta do chat Dev designer distingue HPvermelho, Escudo Capacitivo ciano binário e Banco âmbar. O componente candidato fica no cartão do robô, com rótuloBANCO, número atual/máximo e trilha segmentada de4px; não somar a reserva à fração de HP. Cor proposta/implementada para Banco `#f0b85b`; fundo industrial azul-noturno e texto claro preservados.
+
+O estado do Circuito mostra0/2,1/2ou2/2; Ponte mostra condição ativa/inativa. A pausa detalha capacidade, estágio, limite, origem da reposição e condição de perda, sem criar novo botão ou mudar os pads de toque. Ícones próprios dos quatro módulos usam placas, escudo/circuito e pulso; não representam reserva como coração ou vida permanente.
+
+Absorção integral deve usar retorno âmbar e não o retorno laranja de perda de HP. Dano parcial pode sinalizar as duas parcelas. Os eventos reserveHit e reserveGain são próprios, suaves e limitados por frequência; não consomem RNG de combate. O evento de ganho pode ser único por pulso quando há reposição/restauração real; não gerar um som por inimigo. Mute e limite global de vozes continuam obrigatórios.
+
+A versão visual candidata precisa de inspeção em1280×900,844×390e740×360, com1/2/3armas, chefe e timers ativos. Requisitos: nenhum transbordamento, números legíveis, HP/XP/escudo distinguíveis, painel sem esconder chefes/controles, pausa congelada e sem animação que avança sozinha. Animações adicionais sugeridas no parecer visual são propostas até existência e execução serem comprovadas; não tratá-las como entregues sóporque aparecem no desenho.
+
+### Configuração e migração
+
+Envelope `version:1,catalogRevision:7,skills:[...]`; perfil de equipamento continua versão2em chave separada. Novos IDs foram introduzidos na revisão7. Carregar revisões1..6 deve acrescentar os quatro defaults sem conceder módulos ao jogador. Se um ID customizado antigo colide, renomear para custom-IDcom sufixo livre e redirecionar referências de pré-requisito/sinergia, inclusive condição vazia. Migração repetida precisa ser idempotente. Os82registros anteriores devem conservar edições válidas; não apagar ou renomear arbitrariamente conteúdo do usuário.
+
+Os números mecânicos condicionais20/40/50%/15s/30s/20%/4/8/3 são fixos desta implementação inicial, documentados em condition/handler; não há promessa de sliders individuais para eles. O custo direto×1,10da raiz é efeito editável. Editar seus efeitos preserva a criação da reserva, restaura os atributos diretos anteriores e aplica a lista editada conforme a API do painel. Auxiliares recebem sóos atributos de arma, sem triplicar capacidade ou condições do robô.
+
+Morte/garagem limpam estado temporário; reset recria jogador e slots sem módulos, Banco ou estágios. Perfil e exportação permanente não armazenam reserva, manutenção ou fatores temporários. A configuração do painel descreve o módulo, mas não salva o estado corrente da tentativa.
+
+### Casos obrigatórios de aceitação
+
+Estes casos definem o aceite; **não são uma lista de aprovações**. Cada execução exige hash, preparação, valores, logs e limitações. Tolerância padrão: inteiros/IDs/estados exatos; reais com erro absoluto≤1e−6ou relativo≤1e−9, salvo regra específica.
+
+| ID | Preparação e ação | Resultado obrigatório |
+|---|---|---|
+| RES01 | Adquirir raiz com HP50/100, munição parcial e recarga ativa | HP50, reserva20/40, custo aplicado uma vez, timers/munição/snapshots preservados |
+| RES02 | Sem módulos novos, reproduzir mundos legados | Estado/efeitos/dano/RNG iguais ao comportamento anterior, excluindo correções explicitamente versionadas |
+| RES03 | Reserva20; golpes12,12 separados por fim de inv |20→8→0; HP100→100→96; empurrão em ambos; sem procs no primeiro |
+| RES04 | Armadura2, Grounding, repairArmor; fontes diferentes | Mitigação aplicada uma vez, mínimo1 antes da reserva; valores finitos |
+| RES05 | Escudo pronto+reserva20, golpe enorme | Somente escudo consumido,120s/.25s; reserva/HP intactos; manutenção zerada |
+| RES06 | Guard de inv/pausa/morto; repetir contato | Nenhum consumo/reset/empurrão/proc; sem cura da morte |
+| RES07 | Reserva insuficiente e golpe fatal/não fatal | Excedente em HP; reações antigas sóse HPcai e sobrevive; limpeza correta |
+| RES08 | Cura10 com HP95/100 e reserva20 | HP100, ganho2,5reserva; retorno5; especializações de cura sópela parcela5 |
+| RES09 | Cura10 em HPcheio; reserva39 | Sóganho1reserva; retorno0; sem repairCharge/repairPlating; resto descartado |
+| RES10 | Cura0/negativa/NaN/Infinity ou soma extrema configurada | Guard finito; nenhum estado inválido; sem laço de cura |
+| RES11 | shieldDrive antes/depois de gastar/restaurar escudo | Fator1,2/1/1,2 sem multiplicação acumulativa, por1/2/3armas |
+| RES12 | cleanCircuit em14,999/15/29,999/30s; várias partições dt | Estágios0/1/1/2; tempo≤30; pausa/ofertas/aquisição não dão crédito retroativo |
+| RES13 | Impacto absorvido por reserva/escudo e impacto bloqueado por inv | Primeiros zeram; terceiro não zera; bônus de projétil antigo preservado |
+| RES14 | Compor clean+intact+Titan+crítico+Culatra+Colimador | Fatores aplicados uma única vez, snapshot local; teto próprio1,44 não confundido com DPS |
+| RES15 | Adquirir/partir bônus durante recarga/implantação | Lâmina/Matriz mantêmPcapturado; futuras capturas usam estado novo; drones/sensor/rotores sem bônus acidental |
+| RES16 | Pulso com0/1/3/10abates | Ganho0/4/12/12reserva e redução0/8/24/24s; sem teto artificial de dano/alvos |
+| RES17 | Sensor quebra escudo, burn mata depois; outros suportes matam | Nenhuma recompensa de abate direto do sensor |
+| RES18 | Sensor mata chefe e remove lacaios | Umabate creditado, baú/peça/cura únicos; sem crédito por lacaios removidos |
+| RES19 | Timer de escudo7s + umabate de sensor | Timer0/pronto; bônus disponível sópara emissões seguintes; sem crédito bancado |
+| RES20 | Guardas, chamadas repetidas em morto, pulso atrasado | Sem duplicação, sem backlog, sem novos pulsos/procs/RNG |
+| RES21 | Resets, morrer/garagem/repetir e profile roundtrip | Nenhum atributo/estado temporário salvo ou transferido |
+| RES22 | Migrações1..6, colisões customizadas e referências vazias | Preservação/idempotência e inclusão dos4IDs apenas como catálogo |
+| RES23 | Três viewports e mouse/touch simultâneo; pausa/retrato | Barra acessível, sem overflow, ações intactas, sem retomada automática |
+| RES24 | Repetir desenho/audio/mute, muitosabates | Render puro, cues limitados, sem RNGou crescimento ilimitado de vozes/efeitos |
+
+### Evidência disponível e limites
+
+A extração VMdefault confirma56normais/86editáveis/revisão7/16relíquias. O arquivo `outputs/maintenance-migration63/result.json` registrou10grupos de migração aprovados na fonte balance.js identificada por seu próprio hash. A bancada `outputs/maintenance-engine63/result.json` registra730assertions aritméticas isoladas; esse helper de referência não prova integração do combate. A inspeção numérica sintética guarda seu escopo em `outputs/finite-state63/result.json`; ela não aprova todos os estados possíveis ou o gateG01.
+
+A revisão de contrato e o parecer Dev designer foram propostas/revisões, não partidas, aprovação humana de qualidade ou testes de celular físico. A bancada integrada `outputs/maintenance-gameplay63/result.json` registrou24grupos aprovados, zero falhas e nenhuma mudança entre os hashes de início/fim da fonte avaliada. O navegador controlado `outputs/maintenance-browser63/result.json` registrou aprovação em1280×900,844×390e740×360, com reserva/HP/escudo, contenção do cartão, chefe sem sobreposição, pausa e reset. Esses fixtures usam preparação artificial e não provam toque simultâneo específico desta árvore, sobrevivência natural ou desempenho. Resultados devem sempre ser confrontados com seus hashes antes de reutilização. A regressão da candidata registrou30comandos aprovados sem mudanças de runtime; pacote extraído, matriz final30, estabilidade60min e desempenho realPC/telefone continuam verificações distintas.
+
+A família não resolve outras pendências do mapa, como entidade ao fim de recarga, carga manual, gatilhos elementais específicos ou transformações temporais. Não declarar todos os motores integrados nem excluir requisitos por dificuldade.
+
+### Avaliação natural intermediária concluída
+
+[Resumo estruturado](build63-balance-summary.json) e [arquivo de evidências](data/build63-runs.json.gz) preservam14tentativas, fontes congeladas, protocolo anterior aos resultados, logs e diferença do piloto experimental.
+
+| Braço | Preparação/política | Resultado estrito | Limite da evidência |
+|---|---|---|---|
+| A | Dez receitas canônicas, seed6301301, piloto13sem alteração |10/10viáveis; todas1200s, pelo menos3chefes e4núcleos | Nenhuma adquiriu os módulos novos; avalia o pool novo, não uso natural da reserva |
+| B | Forja/Oficina, seeds6301321/6301322; prioridade apenas entre quatro módulos novos legalmente oferecidos |2/4viáveis; todas sobrevivem1200s e derrotam7chefes | Banco adquirido4/4, Circuito1/4; Ponte/Retorno não adquiridos; sem contador de consumo/restauração |
+
+As falhas B foram Forja6301321semthermal e Oficina6301321semrepair. Não foram apagadas nem substituídas. Preferir módulos novos não garante núcleo da receita nem prova que eles causaram a falha. Não comparar causalmente essas sementes com outras versões.
+
+Runtime, catálogo, receitas e piloto congelados são os desta candidata. O arquivo completo tests/combat.cjs mudou somente nas contagens antigas das assertions; o prefixo efetivamente usado como harness é idêntico byte a byte. O bootstrap do primeiro coordenador falhou antes de iniciar partidas por um argumento de console incorreto; o erro foi preservado e a execução nova manteve sementes/política.
+
+O arquivo [QA controlado](data/build63-qa.json.gz) reúne regressão, migração, fixtures de engine/áudio, scanner numérico e capturas. Estes resultados não são a matriz final de30, desempenho real, telefone físico ou aprovação integralG01.
 
 
 ## Parte IV — especificação visual complementar
@@ -2052,7 +2230,7 @@ O registro abaixo é um fragmento de um envelope que precisa preservar todos os 
 {"id":"damage","name":"ALTO IMPACTO","description":"Dano ×2.","group":"Ofensivo","type":"Normal","rarity":"Comum","unlockLevel":1,"tree":"Dano de impacto","prerequisites":[],"condition":"","effects":[{"id":"damage-0","attribute":"Dano direto","operator":"×","value":2,"unit":""}],"notes":"","accent":"#71d7f2","updatedAt":null}
 ```
 
-Envelope da configuração: version1, catalogRevision6, lista skills. Efeitos especiais canônicos não são scripts importáveis; manter handlers internos e permitir somente operadores/atributos declarados.
+Envelope da configuração: version1, catalogRevision7, lista skills. Efeitos especiais canônicos não são scripts importáveis; manter handlers internos e permitir somente operadores/atributos declarados.
 
 ### Procedimento para rodar e testar
 
@@ -2080,9 +2258,9 @@ As sementes finais usam o LCG dos pilotos de teste, separado do RNG próprio do 
 ## Parte VI — disposição dos sistemas pesquisados e pendências
 
 
-## Disposição dos sistemas pesquisados — revisão para BUILD62
+## Disposição dos sistemas pesquisados — revisão para candidata BUILD63
 
-Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:10/11/2026, BUILD60 publicada e candidata62 em implementação/validação. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
+Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:13/11/2026, BUILD62 publicada e candidata63 em implementação/validação, sem publicação63confirmada. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
 
 ### Como ler
 
@@ -2117,9 +2295,9 @@ Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige2
 | Dark Arts: dano adiado/propagação/crescimento | Integrado para dano adiado/propagação; pendente para crescimento acumulativo | Corrosão captura dano/prazo e respinga uma geração (`game.js:590`–`:593`, `applyCorrosion:993`, `tickCorrosion:1003`). Contrato`:22`; `corrosion.cjs`/`corrosion-balance.cjs`. Não há contador de maldições que aumente dano indefinidamente. |
 | Holy Arts: último tiro convertido por vida | Pendente nesse circuito | `titan` converte vida em dano de todo projétil (`:541`,`:603`), enquanto quinto impacto usa contagem (`:1038`). Nenhum deles prova gatilho de última munição com pulso por vida. `build-mechanics.cjs:33` só prova conversão balística limitada. |
 | Health: reserva/reação | Integrado | BAST/NANO, `armor`/`titan`, reparos, `nineLives`, `retaliation`, `overload`; `game.js:93`,`:96`,`:238`,`:602`–`:605`,`:626`. `combat.cjs:414`, `build-mechanics.cjs:16`–`:17`,`:33`. |
-| Shield Boost: proteção/benefício ativo | Integrado para escudo e reação; pendente para benefício contínuo enquanto escudo intacto | `shield` absorve um golpe/recarga120s, `grace`/`emergency` são pós-dano; `game.js:621`–`:625`. `combat.cjs:267` protege absorção/recarga. Não foi identificado multiplicador ofensivo condicionado a `shieldReady===true`. |
+| Shield Boost: proteção/benefício ativo | Adaptação candidata63; aceite global/natural pendente | Ponte de Potência (`shieldDrive`) exige Banco+Escudo e calcula cartuchos×1,2 enquanto `skills.shield && shieldReady`; reserva sozinha não ativa. Sem multiplicação acumulativa do atributo; snapshots antigos preservados. Engine24grupos e browser controlado são provas parciais, não equilíbrio. [Contrato](reserva-e-manutencao.md). |
 | Dodge Boost: esquiva/mobilidade | Adaptado diferente para mobilidade ativa; pendente para esquiva probabilística | `dash` é avanço manual adquirido, sem invulnerabilidade por decisão explícita (`contrato:9`, `game.js:622`). `combat.cjs` testa avanço/recarga e dano durante ele. Não declarar “chance de esquiva” implementada. |
-| Soul Heart: reserva/conversão | Pendente para reserva distinta de HP; proteção existente adaptada como capacitor | A pesquisa`:145` sugere capacitor, mas contrato/código só comprovam escudo de um impacto (`:621`) e vida normal. Não existe barra/reserva Soul Heart consumível separada. Se a intenção de adaptação for apenas esse escudo, registrar isso como decisão explícita de escopo, sem chamar reservas equivalentes. |
+| Soul Heart: reserva/conversão | Adaptação candidata63; aceite global/natural pendente | Banco de Reserva (`reserveBank`) cria20/40distintos deHP;50% do excesso de cura repõe Banco, retorno de cura continua HPefetivo. Consome dano após mitigação e transfere excedente aoHP; não é escudo binário nem ganho permanente. [Contrato e casos](reserva-e-manutencao.md); validação final aberta. |
 | Magnet XP: coleta/continuidade | Integrado | `magnet`, `xp`, `repair`, `killAmmo`; `game.js:606`–`:609`. `combat.cjs` testa coleta/XP/perfil; `build-mechanics.cjs:14`–`:15`,`:31` protege coleta e cura efetiva. Equilíbrio da curva ainda não aprovado. |
 | Speed Boost: velocidade/manutenção | Integrado | `dash`, `speed`, Motor Cinético e Lança de Fuga; `game.js:622`–`:623`, função `impact:1024`, `builds.js` receita `lanca-de-fuga`. `build-mechanics.cjs:30` protege empurrão/escudo; builds-balance mede progressão. |
 | Vision: pulso/transmissão | Integrado como Sensores de Campo | `sensor`/`sensorRelay`/`sensorLock` (`game.js:586`–`:589`, `tickSensor:979`), contrato`:23`. `sensors.cjs` verifica snapshots, fonte, pausa/reset, escudos, exposição só de balas e estados permitidos. |
@@ -2178,8 +2356,8 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 | Summon Mastery: ceder tiro→fortalecer suporte | Integrado no eixo funcional | Raiz drone aumenta recarga, Dupla reduz dano direto, Rotores reduzem dano direto, peças específicas reforçam suportes; `game.js:582`,`:632`–`:635`,`:80`–`:82`. Testes `build-mechanics.cjs:19`–`:23`/`rotors.cjs`. Não implica modificador único global de todos os summons. |
 | Death Plague: morte→propagar carga | Adaptado diferente por limite deliberado | Respingo Reagente uma geração, dois vizinhos/100px, sem recursão; `game.js:592`,`:993`, contrato`:22`; `corrosion.cjs`. |
 | Generator: reposição→cadência | Integrado para reposição; pendente conversão em cadência | Abate/eletricidade devolvem munição (`:925`,`:934`), mas não elevam cadência quando isso acontece. `fireInterval:540` só usa `frenzy` pós-dano. |
-| Kunoichi: tempo sem dano→crescimento | Pendente | Escudo/cooldowns recuperam por tempo e a proteção pós-dano expira; não existe crescimento ofensivo condicionado a uma sequência sem dano. |
-| Sword and Shield: abate por pulso→proteger | Pendente nesse vínculo | Sensor pode matar e contador geral pode curar; escudo capacitivo só recarrega por timer, não por abate do pulso. `game.js:621`, `damageEnemy:911`, `tickSensor:979`; `combat.cjs:267`. |
+| Kunoichi: tempo sem dano→crescimento | Adaptação candidata63; aceite global/natural pendente | Circuito Preservado (`cleanCircuit`) cresce por15/30s ativos sem impactos, cartuchos+10/+20%máximo. Aquisição sem retroatividade; impacto aceito inclusive absorvido zera, inv/pausa não. Não equivale a crescimento externo ilimitado. [Contrato](reserva-e-manutencao.md); engine/browser controlados não aprovam naturais. |
+| Sword and Shield: abate por pulso→proteger | Adaptação candidata63; aceite global/natural pendente | Retorno de Varredura (`pulseRecovery`) vincula abate direto do sensor a+4Banco/−8s de escudo, até3créditos por pulso. Escudo pronto não banca tempo; estados transmitidos/lacaios removidos não contam. [Contrato](reserva-e-manutencao.md); regressão global/pool/naturais ainda requeridos. |
 | Titan: vida→presença/dano | Integrado funcionalmente | Chassi Titânico e Blindagem convertem3%HP máximo em dano, com teto75% da base (`shotDamage:541`, `game.js:603`); `build-mechanics.cjs:33`. Sem crescimento permanente fora da partida (`contrato:14`). |
 
 ### E. Sistemas de progressão e decisões de escopo
@@ -2206,7 +2384,7 @@ Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia 
 1. **Maturação temporal de suporte: adaptada na BUILD58** pela Baia de Comando para drones. Outros suportes não recebem esse crescimento; isso não bloqueia os motores distintos abaixo.
 2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering): adaptada e validada funcionalmente na candidata61** pela Matriz de Rebites, estação independente com consumo de balas e ataque próprio. O campo continua modificando a bala, sem substituir esse motor. Testes de engine, cronologia, browser e uso natural experimental preservam evidências; a auditoria final continua aberta e exposição de alvo é motor distinto.
 3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga foi adaptada funcionalmente na candidata62** pela Lâmina, com engine/browser aprovados e naturais intermediárias9/10canônicas e1/4experimentais, fontes identificadas. Suportes sempre ativos e crítico do quinto tiro continuam distintos. Gates finais e equilíbrio permanecem abertos; Katana ao terminar é pendência diferente.
-4. **Reserva de proteção e condições de manutenção**, envolvendo Soul Heart, escudo intacto, tempo sem dano e abateporpulso→proteção. As defesas atuais não provam essas conversões.
+4. **Reserva de proteção e condições de manutenção: implementação candidata63** com quatro módulos normais distintos, Banco/Ponte/Circuito/Retorno, fórmulas finitas, fonte/ordem/snapshots e migração7. Engine24grupos e browser controlado3viewports tiveram resultados positivos; ainda faltam regressão homogênea, pacote e avaliação natural do pool alterado, sem aprovar gates finais. Isso não resolve outros motores nem constitui aprovação humana de qualidade. [Contrato completo](reserva-e-manutencao.md).
 5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
 
 A tabela registra a disposição do inventário estudado e conserva pendências explícitas. Não autoriza declarar “todos os motores integrados”. Pela meta aprovada, todas as pendências compatíveis devem receber disposição concreta e ser resolvidas com custo operacional, HUD, fonte de dano, limites de recursão, pausa/reset, migração e avaliação natural. Não retirar itens por dificuldade ou escolher apenas os mais fáceis de testar. A decisão deve ampliar o jogo pretendido pelo criador, sem inventar requisitos de equivalência total à referência.
@@ -2411,7 +2589,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Configuração default com82canônicos.
+- **Preparação:** Configuração default com86canônicos.
 - **Entradas e passos:** Duplicar normal, editar efeito, aplicar e iniciar nova tentativa.
 - **Resultado esperado:** Rascunho não afeta tentativa corrente; snapshot novo usa efeitos validados; flags especiais canônicas preservadas.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -2855,7 +3033,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
 - **Preparação:** Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.
 - **Entradas e passos:** Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.
-- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;16relíquias/98artigos no catálogo vivo, editor82. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
+- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;16relíquias/102artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.
 - **Falha:** P1.
@@ -3068,6 +3246,318 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Bordas:** Não contar efeitos ou IDs cosméticos como mudança física; ainda comparar campos relevantes e próximos sorteios.
 - **Falha:** P1.
 - **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-01 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Adquirir raiz com HP50/100, munição parcial e recarga ativa
+- **Resultado esperado:** HP50, reserva20/40, custo aplicado uma vez, timers/munição/snapshots preservados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-02 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Sem módulos novos, reproduzir mundos legados
+- **Resultado esperado:** Estado/efeitos/dano/RNG iguais ao comportamento anterior, excluindo correções explicitamente versionadas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-03 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Reserva20; golpes12,12 separados por fim de inv
+- **Resultado esperado:** 20→8→0; HP100→100→96; empurrão em ambos; sem procs no primeiro
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-04 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Armadura2, Grounding, repairArmor; fontes diferentes
+- **Resultado esperado:** Mitigação aplicada uma vez, mínimo1 antes da reserva; valores finitos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-05 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Escudo pronto+reserva20, golpe enorme
+- **Resultado esperado:** Somente escudo consumido,120s/.25s; reserva/HP intactos; manutenção zerada
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-06 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Guard de inv/pausa/morto; repetir contato
+- **Resultado esperado:** Nenhum consumo/reset/empurrão/proc; sem cura da morte
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-07 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Reserva insuficiente e golpe fatal/não fatal
+- **Resultado esperado:** Excedente em HP; reações antigas sóse HPcai e sobrevive; limpeza correta
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-08 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Cura10 com HP95/100 e reserva20
+- **Resultado esperado:** HP100, ganho2,5reserva; retorno5; especializações de cura sópela parcela5
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-09 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Cura10 em HPcheio; reserva39
+- **Resultado esperado:** Sóganho1reserva; retorno0; sem repairCharge/repairPlating; resto descartado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-10 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Cura0/negativa/NaN/Infinity ou soma extrema configurada
+- **Resultado esperado:** Guard finito; nenhum estado inválido; sem laço de cura
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-11 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** shieldDrive antes/depois de gastar/restaurar escudo
+- **Resultado esperado:** Fator1,2/1/1,2 sem multiplicação acumulativa, por1/2/3armas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-12 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** cleanCircuit em14,999/15/29,999/30s; várias partições dt
+- **Resultado esperado:** Estágios0/1/1/2; tempo≤30; pausa/ofertas/aquisição não dão crédito retroativo
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-13 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Impacto absorvido por reserva/escudo e impacto bloqueado por inv
+- **Resultado esperado:** Primeiros zeram; terceiro não zera; bônus de projétil antigo preservado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-14 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Compor clean+intact+Titan+crítico+Culatra+Colimador
+- **Resultado esperado:** Fatores aplicados uma única vez, snapshot local; teto próprio1,44 não confundido com DPS
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-15 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Adquirir/partir bônus durante recarga/implantação
+- **Resultado esperado:** Lâmina/Matriz mantêmPcapturado; futuras capturas usam estado novo; drones/sensor/rotores sem bônus acidental
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-16 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Pulso com0/1/3/10abates
+- **Resultado esperado:** Ganho0/4/12/12reserva e redução0/8/24/24s; sem teto artificial de dano/alvos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-17 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Sensor quebra escudo, burn mata depois; outros suportes matam
+- **Resultado esperado:** Nenhuma recompensa de abate direto do sensor
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-18 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Sensor mata chefe e remove lacaios
+- **Resultado esperado:** Umabate creditado, baú/peça/cura únicos; sem crédito por lacaios removidos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-19 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Timer de escudo7s + umabate de sensor
+- **Resultado esperado:** Timer0/pronto; bônus disponível sópara emissões seguintes; sem crédito bancado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-20 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Guardas, chamadas repetidas em morto, pulso atrasado
+- **Resultado esperado:** Sem duplicação, sem backlog, sem novos pulsos/procs/RNG
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-21 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Resets, morrer/garagem/repetir e profile roundtrip
+- **Resultado esperado:** Nenhum atributo/estado temporário salvo ou transferido
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-22 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Migrações1..6, colisões customizadas e referências vazias
+- **Resultado esperado:** Preservação/idempotência e inclusão dos4IDs apenas como catálogo
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-23 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Três viewports e mouse/touch simultâneo; pausa/retrato
+- **Resultado esperado:** Barra acessível, sem overflow, ações intactas, sem retomada automática
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RESERVE-24 — Reserva
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
+- **Entradas e passos:** Repetir desenho/audio/mute, muitosabates
+- **Resultado esperado:** Render puro, cues limitados, sem RNGou crescimento ilimitado de vozes/efeitos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
 ### QA-COMBAT-W01 — Combate e mundo
@@ -3850,6 +4340,58 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-MOD-reserveBank — Módulo normal
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
+- **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito vazia (raiz). Fotografar estado imediatamente antes do módulo.
+- **Entradas e passos:** Oferecer reserveBank em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
+- **Resultado esperado:** Proteção consumível separada: começa em 20, máximo 40. Converte 50% do excesso de cura. Dano que excede a reserva atinge a integridade. Custo/limite: Recarga das armas ×1,10. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.1. Conferir fórmula completa e interações da tabela específica deste módulo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Pai ausente, já adquirido, pausa, reset, escudo e fonte proibida quando aplicáveis.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MOD-shieldDrive — Módulo normal
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
+- **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: reserveBank, shield. Fotografar estado imediatamente antes do módulo.
+- **Entradas e passos:** Oferecer shieldDrive em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
+- **Resultado esperado:** Dano dos cartuchos ×1,20 enquanto o Escudo Capacitivo estiver pronto. Custo/limite: Exige Banco e Escudo Capacitivo. Reserva sozinha não mantém o bônus. Conferir fórmula completa e interações da tabela específica deste módulo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Pai ausente, já adquirido, pausa, reset, escudo e fonte proibida quando aplicáveis.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MOD-cleanCircuit — Módulo normal
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
+- **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: reserveBank. Fotografar estado imediatamente antes do módulo.
+- **Entradas e passos:** Oferecer cleanCircuit em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
+- **Resultado esperado:** Dano dos cartuchos +10% após 15 s sem impactos; +20% após 30 s, máximo. Custo/limite: Qualquer impacto aceito, inclusive absorvido, zera a sequência. Conferir fórmula completa e interações da tabela específica deste módulo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Pai ausente, já adquirido, pausa, reset, escudo e fonte proibida quando aplicáveis.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-MOD-pulseRecovery — Módulo normal
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
+- **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: reserveBank, sensor. Fotografar estado imediatamente antes do módulo.
+- **Entradas e passos:** Oferecer pulseRecovery em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
+- **Resultado esperado:** Abate direto do sensor repõe 4 de reserva e antecipa em 8 s o Escudo Capacitivo descarregado. Custo/limite: Exige Banco e Sensor. Até 3 abates beneficiados por pulso; estados transmitidos não contam. Conferir fórmula completa e interações da tabela específica deste módulo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Pai ausente, já adquirido, pausa, reset, escudo e fonte proibida quando aplicáveis.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-MOD-rotors — Módulo normal
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
@@ -3867,7 +4409,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até rotors. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: rotors. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer rotorThird em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Acrescenta um disco orbital; máximo três. Custo/limite: Dano dos rotores ÷1,25. Efeitos diretos editáveis padrão: Dano dos rotores ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3880,7 +4422,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até rotors. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: rotors. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer rotorReach em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Raio da órbita ×1,5. A faixa de contato se afasta do robô. Custo/limite: Duração de cada volta ×1,25. Efeitos diretos editáveis padrão: Raio dos rotores × 1.5; Duração da volta dos rotores × 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3893,7 +4435,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até rotors. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: rotors. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer rotorDrive em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Duração de cada volta ×0,65. Custo/limite: Dano dos rotores ×0,8. Efeitos diretos editáveis padrão: Duração da volta dos rotores × 0.65; Dano dos rotores × 0.8. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3919,7 +4461,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até sensor. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: sensor. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer sensorRange em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Alcance do sensor ×1,5. Custo/limite: Intervalo do sensor ×1,2. Não reinicia a carga em andamento. Efeitos diretos editáveis padrão: Alcance do sensor × 1.5; Intervalo do sensor × 1.2. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3932,7 +4474,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até sensor. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: sensor. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer sensorRelay em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** O pulso transmite queimadura e resfriamento adquiridos ou intrínsecos da arma. Custo/limite: Dano do sensor ÷1,25. Não transmite corrosão, descarga, explosão, crítico ou empurrão. Efeitos diretos editáveis padrão: Dano do sensor ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3945,7 +4487,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até sensor. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: sensor. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer sensorLock em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Sobreviventes do pulso ficam expostos por 2 s: tiros manuais causam +25% de dano. Custo/limite: Dano do sensor ×0,75. Escudos bloqueiam a exposição; não acumula. Efeitos diretos editáveis padrão: Dano do sensor × 0.75. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3971,7 +4513,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até corrosion. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: corrosion. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer corrosionFuse em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Prazo das novas cargas ×0,5. Custo/limite: Dano das novas cargas ×0,75. Efeitos diretos editáveis padrão: Prazo da corrosão × 0.5; Dano da corrosão × 0.75. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3984,7 +4526,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até corrosion. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: corrosion. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer corrosionBloom em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Morte de um alvo com carga primária transfere metade da carga a até dois vizinhos próximos. Custo/limite: Recarga ×1,15. Cargas transferidas não se propagam; escudos bloqueiam o respingo. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.15. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -3997,7 +4539,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até corrosion. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: corrosion. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer corrosionCatalyst em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Detonação corrosiva causa +50% de dano se o alvo ainda estiver queimando ou resfriado. Custo/limite: Dano direto ÷1,15. Fogo e gelo não acumulam este bônus. Efeitos diretos editáveis padrão: Dano direto ÷ 1.15. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4023,7 +4565,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até damage. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: damage. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer bossHunter em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Dano contra chefe ×3. Derrotar um chefe recupera mais20 de integridade. Custo/limite: Alcance dos projéteis ÷1,5. Efeitos diretos editáveis padrão: Duração dos projéteis ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4036,7 +4578,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até damage. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: damage. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer finisher em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Dano ×3 contra alvos com até um terço da vida. Custo/limite: Velocidade das balas ÷1,5. Efeitos diretos editáveis padrão: Velocidade dos projéteis ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4049,7 +4591,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até damage. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: damage. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer crit em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Cada quinto disparo causa dano ×3. Custo/limite: Capacidade do carregador ÷1,25 (mínimo 1). Efeitos diretos editáveis padrão: Multiplicador do carregador ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4075,7 +4617,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até rate. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: rate. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer extra em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Projéteis por disparo ×2. Custo/limite: Dispersão ×1,5 e alcance ÷1,5. Efeitos diretos editáveis padrão: Multiplicador de projéteis × 2; Dispersão × 1.5; Duração dos projéteis ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4088,7 +4630,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até rate. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: rate. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer ricochet em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Cada bala busca um alvo adicional após esgotar perfuração. Custo/limite: Tempo de recarga ×1,5. Não combina com disco. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4101,7 +4643,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até rate. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: rate. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer range em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Alcance dos projéteis ×3. Custo/limite: Tamanho das balas ÷1,25. Efeitos diretos editáveis padrão: Duração dos projéteis × 3; Tamanho dos projéteis ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4127,7 +4669,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até armor. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: armor. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer titan em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Vida máxima e atual ×3. Com Blindagem Reforçada, converte3% da vida máxima em dano por projétil, limitado a75% do dano direto. Custo/limite: Velocidade ÷1,5 e tempo de recarga ×1,5. Efeitos diretos editáveis padrão: Integridade máxima × 3; Integridade atual × 3; Velocidade de movimento ÷ 1.5; Multiplicador de recarga × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4140,7 +4682,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até armor. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: armor. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer salvage em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** A cada 20 zumbis mortos, recupera uma bateria (20 de vida). Custo/limite: Alcance de coleta ÷1,25. Não ultrapassa a vida máxima. Efeitos diretos editáveis padrão: Alcance de coleta ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4153,7 +4695,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até armor. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: armor. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer regen em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Após 3 s parado, recupera 2 de vida por segundo. Custo/limite: Dano das balas ÷1,25. Mover interrompe o reparo. Efeitos diretos editáveis padrão: Dano direto ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4179,7 +4721,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até magnet. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: magnet. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer xp em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Experiência por núcleo ×2. Custo/limite: Tempo de recarga ×1,5. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4192,7 +4734,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até magnet. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: magnet. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer repair em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Recargas recuperam até5 de vida proporcionalmente à munição reposta. Custo/limite: Tempo de recarga ×1,25. Só funciona após gastar munição. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4205,7 +4747,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até magnet. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: magnet. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer killAmmo em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição. Não repõe munição ao instalar. Custo/limite:  Efeitos diretos editáveis padrão: Multiplicador do carregador × 3. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4231,7 +4773,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até burn. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: burn. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer thermal em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Queimadura causa dano ×3 enquanto o alvo está resfriado. Custo/limite: Dano direto das balas ÷1,5. Exige resfriar o alvo. Efeitos diretos editáveis padrão: Dano direto ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4244,7 +4786,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até burn. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: burn. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer ignition em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Duração da queimadura ×3. Custo/limite: Tempo de recarga ×1,5. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4257,7 +4799,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até burn. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: burn. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer afterburn em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Dano da queimadura ×3. Custo/limite: Cadência ÷1,5. Efeitos diretos editáveis padrão: Intervalo de disparo × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4283,7 +4825,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até freeze. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: freeze. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer pierce em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Projéteis atravessam dois alvos adicionais. Custo/limite:  Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4296,7 +4838,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até freeze. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: freeze. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer knock em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Empurra uma distância curta; chefes recebem um quarto do empurrão. Custo/limite: Cadência ÷1,5. Efeitos diretos editáveis padrão: Intervalo de disparo × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4309,7 +4851,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até freeze. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: freeze. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer coldReload em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Ao terminar uma recarga, resfria alvos em uma área média por 4 s. Custo/limite: Tempo de recarga ×1,5. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4335,7 +4877,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até shock. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: shock. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer conductivity em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Alcance elétrico ×3. Custo/limite: Alcance dos projéteis ÷1,5. Efeitos diretos editáveis padrão: Duração dos projéteis ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4348,7 +4890,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até shock. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: shock. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer stun em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Descargas param movimento por 1 s; chefe por um quarto de segundo. Custo/limite: Cadência ÷1,5. Não cancela ataques. Efeitos diretos editáveis padrão: Intervalo de disparo × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4361,7 +4903,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até shock. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: shock. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer shield em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Absorve um impacto e recarrega em 120 s de combate. Custo/limite: Velocidade de movimento ÷1,5. Efeitos diretos editáveis padrão: Velocidade de movimento ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4387,7 +4929,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até dash. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: dash. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer speed em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Velocidade de movimento ×2. Custo/limite: Vida máxima e atual ÷1,5; mínimo 1. Efeitos diretos editáveis padrão: Velocidade de movimento × 2; Integridade máxima ÷ 1.5; Integridade atual ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4400,7 +4942,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até dash. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: dash. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer grace em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Proteção normal após sofrer dano ×2. Custo/limite: Capacidade do carregador ÷1,25 (mínimo 1). Efeitos diretos editáveis padrão: Multiplicador do carregador ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4413,7 +4955,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até dash. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: dash. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer emergency em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Ao sobreviver a dano, ganha 3 s de proteção. Recarga 120 s de combate. Custo/limite: Alcance de coleta ÷1,25. Não ressuscita. Efeitos diretos editáveis padrão: Alcance de coleta ÷ 1.25. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4439,7 +4981,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até blast. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: blast. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer blastRadius em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Raio das explosões ×2. Custo/limite: Dano direto das balas ÷1,5. Efeitos diretos editáveis padrão: Dano direto ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4452,7 +4994,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até blast. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: blast. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer retaliation em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Ao sobreviver a dano, cria uma explosão média com dano ×3. Recarga 120 s. Custo/limite: Vida máxima e atual ÷1,5; mínimo 1. Efeitos diretos editáveis padrão: Integridade máxima ÷ 1.5; Integridade atual ÷ 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4465,7 +5007,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até blast. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: blast. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer overload em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Ao sobreviver a dano, ganha cadência ×3 por 6 s. Recarga 120 s de combate. Custo/limite: Tempo de recarga da arma ×1,5. Efeitos diretos editáveis padrão: Multiplicador de recarga × 1.5. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4491,7 +5033,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até drones. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: drones. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer dronePair em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Acrescenta um drone; máximo3 incluindo o drone do ENXA. Custo/limite: Dano direto ÷1,15. Efeitos diretos editáveis padrão: Dano direto ÷ 1.15. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4504,7 +5046,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até drones. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: drones. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer droneOverclock em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Intervalo de ataque dos drones ×0,7; mínimo0,35s. Custo/limite: Alcance dos drones ÷1,15. Efeitos diretos editáveis padrão: Intervalo dos drones × 0.7; Alcance dos drones ÷ 1.15. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -4517,7 +5059,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/moduleSkill; balance.js: catálogo/aplicação.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID.
-- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito até drones. Fotografar estado imediatamente antes do módulo.
+- **Preparação:** Reset PROT/Metralhadora; adquirir legalmente a cadeia de pré-requisito com todos: drones. Fotografar estado imediatamente antes do módulo.
 - **Entradas e passos:** Oferecer droneArc em fixture legal, inspecionar e confirmar uma vez; tentar duplicar e executar seu gatilho real.
 - **Resultado esperado:** Ataque do drone atinge um segundo alvo a até160px por metade do dano. Custo/limite: Dano dos drones ÷1,2. Efeitos diretos editáveis padrão: Dano dos drones ÷ 1.2. Conferir fórmula completa e interações da tabela específica deste módulo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5570,7 +6112,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Integridade atual, operator='=', value=50, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Integridade atual, operator='=', value=50, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo hp=50 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5583,7 +6125,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Integridade máxima, operator='=', value=200, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Integridade máxima, operator='=', value=200, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo maxHp=200 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5596,7 +6138,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano direto, operator='=', value=40, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano direto, operator='=', value=40, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo damage=40 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5609,7 +6151,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Intervalo de disparo, operator='=', value=0.2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Intervalo de disparo, operator='=', value=0.2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo rate=0.2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5622,7 +6164,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Velocidade de movimento, operator='=', value=200, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Velocidade de movimento, operator='=', value=200, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo speed=200 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5635,7 +6177,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Armadura, operator='=', value=3, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Armadura, operator='=', value=3, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo armor=3 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5648,7 +6190,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Alcance de coleta, operator='=', value=150, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Alcance de coleta, operator='=', value=150, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo magnet=150 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5661,7 +6203,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Multiplicador do carregador, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Multiplicador do carregador, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo magazineMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5674,7 +6216,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Multiplicador de recarga, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Multiplicador de recarga, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo reloadMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5687,7 +6229,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Multiplicador de projéteis, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Multiplicador de projéteis, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo projectileMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5700,7 +6242,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Velocidade dos projéteis, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Velocidade dos projéteis, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo projectileSpeed=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5713,7 +6255,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Tamanho dos projéteis, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Tamanho dos projéteis, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo projectileSize=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5726,7 +6268,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Duração dos projéteis, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Duração dos projéteis, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo projectileLife=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5739,7 +6281,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dispersão, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dispersão, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo spreadMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5752,7 +6294,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano dos drones, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano dos drones, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo droneDamageMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5765,7 +6307,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Intervalo dos drones, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Intervalo dos drones, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo droneRateMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5778,7 +6320,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Alcance dos drones, operator='=', value=400, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Alcance dos drones, operator='=', value=400, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo droneRange=400 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5791,7 +6333,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano da corrosão, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano da corrosão, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo corrosionDamageMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5804,7 +6346,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Prazo da corrosão, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Prazo da corrosão, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo corrosionDelayMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5817,7 +6359,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano do sensor, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano do sensor, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo sensorDamageMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5830,7 +6372,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Intervalo do sensor, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Intervalo do sensor, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo sensorIntervalMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5843,7 +6385,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Alcance do sensor, operator='=', value=200, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Alcance do sensor, operator='=', value=200, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo sensorRange=200 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5856,7 +6398,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano dos rotores, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Dano dos rotores, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo rotorDamageMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5869,7 +6411,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Duração da volta dos rotores, operator='=', value=2, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Duração da volta dos rotores, operator='=', value=2, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo rotorPeriodMult=2 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -5882,7 +6424,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** balance.js: validate/migrate/snapshot/apply/applyWeapon; editor local.
 - **Comando/procedimento:** node tests/balance-panel.cjs; node tests/balance-migration.cjs.
-- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Raio dos rotores, operator='=', value=100, unit vazio, preservando82canônicos.
+- **Preparação:** Snapshot padrão; adicionar um módulo Normal customizado único com efeito attribute=Raio dos rotores, operator='=', value=100, unit vazio, preservando86canônicos.
 - **Entradas e passos:** Validar/aplicar configuração; provar que tentativa atual não muda; iniciar outra tentativa, adquirir o customizado e observar atributo/efeito real.
 - **Resultado esperado:** Campo rotorRange=100 no destino correto; HP/movimento/suporte compartilhados uma vez, campos de arma por slot. Não repor munição nem completar recarga por editar capacidade/tempo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
@@ -6155,17 +6697,17 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: 734581dd0f21c0ccf1e52e1bc3be29c7019246ba. O snapshot possui alterações locais da candidata62 e da Lâmina de Recarga; não é um commit final auditado. A data de referência fornecida pelo cliente é10/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 45ac996705344056724b6ec5c53d827b191b5b593cd0e2370058e66b8e7055b6 |
-| balance.js | 4a6394af3d533a514626c0c845cfd8a8d743630ebac2f41e43cfa33ecc16f7bb |
+| game.js | c5ff795f1afd74bb5c4b675842186c85b135d4e13f4b7a9e19f0f51889e85d39 |
+| balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | e59e879a127bd7697b535da62e8ac3cbd7caa70147f38d19604447fda8503cae |
+| index.html | 91271e0deb43d928fa691054ba13e9d8b5a3a99d151dc1015afa93548cb2e2fc |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | e73afab70c5094f91f2e320de3570a89c42541e7a20c24778234629919563236 |
-| audio.js | 365457a32c89c40be0a24f163cda1642e048e6fc5f80ee80cafe0103c985732a |
+| ui-redesign.css | 61e6a4adc5db1814ed85ab2f0b8df5fa8d124657964b548e7e92dd583a12ef95 |
+| audio.js | 22681c551435dad55a3652be8e17d507429682d5fa1a851359f2b690593f0e71 |
 | touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
 | touch-controls.css | 0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200 |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
@@ -6175,7 +6717,7 @@ Commit pai: 734581dd0f21c0ccf1e52e1bc3be29c7019246ba. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há302casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há330casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

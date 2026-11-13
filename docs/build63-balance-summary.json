@@ -1,0 +1,240 @@
+{
+  "build": 63,
+  "finalGateApproved": false,
+  "scope": "10 canonical cases plus4 separate legal-maintenance-preference cases; not final30.",
+  "sourceHashes": {
+    "game.js": "c5ff795f1afd74bb5c4b675842186c85b135d4e13f4b7a9e19f0f51889e85d39",
+    "balance.js": "3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a",
+    "builds.js": "4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8",
+    "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
+    "tools/segment-circle.js": "ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4",
+    "tools/rupture-chamber.js": "0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03",
+    "tools/bot-pilot.js": "b855b7471ed6986c7701d0436cf0d7c2bfef18c233b147f3721b4c1505e0c31d",
+    "tools/run-telemetry.js": "52e2f1f089f57a96489bdaa377984c14703a41105fe5dc86b6633c7206605123",
+    "tools/run-observer.js": "afd771fae223e8834f755de686ce0b0dcfc7410c4dd7d942a899dc9f9c778e82",
+    "tests/builds-balance.cjs": "68e67197ddda7f634aef82bd8a1f03ca45680332b93a2e6ad128e458442a8c1c",
+    "tests/combat.cjs": "1339419326b32d67ddf1eeaeaa909dd34b4087076a8244911aee6e1fe30999ae",
+    "version.json": "c20707f2e766be7977218226b7cf098a5f4d7329025900089a10bffac463c498",
+    "index.html": "91271e0deb43d928fa691054ba13e9d8b5a3a99d151dc1015afa93548cb2e2fc"
+  },
+  "archive": {
+    "path": "docs/data/build63-runs.json.gz",
+    "sha256": "b9164a6d887d05f16058de472fdcc1cd068d02b83fa2606ab8505b6e60dcb10c",
+    "files": 65,
+    "bytes": 2708195,
+    "roundtripVerified": true
+  },
+  "protocol": "outputs\\reserve-natural63-run01\\protocol.json",
+  "runnerDiff": "outputs\\reserve-natural63-run01\\runner-diff.json",
+  "completed": true,
+  "errors": [],
+  "arms": [
+    {
+      "id": "canonical",
+      "total": 10,
+      "viable": 10,
+      "attempts": [
+        {
+          "build": "agulha-antitita",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "tempestade-balistica",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "escopeta-ricochete",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 5,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "cacador-criogenico",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "forja-criogenica",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "rede-de-plasma",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 4,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "demolicao-de-campo",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 5,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "oficina-viva",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "enxame-de-sucata",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        },
+        {
+          "build": "lanca-de-fuga",
+          "seed": 6301301,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": []
+        }
+      ]
+    },
+    {
+      "id": "preferred-maintenance",
+      "total": 4,
+      "viable": 2,
+      "attempts": [
+        {
+          "build": "forja-criogenica",
+          "seed": 6301321,
+          "viable": false,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": false,
+          "finite": true,
+          "missingCore": [
+            "thermal"
+          ],
+          "newModules": [
+            "reserveBank"
+          ]
+        },
+        {
+          "build": "forja-criogenica",
+          "seed": 6301322,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": [
+            "reserveBank"
+          ]
+        },
+        {
+          "build": "oficina-viva",
+          "seed": 6301321,
+          "viable": false,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": false,
+          "finite": true,
+          "missingCore": [
+            "repair"
+          ],
+          "newModules": [
+            "reserveBank"
+          ]
+        },
+        {
+          "build": "oficina-viva",
+          "seed": 6301322,
+          "viable": true,
+          "time": 1199.9999999994563,
+          "state": "playing",
+          "bossKills": 7,
+          "coreReached": true,
+          "finite": true,
+          "missingCore": [],
+          "newModules": [
+            "reserveBank",
+            "cleanCircuit"
+          ]
+        }
+      ]
+    }
+  ],
+  "worktreeChangesSinceFreeze": [
+    "tests/combat.cjs"
+  ],
+  "currentBootstrapPrefixMatchesFrozen": true,
+  "limitations": [
+    "A acquired no new module: evaluates changed offer pool, not natural reserve usage.",
+    "B acquired reserveBank4/4 and cleanCircuit1/4; shieldDrive/pulseRecovery were not acquired.",
+    "No natural reserve-consumption/protection-restoration counters were added.",
+    "Finite sampling is limited; not full G01.",
+    "Only tests/combat.cjs changed after freeze: obsolete assertion counts outside the harness prefix. No physics, catalog, recipe or pilot change.",
+    "Coordinator preflight failed before spawning a natural attempt; fresh run01 preserved identical seeds and source."
+  ]
+}
