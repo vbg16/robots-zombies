@@ -20,7 +20,7 @@ function timedHarness(){
 (async()=>{
  const h=timedHarness(),a=h.audio;await a.unlock();
  const weapons=['machine','shotgun','burst','sniper','laser','flame','cryo','rocket','grenade','tesla','disc','harpoon'];
- const cues=['pistonLaunch','pistonHit','reserveHit','reserveGain','reloadBladeOn','reloadBladeHit','matrixDeploy','matrixFeed','matrixShot','matrixExpire','rotor','sensor','corrosion','drone','shield','shieldBreak','repair','reloadReady','bossAttack','bossDefeat'];
+ const cues=['integrityPulse','pistonLaunch','pistonHit','reserveHit','reserveGain','reloadBladeOn','reloadBladeHit','matrixDeploy','matrixFeed','matrixShot','matrixExpire','rotor','sensor','corrosion','drone','shield','shieldBreak','repair','reloadReady','bossAttack','bossDefeat'];
  const weaponPitches=[];
  for(const cue of [...weapons.map(w=>'shot-'+w),...cues]){h.advance(1);const recordOffset=h.records.length,before=h.records.filter(r=>r.method==='start').length;a.play(cue);assert.ok(h.records.filter(r=>r.method==='start').length>before,cue+' produces a scheduled sound');assert.ok(a.getState().effectVoices<=32);if(cue.startsWith('shot-'))weaponPitches.push(h.records.slice(recordOffset).find(r=>r.key==='frequency'&&r.method==='set')?.value);}
  assert.equal(new Set(weaponPitches).size,weapons.length,'each weapon has its own pitched attack signature');

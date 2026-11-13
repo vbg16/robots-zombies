@@ -4,7 +4,9 @@ Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão i
 
 **Objetivo:** entregar Screwvivors 1.0 completo no escopo local para navegador em PC e celular horizontal, com os sistemas compatíveis do mapa resolvidos, dez builds funcionais, controles manuais, progressão temporária e metaprogressão por desbloqueios; comprovar qualidade, estabilidade, desempenho real e documentação suficiente para reconstrução independente.
 
-**Referência ao iniciar esta etapa:** NÃO CONCLUÍDO. A última versão publicada confirmada é BUILD62, commit24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. O workspace está preparando a candidata BUILD63, ainda não publicada. A evidência intermediária61 está preservada abaixo. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. O criador atualizou a meta do aplicativo para apontar o arquivo de objetivo, lido integralmente. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
+**Situação ao preparar BUILD65:** NÃO CONCLUÍDO. A última publicação verificada é BUILD64, commit ed7834ce8d742a1499e9740804d00269ac852daa. BUILD65 está em fechamento e não herda aprovação dos gates finais. A situação de partida da meta era BUILD59; os ensaios antigos continuam históricos. O rótulo do version.json não prova publicação ou aprovação. A fonte normativa está reproduzida em OBJETIVO-APROVADO.md; este documento organiza seus critérios operacionais.
+
+**Evidência intermediária65:** conversões de HP em dano de drone e pulso do último cartucho, com guardas para impedir ataque de drone/coleta após morte no mesmo quadro. Regressão de37comandos aprovada; teste de morte reforçado e verificações estruturais repetidos em manifesto complementar. Natural homogêneo atual:10/10canônico e4/4em experimento separado, conforme [resumo](build65-balance-summary.json). Não são a matriz final30, o ensaio60min ou desempenho de hardware. [Contrato/evidências](conversoes-vitais.md). Todos os gates sem prova final suficiente permanecem abertos.
 
 ## Critérios obrigatórios de aceite
 

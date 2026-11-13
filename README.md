@@ -1,10 +1,10 @@
-# Screwvivors — BUILD 64 · desenvolvimento
+# Screwvivors — BUILD 65 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
 Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de execução. A [documentação](docs/README.md) distingue decisões aprovadas e propostas. Arte atual é provisória.
 
-O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 349 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
+O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 377 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
 
 ## Jogar
 
@@ -126,3 +126,5 @@ BUILD59: Colimador de Campo fortalece tiros que atravessam uma área fixa à fre
 BUILD63 (publicada em desenvolvimento): Banco de Reserva separado de HP, Ponte de Potência com escudo intacto, Circuito Preservado por tempo sem impactos e Retorno de Varredura por abates diretos do sensor. Painel86/revisão7 e compêndio102. [Fórmulas, limites e verificação](docs/reserva-e-manutencao.md). Avaliação intermediária:10/10canônicas e2/4em um experimento separado de preferência; falhas preservadas. Não é aprovação final de balanceamento.
 
 BUILD64 (candidata): [Pistão de Retorno](docs/pistao-de-retorno.md) invoca uma ferramenta industrial ao terminar a recarga, com direção manual, potência proporcional à munição reposta e limite por arma.17relíquias/103artigos; painel86. Avaliação natural intermediária10/10canônicas e4/4em experimento separado; não aprova os gates finais.
+
+BUILD65 (candidata): [Conversões Vitais](docs/conversoes-vitais.md) adiciona HP atual aos ataques dos drones e converte o último cartucho em pulso porHPmáxima.19peças raras/105artigos; painel86. Corrige ataques/coleta posteriores à morte dentro do mesmo quadro. Na fonte corrigida, avaliação intermediária10/10canônicas e4/4em experimento separado de preferência legal. Avaliação final e demais motores seguem abertos.

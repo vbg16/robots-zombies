@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD64 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD65 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -54,3 +54,5 @@ Não há data de lançamento, preço, orçamento aprovados; a base atual é HTML
 - [Arsenal avançado na BUILD51](arsenal-avancado.md): espaços opcionais2/3, custos, HUD, reforjas e quatro tentativas completas.
 
 - BUILD64: [Pistão de Retorno](pistao-de-retorno.md), suporte temporário ao concluir recarga; fonte independente, limites por arma, ordem discreta/P2registrados.
+
+- BUILD65: [Conversões Vitais](conversoes-vitais.md), HP atual→drones e último cartucho→pulso porHPmáxima; correções de dano/coleta depois da morte no mesmo quadro.

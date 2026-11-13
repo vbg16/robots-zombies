@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Pistão de Retorno: entidade por arma no fim de recarga válida, direção manual, dano proporcional à munição reposta e trajetória limitada.17relíquias/103compêndio;86editáveis. Candidata em validação, sem aprovação pública.",
-  "build": 64
+  "notes": "Acoplamento Vital converte HP atual em bônus limitado nos drones; Pulso de Integridade converte HP máximo no último cartucho emitido.19relíquias/105compêndio,86editáveis. Correção: drones não atacam após morte no mesmo tick. Desenvolvimento experimental, sem aprovação pública.",
+  "build": 65
 }

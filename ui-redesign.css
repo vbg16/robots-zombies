@@ -227,3 +227,6 @@ body:has(#run-config:not([hidden])) main{width:100%;height:auto;min-height:100dv
 
 /* Piston uses existing reload tracks; no added line or control. */
 .reload-track>i[data-piston="charging"]{background-image:repeating-linear-gradient(90deg,transparent 0 14px,#f0b85b 14px 17px)}.reload-track>i[data-piston="emitted"]{background:#f0b85b!important}
+
+/* Last real cartridge prepares an offensive pulse; no added HUD row. */
+.ammo-panel>b[data-integrity-ready="true"]{box-shadow:inset 0 -3px 0 #f0b85b!important}

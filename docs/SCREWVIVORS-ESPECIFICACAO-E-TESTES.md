@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD63, commit210e30b4a08575d28d81a3304c419f7f02f7df2a. Esta edição descreve a candidata BUILD64 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD64, commited7834ce8d742a1499e9740804d00269ac852daa. Esta edição descreve a candidata BUILD65 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -39,11 +39,11 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
-| Relíquias de baú |17|
+| Relíquias de baú |19|
 | Receitas de build |10|
 | Registros editáveis padrão |86|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |103|
+| Artigos do compêndio de módulos/relíquias |105|
 
 Os86editáveis são56+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
@@ -1307,9 +1307,9 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 | ENXA-0006 | droneRelay | RELÉ DO ENXAME | Alcance dos drones +100px; coleta ×1,25. | Não aumenta o número de drones. |
 
 
-### Dezessete relíquias de baú — candidata BUILD64
+### Dezenove relíquias de baú — candidata BUILD65
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga e Pistão de Retorno; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga, Pistão de Retorno e Pulso de Integridade; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
 | ID | Nome | Elegibilidade | Ganho |
 | --- | --- | --- | --- |
@@ -1330,6 +1330,8 @@ Baú físico fica no local da morte, sem expiração ou atração por ímã; col
 | rivetMatrix | MATRIZ DE REBITES | Universal; estação depende de implantação manual após adquirir | [E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. |
 | reloadBlade | LÂMINA DE RECARGA | Universal; somente próximas recargas válidas após adquirir | Segurar fogo e mira durante recarga efetiva ataca cápsula frontal36..110px/r12 por arma. P=clamp(shotDamage×pellets planejados,0,1e9); DPS0,6P→1,2P, integral0,9PT, sem procs balísticos. |
 | reloadPiston | PISTÃO DE RETORNO | Universal; próximas recargas válidas após adquirir | Invoca no fim, com mira manual finita; dano0,9P×fração realmente reposta;216px/0,6s, raio10, até3corpos uma vez, umporarma. CapturaPno início, fonte própria sem procs balísticos; substituição/residual por espaço. |
+| vitalLink | ACOPLAMENTO VITAL |Drone real, inclusive nativoENXA |Cada ataque soma min(base,2,5%HPatual), sem custo deHP. Base inclui treino; foco depois; arco herda captura. Sem novos drones/cadência. |
+| integrityPulse | PULSO DE INTEGRIDADE |Universal |Último cartucho realmente emitido: dano20%HPmáxima/Narmas, raio90+corpo, uma vez por cartucho. Não porpellet/recarga; sem procs balísticos, com gatilhos globais de morte anteriores. |
 
 
 
@@ -1465,7 +1467,7 @@ Receitas são recomendações de equipamento e prioridade entre escolhas realmen
 
 ### Painel editável:86registros e25atributos
 
-Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas24 e relíquias17 são catálogos separados; compêndio atual tem103entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para103por contar as peças raras. Revisão de migração do catálogo:7; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:7,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
+Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas24 e relíquias19 são catálogos separados; compêndio atual tem105entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para105por contar as peças raras. Revisão de migração do catálogo:7; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:7,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
 
 #### Campos numéricos suportados
 
@@ -1520,7 +1522,7 @@ Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas2
 
 ### Divergências e limites desta extração
 
-- A candidata local BUILD64 contém17relíquias/103entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD65 contém19relíquias/105entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD64 publicada continha17/103/86. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -2096,6 +2098,168 @@ A verificação consolidada em outputs/release64-final-verification/manifest.jso
 [Arquivo QA controlado](data/build64-qa.json.gz) reúne fixtures, regressão, capturas, diagnóstico da pausa, revisão estática, parecer visual e recursos para reproduzir a geração da especificação. O pacote extraído e a publicação precisam de registros próprios; este parágrafo não os presume aprovados.
 
 
+## Parte III-E — Conversões Vitais e fase terminal
+
+
+## Conversões Vitais — candidata BUILD65
+
+Estado: desenvolvimento experimental, ainda sem publicação65confirmada nesta revisão. Base anterior publicada64:ed7834ce8d742a1499e9740804d00269ac852daa. Duas peças originais atendem motores diferentes: vida atual ligada à potência real de um suporte; e último cartucho convertido em pulso por vida máxima. Nenhuma delas custa vida, concede atributo permanente, troca arma ou cria vitória cronometrada.
+
+### Inventário e aquisição
+
+| ID | Nome | Elegibilidade padrão | Categoria |
+|---|---|---|---|
+| vitalLink | ACOPLAMENTO VITAL |droneCount()>0, incluindo drone nativo ENXA |Peça rara específica para suporte |
+| integrityPulse | PULSO DE INTEGRIDADE |Universal |Peça rara universal |
+
+Ambas vêm dos baús físicos, sem duplicação na tentativa. Ofertas mantêm até2opções específicas e uma alternativa universal; `integrityPulse` pertence explicitamente à lista universal. A escolha pausa, valida versão/elegibilidade e pode ser recusada. Instalar não altera HP, munição, timers em andamento ou perfil. Efeitos valem somente na tentativa; reset limpa as peças.
+
+Catálogo65:19peças raras e105artigos de módulos/relíquias; painel86editáveis/56normais/revisão7/25atributos permanece. Não chamar essas peças de novas entradas editáveis nem mudar a migração sem necessidade.
+
+### Acoplamento Vital: vida atual para dano dos drones
+
+O suporte continua sendo cada drone real já existente. A peça não concede drone, cadência, alcance, alvo adicional, nova munição ou ataque extra. Apenas acrescenta uma parcela calculada na emissão de cada ataque.
+
+Definições por ataque:
+
+```text
+B = player.damage * 0.25 * droneDamageMult * maturityFactor
+H = clamp(currentHP,0,1e9)
+extra = min(B, H * 0.025)
+foco = 1.25 se alvo primário é chefe e droneBossFocus está ativo; senão1
+D = (B + extra) * foco
+```
+
+`maturityFactor`é a calibração vigente da Baia,1/1,1/1,2/1,3conforme seu contrato. O cap próprio da peça é extra≤B: dano primário próprio até2B, antes do foco e modificadores centrais do alvo. Isso não significa duplicação do DPS total da build. Sem a peça, extra=0e a fórmula anterior fica preservada nas tentativas válidas. HP/base inválidos ou não positivos não produzem bônus.
+
+Exemplos: B=100,HP40→101; HP80→102; HP4000→200pelo teto. Aumentar somente HPmáximo, deixando HPatual40, não aumenta101. Cura efetiva pode recuperar a parcela nos ataques futuros. O cálculo **lê**HP; não consome2,5%, não chama hurtPlayer/healPlayer, não diminui a barra nem gera efeito de reparo.
+
+Cada drone calcula Dantes de atingir seu alvo. Se o abate ativar a cura antiga de ENXA, o arco desse ataque conserva D/2capturado antes da cura. O próximo drone/ataque pode ler a nova HP. O arco conserva também os modificadores da captura original, conforme o comportamento anterior; não recalcular bônus de vida ou foco para cada salto.
+
+A parcela não entra em `shotDamage`, balas já emitidas, sensor, rotores, Lâmina ou Pistão. Não confundir essa conversão direta de HPpara suporte com a conversão balística de Titânico já existente. O dano continua fonte`drone`, com seus globais e escudo; não ganha procs balísticos.
+
+### Pulso de Integridade: último cartucho para ataque de área
+
+O gatilho é o consumo real do último cartucho durante `emitProjectiles`, não um acerto, pellet, teclaR, início/fim de recarga ou desaparecimento de projétil antigo.
+
+Ordem obrigatória:
+
+1. Recusar emissão quando o array já tem400balas, a arma recarrega ou não possui munição. Nenhum pulso/custo nesses retornos.
+2. Em emissão válida, capturar `lastSpent=peçaAdquirida && ammoAntes===1`.
+3. Executar o consumo normal de1cartucho, contagem, captura balística e criação dos pellets que realmente couberem.
+4. Emitir o som normal de tiro. Se lastSpent, produzir **um**pulso.
+5. Depois disso, tentar a autorrecarga quando a munição estiver0.
+
+Se há399balas e a escopeta pede5pellets, cabe1pellet, mas o cartucho foi realmente consumido: há1pulso, nunca5. Se há400, não emitir nem consumir. Cada subdisparo consumidor da rajada é um cartucho; somente o que esvazia a arma ativa. Recargas antecipadas descartando cartuchos não ativam.
+
+```text
+M = clamp(maxHP,0,1e9)
+N = número real de armas equipadas (1,2ou3)
+Dpulso = M * 0.20 / N
+raio = 90px, considerando também o raio do corpo do alvo
+```
+
+A vida atual não participa. Com maxHP300, uma arma dá60por corpo; duas dão30por último cartucho local; três dão20. Se as três armas esvaziarem no mesmo quadro, são3eventos distintos, com soma bruta60por corpo antes dos globais. Não multiplicar novamente pelo número de armas nem pelos pellets.
+
+A origem é a posição do jogador na fase de emissão, depois da atualização de movimento/câmera do tick. A seleção inclui todos os alvos vivos cuja distância de centro é≤90+raioDoAlvo, inclusive chefe, sem teto artificial de quantidade. O dano é instantâneo nessa área; os raios visuais posteriores não são hitboxes móveis nem novas ondas.
+
+Para cada alvo ainda vivo, chamar dano central com fonte`integrityPulse` e origem do espaço emissor. HPmáxima não finita dáD0e não produz efeito. Sem partida ativa ou com jogador morto, não causar dano/efeito. O arsenal válido tem sempre ao menos1espaço.
+
+### Fonte própria, procs e sinergias globais de morte
+
+“Sem procs balísticos” significa não chamar o pipeline`impact`para o pulso. Ele não aplica queimadura, frio, corrosão inicial, descarga, crítico, empurrão, ricochete, fragmentação, Colimador ou alimentação de Matriz. Exposição de sensor continua sópara fonte`bullet`. Não incrementar contadores killAmmo/salvage do pulso.
+
+Preservar multiplicadores centrais por alvo, Caça-Titãs, Finalizador, marca do predador, XP, sucata, contagem geral, célula a cada25abates e recompensa/cura/peça/baú únicos de chefe.
+
+A morte de uma unidade com **carga corrosiva anterior** ainda pode liberar Respingo Reagente. Essa regra global já está no contrato de corrosão e também vale para Pistão/outros canais. O pulso não semeia a carga nem muda seu dano: uma captura anterior80libera até2filhos de40, comspread=false, independentemente de o pulso ter dano200. Os filhos não propagam outra geração. Lacaios removidos pela morte do chefe não viram abates independentes.
+
+A revisão estática inicialmente interpretou a expressão abreviada “sem procs” como proibição de qualquer gancho de morte e apontou umP1condicional. Após confrontar o contrato vigente e os testes de captura anterior/geração, o revisor retirou esse achado e preservou o histórico. Não foi feita uma supressão de sinergia nem reclassificação de defeito grave para alcançar aceite. A distinção correta é impacto balístico versus morte global de estado preexistente.
+
+### Correções independentes: drones e coleta no quadro da morte
+
+Foi reproduzido umP1real da base64: uma colisão comum podia matar o jogador na fase de inimigos e, depois, `tickDrones` ainda atacava no mesmo tick. O caso controlado terminava comHP0/estadoover, mas1abate e1núcleo produzidos. Não dependia de nenhuma peça nova.
+
+A candidata adiciona guarda no início de tickDrones: retornar se state não éplaying ouHP≤0. Assim nenhuma seleção, timer, dano, som, abate ou recompensa de drone acontece após essa morte ou em pausa/ofertas. Sensor/rotores já tinham suas próprias guardas. Não conceder imunidade ao avanço.
+
+Uma segunda reprodução mostrou que o empurrão fatal de48pxpodia colocar o robô sobre XP/sucata e a fase de coleta ainda aumentavaXP/parafusos após state=over. A candidata agora executa atração/coleta/gravação de loot somente enquanto state éplaying. Não desfaz recursos coletados em vida; apenas impede novas coletas depois da morte. O caso também falha na fonte64publicada e passa depois da guarda, preservando os dois resultados. A finalização visual do quadro continua, com limpeza de buffers de efeitos, sem deixar streams temporários abertos.
+
+O teste `drone-death-phase.cjs` reproduz o loop integrado real, não apenas uma chamada isolada posterior. A fonte publicada64foi extraída do Git para comparação e mostrou o defeito. Seus textos normalizados somente em CRLF→LFconferem com a física congelada64; hashes brutos diferem por terminação de linha. Falha antes, fonte64e resultado após estão no arquivoQA.
+
+A equivalência dos32mundos legados de feedback passou sem normalizar essa correção na referência; aqueles cenários não cobrem a morte nativa de drone no mesmo quadro. O caso dedicado prova a diferença intencional. Não alegar preservação integral do defeito antigo nem de todos os caminhos possíveis por uma equivalência parcial.
+
+### Visual, HUD e áudio
+
+Ícones originais`vitalLink.svg`e`integrityPulse.svg`usam hardware, placas, cartucho e sinais angulares; não cruz de cura, coração ou aura de escudo. Os drones acoplados recebem detalhe de placa clara e até3pequenos LEDsâmbar por faixa de HPatual/HPmáxima. O indicador não consome vida nem altera contagem/órbita/cadência. O parecer do Dev designer sugeriu violeta como alternativa; não afirmar essa paleta como implementada.
+
+O Pulso usa8segmentos radiais claros, centro transparente e visual de0,25s no array existente de efeitos, limitado a150. A arte se expande enquanto desvanece, mas todo dano já foi aplicado no evento. Não criar uma segunda área de dano ou aura persistente. Pausa congela o relógio/pose/efeito.
+
+O cartucho1de cada espaço recebe sublinhadoâmbar quando a peça está instalada e não há recarga. Não criar linha, painel ou botão. Preservar numeração, avisos de Culatra/Lâmina e marcas do Pistão. Tooltip descreve a prontidão; pausa mostra dano do pulso/divisor, HPatual e parcela dos drones.
+
+Um teste de computedStyle encontrou o sublinhado suprimido por uma regra antiga globalbox-shadow:none!important. O seletor específico foi corrigido com!importante o mesmo teste de cor passou nas3resoluções; os resultados anteriores foram preservados.
+
+Acoplamento mantém o cue de drone existente, sem duplicar som de reparo ou criar voz por leitura de HP. Pulso tem evento`integrityPulse`, throttle0,2s: dois tons suaves180→85Hz/0,18s e540→270Hz/0,12s. Umcue por cartucho real, não por alvo ou pellet; limite global24vozes, mute/volumes e RNGdecombate independentes.
+
+### Casos de aceitação
+
+Requisitos abaixo não equivalem a aceite final executado.
+
+| ID | Preparação/ação | Resultado esperado |
+|---|---|---|
+| VIT01 |Tentar Acoplamento sem drone, com módulo e com nativoENXA |Elegibilidade real; instalação não altera HP/cadência/munição/perfil |
+| VIT02 |B100,HP40/80/4000, variar sóHPmáxima |D101/102/200; HPmáxima isolada não muda extra |
+| VIT03 |HPzero/negativa/NaN/Infinity, extremos técnicos |Extra0para inválidos; entradas válidas limitadas e finitas |
+| VIT04 |Baia/calibração90s e foco em chefe |Base treinada, depois vida limitada, depois foco uma vez |
+| VIT05 |Abate primário cura1e arco salta |Arco usa captura anterior à cura; ataque futuro pode ler HPnova |
+| VIT06 |Drone reforçado atinge escudo |Absorção integral; sem novos estados/procs |
+| VIT07 |Comparar bala/sensor/rotor/projétil antigo antes/depois |Conversão sóno drone; sem reescrever outros canais |
+| VIT08 |Equipar3armas e1drone |ParcelaHPuma vez por ataque, não×3pela quantidade de armas |
+| VIT09 |12armas, penúltimo válido e último cartucho |Sóúltimo consumido ativa1pulso e autorrecarga normal |
+| VIT10 |Escopeta5pellets e rajada3subdisparos |Um evento no cartucho final; não duplicar por pellet/subtiro anterior |
+| VIT11 |Teto400e espaço399 |400recusa sem custo/pulso;399gasta1e ativa1pulso |
+| VIT12 |Rcom munição parcial, completar e tentar emissão inválida |Nenhum pulso pela recarga; retorno inválido não repete |
+| VIT13 |HPmáxima300/HPatual1, crítico/Culatra/arma forte |Pulso60com1arma; não herda multiplicadores balísticos |
+| VIT14 |1/2/3armas vaziam no mesmo quadro |60/30/20por evento paraHPmáxima300; soma bruta60 |
+| VIT15 |100corpos e limites90+raio |Todos os dentro atingidos, fora não; sem cap artificial |
+| VIT16 |Policial com escudo1e procs adquiridos |Quebra sem excesso; não aplicar estados/empurrão |
+| VIT17 |Abate comum, Finalizador e contadores próximos de limiar |Globais/loot normais; killAmmo/salvage não avançam pelo pulso |
+| VIT18 |Pulso mata chefe e remove lacaios |Baú/peça/cura únicos; lacaios removidos sem crédito próprio |
+| VIT19 |Pausa/oferta/over/HP0e valores técnicos |Nenhum pulso fora da partida ativa; dano calculado finito |
+| VIT20 |Render/HUD, pausa e reset |Sem RNG/física no render, relógios congelados, peças não persistem |
+| VIT21 |Pulso em corpo livre com todos estados adquiridos |Nenhuma corrosão/fogo/frio/stun nova pelo pulso |
+| VIT22 |Carga anterior80e pulso200mata hospedeiro |Até2filhos40,1geração; não usar200como captura |
+| VIT23 |Contato mata jogador antes da fase de drones |Over/HP0,0abates/núcleos posteriores; baselinefalhava e candidata passa |
+| VIT24 |Três viewports, cards/R/mouse/toque com3dedos/retrato |Controles independentes, marca legível, sem custoHP/overflow/retomada automática |
+| VIT25 |Áudio por evento e spam/mute |Umcue por último cartucho; sem cue de cura extra ou drone morto |
+| VIT26 |Repetir mundos legados e preservar defeito corrigido separadamente |Equivalência somente no escopo coberto; morte no mesmo quadro exige novo resultado |
+
+### Evidência disponível
+
+[Arquivo de QA controlado](data/build65-qa.json.gz) preserva47arquivos, com caminho, bytes, hashSHA256e conteúdo recuperável, incluindo manifestações da regressão37e complementos, reproduções negativas na base64, resultados atuais, capturas, fontes dos novos testes, pareceres estáticos e gerador da especificação. A descompressão e os hashes restaurados foram conferidos. Não inclui as partidas naturais, preservadas nos arquivos próprios abaixo, nem constitui aprovação final1.0.
+
+`vital-conversions.cjs`registrou22grupos aprovados; `drone-death-phase.cjs`passou após reproduzir a falha na base64e na candidata antes da guarda. Um erro inicial de fixture do arco ignorava o custo antigo de droneArc; a expectativa passou a usar a base já modificada antes do ataque, sem mudar a produção.
+
+O navegador controlado passou em1280×900/844×390/740×360: escolhas legais, dano real do drone dependente deHPsem custo, último cartucho por mouse,12modelos,3espaços, cor computada da prontidão, pixels pausados iguais, terceiro dedo/retrato/morte/reset e catálogo19/105. Tem proteção, ondas suspensas e tempo manual: não é partida natural, desempenho ou aparelho físico. Áudio de eventos reais e sinal/mute/vozes têm testes separados.
+
+As revisões de chats são estáticas/visuais propostas, sem execução atribuída a elas. O parecer de design foi corrigido para explicitar que não há consumo deHP: esse custo não existe no contrato ou código. A limitaçãoP2de posição do Pistão64permanece documentada, não resolvida por estas peças.
+
+### Avaliação natural homogênea da fonte corrigida
+
+[Resumo atual](build65-balance-summary.json), [arquivo bruto atual](data/build65-runs.json.gz) e [atividade após aquisição](build65-vital-usage.json) guardam protocolo, fontes congeladas, piloto13, decisões e dano por fonte. As sementes foram fixadas antes de resultados e são distintas das3sementes finais reservadas.
+
+| Braço | Preparação/política | Viabilidade estrita | Presença das peças |
+|---|---|---|---|
+| A |10receitas canônicas, seed6501301, runner/piloto sem alteração |10/10 |7tentativas adquiriramAcoplamento;1adquiriuPulso |
+| B |Enxame/Oficina × seeds6501321/6501322; prefere sóa peça-alvo se oferecida legalmente |4/4 |Acoplamento nas2/2Enxame; Pulso em1/2Oficina; a mesma Oficina também adquiriuAcoplamento |
+
+Todas as14sobreviveram1200s, derrotaram pelo menos3chefes e adquiriram os4núcleos. O casoOficina6501321não adquiriu a peça-alvo e permanece no relatório. Nenhuma oferta, HP, cura, invulnerabilidade, morte de chefe ou remoção de vivos foi forçada. Equipamento necessário foi apenas pré-desbloqueado.
+
+No braçoA o Pulso causou196de dano efetivo ao corpo; noB,339,02. Totais não sãoDPSnem diferença causal de uma buildcontrole. Há12aquisições de peças entre os braços e, em cada uma, minutos completos posteriores com atividade positiva da fonte correspondente e HPmínima positiva. O dano dos drones nesses minutos é o total do canal, não apenas a parcela incremental deHP. A fórmula específica tem provas controladas separadas; não atribuir todo dano dos drones à peça.
+
+A primeira rodada foi concluída antes da correção da coleta terminal e foi preservada separadamente em [resumo histórico](build65-pre-loot-fix-balance-summary.json) e [brutos históricos](data/build65-pre-loot-fix-runs.json.gz). Depois da correção, as mesmas14foram repetidas num protocolo novo, sem trocar sementes/piloto/receitas. [Comparação pareada](build65-recheck-equivalence.json) confirmou objetos completos de tentativa idênticos nas14, coerente com todas terem sobrevivido e não alcançarem o ramo de morte. Não são28sucessos independentes. As reproduções negativas dedicadas comprovam a mudança pretendida quando ocorre morte.
+
+Limites: progressoVM/headless não prova experiência humana, apresentação em aparelho físico ou FPS. O observador numérico natural é amostral e não aprovaG01total. Matriz final30, estabilidade60min, desempenho realPC/celular e outros motores compatíveis continuam abertos.
+
+
 ## Parte IV — especificação visual complementar
 
 
@@ -2430,14 +2594,14 @@ Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige2
 | Ghost Friend: acompanhante atacante/efeitos por acerto | Adaptado diferente | Drones atacam com dano e arco próprios; não herdam procs de bala. Restrição vigente `contrato:20`; `game.js:905`/`:906`. `build-mechanics.cjs:19`–`:23` verifica teto3, alvo/arco, pausa e ausência de munição/proc recursivo. A transmissão genérica de todos os estados não foi implementada nem prometida para drones. |
 | Magic Lens: conversão posicional de projéteis | Adaptado pelo Colimador de Campo na BUILD59 | Campo ancorado no mundo, à frente da mira manual, transforma dano do objeto-projétil que entra uma única vez. Sem procs novos ou trajetória automática. `tickCollimator`, pipeline de projéteis e `tests/field-collimator.cjs`; [contrato](colimador-de-campo.md). Sensor continua sendo exposição de alvo, motor diferente. |
 | Magic Scythe: contato orbital | Integrado como Rotores de Sucata | `game.js:582`–`:585`, `tickRotors:952`. `tests/rotors.cjs:15`–`:24` protege varredura, período por disco/alvo, escudo, pausa/reset e isolamento de procs. Contrato`:24`. |
-| Magic Spear: vida/recursos no suporte | Pendente como motor de suporte ligado à vida | Há vida→dano balístico no Chassi Titânico (`shotDamage:541`), cura→salva no NANO (`healPlayer:902`) e drone→cura no ENXA (`SPECIALIZATIONS:288`). Isso não prova um suporte cuja potência/conversão dependa da vida. `build-mechanics.cjs:16`,`:21`,`:33` prova apenas os motores existentes. |
+| Magic Spear: vida/recursos no suporte | Adaptação funcional candidata65; aceite final aberto | Acoplamento Vital usa diretamenteHPATUAL em cada ataque de drone: soma min(base,0,025HP), cap próprio×2, foco depois, arco herda captura. Sem custoHP/novo suporte/cadência; não inferir isso do antigo Titânico balístico. [Contrato](conversoes-vitais.md); engine/browser/naturais intermediárias não são gatesfinais. |
 | Trainer: dano/crescimento de summons | Adaptado para drones na BUILD58 | Baia multiplica o dano já modificado por1,1/1,2/1,3 nos três marcos ativos, com teto e reset. Sem crescimento de todos os suportes nem procs de bala. Testes de dano real, arco, escudo, pausa e reinício em `drone-maturity.cjs`. |
 | Frenzy: frequência/estados de summons | Integrado para frequência; adaptado diferente nos estados | `droneOverclock` tem piso0,35s (`game.js:634`, `tickDrones:906`). Drones não herdam estados de bala por contrato`:20`; estados transmitidos ficam no suporte sensor, restritos a fogo/frio por`:23`. Testes `build-mechanics.cjs:19`–`:20` e `sensors.cjs`. |
 | Electromancy: raio/munição | Integrado | Tesla/Descarga/Condutividade/Curto-Circuito e VOLT reposição a cada6 alvos; `game.js:23`,`:618`–`:620`, `shockAt:930`. `build-mechanics.cjs:11`–`:13`,`:27` testa carga, alcance/atributos elétricos. |
 | Ice: controle/estilhaço | Integrado | Criogênico, `freeze`, `finisher` e Fratura Industrial; `game.js:20`,`:614`, `damageEnemy:911`. `build-mechanics.cjs:24`,`:26`,`:29` protege duração e uma geração da fratura. |
 | Pyromancy: fogo/recuperação | Integrado | Lança-chamas, quatro nós de fogo, FORJ `heatRecovery`; `game.js:19`,`:610`–`:613`,`:285`, `applyStatus:941`. `build-mechanics.cjs:9`–`:10`,`:25`, `combat.cjs:260`. |
 | Dark Arts: dano adiado/propagação/crescimento | Integrado para dano adiado/propagação; pendente para crescimento acumulativo | Corrosão captura dano/prazo e respinga uma geração (`game.js:590`–`:593`, `applyCorrosion:993`, `tickCorrosion:1003`). Contrato`:22`; `corrosion.cjs`/`corrosion-balance.cjs`. Não há contador de maldições que aumente dano indefinidamente. |
-| Holy Arts: último tiro convertido por vida | Pendente nesse circuito | `titan` converte vida em dano de todo projétil (`:541`,`:603`), enquanto quinto impacto usa contagem (`:1038`). Nenhum deles prova gatilho de última munição com pulso por vida. `build-mechanics.cjs:33` só prova conversão balística limitada. |
+| Holy Arts: último tiro convertido por vida | Adaptação funcional candidata65; aceite final aberto | Pulso de Integridade nasce após consumo real do último cartucho emitido:0,20HPmáxima/Narmas, raio90+corpo, fonte própria sem pipeline de impacto. Não nasce de recarga/pellet ouCulatra; preserva ganchos globais de morte. [Contrato e casos](conversoes-vitais.md). |
 | Health: reserva/reação | Integrado | BAST/NANO, `armor`/`titan`, reparos, `nineLives`, `retaliation`, `overload`; `game.js:93`,`:96`,`:238`,`:602`–`:605`,`:626`. `combat.cjs:414`, `build-mechanics.cjs:16`–`:17`,`:33`. |
 | Shield Boost: proteção/benefício ativo | Adaptação candidata63; aceite global/natural pendente | Ponte de Potência (`shieldDrive`) exige Banco+Escudo e calcula cartuchos×1,2 enquanto `skills.shield && shieldReady`; reserva sozinha não ativa. Sem multiplicação acumulativa do atributo; snapshots antigos preservados. Engine24grupos e browser controlado são provas parciais, não equilíbrio. [Contrato](reserva-e-manutencao.md). |
 | Dodge Boost: esquiva/mobilidade | Adaptado diferente para mobilidade ativa; pendente para esquiva probabilística | `dash` é avanço manual adquirido, sem invulnerabilidade por decisão explícita (`contrato:9`, `game.js:622`). `combat.cjs` testa avanço/recarga e dano durante ele. Não declarar “chance de esquiva” implementada. |
@@ -3177,7 +3341,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
 - **Preparação:** Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.
 - **Entradas e passos:** Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.
-- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;17relíquias/103artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
+- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;19relíquias/105artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.
 - **Falha:** P1.
@@ -3936,6 +4100,344 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
 - **Falha:** P1.
 - **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-01 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Tentar Acoplamento sem drone, com módulo e com nativoENXA
+- **Resultado esperado:** Elegibilidade real; instalação não altera HP/cadência/munição/perfil
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-02 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** B100,HP40/80/4000, variar sóHPmáxima
+- **Resultado esperado:** D101/102/200; HPmáxima isolada não muda extra
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-03 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** HPzero/negativa/NaN/Infinity, extremos técnicos
+- **Resultado esperado:** Extra0para inválidos; entradas válidas limitadas e finitas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-04 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Baia/calibração90s e foco em chefe
+- **Resultado esperado:** Base treinada, depois vida limitada, depois foco uma vez
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-05 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Abate primário cura1e arco salta
+- **Resultado esperado:** Arco usa captura anterior à cura; ataque futuro pode ler HPnova
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-06 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Drone reforçado atinge escudo
+- **Resultado esperado:** Absorção integral; sem novos estados/procs
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-07 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Comparar bala/sensor/rotor/projétil antigo antes/depois
+- **Resultado esperado:** Conversão sóno drone; sem reescrever outros canais
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-08 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Equipar3armas e1drone
+- **Resultado esperado:** ParcelaHPuma vez por ataque, não×3pela quantidade de armas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-09 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** 12armas, penúltimo válido e último cartucho
+- **Resultado esperado:** Sóúltimo consumido ativa1pulso e autorrecarga normal
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-10 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Escopeta5pellets e rajada3subdisparos
+- **Resultado esperado:** Um evento no cartucho final; não duplicar por pellet/subtiro anterior
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-11 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Teto400e espaço399
+- **Resultado esperado:** 400recusa sem custo/pulso;399gasta1e ativa1pulso
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-12 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Rcom munição parcial, completar e tentar emissão inválida
+- **Resultado esperado:** Nenhum pulso pela recarga; retorno inválido não repete
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-13 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** HPmáxima300/HPatual1, crítico/Culatra/arma forte
+- **Resultado esperado:** Pulso60com1arma; não herda multiplicadores balísticos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-14 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** 1/2/3armas vaziam no mesmo quadro
+- **Resultado esperado:** 60/30/20por evento paraHPmáxima300; soma bruta60
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-15 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** 100corpos e limites90+raio
+- **Resultado esperado:** Todos os dentro atingidos, fora não; sem cap artificial
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-16 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Policial com escudo1e procs adquiridos
+- **Resultado esperado:** Quebra sem excesso; não aplicar estados/empurrão
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-17 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Abate comum, Finalizador e contadores próximos de limiar
+- **Resultado esperado:** Globais/loot normais; killAmmo/salvage não avançam pelo pulso
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-18 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Pulso mata chefe e remove lacaios
+- **Resultado esperado:** Baú/peça/cura únicos; lacaios removidos sem crédito próprio
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-19 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Pausa/oferta/over/HP0e valores técnicos
+- **Resultado esperado:** Nenhum pulso fora da partida ativa; dano calculado finito
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-20 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Render/HUD, pausa e reset
+- **Resultado esperado:** Sem RNG/física no render, relógios congelados, peças não persistem
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-21 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Pulso em corpo livre com todos estados adquiridos
+- **Resultado esperado:** Nenhuma corrosão/fogo/frio/stun nova pelo pulso
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-22 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Carga anterior80e pulso200mata hospedeiro
+- **Resultado esperado:** Até2filhos40,1geração; não usar200como captura
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-23 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Contato mata jogador antes da fase de drones
+- **Resultado esperado:** Over/HP0,0abates/núcleos posteriores; baselinefalhava e candidata passa
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-24 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Três viewports, cards/R/mouse/toque com3dedos/retrato
+- **Resultado esperado:** Controles independentes, marca legível, sem custoHP/overflow/retomada automática
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-25 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Áudio por evento e spam/mute
+- **Resultado esperado:** Umcue por último cartucho; sem cue de cura extra ou drone morto
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-VITAL-26 — Vital
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: vitalDroneBonus/droneShotDamage/emitIntegrityPulse/emitProjectiles/tickDrones e fase de coleta.
+- **Comando/procedimento:** node tests/vital-conversions.cjs; node tests/drone-death-phase.cjs; node tests/vital-conversions-browser.cjs; node tests/vital-conversions-audio.cjs.
+- **Preparação:** Preparação declarada e fontes identificadas; não é ensaio natural.
+- **Entradas e passos:** Repetir mundos legados e preservar defeito corrigido separadamente
+- **Resultado esperado:** Equivalência somente no escopo coberto; morte no mesmo quadro exige novo resultado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
+- **Falha:** P1.
+- **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
 ### QA-COMBAT-W01 — Combate e mundo
@@ -5654,6 +6156,19 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-RELIC-vitalLink — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar vitalLink, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Cada ataque de drone recebe dano extra igual a 2,5% da sua integridade atual, limitado ao dano-base do próprio drone. Máximo próprio ×2; não cria drones nem muda a cadência. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-RELIC-scanArray — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
@@ -5804,6 +6319,19 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
 - **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar reloadPiston, tentar repetir, executar condição e iniciar outra tentativa.
 - **Resultado esperado:** Ao concluir as próximas recargas, invoca um pistão na direção da mira. Dano de 90% do cartucho, proporcional à munição reposta; atravessa até 3 corpos em 216 px. Um por arma; sem mira válida, não invoca. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RELIC-integrityPulse — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar integrityPulse, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Consumir o último cartucho emitido libera um pulso em raio 90. Dano igual a 20% da integridade máxima, dividido pelo número de armas. Uma vez por cartucho; recarregar não ativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
 - **Falha:** P1.
@@ -7088,17 +7616,17 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: 210e30b4a08575d28d81a3304c419f7f02f7df2a. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: ed7834ce8d742a1499e9740804d00269ac852daa. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 3405dcc0a0db0802f0195cb4cdecb4bf109e18e096f2eb886a47f4c6656bfaab |
+| game.js | 5ddaad1373cda3bed4edc903794cbcdbe43aa081092b568016140b9b25e59e84 |
 | balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | f8e2b78e9ba36247e8ed6a37ecacceded80a07eb4d0dec2cf314771ce864c6e8 |
+| index.html | e18aa7fb3e2b687c072f34e2f3ff441937995e6a1e7baa837eee7091f5a8675c |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | 310e51e5becbeeee7153fb80136a5a85593ec28fe3bbec82759ac275248790eb |
-| audio.js | 5810caf5c05c790bfc7133504ae83df126782d79f6e9a7ffaea9dd383fc98d11 |
+| ui-redesign.css | 3417f65438fd2546f08b61eba924e8ba63098b016eb7ceea92b4d2fa84cebc58 |
+| audio.js | 6be5b9a37e324d35cdbd8e217a6b11189ca327abc84cb41ca0d8e70f29403487 |
 | touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
 | touch-controls.css | 0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200 |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
@@ -7108,7 +7636,7 @@ Commit pai: 210e30b4a08575d28d81a3304c419f7f02f7df2a. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há349casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há377casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

@@ -15,7 +15,7 @@ function legacyPoolSource(source){
  // A second archived defect applied stun after absorbed electrical damage.
  if(isReference){const previous='for(const t of near){const before=t.hp;effects.push(';assert.ok(source.includes(previous),'archived electrical hook changed');source=source.replace(previous,"for(const t of near){const before=t.hp,shielded=t.enemyType==='shieldPolice'&&t.shieldHp>0;effects.push(");const status='if(stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);';assert.ok(source.includes(status),'archived stun hook changed');source=source.replace(status,'if(!shielded&&stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);');}
  // Freeze the pre-BUILD59 offer pool for this legacy equivalence experiment.
- // The new thirteenth through sixteenth relics intentionally change normal chest RNG/options.
+ // Post-BUILD58 relics intentionally change normal chest RNG/options. The terminal-death fixes have separate negative-baseline regressions; these32worlds do not prove preservation of those bugs.
  const pool="const candidates=BOSS_RELICS.filter(r=>";assert.ok(source.includes(pool),'legacy offer pool hook changed');
  return source.replace(pool,pool+JSON.stringify(legacyRelicIds)+'.includes(r.id)&&');
 }

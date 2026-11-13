@@ -1,8 +1,16 @@
-# Contrato vigente — Screwvivors BUILD 64
+# Contrato vigente — Screwvivors BUILD 65
 
-Estado: candidata local BUILD64 em desenvolvimento. A publicação anterior confirmada é BUILD63, commit210e30b4a08575d28d81a3304c419f7f02f7df2a. Rótulos não provam publicação, aprovação pública ou conclusão; a meta aprovada e seus gates permanecem ativos.
+Estado: candidata local BUILD65 em desenvolvimento. Publicação anterior confirmada: BUILD64, ed7834ce8d742a1499e9740804d00269ac852daa. A meta aprovada e os gates de conclusão permanecem ativos; versão na tela não é aprovação pública ou encerramento.
 
-## Adição candidata — BUILD64
+## Adição candidata — BUILD65
+
+Acoplamento Vital (`vitalLink`, exige drone) soma min(baseDoDrone,HPatual×0,025) por ataque, antes de foco no chefe; arco usa captura anterior a eventuais curas. Sem consumir vida ou criar drones/cadência. Pulso de Integridade (`integrityPulse`, universal) nasce do último cartucho realmente emitido, depois dos pellets e antes da autorrecarga: danoHPmáxima×0,20/Narmas em raio90considerando corpo. Não nasce deR/completar recarga/pellet; teto400recusa sem custo. Fonte própria não passa por impacto balístico/killAmmo/salvage, preservando globais de alvo/loot/morte de reagente preexistente.
+
+Correções de fase terminal: drones não executam após morte/fora deplaying; atração/coleta/gravação de loot somente emplaying, sem desfazer recursos já coletados. Reproduções anteriores produziam abates ouXP/parafusos apósHP0; novas regressões do tick integrado bloqueiam ambos.
+
+Inventário19relíquias/105compêndio; painel86/revisão7permanece. Engine22grupos, browser3viewports e áudio são evidências parciais. Matriz natural atual A10/10canônicas eB4/4experimentais na fonte corrigida, com peça-alvo ausente em1Oficina; não juntar a rodada pré-correção às atuais como28sucessos. Regressão/pacote devem ser conferidos por hashes próprios. Nenhum gatefinal é presumido. [Fórmulas e casos](conversoes-vitais.md).
+
+## Adição histórica — BUILD64
 
 Pistão de Retorno (`reloadPiston`) é a17ªrelíquia universal de baú. CapturaPnormal do cartucho, limitado1e9, no início de recarga válida após adquirir; ao concluir, invoca somente com direção manual finita/não nula. Dano0,9P×fração realmente reposta; movimento reto360px/spor0,6s/216px, raio10, até3corpos uma vez; umporarma, substituído na próxima invocação. Sem procs balísticos/munição, com globais/loot/recompensas únicos. Entidade antiga avança até a fronteira da conclusão, nova sópelo residual. Origem/mira são amostradas antes do movimento/câmera daquele quadro: limitaçãoP2de defasagem visual em movimento rápido registrada, sem alegar interpolação contínua.
 

@@ -78,6 +78,7 @@ const BOSS_RELICS=Object.freeze([
  {id:'cryoLens',name:'CRISTAL DE ESTASE',icon:'freeze',benefit:'Resfriamento dos impactos dura +50%.',eligible:()=>player.skills.freeze||weaponSlots.some(s=>s.weapon.freeze),apply:()=>{player.relicColdMult=1.5;}},
  {id:'arcCapacitor',name:'CAPACITOR DE TEMPESTADE',icon:'shock',benefit:'Descargas causam +40% de dano.',eligible:()=>player.skills.shock||weaponSlots.some(s=>s.weapon.chain),apply:()=>{player.relicShockMult=1.4;}},
  {id:'droneRack',name:'BAIA DE COMANDO',icon:'drones',benefit:'Drones: dano +50% e alcance +20%. Aos 30/60/90 s ativos, o treino aumenta o dano já modificado em +10%/+20%/+30%.',eligible:()=>droneCount()>0,apply:()=>{player.droneDamageMult*=1.5;player.droneRange*=1.2;player.droneGrowthStart=clock;}},
+ {id:'vitalLink',name:'ACOPLAMENTO VITAL',icon:'vitalLink',benefit:'Cada ataque de drone recebe dano extra igual a 2,5% da sua integridade atual, limitado ao dano-base do próprio drone. Máximo próprio ×2; não cria drones nem muda a cadência.',eligible:()=>droneCount()>0,apply:()=>{}},
  {id:'scanArray',name:'MATRIZ DE CAÇA',icon:'sensor',benefit:'Sensores causam +50% de dano e pulsam 20% mais rápido.',eligible:()=>player.skills.sensor,apply:()=>{player.sensorDamageMult*=1.5;player.sensorIntervalMult*=.8;}},
  {id:'rotorBearing',name:'ROLAMENTO DE CERÂMICA',icon:'rotors',benefit:'Rotores causam +50% de dano e completam a volta 20% mais rápido.',eligible:()=>player.skills.rotors,apply:()=>{player.rotorDamageMult*=1.5;player.rotorPeriodMult*=.8;}},
  {id:'corrosionChamber',name:'CÁPSULA REAGENTE',icon:'corrosion',benefit:'Novas cargas corrosivas causam +50% de dano e detonam 25% antes.',eligible:()=>player.skills.corrosion,apply:()=>{player.corrosionDamageMult*=1.5;player.corrosionDelayMult*=.75;}},
@@ -90,6 +91,7 @@ const BOSS_RELICS=Object.freeze([
  {id:'rivetMatrix',name:'MATRIZ DE REBITES',icon:'sensor',benefit:'E ou botão MATRIZ: instala na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos.',eligible:()=>true,apply:()=>{player.rivetMatrix=null;}},
  {id:'reloadBlade',name:'LÂMINA DE RECARGA',icon:'rotors',benefit:'Nas próximas recargas, segure o disparo para cortar à frente da mira. A lâmina ganha força durante a recarga; soltar o disparo interrompe o corte. Cada arma tem sua própria lâmina.',eligible:()=>true,apply:()=>{}},
  {id:'reloadPiston',name:'PISTÃO DE RETORNO',icon:'reloadPiston',benefit:'Ao concluir as próximas recargas, invoca um pistão na direção da mira. Dano de 90% do cartucho, proporcional à munição reposta; atravessa até 3 corpos em 216 px. Um por arma; sem mira válida, não invoca.',eligible:()=>true,apply:()=>{}},
+ {id:'integrityPulse',name:'PULSO DE INTEGRIDADE',icon:'integrityPulse',benefit:'Consumir o último cartucho emitido libera um pulso em raio 90. Dano igual a 20% da integridade máxima, dividido pelo número de armas. Uma vez por cartucho; recarregar não ativa.',eligible:()=>true,apply:()=>{}},
  {id:'ruptureChamber',name:'CULATRA DE RUPTURA',icon:'damage',benefit:'Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas.',eligible:()=>true,apply:()=>{for(const slot of weaponSlots)slot.ruptureCharge=0;}}
 ]);
 let bossChests=[],offeredRelics=[];
@@ -430,7 +432,9 @@ function renderRunStats(){
  if(rotorCount())rows.push(['Rotores de sucata',String(rotorCount())],['Dano por contato de rotor',number(rotorDamage())],['Volta dos rotores',number(rotorPeriod())+' s'],['Raio dos rotores',number(rotorRange())+' px']);
  if(player.skills.sensor)rows.push(['Sensor · dano por alvo',number(Math.min(1e9,player.damage*.35*player.sensorDamageMult))],['Sensor · próximo intervalo',number(sensorInterval())+' s'],['Sensor · alcance',number(sensorRange())+' px']);
  if(player.skills.corrosion)rows.push(['Prazo de novas cargas corrosivas',number(Math.max(.25,Math.min(30,2*player.corrosionDelayMult)))+' s'],['Base da carga corrosiva',number(player.corrosionDamageMult*100)+'% do dano do projétil']);
- if(droneCount())rows.push(['Drones de apoio',String(droneCount())],['Dano por drone',number(player.damage*.25*player.droneDamageMult*(calibration?.damageFactor||1))],['Intervalo dos drones',number(Math.max(.35,.8*player.droneRateMult))+' s'],['Alcance dos drones',number(player.droneRange+(player.specialization==='droneRelay'?100:0))+' px']);
+ if(droneCount())rows.push(['Drones de apoio',String(droneCount())],['Dano por drone',number(droneShotDamage())],['Intervalo dos drones',number(Math.max(.35,.8*player.droneRateMult))+' s'],['Alcance dos drones',number(player.droneRange+(player.specialization==='droneRelay'?100:0))+' px']);
+ if(player.relics.has('vitalLink'))rows.push(['Acoplamento Vital','HP atual '+number(player.hp)+' · extra por ataque '+number(vitalDroneBonus(player.damage*.25*player.droneDamageMult*(calibration?.damageFactor||1)))+' · limite próprio ×2; arco herda captura']);
+ if(player.relics.has('integrityPulse'))rows.push(['Pulso de Integridade',number(integrityPulseDamage())+' por corpo · raio 90 · só último cartucho consumido; '+weaponSlots.length+' arma(s)']);
  if(calibration)rows.push(['Calibração da Baia',calibration.tier+'/3 · dano extra +'+calibration.tier*10+'% · '+(calibration.maxed?'MÁXIMO':'próximo em '+Math.ceil(calibration.nextIn)+' s de combate')+' · pausa e ofertas não contam']);
  if(player.collimator)rows.push(['Colimador de Campo',player.collimator.field?'ATIVO · '+Math.ceil(player.collimator.field.life)+' s · tiros que cruzam: dano +35%':'próximo em '+Math.ceil(player.collimator.cooldown)+' s · requer direção de mira']);
  if(player.relics.has('reloadPiston'))for(const slot of weaponSlots)rows.push(['Pistão · arma '+(slot.index+1),slot.reloadPiston?'ATIVO · dano '+number(slot.reloadPiston.damage)+' · '+number(slot.reloadPiston.life)+' s · '+slot.reloadPiston.remaining+' contatos restantes':slot.reloadPistonCharge!==undefined?'preparado nesta recarga · referência '+number(slot.reloadPistonCharge):'aguardando próxima recarga válida; exige direção de mira']);
@@ -481,6 +485,7 @@ function renderPistonHUD(slot,progress){
  const stage=slot.reloadPiston?'emitted':slot.reloadPistonCharge!==undefined&&slot.reloadTime>0?'charging':'';
  progress.setAttribute('data-piston',stage);progress.setAttribute('aria-label',stage==='emitted'?'Pistão emitido':stage==='charging'?'Recarga preparando Pistão de Retorno':'Progresso da recarga');
 }
+function renderIntegrityAmmo(slot,node){const ready=player.relics.has('integrityPulse')&&slot.ammo===1&&slot.reloadTime===0;node.setAttribute('data-integrity-ready',String(ready));node.setAttribute('title',ready?'Último cartucho: libera Pulso de Integridade':'');}
 function updateAuxWeaponHUD(){
  const box=el('aux-ammo');box.hidden=weaponSlots.length===1;
  if(weaponHudNodes.length!==weaponSlots.length-1){
@@ -490,7 +495,7 @@ function updateAuxWeaponHUD(){
   }
  }
  for(const slot of weaponSlots.slice(1)){
-  const node=weaponHudNodes[slot.index-1];node.name.textContent=(slot.index+1)+' · '+slot.weapon.name+(slot.weaponEvolution?' · '+slot.weaponEvolution.name:'');node.ammo.textContent=slot.ammo+' / '+magazineSize(slot);node.status.textContent=reloadBladeStatus(slot,ruptureStatus(slot,slot.reloadTime>0?'RECARGA '+slot.reloadTime.toFixed(1)+' s':slot.ammo===magazineSize(slot)?'CARREGADOR CHEIO':'[R] RECARREGAR'));node.ammo.setAttribute('data-rupture-ready',String(player.relics.has('ruptureChamber')&&slot.ammo===1&&slot.reloadTime===0));node.progress.style.width=(slot.reloadTime>0?(1-slot.reloadTime/slot.reloadTotal)*100:100)+'%';renderPistonHUD(slot,node.progress);
+  const node=weaponHudNodes[slot.index-1];node.name.textContent=(slot.index+1)+' · '+slot.weapon.name+(slot.weaponEvolution?' · '+slot.weaponEvolution.name:'');node.ammo.textContent=slot.ammo+' / '+magazineSize(slot);node.status.textContent=reloadBladeStatus(slot,ruptureStatus(slot,slot.reloadTime>0?'RECARGA '+slot.reloadTime.toFixed(1)+' s':slot.ammo===magazineSize(slot)?'CARREGADOR CHEIO':'[R] RECARREGAR'));node.ammo.setAttribute('data-rupture-ready',String(player.relics.has('ruptureChamber')&&slot.ammo===1&&slot.reloadTime===0));node.progress.style.width=(slot.reloadTime>0?(1-slot.reloadTime/slot.reloadTotal)*100:100)+'%';renderPistonHUD(slot,node.progress);renderIntegrityAmmo(slot,node.ammo);
  }
 }
 function updateHUD(){
@@ -509,6 +514,7 @@ function updateHUD(){
  el('weapon-name').textContent=((weaponSlots.length>1?'1 · ':'')+runWeapon.name+(player.weaponEvolution?' · '+player.weaponEvolution.name:'')).toLocaleUpperCase('pt-BR');el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':player.ammo===magazineSize()?'CARREGADOR CHEIO':'[R] RECARREGAR · '+missingReloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
  el('reload-status').textContent=reloadBladeStatus(primaryWeaponState(),ruptureStatus(primaryWeaponState(),el('reload-status').textContent));el('ammo-count').setAttribute('data-rupture-ready',String(player.relics.has('ruptureChamber')&&player.ammo===1&&player.reloadTime===0));
  renderPistonHUD(primaryWeaponState(),el('reload-progress'));
+ renderIntegrityAmmo(primaryWeaponState(),el('ammo-count'));
  el('build-summary').textContent=(names.join(' · ')||'Sem módulos especiais')+(activeSynergies().length?' | '+activeSynergies().join(' | '):'');
  const live=!!boss&&boss.hp>0;el('boss-hud').hidden=!live;
  if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=bossMessage();const minions=BOSS_MINIONS[boss.id],activeMinions=enemies.filter(z=>z.minionOwner===boss.id).length;el('boss-support').textContent=(activeMinions?activeMinions+' '+minions.role:'SEM LACAIOS')+' · ONDAS COMUNS ATIVAS';}
@@ -798,7 +804,7 @@ function offerBossRelic(chest){
  const candidates=BOSS_RELICS.filter(r=>!player.relics.has(r.id)&&r.eligible());
  if(!candidates.length){offerExperiment();return;}
  // Prefer hardware that fits the equipped weapon/support; retain a universal alternative.
- const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston'].includes(r.id));
+ const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse'].includes(r.id));
  for(const pool of [specific,general])for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
  offeredRelics=[...specific.slice(0,2),...general,...specific.slice(2)].slice(0,3);
  state='relic';offerSource='boss-chest';show('PEÇA RARA / '+chest.bossName,'Escolha uma peça exclusiva do baú. Favorece sua build e dura até o fim desta partida. Sem penalidade; não é salva na garagem.','');const version=++offerVersion;
@@ -1030,11 +1036,27 @@ function healPlayer(amount){
 }
 function droneMaturity(at=clock){if(!player?.relics?.has('droneRack')||!Number.isFinite(player.droneGrowthStart)||!Number.isFinite(at))return null;return globalThis.ScrewDroneMaturity.get(at-player.droneGrowthStart);}
 function droneCount(){return Math.min(3,(runRobot.id==='swarm'?1:0)+(player.skills.drones?1:0)+(player.skills.dronePair?1:0));}
-function tickDrones(dt){
- const count=droneCount();if(!count)return;player.droneTimer=Math.max(0,player.droneTimer-dt);if(player.droneTimer>0)return;player.droneTimer=Math.max(.35,.8*player.droneRateMult);const range=player.droneRange+(player.specialization==='droneRelay'?100:0),pool=targets().filter(z=>z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=range);
- for(let i=0;i<count;i++){let target=null,best=Infinity;if(player.specialization==='droneBossFocus'&&boss?.hp>0&&pool.includes(boss))target=boss;else for(const z of pool)if(z.hp>0){const d=Math.hypot(z.x-player.x,z.y-player.y);if(d<best){best=d;target=z;}}if(!target||target.hp<=0)continue;sound('drone');const a=clock*1.8+i*Math.PI*2/count,origin={x:player.x+Math.cos(a)*42,y:player.y+Math.sin(a)*30},damage=player.damage*.25*player.droneDamageMult*(droneMaturity()?.damageFactor||1)*(target===boss&&player.specialization==='droneBossFocus'?1.25:1);effects.push({x:origin.x,y:origin.y,x2:target.x,y2:target.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(target,damage,'drone');if(player.skills.droneArc){let next=null,distance=Infinity;for(const z of pool)if(z!==target&&z.hp>0){const d=Math.hypot(z.x-target.x,z.y-target.y);if(d<=160&&d<distance){distance=d;next=z;}}if(next){effects.push({x:target.x,y:target.y,x2:next.x,y2:next.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(next,damage*.5,'drone');}}}
+function vitalDroneBonus(base){
+ if(!player.relics.has('vitalLink')||!Number.isFinite(base)||base<=0||!Number.isFinite(player.hp)||player.hp<=0)return 0;
+ return Math.min(base,Math.min(1e9,player.hp)*.025);
 }
-function drawDrones(){const count=droneCount(),maturity=droneMaturity(),tier=maturity?.tier||0;for(let i=0;i<count;i++){const a=clock*1.8+i*Math.PI*2/count,x=Math.round(player.x+Math.cos(a)*42),y=Math.round(player.y+Math.sin(a)*30);if(tier>0&&clock-player.droneGrowthStart-tier*30<.35){ctx.fillStyle='#81e4f755';ctx.fillRect(x-9,y-6,18,12);}ctx.fillStyle='#07121b';ctx.fillRect(x-8,y-5,16,10);ctx.fillStyle='#b6a668';ctx.fillRect(x-6,y-3,12,6);ctx.fillStyle='#ffe6a0';ctx.fillRect(x-3,y-2,6,3);ctx.fillStyle='#617b88';ctx.fillRect(x-11,y-2,4,3);ctx.fillRect(x+7,y-2,4,3);if(maturity)for(let led=0;led<3;led++){ctx.fillStyle=led<tier?'#7de7f6':'#26414c';ctx.fillRect(x-5+led*4,y+4,2,2);}}}
+function droneShotDamage(target=null){
+ const base=player.damage*.25*player.droneDamageMult*(droneMaturity()?.damageFactor||1);
+ return (base+vitalDroneBonus(base))*(target&&target===boss&&player.specialization==='droneBossFocus'?1.25:1);
+}
+function integrityPulseDamage(){return Number.isFinite(player.maxHp)?Math.max(0,Math.min(1e9,player.maxHp))*.2/weaponSlots.length:0;}
+function emitIntegrityPulse(slot){
+ if(!player.relics.has('integrityPulse')||state!=='playing'||player.hp<=0)return;
+ const damage=integrityPulseDamage();if(!(damage>0))return;
+ const x=player.x,y=player.y;sound('integrityPulse');effects.push({x,y,r:90,life:.25,max:.25,color:'#e8ddc9',kind:'integrityPulse'});
+ for(const z of radiusTargets(x,y,90,true))if(z.hp>0)damageEnemy(z,damage,'integrityPulse',{slot:slot.index,directDamage:damage});
+}
+function tickDrones(dt){
+ if(state!=='playing'||player.hp<=0)return;
+ const count=droneCount();if(!count)return;player.droneTimer=Math.max(0,player.droneTimer-dt);if(player.droneTimer>0)return;player.droneTimer=Math.max(.35,.8*player.droneRateMult);const range=player.droneRange+(player.specialization==='droneRelay'?100:0),pool=targets().filter(z=>z.hp>0&&Math.hypot(z.x-player.x,z.y-player.y)<=range);
+ for(let i=0;i<count;i++){let target=null,best=Infinity;if(player.specialization==='droneBossFocus'&&boss?.hp>0&&pool.includes(boss))target=boss;else for(const z of pool)if(z.hp>0){const d=Math.hypot(z.x-player.x,z.y-player.y);if(d<best){best=d;target=z;}}if(!target||target.hp<=0)continue;sound('drone');const a=clock*1.8+i*Math.PI*2/count,origin={x:player.x+Math.cos(a)*42,y:player.y+Math.sin(a)*30},damage=droneShotDamage(target);effects.push({x:origin.x,y:origin.y,x2:target.x,y2:target.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(target,damage,'drone');if(player.skills.droneArc){let next=null,distance=Infinity;for(const z of pool)if(z!==target&&z.hp>0){const d=Math.hypot(z.x-target.x,z.y-target.y);if(d<=160&&d<distance){distance=d;next=z;}}if(next){effects.push({x:target.x,y:target.y,x2:next.x,y2:next.y,life:.12,max:.12,color:'#ffe6a0'});damageEnemy(next,damage*.5,'drone');}}}
+}
+function drawDrones(){const count=droneCount(),maturity=droneMaturity(),tier=maturity?.tier||0;for(let i=0;i<count;i++){const a=clock*1.8+i*Math.PI*2/count,x=Math.round(player.x+Math.cos(a)*42),y=Math.round(player.y+Math.sin(a)*30);if(tier>0&&clock-player.droneGrowthStart-tier*30<.35){ctx.fillStyle='#81e4f755';ctx.fillRect(x-9,y-6,18,12);}ctx.fillStyle='#07121b';ctx.fillRect(x-8,y-5,16,10);ctx.fillStyle='#b6a668';ctx.fillRect(x-6,y-3,12,6);ctx.fillStyle='#ffe6a0';ctx.fillRect(x-3,y-2,6,3);ctx.fillStyle='#617b88';ctx.fillRect(x-11,y-2,4,3);ctx.fillRect(x+7,y-2,4,3);if(player.relics.has('vitalLink')){const health=Math.max(0,Math.min(1,player.hp/player.maxHp));ctx.strokeStyle='#e8ddc9';ctx.lineWidth=1;ctx.strokeRect(x-8,y-5,16,10);ctx.fillStyle='#f0b85b';for(let bar=0;bar<3;bar++)if(health>bar/3)ctx.fillRect(x-5+bar*4,y-7,2,2);}if(maturity)for(let led=0;led<3;led++){ctx.fillStyle=led<tier?'#7de7f6':'#26414c';ctx.fillRect(x-5+led*4,y+4,2,2);}}}
 // Stream only particles that can remain visible at the end of this tick.
 // The same two RNG calls are made for every generated particle, including discarded ones.
 function beginSparkStream(dt){
@@ -1071,7 +1093,7 @@ function damageEnemy(z,damage,source='direct',origin=null){
   if(z===boss){sound('bossDefeat');bossDefeated=true;bossKills++;if(z.id==='scrapper')policeUnlocked=true;bossReward=true;bossChests.push({id:bossKills,bossId:z.id,bossName:z.name,x:z.x,y:z.y});awardBossPart(z.id);for(const minion of enemies)if(minion.minionOwner===z.id)minion.hp=0;enemies=enemies.filter(minion=>minion.minionOwner!==z.id);hostile=[];hazards=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});releaseCorrosion(z);}
   else{
    if(source==='burn'&&player.specialization==='heatRecovery'&&player.specializationCooldown<=0){healPlayer(1);player.specializationCooldown=2;}if(source==='drone'&&player.specialization==='droneSalvage'&&player.specializationCooldown<=0){healPlayer(1);player.specializationCooldown=1.5;}sound("kill");kills++;gems.push({x:z.x,y:z.y});scrap.push({x:z.x,y:z.y,value:1,life:60});if(kills%REPAIR_CELL.everyKills===0)scrap.push({x:z.x,y:z.y,value:0,repair:REPAIR_CELL.healing,life:60});if(scrap.length>250)scrap=scrap.slice(-250);
-   if(state==='playing'&&source!=='matrix'&&source!=='reloadBlade'&&source!=='reloadPiston'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;healPlayer(20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;const slot=sourceWeapon(origin);slot.ammo=Math.min(magazineSize(slot),slot.ammo+1);}}
+   if(state==='playing'&&source!=='matrix'&&source!=='reloadBlade'&&source!=='reloadPiston'&&source!=='integrityPulse'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;healPlayer(20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;const slot=sourceWeapon(origin);slot.ammo=Math.min(magazineSize(slot),slot.ammo+1);}}
    if(source==='bullet'&&z.slowTime>0&&player.skills.freeze&&player.skills.finisher)explodeAt(z.x,z.y,(origin?.directDamage??player.damage)*.5,70,z,origin);
   }
  }
@@ -1296,13 +1318,13 @@ function emitProjectiles(angle,slot=primaryWeaponState()){
  if(bullets.length>=400)return false;
  if(slot.reloadTime>0||slot.ammo<=0){if(slot.ammo<=0)startReload(slot);return false;}
  const rupture=player.relics.has('ruptureChamber')?globalThis.ScrewRuptureChamber.emit(slot.ruptureCharge??0,slot.ammo):null;if(rupture)slot.ruptureCharge=rupture.stored;
- const origin=weaponOrigin(slot,angle);const repairBoost=player.repairShotReady?1.5:1;player.repairShotReady=false;slot.ammo--;slot.shotCount++;const w=slot.weapon,count=Math.min(400,Math.max(1,Math.floor(w.pellets*slot.projectileMult))),spread=Math.max(w.spread,count>1?.16:0)*slot.spreadMult;
+ const lastSpent=player.relics.has('integrityPulse')&&slot.ammo===1;const origin=weaponOrigin(slot,angle);const repairBoost=player.repairShotReady?1.5:1;player.repairShotReady=false;slot.ammo--;slot.shotCount++;const w=slot.weapon,count=Math.min(400,Math.max(1,Math.floor(w.pellets*slot.projectileMult))),spread=Math.max(w.spread,count>1?.16:0)*slot.spreadMult;
  const matrixFeed=player.relics.has('rivetMatrix')?{budget:shotDamage(slot)*(player.skills.crit&&slot.shotCount%5===0?3:1)*repairBoost*(rupture?.factor||1)*Math.min(count,400-bullets.length)*1.35,delivered:0}:null;
  for(let i=0;i<count&&bullets.length<400;i++){
   const a=angle+(count===1?0:(i/(count-1)-.5)*spread),crit=!!player.skills.crit&&slot.shotCount%5===0,speed=(w.speed||570)*slot.projectileSpeed,life=w.life*slot.projectileLife;
   bullets.push({...(matrixFeed?{matrixFeed}:{}),weapon:w,evolutionTraits:slot.weaponEvolution?.traits||null,...(rupture?.last?{ruptureFactor:rupture.factor}:{}),...(weaponSlots.length>1?{slot:slot.index,directDamage:slot.damage}:{}),x:origin.x,y:origin.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life,maxLife:life,returnSpeed:speed,damage:shotDamage(slot)*(crit?3:1)*repairBoost*(rupture?.factor||1),radius:(w.radius||6)*slot.projectileSize,crit,remaining:w.returning?999:1+(w.pierce||0)+(player.skills.pierce?2:0)+(repairBoost>1?2:0),hit:new Set(),returning:false,bounces:slot.weapon.returning?0:player.skills.ricochet});
  }
- slot.weaponKick=1;sound('shot-'+w.id);if(slot.ammo===0)startReload(slot);return true;
+ slot.weaponKick=1;sound('shot-'+w.id);if(lastSpent)emitIntegrityPulse(slot);if(slot.ammo===0)startReload(slot);return true;
 }
 function fireWeapon(slot=primaryWeaponState()){
  if(slot.reloadTime>0)return false;
@@ -1461,12 +1483,14 @@ function tick(dt){
  tickBoss(dt);tickHazards(dt);tickDrones(dt);tickSensor(dt);tickRotors(dt);
  for(const b of hostile){const ax=b.x,ay=b.y,brake=player.specialization==='magneticBrake'&&Math.hypot(b.x-player.x,b.y-player.y)<=90?.75:1;b.x+=b.vx*dt*brake;b.y+=b.vy*dt*brake;b.life-=dt;if(segmentDistance(player.x,player.y,ax,ay,b.x,b.y)<b.r+14){hurtPlayer(b.damage||12,b.x,b.y,b.source||'projectile');b.life=0;}}
  hostile=hostile.filter(b=>b.life>0);
+ if(state==='playing'){
  for(const g of gems){const d=Math.hypot(g.x-player.x,g.y-player.y);if(d<player.magnet){g.x+=(player.x-g.x)*Math.min(1,dt*9);g.y+=(player.y-g.y)*Math.min(1,dt*9);}if(d<18){g.collected=true;sound("pickup");effects.push({x:player.x,y:player.y,r:24,life:.18,max:.18,color:'#3cc7f4'});xp+=player.skills.xp?2:1;}}
  gems=gems.filter(g=>!g.collected);
  let recoveredBolts=0;
  for(const piece of scrap){piece.life-=dt;const d=Math.hypot(piece.x-player.x,piece.y-player.y);if(d<player.magnet){piece.x+=(player.x-piece.x)*Math.min(1,dt*9);piece.y+=(player.y-piece.y)*Math.min(1,dt*9);}if(d<18){piece.collected=true;if(piece.repair)healPlayer(piece.repair);else recoveredBolts+=piece.value;effects.push({x:player.x,y:player.y,r:20,life:.2,max:.2,color:piece.repair?'#8ff0ab':'#ffd27c'});}}
  scrap=scrap.filter(piece=>!piece.collected&&piece.life>0);
  if(recoveredBolts){profile.bolts=profileCount(profile.bolts+recoveredBolts);saveProfile();toast('PARAFUSOS RECUPERADOS · +'+recoveredBolts,'#ffd27c');}
+ }
  finishSparkStream();
  for(const p of sparks){p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;}sparks=sparks.filter(p=>p.life>0).slice(-600);
  for(const notice of combatNotices)notice.life-=dt;combatNotices=combatNotices.filter(n=>n.life>0);
@@ -1679,7 +1703,7 @@ function draw(){
  if(player.skills.sensorLock)for(const z of targets())if(z.hp>0&&z.scanLock>0&&z.x>camera.x-60&&z.x<camera.x+width+60&&z.y>camera.y-80&&z.y<camera.y+height+80){ctx.strokeStyle='#83c9ff';ctx.lineWidth=2;ctx.strokeRect(z.x-7,z.y-7,14,14);}
  drawCollimator();drawRivetMatrix();drawReloadBlades();drawReloadPistons();for(const b of bullets)drawProjectile(b);
  for(const b of hostile){ctx.fillStyle=b.color||'#ff9b6c';ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,Math.PI*2);ctx.fill();}
- for(const e of effects){ctx.globalAlpha=e.life/e.max;ctx.strokeStyle=e.color;ctx.lineWidth=3;ctx.beginPath();if(e.x2!==undefined){ctx.moveTo(e.x,e.y);ctx.lineTo(e.x2,e.y2);}else ctx.arc(e.x,e.y,e.r*(1-e.life/e.max),0,Math.PI*2);ctx.stroke();}ctx.globalAlpha=1;
+ for(const e of effects){ctx.globalAlpha=e.life/e.max;ctx.strokeStyle=e.color;ctx.lineWidth=3;ctx.beginPath();if(e.kind==='integrityPulse'){const r=e.r*(1-e.life/e.max);for(let i=0;i<8;i++){const a=i*Math.PI/4;ctx.moveTo(e.x+Math.cos(a)*Math.max(0,r-10),e.y+Math.sin(a)*Math.max(0,r-10));ctx.lineTo(e.x+Math.cos(a)*r,e.y+Math.sin(a)*r);}}else if(e.x2!==undefined){ctx.moveTo(e.x,e.y);ctx.lineTo(e.x2,e.y2);}else ctx.arc(e.x,e.y,e.r*(1-e.life/e.max),0,Math.PI*2);ctx.stroke();}ctx.globalAlpha=1;
  for(const p of sparks){ctx.globalAlpha=Math.max(0,p.life/.25);ctx.strokeStyle='#b7eaff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*.035,p.y-p.vy*.035);ctx.stroke();}ctx.globalAlpha=1;
  drawRotors();drawRobot();for(const slot of weaponSlots){const angle=aim.active?Math.atan2(aim.y+camera.y-player.y,aim.x+camera.x-player.x):0,origin=weaponOrigin(slot,angle);window.drawPlayerWeapon?.(ctx,{x:origin.x,y:origin.y,id:slot.weapon.id,angle,recoil:slot.weaponKick,reload:slot.reloadTotal>0?slot.reloadTime/slot.reloadTotal:0,hurt:player.inv>0});}drawDrones();if(player.shieldReady){ctx.strokeStyle='#80e3ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(player.x,player.y,38,0,Math.PI*2);ctx.stroke();}
  drawCombatFeedback();ctx.restore();

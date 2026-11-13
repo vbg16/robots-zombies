@@ -1,0 +1,97 @@
+{
+  "kind": "paired-source-fix-recheck",
+  "at": "2026-11-13T21:39:02.427624+00:00",
+  "change": "gate loot phase after state becomes terminal",
+  "pairs": [
+    {
+      "arm": "canonical",
+      "build": "agulha-antitita",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "tempestade-balistica",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "escopeta-ricochete",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "cacador-criogenico",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "forja-criogenica",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "rede-de-plasma",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "demolicao-de-campo",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "oficina-viva",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "enxame-de-sucata",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "canonical",
+      "build": "lanca-de-fuga",
+      "seed": 6501301,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "preferred-vital-conversion",
+      "build": "oficina-viva",
+      "seed": 6501321,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "preferred-vital-conversion",
+      "build": "oficina-viva",
+      "seed": 6501322,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "preferred-vital-conversion",
+      "build": "enxame-de-sucata",
+      "seed": 6501321,
+      "entireAttemptObjectEqual": true
+    },
+    {
+      "arm": "preferred-vital-conversion",
+      "build": "enxame-de-sucata",
+      "seed": 6501322,
+      "entireAttemptObjectEqual": true
+    }
+  ],
+  "allEqual": true,
+  "limits": [
+    "All14 runs survived; changed dead-loot branch was not reached.",
+    "These are paired reruns, not28 independent successes.",
+    "Dedicated death-phase regression proves the intended changed output on terminal inputs."
+  ]
+}
