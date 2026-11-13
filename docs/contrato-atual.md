@@ -1,8 +1,14 @@
-# Contrato vigente — Screwvivors BUILD 63
+# Contrato vigente — Screwvivors BUILD 64
 
-Estado: candidata local BUILD63 em desenvolvimento, ainda não publicada. A última publicação confirmada é BUILD62, commit24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. A [meta aprovada](OBJETIVO-APROVADO.md) e os [critérios de conclusão](META-DE-CONCLUSAO.md) governam o encerramento; o rótulo da candidata não significa publicação, aprovação pública ou projeto terminado.
+Estado: candidata local BUILD64 em desenvolvimento. A publicação anterior confirmada é BUILD63, commit210e30b4a08575d28d81a3304c419f7f02f7df2a. Rótulos não provam publicação, aprovação pública ou conclusão; a meta aprovada e seus gates permanecem ativos.
 
-## Adição candidata — BUILD63
+## Adição candidata — BUILD64
+
+Pistão de Retorno (`reloadPiston`) é a17ªrelíquia universal de baú. CapturaPnormal do cartucho, limitado1e9, no início de recarga válida após adquirir; ao concluir, invoca somente com direção manual finita/não nula. Dano0,9P×fração realmente reposta; movimento reto360px/spor0,6s/216px, raio10, até3corpos uma vez; umporarma, substituído na próxima invocação. Sem procs balísticos/munição, com globais/loot/recompensas únicos. Entidade antiga avança até a fronteira da conclusão, nova sópelo residual. Origem/mira são amostradas antes do movimento/câmera daquele quadro: limitaçãoP2de defasagem visual em movimento rápido registrada, sem alegar interpolação contínua.
+
+Engine17grupos, navegador3viewports/12armas/3slots/3dedos e áudio tiveram resultados controlados aprovados nas fontes registradas. Natural intermediária A10/10viáveis eB4/4viáveis;Pistão adquirido/usado em2casosA e4B. Não é matriz final30, desempenho nem aceiteG01total. Inventário17relíquias/103compêndio; editor86/revisão7permanece. [Contrato e casos](pistao-de-retorno.md).
+
+## Adição histórica — BUILD63
 
 Banco de Reserva (`reserveBank`) é raiz normal com proteção inicial20/máxima40 e conversão de50% do excesso de cura; custo de recarga×1,10. Dano mitigado consome Banco antes deHP, com transferência do excedente. Escudo Capacitivo pronto conserva prioridade/absorção integral; impactos aceitos zeram Circuito mesmo absorvidos, mas contatos bloqueados por inv/pausa/morte não. Reações pós-dano exigem perda efetiva deHP. Cura continua retornando somente a parcela deHP, sem protocolos por mero ganho deBanco.
 

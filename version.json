@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Candidata: Banco de Reserva, escudo intacto, circuito sem impactos e abate de sensor convertido em proteção. Catálogo86editáveis/56normais/16relíquias. Integração e validação em andamento; sem aprovação pública.",
-  "build": 63
+  "notes": "Pistão de Retorno: entidade por arma no fim de recarga válida, direção manual, dano proporcional à munição reposta e trajetória limitada.17relíquias/103compêndio;86editáveis. Candidata em validação, sem aprovação pública.",
+  "build": 64
 }

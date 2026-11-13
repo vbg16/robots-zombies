@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD63 (candidata ainda não publicada):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD64 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -52,3 +52,5 @@ Não há data de lançamento, preço, orçamento aprovados; a base atual é HTML
 - [Preparação de estado por arma](armas-por-estado.md): trabalho posterior à BUILD50, ainda sem múltiplos espaços expostos na garagem.
 
 - [Arsenal avançado na BUILD51](arsenal-avancado.md): espaços opcionais2/3, custos, HUD, reforjas e quatro tentativas completas.
+
+- BUILD64: [Pistão de Retorno](pistao-de-retorno.md), suporte temporário ao concluir recarga; fonte independente, limites por arma, ordem discreta/P2registrados.

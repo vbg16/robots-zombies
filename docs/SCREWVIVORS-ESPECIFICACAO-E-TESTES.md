@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD62, commit24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. Esta edição descreve a candidata BUILD63 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD63, commit210e30b4a08575d28d81a3304c419f7f02f7df2a. Esta edição descreve a candidata BUILD64 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -39,11 +39,11 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
-| Relíquias de baú |16|
+| Relíquias de baú |17|
 | Receitas de build |10|
 | Registros editáveis padrão |86|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |102|
+| Artigos do compêndio de módulos/relíquias |103|
 
 Os86editáveis são56+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
@@ -1307,9 +1307,9 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 | ENXA-0006 | droneRelay | RELÉ DO ENXAME | Alcance dos drones +100px; coleta ×1,25. | Não aumenta o número de drones. |
 
 
-### Dezesseis relíquias de baú — inventário preservado da BUILD62
+### Dezessete relíquias de baú — candidata BUILD64
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites e Lâmina de Recarga; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga e Pistão de Retorno; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
 | ID | Nome | Elegibilidade | Ganho |
 | --- | --- | --- | --- |
@@ -1329,6 +1329,7 @@ Baú físico fica no local da morte, sem expiração ou atração por ímã; col
 | ruptureChamber | CULATRA DE RUPTURA | Universal; energia começa0para cada arma ao instalar | Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas. |
 | rivetMatrix | MATRIZ DE REBITES | Universal; estação depende de implantação manual após adquirir | [E] instala uma matriz na mira, entre 48 e 180 px, por 18 s. Seus tiros a alimentam; uma carga completa dispara 3 rebites com +10% de energia. Até 3 salvas; tiros absorvidos são consumidos. |
 | reloadBlade | LÂMINA DE RECARGA | Universal; somente próximas recargas válidas após adquirir | Segurar fogo e mira durante recarga efetiva ataca cápsula frontal36..110px/r12 por arma. P=clamp(shotDamage×pellets planejados,0,1e9); DPS0,6P→1,2P, integral0,9PT, sem procs balísticos. |
+| reloadPiston | PISTÃO DE RETORNO | Universal; próximas recargas válidas após adquirir | Invoca no fim, com mira manual finita; dano0,9P×fração realmente reposta;216px/0,6s, raio10, até3corpos uma vez, umporarma. CapturaPno início, fonte própria sem procs balísticos; substituição/residual por espaço. |
 
 
 
@@ -1464,7 +1465,7 @@ Receitas são recomendações de equipamento e prioridade entre escolhas realmen
 
 ### Painel editável:86registros e25atributos
 
-Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas24 e relíquias16 são catálogos separados; compêndio atual tem102entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para102por contar as peças raras. Revisão de migração do catálogo:7; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:7,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
+Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas24 e relíquias17 são catálogos separados; compêndio atual tem103entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para103por contar as peças raras. Revisão de migração do catálogo:7; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:7,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
 
 #### Campos numéricos suportados
 
@@ -1519,7 +1520,7 @@ Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas2
 
 ### Divergências e limites desta extração
 
-- A candidata local BUILD63 contém16relíquias/102entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD64 contém17relíquias/103entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -1952,6 +1953,149 @@ Runtime, catálogo, receitas e piloto congelados são os desta candidata. O arqu
 O arquivo [QA controlado](data/build63-qa.json.gz) reúne regressão, migração, fixtures de engine/áudio, scanner numérico e capturas. Estes resultados não são a matriz final de30, desempenho real, telefone físico ou aprovação integralG01.
 
 
+## Parte III-D — Pistão de Retorno ao concluir recarga
+
+
+## Pistão de Retorno — candidata BUILD64
+
+Estado: implementação candidata, ainda sem publicação64confirmada nesta revisão. A publicação anterior é BUILD63, commit210e30b4a08575d28d81a3304c419f7f02f7df2a. Valores são hipótese autoral experimental. Esta peça adapta o motor de arma/entidade invocada ao terminar a recarga, que não estava atendido pela Lâmina durante a recarga. Não copia nome, arte ou coeficientes da referência.
+
+### Aquisição e inventário
+
+`reloadPiston`, PISTÃO DE RETORNO, é uma peça rara universal dos baús físicos de chefe. Oferecer somente quando ainda não adquirida, junto da política vigente de alternativas de hardware e universais. A escolha é pausada, valida versão da oferta e elegibilidade, pode ser recusada e não aceita callback antigo. Instalar apenas registra a peça temporária: não invoca, não altera HP, munição ou timer em andamento e não captura retroativamente uma recarga já iniciada.
+
+Inventário64:17relíquias/103artigos no compêndio. Catálogo editável continua86, revisão7;56módulos normais. Esta peça não integra os sliders do painel nem exige migração nova. Perfil permanente conserva recursos/equipamento e nunca guarda a peça, entidade, contatos ou captura.
+
+### Gatilho e estados por arma
+
+Cada espaço possui, no máximo, uma captura pendente `reloadPistonCharge` e uma entidade ativa `reloadPiston`. Sem a peça não criar esses campos. Armas auxiliares não compartilham captura, posição, contatos ou relógio.
+
+1. `startReload` precisa de partida ativa, arma sem recarga e munição abaixo da capacidade. Repetição deR ou carregador cheio não cria/renova nada.
+2. No início válido, depois de registrar falta/capacidade/tempo, capturar a referênciaP abaixo. Uma entidade anterior pode continuar viajando enquanto a próxima recarga acontece.
+3. A recarga parcial mantém a duração proporcional já existente. Até terminar, não criar entidade nova.
+4. Na conclusão, repor munição e executar os efeitos existentes de cura/frio; então consumir a captura uma única vez.
+5. Invocar somente com captura positiva finita, fração reposta positiva, peça presente, partida ativa e mira manual ativa com vetor finito não nulo. Não exige segurar disparo. Sem direção válida, descartar a captura; não guardar emissão para uma mira futura nem procurar inimigos.
+6. Nova invocação substitui a entidade anterior daquele espaço. Não manter fila nem compensar dano perdido.
+7. Depois de lançada, a entidade segue autonomamente a direção fixa. Soltar disparo, cancelar toque ou mover a mira não a redireciona/cancela. Pausa/ofertas congelam; morte/garagem limpam; reset recria slots sem captura/peça/entidade.
+
+### Fórmulas e exemplos
+
+Para cada espaço:
+
+- `N=min(400,max(1,floor(pelletsDaArma*projectileMult)))`.
+- `P=clamp(shotDamage(slot)*N,0,1e9)`, capturado no início da recarga.
+- `shotDamage` inclui base local, conversão Titânico vigente e fatores de manutenção/escudo intacto. Não inclui crítico do quinto tiro, carga de reparo, Culatra, Colimador ou procs de impacto.
+- `replaced=max(0,currentCapacity-currentAmmo)` antes de repor.
+- `f=clamp(min(missingAtStart,replaced)/capacityAtStart,0,1)`.
+- Dano bruto por contato: `D=0.9*P*f`.
+- No máximo3corpos, uma vez cada: orçamento bruto máximo sobre três corpos `2.7*P*f`. Esse valor não é DPS sustentado.
+
+SeP=100, recarga cheia dá90por corpo. Repor4de24dá15por corpo. Iniciar faltando5e receber1cartucho durante a recarga também repõe somente4e dá15. Receber toda a munição antes de concluir resulta emf=0: não invoca. Recarga de1cartucho não concede a potência de um carregador inteiro.
+
+Reforja pode alterar os próximos atributos/capacidade, mas não reescreveP nem os tempos de recarga já iniciados. A fração usa a falta e capacidade iniciais, limitada pelo que efetivamente faltava ao concluir, conforme a mesma regra da cura proporcional. Capturas anteriores de Lâmina/Matriz e projéteis antigos também não mudam.
+
+### Geometria, vida e colisão
+
+A direção é o vetor normalizado entre o jogador e a posição mundial da mira na fase da conclusão. A origem usa `weaponOrigin(slot,angle)`, incluindo offsets perpendiculares atuais0/−16/+16/+32dos espaços aplicáveis; o centro inicial fica24px adiante.
+
+A entidade avança em linha reta a360px/s, por no máximo0,6s ativos:216px de viagem a partir da sua origem inicial. Raio mecânico10px, somado ao raio do alvo. A arte não aumenta essa hitbox. Não segue alvo nem retorna fisicamente ao jogador.
+
+A cada avanço, limitar o trecho à vida restante e calcular a primeira entrada do segmento no círculo de cada alvo vivo ainda não atingido. Ordenar pelo parâmetro de entrada; empate preserva a ordem original de `targets()`. Esse conjunto inclui chefe vivo. O primeiro contato pode ser0quando a entidade nasce sobre um corpo.
+
+Processar até3contatos. Registrar cada corpo noSetantes do dano e diminuir o saldo mesmo quando o escudo absorve. Se algum efeito central matar/remover outro alvo já listado, pular esse morto sem novo contato. Escudo de policial absorve todo o golpe de quebra; o mesmo pistão não atinge o corpo depois, porque esse alvo já está marcado.
+
+Contatos exatamente no instante final de vida perdem o empate para expiração. O helper geométrico admite sua tolerância de8EPSno parâmetro; a comparação final exige entrada<1−8EPSquando o trecho termina junto com a vida. Após0,6s ou terceiro contato, apagar a entidade. OSetguarda no máximo3referências; não há histórico global, backlog, reembolso ou crescimento de filas.
+
+Pistões não usam a lista das400balas. São suportes separados com teto próprio de1por espaço: no máximo3ativos e3capturas pendentes no arsenal máximo. Eles não são consumidos pela Matriz nem recebem Colimador. Atingir400balas não cancela uma invocação válida, e invocar não remove balas para criar vaga.
+
+### Ordem discreta e tempo residual
+
+O loop integrado atual amostra estados/recargas antes de deslocar o jogador e sincronizar câmera/mira daquele quadro. O Pistão segue essa fase. Não alegar interpolação contínua da posição do jogador no instante subframe da conclusão.
+
+Para um passo de duração dt e recarga restanteR:
+
+1. Avançar a entidade antiga por `min(dt,R)`.
+2. Avançar Lâmina/recarga e, se terminar, executar a conclusão e possível substituição.
+3. Avançar a entidade resultante somente por `max(0,dt−min(dt,R))`.
+4. Se não havia recarga, avançar a entidade por todo dt.
+
+Assim uma recarga que termina0,02s dentro de um passo0,05s dá apenas0,03s de idade ao pistão novo. Se não houver mira válida e não ocorrer substituição, o antigo continua pelo restante. Cada trecho também é limitado pela vida da entidade. No navegador dt é limitado a0,04s; o piloto natural usa0,05s.
+
+**Observação conhecida P2, revisão estática:** em movimento rápido/dash no quadro da conclusão, a origem visual pode ficar defasada do robô já desenhado depois do deslocamento. Reprodução: recarga termina dentro do quadro, mover e comparar origem amostrada com posição após movimento/câmera. Impacto: diferença de até um passo de movimento, sem perda de progresso ou controle. Situação: ordem pré-movimento explicitamente mantida e testada; não foi implementada interpolação contínua nem se declarou correção desse deslocamento. A revisão não encontrou P0/P1 por inspeção, mas não executou testes. O Dev executou o caso integrado e os demais ensaios abaixo.
+
+### Fonte de dano e limites de propagação
+
+O contato chama dano central com fonte exata`reloadPiston` e origem do espaço emissor. Multiplicadores globais de alvo, Caça-Titãs, Finalizador e marca do predador continuam nas fases já existentes; não capturá-los novamente como se fossem parte deP. Exposição do sensor continua somente para`bullet`.
+
+Não chamar`impact`: sem queimadura, frio, corrosão, eletricidade, explosão, crítico, empurrão, ricochete, perfuração adicional, alimentação de Matriz ou carga de munição por contato. Não incrementar contadores de killAmmo/salvage.
+
+Manter XP, sucata, contagem geral, célula de reparo por25abates, baú/peça/cura de chefe e regras globais de morte únicas. Uma carga corrosiva já aplicada em um alvo pode liberar sua propagação normal quando ele morre; isso é efeito pré-existente, não aplicação de corrosão pelo pistão. Lacaios removidos pela morte do chefe não viram contatos extras.
+
+### Apresentação e áudio
+
+Silhueta original: carcaça curta de aço, aro cobre, haste e cabeça quadrada de prensa; sem dentes, ponta ou rastro longo. É uma ferramenta industrial arremessada, diferente da Lâmina fixa durante recarga e do anel de escudo. O ícone próprio fica em`assets/skills/reloadPiston.svg`.
+
+Nos primeiros90ms ativos, a cabeça estende3px e seu sinal âmbar transita para metal claro. O render lê posição/vida, sem mudar relógios, dano ou RNG. Pausa conserva pose e pixels depois do primeiro quadro da apresentação pausada. A mira pode desaparecer na transição para pausa; comparar dois quadros já pausados.
+
+As trilhas de recarga existentes, por espaço, mostram marcas âmbar quando há captura naquela recarga (`charging`) e ficam âmbar enquanto a entidade existe (`emitted`). O nome da arma, munição e avisos de Culatra/Lâmina continuam legíveis. Não criar nova linha, painel ou botão. O rótulo acessível identifica preparação/emissão. Pausa mostra captura/entidade, dano, vida e contatos restantes por espaço.
+
+Eventos próprios: `pistonLaunch` na invocação real, throttle0,15s, tom triangular155→310Hz/0,1s e ruído curto; `pistonHit` somente com perda efetiva de HP/escudo, throttle0,12s, tom260→100Hz/0,06s. No máximo um cue de contato por avanço, além do limite global24vozes. Sem RNGdecombate; mute, gesto inicial e volumes existentes permanecem. Nenhum som de invocação em recarga recusada, aquisição intermediária ou mira inválida.
+
+### Casos de aceitação
+
+Os casos abaixo são requisitos. Aprovação de fixtures não aprova a auditoria final.
+
+| ID | Preparação/ação | Resultado esperado |
+|---|---|---|
+| PIS01 |12armas; recarga cheia e de1cartucho |Pcapturado finito;D=0,9Pf; sem entidade antes de completar |
+| PIS02 |Rcom carregador cheio ou repetido |Nenhuma captura/invocação/renovação indevida |
+| PIS03 |Adquirir peça durante recarga |Sem efeito retroativo; próxima recarga válida captura |
+| PIS04 |Mira inativa, nula, inválida e válida sem disparo |Só última invoca; sem busca automática ou espera de mira futura |
+| PIS05 |Concluir com overshoot de0,2s |Somente0,2sde idade/72pxde viagem; não envelhecer pelo dtinteiro |
+| PIS06 |Alvos em ordem embaralhada, repetidos e quatro corpos |Entrada geométrica ordenada; uma vez/corpo; máximo3 |
+| PIS07 |Tangente lateral, direção vertical e extremo de vida |Raio10+alvo; direção fixa; expiração vence empate final |
+| PIS08 |1/2/3armas e400balas existentes |Um por slot/origens separadas, sem consumir/remover balas |
+| PIS09 |Nova conclusão com entidade antiga |Antiga sóaté fronteira; nova substitui e recebe residual |
+| PIS10 |Reforja, quebra de escudo e manutenção após captura |P/timers antigos preservados; próximas capturas usam novos valores |
+| PIS11 |Policial com escudo1e todos procs instalados |Quebra sem excesso aoHP; nenhum estado/empurrão/proc novo |
+| PIS12 |Abate comum/boss/contadores próximos do limiar |Loot/globais/recompensas únicos; sem killAmmo/salvage do pistão |
+| PIS13 |Liberar disparo, cancelar toque, pausar e retomar |Entidade lançada segue; pausada congela; sem retomada indevida do disparo |
+| PIS14 |Render repetido, morte, garagem e reset |Sem mutação/RNGpor render; limpeza completa sem persistência |
+| PIS15 |Faltam5cartuchos e1ou5são reembolsados |Dano/cura somente pela reposição real; reposição zero não invoca |
+| PIS16 |Tickintegrado com movimento/câmera e conclusão interna |Origem pré-movimento documentada; idade sóresidual; registrarP2 |
+| PIS17 |Três viewports, cards, estados de barras e3dedos |Escolha legal, sem clipping/novo botão, marcas por slot, controles independentes |
+| PIS18 |Som, mute e muitos contatos |Cues sóem eventos reais, throttles/limites mantidos |
+
+### Evidência e pendências
+
+`tests/reload-piston.cjs` registrou17grupos aprovados, incluindo reembolso e ordem do tick integrado; `tests/reload-piston-browser.cjs` passou nas3resoluções, escolha legal, Rreal,12modelos,3slots, screenshots pausados idênticos, terceiro dedo, retrato, morte e reset. Preparação inclui proteção, ondas suspensas, tempo manual e alinhamento artificial dos timers no caso de3dedos; não é partida natural, FPS ou aparelho físico. O primeiro erro de comparação de pixels era captura do último quadro ativo versus primeiro pausado; diagnóstico e imagens foram preservados.
+
+O teste existente de baús detectou inicialmente classificação incorreta da peça nova como específica: havia duas alternativas universais numa oferta que devia conter uma. A classificação da peça foi corrigida na produção e o mesmo teste passou, sem enfraquecer a assertion.
+
+Avaliação natural intermediária e regressão global devem ser lidas nos relatórios com hashes próprios. Matriz final30, estabilidade60min, desempenho real, celular físico e demais motores compatíveis continuam abertos. Este sistema não substitui a Lâmina durante recarga nem encerra o mapa de integração.
+
+### Resultado natural intermediário64
+
+[Resumo por tentativa](build64-balance-summary.json) e [arquivo bruto completo](data/build64-runs.json.gz) preservam protocolo, sementes, fontes congeladas, runner canônico, diferença de uma linha do experimento, decisões, dano por fonte e logs.
+
+| Braço | Configuração fixada antes de resultados | Viabilidade estrita | Aquisição/uso do Pistão |
+|---|---|---|---|
+| A |10receitas canônicas, seed6401301, piloto13sem alteração |10/10 |2/10adquiriram; ambas causaram dano efetivo ao corpo |
+| B |Forja/Oficina × seeds6401321/6401322; prefere Pistão apenas se oferecido legalmente |4/4 |4/4adquiriram e causaram dano efetivo ao corpo |
+
+Todas as14sobreviveram1200s, derrotaram pelo menos3chefes e obtiveram os4núcleos. Esses números não são14partidas canônicas nem a matriz final30. Não houve equipamento extra além de desbloqueio, poder/cura/imunidade artificial, oferta forçada, mudança de piloto, morte de chefe por comando ou descarte de vivos.
+
+Dano efetivo do Pistão no braçoB: Forja6401321=1117,80; Forja6401322=1219,05; Oficina6401321=6095,11; Oficina6401322=13051,61. São totais de1200s, nãoDPS, pico ou ganho causal comparado à mesma build sem peça. O observador existente não conta absorção por escudo nem registra o total de invocações/duração ativa, e a verificação numérica natural amostra somente alguns campos. Nenhum gateG01integral ou desempenho foi aprovado por isso.
+
+Os hashes de runtime, receitas e piloto não mudaram durante a matriz. O resumo gerado pelo coordenador manteve por engano o campo numérico build=62copiado de um script antigo; ele foi corrigido para64com errata explícita em metadataCorrections. Arquivos, versão congelada, resultados e simulação sempre foram64. Nenhuma partida foi repetida ou descartada por essa correção de metadado.
+
+### Regressão e revisão da candidata
+
+A verificação consolidada em outputs/release64-final-verification/manifest.json contém33comandos aprovados com hashes de runtime constantes. A execução inicial ficou retida em outputs/release64-regression/manifest.json: a assertion antiga da Lâmina ainda esperava16peças; foi atualizada para17e reexecutada, mantendo os testes de comportamento. Os verificadores estrutural/de release foram repetidos após concluir os textos, sem mudar física. A revisão estática do chat Revisor do projeto e o parecer do Dev designer não são execuções de teste e estão preservados no arquivo QA.
+
+[Arquivo QA controlado](data/build64-qa.json.gz) reúne fixtures, regressão, capturas, diagnóstico da pausa, revisão estática, parecer visual e recursos para reproduzir a geração da especificação. O pacote extraído e a publicação precisam de registros próprios; este parágrafo não os presume aprovados.
+
+
 ## Parte IV — especificação visual complementar
 
 
@@ -2321,7 +2465,7 @@ Fonte: `pesquisa-builds-20mtd.md:51`. O jogo não precisa13 personagens equivale
 | Dasher: ciclo→transformação móvel | Pendente | Há avanço ativo e passada visual, sem alternância temporal entre formas de combate. Não confundir animação com transformação mecânica. |
 | Hastur: intervalo→ataque invocado | Integrado funcionalmente | Drones e sensores adquirem alvos/pulsam em intervalos próprios; `tickDrones:906`, `tickSensor:979`; `build-mechanics.cjs:19`–`:23`, `sensors.cjs`. Não exige entidades/nomes da referência. |
 | Raven: acompanhante→dano adiado | Adaptado diferente no dano adiado; não aplicável a procs genéricos do drone atual | Corrosão parte de bala por contrato`:22`, drones não semeiam (`:20`). Fonte adiada está integrada; a ligação acompanhante→corrosão conflita com o isolamento vigente do drone. `corrosion.cjs` testa ausência em fontes secundárias. |
-| Katana: fim de recarga→arma invocada | Pendente | Fim de recarga cura/resfria/prepara um disparo; não materializa suporte novo. `tickWeaponReload:550`, `healPlayer:902`, `build-mechanics.cjs:16`–`:18`. |
+| Katana: fim de recarga→arma invocada | Adaptado funcionalmente na candidata64; gates finais abertos | Pistão de Retorno invoca entidade própria ao concluir recarga válida:0,9P×fração reposta,216px/0,6s/r10/3contatos, umporarma, direção manual sem homing. Fonte própria e cronologia/residual testados; P2de origem pré-movimento registrado. Engine17grupos/browser/naturais intermediárias10/10A e4/4B não são aceitefinal. [Contrato](pistao-de-retorno.md). |
 
 ### C. Propriedades das11 armas pesquisadas
 
@@ -2339,7 +2483,7 @@ Fonte: `pesquisa-builds-20mtd.md:73`. Não há requisito de reproduzir11 modelos
 | Batgun: projétil perseguidor/escalas híbridas | Pendente | Drone escolhe alvo, mas não é bala perseguidora. Projetéis manuais atuais conservam direção, salvo retorno/ricochete explicitamente definidos. Não transformar mira manual em seleção automática por conveniência (`contrato:9`); homing pós-emissão exigiria desenho próprio e teste. |
 | Salvo Knife: rastreamento favorecido por movimento | Integrado para dano cinético; pendente rastreamento | `speed`+`knock` converte movimento em dano limitado; `impact:1024`, `build-mechanics.cjs:30`. Não há projétil rastreador ligado à passada. |
 | Watering Gun: tiros ativam entidade | Adaptado e validado funcionalmente na candidata61; aceite final1.0 aberto | Matriz de Rebites (`rivetMatrix`, `deployRivetMatrix`) é estação física ancorada manualmente, absorve balas e converte energia em ataque próprio de direção fixa. Não é Colimador, sensor nem contador de acertos em zumbis. Fórmulas/estados e casos: [contrato da Matriz](matriz-de-rebites.md). Geometria/orçamento/controles passaram nas suítes específicas; partidas canônicas8/10 e experimento de uso4/4 estão separados em build61-balance-summary.json. Não equivale a equilíbrio final. |
-| Cyclone Sword: dano durante recarga | Adaptado funcionalmente para janela e duração na candidata62; gates finais abertos | Lâmina de Recarga converte duração efetiva em orçamento ofensivo frontal manual, por slot; DPS0,6P→1,2P e integral0,9PT. Drones/rotores continuam motores distintos. [Contrato e casos](lamina-de-recarga.md); engine/browser e provas naturais intermediárias registradas, com fontes distintas identificadas; coeficientes/entidade externos não são equivalência exata. Katana ao fim permanece pendente. |
+| Cyclone Sword: dano durante recarga | Adaptado funcionalmente para janela e duração na candidata62; gates finais abertos | Lâmina de Recarga converte duração efetiva em orçamento ofensivo frontal manual, por slot; DPS0,6P→1,2P e integral0,9PT. Drones/rotores continuam motores distintos. [Contrato e casos](lamina-de-recarga.md); engine/browser e provas naturais intermediárias registradas, com fontes distintas identificadas; coeficientes/entidade externos não são equivalência exata. Pistão adapta Katana ao fim na candidata64; validação final permanece aberta. |
 
 ### D. As12 conversões de sinergia pesquisadas
 
@@ -2383,7 +2527,7 @@ Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia 
 
 1. **Maturação temporal de suporte: adaptada na BUILD58** pela Baia de Comando para drones. Outros suportes não recebem esse crescimento; isso não bloqueia os motores distintos abaixo.
 2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering): adaptada e validada funcionalmente na candidata61** pela Matriz de Rebites, estação independente com consumo de balas e ataque próprio. O campo continua modificando a bala, sem substituir esse motor. Testes de engine, cronologia, browser e uso natural experimental preservam evidências; a auditoria final continua aberta e exposição de alvo é motor distinto.
-3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga foi adaptada funcionalmente na candidata62** pela Lâmina, com engine/browser aprovados e naturais intermediárias9/10canônicas e1/4experimentais, fontes identificadas. Suportes sempre ativos e crítico do quinto tiro continuam distintos. Gates finais e equilíbrio permanecem abertos; Katana ao terminar é pendência diferente.
+3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga foi adaptada funcionalmente na candidata62** pela Lâmina, com engine/browser aprovados e naturais intermediárias9/10canônicas e1/4experimentais, fontes identificadas. Suportes sempre ativos e crítico do quinto tiro continuam distintos. Gates finais e equilíbrio permanecem abertos; Pistão ao terminar foi adaptado na candidata64, com entidade própria e evidência separada.
 4. **Reserva de proteção e condições de manutenção: implementação candidata63** com quatro módulos normais distintos, Banco/Ponte/Circuito/Retorno, fórmulas finitas, fonte/ordem/snapshots e migração7. Engine24grupos e browser controlado3viewports tiveram resultados positivos; ainda faltam regressão homogênea, pacote e avaliação natural do pool alterado, sem aprovar gates finais. Isso não resolve outros motores nem constitui aprovação humana de qualidade. [Contrato completo](reserva-e-manutencao.md).
 5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
 
@@ -3033,7 +3177,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
 - **Preparação:** Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.
 - **Entradas e passos:** Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.
-- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;16relíquias/102artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
+- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;17relíquias/103artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.
 - **Falha:** P1.
@@ -3251,7 +3395,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-01 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Adquirir raiz com HP50/100, munição parcial e recarga ativa
 - **Resultado esperado:** HP50, reserva20/40, custo aplicado uma vez, timers/munição/snapshots preservados
@@ -3264,7 +3408,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-02 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Sem módulos novos, reproduzir mundos legados
 - **Resultado esperado:** Estado/efeitos/dano/RNG iguais ao comportamento anterior, excluindo correções explicitamente versionadas
@@ -3277,7 +3421,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-03 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Reserva20; golpes12,12 separados por fim de inv
 - **Resultado esperado:** 20→8→0; HP100→100→96; empurrão em ambos; sem procs no primeiro
@@ -3290,7 +3434,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-04 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Armadura2, Grounding, repairArmor; fontes diferentes
 - **Resultado esperado:** Mitigação aplicada uma vez, mínimo1 antes da reserva; valores finitos
@@ -3303,7 +3447,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-05 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Escudo pronto+reserva20, golpe enorme
 - **Resultado esperado:** Somente escudo consumido,120s/.25s; reserva/HP intactos; manutenção zerada
@@ -3316,7 +3460,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-06 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Guard de inv/pausa/morto; repetir contato
 - **Resultado esperado:** Nenhum consumo/reset/empurrão/proc; sem cura da morte
@@ -3329,7 +3473,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-07 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Reserva insuficiente e golpe fatal/não fatal
 - **Resultado esperado:** Excedente em HP; reações antigas sóse HPcai e sobrevive; limpeza correta
@@ -3342,7 +3486,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-08 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Cura10 com HP95/100 e reserva20
 - **Resultado esperado:** HP100, ganho2,5reserva; retorno5; especializações de cura sópela parcela5
@@ -3355,7 +3499,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-09 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Cura10 em HPcheio; reserva39
 - **Resultado esperado:** Sóganho1reserva; retorno0; sem repairCharge/repairPlating; resto descartado
@@ -3368,7 +3512,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-10 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Cura0/negativa/NaN/Infinity ou soma extrema configurada
 - **Resultado esperado:** Guard finito; nenhum estado inválido; sem laço de cura
@@ -3381,7 +3525,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-11 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** shieldDrive antes/depois de gastar/restaurar escudo
 - **Resultado esperado:** Fator1,2/1/1,2 sem multiplicação acumulativa, por1/2/3armas
@@ -3394,7 +3538,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-12 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** cleanCircuit em14,999/15/29,999/30s; várias partições dt
 - **Resultado esperado:** Estágios0/1/1/2; tempo≤30; pausa/ofertas/aquisição não dão crédito retroativo
@@ -3407,7 +3551,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-13 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Impacto absorvido por reserva/escudo e impacto bloqueado por inv
 - **Resultado esperado:** Primeiros zeram; terceiro não zera; bônus de projétil antigo preservado
@@ -3420,7 +3564,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-14 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Compor clean+intact+Titan+crítico+Culatra+Colimador
 - **Resultado esperado:** Fatores aplicados uma única vez, snapshot local; teto próprio1,44 não confundido com DPS
@@ -3433,7 +3577,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-15 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Adquirir/partir bônus durante recarga/implantação
 - **Resultado esperado:** Lâmina/Matriz mantêmPcapturado; futuras capturas usam estado novo; drones/sensor/rotores sem bônus acidental
@@ -3446,7 +3590,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-16 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Pulso com0/1/3/10abates
 - **Resultado esperado:** Ganho0/4/12/12reserva e redução0/8/24/24s; sem teto artificial de dano/alvos
@@ -3459,7 +3603,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-17 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Sensor quebra escudo, burn mata depois; outros suportes matam
 - **Resultado esperado:** Nenhuma recompensa de abate direto do sensor
@@ -3472,7 +3616,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-18 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Sensor mata chefe e remove lacaios
 - **Resultado esperado:** Umabate creditado, baú/peça/cura únicos; sem crédito por lacaios removidos
@@ -3485,7 +3629,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-19 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Timer de escudo7s + umabate de sensor
 - **Resultado esperado:** Timer0/pronto; bônus disponível sópara emissões seguintes; sem crédito bancado
@@ -3498,7 +3642,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-20 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Guardas, chamadas repetidas em morto, pulso atrasado
 - **Resultado esperado:** Sem duplicação, sem backlog, sem novos pulsos/procs/RNG
@@ -3511,7 +3655,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-21 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Resets, morrer/garagem/repetir e profile roundtrip
 - **Resultado esperado:** Nenhum atributo/estado temporário salvo ou transferido
@@ -3524,7 +3668,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-22 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Migrações1..6, colisões customizadas e referências vazias
 - **Resultado esperado:** Preservação/idempotência e inclusão dos4IDs apenas como catálogo
@@ -3537,7 +3681,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-23 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Três viewports e mouse/touch simultâneo; pausa/retrato
 - **Resultado esperado:** Barra acessível, sem overflow, ações intactas, sem retomada automática
@@ -3550,7 +3694,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-RESERVE-24 — Reserva
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7.
-- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes.
+- **Comando/procedimento:** node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes.
 - **Preparação:** Fixture declarada com estado, equipamento e fonte registrados; não conta como partida natural.
 - **Entradas e passos:** Repetir desenho/audio/mute, muitosabates
 - **Resultado esperado:** Render puro, cues limitados, sem RNGou crescimento ilimitado de vozes/efeitos
@@ -3558,6 +3702,240 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Bordas:** Validar fórmulas, ordem, limites e fontes da ParteIII-C. Valores experimentais não aprovam equilíbrio.
 - **Falha:** P1.
 - **Evidência:** Logs/snapshots numéricos antes e depois, hash, fonte e comando; capturas e interação quando há UI.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-01 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** 12armas; recarga cheia e de1cartucho
+- **Resultado esperado:** Pcapturado finito;D=0,9Pf; sem entidade antes de completar
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-02 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Rcom carregador cheio ou repetido
+- **Resultado esperado:** Nenhuma captura/invocação/renovação indevida
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-03 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Adquirir peça durante recarga
+- **Resultado esperado:** Sem efeito retroativo; próxima recarga válida captura
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-04 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Mira inativa, nula, inválida e válida sem disparo
+- **Resultado esperado:** Só última invoca; sem busca automática ou espera de mira futura
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-05 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Concluir com overshoot de0,2s
+- **Resultado esperado:** Somente0,2sde idade/72pxde viagem; não envelhecer pelo dtinteiro
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-06 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Alvos em ordem embaralhada, repetidos e quatro corpos
+- **Resultado esperado:** Entrada geométrica ordenada; uma vez/corpo; máximo3
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-07 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Tangente lateral, direção vertical e extremo de vida
+- **Resultado esperado:** Raio10+alvo; direção fixa; expiração vence empate final
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-08 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** 1/2/3armas e400balas existentes
+- **Resultado esperado:** Um por slot/origens separadas, sem consumir/remover balas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-09 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Nova conclusão com entidade antiga
+- **Resultado esperado:** Antiga sóaté fronteira; nova substitui e recebe residual
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-10 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Reforja, quebra de escudo e manutenção após captura
+- **Resultado esperado:** P/timers antigos preservados; próximas capturas usam novos valores
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-11 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Policial com escudo1e todos procs instalados
+- **Resultado esperado:** Quebra sem excesso aoHP; nenhum estado/empurrão/proc novo
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-12 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Abate comum/boss/contadores próximos do limiar
+- **Resultado esperado:** Loot/globais/recompensas únicos; sem killAmmo/salvage do pistão
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-13 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Liberar disparo, cancelar toque, pausar e retomar
+- **Resultado esperado:** Entidade lançada segue; pausada congela; sem retomada indevida do disparo
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-14 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Render repetido, morte, garagem e reset
+- **Resultado esperado:** Sem mutação/RNGpor render; limpeza completa sem persistência
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-15 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Faltam5cartuchos e1ou5são reembolsados
+- **Resultado esperado:** Dano/cura somente pela reposição real; reposição zero não invoca
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-16 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Tickintegrado com movimento/câmera e conclusão interna
+- **Resultado esperado:** Origem pré-movimento documentada; idade sóresidual; registrarP2
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-17 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Três viewports, cards, estados de barras e3dedos
+- **Resultado esperado:** Escolha legal, sem clipping/novo botão, marcas por slot, controles independentes
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-PISTON-18 — Pistão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD.
+- **Comando/procedimento:** node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs.
+- **Preparação:** Fixture e fonte identificadas; não representa partida natural.
+- **Entradas e passos:** Som, mute e muitos contatos
+- **Resultado esperado:** Cues sóem eventos reais, throttles/limites mantidos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.
+- **Falha:** P1.
+- **Evidência:** Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
 ### QA-COMBAT-W01 — Combate e mundo
@@ -5419,6 +5797,19 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-RELIC-reloadPiston — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar reloadPiston, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Ao concluir as próximas recargas, invoca um pistão na direção da mira. Dano de 90% do cartucho, proporcional à munição reposta; atravessa até 3 corpos em 216 px. Um por arma; sem mira válida, não invoca. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-RELIC-ruptureChamber — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
@@ -6697,17 +7088,17 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: 24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 210e30b4a08575d28d81a3304c419f7f02f7df2a. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | c5ff795f1afd74bb5c4b675842186c85b135d4e13f4b7a9e19f0f51889e85d39 |
+| game.js | 3405dcc0a0db0802f0195cb4cdecb4bf109e18e096f2eb886a47f4c6656bfaab |
 | balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | 91271e0deb43d928fa691054ba13e9d8b5a3a99d151dc1015afa93548cb2e2fc |
+| index.html | f8e2b78e9ba36247e8ed6a37ecacceded80a07eb4d0dec2cf314771ce864c6e8 |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | 61e6a4adc5db1814ed85ab2f0b8df5fa8d124657964b548e7e92dd583a12ef95 |
-| audio.js | 22681c551435dad55a3652be8e17d507429682d5fa1a851359f2b690593f0e71 |
+| ui-redesign.css | 310e51e5becbeeee7153fb80136a5a85593ec28fe3bbec82759ac275248790eb |
+| audio.js | 5810caf5c05c790bfc7133504ae83df126782d79f6e9a7ffaea9dd383fc98d11 |
 | touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
 | touch-controls.css | 0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200 |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
@@ -6717,7 +7108,7 @@ Commit pai: 24eb4b6859bb3197a0c95fab9fe0fb96db8a5473. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há330casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há349casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

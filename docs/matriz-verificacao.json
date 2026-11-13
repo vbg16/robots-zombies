@@ -3,7 +3,7 @@
   "timezone": "America/Sao_Paulo",
   "estado": "EM_DESENVOLVIMENTO",
   "ultima_publicacao_no_inicio_do_levantamento": "BUILD59/c8164b482ccdbbc116a81d26fe6b14e014eba4f1",
-  "commit_pai": "24eb4b6859bb3197a0c95fab9fe0fb96db8a5473",
+  "commit_pai": "210e30b4a08575d28d81a3304c419f7f02f7df2a",
   "snapshot_tem_alteracoes_locais": true,
   "contagens": {
     "chassis": 6,
@@ -13,19 +13,19 @@
     "experimentos": 6,
     "protocolos": 18,
     "reforjas": 24,
-    "reliquias": 16,
+    "reliquias": 17,
     "receitas": 10,
     "editaveis": 86,
     "atributos": 25
   },
   "source_hashes": {
-    "game.js": "c5ff795f1afd74bb5c4b675842186c85b135d4e13f4b7a9e19f0f51889e85d39",
+    "game.js": "3405dcc0a0db0802f0195cb4cdecb4bf109e18e096f2eb886a47f4c6656bfaab",
     "balance.js": "3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a",
     "builds.js": "4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8",
-    "index.html": "91271e0deb43d928fa691054ba13e9d8b5a3a99d151dc1015afa93548cb2e2fc",
+    "index.html": "f8e2b78e9ba36247e8ed6a37ecacceded80a07eb4d0dec2cf314771ce864c6e8",
     "style.css": "2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a",
-    "ui-redesign.css": "61e6a4adc5db1814ed85ab2f0b8df5fa8d124657964b548e7e92dd583a12ef95",
-    "audio.js": "22681c551435dad55a3652be8e17d507429682d5fa1a851359f2b690593f0e71",
+    "ui-redesign.css": "310e51e5becbeeee7153fb80136a5a85593ec28fe3bbec82759ac275248790eb",
+    "audio.js": "5810caf5c05c790bfc7133504ae83df126782d79f6e9a7ffaea9dd383fc98d11",
     "touch-controls.js": "4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d",
     "touch-controls.css": "0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200",
     "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
@@ -34,13 +34,13 @@
     "tools/rupture-chamber.js": "0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03"
   },
   "source_text_hashes": {
-    "game.js": "bcbd2f0ffc1f825e6d1623ec7abe716988b8a3d3c9767856b83f75da1300cb85",
+    "game.js": "622f2b506dc334dc5400f6284ba298fbc2a82c4cf732aaaa70dba1387c5f437f",
     "balance.js": "e3f02339a22bcfed5cc98c733f933f577cc053c25e1fb4add19ad81b3a7b2d19",
     "builds.js": "8ab6d2341024c575d992de4b2ca713545525d3660bc39f486d762e881e142715",
-    "index.html": "36b60468150a3b53f03cc09f58c68f58fd1d9d1c98fdf7b3e26971f0ccb4c7cd",
+    "index.html": "7b126a915df0eda0b31b8517d1aac0c46b096ff804efc5b5ce7b682e2c3a930e",
     "style.css": "bae75f6e1eda94dcb5b784956684d6c099da8cfbc8bef3a83f97c5130322da05",
-    "ui-redesign.css": "d8e9b3de065b7ec1de37e6a729115d382415aa5899e4f84fd7e4605cbb1595b0",
-    "audio.js": "47e45661863494f0d06174b0e648935facfb072fe62f06d5e9db96d9b753688c",
+    "ui-redesign.css": "29e918bf9971230c3dea4929328d777b75b71fcfb6b9a8ff73da14bf01e54721",
+    "audio.js": "665ec077a927dcc1013cf23256b06d02c0ac68abb7dc893892c99d3e7a5bfdfe",
     "touch-controls.js": "4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d",
     "touch-controls.css": "eb9bc93cb50acb589922d87b8c560f5742f5136b30b338b338afb874174892dc",
     "player-weapons.js": "31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830",
@@ -823,7 +823,7 @@
       "origem": "Contrato vigente e objetivo aprovado",
       "preparacao": "Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.",
       "entradas_e_passos": "Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.",
-      "resultado_esperado": "Nenhuma captura/peça/timer no save permanente;16relíquias/102artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.",
+      "resultado_esperado": "Nenhuma captura/peça/timer no save permanente;17relíquias/103artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.",
       "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
       "casos_de_borda": "Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.",
       "gravidade": "P1",
@@ -1103,7 +1103,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-02",
@@ -1119,7 +1119,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-03",
@@ -1135,7 +1135,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-04",
@@ -1151,7 +1151,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-05",
@@ -1167,7 +1167,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-06",
@@ -1183,7 +1183,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-07",
@@ -1199,7 +1199,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-08",
@@ -1215,7 +1215,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-09",
@@ -1231,7 +1231,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-10",
@@ -1247,7 +1247,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-11",
@@ -1263,7 +1263,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-12",
@@ -1279,7 +1279,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-13",
@@ -1295,7 +1295,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-14",
@@ -1311,7 +1311,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-15",
@@ -1327,7 +1327,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-16",
@@ -1343,7 +1343,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-17",
@@ -1359,7 +1359,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-18",
@@ -1375,7 +1375,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-19",
@@ -1391,7 +1391,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-20",
@@ -1407,7 +1407,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-21",
@@ -1423,7 +1423,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-22",
@@ -1439,7 +1439,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-23",
@@ -1455,7 +1455,7 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
     },
     {
       "id": "QA-RESERVE-24",
@@ -1471,7 +1471,295 @@
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
       "implementacao_correspondente": "game.js: SKILLS/addReserve/hurtPlayer/healPlayer/maintenanceFactor/tickSensor/tickStatuses/updateHUD; balance.js revisão7",
-      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; browser/naturais pendentes"
+      "comando_ou_procedimento": "node tests/maintenance-gameplay.cjs; node tests/maintenance-migration.cjs; node tests/maintenance-browser.cjs; naturais finais pendentes"
+    },
+    {
+      "id": "QA-PISTON-01",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "12armas; recarga cheia e de1cartucho",
+      "resultado_esperado": "Pcapturado finito;D=0,9Pf; sem entidade antes de completar",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-02",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Rcom carregador cheio ou repetido",
+      "resultado_esperado": "Nenhuma captura/invocação/renovação indevida",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-03",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Adquirir peça durante recarga",
+      "resultado_esperado": "Sem efeito retroativo; próxima recarga válida captura",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-04",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Mira inativa, nula, inválida e válida sem disparo",
+      "resultado_esperado": "Só última invoca; sem busca automática ou espera de mira futura",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-05",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Concluir com overshoot de0,2s",
+      "resultado_esperado": "Somente0,2sde idade/72pxde viagem; não envelhecer pelo dtinteiro",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-06",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Alvos em ordem embaralhada, repetidos e quatro corpos",
+      "resultado_esperado": "Entrada geométrica ordenada; uma vez/corpo; máximo3",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-07",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Tangente lateral, direção vertical e extremo de vida",
+      "resultado_esperado": "Raio10+alvo; direção fixa; expiração vence empate final",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-08",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "1/2/3armas e400balas existentes",
+      "resultado_esperado": "Um por slot/origens separadas, sem consumir/remover balas",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-09",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Nova conclusão com entidade antiga",
+      "resultado_esperado": "Antiga sóaté fronteira; nova substitui e recebe residual",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-10",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Reforja, quebra de escudo e manutenção após captura",
+      "resultado_esperado": "P/timers antigos preservados; próximas capturas usam novos valores",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-11",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Policial com escudo1e todos procs instalados",
+      "resultado_esperado": "Quebra sem excesso aoHP; nenhum estado/empurrão/proc novo",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-12",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Abate comum/boss/contadores próximos do limiar",
+      "resultado_esperado": "Loot/globais/recompensas únicos; sem killAmmo/salvage do pistão",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-13",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Liberar disparo, cancelar toque, pausar e retomar",
+      "resultado_esperado": "Entidade lançada segue; pausada congela; sem retomada indevida do disparo",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-14",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Render repetido, morte, garagem e reset",
+      "resultado_esperado": "Sem mutação/RNGpor render; limpeza completa sem persistência",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-15",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Faltam5cartuchos e1ou5são reembolsados",
+      "resultado_esperado": "Dano/cura somente pela reposição real; reposição zero não invoca",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-16",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Tickintegrado com movimento/câmera e conclusão interna",
+      "resultado_esperado": "Origem pré-movimento documentada; idade sóresidual; registrarP2",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-17",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Três viewports, cards, estados de barras e3dedos",
+      "resultado_esperado": "Escolha legal, sem clipping/novo botão, marcas por slot, controles independentes",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
+    },
+    {
+      "id": "QA-PISTON-18",
+      "area": "Pistão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture e fonte identificadas; não representa partida natural.",
+      "entradas_e_passos": "Som, mute e muitos contatos",
+      "resultado_esperado": "Cues sóem eventos reais, throttles/limites mantidos",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Contrato completo da ParteIII-D; declarar origem pré-movimento e limitaçãoP2.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Estado/relógios/dano/contatos antes/depois, hash, logs e capturas; procedimento real quando aplicável",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: startReload/tickWeaponReload/finishReloadPiston/tickReloadPiston/drawReloadPistons/renderPistonHUD",
+      "comando_ou_procedimento": "node tests/reload-piston.cjs; node tests/reload-piston-browser.cjs; node tests/reload-piston-audio.cjs"
     },
     {
       "id": "QA-COMBAT-W01",
@@ -3752,6 +4040,22 @@
       "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
       "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar reloadBlade, tentar repetir, executar condição e iniciar outra tentativa.",
       "resultado_esperado": "Nas próximas recargas, segure o disparo para cortar à frente da mira. A lâmina ganha força durante a recarga; soltar o disparo interrompe o corte. Cada arma tem sua própria lâmina. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
+      "gravidade": "P1",
+      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios",
+      "comando_ou_procedimento": "node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz"
+    },
+    {
+      "id": "QA-RELIC-reloadPiston",
+      "area": "Relíquia",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
+      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar reloadPiston, tentar repetir, executar condição e iniciar outra tentativa.",
+      "resultado_esperado": "Ao concluir as próximas recargas, invoca um pistão na direção da mira. Dano de 90% do cartucho, proporcional à munição reposta; atravessa até 3 corpos em 216 px. Um por arma; sem mira válida, não invoca. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
       "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
       "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
       "gravidade": "P1",

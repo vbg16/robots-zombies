@@ -224,3 +224,6 @@ body:has(#run-config:not([hidden])) main{width:100%;height:auto;min-height:100dv
 .reserve-hud[hidden]{display:none}.reserve-hud{color:#f0b85b;margin:2px 0;min-width:0}.reserve-line{display:flex;align-items:center;gap:5px;font-size:10px;line-height:12px}.reserve-line b{white-space:nowrap}.reserve-track{width:72px;min-width:36px;height:4px;background:#493a25;overflow:hidden}.reserve-track i{display:block;height:100%;background:repeating-linear-gradient(90deg,#f0b85b 0 12px,#493a25 12px 14px)}#maintenance-status{display:block;font-size:10px;line-height:12px;color:#e8ddc9;white-space:normal}#maintenance-status:empty{display:none}
 
 .combat-screen .reserve-line{min-width:0;letter-spacing:0}.combat-screen .reserve-line b{font-size:12px;line-height:12px;letter-spacing:0}.combat-screen .reserve-track{flex:1;min-width:12px;max-width:72px}.combat-screen #maintenance-status{letter-spacing:0}
+
+/* Piston uses existing reload tracks; no added line or control. */
+.reload-track>i[data-piston="charging"]{background-image:repeating-linear-gradient(90deg,transparent 0 14px,#f0b85b 14px 17px)}.reload-track>i[data-piston="emitted"]{background:#f0b85b!important}
