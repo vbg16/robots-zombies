@@ -92,6 +92,8 @@ const BOSS_RELICS=Object.freeze([
  {id:'reloadBlade',name:'LÂMINA DE RECARGA',icon:'rotors',benefit:'Nas próximas recargas, segure o disparo para cortar à frente da mira. A lâmina ganha força durante a recarga; soltar o disparo interrompe o corte. Cada arma tem sua própria lâmina.',eligible:()=>true,apply:()=>{}},
  {id:'reloadPiston',name:'PISTÃO DE RETORNO',icon:'reloadPiston',benefit:'Ao concluir as próximas recargas, invoca um pistão na direção da mira. Dano de 90% do cartucho, proporcional à munição reposta; atravessa até 3 corpos em 216 px. Um por arma; sem mira válida, não invoca.',eligible:()=>true,apply:()=>{}},
  {id:'integrityPulse',name:'PULSO DE INTEGRIDADE',icon:'integrityPulse',benefit:'Consumir o último cartucho emitido libera um pulso em raio 90. Dano igual a 20% da integridade máxima, dividido pelo número de armas. Uma vez por cartucho; recarregar não ativa.',eligible:()=>true,apply:()=>{}},
+ {id:'compactFeed',name:'ALIMENTADOR COMPACTO',icon:'compactFeed',benefit:'Na próxima recarga válida de cada arma, cada cartucho reposto leva 20% menos tempo. Preserva munição atual e recargas em curso.',cost:'Capacidade ×0,75, arredondada para baixo (mínimo 1). Consuma abaixo do novo limite para ativar; R não descarta munição.',eligible:()=>true,apply:()=>{for(const slot of weaponSlots)slot.compactPending=true;}},
+ {id:'recoveryDrive',name:'DÍNAMO DE RECUPERAÇÃO',icon:'recoveryDrive',benefit:'Cada munição realmente recuperada por abates ou carga elétrica dá +4% de cadência à arma receptora por 4 s. Até 5 estágios (+20%); novo ganho renova o prazo. Recarga não ativa.',eligible:()=>player.skills.killAmmo||player.specialization==='chargeRecovery',apply:()=>{}},
  {id:'ruptureChamber',name:'CULATRA DE RUPTURA',icon:'damage',benefit:'Cada cartucho gasto guarda 1 carga (máx. 60/arma). O último soma +25% por carga, contando a dele. Recarregar antes descarta as cargas.',eligible:()=>true,apply:()=>{for(const slot of weaponSlots)slot.ruptureCharge=0;}}
 ]);
 let bossChests=[],offeredRelics=[];
@@ -242,6 +244,12 @@ function reloadAllWeapons(){let started=false;for(const slot of weaponSlots)star
 function weaponOrigin(slot,angle){const offset=weaponSlots.length===1?0:slot.index===0?-16:slot.index===1?16:32;return {x:player.x-Math.sin(angle)*offset,y:player.y+Math.cos(angle)*offset};}
 function weaponSource(origin){return {slot:origin?.slot??0,directDamage:origin?.directDamage??player.damage};}
 function sourceWeapon(origin){return weaponSlots[origin?.slot]||primaryWeaponState();}
+function recoverWeaponAmmo(slot,amount,source=null){
+ if(state!=='playing'||player.hp<=0||!weaponSlots.includes(slot)||!Number.isFinite(amount)||amount<=0)return 0;
+ const before=slot.ammo;slot.ammo=Math.min(magazineSize(slot),slot.ammo+Math.floor(amount));const gained=Math.max(0,slot.ammo-before);
+ if(gained>0&&player.relics.has('recoveryDrive')&&['killAmmo','chargeRecovery'].includes(source)){const stacks=recoveryDriveStacks(slot);slot.recoveryDrive={stacks:Math.min(5,stacks+gained),until:clock+4};if(stacks<slot.recoveryDrive.stacks)sound('ammoCharge');}
+ return gained;
+}
 
 let SPECIALIZATIONS=Object.freeze({
  prot:[
@@ -389,7 +397,7 @@ function openMenu(){
  el('enter-garage').focus();
 }
 function openGarage(){
- clearReloadPistons();clearMaintenance();clearReloadBlades();clearRivetMatrix();screenTransition();
+ clearRecoveryDrives();clearReloadPistons();clearMaintenance();clearReloadBlades();clearRivetMatrix();screenTransition();
  el('run-config').hidden=true;clearInput();offerVersion++;state='garage';el('title-screen').hidden=true;el('garage').hidden=false;el('combat').hidden=true;
  el('overlay').hidden=true;el('garage-feedback').textContent='';renderLoadout();renderCompendium();focusViewHeading('garage-title');
 }
@@ -433,6 +441,7 @@ function renderRunStats(){
  if(player.skills.sensor)rows.push(['Sensor · dano por alvo',number(Math.min(1e9,player.damage*.35*player.sensorDamageMult))],['Sensor · próximo intervalo',number(sensorInterval())+' s'],['Sensor · alcance',number(sensorRange())+' px']);
  if(player.skills.corrosion)rows.push(['Prazo de novas cargas corrosivas',number(Math.max(.25,Math.min(30,2*player.corrosionDelayMult)))+' s'],['Base da carga corrosiva',number(player.corrosionDamageMult*100)+'% do dano do projétil']);
  if(droneCount())rows.push(['Drones de apoio',String(droneCount())],['Dano por drone',number(droneShotDamage())],['Intervalo dos drones',number(Math.max(.35,.8*player.droneRateMult))+' s'],['Alcance dos drones',number(player.droneRange+(player.specialization==='droneRelay'?100:0))+' px']);
+ for(const slot of weaponSlots){if(slot.compactPending||slot.compactActive)rows.push(['Alimentador · arma '+(slot.index+1),slot.compactPending?'PENDENTE · consuma até '+(compactMagazineSize(slot)-1)+'; próximo limite '+compactMagazineSize(slot):'ATIVO · '+magazineSize(slot)+' cartuchos · tempo por cartucho reposto −20%']);const stages=recoveryDriveStacks(slot);if(player.relics.has('recoveryDrive'))rows.push(['Dínamo · arma '+(slot.index+1),stages+'/5 · cadência ×'+number(1+.04*stages)+(stages?' · '+number(Math.max(0,slot.recoveryDrive.until-clock))+' s':'')]);}
  if(player.relics.has('vitalLink'))rows.push(['Acoplamento Vital','HP atual '+number(player.hp)+' · extra por ataque '+number(vitalDroneBonus(player.damage*.25*player.droneDamageMult*(calibration?.damageFactor||1)))+' · limite próprio ×2; arco herda captura']);
  if(player.relics.has('integrityPulse'))rows.push(['Pulso de Integridade',number(integrityPulseDamage())+' por corpo · raio 90 · só último cartucho consumido; '+weaponSlots.length+' arma(s)']);
  if(calibration)rows.push(['Calibração da Baia',calibration.tier+'/3 · dano extra +'+calibration.tier*10+'% · '+(calibration.maxed?'MÁXIMO':'próximo em '+Math.ceil(calibration.nextIn)+' s de combate')+' · pausa e ofertas não contam']);
@@ -486,6 +495,7 @@ function renderPistonHUD(slot,progress){
  progress.setAttribute('data-piston',stage);progress.setAttribute('aria-label',stage==='emitted'?'Pistão emitido':stage==='charging'?'Recarga preparando Pistão de Retorno':'Progresso da recarga');
 }
 function renderIntegrityAmmo(slot,node){const ready=player.relics.has('integrityPulse')&&slot.ammo===1&&slot.reloadTime===0;node.setAttribute('data-integrity-ready',String(ready));node.setAttribute('title',ready?'Último cartucho: libera Pulso de Integridade':'');}
+function cycleAmmoStatus(slot,fallback){const stages=recoveryDriveStacks(slot);return fallback+(slot.compactPending?' · COMPACTO: CONSUMA ATÉ '+(compactMagazineSize(slot)-1):'')+(stages?' · DÍNAMO '+stages+'/5 · '+Math.max(0,slot.recoveryDrive.until-clock).toFixed(1)+' s':'');}
 function updateAuxWeaponHUD(){
  const box=el('aux-ammo');box.hidden=weaponSlots.length===1;
  if(weaponHudNodes.length!==weaponSlots.length-1){
@@ -495,7 +505,7 @@ function updateAuxWeaponHUD(){
   }
  }
  for(const slot of weaponSlots.slice(1)){
-  const node=weaponHudNodes[slot.index-1];node.name.textContent=(slot.index+1)+' · '+slot.weapon.name+(slot.weaponEvolution?' · '+slot.weaponEvolution.name:'');node.ammo.textContent=slot.ammo+' / '+magazineSize(slot);node.status.textContent=reloadBladeStatus(slot,ruptureStatus(slot,slot.reloadTime>0?'RECARGA '+slot.reloadTime.toFixed(1)+' s':slot.ammo===magazineSize(slot)?'CARREGADOR CHEIO':'[R] RECARREGAR'));node.ammo.setAttribute('data-rupture-ready',String(player.relics.has('ruptureChamber')&&slot.ammo===1&&slot.reloadTime===0));node.progress.style.width=(slot.reloadTime>0?(1-slot.reloadTime/slot.reloadTotal)*100:100)+'%';renderPistonHUD(slot,node.progress);renderIntegrityAmmo(slot,node.ammo);
+  const node=weaponHudNodes[slot.index-1];node.name.textContent=(slot.index+1)+' · '+slot.weapon.name+(slot.weaponEvolution?' · '+slot.weaponEvolution.name:'');node.ammo.textContent=slot.ammo+' / '+magazineSize(slot);node.status.textContent=reloadBladeStatus(slot,ruptureStatus(slot,slot.reloadTime>0?'RECARGA '+slot.reloadTime.toFixed(1)+' s':slot.ammo===magazineSize(slot)?'CARREGADOR CHEIO':'[R] RECARREGAR'));node.ammo.setAttribute('data-rupture-ready',String(player.relics.has('ruptureChamber')&&slot.ammo===1&&slot.reloadTime===0));node.progress.style.width=(slot.reloadTime>0?(1-slot.reloadTime/slot.reloadTotal)*100:100)+'%';renderPistonHUD(slot,node.progress);renderIntegrityAmmo(slot,node.ammo);node.status.textContent=cycleAmmoStatus(slot,node.status.textContent);
  }
 }
 function updateHUD(){
@@ -508,13 +518,13 @@ function updateHUD(){
  renderHealth(player.hp);el('time').textContent=String(Math.floor(clock/60)).padStart(2,'0')+':'+String(Math.floor(clock%60)).padStart(2,'0');
  el('kills').textContent=kills;el('level').textContent=String(level).padStart(2,'0');el('xp').style.width=Math.min(100,xp/need*100)+'%';el('hud-robot-name').textContent=runRobot.name;el('hud-portrait').src=(runRobot.portrait||'assets/robots/prot-0001-simple.png');
  el('hud-portrait').style.filter=runRobot.filter||'none';drawMinimap();
- el('combat-loadout').textContent=runRobot.name+' · '+runWeapon.name+' · dano '+shotDamage().toFixed(1)+(runWeapon.pellets*player.projectileMult>1?' × '+(runWeapon.pellets*player.projectileMult):'')+' · cadência '+((player.frenzy>0?3:1)/player.rate).toFixed(1)+'/s';
+ el('combat-loadout').textContent=runRobot.name+' · '+runWeapon.name+' · dano '+shotDamage().toFixed(1)+(runWeapon.pellets*player.projectileMult>1?' × '+(runWeapon.pellets*player.projectileMult):'')+' · cadência '+(1/fireInterval()).toFixed(1)+'/s';
  if(weaponSlots.length>1)el('combat-loadout').textContent=runRobot.name+' · '+weaponSlots.length+' armas · movimento '+player.speed.toFixed(0)+' px/s';updateAuxWeaponHUD();
  const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name).concat(GAMBARRAS.filter(item=>player.blessings.has(item.id)).map(item=>item.name),BOSS_EXPERIMENTS.filter(item=>player.experiments.has(item.id)).map(item=>item.name),BOSS_RELICS.filter(item=>player.relics.has(item.id)).map(item=>item.name));renderCooldowns();
  el('weapon-name').textContent=((weaponSlots.length>1?'1 · ':'')+runWeapon.name+(player.weaponEvolution?' · '+player.weaponEvolution.name:'')).toLocaleUpperCase('pt-BR');el('ammo-count').textContent=player.ammo+' / '+magazineSize();el('reload-status').textContent=player.reloadTime>0?'RECARREGANDO '+player.reloadTime.toFixed(1)+' s':player.ammo===magazineSize()?'CARREGADOR CHEIO':'[R] RECARREGAR · '+missingReloadDuration().toFixed(1)+' s';el('reload-progress').style.width=(player.reloadTime>0?(1-player.reloadTime/player.reloadTotal)*100:100)+'%';
  el('reload-status').textContent=reloadBladeStatus(primaryWeaponState(),ruptureStatus(primaryWeaponState(),el('reload-status').textContent));el('ammo-count').setAttribute('data-rupture-ready',String(player.relics.has('ruptureChamber')&&player.ammo===1&&player.reloadTime===0));
  renderPistonHUD(primaryWeaponState(),el('reload-progress'));
- renderIntegrityAmmo(primaryWeaponState(),el('ammo-count'));
+ renderIntegrityAmmo(primaryWeaponState(),el('ammo-count'));el('reload-status').textContent=cycleAmmoStatus(primaryWeaponState(),el('reload-status').textContent);
  el('build-summary').textContent=(names.join(' · ')||'Sem módulos especiais')+(activeSynergies().length?' | '+activeSynergies().join(' | '):'');
  const live=!!boss&&boss.hp>0;el('boss-hud').hidden=!live;
  if(live){el('boss-health').style.width=Math.max(0,boss.hp/boss.maxHp*100)+'%';el('boss-action').textContent=bossMessage();const minions=BOSS_MINIONS[boss.id],activeMinions=enemies.filter(z=>z.minionOwner===boss.id).length;el('boss-support').textContent=(activeMinions?activeMinions+' '+minions.role:'SEM LACAIOS')+' · ONDAS COMUNS ATIVAS';}
@@ -580,7 +590,9 @@ function drawCombatFeedback(){
  ctx.globalAlpha=1;
 }
 function boostDamage(){player.damageStacks++;player.damage*=2;toast('DANO ×2');}
-function fireInterval(slot=primaryWeaponState()){return slot.rate/(player.frenzy>0?3:1);}
+function recoveryDriveStacks(slot){if(!weaponSlots.includes(slot))return 0;const drive=slot.recoveryDrive;return player.relics.has('recoveryDrive')&&drive&&Number.isFinite(drive.until)&&clock<drive.until&&Number.isFinite(drive.stacks)?Math.max(0,Math.min(5,drive.stacks)):0;}
+function clearRecoveryDrives(){for(const slot of weaponSlots)if(slot.recoveryDrive)delete slot.recoveryDrive;}
+function fireInterval(slot=primaryWeaponState()){return slot.rate/(player.frenzy>0?3:1)/(1+.04*recoveryDriveStacks(slot));}
 function maintenanceFactor(){return (player.skills.shieldDrive&&player.skills.shield&&player.shieldReady?1.2:1)*(1+(player.skills.cleanCircuit?Math.min(2,Math.floor(player.cleanCircuitElapsed/15))*.1:0));}
 function addReserve(amount){
  const bank=player.reserveBank;if(!bank||player.hp<=0||!Number.isFinite(amount)||amount<=0)return 0;
@@ -596,11 +608,14 @@ function restoreSensorProtection(count){
 }
 function shotDamage(slot=primaryWeaponState()){return (slot.damage+(player.acquired.has('titan')&&player.acquired.has('armor')?Math.min(slot.damage*.75,player.maxHp*.03):0))*maintenanceFactor();}
 function bossRepairAmount(){return player.skills.bossHunter?40:20;}
-function magazineSize(slot=primaryWeaponState()){return Math.max(1,Math.floor(AMMO[slot.weapon.id][0]*slot.magazineMult));}
-function reloadDuration(slot=primaryWeaponState()){return AMMO[slot.weapon.id][1]*slot.reloadMult;}
+function normalMagazineSize(slot){return Math.max(1,Math.floor(AMMO[slot.weapon.id][0]*slot.magazineMult));}
+function compactMagazineSize(slot){return Math.max(1,Math.floor(normalMagazineSize(slot)*.75));}
+function magazineSize(slot=primaryWeaponState()){return slot.compactActive?compactMagazineSize(slot):normalMagazineSize(slot);}
+function reloadDuration(slot=primaryWeaponState()){return AMMO[slot.weapon.id][1]*slot.reloadMult*(slot.compactActive?.8*compactMagazineSize(slot)/normalMagazineSize(slot):1);}
 function missingReloadDuration(slot=primaryWeaponState()){return (magazineSize(slot)-slot.ammo)/magazineSize(slot)*reloadDuration(slot);}
 function startReload(slot=primaryWeaponState()){
  if(state!=='playing'||slot.reloadTime>0||slot.ammo>=magazineSize(slot))return false;
+ if(slot.compactPending){if(slot.ammo>=compactMagazineSize(slot))return false;slot.compactPending=false;slot.compactActive=true;}
  if(player.relics.has('ruptureChamber'))slot.ruptureCharge=0;
  sound("reload");slot.reloadMissing=magazineSize(slot)-slot.ammo;slot.reloadCapacity=magazineSize(slot);slot.reloadTotal=missingReloadDuration(slot);slot.reloadTime=slot.reloadTotal;slot.bursts=[];if(player.relics.has('reloadBlade')){const count=Math.min(400,Math.max(1,Math.floor(slot.weapon.pellets*slot.projectileMult)));slot.reloadBlade={baseDamage:Math.max(0,Math.min(1e9,shotDamage(slot)*count)),visible:false,geometry:null,lastCue:clock-.12};sound('reloadBladeOn');}if(player.relics.has('reloadPiston')){const count=Math.min(400,Math.max(1,Math.floor(slot.weapon.pellets*slot.projectileMult)));slot.reloadPistonCharge=Math.max(0,Math.min(1e9,shotDamage(slot)*count));}return true;
 }
@@ -804,13 +819,13 @@ function offerBossRelic(chest){
  const candidates=BOSS_RELICS.filter(r=>!player.relics.has(r.id)&&r.eligible());
  if(!candidates.length){offerExperiment();return;}
  // Prefer hardware that fits the equipped weapon/support; retain a universal alternative.
- const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse'].includes(r.id));
+ const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse','compactFeed'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse','compactFeed'].includes(r.id));
  for(const pool of [specific,general])for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
  offeredRelics=[...specific.slice(0,2),...general,...specific.slice(2)].slice(0,3);
- state='relic';offerSource='boss-chest';show('PEÇA RARA / '+chest.bossName,'Escolha uma peça exclusiva do baú. Favorece sua build e dura até o fim desta partida. Sem penalidade; não é salva na garagem.','');const version=++offerVersion;
+ state='relic';offerSource='boss-chest';show('PEÇA RARA / '+chest.bossName,'Escolha uma peça exclusiva do baú. Favorece sua build e dura até o fim desta partida. Consulte o ganho e o custo de cada peça; não é salva na garagem.','');const version=++offerVersion;
  for(const [i,item] of offeredRelics.entries()){
   const card=document.createElement('button'),icon=document.createElement('img'),category=document.createElement('span'),title=document.createElement('strong'),benefit=document.createElement('span'),duration=document.createElement('span'),action=document.createElement('span');
-  card.className='upgrade-card boss-experiment-card';card.setAttribute('data-relic',item.id);icon.src='assets/skills/'+item.icon+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';category.className='skill-category';category.textContent='PEÇA RARA DE CHEFE';title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent=item.benefit;duration.className='skill-cost';duration.textContent='SEM PENALIDADE · SÓ NESTA PARTIDA';action.className='skill-action';action.textContent='['+(i+1)+'] INSTALAR PEÇA →';card.append(category,icon,title,benefit,duration,action);card.onclick=()=>chooseRelic(item.id,version);el('choices').append(card);
+  card.className='upgrade-card boss-experiment-card';card.setAttribute('data-relic',item.id);icon.src='assets/skills/'+item.icon+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';category.className='skill-category';category.textContent='PEÇA RARA DE CHEFE';title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent=item.benefit;duration.className='skill-cost';duration.textContent=(item.cost?'CUSTO: '+item.cost:'SEM PENALIDADE')+' · SÓ NESTA PARTIDA';action.className='skill-action';action.textContent='['+(i+1)+'] INSTALAR PEÇA →';card.append(category,icon,title,benefit,duration,action);card.onclick=()=>chooseRelic(item.id,version);el('choices').append(card);
  }
  const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='CONTINUAR SEM PEÇA [R]';skip.onclick=()=>declineRelic(version);el('choices').append(skip);el('choices').children[0]?.focus();
 }
@@ -979,7 +994,7 @@ function hurtPlayer(amount,sourceX,sourceY,source='contact'){
   if(player.skills.overload&&player.hitCooldowns.overload<=0){player.hitCooldowns.overload=120;player.frenzy=6;toast('SOBRECARGA: CADÊNCIA ×3');}
  }
 
- if(!player.hp){clearReloadPistons();clearMaintenance();clearReloadBlades();clearRivetMatrix();sound('death');state='over';show('Fim da transmissão.','Sobreviveu '+Math.floor(clock)+' s · '+kills+' eliminações. Skills encerradas.','REPETIR CONFIGURAÇÃO');}
+ if(!player.hp){clearRecoveryDrives();clearReloadPistons();clearMaintenance();clearReloadBlades();clearRivetMatrix();sound('death');state='over';show('Fim da transmissão.','Sobreviveu '+Math.floor(clock)+' s · '+kills+' eliminações. Skills encerradas.','REPETIR CONFIGURAÇÃO');}
 }
 function targets(){return boss&&boss.hp>0?[...enemies,boss]:enemies;}
 let collisionGrid=null;
@@ -1093,7 +1108,7 @@ function damageEnemy(z,damage,source='direct',origin=null){
   if(z===boss){sound('bossDefeat');bossDefeated=true;bossKills++;if(z.id==='scrapper')policeUnlocked=true;bossReward=true;bossChests.push({id:bossKills,bossId:z.id,bossName:z.name,x:z.x,y:z.y});awardBossPart(z.id);for(const minion of enemies)if(minion.minionOwner===z.id)minion.hp=0;enemies=enemies.filter(minion=>minion.minionOwner!==z.id);hostile=[];hazards=[];effects.push({x:z.x,y:z.y,r:100,life:.6,max:.6,color:'#ffd27c'});releaseCorrosion(z);}
   else{
    if(source==='burn'&&player.specialization==='heatRecovery'&&player.specializationCooldown<=0){healPlayer(1);player.specializationCooldown=2;}if(source==='drone'&&player.specialization==='droneSalvage'&&player.specializationCooldown<=0){healPlayer(1);player.specializationCooldown=1.5;}sound("kill");kills++;gems.push({x:z.x,y:z.y});scrap.push({x:z.x,y:z.y,value:1,life:60});if(kills%REPAIR_CELL.everyKills===0)scrap.push({x:z.x,y:z.y,value:0,repair:REPAIR_CELL.healing,life:60});if(scrap.length>250)scrap=scrap.slice(-250);
-   if(state==='playing'&&source!=='matrix'&&source!=='reloadBlade'&&source!=='reloadPiston'&&source!=='integrityPulse'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;healPlayer(20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;const slot=sourceWeapon(origin);slot.ammo=Math.min(magazineSize(slot),slot.ammo+1);}}
+   if(state==='playing'&&source!=='matrix'&&source!=='reloadBlade'&&source!=='reloadPiston'&&source!=='integrityPulse'){if(player.skills.salvage&&++player.killCounter>=20){player.killCounter=0;healPlayer(20);toast('SUCATA: +1 BATERIA');}if(player.skills.killAmmo&&++player.ammoKills>=10){player.ammoKills=0;recoverWeaponAmmo(sourceWeapon(origin),1,'killAmmo');}}
    if(source==='bullet'&&z.slowTime>0&&player.skills.freeze&&player.skills.finisher)explodeAt(z.x,z.y,(origin?.directDamage??player.damage)*.5,70,z,origin);
   }
  }
@@ -1102,7 +1117,7 @@ function shockAt(z,damage,intrinsic=0,origin=null){
  const count=intrinsic+(player.skills.shock?(player.skills.pierce?3:1):0)+(player.specialization==='extraFork'?1:0);
  if(count<=0)return;
  const near=nearestTargets(z.x,z.y,135*(player.skills.conductivity?3:1),count,z);
- for(const t of near){const before=t.hp,shielded=t.enemyType==='shieldPolice'&&t.shieldHp>0;effects.push({x:z.x,y:z.y,x2:t.x,y2:t.y,life:.16,max:.16,color:'#8ceeff'});damageEnemy(t,damage*.5*(runRobot.id==='volt'?1.35:1)*(intrinsic&&player.skills.shock?1.25:1)*(player.relicShockMult||1),'electric',origin);if(t.hp<before&&player.specialization==='chargeRecovery'){player.electricHits++;if(player.electricHits>=6&&player.specializationCooldown<=0){player.electricHits=0;const slot=sourceWeapon(origin);slot.ammo=Math.min(magazineSize(slot),slot.ammo+1);player.specializationCooldown=.25;}}const stun=(player.skills.stun?(t===boss?.25:1):0)+(player.specialization==='groundPulse'?(t===boss?.1:.35):0);if(!shielded&&stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);}
+ for(const t of near){const before=t.hp,shielded=t.enemyType==='shieldPolice'&&t.shieldHp>0;effects.push({x:z.x,y:z.y,x2:t.x,y2:t.y,life:.16,max:.16,color:'#8ceeff'});damageEnemy(t,damage*.5*(runRobot.id==='volt'?1.35:1)*(intrinsic&&player.skills.shock?1.25:1)*(player.relicShockMult||1),'electric',origin);if(t.hp<before&&player.specialization==='chargeRecovery'){player.electricHits++;if(player.electricHits>=6&&player.specializationCooldown<=0){player.electricHits=0;recoverWeaponAmmo(sourceWeapon(origin),1,'chargeRecovery');player.specializationCooldown=.25;}}const stun=(player.skills.stun?(t===boss?.25:1):0)+(player.specialization==='groundPulse'?(t===boss?.1:.35):0);if(!shielded&&stun&&t.hp>0)t.stunTime=Math.max(t.stunTime||0,stun);}
 }
 function applyElementalStatus(z,b){
  if(z.hp<=0)return;const w=b.weapon||runWeapon,traits=b.weapon?(b.evolutionTraits||{}):(player.weaponEvolution?.traits||{});

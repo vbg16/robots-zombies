@@ -384,13 +384,13 @@ fresh();run('player.frenzy=6;pause()');const overloadValues=elements.get('choice
 fresh();const beforeManual=run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})');run('renderCompendium()');
 assert.equal(run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})'),beforeManual,'consulting catalog is read only');
 const manual=elements.get('module-compendium');assert.equal(manual.children.length,23,'manual includes fourteen trees, blessings, experiments and six chassis');
-const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,105);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,105,'all catalog entries appear once');
+const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,107);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,107,'all catalog entries appear once');
 assert.ok(manualCards.find(card=>card['data-module']==='rivetMatrix'),'new physical device has its own compendium entry');
 assert.ok(manualCards.find(card=>card['data-module']==='reloadBlade'),'reload-window device has its own compendium entry');
 const pierceManual=manualCards.find(card=>card['data-module']==='pierce');assert.equal(pierceManual.children[3].textContent,'REQUISITO: NÚCLEO CRIOGÊNICO');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[2].textContent.includes(run("SKILLS.find(s=>s.id==='ricochet').cost")),'manual uses current canonical costs');
 run('renderCompendium()');assert.equal(manual.children.length,23,'reopening catalog replaces instead of duplicating entries');
-console.log('Garage compendium covers86 modules and19 exclusive boss relics without mutating the run or profile.');
+console.log('Garage compendium covers86 modules and21 exclusive boss relics without mutating the run or profile.');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].textContent.includes('projéteis de retorno; exige ao menos uma arma sem retorno'),'manual explains mixed-arsenal ricochet eligibility');
 
 // One run-only reroll replaces level-up choices without granting a skill or advancing combat.

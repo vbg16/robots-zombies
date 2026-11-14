@@ -1,0 +1,754 @@
+{
+  "build": 66,
+  "kind": "readonly-natural-evidence-analysis",
+  "finalGateApproved": false,
+  "rows": [
+    {
+      "arm": "canonical",
+      "build": "agulha-antitita",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 22,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "tempestade-balistica",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 28,
+      "pieces": [
+        {
+          "id": "recoveryDrive",
+          "at": 124.99999999999504
+        },
+        {
+          "id": "compactFeed",
+          "at": 1180.1499999994744
+        }
+      ]
+    },
+    {
+      "arm": "canonical",
+      "build": "escopeta-ricochete",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 5,
+      "level": 29,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "cacador-criogenico",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 27,
+      "pieces": [
+        {
+          "id": "compactFeed",
+          "at": 834.7999999997885
+        }
+      ]
+    },
+    {
+      "arm": "canonical",
+      "build": "forja-criogenica",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 25,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "rede-de-plasma",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 4,
+      "level": 26,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "demolicao-de-campo",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 26,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "oficina-viva",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 23,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "enxame-de-sucata",
+      "seed": 6601301,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 30,
+      "pieces": []
+    },
+    {
+      "arm": "canonical",
+      "build": "lanca-de-fuga",
+      "seed": 6601301,
+      "strictViable": false,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 18,
+      "pieces": [
+        {
+          "id": "compactFeed",
+          "at": 820.4999999998015
+        }
+      ]
+    },
+    {
+      "arm": "preferred-ammo-cycle",
+      "build": "tempestade-balistica",
+      "seed": 6601321,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 28,
+      "pieces": [
+        {
+          "id": "recoveryDrive",
+          "at": 128.69999999999501
+        }
+      ]
+    },
+    {
+      "arm": "preferred-ammo-cycle",
+      "build": "tempestade-balistica",
+      "seed": 6601322,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 28,
+      "pieces": [
+        {
+          "id": "recoveryDrive",
+          "at": 240.20000000002037
+        },
+        {
+          "id": "compactFeed",
+          "at": 1119.3999999995297
+        }
+      ]
+    },
+    {
+      "arm": "preferred-ammo-cycle",
+      "build": "oficina-viva",
+      "seed": 6601321,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 24,
+      "pieces": [
+        {
+          "id": "compactFeed",
+          "at": 358.4000000000472
+        }
+      ]
+    },
+    {
+      "arm": "preferred-ammo-cycle",
+      "build": "oficina-viva",
+      "seed": 6601322,
+      "strictViable": true,
+      "time": 1199.9999999994563,
+      "bossKills": 7,
+      "level": 23,
+      "pieces": [
+        {
+          "id": "compactFeed",
+          "at": 304.40000000003494
+        }
+      ]
+    }
+  ],
+  "retainedCanonicalFailure": {
+    "build": "lanca-de-fuga",
+    "seed": 6601301,
+    "time": 1199.9999999994563,
+    "hp": 86.66666666666667,
+    "bossKills": 7,
+    "level": 18,
+    "missingCore": [
+      "repair"
+    ],
+    "magnetChosen": {
+      "at": 670.5499999999379,
+      "level": 15,
+      "kind": "upgrade",
+      "id": "magnet"
+    },
+    "upgradeOffers": [
+      {
+        "time": 28.250000000000266,
+        "kind": "upgrade",
+        "level": 2,
+        "version": 2,
+        "slot": null,
+        "options": [
+          {
+            "id": "reserveBank",
+            "name": "BANCO DE RESERVA"
+          },
+          {
+            "id": "burn",
+            "name": "MUNIÇÃO INCENDIÁRIA"
+          },
+          {
+            "id": "dash",
+            "name": "PROPULSOR AUXILIAR"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 67.34999999999832,
+        "kind": "upgrade",
+        "level": 4,
+        "version": 6,
+        "slot": null,
+        "options": [
+          {
+            "id": "rate",
+            "name": "OVERDRIVE"
+          },
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          },
+          {
+            "id": "shock",
+            "name": "DESCARGA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 124.24999999999508,
+        "kind": "upgrade",
+        "level": 5,
+        "version": 8,
+        "slot": null,
+        "options": [
+          {
+            "id": "extra",
+            "name": "CÂMARA DUPLA"
+          },
+          {
+            "id": "burn",
+            "name": "MUNIÇÃO INCENDIÁRIA"
+          },
+          {
+            "id": "rotors",
+            "name": "ROTORES DE SUCATA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 124.24999999999508,
+        "kind": "upgrade",
+        "level": 5,
+        "version": 9,
+        "slot": null,
+        "options": [
+          {
+            "id": "corrosion",
+            "name": "REVESTIMENTO CORROSIVO"
+          },
+          {
+            "id": "damage",
+            "name": "ALTO IMPACTO"
+          },
+          {
+            "id": "ricochet",
+            "name": "MUNIÇÃO RICOCHETE"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 160.3500000000022,
+        "kind": "upgrade",
+        "level": 7,
+        "version": 15,
+        "slot": null,
+        "options": [
+          {
+            "id": "corrosion",
+            "name": "REVESTIMENTO CORROSIVO"
+          },
+          {
+            "id": "ricochet",
+            "name": "MUNIÇÃO RICOCHETE"
+          },
+          {
+            "id": "rotors",
+            "name": "ROTORES DE SUCATA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 160.3500000000022,
+        "kind": "upgrade",
+        "level": 7,
+        "version": 16,
+        "slot": null,
+        "options": [
+          {
+            "id": "drones",
+            "name": "DRONE DE APOIO"
+          },
+          {
+            "id": "freeze",
+            "name": "NÚCLEO CRIOGÊNICO"
+          },
+          {
+            "id": "shock",
+            "name": "DESCARGA"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 188.35000000000858,
+        "kind": "upgrade",
+        "level": 8,
+        "version": 18,
+        "slot": null,
+        "options": [
+          {
+            "id": "shock",
+            "name": "DESCARGA"
+          },
+          {
+            "id": "speed",
+            "name": "PERNAS HIDRÁULICAS"
+          },
+          {
+            "id": "rotors",
+            "name": "ROTORES DE SUCATA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 293.2000000000324,
+        "kind": "upgrade",
+        "level": 11,
+        "version": 26,
+        "slot": null,
+        "options": [
+          {
+            "id": "reserveBank",
+            "name": "BANCO DE RESERVA"
+          },
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          },
+          {
+            "id": "crit",
+            "name": "QUINTO IMPACTO"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 293.2000000000324,
+        "kind": "upgrade",
+        "level": 11,
+        "version": 27,
+        "slot": null,
+        "options": [
+          {
+            "id": "shock",
+            "name": "DESCARGA"
+          },
+          {
+            "id": "burn",
+            "name": "MUNIÇÃO INCENDIÁRIA"
+          },
+          {
+            "id": "finisher",
+            "name": "FINALIZADOR"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 330.85000000004095,
+        "kind": "upgrade",
+        "level": 12,
+        "version": 29,
+        "slot": null,
+        "options": [
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          },
+          {
+            "id": "coldReload",
+            "name": "RECARGA GLACIAL"
+          },
+          {
+            "id": "finisher",
+            "name": "FINALIZADOR"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 330.85000000004095,
+        "kind": "upgrade",
+        "level": 12,
+        "version": 30,
+        "slot": null,
+        "options": [
+          {
+            "id": "armor",
+            "name": "BLINDAGEM REFORÇADA"
+          },
+          {
+            "id": "grace",
+            "name": "ISOLAMENTO DE IMPACTO"
+          },
+          {
+            "id": "pierce",
+            "name": "PERFURAÇÃO"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 412.5500000000595,
+        "kind": "upgrade",
+        "level": 13,
+        "version": 32,
+        "slot": null,
+        "options": [
+          {
+            "id": "knock",
+            "name": "IMPACTO CINÉTICO"
+          },
+          {
+            "id": "extra",
+            "name": "CÂMARA DUPLA"
+          },
+          {
+            "id": "armor",
+            "name": "BLINDAGEM REFORÇADA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 522.5000000000725,
+        "kind": "upgrade",
+        "level": 14,
+        "version": 36,
+        "slot": null,
+        "options": [
+          {
+            "id": "thermal",
+            "name": "CHOQUE TÉRMICO"
+          },
+          {
+            "id": "blast",
+            "name": "CARGA EXPLOSIVA"
+          },
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 522.5000000000725,
+        "kind": "upgrade",
+        "level": 14,
+        "version": 37,
+        "slot": null,
+        "options": [
+          {
+            "id": "pierce",
+            "name": "PERFURAÇÃO"
+          },
+          {
+            "id": "reserveBank",
+            "name": "BANCO DE RESERVA"
+          },
+          {
+            "id": "afterburn",
+            "name": "COMBUSTÃO CONCENTRADA"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 670.5499999999379,
+        "kind": "upgrade",
+        "level": 15,
+        "version": 41,
+        "slot": null,
+        "options": [
+          {
+            "id": "range",
+            "name": "PROPULSÃO BALÍSTICA"
+          },
+          {
+            "id": "finisher",
+            "name": "FINALIZADOR"
+          },
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 670.5499999999379,
+        "kind": "upgrade",
+        "level": 15,
+        "version": 42,
+        "slot": null,
+        "options": [
+          {
+            "id": "drones",
+            "name": "DRONE DE APOIO"
+          },
+          {
+            "id": "thermal",
+            "name": "CHOQUE TÉRMICO"
+          },
+          {
+            "id": "magnet",
+            "name": "CAMPO MAGNÉTICO"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 791.8999999998275,
+        "kind": "upgrade",
+        "level": 16,
+        "version": 44,
+        "slot": null,
+        "options": [
+          {
+            "id": "thermal",
+            "name": "CHOQUE TÉRMICO"
+          },
+          {
+            "id": "drones",
+            "name": "DRONE DE APOIO"
+          },
+          {
+            "id": "blast",
+            "name": "CARGA EXPLOSIVA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 791.8999999998275,
+        "kind": "upgrade",
+        "level": 16,
+        "version": 45,
+        "slot": null,
+        "options": [
+          {
+            "id": "range",
+            "name": "PROPULSÃO BALÍSTICA"
+          },
+          {
+            "id": "corrosion",
+            "name": "REVESTIMENTO CORROSIVO"
+          },
+          {
+            "id": "armor",
+            "name": "BLINDAGEM REFORÇADA"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 901.349999999728,
+        "kind": "upgrade",
+        "level": 17,
+        "version": 49,
+        "slot": null,
+        "options": [
+          {
+            "id": "armor",
+            "name": "BLINDAGEM REFORÇADA"
+          },
+          {
+            "id": "rotors",
+            "name": "ROTORES DE SUCATA"
+          },
+          {
+            "id": "pierce",
+            "name": "PERFURAÇÃO"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 901.349999999728,
+        "kind": "upgrade",
+        "level": 17,
+        "version": 50,
+        "slot": null,
+        "options": [
+          {
+            "id": "extra",
+            "name": "CÂMARA DUPLA"
+          },
+          {
+            "id": "crit",
+            "name": "QUINTO IMPACTO"
+          },
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          }
+        ],
+        "rerolls": 0
+      },
+      {
+        "time": 1069.499999999575,
+        "kind": "upgrade",
+        "level": 18,
+        "version": 54,
+        "slot": null,
+        "options": [
+          {
+            "id": "finisher",
+            "name": "FINALIZADOR"
+          },
+          {
+            "id": "drones",
+            "name": "DRONE DE APOIO"
+          },
+          {
+            "id": "sensor",
+            "name": "SENSOR DE VARREDURA"
+          }
+        ],
+        "rerolls": 1
+      },
+      {
+        "time": 1069.499999999575,
+        "kind": "upgrade",
+        "level": 18,
+        "version": 55,
+        "slot": null,
+        "options": [
+          {
+            "id": "emergency",
+            "name": "RESERVA DE EMERGÊNCIA"
+          },
+          {
+            "id": "bossHunter",
+            "name": "CAÇA-TITÃS"
+          },
+          {
+            "id": "crit",
+            "name": "QUINTO IMPACTO"
+          }
+        ],
+        "rerolls": 0
+      }
+    ],
+    "upgradeChoices": [
+      {
+        "at": 28.250000000000266,
+        "level": 2,
+        "kind": "upgrade",
+        "id": "dash"
+      },
+      {
+        "at": 67.34999999999832,
+        "level": 4,
+        "kind": "upgrade",
+        "id": "rate"
+      },
+      {
+        "at": 124.24999999999508,
+        "level": 5,
+        "kind": "upgrade",
+        "id": "damage"
+      },
+      {
+        "at": 160.3500000000022,
+        "level": 7,
+        "kind": "upgrade",
+        "id": "freeze"
+      },
+      {
+        "at": 188.35000000000858,
+        "level": 8,
+        "kind": "upgrade",
+        "id": "speed"
+      },
+      {
+        "at": 293.2000000000324,
+        "level": 11,
+        "kind": "upgrade",
+        "id": "burn"
+      },
+      {
+        "at": 330.85000000004095,
+        "level": 12,
+        "kind": "upgrade",
+        "id": "grace"
+      },
+      {
+        "at": 412.5500000000595,
+        "level": 13,
+        "kind": "upgrade",
+        "id": "knock"
+      },
+      {
+        "at": 670.5499999999379,
+        "level": 15,
+        "kind": "upgrade",
+        "id": "magnet"
+      }
+    ],
+    "repairWasEverOffered": false,
+    "postMagnetOfferCount": 8,
+    "offerDrops": 0,
+    "interpretation": "Survival/bosses passed, but required repair never legally appeared in the recorded upgrade offers. Failure remains in denominator. No offer/pilot/recipe changes or seed retry. Does not prove a global progression defect or justify weakening final criteria."
+  },
+  "limits": "Acquisition evidence, not buff uptime or causal DPS. Controlled engine/browser separately exercise effects."
+}

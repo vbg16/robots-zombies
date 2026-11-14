@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Acoplamento Vital converte HP atual em bônus limitado nos drones; Pulso de Integridade converte HP máximo no último cartucho emitido.19relíquias/105compêndio,86editáveis. Correção: drones não atacam após morte no mesmo tick. Desenvolvimento experimental, sem aprovação pública.",
-  "build": 65
+  "notes": "Candidata em validação: Alimentador Compacto reduz capacidade na próxima recarga válida e tempo por cartucho reposto; Dínamo converte reposição real em cadência local limitada.21relíquias/107compêndio;56normais/86editáveis. Sem aprovação pública.",
+  "build": 66
 }

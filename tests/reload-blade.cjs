@@ -13,7 +13,7 @@ function reloading(missing=null){context.missing=missing;run(`player.ammo=missin
 function target(x=70,y=0,r=1){context.tx=x;context.ty=y;context.tr=r;run(`globalThis.fixtureTarget={x:player.x+tx,y:player.y+ty,r:tr,hp:100000,maxHp:100000,speed:0,enemyType:'chaser'};enemies=[fixtureTarget];`);}
 function bladeStep(dt){context.delta=dt;run('tickWeaponReload(primaryWeaponState(),delta)');}
 check('catalogue, all twelve weapons: full/one-cartridge reload budget and snapshots',()=>{
- assert.equal(run('BOSS_RELICS.length'),19);
+ assert.equal(run('BOSS_RELICS.length'),21);
  for(const weapon of run('Object.keys(WEAPONS)'))for(const missing of [null,1]){
   setup(weapon);install();run(`player.skills.crit=1;player.shotCount=4;player.repairShotReady=true;player.projectileMult=2;globalThis.expectedP=shotDamage()*Math.min(400,Math.max(1,Math.floor(runWeapon.pellets*player.projectileMult)));`);
   reloading(missing);target();

@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD65 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD66 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -10,6 +10,8 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 Este diretório é a fonte de referência para as decisões de produto e design do jogo. Consolida a conversa de definição do projeto até 27/10/2026.
 
 ## Documentos
+
+- [Ciclos de munição na candidata BUILD66](ciclos-de-municao.md): capacidade menor com reposição eficiente e cadência por recuperação real; testes e limites.
 
 - [Reserva e manutenção na candidata BUILD63](reserva-e-manutencao.md): Banco consumível, escudo intacto, sequência sem impactos, proteção por abates do sensor e migração7; equilíbrio/aceite final pendentes.
 
@@ -22,7 +24,7 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 - [Culatra de Ruptura na BUILD60](culatra-de-ruptura.md): último cartucho por arma, escudos, testes e limites das evidências naturais.
 
 - [Objetivo aprovado](OBJETIVO-APROVADO.md) e [meta de conclusão](META-DE-CONCLUSAO.md): escopo, métricas e evidências exigidas para terminar a versão 1.0.
-- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 302 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
+- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 408 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
 
 - [Colimador de Campo na BUILD59](colimador-de-campo.md): conversão espacial, tempo ativo, colisões e limites de validação.
 

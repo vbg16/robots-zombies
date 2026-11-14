@@ -1,10 +1,12 @@
-# Screwvivors — BUILD 65 · desenvolvimento
+# Screwvivors — BUILD 66 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
 Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de execução. A [documentação](docs/README.md) distingue decisões aprovadas e propostas. Arte atual é provisória.
 
-O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 377 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
+O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 408 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
+
+Na candidata66, [Alimentador Compacto e Dínamo de Recuperação](docs/ciclos-de-municao.md) acrescentam eficiência de reposição com capacidade menor e cadência por munição realmente recuperada. São peças temporárias de baú, com custo/condições explícitos. O inventário reúne21peças raras e107artigos de compêndio; os56módulos normais/86editáveis permanecem. Avaliação intermediária:9/10receitas canônicas viáveis e4/4em experimento separado; falhas e limites estão documentados.
 
 ## Jogar
 

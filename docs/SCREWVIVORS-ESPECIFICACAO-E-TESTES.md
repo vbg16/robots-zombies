@@ -2,7 +2,7 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD64, commited7834ce8d742a1499e9740804d00269ac852daa. Esta edição descreve a candidata BUILD65 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD65, commit03a77f7772a4569ef0f4ce54ec993752ca494d21. Esta edição descreve a candidata BUILD66 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
@@ -39,11 +39,11 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
-| Relíquias de baú |19|
+| Relíquias de baú |21|
 | Receitas de build |10|
 | Registros editáveis padrão |86|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |105|
+| Artigos do compêndio de módulos/relíquias |107|
 
 Os86editáveis são56+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
@@ -730,7 +730,7 @@ Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de e
 
 ## Especificação de combate, mundo, apresentação e verificação
 
-Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61, a Lâmina62 e a reserva/manutenção63 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A publicação62estáconfirmada; a candidata63nãoestáaprovada nem publicada; Matriz, Lâmina e Reserva estão especificadas nas PartesIII-A,III-B eIII-C. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
+Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61, a Lâmina62 e a reserva/manutenção63 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. Publicações61a65confirmadas; a candidata66nãoestápublicada nemaprovada pelos gatesfinais. Contratos das integrações estão nas PartesIII-AaIII-F. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
 
 ### 1. Produto e estrutura da tentativa
 
@@ -1130,11 +1130,11 @@ Os valores da tabela são anteriores a passivas, loadout, módulos, protocolos, 
 
 Para cada slot, mantenha `damage`, `rate`, `magazineMult`, `reloadMult`, `projectileMult`, `projectileSpeed`, `projectileSize`, `projectileLife`, `spreadMult`, `ammo`, `reloadTime`, `reloadTotal`, `reloadMissing`, `reloadCapacity`, `shotCount`, fila de rajadas e cooldown. Dano base e definição da arma são snapshots próprios. A arma primária pode espelhar esses campos no objeto do jogador, mas auxiliares não podem trocar temporariamente o estado global para disparar.
 
-1. Capacidade `M=max(1,floor(cartuchosBase × magazineMult))`. Instalar capacidade maior não enche o carregador. Capacidade reduzida limita a munição existente aM.
-2. Tempo de recarga cheia `T=recargaBase × reloadMult`. Ao iniciar comAmunições: `Tparcial=(M-A)/M × T`. Arma cheia, em recarga ou fora de combate não inicia outra recarga. Ao iniciar, capturar `reloadMissing=M-A`, `reloadCapacity=M` e cancelar subtiros pendentes.
+1. Capacidade normal `Mn=max(1,floor(cartuchosBase × magazineMult))`. Com Compacto ativo, M=max(1,floor(0,75Mn)); pendente mantém Mn até uma recarga válida com ammo<Mcompacto. Instalar capacidade maior não enche o carregador. Redução por módulos normais limita a munição existente aM; a aquisição do Compacto é a transição diferida explícita, sem descarte.
+2. Tempo normal de recarga cheia `Tn=recargaBase × reloadMult`; com Compacto ativo T=0,8Tn×M/Mn, senãoT=Tn. Ao iniciar comAmunições: `Tparcial=(M-A)/M × T`. Arma cheia, em recarga ou fora de combate não inicia outra recarga. Ao iniciar, capturar `reloadMissing=M-A`, `reloadCapacity=M` e cancelar subtiros pendentes.
 3. Na conclusão, usar a capacidade atualMnovo. `replaced=max(0,Mnovo-ammoAtual)`; `f=min(1,max(0,min(reloadMissing,replaced)/reloadCapacity))`. Repor munição paraMnovo e curar `(5 se skillrepair +3 se NANO) × f / númeroDeArmas`, limitado ao HP faltante. Refills ocorridos durante a recarga diminuem a reposição efetiva; não conceder cura de carregador inteiro para uma bala.
 4. Dano antes do tiro: `D=slot.damage + (min(slot.damage×0,75,HPmáximo×0,03) se titan earmor adquiridos; caso contrário0)`.
-5. Intervalo efetivo `I=slot.rate/(3 se frenzy>0; senão1)`. Cooldown reduz por tempo ativo; nunca emitir acima do limite compartilhado de400balas. Múltiplas armas usam ordem de serviço rotativa, para não matar de fome o último slot.
+5. Intervalo efetivo `I=slot.rate/(3 se frenzy>0; senão1)/(1+0,04estágiosDínamoVálidos)`. Cooldown reduz por tempo ativo; nunca emitir acima do limite compartilhado de400balas. Múltiplas armas usam ordem de serviço rotativa, para não matar de fome o último slot.
 6. Número planejado de pellets `Npedido=min(400,max(1,floor(pelletsDaArma × projectileMult)))`. Se há Bprojéteis antes da emissão, `Nemitido=min(Npedido,400-B)`. Uma vaga restante pode emitir só um dos pellets da salva, mas consome um único cartucho. Sem vaga alguma, retornar falha sem gastar munição, crítico, carga de reparo ou energia da Culatra.
 7. Abertura `S=max(dispersãoDaArma,0,16 se Npedido>1; senão0) × spreadMult`. Se Npedido=1, usar mira exata; caso contrário o pellet i usa `mira+(i/(Npedido-1)-0,5)×S`, para i=0atéNemitido-1. O leque é calculado pelo número planejado, não pelo que coube. Com399balas e10pellets pedidos, o único pellet emitido sai em mira−S/2, não no centro. Não randomizar nem recentralizar a salva truncada.
 8. Velocidade `V=(velocidadeDaArma ou570) × projectileSpeed`; vida `L=vidaDaArma × projectileLife`; raio `R=(raioDaArma ou6) × projectileSize`.
@@ -1307,11 +1307,11 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 | ENXA-0006 | droneRelay | RELÉ DO ENXAME | Alcance dos drones +100px; coleta ×1,25. | Não aumenta o número de drones. |
 
 
-### Dezenove relíquias de baú — candidata BUILD65
+### Vinte e uma relíquias de baú — candidata BUILD66
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga, Pistão de Retorno e Pulso de Integridade; as outras exigem a arma/suporte listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga, Pistão de Retorno Pulso de Integridade e Alimentador Compacto; as outras exigem a arma/suporte/fonte de recuperação listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
-| ID | Nome | Elegibilidade | Ganho |
+| ID | Nome | Elegibilidade | Ganho e custo quando presente |
 | --- | --- | --- | --- |
 | thermalRelay | CÂMARA DE COMBUSTÃO | Skillburn ou qualquer arma equipada com queimadura intrínseca | Queimaduras causam +50% de dano. |
 | cryoLens | CRISTAL DE ESTASE | Skillfreeze ou qualquer arma equipada com frio intrínseco | Resfriamento dos impactos dura +50%. |
@@ -1332,6 +1332,9 @@ Baú físico fica no local da morte, sem expiração ou atração por ímã; col
 | reloadPiston | PISTÃO DE RETORNO | Universal; próximas recargas válidas após adquirir | Invoca no fim, com mira manual finita; dano0,9P×fração realmente reposta;216px/0,6s, raio10, até3corpos uma vez, umporarma. CapturaPno início, fonte própria sem procs balísticos; substituição/residual por espaço. |
 | vitalLink | ACOPLAMENTO VITAL |Drone real, inclusive nativoENXA |Cada ataque soma min(base,2,5%HPatual), sem custo deHP. Base inclui treino; foco depois; arco herda captura. Sem novos drones/cadência. |
 | integrityPulse | PULSO DE INTEGRIDADE |Universal |Último cartucho realmente emitido: dano20%HPmáxima/Narmas, raio90+corpo, uma vez por cartucho. Não porpellet/recarga; sem procs balísticos, com gatilhos globais de morte anteriores. |
+| compactFeed | ALIMENTADOR COMPACTO | Universal | Na próxima recarga válida por slot: Cc=max(1,floor(0,75Cn)); T=0,8Tn×Cc/Cn. Custo capacidade menor; preserva ammo/recarga atuais e Rrecusa enquanto ammo>=Cc. Tempo por cartucho reposto−20%, sem bônus de dano. |
+| recoveryDrive | DÍNAMO DE RECUPERAÇÃO | killAmmo adquirido ou especialização chargeRecovery | Cada munição efetivamente recuperada dessas fontes dá1estágio por4s; até5, fator de cadência1+0,04n. Sem ganho/renovação no cheio, recarga ou refund. |
+
 
 
 
@@ -1522,7 +1525,7 @@ Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas2
 
 ### Divergências e limites desta extração
 
-- A candidata local BUILD65 contém19relíquias/105entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD64 publicada continha17/103/86. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD66 contém21relíquias/107entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD65 publicada continha19/105/86. BUILD64 publicada continha17/103/86. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -2260,6 +2263,195 @@ A primeira rodada foi concluída antes da correção da coleta terminal e foi pr
 Limites: progressoVM/headless não prova experiência humana, apresentação em aparelho físico ou FPS. O observador numérico natural é amostral e não aprovaG01total. Matriz final30, estabilidade60min, desempenho realPC/celular e outros motores compatíveis continuam abertos.
 
 
+## Parte III-F — Ciclos de munição por arma
+
+
+## Ciclos de munição — candidata BUILD66
+
+**Situação:** implementação e validação intermediária, sem publicação ou aceite final. Duas peças temporárias de baú adaptam os motores de carregador menor/eficiência e reposição/cadência. Não são mudanças nas dez receitas, no piloto ou nos56módulos normais. Catálogo atual:21relíquias,107artigos de compêndio,86editáveis/revisão7.
+
+### Alimentador Compacto
+
+ID compactFeed, universal. Ganho: tempo por cartucho realmente reposto20%menor. Custo: capacidade reduzida para75%, arredondada para baixo, mínimo1. Sem dano adicional, cartucho gratuito, cura própria ou bônus de último tiro.
+
+Para cada slot:
+
+- Cn=max(1,floor(AMMO[id].capacidade×magazineMult)), capacidade normal com todos os modificadores atuais.
+- Cc=max(1,floor(0,75Cn)), capacidade compacta.
+- Tn=AMMO[id].recarga×reloadMult, duração normal com todos os modificadores atuais.
+- Quando ativa: C=Cc e T=0,8Tn×Cc/Cn.
+- Recarga parcial: Tparcial=(C−ammo)/C×T=0,8Tn×(C−ammo)/Cn.
+
+Assim T/C=0,8Tn/Cn mesmo com arredondamento. Isso comprova eficiência da reposição, não um percentual universal deDPS sustentado: tempo de disparo, capacidade menor, rajadas, latência do tick, recuperação e efeitos de recarga continuam influindo no ciclo completo.
+
+Exemplos sem outros modificadores:
+
+| Arma | Cn | Cc | Tn | Tcompacta cheia |
+|---|---:|---:|---:|---:|
+| Metralhadora |24|18|1,4s|0,84s|
+| Escopeta |6|4|2,2s|1,173333333s|
+| Canhão de precisão |3|2|2,6s|1,386666667s|
+| Arpão |2|1|2,4s|0,96s|
+| Foguetes |1|1|4,8s|3,84s|
+
+No limite mínimo1, a capacidade não pode cair mais, mas o ganho de reposição continua20%. Não arredondar a duração para fins mecânicos; formatação daHUDé apenas textual.
+
+#### Transição sem descarte
+
+Aquisição marca compactPending=true em cada slot, sem mudar ammo, magazineMult, reloadMult, reloadTime, reloadTotal, reloadMissing ou reloadCapacity. Não ativa retroativamente durante uma recarga corrente. Essa recarga continua terminando pelas regras anteriores.
+
+Enquanto pendente, magazineSize/reloadDuration continuam normais. R/autorrecarga sópodem ativar o novo conjunto quando:
+
+1. Estado playing.
+2. Sem recarga ativa.
+3. Há munição faltante pelo limite vigente.
+4. ammo<Cc.
+
+Se ammo>=Cc, a tentativa é recusada sem som de recarga, descarte, limpeza de Culatra, cura ou mudança de estado. AHUDorienta consumir atéCc−1. Ao aceitar, compactPending=false e compactActive=true ANTES de capturar a nova recarga. O início usa Cc/Tcompacta e preserva os cartuchos restantes. Exemplo: metralhadora com20ou18recusaR; com17inicia reposição de1em0,84/18s.
+
+Cada slot ativa independentemente. Uma arma pode estar compacta enquanto outra continua pendente.
+
+Depois de ativa, módulos e reforjas posteriores compõem com Cn/Tn atuais. Não congelar o teto da aquisição: Depósito Ampliado e Esteira continuam úteis. As regras antigas de clamp ao instalar modificadores normais continuam existindo; a peça não cria uma exceção geral que preserve munição acima de um novo limite provocado por outro módulo.
+
+Uma recarga já iniciada conserva seu timer/capturas. Mudanças posteriores não reescalam reloadTime/reloadTotal. A conclusão usa a regra geral existente de capacidade atual e fração realmente reposta; não foi criada uma nova política de snapshot para todas as recargas do jogo.
+
+#### Interações
+
+- Cura de recarga conserva fração efetiva e divisão porNarmas. Mais velocidade de reposição pode aumentar frequência de reparos, mas não concede cura de carregador cheio por repor uma bala.
+- Reposição por abate/eletricidade durante recarga reduz a quantidade realmente reposta no fim e, portanto, a fração de cura/Pistão. Não termina nem encurta o timer corrente.
+- Lâmina mantém seu orçamento integrado durante a duração efetiva: recarga mais curta significa janela de corte menor.
+- Pistão mantém capturaPno início e fator de fração na conclusão.
+- Culatra continua contando cartuchos emitidos;Rrecusado não limpa carga, Riniciado limpa como antes.
+- Pulso de Integridade continua nascendo somente do último cartucho consumido, uma vez, antes da autorrecarga.
+- Teto400recusa emissão sem munição/carga/pulso; não desvia para uma emissão gratuita.
+
+### Dínamo de Recuperação
+
+ID recoveryDrive. Elegível somente com killAmmo instalado ou especialização chargeRecovery escolhida. Arma elétrica intrínseca, dano elétrico ou ter magnet sozinho não satisfazem essa condição.
+
+Fontes válidas:
+
+- killAmmo: a décima morte válida tenta devolver1à arma da origem.
+- chargeRecovery: limiar de6alvos que perderamHPpor descarga, com cooldown existente0,25s; tenta devolver1à arma da origem.
+
+Origem semslot recai na principal, conforme contrato anterior. Origem auxiliar não transfere ganho à principal.
+
+recoverWeaponAmmo(slot,amount,source) exige playing, HP>0, slot pertencente ao arsenal atual e amount positivo finito. Munição é limitada à capacidade vigente. gained=max(0,ammoDepois−ammoAntes). Sófontes killAmmo/chargeRecovery, com gained>0 e peça adquirida, alimentam oDínamo.
+
+Por slot, o estado é recoveryDrive={stacks,until}. Ganho positivo:
+
+1. Se o prazo anterior expirou, considerar0estágios.
+2. stacks=min(5,estágiosVálidos+gained).
+3. until=clock+4.
+4. Cue ammoCharge somente se o número de estágios aumentou; refresh no teto é silencioso.
+
+Leitura válida exige clock<until. No instante de igualdade, expirou. Nãohá decaimento por estágio: todos terminam juntos. Renderização consulta sem alterar o estado. Um novo ganho depois da expiração recomeça do ganho atual, sem restaurar5antigos.
+
+Fórmula:
+
+intervalo=slot.rate/(3seSobrecargaAtiva;senão1)/(1+0,04estágios).
+
+No teto5: cadência×1,20; intervalo÷1,20, isto é, redução de16,6667%no intervalo. Não descrever como intervalo−20%ou cadência+25%.
+
+O novo fator sóé lido quando fireInterval éconsultado para um disparo futuro. Cooldownjáprogramado e delays0,075/0,15s da rajada atual não são reescritos. Ganho numa fase posterior do quadro não cria tiro retroativo.
+
+#### Eventos que não contam
+
+- Tentativa em carregador cheio: gained0, sem estágio, renovação oucue.
+- Instalação da peça ou de equipamento.
+- R, recarga automática e preenchimento ao concluir.
+- Refundou source omitida/desconhecida, embora o helper possa repor munição legitimamente sem alimentar a peça.
+- Pellet, descarga ou abate sem reposição efetiva.
+- Morte de lacaio removido pelo chefe.
+- Fonte de dano excluída dos contadores de munição pelo contrato vigente.
+- Chamada em pausa, oferta, garagem, morte ou comslot de tentativa antiga.
+
+Um mesmo abate elétrico pode atingir killAmmo dentro de damageEnemy e depois chargeRecovery em shockAt. São dois eventos legítimos se ambos adicionarem munição. Se sóhavia um espaço, o segundo ébloqueado e não conta. Se havia dois, contam dois. O teto local5continua valendo.
+
+Escudo que absorve dano elétrico não aumenta electricHits: o corpo não perdeuHP. Não contar número de arcos desenhados como número de balas recuperadas.
+
+### Ciclo de vida e apresentação
+
+Clockavança somente em combate ativo. Pausa/ofertas congelam o prazo. Morte/garagem removem recoveryDrive de todos os slots; reset cria slots novos sem as duas peças/flags. Não salvar esses campos no perfil permanente.
+
+HUDusa as linhas existentes: pendente mostra COMPACTO: CONSUMA ATÉX; Dínamo mostra estágios/próxima expiração junto da arma receptora. Diagnóstico da pausa explica estado/fator por slot. Sem novo botão ou medidor global. A cadência resumida da primária passa a usar1/fireInterval, incluindo o fator efetivo.
+
+Carddo Compacto informa explicitamente o custo de capacidade, inclusive no compêndio. O cabeçalho de baú não promete que toda peça ésem penalidade. Peças antigas semcostcontinuam mostrando SEM PENALIDADE. Ícones próprios: assets/skills/compactFeed.svg e recoveryDrive.svg.
+
+Áudio ammoCharge: toque triangular330→440Hz/0,06s, amplitude0,018, throttle próprio0,15s e limite geral de vozes/mute existentes. Não usaRNGde combate. Ganho no teto sórenova prazo e não repete cue.
+
+### Casos de aceitação
+
+| ID | Preparação/ação | Resultado esperado |
+|---|---|---|
+| AMC01 |PeçaDínamo semfonte, depoiskillAmmo/ouprotocolo |Elegibilidade sócom fonte real, semmunição/bônusna aquisição |
+| AMC02 |12armas, adquirirCompactocomammo cheio |Munição/capacidade/timerpreservados;PENDING |
+| AMC03 |12armas, próxima recarga vazia |Cc/Tfórmula;T/Cexatamente0,8da razão normal |
+| AMC04 |Metralhadora20/18/17eCc18 |Rrecusa20/18;17repõe1sem descarte |
+| AMC05 |Rrecusado comCulatra7 |Carga7preservada, semcue/cura |
+| AMC06 |Adquirir no meio da recarga |Recarga antiga não retroage; nova podeativar |
+| AMC07 |DepoisDepósito/Servo/Esteira |Capacidade/tempo compõem sem teto congelado |
+| AMC08 |3slots, ativar sósecundária |Outras continuam pendentes, estados locais |
+| AMC09 |Recarga parcial,NANO/reparo,Narmas |Cura por fração efetiva/N, semgratuidade |
+| AMC10 |Décimo abate originado noauxiliar |1munição/estágio somente nessa arma |
+| AMC11 |Recuperação comcarregadorcheio |0estágio, sem renovar prazo/cue |
+| AMC12 |Abateelétrico com1ou2espaços |1ou2ganhos, respeitando cap real |
+| AMC13 |Escudo e sextohit elétrico nocorpo |Escudo não contaHP; corpo libera1no limiar |
+| AMC14 |8ganhos,novo no teto, expiração |Cap5,refreshpositivo, igualdade de4sexpira |
+| AMC15 |R/autorrecarga/refund/sourceomitida |SemDínamo |
+| AMC16 |Sobrecarga eDínamo3/5 |Multiplicadores independentes, não somarpercentuais |
+| AMC17 |Cooldownjácapturado/rajada ativa |Sem reescrever timer/delays antigos |
+| AMC18 |Reposição durante recarga |Timerigual,menorfração decura/Pistão |
+| AMC19 |Compacto+Culatra+Pulso/400 |Cartucho real único;sememissãorefusada |
+| AMC20 |Pausa/oferta/retomar/retrato |Semtempo/carga/tiroindesejado |
+| AMC21 |Render/HUDcomRNGlançando |SemRNGoumutação mecânica |
+| AMC22 |Slotobsoleto/inativo/morto |Semmunição/estágio/cue |
+| AMC23 |Morte/garagem/reset/save |LimpaDínamo,nenhumtemporáriopersiste |
+| AMC24 |NaN/Infinity/negativo nohelper |Recusa eestadofinito antesdeJSON |
+| AMC25 |108mundospareados semnovaspeças |Mesmamunição/recarga/dano/RNGdaBUILD65 nosescoposcomparados |
+| AMC26 |3viewports,cards/teclado/mouse/toque |Custo claro,HUDlocal,semoverflow/controlespresos |
+| AMC27 |Cuepor estágio/teto/mute/spam |Sóganhosválidoscomsubidadeestágio;limites/gestopreservados |
+| AMC28 |Partidas naturais fontecongelada |Todas tentativas preservadas, semoffer/poderforçado; braçosseparados |
+| AMC29 |Slotantigo com1estágio, reset e readquirirDínamo |Consulta retorna0mesmo com relógio compatível e relíquia novamente presente |
+
+### Evidência e limites atuais
+
+tests/ammo-cycles.cjs passou19grupos funcionais, incluindo12armas. tests/ammo-recovery.cjs comparou108combinações de arma/slot/espaço com a fonte publicada65 para ambas fontes reais e seus estados/RNG, sem peças novas. Não é equivalência global nem preservação do defeito antigo de chamadas inativas ao helper.
+
+Revisor identificouP2na consulta de estágio de objeto obsoleto: depois de reset/readquirir a peça, objeto antigo ainda retornava1. O novo caso falhou antes da correção e passou após exigir pertencimento a weaponSlots também na leitura. Reprodução negativa preservada em outputs/ammo-engine66/stale-query-pre-fix.json; não foi necessária mudança nos gatilhos de recuperação.
+
+Três falhas iniciais de fixture foram preservadas: alias inexistente reloadTotal, nome inexistente applyWeaponEvolution e expectativa de delays0,065/0,13em vez dos reais0,075/0,15. Corrigir expectativas conforme APIs/valores vigentes não mudou produção nem enfraqueceu a regra.
+
+O agente de áudio identificou ainda um erro de fixture: shockAt recebe4argumentos, e a chamada inicial com5ignorava a origem explícita no último parâmetro. Os testes pareados e de engine foram corrigidos para a assinatura real e repetidos; o pareamento108continua passando com origem elétrica correta nos3slots. O registro anterior ficou preservado, sem usá-lo como prova de origem auxiliar.
+
+Navegador controlado passou3resoluções com escolhas legais/custo, teclas/mouse/toque de3dedos, abate real por projétil auxiliar, prazo local, pausa pixel/estado, retrato, morte/reset e catálogo21/107. Inspeção da primeira captura740identificou status7pxdemasiado pequeno; passou a10pxcomwrap/rolagem, e a rodada reforçada mediu fonte≥10px, contagem/timeralcançáveis e ausência de sobreposição dospads. Éemulação protegida/tempo manual, não desempenho ou telefone físico. Histórico pré-fonte e erro inicial de fixture ao medir pads ausentes no desktop foram preservados.
+
+Áudio passou17grupos de eventos/sinal, mais a regressão do grafo real. O parecer estático fechou o achado de consulta obsoleta; inspeção de garagem/combate/pausa pelo Revisor não equivale a uma partida inteira ou avaliação de oferta de experimento que ele não alcançou.
+
+### Avaliação natural intermediária
+
+[Resumo e protocolo](build66-balance-summary.json), [dados brutos e fontes congeladas](data/build66-runs.json.gz) e [análise das ofertas](build66-ammo-analysis.json). Arquivo naturalSHA256be7c3a73b8b84dfbbf63590e39741e9de3feee3065fd417f5c69d75a729ead97,36arquivos recuperáveis, roundtrip/hashes conferidos.
+
+| Braço | Política/sementes | Viabilidade estrita | Aquisição das novas peças |
+|---|---|---|---|
+| A |10receitas/piloto13canônico, seed6601301 |9/10 |3tentativas,4peças no total |
+| B |Tempestade/Oficina × seeds6601321/6601322, prefere alvo somente seoferecido |4/4 |Dínamo nas2Tempestades, Compacto nas2Oficinas e na segundaTempestade |
+
+Todas14sobreviveram1200s e derrotaram pelo menos3chefes. Lança de Fuga6601301terminou comHP86,6667,7chefes e nível18, mas sem repair: magnet sóveio aos670,55s/nível15, e repair nunca apareceu nas ofertas normais registradas, inclusive após a raiz. O observador não perdeu ofertas. Essa tentativa permanece falha e no denominador, sem trocar semente/receita/piloto ou forçar o nó. Isso não demonstra um defeito global da progressão nem autoriza enfraquecer os critérios finais.
+
+Não há invulnerabilidade, HP/cura/dano oculto, oferta forçada, concessão de relíquia, remoção de vivos ou suspensão da horda nas naturais. Somente equipamento foi pré-desbloqueado. O braçoBnão substitui o resultadoA. Sementes finais reservadas não foram usadas.
+
+Os dados registram aquisição/atividade normal, sem novo wrapper para uptime das peças: não comprovam sozinhos quando Compacto ativou ou por quanto tempo cada Dínamo ficou ligado. Engine/browser testam esses gatilhos separadamente. Não atribuir dano total, sobrevivência ou diferença entre rodadas causalmente às peças. Ainda faltam matriz final30, estabilidade60min, medições reaisPC/telefone e os demais motores compatíveis.
+
+### Regressão e evidência recuperável
+
+[Arquivo de QA controlado](data/build66-qa.json.gz) preserva56arquivos com caminho/bytes/SHA256/conteúdo recuperável, incluindo testes, baseline65exata, resultados atuais/negativos, capturas antigas/novas, áudio, pareceres e gerador. Descompressão e hashes restaurados conferidos. Naturais ficam no arquivo próprio, sem misturar seus braços.
+
+A regressão ampla executou41comandos:40passaram inicialmente e o check-release recusou o cabeçalho textual do mapa, cujo novo formato não correspondia à regra exigida. O cabeçalho foi corrigido, sem enfraquecer o verificador. Quatro complementos repetiram rótulos/especificação e os dois testes de engine após corrigir a assinatura da fixture elétrica. O manifesto efetivo reúne41resultados aprovados e confere hashes de cada verificador e todas as fontes congeladas; o manifesto original com falha continua preservado.
+
+Pacote e publicação precisam de confirmação final da candidata. A meta permanece EM DESENVOLVIMENTO.
+
+
 ## Parte IV — especificação visual complementar
 
 
@@ -2566,9 +2758,9 @@ As sementes finais usam o LCG dos pilotos de teste, separado do RNG próprio do 
 ## Parte VI — disposição dos sistemas pesquisados e pendências
 
 
-## Disposição dos sistemas pesquisados — revisão para candidata BUILD63
+## Disposição dos sistemas pesquisados — revisão para candidata BUILD66
 
-Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:13/11/2026, BUILD62 publicada e candidata63 em implementação/validação, sem publicação63confirmada. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
+Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:13/11/2026, BUILD65 publicada e candidata66 em implementação/validação. MiniClip/Generator têm adaptações funcionais na candidata66, sem aprovação dos gates finais. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
 
 ### Como ler
 
@@ -2581,7 +2773,7 @@ Autoridades: `docs/contrato-atual.md:7` (identidade),`:8` (arena infinita),`:9` 
 
 ### A. As25 árvores do inventário local
 
-Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige25 árvores próprias. Screwvivors tem13 raízes originais/52 nós normais; o importante é não chamar um motor ausente de implementado.
+Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige25 árvores próprias. Screwvivors tem14raízes/56nós normais; o importante é não chamar um motor ausente de implementado.
 
 | Entrada/motor pesquisado | Disposição | Implementação própria, limite e evidência |
 |---|---|---|
@@ -2658,12 +2850,12 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 | Death Rounds: velocidade/perfuração→dano plano | Integrado em eixos balísticos separados; pendente conversão exata | Perfuração e velocidade coexistem com dano; Motor Cinético usa velocidade do robô, não velocidade da bala/perfuração como entrada. `game.js:594`,`:615`, `impact:1024`. Não afirmar conversão equivalente. |
 | Frost Fire: gelo aplica fogo | Adaptado diferente no híbrido elemental; pendente aplicação automática de fogo pelo gelo | Choque Térmico exige os dois estados já aplicados (`:611`, `tickStatuses:1059`), sensor só transmite estados instalados (`contrato:23`). `combat.cjs:260`, `sensors.cjs`. Regra atual permite híbrido sem conceder fogo por ter frio. |
 | Gun Mastery: combinação balística | Integrado funcionalmente | Alto Impacto/Overdrive/Câmara Dupla/Perfuração e crítico de área; `game.js:594`–`:601`, `activeSynergies:454`; `positive-weapon-upgrades.cjs` e `build-mechanics.cjs:28`. |
-| Mini Clip: menos munição→ciclo eficiente | Pendente como conversão específica | Carregador/recarga têm modificadores locais, mas não há combo que conceda eficiência por capacidade menor. Crítico reduz capacidade como custo e a cura é proporcional à reposição, sem explorar recarga de uma bala (`build-mechanics.cjs:14`–`:16`). |
+| Mini Clip: menos munição→ciclo eficiente | Adaptação candidata66; aceite final aberto | Alimentador Compacto reduz capacidade numa próxima recarga válida, sem descarte, e T=0,8Tnormal×Cc/Cnormal. Menos20%tempo por cartucho mesmo com arredondamento; não é Culatra/último tiro nem garantia de DPS universal. [Contrato](ciclos-de-municao.md). |
 | Overload: fogo+raio→explosão | Adaptado diferente no motor de área/eletricidade | PLASMA exige `blast`+`shock`, não fogo; `activeSynergies:454`, `explodeAt:1017`. A sinergia própria não precisa copiar pré-requisitos externos; restrições contra recursão são protegidas por `combat.cjs`. O nó `overload` do jogo é pós-dano e tem outra função; não identificá-lo pelo nome externo. |
 | Stand your Ground: imobilidade→saturação | Pendente para ofensiva; motor defensivo distinto já integrado | Oficina Estacionária recupera vida depois3s parada (`game.js:605`, tick:1148). `combat.cjs:238` prova reparo e interrupção; não prova bônus de disparo por ficar parado. |
 | Summon Mastery: ceder tiro→fortalecer suporte | Integrado no eixo funcional | Raiz drone aumenta recarga, Dupla reduz dano direto, Rotores reduzem dano direto, peças específicas reforçam suportes; `game.js:582`,`:632`–`:635`,`:80`–`:82`. Testes `build-mechanics.cjs:19`–`:23`/`rotors.cjs`. Não implica modificador único global de todos os summons. |
 | Death Plague: morte→propagar carga | Adaptado diferente por limite deliberado | Respingo Reagente uma geração, dois vizinhos/100px, sem recursão; `game.js:592`,`:993`, contrato`:22`; `corrosion.cjs`. |
-| Generator: reposição→cadência | Integrado para reposição; pendente conversão em cadência | Abate/eletricidade devolvem munição (`:925`,`:934`), mas não elevam cadência quando isso acontece. `fireInterval:540` só usa `frenzy` pós-dano. |
+| Generator: reposição→cadência | Adaptação candidata66; aceite final aberto | Dínamo concede estágios somente por delta positivo de munição recuperada via killAmmo/chargeRecovery;1+0,04n até5por4s, local por slot. Cheio/recarga/refund não contam, cooldown antigo preservado. [Contrato](ciclos-de-municao.md). |
 | Kunoichi: tempo sem dano→crescimento | Adaptação candidata63; aceite global/natural pendente | Circuito Preservado (`cleanCircuit`) cresce por15/30s ativos sem impactos, cartuchos+10/+20%máximo. Aquisição sem retroatividade; impacto aceito inclusive absorvido zera, inv/pausa não. Não equivale a crescimento externo ilimitado. [Contrato](reserva-e-manutencao.md); engine/browser controlados não aprovam naturais. |
 | Sword and Shield: abate por pulso→proteger | Adaptação candidata63; aceite global/natural pendente | Retorno de Varredura (`pulseRecovery`) vincula abate direto do sensor a+4Banco/−8s de escudo, até3créditos por pulso. Escudo pronto não banca tempo; estados transmitidos/lacaios removidos não contam. [Contrato](reserva-e-manutencao.md); regressão global/pool/naturais ainda requeridos. |
 | Titan: vida→presença/dano | Integrado funcionalmente | Chassi Titânico e Blindagem convertem3%HP máximo em dano, com teto75% da base (`shotDamage:541`, `game.js:603`); `build-mechanics.cjs:33`. Sem crescimento permanente fora da partida (`contrato:14`). |
@@ -2672,9 +2864,9 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 
 | Sistema do mapa/inventário | Disposição | Regra vigente e prova |
 |---|---|---|
-| XP, escolha de melhorias e10 receitas | Integrado; equilíbrio em avaliação | Catálogo52normais/82editáveis e10receitas em builds.js; contrato`:16`–`:19`; `build-mechanics.cjs`, `builds-balance.cjs`, relatórios52/53/54. Guia não altera sorteios. |
+| XP, escolha de melhorias e10 receitas | Integrado; equilíbrio em avaliação | Catálogo56normais/86editáveis e10receitas em builds.js; contrato`:16`–`:19`; `build-mechanics.cjs`, `builds-balance.cjs`, relatórios52/53/54. Guia não altera sorteios. |
 | Bênçãos iniciais | Adaptado diferente | Gambiarras3/6/9 (seis opções), por decisão vigente`:17`; `game.js:105`–`:112`, `offerBlessing:717`; `combat.cjs`. Não são runas de atributo pré-partida. |
-| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com16relíquias elegíveis temporárias na candidata62; fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
+| Tomos/recompensas de chefe | Adaptado diferente | Baú físico com21relíquias elegíveis temporárias na candidata66 (16na62); fallback6experimentos/módulo; `game.js:76`–`:89` e `BOSS_EXPERIMENTS:114`, contrato`:13`; `boss-relics.cjs`/browser. Pedido posterior do criador esclareceu duração sóna partida; não restaurar obrigatoriamente custos em toda peça. |
 | Metaprogressão/runas permanentes | Adaptado diferente em desbloqueios; não aplicável para bônus permanentes | Parafusos/peças persistem, compram equipamentos; atributos/skills não persistem (`contrato:14`,`:42`); `awardBossPart:145`, perfil/compras; `combat.cjs` compras/migração/reembolso/morte. |
 | Especialização de personagem | Adaptado diferente |18protocolos próprios/seis chassis no10; `game.js:236`/`:284`, contrato`:17`; `combat.cjs` e `build-mechanics.cjs`. Não exige13personagens externos. |
 | Evolução de arma | Adaptado diferente |24reforjas, duas por arma no20, conjunto fixo; contrato`:18`; `game.js:28`,`:30`, `chooseWeaponEvolution:253`; `weapon-evolution.cjs:47`. Não importar três opções externas por arma nem fusão/troca. |
@@ -2692,7 +2884,7 @@ Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia 
 1. **Maturação temporal de suporte: adaptada na BUILD58** pela Baia de Comando para drones. Outros suportes não recebem esse crescimento; isso não bloqueia os motores distintos abaixo.
 2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering): adaptada e validada funcionalmente na candidata61** pela Matriz de Rebites, estação independente com consumo de balas e ataque próprio. O campo continua modificando a bala, sem substituir esse motor. Testes de engine, cronologia, browser e uso natural experimental preservam evidências; a auditoria final continua aberta e exposição de alvo é motor distinto.
 3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga foi adaptada funcionalmente na candidata62** pela Lâmina, com engine/browser aprovados e naturais intermediárias9/10canônicas e1/4experimentais, fontes identificadas. Suportes sempre ativos e crítico do quinto tiro continuam distintos. Gates finais e equilíbrio permanecem abertos; Pistão ao terminar foi adaptado na candidata64, com entidade própria e evidência separada.
-4. **Reserva de proteção e condições de manutenção: implementação candidata63** com quatro módulos normais distintos, Banco/Ponte/Circuito/Retorno, fórmulas finitas, fonte/ordem/snapshots e migração7. Engine24grupos e browser controlado3viewports tiveram resultados positivos; ainda faltam regressão homogênea, pacote e avaliação natural do pool alterado, sem aprovar gates finais. Isso não resolve outros motores nem constitui aprovação humana de qualidade. [Contrato completo](reserva-e-manutencao.md).
+4. **Reserva de proteção e condições de manutenção: implementação candidata63** com quatro módulos normais distintos, Banco/Ponte/Circuito/Retorno, fórmulas finitas, fonte/ordem/snapshots e migração7. Engine24grupos e browser controlado3viewports tiveram resultados positivos; publicada na BUILD63com evidências intermediárias próprias; isso não aprova gates finais da revisão posterior. Isso não resolve outros motores nem constitui aprovação humana de qualidade. [Contrato completo](reserva-e-manutencao.md).
 5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
 
 A tabela registra a disposição do inventário estudado e conserva pendências explícitas. Não autoriza declarar “todos os motores integrados”. Pela meta aprovada, todas as pendências compatíveis devem receber disposição concreta e ser resolvidas com custo operacional, HUD, fonte de dano, limites de recursão, pausa/reset, migração e avaliação natural. Não retirar itens por dificuldade ou escolher apenas os mais fáceis de testar. A decisão deve ampliar o jogo pretendido pelo criador, sem inventar requisitos de equivalência total à referência.
@@ -3341,7 +3533,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
 - **Preparação:** Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.
 - **Entradas e passos:** Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.
-- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;19relíquias/105artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
+- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;21relíquias/107artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.
 - **Falha:** P1.
@@ -4438,6 +4630,383 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Bordas:** DistinguirHPatual/máxima, custo devida inexistente, procs balísticos versus morte global e fase terminal.
 - **Falha:** P1.
 - **Evidência:** Logs/estados/fontes de dano/perfil, hashes, comandos e capturas; baseline negativo preservado nas correções.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-01 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** PeçaDínamo semfonte, depoiskillAmmo/ouprotocolo
+- **Resultado esperado:** Elegibilidade sócom fonte real, semmunição/bônusna aquisição
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-02 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** 12armas, adquirirCompactocomammo cheio
+- **Resultado esperado:** Munição/capacidade/timerpreservados;PENDING
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-03 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** 12armas, próxima recarga vazia
+- **Resultado esperado:** Cc/Tfórmula;T/Cexatamente0,8da razão normal
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-04 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Metralhadora20/18/17eCc18
+- **Resultado esperado:** Rrecusa20/18;17repõe1sem descarte
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-05 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Rrecusado comCulatra7
+- **Resultado esperado:** Carga7preservada, semcue/cura
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-06 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Adquirir no meio da recarga
+- **Resultado esperado:** Recarga antiga não retroage; nova podeativar
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-07 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** DepoisDepósito/Servo/Esteira
+- **Resultado esperado:** Capacidade/tempo compõem sem teto congelado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-08 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** 3slots, ativar sósecundária
+- **Resultado esperado:** Outras continuam pendentes, estados locais
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-09 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Recarga parcial,NANO/reparo,Narmas
+- **Resultado esperado:** Cura por fração efetiva/N, semgratuidade
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-10 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Décimo abate originado noauxiliar
+- **Resultado esperado:** 1munição/estágio somente nessa arma
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-11 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Recuperação comcarregadorcheio
+- **Resultado esperado:** 0estágio, sem renovar prazo/cue
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-12 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Abateelétrico com1ou2espaços
+- **Resultado esperado:** 1ou2ganhos, respeitando cap real
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-13 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Escudo e sextohit elétrico nocorpo
+- **Resultado esperado:** Escudo não contaHP; corpo libera1no limiar
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-14 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** 8ganhos,novo no teto, expiração
+- **Resultado esperado:** Cap5,refreshpositivo, igualdade de4sexpira
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-15 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** R/autorrecarga/refund/sourceomitida
+- **Resultado esperado:** SemDínamo
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-16 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Sobrecarga eDínamo3/5
+- **Resultado esperado:** Multiplicadores independentes, não somarpercentuais
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-17 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Cooldownjácapturado/rajada ativa
+- **Resultado esperado:** Sem reescrever timer/delays antigos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-18 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Reposição durante recarga
+- **Resultado esperado:** Timerigual,menorfração decura/Pistão
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-19 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Compacto+Culatra+Pulso/400
+- **Resultado esperado:** Cartucho real único;sememissãorefusada
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-20 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Pausa/oferta/retomar/retrato
+- **Resultado esperado:** Semtempo/carga/tiroindesejado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-21 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Render/HUDcomRNGlançando
+- **Resultado esperado:** SemRNGoumutação mecânica
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-22 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Slotobsoleto/inativo/morto
+- **Resultado esperado:** Semmunição/estágio/cue
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-23 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Morte/garagem/reset/save
+- **Resultado esperado:** LimpaDínamo,nenhumtemporáriopersiste
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-24 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** NaN/Infinity/negativo nohelper
+- **Resultado esperado:** Recusa eestadofinito antesdeJSON
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-25 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** 108mundospareados semnovaspeças
+- **Resultado esperado:** Mesmamunição/recarga/dano/RNGdaBUILD65 nosescoposcomparados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-26 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** 3viewports,cards/teclado/mouse/toque
+- **Resultado esperado:** Custo claro,HUDlocal,semoverflow/controlespresos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-27 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Cuepor estágio/teto/mute/spam
+- **Resultado esperado:** Sóganhosválidoscomsubidadeestágio;limites/gestopreservados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-28 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Partidas naturais fontecongelada
+- **Resultado esperado:** Todas tentativas preservadas, semoffer/poderforçado; braçosseparados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-AMMO-29 — Munição
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recoverWeaponAmmo/recoveryDriveStacks/fireInterval/normalMagazineSize/compactMagazineSize/startReload/reloadDuration/cycleAmmoStatus.
+- **Comando/procedimento:** node tests/ammo-recovery.cjs; node tests/ammo-cycles.cjs; node tests/ammo-cycles-browser.cjs; node tests/ammo-cycles-audio.cjs.
+- **Preparação:** Preparação e fontes declaradas; estado por slot, sem poderes naturais forçados.
+- **Entradas e passos:** Slotantigo com1estágio, reset e readquirirDínamo
+- **Resultado esperado:** Consulta retorna0mesmo com relógio compatível e relíquia novamente presente
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Capacidade1/arredondamento, transição pendente, recarga em curso, duas fontes e objeto obsoleto.
+- **Falha:** P1.
+- **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
 ### QA-COMBAT-W01 — Combate e mundo
@@ -6338,6 +6907,32 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-RELIC-compactFeed — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar compactFeed, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Na próxima recarga válida de cada arma, cada cartucho reposto leva 20% menos tempo. Preserva munição atual e recargas em curso. Custo: Capacidade ×0,75, arredondada para baixo (mínimo 1). Consuma abaixo do novo limite para ativar; R não descarta munição. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RELIC-recoveryDrive — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar recoveryDrive, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Cada munição realmente recuperada por abates ou carga elétrica dá +4% de cadência à arma receptora por 4 s. Até 5 estágios (+20%); novo ganho renova o prazo. Recarga não ativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-RELIC-ruptureChamber — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
@@ -7616,19 +8211,19 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: ed7834ce8d742a1499e9740804d00269ac852daa. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 2b1fc7bb8f0d429e70d551f95aa8848272fb9d6c. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 5ddaad1373cda3bed4edc903794cbcdbe43aa081092b568016140b9b25e59e84 |
+| game.js | 4a3cccdf4b724a2d52cc1c5bcdd83bb59fad26465be068253c01fa785dae9b70 |
 | balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | e18aa7fb3e2b687c072f34e2f3ff441937995e6a1e7baa837eee7091f5a8675c |
+| index.html | 0c2b06f3adba615338234f17252dfdf7a855a831d567c6ac53fd89337f73cc01 |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | 3417f65438fd2546f08b61eba924e8ba63098b016eb7ceea92b4d2fa84cebc58 |
-| audio.js | 6be5b9a37e324d35cdbd8e217a6b11189ca327abc84cb41ca0d8e70f29403487 |
+| ui-redesign.css | 6a949da2069c54e0bab41cf41dab9234b25e16369426f9fe96ba9184d3a302df |
+| audio.js | 1e8e9d7242c04cafcc95a17ebb030c4c313634f4475fa354c1ae19dfb0e29825 |
 | touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
-| touch-controls.css | 0c40b1214cdc2e58d9cdf74825821a36ccaa4c94f0c15b41d9b68e8ba96cf200 |
+| touch-controls.css | ab5a4a849c107bb688579ebf9023173cfa337506790b41547fd0f97c86ecf4e9 |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
 | tools/drone-maturity.js | 97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0 |
 | tools/segment-circle.js | ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4 |
@@ -7636,7 +8231,7 @@ Commit pai: ed7834ce8d742a1499e9740804d00269ac852daa. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há377casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há408casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

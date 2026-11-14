@@ -230,3 +230,4 @@ body:has(#run-config:not([hidden])) main{width:100%;height:auto;min-height:100dv
 
 /* Last real cartridge prepares an offensive pulse; no added HUD row. */
 .ammo-panel>b[data-integrity-ready="true"]{box-shadow:inset 0 -3px 0 #f0b85b!important}
+.combat-screen .combat-build .ammo-panel>span{font-size:10px;line-height:1.3;letter-spacing:0;white-space:normal;overflow-wrap:anywhere;}

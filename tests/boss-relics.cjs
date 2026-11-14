@@ -7,7 +7,7 @@ const close=(a,b,label)=>assert.ok(Math.abs(a-b)<1e-8,label+': '+a+' vs '+b);
 function setup(primary='machine',aux=[]){h.context.qaPrimary=primary;h.context.qaAux=aux;run(`profile=emptyProfile();profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));selectedRobot='swarm';selectedWeapon=qaPrimary;selectedAuxWeapons=qaAux.slice();reset();spawn=1e9;bossIndex=1e6;player.inv=1e6;`);}
 function acquire(id){run(`SKILLS.find(s=>s.id===${JSON.stringify(id)}).apply()`);}
 function install(id){run(`state='relic';offeredRelics=[BOSS_RELICS.find(r=>r.id===${JSON.stringify(id)})];offerVersion++;`);assert.equal(run(`chooseRelic(${JSON.stringify(id)},offerVersion)`),true,id+' installs');}
-setup();assert.equal(run('BOSS_RELICS.length'),19);assert.equal(run('new Set(BOSS_RELICS.map(r=>r.id)).size'),19);
+setup();assert.equal(run('BOSS_RELICS.length'),21);assert.equal(run('new Set(BOSS_RELICS.map(r=>r.id)).size'),21);
 const specific={thermalRelay:['flame','burn'],cryoLens:['cryo','freeze'],arcCapacitor:['tesla','shock']};
 for(const [id,[weapon,skill]] of Object.entries(specific)){
  setup();assert.equal(run(`!!BOSS_RELICS.find(r=>r.id==='${id}').eligible()`),false,id+' unavailable without matching hardware');
@@ -21,7 +21,7 @@ for(const [id,weapon] of [['precisionBreech','harpoon'],['blastManifold','grenad
 // Every real relic path applies once without spending profile currency, ammo or reload progress.
 for(const id of json('BOSS_RELICS.map(r=>r.id)')){
  const guns=id==='precisionBreech'?['machine',['sniper','harpoon']]:id==='blastManifold'?['rocket',['grenade','machine']]:['flame',['cryo','tesla']];
- setup(...guns);for(const s of ['sensor','rotors','corrosion'])acquire(s);
+ setup(...guns);for(const s of ['sensor','rotors','corrosion'])acquire(s);if(id==='recoveryDrive')acquire('killAmmo');
  run('player.hp=50;for(const s of weaponSlots){s.ammo=1;s.reloadTime=1.23;s.reloadTotal=2.34;}globalThis.beforeRelic={profile:JSON.stringify(profile),hp:player.hp,maxHp:player.maxHp,damage:weaponSlots.map(s=>s.damage),reload:weaponSlots.map(s=>s.reloadMult),progress:weaponSlots.map(s=>[s.ammo,s.reloadTime,s.reloadTotal]),droneDamage:player.droneDamageMult,droneRange:player.droneRange,sensorDamage:player.sensorDamageMult,sensorRate:player.sensorIntervalMult,rotorDamage:player.rotorDamageMult,rotorPeriod:player.rotorPeriodMult};');
  install(id);assert.equal(run('state'),'playing');assert.equal(run(`player.relics.has('${id}')`),true);assert.equal(run('JSON.stringify(profile)'),run('beforeRelic.profile'));assert.deepEqual(json('weaponSlots.map(s=>[s.ammo,s.reloadTime,s.reloadTotal])'),json('beforeRelic.progress'));
  if(id==='thermalRelay'){run('globalThis.target=createEnemy(700,300);target.hp=10000;applyStatus(target,{damage:20,weapon:weaponSlots[0].weapon,vx:1,vy:0})');close(run('target.burnDps'),15,'new burn is amplified');}
@@ -52,7 +52,7 @@ for(let index=0;index<3;index++){
  const count=run('player.relics.size');assert.equal(run('declineRelic(offerVersion)'),true);assert.equal(run('player.relics.size'),count,'refusal grants nothing');
 }
 
-setup('flame',['cryo','tesla']);acquire('sensor');acquire('rotors');acquire('corrosion');for(let i=0;i<30;i++){run("offerBossRelic({bossName:'FIXTURE'})");assert.equal(run('offeredRelics.filter(r=>["feedServo","reactorHeart","overclockCore","fieldCollimator","ruptureChamber","rivetMatrix","reloadBlade","reloadPiston","integrityPulse"].includes(r.id)).length'),1,'specific hardware keeps a universal alternative');run('declineRelic(offerVersion)');}
+setup('flame',['cryo','tesla']);acquire('sensor');acquire('rotors');acquire('corrosion');for(let i=0;i<30;i++){run("offerBossRelic({bossName:'FIXTURE'})");assert.equal(run('offeredRelics.filter(r=>["feedServo","reactorHeart","overclockCore","fieldCollimator","ruptureChamber","rivetMatrix","reloadBlade","reloadPiston","integrityPulse","compactFeed"].includes(r.id)).length'),1,'specific hardware keeps a universal alternative');run('declineRelic(offerVersion)');}
 run('player.relics=new Set(BOSS_RELICS.map(r=>r.id));offerBossRelic({bossName:"ESGOTADO"})');assert.equal(run('state'),'experiment','exhausted relic pool falls back to original experiments');
 setup();run("state='relic';offeredRelics=[BOSS_RELICS.find(r=>r.id==='thermalRelay')];offerVersion++");assert.equal(run("chooseRelic('thermalRelay',offerVersion)"),false,'an ineligible forged offer cannot install');
 setup();run('bossChests=[{id:1,bossName:"ONE",x:player.x,y:player.y},{id:2,bossName:"TWO",x:player.x,y:player.y}];xp=need;tick(.01)');assert.equal(run('bossChests.length'),1);assert.equal(run('state'),'relic');assert.equal(run('level'),1,'chest choice does not get overwritten by level-up');run('declineRelic(offerVersion);tick(.01)');assert.equal(run('bossChests.length'),0);assert.equal(run('state'),'relic','second nearby chest waits for the first choice');run('declineRelic(offerVersion);tick(.01)');assert.equal(run('state'),'upgrade');assert.equal(run('level'),2,'queued XP progresses after both chest choices');
@@ -62,4 +62,4 @@ run('reset()');assert.equal(run('bossChests.length'),0);assert.equal(run('offere
 run('bossChests=[{id:1,bossName:"FAR",x:player.x+100000,y:player.y-100000}];globalThis.mapCalls=[];el("minimap").getContext=()=>new Proxy({},{get:(o,k)=>k==="fillRect"?(...args)=>mapCalls.push({color:o.fillStyle,args}):(o[k]||(()=>{})),set:(o,k,v)=>(o[k]=v,true)});drawMinimap()');
 const chestMarker=json('mapCalls.filter(c=>c.color==="#ffd27c")');assert.equal(chestMarker.length,1);assert.ok(chestMarker[0].args[0]>=0&&chestMarker[0].args[0]<160&&chestMarker[0].args[1]>=0&&chestMarker[0].args[1]<100);
 run('bossChests[0].x=player.x+100;bossChests[0].y=player.y;globalThis.savedRandom=Math.random;Math.random=()=>{throw Error("Chest rendering consumed RNG")};drawBossChests();draw();Math.random=savedRandom');
-console.log('Boss relics: all19, eligibility/support/intrinsic auxiliaries, selective multi-gun gains, unchanged ammo/reload/profile, corrosion snapshots, physical boss drops/40px pickup, pause/stale/refusal/exhaustion, death/reset, minimap and pure draw passed.');
+console.log('Boss relics: all21, eligibility/support/intrinsic auxiliaries, selective multi-gun gains, unchanged ammo/reload/profile, corrosion snapshots, physical boss drops/40px pickup, pause/stale/refusal/exhaustion, death/reset, minimap and pure draw passed.');

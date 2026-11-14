@@ -1,6 +1,11 @@
-# Contrato vigente — Screwvivors BUILD 65
+# Contrato vigente — Screwvivors BUILD 66
 
-Estado: candidata local BUILD65 em desenvolvimento. Publicação anterior confirmada: BUILD64, ed7834ce8d742a1499e9740804d00269ac852daa. A meta aprovada e os gates de conclusão permanecem ativos; versão na tela não é aprovação pública ou encerramento.
+
+## Candidata66 — ciclos de munição
+
+Alimentador Compacto adia capacidade reduzida até próximo início válido de recarga por slot: Cc=max(1,floor(0,75Cn)), ammo<Cc, T=0,8Tn×Cc/Cn. Sem cortar munição ou alterar recarga corrente; tempo por cartucho reposto−20%, custo explícito em card/compêndio. Dínamo exige fonte killAmmo/chargeRecovery e delta real positivo: fator de cadência1+0,04estágios, máximo5por4sativos/slot, sem recarga/refund/cheio. Cooldowns/rajadas antigos preservados. Estado temporário isolado de save/reset; custo/limites/29casos no [contrato](ciclos-de-municao.md). Catálogo21/107, editor86/revisão7. Validação intermediária não aprova meta final.
+
+Estado: candidata local BUILD66 em desenvolvimento. Publicação anterior confirmada: BUILD65, 03a77f7772a4569ef0f4ce54ec993752ca494d21. A meta aprovada e os gates de conclusão permanecem ativos; versão na tela não é aprovação pública ou encerramento.
 
 ## Adição candidata — BUILD65
 
