@@ -5,7 +5,63 @@
   b.visualAttack=Math.max(0,(b.visualAttack||0)-Math.max(0,dt));
   if(String(previousPhase).startsWith('tell')&&b.phase!==previousPhase)b.visualAttack=.28;
  }
+ function drawPrism(ctx,b,player,clock){
+  const dx=player.x-b.x,dy=player.y-b.y,side=Math.abs(dx)>Math.abs(dy),back=!side&&dy<0;
+  const step=b.visualWalking?Math.sin((b.visualPhase||0)*Math.PI/4):0,bob=Math.abs(step)*1.5;
+  const telling=b.phase==='tellLaser',firing=b.phase==='laser',recovering=b.phase==='recover';
+  const charge=telling?Math.max(0,Math.min(1,1-b.timer/(b.laserTellDuration||1.8))):firing?1:0;
+  const pulse=(Math.sin(clock*10)+1)*.5,recoil=Math.min(1,(b.visualAttack||0)/.28);
+  const shell=b.hit>0?'#ffffff':'#8d999e',rim='#d7d9c9',dark='#10212b',copper='#bd7450',light=firing?'#fff3d3':telling?'#ff9c71':'#c55355';
+  const block=(color,x,y,w,h)=>{ctx.fillStyle=color;ctx.fillRect(x,y,w,h);};
+  ctx.save();
+  try{
+   ctx.translate(Math.round(b.x),Math.round(b.y));
+   ctx.fillStyle='rgba(0,0,0,.42)';ctx.beginPath();ctx.ellipse(0,36,53,12,0,0,Math.PI*2);ctx.fill();
+   // Broad hydraulic feet and a low lens gantry distinguish this boss from the casters.
+   for(const leg of [-1,1]){
+    const stride=step*leg,lift=Math.max(0,stride)*5,footX=leg*17+(side?stride*5:0);
+    block(dark,leg*17-9,12,18,23);block(copper,leg*17-4,17,8,17);
+    block('#263f4b',footX-11,29-lift,22,12);block(shell,footX-14,36-lift,28,5);
+    block('#07151f',footX-13,41-lift,26,3);
+   }
+   ctx.translate(0,-bob);
+   block(dark,-31,-29,62,57);block(shell,-27,-25,54,49);
+   block(copper,-24,16,48,7);block(rim,-22,-24,44,5);
+   const headX=side?(dx>0?6:-6):0;
+   block(dark,headX-15,-47,30,24);block(shell,headX-12,-44,24,17);
+   block(back?'#425b64':'#f0b85b',headX-9,-37,18,4);
+   if(back){
+    block('#29404b',-20,-18,40,29);
+    for(let y=-14;y<10;y+=7)block(copper,-16,y,32,3);
+   }else{
+    block('#203740',-18,-12,36,26);block('#e4d8b8',-10,-7,20,4);
+    block('#f0b85b',-4,1,8,8);
+   }
+   // Three physical emitters, with retracting shutters and a common charging bus.
+   const raised=telling?charge*7:firing?7-recoil*3:recovering?-3:0;
+   for(const emitter of [-1,0,1]){
+    const x=emitter*39,y=(emitter===0?-22:-7)-raised+(emitter?step*emitter*2:0);
+    block(dark,x-15,y-15,30,35);block(copper,x-13,y-12,26,27);
+    block(shell,x-12,y-10,24,23);block('#233944',x-10,y-7,20,16);
+    ctx.strokeStyle=rim;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y+1,9,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle=light;ctx.beginPath();ctx.arc(x,y+1,firing?6:3+charge*3,0,Math.PI*2);ctx.fill();
+    if(!firing){const shutter=Math.round((1-charge)*6);block('#132b36',x-8,y-7,16,shutter);block('#132b36',x-8,y+9-shutter,16,shutter);}
+    for(let led=0;led<3;led++)block(led<Math.ceil(charge*3)?'#ffe7bb':'#4d5147',x-9+led*7,y+17,4,3);
+    if(firing){ctx.strokeStyle='#fff0c7';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y+1,12+pulse*2,0,Math.PI*2);ctx.stroke();}
+   }
+   if(telling||firing){
+    ctx.strokeStyle=telling?'#ff9670':'#fff0c7';ctx.lineWidth=2;ctx.beginPath();
+    ctx.moveTo(-39,6-raised);ctx.lineTo(-23,-17-raised);ctx.lineTo(0,-30-raised);ctx.lineTo(23,-17-raised);ctx.lineTo(39,6-raised);ctx.stroke();
+   }
+   if(recovering){for(const vent of [-1,1]){block('#536d75',vent*25-4,-36,8,3);block('#92a5a5',vent*25-3,-42-pulse*3,6,3);}}
+   if(b.slowTime>0){ctx.strokeStyle='#9cecff';ctx.lineWidth=2;ctx.strokeRect(-56,-51,112,99);}
+   if(b.burnTime>0){block('#ff934d',-29,7,4,8);block('#ffd282',25,-8,4,7);}
+   if(b.stunTime>0){ctx.strokeStyle='#c5f6ff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(-12,-54);ctx.lineTo(-5,-60);ctx.lineTo(2,-53);ctx.lineTo(11,-59);ctx.stroke();}
+  }finally{ctx.restore();}
+  return true;
+ }
  function draw(ctx,b,player,clock){
+  if(b.id==='prism')return drawPrism(ctx,b,player,clock);
   if(!['scrapper','coil'].includes(b.id))return false;
   const scrapper=b.id==='scrapper',dx=player.x-b.x,dy=player.y-b.y,side=Math.abs(dx)>Math.abs(dy),back=!side&&dy<0;
   const step=b.visualWalking?Math.sin((b.visualPhase||0)*Math.PI/4):0,bob=Math.abs(step)*1.5,recoil=Math.min(1,(b.visualAttack||0)/.28),telling=String(b.phase).startsWith('tell');

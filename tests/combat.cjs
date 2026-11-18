@@ -64,7 +64,7 @@ assert.ok(Math.abs(run('distance')-19)<.001,'diagonal movement normalized');
 fire('canvas:pointerdown');fire('window:blur');assert.equal(run('state'),'paused');assert.equal(run('firing'),false);assert.equal(run('keys.size'),0);
 run('reset();spawn=100;xp=need;tick(.01)');assert.equal(run('state'),'upgrade');assert.equal(run('firing'),false);elements.get('module-options').children[0].onclick();assert.equal(run('state'),'upgrade');elements.get('confirm-upgrade').onclick();assert.equal(run('state'),'playing');
 run('reset();clock=179.99;tick(.02)');assert.equal(run('state'),'playing','does not end at three minutes');
-run('reset();clock=599.99;tick(.02)');assert.equal(run('state'),'playing','survival has no automatic time limit');
+run('reset();clock=599.99;tick(.02)');assert.equal(run('state'),'playing','ten minutes is still before the twenty-minute ending');
 run('reset();player.hp=1;enemies=[{x:player.x,y:player.y,hp:100,speed:0,r:15}];spawn=100;tick(.01)');assert.equal(run('state'),'over');
 run('reset();draw()');assert.equal(run('player.hp'),100);assert.equal(run('bullets.length'),0);
 console.log('Combat checks passed: manual aim/fire, cooldown, release, interruptions, movement, upgrades, endless survival, death/restart.');
@@ -177,14 +177,14 @@ for(let i=0;i<38000;i++){
  else break;
 }
 run('Math.random=longRunOriginalRandom;drawMinimap=longRunMinimap');
-assert.equal(run('state'),'playing','twenty-five minutes do not end endless survival');
-assert.ok(run('clock>=1500'),'simulation reaches twenty-five minutes');
+assert.equal(run('state'),'won','surviving twenty minutes completes the incursion');
+assert.equal(run('clock'),1200,'simulation stops exactly at twenty minutes');assert.equal(run('formatRemainingTime()'),'00:00');
 assert.ok(run('bossKills>=6'),'multiple boss cycles resolve during the long run');
 assert.ok(run('longRunBounds'),'entity bounds hold throughout the long run');
 assert.ok(run("longRunSeen.has('expolice')&&longRunSeen.has('heavy')"),'both timed common enemy roles appear in integrated waves');
 assert.ok(run('enemies.every(z=>Number.isFinite(z.x)&&Number.isFinite(z.y))&&bullets.length<=400&&feedback.length<=100'),'entity bounds scale only within their approved caps');
 run("openGarage()");assert.equal(elements.get('garage').hidden,false);assert.equal(elements.get('combat').hidden,true);
-console.log('Full twenty-five-minute combat/upgrade/boss integration simulation passed without a forced ending.');
+console.log('Full twenty-minute combat/upgrade/boss integration simulation completed with victory.');
 
 const fresh=(weapon='machine')=>run(`profile.unlockedRobots=Object.fromEntries(Object.keys(ROBOTS).map(id=>[id,true]));profile.unlockedWeapons=Object.fromEntries(Object.keys(WEAPONS).map(id=>[id,true]));saveProfile();openGarage();selectRobot('prot');selectWeapon('${weapon}');reset();spawn=10000;aim={x:800,y:300,active:true}`);
 fresh();run("globalThis.gemX=player.x+73;globalThis.gemY=player.y+41;globalThis.gemHalo=false;globalThis.gemRing=false;ctx.arc=(x,y,r)=>{if(x===gemX&&y===gemY&&r===14)gemHalo=true};ctx.stroke=()=>{if(ctx.strokeStyle==='#a8f1ff'&&ctx.lineWidth===2)gemRing=true};gems=[{x:gemX,y:gemY}];draw()");assert.equal(run('gemHalo'),true,'XP pickup retains a large luminous halo');assert.equal(run('gemRing'),true,'XP pickup keeps its contrasting outline');
@@ -318,7 +318,7 @@ run('damageEnemy(boss,99999);tick(.01)');collectBossChest();run("el('choices').c
 run('clock=420;tick(.01)');assert.equal(run('boss.id'),'coil');assert.equal(run('bossIndex'),3);
 run('damageEnemy(boss,99999);tick(.01)');collectBossChest();run("el('choices').children.at(-1).onclick();tick(.01)");assert.equal(run('bossKills'),3);assert.equal(run('bossIndex'),3);
 run('clock=599.98;tick(.01)');assert.equal(run('bossIndex'),3,'recurring boss waits for the next schedule mark');
-run('clock=600;tick(.01)');assert.equal(run('boss.id'),'brute','first boss returns after the opening cycle');assert.equal(run('boss.maxHp'),1105,'recurring boss health scales by cycle');assert.equal(run('bossIndex'),4);
+run('clock=719.98;tick(.01)');assert.equal(run('bossIndex'),3,'Prism waits until twelve elapsed minutes');run('clock=720;tick(.01)');assert.equal(run('boss.id'),'prism');assert.equal(run('boss.maxHp'),2500);assert.equal(run('bossIndex'),4);
 // Scrapper telegraphs pools before damage; leaving circles avoids the hazard.
 fresh();run('bossIndex=1;spawnBoss();boss.timer=0;tickBoss(.01)');assert.equal(run('boss.phase'),'tellMortar');assert.equal(run('hazards.length'),3);
 run('tickHazards(1)');assert.equal(run('player.hp'),100,'warning causes no damage');run('tickHazards(.42)');assert.equal(run('player.hp'),88,'pool activates after warning');
@@ -338,7 +338,7 @@ for(const index of [1,2]){
  for(let i=0;i<600;i++)run('tickBoss(.04);tickHazards(.04);draw()');
  assert.ok(run('Number.isFinite(boss.x)&&Number.isFinite(boss.y)&&hazards.length<=60'));
 }
-console.log('Proportional reloads, three boss schedule, delayed pools, electric rings/fans, warning safety, pause and cleanup passed.');
+console.log('Proportional reloads, four boss schedule, delayed pools, electric rings/fans, warning safety, pause and cleanup passed.');
 // Readable tree labels, spatial language and dedicated cooldown HUD.
 fresh();assert.equal(run('Object.keys(TREE_INFO).length'),14);
 assert.equal(run('SKILLS.some(s=>/\\bpx\\b/.test(s.benefit+s.cost))'),false,'no implementation units in upgrade copy');
@@ -384,13 +384,13 @@ fresh();run('player.frenzy=6;pause()');const overloadValues=elements.get('choice
 fresh();const beforeManual=run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})');run('renderCompendium()');
 assert.equal(run('JSON.stringify({profile,damage:player.damage,acquired:[...player.acquired],state})'),beforeManual,'consulting catalog is read only');
 const manual=elements.get('module-compendium');assert.equal(manual.children.length,23,'manual includes fourteen trees, blessings, experiments and six chassis');
-const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,107);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,107,'all catalog entries appear once');
+const manualCards=manual.children.flatMap(group=>group.children[1].children);assert.equal(manualCards.length,109);assert.equal(new Set(manualCards.map(card=>card['data-module'])).size,109,'all catalog entries appear once');
 assert.ok(manualCards.find(card=>card['data-module']==='rivetMatrix'),'new physical device has its own compendium entry');
 assert.ok(manualCards.find(card=>card['data-module']==='reloadBlade'),'reload-window device has its own compendium entry');
 const pierceManual=manualCards.find(card=>card['data-module']==='pierce');assert.equal(pierceManual.children[3].textContent,'REQUISITO: NÚCLEO CRIOGÊNICO');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[2].textContent.includes(run("SKILLS.find(s=>s.id==='ricochet').cost")),'manual uses current canonical costs');
 run('renderCompendium()');assert.equal(manual.children.length,23,'reopening catalog replaces instead of duplicating entries');
-console.log('Garage compendium covers86 modules and21 exclusive boss relics without mutating the run or profile.');
+console.log('Garage compendium covers86 modules and23 exclusive boss relics without mutating the run or profile.');
 assert.ok(manualCards.find(card=>card['data-module']==='ricochet').children[3].textContent.includes('projéteis de retorno; exige ao menos uma arma sem retorno'),'manual explains mixed-arsenal ricochet eligibility');
 
 // One run-only reroll replaces level-up choices without granting a skill or advancing combat.

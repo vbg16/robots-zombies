@@ -19,7 +19,7 @@ Preservar:
 - Mira e disparo manuais.
 - Celular na horizontal.
 - Movimento, mira e disparo independentes no controle por toque.
-- Arena sem bordas e sem vitória automática por relógio.
+- Arena sem bordas; por decisão posterior do criador incorporada na BUILD68, incursão de20minativos com contador regressivo e vitória em00:00se o jogador sobreviver.
 - Chefes recorrentes e continuidade das ondas durante suas lutas.
 - Chassi e conjunto de armas escolhidos antes da tentativa e mantidos durante ela.
 - Aprimoramentos temporários, perdidos ao iniciar outra tentativa.
@@ -27,7 +27,7 @@ Preservar:
 - Metaprogressão por desbloqueio de equipamento, sem transformar atributos temporários em bônus permanentes.
 - Separação entre desenvolvimento e versão pública.
 
-Os vinte minutos usados nos testes são uma janela de avaliação. Não devem virar uma condição de vitória ou encerramento do modo infinito.
+Atualização expressa do criador: o timer de cada partida é20minregressivos; a incursão encerra em00:00com vitória se vivo. Esta decisão substitui a regra histórica de modo infinito. Respiro após aprimoramentos, bandos e somente um novo chefe aos12mindecorridos estão especificados em [incursão de vinte minutos](incursao-vinte-minutos.md). Segundo chefe novo aos15min adiado, não concluído.
 
 
 ## 2. CONGELAMENTO DO ESCOPO FINAL
@@ -204,7 +204,7 @@ Executar uma matriz homogênea de:
 - Três sementes fixadas antes dos resultados:
   20261130, 20261201 e 20261202.
 - Trinta tentativas no total.
-- Vinte minutos ativos de simulação por tentativa.
+- Vinte minutos ativos de simulação por tentativa; na candidata68 alcançar state=won em00:00também é obrigatório para viabilidade.
 - Mesma revisão de física, catálogo, receitas e piloto.
 
 As sementes são identificadores pseudoaleatórios, não datas de agendamento.
@@ -289,7 +289,7 @@ Não chamar um pico de multiplicador de DPS sustentado.
 Executar uma sessão controlada de pelo menos sessenta minutos simulados.
 
 Verificar:
-- Continuidade do modo infinito.
+- Encerramento em00:00, vitória/derrota corretas e reinício íntegro; a estabilidade acumulada continua obrigatória. Proposta de adaptação: três incursões completas na mesma sessão para acumular60min; essa interpretação de G05 não está aprovada nem executada por esta atualização.
 - Repetição dos ciclos de todos os chefes.
 - Escalada prevista da horda.
 - Ausência de encerramento por relógio.
@@ -644,4 +644,4 @@ Não apresentar uma porcentagem global inventada. Informar quais gates passaram,
 
 
 ---
-Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de escapes Markdown e entidades HTML; critérios preservados. SHA-256 do arquivo original: `9a1606cccbfbe10fc763ecd373053ee62da4ea6a5733ef053d9dd6bbd318c28c`.
+Fonte: objetivo fornecido pelo criador em 09/11/2026. O levantamento inicial apenas normalizava escapes Markdown/HTML. A atualização68incorpora a decisão posterior expressa de20minregressivos, respiro, bandos e somente um novo chefe aos12min; G05permanece aberto com proposta de interpretação documentada, sem aprovação presumida. Os demais critérios são preservados. SHA-256 do arquivo original histórico (não deste documento atualizado): `9a1606cccbfbe10fc763ecd373053ee62da4ea6a5733ef053d9dd6bbd318c28c`.

@@ -1,11 +1,20 @@
-# Contrato vigente — Screwvivors BUILD 66
+# Contrato vigente — Screwvivors BUILD 68
+
+## Candidata68 — incursão de vinte minutos
+
+Decisão posterior do criador substitui o modo sem tempo final:20:00regressivos, vitória em00:00se vivo, derrota com prioridade no quadro fatal. Respiro120px/raio280/stun0,5s após instalação válida nas seis famílias; recusas/renovações/callbacks obsoletos não concedem respiro. Horda usa coesão local com exceções para corredores, chefes e policial de escudo quebrado. Somente UM novo chefe agora: Prisma aos720s decorridos (08:00restantes). Segundo novo chefe aos15min fica adiado. [Especificação completa](incursao-vinte-minutos.md). Crescimentos67 abaixo continuam vigentes.
+
+## Candidata67 — crescimento por eventos
+
+Memória de Reparo conta apenas HP efetivo curado em playing após adquirir, cap150; cada10HPdá+1%nos tiros manuais futuros, cap15%. Memória Reagente exige corrosão; primárias spread===true que retiramHPao resolver creditam1estágioaté15, sónovascargas recebem fator. Filhos/antigos conservam captura; morteantecipadaporoutrafonte não creditaprincipal. Composição natural até1,3225no snapshot corrosivo, nãoDPSuniversal. Suportes sem fator direto; orçamento de alimentação daMatriz acompanha tiro. Curadeescolha/excesso/Banco não avança; morte/garagem/resetlimpam.23relíquias/109compêndio/editor86. [Contrato e30casos](crescimento-temporario.md).
+
 
 
 ## Candidata66 — ciclos de munição
 
 Alimentador Compacto adia capacidade reduzida até próximo início válido de recarga por slot: Cc=max(1,floor(0,75Cn)), ammo<Cc, T=0,8Tn×Cc/Cn. Sem cortar munição ou alterar recarga corrente; tempo por cartucho reposto−20%, custo explícito em card/compêndio. Dínamo exige fonte killAmmo/chargeRecovery e delta real positivo: fator de cadência1+0,04estágios, máximo5por4sativos/slot, sem recarga/refund/cheio. Cooldowns/rajadas antigos preservados. Estado temporário isolado de save/reset; custo/limites/29casos no [contrato](ciclos-de-municao.md). Catálogo21/107, editor86/revisão7. Validação intermediária não aprova meta final.
 
-Estado: candidata local BUILD66 em desenvolvimento. Publicação anterior confirmada: BUILD65, 03a77f7772a4569ef0f4ce54ec993752ca494d21. A meta aprovada e os gates de conclusão permanecem ativos; versão na tela não é aprovação pública ou encerramento.
+Estado: candidata local BUILD68 em desenvolvimento. Publicação anterior confirmada: BUILD66, 64501802af13f6a6e4853de89949b32896d95013. A meta aprovada e os gates de conclusão permanecem ativos; versão na tela não é aprovação pública ou encerramento.
 
 ## Adição candidata — BUILD65
 
@@ -62,16 +71,16 @@ Este documento e o código atual prevalecem sobre descrições históricas das e
 | Área | Regra que deve permanecer | Evidência automatizada |
 |---|---|---|
 | Identidade | Gato piloto, robôs, cidade industrial do Dr. Biruta; assets próprios e interface ciano. Não copiar conteúdo da referência. | Inspeção de assets e QA visual; testes de identidade em combat.cjs. |
-| Arena | Sem bordas, vitória cronometrada ou encerramento aos 20 minutos. | combat.cjs: movimento sem limites e cenário controlado de 25 minutos. |
+| Arena | Sem bordas;20min ativos de incursão, HUD regressivo20:00→00:00 e vitória se vivo no fim; morte no último quadro tem prioridade. | incursion.cjs: pausa, residual, fatal, vitória única e persistência. Cenários antigos de25min são históricos. |
 | Controle | Mover, mirar e disparar manualmente. ESPAÇO exige skill; avanço não concede invulnerabilidade. | combat.cjs: emissão, liberação, foco, movimento e avanço. |
 | Dano recebido | Empurrão de 48 px para longe da fonte; direção de fallback. | combat.cjs: empurrões opostos e fontes tipadas. |
 | Horda | Grupos de até15 fora da tela; limite comum60 +12/minuto, máximo180. Reposição por tempo, oito abates ou deslocamento320px com baixa presença local; intervalo mínimo3s entre grupos. Perseguidores distantes podem reentrar fora da tela preservando vida/escudo. Chefes e lacaios têm agenda própria. | horde-director.cjs: teto, gatilhos, deslocamento, pausa/reset e preservação de sobreviventes; combat.cjs: integração e minimapa. |
 | Policiais | Só após derrotar o segundo chefe: cinco dos 15, alternando rifle/escudo. Escudo 100 absorve integralmente o golpe de quebra. Só o sobrevivente que perdeu o escudo passa a parar, mirar e correr até 240 px numa direção fixa. Sem aceleração de aproximação nos comuns. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
-| Chefes | Três identidades recorrentes e seus lacaios; Sucateiro acompanha e mantém distância. Peça de garagem salva e cura até20 (40 com Caça-Titãs). Baú físico no local da derrota oferece uma entre atétrês peças raras elegíveis; efeito sóaté o fim da partida. Ao esgotar peças elegíveis, oferece experimento antigo e, após esgotá-los, módulo comum. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
+| Chefes | Quatro identidades e seus lacaios, agenda60/240/420/720s; sóum vivo e próximo aguarda. Prisma é a única identidade nova desta candidata; recorrência de Brutamontes aos900s não é o segundo chefe novo adiado. Prisma concede peçaCOIL compatível.  Sucateiro acompanha e mantém distância. Peça de garagem salva e cura até20 (40 com Caça-Titãs). Baú físico no local da derrota oferece uma entre atétrês peças raras elegíveis; efeito sóaté o fim da partida. Ao esgotar peças elegíveis, oferece experimento antigo e, após esgotá-los, módulo comum. A oferta pausa a simulação; a luta não pausa novas ondas. | combat.cjs: agenda, ataques, recompensas, minions e repetição. |
 | Perfil | Parafusos coletados e peças conquistadas permanecem ao morrer. Sem bônus permanentes de atributo. Compras verificam saldo/peça e devolvem recursos em falha de gravação. | combat.cjs: compras, saves, migração e morte. |
 | Equipamento | Seis chassis e12armas:um espaço por padrão, BAST permite até2armas e ENXA até3, opcionais, distintas e desbloqueadas. Duas usam dano×0,7 por arma/movimento×0,9; três×0,55/×0,8. Escolha na garagem, conjunto e chassi fixos durante combate. Novos chassis não são concedidos pela migração de perfil antigo. | combat.cjs, build-mechanics.cjs e Chrome. |
 | Progressão | XP inicial 6, crescimento ×1,2, coleta inicial 95. Catálogo de86aprimoramentos:56normais, seis gambiarras, seis experimentos e18especializações. | balance-panel.cjs e build-mechanics.cjs. |
-| Ofertas | Gambiarras nos níveis 3/6/9; especialização do chassi no nível 10. Uma renovação por nível normal; renovar não recarrega a própria carga. Reforja no nível 20. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
+| Ofertas | Instalação válida de módulo/gambiarra/experimento/relíquia/protocolo/reforja afasta inimigos próximos120px e atordoa0,5s em raio280. Chefes não são empurrados; recusa/reroll não concede respiro. Gambiarras nos níveis 3/6/9; especialização do chassi no nível 10. Uma renovação por nível normal; renovar não recarrega a própria carga. Reforja no nível 20. | combat.cjs, build-mechanics.cjs e weapon-evolution.cjs. |
 | Reforja | Duas opções próprias de cada arma, escolher uma ou recusar por espaço, em sequência pausada. Substitui o módulo do nível20. Não troca/funde arma, repõe munição, termina recarga ou modifica projéteis já emitidos. Não volta após recusa; some ao reiniciar. | weapon-evolution.cjs: 24 opções, estados, callbacks, projéteis e reset. |
 | Construção de build | Dez receitas recomendadas; guia não concede equipamento, skills, atributos nem altera sorteios. | builds-balance.cjs, Chrome dos guias e weapon-evolution-browser.cjs. |
 | Cura e drones | Cura efetiva ativa protocolos; recarga parcial cura proporcionalmente e divide a cura pelo total de armas equipadas. Até três drones, sem cadeia recursiva de procs. Célula verde a cada 25 abates precisa ser coletada e não vale parafusos. | build-mechanics.cjs. |
@@ -96,7 +105,7 @@ Os números novos são experimentais. Testar funcionamento não aprova balanceam
 
 A meta geral permanece ativa. Evolução de arma deixa de ser pendência de implementação na BUILD 41, mas seu balanceamento exige avaliação mais ampla. A [reavaliação das dez builds da BUILD 41](reavaliacao-build41.md) foi concluída, preservando falhas. A BUILD 42 revisou a [Lança de Fuga](ajuste-lanca-de-fuga.md) por comparação de seis sementes. Continuam pendentes a melhoria das demais receitas frágeis, balanceamento de corrosão/sensores, aprofundamento de suportes invocados e a avaliação dos equipamentos avançados com múltiplos espaços. Corrosão foi implementada na BUILD43 e sensores na BUILD44; drones/sensores/rotores e os espaços adicionais já foram implementados; integração de balanceamento e acabamento continuam pendentes.
 
-Não importar vitória cronometrada, retenção de skills após morte, runas com atributos permanentes ou fusão de armas: entram em conflito com decisões explícitas do criador. Ranking, nuvem e conquistas precisam de etapa própria de plataforma e integridade; o protótipo permanece local.
+Vitória cronometrada20min passou a ser autorizada pela decisão posterior registrada na candidata68. Não importar retenção de skills após morte, runas com atributos permanentes ou fusão de armas: entram em conflito com decisões explícitas do criador. Ranking, nuvem e conquistas precisam de etapa própria de plataforma e integridade; o protótipo permanece local.
 
 ## Regra de ajuste — BUILD 42
 

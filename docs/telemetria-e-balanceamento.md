@@ -1,5 +1,7 @@
 # Telemetria e desempenho — BUILD57
 
+> Registro histórico da BUILD57: suas referências a arena sem tempo final foram substituídas pela decisão68de incursão regressiva20min/vitória00:00. Agregação/observação continuam distintas de política do piloto e de aceite final; [regras atuais do bot](bot-de-testes.md) e [incursão](incursao-vinte-minutos.md). O texto histórico abaixo mantém sua data e escopo.
+
 A busca de vizinhos das descargas agora reaproveita geometria dentro da fase de projéteis. A primeira consulta usa o algoritmo anterior; uma repetição monta uma lista ordenada para aquele centro/raio. Movimento indexado invalida a lista; cada leitura filtra a vida atual e conserva desempates pela ordem original. A fase termina descartando o cache. Não há redução de dano, de quantidade de raios ou do RNG para acelerar a cena.
 
 ## O que o testador mede

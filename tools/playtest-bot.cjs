@@ -24,7 +24,7 @@ function loadPlaywright(){
 }
 function policySource(){
  const source=fs.readFileSync(path.join(root,'tests/builds-balance.cjs'),'utf8');
- if(!source.includes('const driverVersion=13;'))throw Error('A política compartilhada mudou de versão; revisar a integração do bot antes de executar.');
+ if(!source.includes('const driverVersion=14;'))throw Error('A política compartilhada mudou de versão; revisar a integração do bot antes de executar.');
  const policy=source.split('const simulation=String.raw`')[1]?.split('for(let step=')[0];
  if(!policy||!policy.includes('function qaDrive()')||!policy.includes('function qaChoose()'))throw Error('Política de testes não reconhecida; não iniciar com um piloto diferente silenciosamente.');
  return policy.replace("el('choices').children.at(-1)","Array.from(el('choices').children).at(-1)");
@@ -37,7 +37,7 @@ async function runBot(options){
  const pilotSource=fs.readFileSync(path.join(__dirname,'bot-pilot.js'),'utf8');
  const observerSource=options.telemetry===false?null:['run-telemetry.js','run-observer.js'].map(f=>fs.readFileSync(path.join(__dirname,f),'utf8')).join('\n');
  const policy=policySource(),hash=s=>crypto.createHash('sha256').update(s).digest('hex');
- const report={startedAt:new Date().toISOString(),status:'starting',options:{...options},recipe,version:JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')),driver:'browser-bot-v2 / driver13 base and explicit input profile',policyHash:hash(policy),pilotHash:hash(pilotSource),telemetryEnabled:!!observerSource,observerHash:observerSource?hash(observerSource):null,sourceHashes:Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'].map(file=>[file,hash(fs.readFileSync(path.join(root,file)))])),fixture:'Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.',errors:[],result:null};
+ const report={startedAt:new Date().toISOString(),status:'starting',options:{...options},recipe,version:JSON.parse(fs.readFileSync(path.join(root,'version.json'),'utf8')),driver:'browser-bot-v3 / driver14 timed-run termination and explicit input profile',policyHash:hash(policy),pilotHash:hash(pilotSource),telemetryEnabled:!!observerSource,observerHash:observerSource?hash(observerSource):null,sourceHashes:Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'].map(file=>[file,hash(fs.readFileSync(path.join(root,file)))])),fixture:'Isolated browser context. Gear pre-unlocked only to mount the chosen recipe. No immunity, stat bonuses, forced kills, wave suppression or entity culling.',errors:[],result:null};
  const save=()=>fs.writeFileSync(base,JSON.stringify(report,null,2)+'\n');save();
  let browser,page;
  try{
@@ -71,7 +71,7 @@ async function runBot(options){
   let latest=null,lastSaved=-Infinity;
   while(true){
    const began=Date.now();latest=await page.evaluate(({batch,totalSteps})=>{
-    for(let i=0;i<batch&&!qaStop&&qaSteps<totalSteps&&state!=='over';){
+    for(let i=0;i<batch&&!qaStop&&qaSteps<totalSteps&&state!=='over'&&state!=='won';){
      if(state!=='playing'){qaChoose();if(++qaOfferSteps>100)throw Error('Bot não conseguiu resolver a oferta: '+state);continue;}
      qaOfferSteps=0;
      if(qaSteps%4===0){
@@ -86,13 +86,15 @@ async function runBot(options){
      const minute=Math.floor((clock+1e-7)/60);if(minute>qaLastMinute){qaLastMinute=minute;qa.minutes.push({minute,time:clock,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,enemies:enemies.length,received:qa.received,healing:qa.healing});}
     }
     window.ScrewAudio?.setScene(null);updateHUD();draw();document.querySelector('#bot-test-status').textContent=Math.floor(clock/60)+':'+String(Math.floor(clock%60)).padStart(2,'0')+' · LV '+level+' · '+kills+' ABATES · '+bossKills+' CHEFES';
-    return {done:qaStop||qaSteps>=totalSteps||state==='over',stop:qaStop,time:clock,state,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,coreReached:qaBuild.core.every(id=>player.acquired.has(id)),recipeReached:qaBuild.skills.every(id=>player.acquired.has(id)),acquired:[...player.acquired],...qa};
+    const finite=[clock,player.x,player.y,player.hp,player.maxHp,player.damage,...weaponSlots.flatMap(s=>[s.damage,s.rate,s.ammo,s.reloadTime,s.cooldown]),...enemies.flatMap(z=>[z.x,z.y,z.hp]),...bullets.flatMap(b=>[b.x,b.y,b.damage]),...hostile.flatMap(b=>[b.x,b.y,b.vx,b.vy])].every(Number.isFinite);
+    if(!finite)throw Error('Estado numérico inválido no relatório terminal.');
+    return {done:qaStop||qaSteps>=totalSteps||state==='over'||state==='won',finite,stop:qaStop,time:clock,state,hp:player.hp,maxHp:player.maxHp,level,kills,bossKills,coreReached:qaBuild.core.every(id=>player.acquired.has(id)),recipeReached:qaBuild.skills.every(id=>player.acquired.has(id)),acquired:[...player.acquired],...qa};
    },{batch,totalSteps});
    report.result=latest;if(latest.done||latest.time-lastSaved>=5){if(observerSource)report.telemetry=await page.evaluate(()=>qaObserver.finish());save();lastSaved=latest.time;}if(latest.done)break;
    const targetMs=batch*.05*1000/options.speed,delay=Math.max(0,targetMs-(Date.now()-began));if(delay)await new Promise(resolve=>setTimeout(resolve,delay));
   }
-  report.status=latest.stop?'user-stop':latest.state==='over'?'player-death':'duration-reached';
-  report.viable=options.minutes>=20?latest.time>=1199.9&&latest.bossKills>=3:null;
+  report.status=latest.stop?'user-stop':latest.state==='over'?'player-death':latest.state==='won'?'run-won':'duration-reached';
+  report.viable=options.minutes>=20?latest.state==='won'&&latest.time>=1200-1e-6&&latest.bossKills>=3&&latest.coreReached&&latest.finite&&report.errors.length===0:null;
   report.screenshot=base.replace(/\.json$/i,'')+'.png';await page.screenshot({path:report.screenshot});
  }catch(error){report.status='runtime-error';report.errors.push({kind:'runner',message:error.message});throw error;}
  finally{report.finishedAt=new Date().toISOString();save();if(browser)await browser.close();console.log('Relatório: '+base);}

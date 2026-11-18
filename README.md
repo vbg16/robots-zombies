@@ -1,12 +1,12 @@
-# Screwvivors — BUILD 66 · desenvolvimento
+# Screwvivors — BUILD 68 · desenvolvimento
 
 O download padrão de **Code → Download ZIP** na branch `main` contém o desenvolvimento mais recente enviado ao GitHub. Recursos experimentais estão incluídos. O canal `codex/publico` é separado e ainda é uma candidata histórica, sem aprovação de lançamento atualizada.
 
 Sobrevivência 2D para navegador em HTML/CSS/JavaScript, sem dependências de execução. A [documentação](docs/README.md) distingue decisões aprovadas e propostas. Arte atual é provisória.
 
-O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 408 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
+O projeto está **em desenvolvimento**. A [meta de conclusão](docs/META-DE-CONCLUSAO.md) define os critérios de aceite; a [especificação de reconstrução e testes](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) descreve regras, fórmulas, conteúdo e 480 casos de verificação. A existência desses casos não significa que os ensaios finais estejam aprovados.
 
-Na candidata66, [Alimentador Compacto e Dínamo de Recuperação](docs/ciclos-de-municao.md) acrescentam eficiência de reposição com capacidade menor e cadência por munição realmente recuperada. São peças temporárias de baú, com custo/condições explícitos. O inventário reúne21peças raras e107artigos de compêndio; os56módulos normais/86editáveis permanecem. Avaliação intermediária:9/10receitas canônicas viáveis e4/4em experimento separado; falhas e limites estão documentados.
+A BUILD68 tem partidas de **20 minutos regressivos**, respiro de **120 pixels após instalar uma melhoria**, zumbis com preferência por bandos e **um novo chefe aos 12 minutos: Prisma de Cerco**, com lasers espaçados, animações e efeitos sonoros. O segundo novo chefe está adiado. O inventário atual reúne 23 peças raras, 109 artigos de compêndio, 56 módulos normais e 86 aprimoramentos editáveis. [Regras, testes e limitações](docs/incursao-vinte-minutos.md).
 
 ## Jogar
 
@@ -24,7 +24,7 @@ Na garagem, comece com o chassi PROT-0001 e a metralhadora. Use parafusos e peç
 - Nos níveis 3, 6 e 9, escolha uma Gambiarra temporária entre três alternativas, use as teclas 1–3 ou pule. Os efeitos somem na próxima tentativa.
 - A faixa inicial de controles some após cinco segundos; o comando do propulsor aparece junto da arma após adquirir a skill.
 - Zumbis surgem em grupos de quinze distribuídos ao redor do jogador; os grupos chegam em intervalos cada vez menores.
-- Arena infinita, sem limite de mundo ou tempo final. A horda fica mais forte e os três chefes voltam em ciclos; ondas comuns continuam mesmo durante os chefes.
+- Arena sem bordas, com incursão de20minutos ativos e relógio regressivo: sobreviver até00:00 encerra em vitória. Ondas continuam nos chefes; Prisma de Cerco tem agenda aos12min decorridos (08:00restantes), esperando se outro chefe estiver vivo. [Incursão, bandos e respiro](docs/incursao-vinte-minutos.md).
 - Chefes trazem reforços próprios: CORREDOR, ATIRADOR ou RAJADA, identificados acima do inimigo. O HUD mostra quantos restam e confirma que as ondas comuns continuam ativas.
 - A câmera acompanha o robô pela cidade. Saia das áreas sinalizadas antes dos ataques dos chefes.
 
@@ -71,7 +71,7 @@ python tests/validate_walk_test.py
 
 Os testes Python das ferramentas de arte exigem Pillow. O jogo não exige instalação de pacotes, serviços, chaves ou build.
 
-Testes de lógica cobrem combate, dez minutos sem encerramento forçado, horda crescente e retorno dos chefes. O teste automatizado não substitui a avaliação visual nem o balanceamento com jogadores no navegador. [Parâmetros experimentais](docs/game-design.md) · [Plano de integração e regras contra regressões](docs/plano-integracao-20-minutes-till-dawn.md).
+Testes de lógica cobrem combate, horda crescente, retorno dos chefes e o novo encerramento aos20minutos. A suíte sintética de incursão cobre relógio, respiro, bandos e lasers; não comprova partida natural, equilíbrio ou desempenho. O teste automatizado não substitui a avaliação visual nem o balanceamento com jogadores no navegador. [Parâmetros experimentais](docs/game-design.md) · [Plano de integração e regras contra regressões](docs/plano-integracao-20-minutes-till-dawn.md).
 
 BAST-0002 usa sprite SVG provisório próprio. No perfil novo, o PROT-0001 e a Metralhadora são iniciais; demais armas e o BAST-0002 são desbloqueados na garagem. Saves do protótipo anterior preservam acesso a todo o catálogo. [Catálogo e preços experimentais](docs/game-design.md) · [Prompt de arte dos inimigos](docs/arte/prompt-inimigo-zumbi.md).
 
@@ -130,3 +130,6 @@ BUILD63 (publicada em desenvolvimento): Banco de Reserva separado de HP, Ponte d
 BUILD64 (candidata): [Pistão de Retorno](docs/pistao-de-retorno.md) invoca uma ferramenta industrial ao terminar a recarga, com direção manual, potência proporcional à munição reposta e limite por arma.17relíquias/103artigos; painel86. Avaliação natural intermediária10/10canônicas e4/4em experimento separado; não aprova os gates finais.
 
 BUILD65 (candidata): [Conversões Vitais](docs/conversoes-vitais.md) adiciona HP atual aos ataques dos drones e converte o último cartucho em pulso porHPmáxima.19peças raras/105artigos; painel86. Corrige ataques/coleta posteriores à morte dentro do mesmo quadro. Na fonte corrigida, avaliação intermediária10/10canônicas e4/4em experimento separado de preferência legal. Avaliação final e demais motores seguem abertos.
+
+
+BUILD68 (candidata local): relógio20:00→00:00 com vitória, respiro de120px após seis famílias de escolhas válidas, coesão local de bandos e somente um novo chefe, Prisma aos12min decorridos. Segundo novo chefe aos15min adiado pelo criador. Mantém os crescimentos temporários da BUILD67;23relíquias/109artigos e editor86. [Contrato e limitações](docs/incursao-vinte-minutos.md). Gates finais e aprovação pública permanecem abertos.

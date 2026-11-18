@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD66 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD68 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Base técnica aprovada — 27/10/2026
 
@@ -10,6 +10,14 @@ O criador aprovou continuar o desenvolvimento do protótipo no navegador com HTM
 Este diretório é a fonte de referência para as decisões de produto e design do jogo. Consolida a conversa de definição do projeto até 27/10/2026.
 
 ## Documentos
+
+- [Verificação intermediária BUILD68](build68-verificacao.md): 61 checks, dez receitas naturais, negativos preservados e limites de aprovação.
+
+- [Resumo auditável de QA BUILD68](build68-qa-summary.json): evidências intermediárias, negativos preservados e limites; não é aprovação dos gates finais.
+
+- [Incursão regressiva na candidata BUILD68](incursao-vinte-minutos.md): vitória00:00, respiro, bandos e somente o novo Prisma aos12mindecorridos; valores, fila, lasers e critérios de teste.
+
+- [Crescimento temporário na candidata BUILD67](crescimento-temporario.md): HP efetivo fortalece tiros futuros; primárias corrosivas fortalecem novas cargas; limites, snapshots e testes.
 
 - [Ciclos de munição na candidata BUILD66](ciclos-de-municao.md): capacidade menor com reposição eficiente e cadência por recuperação real; testes e limites.
 
@@ -24,7 +32,7 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 - [Culatra de Ruptura na BUILD60](culatra-de-ruptura.md): último cartucho por arma, escudos, testes e limites das evidências naturais.
 
 - [Objetivo aprovado](OBJETIVO-APROVADO.md) e [meta de conclusão](META-DE-CONCLUSAO.md): escopo, métricas e evidências exigidas para terminar a versão 1.0.
-- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 408 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
+- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 480 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
 
 - [Colimador de Campo na BUILD59](colimador-de-campo.md): conversão espacial, tempo ativo, colisões e limites de validação.
 
@@ -58,3 +66,7 @@ Não há data de lançamento, preço, orçamento aprovados; a base atual é HTML
 - BUILD64: [Pistão de Retorno](pistao-de-retorno.md), suporte temporário ao concluir recarga; fonte independente, limites por arma, ordem discreta/P2registrados.
 
 - BUILD65: [Conversões Vitais](conversoes-vitais.md), HP atual→drones e último cartucho→pulso porHPmáxima; correções de dano/coleta depois da morte no mesmo quadro.
+
+- [Incursão regressiva na candidata BUILD68](incursao-vinte-minutos.md): vitória00:00, respiro, bandos e somente o novo Prisma aos12min decorridos; valores, fila, lasers e critérios de teste.
+
+- [Histórico natural consolidado BUILD67](build67-historico.md): A9/10canônicas, B2/2 e C1/2experimentais; falhas de núcleo, sem mortes.74registros verificados; driver13/física antiga, sem aprovação da BUILD68. [Resumo estruturado](build67-balance-summary.json).

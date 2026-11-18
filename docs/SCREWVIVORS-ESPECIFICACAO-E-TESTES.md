@@ -2,13 +2,13 @@
 
 **Estado: EM DESENVOLVIMENTO. Este arquivo não declara o projeto terminado.**
 
-Levantamento iniciado em09/11/2026 e revisado em13/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD65, commit03a77f7772a4569ef0f4ce54ec993752ca494d21. Esta edição descreve a candidata BUILD66 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
+Levantamento iniciado em09/11/2026 e revisado em18/11/2026, fuso America/Sao_Paulo. No início deste levantamento, a última publicação confirmada era BUILD59, commit c8164b482ccdbbc116a81d26fe6b14e014eba4f1. A publicação mais recente confirmada é BUILD66, commit64501802af13f6a6e4853de89949b32896d95013. Esta edição descreve a candidata BUILD68 ainda em implementação/validação, não publicada; o histórico Git identifica a revisão que efetivamente a entregou. O número na tela ou no version.json não prova publicação, estabilidade, desempenho, aprovação humana nem aceite dos gates. Os hashes source_hashes registram bytes do workspace; source_text_hashes normaliza somente CRLF→LF para validar também o ZIP Git, que usa LF. Nenhuma outra diferença de conteúdo é normalizada, e o verificador registra a diferença de terminação de linha.
 
 Este documento contém instruções para outra IA implementar um jogo muito parecido sem possuir o repositório original. As tabelas são a baseline padrão da candidata atual; uma reconstrução pode usar outra arquitetura interna, mas precisa preservar regras, unidades, fontes de dano, sequência de decisões, conteúdo e observáveis. Não precisa reproduzir binários de arte pixel a pixel: deve desenhar assets originais equivalentes nas dimensões, silhuetas, cores, poses e camadas descritas. Nomes de arquivo originais servem à proveniência, nunca como única explicação de uma regra.
 
 ## Como usar este documento
 
-1. Ler a meta aprovada e distinguir critérios de conclusão do comportamento do jogo. Alcançar20minutos no relógio de avaliação não encerra o modo infinito.
+1. Ler a meta aprovada e distinguir critérios de conclusão do comportamento do jogo. Decisão posterior: sobreviver20minativos encerra a incursão em vitória; os critérios de build continuam exigindo chefes e núcleo.
 2. Implementar estados, mundo e controle antes de adicionar conteúdo; manter pixels lógicos separados da resolução do Canvas.
 3. Implementar dados e fórmulas exatas das tabelas; não trocar multiplicação por soma nem confundir pellet com cartucho.
 4. Implementar efeitos por fonte, escudos e snapshots antes de ligar sinergias. Um suporte que escolhe alvos não autoriza autoaim das armas manuais.
@@ -39,11 +39,11 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Experimentos |6|
 | Protocolos de chassi |18|
 | Reforjas de arma |24|
-| Relíquias de baú |21|
+| Relíquias de baú |23|
 | Receitas de build |10|
 | Registros editáveis padrão |86|
 | Atributos numéricos editáveis |25|
-| Artigos do compêndio de módulos/relíquias |107|
+| Artigos do compêndio de módulos/relíquias |109|
 
 Os86editáveis são56+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
@@ -97,7 +97,7 @@ Preservar:
 - Mira e disparo manuais.
 - Celular na horizontal.
 - Movimento, mira e disparo independentes no controle por toque.
-- Arena sem bordas e sem vitória automática por relógio.
+- Arena sem bordas; por decisão posterior do criador incorporada na BUILD68, incursão de20minativos com contador regressivo e vitória em00:00se o jogador sobreviver.
 - Chefes recorrentes e continuidade das ondas durante suas lutas.
 - Chassi e conjunto de armas escolhidos antes da tentativa e mantidos durante ela.
 - Aprimoramentos temporários, perdidos ao iniciar outra tentativa.
@@ -105,7 +105,7 @@ Preservar:
 - Metaprogressão por desbloqueio de equipamento, sem transformar atributos temporários em bônus permanentes.
 - Separação entre desenvolvimento e versão pública.
 
-Os vinte minutos usados nos testes são uma janela de avaliação. Não devem virar uma condição de vitória ou encerramento do modo infinito.
+Atualização expressa do criador: o timer de cada partida é20minregressivos; a incursão encerra em00:00com vitória se vivo. Esta decisão substitui a regra histórica de modo infinito. Respiro após aprimoramentos, bandos e somente um novo chefe aos12mindecorridos estão especificados em [incursão de vinte minutos](incursao-vinte-minutos.md). Segundo chefe novo aos15min adiado, não concluído.
 
 
 ### 2. CONGELAMENTO DO ESCOPO FINAL
@@ -282,7 +282,7 @@ Executar uma matriz homogênea de:
 - Três sementes fixadas antes dos resultados:
   20261130, 20261201 e 20261202.
 - Trinta tentativas no total.
-- Vinte minutos ativos de simulação por tentativa.
+- Vinte minutos ativos de simulação por tentativa; na candidata68 alcançar state=won em00:00também é obrigatório para viabilidade.
 - Mesma revisão de física, catálogo, receitas e piloto.
 
 As sementes são identificadores pseudoaleatórios, não datas de agendamento.
@@ -367,7 +367,7 @@ Não chamar um pico de multiplicador de DPS sustentado.
 Executar uma sessão controlada de pelo menos sessenta minutos simulados.
 
 Verificar:
-- Continuidade do modo infinito.
+- Encerramento em00:00, vitória/derrota corretas e reinício íntegro; a estabilidade acumulada continua obrigatória. Proposta de adaptação: três incursões completas na mesma sessão para acumular60min; essa interpretação de G05 não está aprovada nem executada por esta atualização.
 - Repetição dos ciclos de todos os chefes.
 - Escalada prevista da horda.
 - Ausência de encerramento por relógio.
@@ -722,7 +722,7 @@ Não apresentar uma porcentagem global inventada. Informar quais gates passaram,
 
 
 ---
-Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de escapes Markdown e entidades HTML; critérios preservados. SHA-256 do arquivo original: `9a1606cccbfbe10fc763ecd373053ee62da4ea6a5733ef053d9dd6bbd318c28c`.
+Fonte: objetivo fornecido pelo criador em 09/11/2026. O levantamento inicial apenas normalizava escapes Markdown/HTML. A atualização68incorpora a decisão posterior expressa de20minregressivos, respiro, bandos e somente um novo chefe aos12min; G05permanece aberto com proposta de interpretação documentada, sem aprovação presumida. Os demais critérios são preservados. SHA-256 do arquivo original histórico (não deste documento atualizado): `9a1606cccbfbe10fc763ecd373053ee62da4ea6a5733ef053d9dd6bbd318c28c`.
 
 
 ## Parte II — combate, mundo e apresentação
@@ -730,11 +730,11 @@ Fonte: objetivo fornecido pelo criador em 09/11/2026. Normalização apenas de e
 
 ## Especificação de combate, mundo, apresentação e verificação
 
-Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61, a Lâmina62 e a reserva/manutenção63 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. Publicações61a65confirmadas; a candidata66nãoestápublicada nemaprovada pelos gatesfinais. Contratos das integrações estão nas PartesIII-AaIII-F. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
+Base de combate extraída na candidata BUILD60 em09/11/2026, com as correções de escudo, a Matriz61, a Lâmina62 e a reserva/manutenção63 incorporadas nesta montagem. Este fragmento descreve o que o código efetivamente faz; não certifica estabilidade, desempenho ou conclusão do projeto. A candidata60 não deve ser confundida com a última versão publicada59. Valores usam pixels/unidades lógicas de mundo e segundos de simulação ativa. Separar em qualquer reconstrução: comportamento de produto pretendido, implementação observada e defeitos conhecidos. Referências internas ajudam a auditar, mas as regras abaixo foram escritas para serem implementáveis sem consultar esses arquivos.
 
 ### 1. Produto e estrutura da tentativa
 
-Jogo de sobrevivência 2D, câmera superior, com um gato piloto dentro de robôs industriais enfrentando zumbis na cidade do Dr. Biruta. Paleta dominante azul petróleo/ciano, sucata dourada, reparo verde, ataques hostis laranja e perigo elétrico lilás. Arena infinita, sem colisão com bordas nem vitória ao completar20minutos. Vinte minutos são uma janela de teste de build. O jogador move, mira e atira manualmente; suportes adquiridos podem atacar automaticamente, mas não substituem a mira da arma.
+Jogo de sobrevivência 2D, câmera superior, com um gato piloto dentro de robôs industriais enfrentando zumbis na cidade do Dr. Biruta. Paleta dominante azul petróleo/ciano, sucata dourada, reparo verde, ataques hostis laranja e perigo elétrico lilás. Arena sem colisão com bordas; a decisão posterior incorporada na candidata68 define20minregressivos e vitória ao sobreviver até00:00. A seção completa de incursão no mestre especifica final, bandos, respiro e Prisma. O jogador move, mira e atira manualmente; suportes adquiridos podem atacar automaticamente, mas não substituem a mira da arma.
 
 Implementação local usa HTML/CSS, Canvas2D, scripts JavaScript locais e WebAudio; deve abrir por `file://` depois de extrair o ZIP, sem CDN, login, banco externo ou dependência de rede. O perfil é local ao navegador/dispositivo. Acesso à nuvem, ranking, conquistas de plataforma e executável nativo não são funcionalidades implementadas.
 
@@ -837,7 +837,7 @@ Escudo: valor100 absorve integralmente o golpe que o quebra, sem transferir exce
 
 ### 7. Chefes: agenda, escala, minions e padrões
 
-Agenda nominal absoluta: índice0 aos60s, índice1 aos240s, índice2 aos420s. A partir do índice3: `420+180×(índice−2)`; assim600,780,960s etc. Só pode haver um chefe vivo; se o anterior sobreviver à agenda seguinte, o próximo espera. Não reiniciar a agenda em função da hora da morte. Tipos giram Brutamontes→Sucateiro→Bobina e repetem.
+Agenda nominal absoluta na candidata68: índice0 aos60s, índice1 aos240s, índice2 aos420s e índice3 Prisma aos720s. A partir do índice4: `720+180×(índice−3)`; assim900,1080s antes do encerramento1200s. Só pode haver um chefe vivo; se o anterior sobreviver à agenda seguinte, o próximo espera. Não reiniciar a agenda em função da hora da morte. Tipos giram Brutamontes→Sucateiro→Bobina→Prisma e repetem; somente um chefe novo foi acrescentado, e o segundo novo aos15min permanece adiado.
 
 `ciclo=floor(índice/3)` antes de incrementar índice. HP = round(HPbase×(1+0,7ciclo)); velocidade = velocidadeBase×(1+0,08ciclo). Nascimento em `(jogador.x,jogador.y−min(0,4×alturaTela,260))`, faseaproximação, timer2, turno0, vetor inicial baixo. Chefes podem nascer dentro da viewport pela regra própria; não confundir com a regra fora de tela da horda.
 
@@ -1013,7 +1013,7 @@ Cada caso precisa identificar build/hash, configuração, plataforma, seed quand
 | P01 | Golpe150contra escudo100/corpo24 | Escudo0, corpo24, preparação0,7s; sem vazamento50ao corpo |
 | P02 | Romper escudo, mudar posição durante investida | Vetor nãosegue nova posição; máximo240px; sóaquele policial muda |
 | P03 | Tiro5com fogo/frio contra escudointacto | Nenhum estado no golpe absorvido. A fonte anterior falha; a candidata corrigida passou17fixtures e precisa conservar a regressão |
-| B01 | Agenda60/240/420/600; manter chefe vivo alémdevido | Um chefe porvez, próximoaguarda; HP650/1300/1800e quarto1105 |
+| B01 | Agenda60/240/420/720; manter chefe vivo alémdevido | Um chefe porvez, próximoaguarda; HP650/1300/1800/2500; Prisma é o quarto |
 | B02 | Assistir preparos, atravessarfaixas, congelar/pausar | Aviso antecede dano; timers corretos; sem ataque durantepausa |
 | B03 | Matarcada tipo, deixar baú longe | Peça+1salva, cura independente, lacaios/hazards removidos, baú no ponto de morte |
 | B04 | Chegar exatamente40px e depois39,99 | Fronteira nãoabre; interior abre uma oferta, congela mundo |
@@ -1057,9 +1057,9 @@ Particularidade observada: esse caminho testa o segmento antes da filtragem fina
 ## Parte III — todos os catálogos, fórmulas e receitas
 
 
-## Catálogos e equações completos — fonte local candidata BUILD63
+## Catálogos e equações completos — fonte local candidata BUILD68
 
-Extraído do código atual e executado em VM isolada com perfil/configuração vazios. Base levantada em09/11/2026; catálogo reextraído em VMdefault em13/11/2026. Trata-se da candidata local BUILD63, não de uma declaração de publicação ou aprovação de equilíbrio. O último estágio publicado deve ser conferido pelo commit Git e pela branch, separadamente. Todas as medidas espaciais estão em pixels lógicos do mundo e os tempos em segundos ativos de simulação; o tamanho CSS da tela não muda o alcance físico.
+Extraído do código atual e executado em VM isolada com perfil/configuração vazios. Base levantada em09/11/2026; catálogo reextraído em VMdefault em13/11/2026. Catálogo extraído na BUILD67 e conservado na candidata BUILD68 (nenhum ID de aprimoramento foi adicionado nesta incursão); trata-se de candidata local, não de uma declaração de publicação ou aprovação de equilíbrio. O último estágio publicado deve ser conferido pelo commit Git e pela branch, separadamente. Todas as medidas espaciais estão em pixels lógicos do mundo e os tempos em segundos ativos de simulação; o tamanho CSS da tela não muda o alcance físico.
 
 ### Convenções de implementação
 
@@ -1140,7 +1140,7 @@ Para cada slot, mantenha `damage`, `rate`, `magazineMult`, `reloadMult`, `projec
 8. Velocidade `V=(velocidadeDaArma ou570) × projectileSpeed`; vida `L=vidaDaArma × projectileLife`; raio `R=(raioDaArma ou6) × projectileSize`.
 9. Incrementar `shotCount` uma vez por emissão real. Se crítico adquirido e `shotCount mod5=0`, todos os pellets daquela emissão recebem dano×3 e marca crítica. Não é chance aleatória; não confundir quinto disparo com último cartucho.
 10. Se carga de reparo estava pronta, consumir uma vez por emissão: todos os pellets recebem dano×1,5 e mais2perfurações. Não consome a carga quando o disparo é bloqueado.
-11. Snapshot do projétil `dano=D × fatorCritico × fatorReparo × fatorCulatra`. Salvar arma/reforja/slot/raio/velocidade/vida e conjunto de alvos já atingidos. Modificar a arma depois não reescreve tiros antigos. O Colimador é um evento espacial posterior explicitamente permitido.
+11. Snapshot do projétil `dano=D × fatorVital × fatorCritico × fatorReparo × fatorCulatra`; fatorVital=1+0,01×estágios por10HPefetivoscurados após Memória, até15/150HP. Dbase permanece inalterada nos suportes. Salvar arma/reforja/slot/raio/velocidade/vida e conjunto de alvos já atingidos. Modificar a arma depois não reescreve tiros antigos. O Colimador é um evento espacial posterior explicitamente permitido.
 12. Perfurações: corpo de tiro comum `1 + perfuraçãoIntrínseca + (2 se skillpierce) + (2 se reparo pronto)`. Disco usa teto operacional999por trecho e limpa acertos ao começar o retorno. Cada arma retornável mantém velocidade de retorno capturada na emissão; não herda velocidade de uma reforja posterior.
 13. Rajada agenda subtiros de0,075s; cada subtiro realmente emitido gasta cartucho e atualiza crítico/Culatra separadamente. Liberar fogo, perder foco, abrir oferta ou começar recarga cancela fila; não despejar subtiros atrasados ao retomar.
 
@@ -1307,9 +1307,9 @@ No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou re
 | ENXA-0006 | droneRelay | RELÉ DO ENXAME | Alcance dos drones +100px; coleta ×1,25. | Não aumenta o número de drones. |
 
 
-### Vinte e uma relíquias de baú — candidata BUILD66
+### Vinte e três relíquias de baú — candidata BUILD67
 
-Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga, Pistão de Retorno Pulso de Integridade e Alimentador Compacto; as outras exigem a arma/suporte/fonte de recuperação listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
+Baú físico fica no local da morte, sem expiração ou atração por ímã; coleta exige distância<40px. Escolher uma entre até3peças, sem repetição na mesma tentativa. Relíquias não entram no pool normal do level-up, não são vendidas como estatística permanente e não fazem parte dos86editáveis. Preferir até2opções específicas elegíveis e reservar alternativa universal; embaralhar cada pool com RNG de combate antes de formar a oferta. São universais Servo, Coração, Núcleo, Colimador, Culatra, Matriz de Rebites, Lâmina de Recarga, Pistão de Retorno Pulso de Integridade, Alimentador Compacto e Memória de Reparo; as outras exigem a arma/suporte/fonte de recuperação listado. Oferta pausa e limpa entrada; callbacks antigos não podem instalar duas vezes ou após reinício.
 
 | ID | Nome | Elegibilidade | Ganho e custo quando presente |
 | --- | --- | --- | --- |
@@ -1334,6 +1334,8 @@ Baú físico fica no local da morte, sem expiração ou atração por ímã; col
 | integrityPulse | PULSO DE INTEGRIDADE |Universal |Último cartucho realmente emitido: dano20%HPmáxima/Narmas, raio90+corpo, uma vez por cartucho. Não porpellet/recarga; sem procs balísticos, com gatilhos globais de morte anteriores. |
 | compactFeed | ALIMENTADOR COMPACTO | Universal | Na próxima recarga válida por slot: Cc=max(1,floor(0,75Cn)); T=0,8Tn×Cc/Cn. Custo capacidade menor; preserva ammo/recarga atuais e Rrecusa enquanto ammo>=Cc. Tempo por cartucho reposto−20%, sem bônus de dano. |
 | recoveryDrive | DÍNAMO DE RECUPERAÇÃO | killAmmo adquirido ou especialização chargeRecovery | Cada munição efetivamente recuperada dessas fontes dá1estágio por4s; até5, fator de cadência1+0,04n. Sem ganho/renovação no cheio, recarga ou refund. |
+| vitalGrowth | MEMÓRIA DE REPARO | Universal | Cada10HPefetivamente recuperados em combate dá+1%a tiros futuros, até15%. Não conta excesso/Banco/escolhas; sem cura na aquisição. Emissão/derivadas preservam snapshots; referênciaPde suportes não recebe fator direto. |
+| reagentGrowth | MEMÓRIA REAGENTE | Skillcorrosion | Detonação primária que retiraHPemcombate dá1estágio, até15. Novasprimárias×(1+0,01n); antigas/filhos não recalculam, filhos não creditam. |
 
 
 
@@ -1525,7 +1527,7 @@ Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas2
 
 ### Divergências e limites desta extração
 
-- A candidata local BUILD66 contém21relíquias/107entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD65 publicada continha19/105/86. BUILD64 publicada continha17/103/86. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
+- A candidata local BUILD67 contém23relíquias/109entradas de compêndio/86editáveis, confirmadas por extração VM. BUILD66 publicada continha21/107/86. BUILD65 publicada continha19/105/86. BUILD64 publicada continha17/103/86. BUILD63 publicada continha16/102/86. BUILD62 publicada continha16/98/82. BUILD61 continha15/97. BUILD60 publicada possuía14/96e BUILD59possuía13/95; esses totais são históricos e não descrevem o inventário atual da Lâmina. Isso não prova commit, publicação, aprovação pública ou conclusão da meta.
 - A receita Oficina Viva atual usa `range` no lugar de `coldReload`; descrição antiga de pulso glacial como componente obrigatório da receita deve ser corrigida. Continuam existindo as duas skills no catálogo; sóa recomendação mudou.
 - O módulo original `knock` usa texto curto genérico, mas o efeito físico é+60px; recarga glacial tem raio140; explosão normal64; ganho de vida/movimento aplica multiplicadores ao estado atual, não soma ao inicial.
 - Números acima foram conferidos em fonte e catálogo default isolado, sem carregar preferências reais do usuário. Se uma configuração personalizada for importada, gerar outra ficha com o snapshot dessa configuração e não misturá-la à baseline.
@@ -2452,6 +2454,215 @@ A regressão ampla executou41comandos:40passaram inicialmente e o check-release 
 Pacote e publicação precisam de confirmação final da candidata. A meta permanece EM DESENVOLVIMENTO.
 
 
+## Parte III-G — Crescimento temporário por eventos
+
+
+## Memórias de Reparo e Reagente — candidata BUILD67
+
+**Situação:** implementação e validação intermediária, sem aprovação dos gates finais. Dois crescimentos temporários adaptam as pendências de cura efetiva e corrosão acumulativa. Não são Titânico/vida máxima, Acoplamento/HP atual, Circuito/tempo sem impacto ou treino temporal da Baia.23relíquias/109artigos,56normais/86editáveis/revisão7; receitas canônicas e piloto não mudam.
+
+### Memória de Reparo
+
+ID vitalGrowth, universal: todos os chassis têm fontes legítimas de cura como células/chefes. Aquisição inicializa vitalHealing=0, sem curar, aumentarHP, repor munição ou alterar atributos numéricos.
+
+Durante playing, jogador vivo e peça adquirida, healPlayer registra APENAS actual=hpDepois−hpAntes se positivo e finito. vitalHealing=min(150,max(0,saldoFinitoOuZero)+actual). Não conta valor nominal da cura, excesso convertido em Banco, reserva, escudo, armadura ou aumento de vida máxima.
+
+EstágiosV=min(15,max(0,floor((vitalHealing+1e-9)/10))); fatorV=1+0,01EstágiosV. A tolerância1e-9HPno limiar absorve arredondamentos de somas fracionárias; uma falta visível de0,000001HPnão concede estágio. Valores inválidos na leitura não criam bônus. Exemplo:9,9+0,1HPefetivos→1%;100→10%;150oumais→15%.
+
+Uma cura de30emHP90/100conta10; se o Banco tiver espaço, pode receber10do excesso20, sem contar essa parcela. EmHP100/100, a mesma tentativa pode abastecer Banco mas conta0para a Memória. Cura de escolha em estado relic/upgrade/evolution/garage/paused não avança, mesmo que a regra preexistente restaureHPnessa tela. Coração do Reator não vira um crédito de combate automático. Cura anterior à aquisição não é recuperada retroativamente.
+
+Fórmula da emissão: emittedShotDamage(slot)=shotDamage(slot)×fatorV. shotDamage continua com sua fórmula original de dano local/Titânico/manutenção. O emissor usa emittedShotDamage antes dos fatores críticos, Carga de Reparo, Culatra e pellets. O fator não é multiplicado repetidamente em slot.damage nem em player.damage.
+
+Projéteis já emitidos conservam o snapshot. Principais/auxiliares recebem o mesmo fator uma vez por emissão; o saldo de cura é único do jogador, não multiplicado pelo número de armas. Cura de recarga continua dividida porNarmas e proporcional à fração realmente reposta.
+
+#### Heranças permitidas e limites
+
+- Drones, sensores, rotores, dano direto do Pistão/Lâmina e referênciaPda Matriz não recebem multiplicador direto.
+- Canais que já usam b.damage herdam legitimamente o tiro fortalecido: queimadura, corrosão, descargas e explosões intrínsecas seguem suas regras existentes. Não reaplicar Vital nesses canais.
+- Canais que usam directDamage/base própria, como conversão cinética e algumas fraturas, continuam com a base anterior. Não prometer que todo efeito secundário cresce.
+- Orçamento matrixFeed écapturado na emissão usando o mesmo emittedShotDamage dos pellets e seus fatores, inclusive número que coube no teto400e o máximoColimador1,35. Assim a bala fortalecida pode fornecer mais energia, sem reescrever a referênciaPde uma estação já instalada. Éherança de energia consumida, não bônus direto genérico de suporte.
+- Carga de Reparo e Armadura de Reparo continuam reagindo aoHPefetivo como antes. Ganhar estágio não consome nem duplica esses estados.
+- Nenhum estágio cria cura, dano, munição, ataque, alvo ou evento secundário por conta própria.
+
+### Memória Reagente
+
+ID reagentGrowth, elegível com player.skills.corrosion. Fogo, arma elétrica ou suporte sozinho não são elegibilidade. Aquisição inicializa reagentStages=0, sem semear carga ou reescrever dano/prazo de cargas antigas.
+
+Na resolução de tickCorrosion, capturar a referência charge e hpAntes antes de chamar damageEnemy. Depois:
+
+- charge.spread deve ser estritamente true: uma primária real.
+- hpDepois<hpAntes: houve perda efetiva do corpo.
+- Jogador vivo, estado playing e peça adquirida.
+
+Se todas forem verdadeiras: reagentStages=min(15,estágiosVálidos+1). Uma detonação gera no máximo1estágio, independentemente de dano, pellets, quantidade de armas, alvo chefe ou abate. A resolução normal remove a mesma referência da carga; tickrepetido não repete crédito.
+
+FatorR=1+0,01min(15,max(0,floor(reagentStagesFinitoOuZero))). Somente novas primárias capturam:
+
+danoCarga=clamp(b.damage×player.corrosionDamageMult×fatorR,0,1e9).
+
+Prazo e demais restrições de aplicação permanecem: alvo vivo/não blindado/sem outra carga; não renovar, substituir ou acumular por acertar novamente.
+
+Uma primária aplicada antes de adquirir a peça pode creditar uma resolução futura válida, mas mantém sua captura antiga. Não contar eventos que já aconteceram.
+
+#### Ordem de morte, respingo e proteção
+
+O crédito ocorre DEPOIS de damageEnemy. Portanto, numa detonação letal, releaseCorrosion recebe a captura antiga e cria até2filhos com metade desse dano antes de incrementar o estágio. Os filhos usam spread:false, não recebem fatorRnovamente, não creditam estágio e não propagam outra geração.
+
+Morte antecipada por bala, drone, queimadura, pulso ou outra fonte pode liberar a carga antiga segundo a regra global de morte, mas não é uma resolução primária de corrosão e não credita Memória Reagente.
+
+Golpe absorvido por escudo não removeHPdo corpo e não credita. Bloqueio de aplicação por escudo, dano0, alvo já morto/removido e chamada de tickinativa não creditam.
+
+targets() processa inimigos antes do chefe. Se cargas de lacaios realmente detonarem antes da morte do chefe, esses eventos podem creditar normalmente. Lacaios removidos pela morte do chefe antes de suas próprias resoluções não detonarão nem ganharão crédito posterior. Não confundir remoção sem dano com um evento anterior legítimo.
+
+Na passagem atual, capturas e referências são obtidas antes de iterar. Uma primária detonada depois de outra na mesma passagem mantém seu dano antigo. Filhos criados durante a passagem não envelhecem nela.
+
+Catalisador Térmico éavaliado na detonação e mantém seu fator1,5quando fogo/frio ainda alcançam aquele prazo. Multiplicadores globais contra chefe/Finalizador/marca preservam o ponto anterior de aplicação, sem entrar duplicados na captura.
+
+### Composição das trilhas
+
+São dois saldos distintos. Com ambos no teto, um novo tiro de base100captura115; nova primária desse tiro captura132,25antes de outros modificadores. Isso é1,15×1,15=1,3225num snapshot corrosivo, não um bônus universal de32,25%nemDPSsustentado.
+
+Uma carga antiga100não passa a132,25quando o jogador cresce. Filho de uma captura114continua57, mesmo que a detonação que o criou tenha acabado de levar o estágio a15. Carga semeadaporbala antiga pode capturar fatorRvigente na aplicação, mas nunca ganha retroativamente fatorVde uma cura posterior à emissão.
+
+### Ciclo de vida, apresentação e áudio
+
+Saldos duram somente a tentativa, sem decair por relógio. Pausa/ofertas conservam valores e congelam o combate. Morte/garagem zeram saldos presentes; reset cria jogador novo, sem peças/campos herdados. Nada vai para o perfil permanente.
+
+HUDreutiliza o elemento global combat-loadout na área de armas, uma única cópia para1/2/3slots. Mostra REPAROn/15/+n%/HPatépróximo e REAGENTEn/15/+n%, com10px, wrape rolagem quando necessário. Não usa barra deHPpara representar crescimento nem cria botão. Diagnóstico da pausa mostra saldo exato e fatores. Ícones própriosvitalGrowth.svg/reagentGrowth.svg.
+
+Estágios não têm som extra: repair e corrosion já pertencem aos eventos reais. Não criar toastou número flutuante a cada cura fracionária/detonação. Render/HUDnão sorteiam, alteram atributos, avançam saldo ou relógio.
+
+### Casos de aceitação
+
+| ID | Preparação/ação | Resultado esperado |
+|---|---|---|
+| GRO01 |Aquisição legal independente |Vital universal; Reagente sócomcorrosão; saldo0semHP/ammo/gratuidade |
+| GRO02 |Curas9,9+0,1e fracionárias |1estágio, resto preservado, tolerância1e-9sem conceder déficitvisível |
+| GRO03 |Curas além150HP |Saldo150, máximo15%, sem crescimento numérico ilimitado |
+| GRO04 |HPcheio comBanco vazio |Reserva podeganhar; Vital0 |
+| GRO05 |HP90/100cura30 |Vital10; sóexcesso20financiaBanco |
+| GRO06 |Coração/escolha/pausa/garagem |Cura normal nãoavança saldo emtelas |
+| GRO07 |Reparo/carga/armadura |HPefetivoativa gatilhosoriginais; estágio nãoconsome/duplica |
+| GRO08 |12armas, tiroantes/depoisda cura |Novos×fatorVuma vez; tirosantigosinalterados |
+| GRO09 |1/2/3armaserecargas |Saldoúnico, cura divididaproporcional preservada |
+| GRO10 |Drones/sensores/rotores/Pistão/Lâmina |Sembônusdireto adicional |
+| GRO11 |Matriz antes/depoiscrescimento |ReferênciaPpreservada; feedbudgetcapturadoigualemissãofortalecida |
+| GRO12 |Primáriaque retirouHP, inclusiveletal |1crédito, não repetirnumtickposterior |
+| GRO13 |Carga anterioràaquisição |Capturaantiga; créditofuturoválidopossível |
+| GRO14 |Duasprimárias criadasantes/mesmopasse |Ambaspreservamdano, créditoslocaissemretroagir |
+| GRO15 |Mais15resoluções |Máximo15estágios; novasprimárias×1,15 |
+| GRO16 |Morteantecipadaporoutrafonte |Respingoantigopermitido, nenhumcréditoprimário |
+| GRO17 |Primárianeutralizadaporescudo |SemHPperdido/estágio |
+| GRO18 |Primárialetalem14estágios |Filhosmetadedaoldcapture, sódepoisestágio15 |
+| GRO19 |Filhosdetonam/morrem |Nãoavançamnempropagam; sem recursão |
+| GRO20 |Ambostetos/base100 |Tiro115/carga132,25, nãofactorrepetidonaresolução |
+| GRO21 |Catalisador/chefe/Finalizador/marca |Globaisno pontoanterior, semduplicarcaptura |
+| GRO22 |Chefemorrecomlacaiosde carga pendente |Recompensaúnica; removidosnãoresolvemnemcreditamdepois |
+| GRO23 |Lacaiosjáresolveramantesdochefe |Créditoslegítimospreservados, ordemtargetsdocumentada |
+| GRO24 |Pausa/oferta/retrato/renderRNGlançando |Semtempo/crescimento/mutação/tiropreso |
+| GRO25 |Morte/garagem/reset/save |Zeraestados, sematributopermanente |
+| GRO26 |NaN/Infinity/negativo e captura1e9 |Semestado inválido geradopelosnovoshelpers; limitecapturapreservado |
+| GRO27 |Cards/HUD/pausa3viewports |Ícones/condiçõeslegíveis, estadoglobalúnico10px, alcançávelsemobstrução |
+| GRO28 |Eventosdeáudiocom/sempeça |Mesmoscues/RNG; zero somextra porestágio |
+| GRO29 |Naturais fontecongelada |Todas mortes/falhas/ausências preservadas, braçoscanônico/experimental separados |
+| GRO30 |3viewports×1/2/3armas×Banco/manutenção |Cabeçalho/XPsem sobreposição; painelrolável acima dospads |
+
+### Evidência intermediária
+
+tests/growth.cjs passou18grupos; tests/growth-audio.cjs20grupos maisgrafoaudiooriginal. A primeira fixture de chefe deu3créditosporque dois lacaios legitimamente resolveram antesdele; o cenário de remoção foi corrigido para lacaios ainda com prazo. Outra falha inicial usava getAttributeque oDOMfalso dafixture não implementa; o navegador real usaAPIreal. Negativos preservados, sem produção alterada para esconder resultado.
+
+Browser controlado passou1280×900/844×390/740×360 com cardslegais, tirosreais, capturasantes/depois, filhos, contadorúnicoem1/2/3slots, diagnóstico/pausadepixels, toque3dedos/retrato/morte/save/reset e23/109. Uma rodada anterior foi corretamente rejeitada por mudança deindexduranteexecução e preservada; a rodada atual não teve mudanças de fonte. Isso não épartida natural, aparelho físico ou medição deFPS.
+
+A avaliação natural histórica67 foi consolidada: A9/10canônicas, B2/2 e C1/2experimentais; falhas por núcleos incompletos, não mortes.74registros verificados com driver13e física antiga. [Histórico, negativos e limitações](build67-historico.md) e [resumo estruturado](build67-balance-summary.json). Não aprova incursão/bandos/respiro/Prisma68ou gates finais; BUILD67não foi publicada separadamente. A meta1.0permanece aberta.
+
+#### Correção de apresentação descoberta durante a verificação
+
+A checagem geométrica reforçada reproduziu12sobreposições em18layouts: no celular, Banco/manutenção aumentavam o cabeçalho enquanto o arsenal continuava top76px. Em740×360, o cabeçalho comCircuito/Ponte chegava a110,796875px e encobriaXP/cue. Era uma limitação anterior, não um ganho de atributo das novas peças.
+
+Em landscapeaté1100×600, touch-activecomBanco visível, o arsenal passa atop120px. A altura máxima éreduzida nosmesmos44px: calc(100%−clamp(96px,28vh,124px)−138px). O limite inferior anterior fica preservado acima dospads. Em740, top120/bottom241,1875e cabeçalho máximo110,796875deixam9,2pxde espaço. SemBanco, o posicionamento anterior permanece.
+
+O navegador repetido aprovou18/18layouts e gameplaynas3resoluções, com fontes estáveis, alcanceporrolagem, texto10px, sem obstruir os controles. Negativos/capturas anteriores preservados. A revisão estática não encontrou defeito de lógica; registrou a escolha deHUDque substitui o resumo redundante de dano/cadência por progresso, mantendo os valores detalhados na pausa.
+
+
+## Parte III-H — Incursão de vinte minutos, respiro, bandos e Prisma
+
+
+## Incursão de vinte minutos — candidata BUILD68
+
+Estado: EM DESENVOLVIMENTO; candidata local, sem aprovação pública ou aceite final. Esta decisão posterior do criador substitui somente as regras antigas incompatíveis de modo sem tempo final. Os crescimentos de cura/corrosão da BUILD67,23relíquias,109artigos do compêndio e86aprimoramentos editáveis permanecem. Nenhum atributo temporário passa ao perfil.
+
+Verificação consolidada: [61 checks e dez partidas naturais](build68-verificacao.md). Nove receitas venceram; a morte de Rede de Plasma e as limitações do piloto permanecem documentadas, sem aprovação dos gates finais.
+
+### Escopo humano desta etapa
+
+O pedido é20minutos regressivos, respiro após aprimoramentos e preferência por bandos, com exceções para corredores/chefes. A resposta posterior determina um novo chefe aos12mindecorridos e outro aos15min, mas **primeiro somente um**. Portanto só Prisma de Cerco foi acrescentado agora; o segundo novo chefe aos15min está ADIADO. O Brutamontes recorrente previsto aos15min não representa essa identidade futura.
+
+### Relógio, vitória e persistência
+
+O relógio interno `clock` conta segundos ATIVOS decorridos desde0, até `RUN_DURATION=1200`. O HUD mostra `ceil(max(0,1200-clock))`, formatado com dois dígitos de minuto/segundo. Começa20:00; aos720s mostra08:00; fim00:00. Pausa, garagem e seis telas de escolhas não avançam o tempo. `tick` recusa dt não finito, nulo ou negativo; limita a última fatia ao tempo restante. O navegador interativo continua limitando dt de quadro a0,04s, sem prometer desempenho.
+
+Depois da simulação da última fatia, se ainda vivo/playing, entrar em `won`, fixar clock1200, limpar entradas/hostis/hazards e invalidar tokens de escolha. Uma morte na última fatia prevalece e mantém `over`. A vitória vem antes de abrir XP/baú pendente naquele fechamento; não existe coleta ou prêmio terminal automático. Nenhum movimento, tiro, loot ou dano continua depois da vitória. Mostrar conclusão, abates/chefes e repetir configuração; garagem continua alcançável. Repetir cria tentativa nova e remove aprimoramentos/entidades/contadores temporários. Parafusos/peças previamente coletados e salvos permanecem na morte, vitória e reabertura; nenhum prêmio de vitória extra é criado.
+
+### Respiro após instalar
+
+Uma escolha legal e efetivamente instalada de **módulo normal, gambiarra, experimento, relíquia de baú, especialização ou reforja de arma** aplica um respiro, depois da instalação. Cada reforja de espaço válida recebe seu próprio respiro, inclusive enquanto outra reforja mantém a pausa. Para cada inimigo vivo no array de inimigos cuja distância ao jogador seja≤280px, deslocar120px na direção radial para fora e definir stun=max(stun atual,0,5s). O chefe, armazenado separadamente, não é deslocado. Lacaios e corredores vivos também recebem esse respiro: exceção de bandos não é exceção de respiro.
+
+Na coincidência exata de centros, usar ângulo index×2,399963229728653rad, sem RNG. Alvos além280, mortos ou tentativa finalizada não recebem efeito. O deslocamento não causa dano, não quebra escudo, não repõe munição, não conclui recarga, não gera XP/abates/recursos nem altera snapshots de ataques. As próprias escolhas conservam seus efeitos já documentados; a garantia refere-se ao respiro. Rejeitar token obsoleto/duplo clique/índice inválido e não aplicar novo respiro. Prévia, renovação, recusa, pausa e abertura de tela não empurram. Anel visual ciano de raio280 dura0,35s quando algum inimigo foi deslocado.
+
+### Bandos locais
+
+É uma preferência de direção, não comando global ou reunião obrigatória num ponto. Cada tick monta grade de células240px a partir de snapshots de posição dos elegíveis. Buscar células vizinhas3×3, vizinhos em até220px, ordenar por distância e índice estável e usar no máximo8. Excluir mortos, corredores comuns (`enemyType=runner`), lacaios corredores (`minionType=runner`) e policial cujo escudo já quebrou (`shieldPolice` e shieldHp===0). Chefes não entram no array/grade.
+
+A direção de perseguição original soma vetor unitário para o centro médio dos vizinhos com peso0,8 somente quando jogador está a>180px e centro médio a>12px. Próximo do jogador essa coesão cessa, permitindo atacar. Separação usa distância pessoal gap=raio próprio+raio vizinho+8; para vizinho mais próximo que gap, afastar com peso1-distância/gap. Média dos vetores de separação entra com peso0,5; coincidência escolhe lado pelo índice estável. Normalizar o vetor final; se quase zero manter direção original. Sem vizinhos ou inelegível preserva direção original.
+
+Velocidade nominal e fatores de frio/stun permanecem; bando não adiciona aceleração, dano ou escudo. Não consumir RNG, não ultrapassar teto comum180 nem remover vivos para agrupar. Diretor de horda/reentrada mantém regras próprias de vida/escudo e spawns fora da tela. Limite: não é pathfinding por obstáculos, formação rígida ou garantia de coesão global; atiradores preservam suas regras de distância.
+
+### Agenda e fila de chefes
+
+| Índice | Decorrido | Restante | Identidade base | HP | Raio | Velocidade |
+|---|---|---|---|---|---|---|
+|0|60s|19:00|Brutamontes|650|32|28px/s|
+|1|240s|16:00|Sucateiro|1300|30|24px/s|
+|2|420s|13:00|Bobina-Rainha|1800|34|20px/s|
+|3|720s|08:00|Prisma de Cerco|2500|40|17px/s|
+
+Só um chefe vivo: se anterior sobreviver ao instante nominal, o próximo aguarda, sem apagar/substituir o anterior e sem reiniciar agenda pela morte. Logo720s é **agenda nominal**, não garantia de encontro exatamente ali. Após índice3, agenda=720+180×(índice−3); índice4 aos900s retoma Brutamontes do ciclo seguinte. Continua escalonamento de ciclo existente: HP×(1+0,7×ciclo), velocidade×(1+0,08×ciclo). Não suprimir o encerramento1200 para mostrar chefe atrasado.
+
+Prisma chama duas sentinelas atiradoras LENTE/LENTES DE GUARDA: HP80, velocidade28, raio13, variante1; escalonamento de lacaio existente por ciclo. Ondas comuns continuam. Derrota concede **uma peça de fabricação COIL compatível** no perfil atual, sem criar moeda `prism` órfã; cura de chefe e baú físico temporário seguem regras gerais. Remover seus lacaios sem recompensas falsas e limpar hazards/hostis; dano repetido não duplica baú/peça/abate.
+
+### Prisma: fases, lasers e animação
+
+Começa em aproximação2s. Durante aproximação, se distância>260 mover na direção do jogador a17px/s base; se<160 recuar a50% da velocidade; no intervalo parar. Frio reduz movimento pela regra existente e stun o zera. Depois preparar laser por1,8s base; Leitura de Ameaças amplia preparo20% se dentro do alcance180 no início, capturando duração. Disparo ativo0,8s; recuperação2s; próxima aproximação2,5s. Contato corporal20 passa pelo dano recebido normal.
+
+Na entrada do preparo capturar posição do jogador no MUNDO, escolher eixo alternado vertical/horizontal e criar cinco retas paralelas nos offsets−240,−120,0,+120,+240px. Coordenada capturada não segue o jogador. Retas chegam às bordas atuais da tela no desenho, mesmo após mover câmera; alcance lógico ao longo da reta não termina na posição antiga da câmera. Largura14px; colisão perpendicular≤14/2+14=21px. Entre centros120, existe corredor útil de78px para o centro do jogador, desconsiderando outros perigos. Nenhum dano durante preparo; hazard ativo causa20 com fonte boss-hazard e respeita invulnerabilidade, escudo, Aterramento, armadura e Banco normais. Sobreposição não ignora intervalos de invulnerabilidade.
+
+Tick fatiado nas fronteiras preserva residual de dt entre fases. Ao criar hazard, atraso incorpora tempo já gasto nesse tick+preparo; tick global de hazards processa dt completo. Guard4096transições cobre duração inteira de uma incursão. `owner` morto encerra hazard; pausa/morte/vitória não permitem dano residual. Desenho usa fase real, telegráfico, lente/torre e descarga, sem RNG ou alteração de física. Sons laserCharge/laserFire correspondem a preparação/disparo; não confundir evento sintético aprovado com avaliação humana da mixagem ou legibilidade.
+
+### Verificação e limites de aceite
+
+`tests/incursion.cjs` registra21grupos sintéticos aprovados no snapshot de sua execução, em outputs/incursion-engine68/result.json. Cobre residual/fatal/pausa/persistência, seis escolhas/stale/recusa/reroll, coesão/snapshots/exceções/velocidade, agenda/fila, lasers/gaps/câmera/mitigação/limpeza e equivalência de3,2scontra80×0,04s. As fixtures declaram proteção e estados preparados; não são partidas naturais nem os40casos propostos de outputs/incursao-audit.md. Alterações posteriores exigem reteste; hashes identificam o escopo.
+
+Permanecem obrigatórios G01–G16, sementes20261130/20261201/20261202,30naturais,≥27/30e≥2/3por receita,state=won em00:00,≥3chefes e quatro skills centrais por tentativa viável. A condição de vitória não prova viabilidade da build. Nenhuma evidência antiga de modo infinito aprova automaticamente o novo equilíbrio. G05 de60min está ABERTO: propõe-se três incursões consecutivas na mesma sessão, somando3600sativos e verificando limpeza entre elas, sem impedir vitórias. A interpretação proposta ainda exige aprovação e execução; não substituir silenciosamente o gate nem declarar os60min testados. Celular físico, desempenho real, ensaio natural completo e aprovação pública permanecem separados.
+
+
+### Negativos preservados de regressões históricas
+
+O manifesto original em outputs/release68-regression/manifest.json terminou `passed:false`: o comparador tests/particle-stream.cjs usa mundo inteiro da BUILD57, incluindo semântica antiga de tick0 e IA sem bandos. O ensaio separado de tests/combat-feedback-equivalence.cjs contra BUILD54 também falhou; seu negativo e motivo estão em outputs/release68-regression/historical-equivalence.json. Asserções e resultados originais permanecem; diferenças esperadas pela decisão humana não autorizam ocultar negativos ou aprovar G02 automaticamente.
+
+O Dev preparou tests/particle-stream-current.cjs para isolar a otimização de partículas na MESMA fonte atual: caminho otimizado versus fallback de array (beginSparkStream retorna null), comparando12mundos pareados, estado completo e próximo RNG. Terminou com código0; evidência em outputs/particle-stream-current68/equivalence.json. Esse é o comparador aplicável à preservação de partículas após a mudança de física; não usar seu resultado para alegar equivalência geral do mundo68ao54/57. O manifesto original continua45testes/44aprovados, overallfalse e sourceChanges=[]; o complemento deve registrar o substituto e demais verificações separadamente. Revisão independente outputs/incursion-review68.md não detectouP0/P1 na leitura estática, sem substituir execução natural, aparelho físico ou auditoria final.
+
+
+### Atualização da incursão — BUILD68
+
+O launcher usa a política compartilhada driver14 e encerra quando a tentativa chega a `won`, mesmo que a duração solicitada seja maior que20minutos. O relatório identifica esse encerramento como `run-won`; morte e interrupção manual continuam distintas. A mudança adapta terminal/relatório, sem conceder dano, imunidade, itens, cura ou alterar a física/política de movimento.
+
+Em pedidos de pelo menos20minutos, `viable=true` exige simultaneamente state=won, tempo ativo≥1200−1e-6s,≥3chefes, todas as quatro skills centrais da receita, estado finito e zero erros. Vitória sozinha não comprova uma build completa. Pedidos curtos mantêm viabilidade completa nula; duração solicitada não equivale ao tempo efetivamente jogado. O teste controlado de terminal começa em1199,99s e pede21min; prova encerramento em1200/won e viabilidade falsa sem núcleo, não uma partida natural de20min.
+
+Limitação atual: o smart preserva a pontuação anterior de ameaças, que cobre pools/anéis, mas não calcula corredores dos novos lasers por eixo/coordenada. Essa lacuna do piloto não deve ser atribuída automaticamente ao equilíbrio do jogo nem ocultada ao interpretar mortes. Qualquer revisão futura do piloto exige hash/versão/protocolo novos e resultados antigos preservados.
+
+A rodada extra original de11comandos terminou10aprovados/1falha: o guard antigo do launcher exigia driver13e abortava antes dos casos de segurança de baú. O negativo continua preservado; o Dev corrigiu somente integração de versão/terminal/viabilidade e registrou reteste de bot-loot-safety, quatro perfis curtos e terminal controlado. As evidências aplicáveis e seus limites estão no [resumo de QA68](build68-qa-summary.json); não aprovam os gates finais, matriz natural, celular físico ou desempenho real.
+
+
 ## Parte IV — especificação visual complementar
 
 
@@ -2758,9 +2969,9 @@ As sementes finais usam o LCG dos pilotos de teste, separado do RNG próprio do 
 ## Parte VI — disposição dos sistemas pesquisados e pendências
 
 
-## Disposição dos sistemas pesquisados — revisão para candidata BUILD66
+## Disposição dos sistemas pesquisados — revisão para candidata BUILD68
 
-Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:13/11/2026, BUILD65 publicada e candidata66 em implementação/validação. MiniClip/Generator têm adaptações funcionais na candidata66, sem aprovação dos gates finais. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
+Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situação:13/11/2026, BUILD66 publicada e candidata68 em implementação/validação. Crescimentos por cura/corrosão têm adaptações funcionais na candidata67, sem aprovação dos gates finais. Linhas e coeficientes históricos abaixo devem ser confrontados com as tabelas atuais da especificação mestre. Não é pesquisa nova da versão externa, aprovação de balanceamento, lista de conteúdos a copiar ou alteração do contrato. Os nomes externos identificam linhas do inventário existente, não novos assets/nomenclatura do jogo.
 
 ### Como ler
 
@@ -2769,7 +2980,7 @@ Origem histórica:07/11/2026, inventário local e candidata56. Revisão de situa
 - **Não aplicável:** conflita com regra explícita atual; a regra é citada. Não ampliar essa categoria por conveniência.
 - **Pendente:** falta motor equivalente, rastreabilidade ou disposição de design. Não significa obrigação de criar uma cópia. Pelo objetivo aprovado em09/11/2026, todo pendente compatível precisa ser implementado e validado antes da conclusão. Exclusão exige conflito demonstrável com decisão explícita do criador; implementação futura não equivale a cumprimento da meta.
 
-Autoridades: `docs/contrato-atual.md:7` (identidade),`:8` (arena infinita),`:9` (mira/fogo manuais; propulsor sem invulnerabilidade),`:14` (sem atributos permanentes),`:15` (loadout fixo),`:17` (marcos de oferta),`:18` (reforja),`:20` (cura/drones),`:22` (corrosão),`:23` (sensores),`:24` (rotores),`:42` (exclusões). Linhas de código abaixo referem-se à fonte desta rodada; usar também nomes de funções/IDs ao integrar, pois novas edições podem deslocá-las.
+Autoridades: `docs/contrato-atual.md:7` (identidade),(incursão20min, decisão posterior em incursao-vinte-minutos.md),`:9` (mira/fogo manuais; propulsor sem invulnerabilidade),`:14` (sem atributos permanentes),`:15` (loadout fixo),`:17` (marcos de oferta),`:18` (reforja),`:20` (cura/drones),`:22` (corrosão),`:23` (sensores),`:24` (rotores),`:42` (exclusões). Linhas de código abaixo referem-se à fonte desta rodada; usar também nomes de funções/IDs ao integrar, pois novas edições podem deslocá-las.
 
 ### A. As25 árvores do inventário local
 
@@ -2792,7 +3003,7 @@ Fonte do inventário: `docs/pesquisa-builds-20mtd.md:17`. A contagem não exige2
 | Electromancy: raio/munição | Integrado | Tesla/Descarga/Condutividade/Curto-Circuito e VOLT reposição a cada6 alvos; `game.js:23`,`:618`–`:620`, `shockAt:930`. `build-mechanics.cjs:11`–`:13`,`:27` testa carga, alcance/atributos elétricos. |
 | Ice: controle/estilhaço | Integrado | Criogênico, `freeze`, `finisher` e Fratura Industrial; `game.js:20`,`:614`, `damageEnemy:911`. `build-mechanics.cjs:24`,`:26`,`:29` protege duração e uma geração da fratura. |
 | Pyromancy: fogo/recuperação | Integrado | Lança-chamas, quatro nós de fogo, FORJ `heatRecovery`; `game.js:19`,`:610`–`:613`,`:285`, `applyStatus:941`. `build-mechanics.cjs:9`–`:10`,`:25`, `combat.cjs:260`. |
-| Dark Arts: dano adiado/propagação/crescimento | Integrado para dano adiado/propagação; pendente para crescimento acumulativo | Corrosão captura dano/prazo e respinga uma geração (`game.js:590`–`:593`, `applyCorrosion:993`, `tickCorrosion:1003`). Contrato`:22`; `corrosion.cjs`/`corrosion-balance.cjs`. Não há contador de maldições que aumente dano indefinidamente. |
+| Dark Arts: dano adiado/propagação/crescimento | Adaptado no dano adiado/propagação e crescimento candidato67; aceite final aberto | Corrosão captura dano/prazo e respinga uma geração (`game.js:590`–`:593`, `applyCorrosion:993`, `tickCorrosion:1003`). Contrato`:22`; `corrosion.cjs`/`corrosion-balance.cjs`. Memória Reagente conta resoluções primárias comHPperdido, não filhos ou mortes antecipadas; novas cargas+1%até15%, sem reescrever antigas. É crescimento temporário limitado, não dano indefinido. [Contrato](crescimento-temporario.md). |
 | Holy Arts: último tiro convertido por vida | Adaptação funcional candidata65; aceite final aberto | Pulso de Integridade nasce após consumo real do último cartucho emitido:0,20HPmáxima/Narmas, raio90+corpo, fonte própria sem pipeline de impacto. Não nasce de recarga/pellet ouCulatra; preserva ganchos globais de morte. [Contrato e casos](conversoes-vitais.md). |
 | Health: reserva/reação | Integrado | BAST/NANO, `armor`/`titan`, reparos, `nineLives`, `retaliation`, `overload`; `game.js:93`,`:96`,`:238`,`:602`–`:605`,`:626`. `combat.cjs:414`, `build-mechanics.cjs:16`–`:17`,`:33`. |
 | Shield Boost: proteção/benefício ativo | Adaptação candidata63; aceite global/natural pendente | Ponte de Potência (`shieldDrive`) exige Banco+Escudo e calcula cartuchos×1,2 enquanto `skills.shield && shieldReady`; reserva sozinha não ativa. Sem multiplicação acumulativa do atributo; snapshots antigos preservados. Engine24grupos e browser controlado são provas parciais, não equilíbrio. [Contrato](reserva-e-manutencao.md). |
@@ -2810,7 +3021,7 @@ Fonte: `pesquisa-builds-20mtd.md:51`. O jogo não precisa13 personagens equivale
 | Motor do inventário | Disposição | Evidência e diferença |
 |---|---|---|
 | Shana: reroll | Adaptado diferente | Reroll é ferramenta de todos os chassis por nível comum, não passiva de um personagem. Decisão vigente `contrato:17`; `game.js:738`; `build-mechanics.cjs:32` e `combat.cjs:393`–`:400`. |
-| Diamond: vida/cura/risco | Integrado funcionalmente | NANO/BAST, Titânico e protocolos de cura; `game.js:541`,`:287`,`:902`; `build-mechanics.cjs:14`–`:17`,`:33`. Crescimento acumulativo por cura durante a tentativa permanece pendente. O contrato`:14` proíbe atributos entre tentativas; não impede um crescimento temporário futuro. |
+| Diamond: vida/cura/risco | Integrado funcionalmente | NANO/BAST, Titânico e protocolos de cura; `game.js:541`,`:287`,`:902`; `build-mechanics.cjs:14`–`:17`,`:33`. Memória de Reparo adapta crescimento acumulativo candidato67: cada10HPefetivamente curados em combate dá+1%a tiros futuros, até15%. Excesso/Banco/escolhas não contam. [Contrato](crescimento-temporario.md); aceite final aberto. O contrato`:14` proíbe atributos entre tentativas; não impede um crescimento temporário futuro. |
 | Scarlett: contagem de tiros→fogo | Pendente no gatilho exato | Contagem→crítico existe (`:1038`); fogo por impacto existe (`:941`), mas não há emissão periódica de fogo a cadaN disparos. Não combinar dois sistemas separados no relatório como um só. |
 | Hina: ação ativa→clone/reposição | Adaptado diferente para reposição; pendente clone ativo | Avanço exige skill e não dá imunidade (`contrato:9`); eco do PROT nasce após dano, não da ação ativa (`:238`, hurtPlayer). Testes `combat.cjs:424` e especialização. Não afirmar clone ativo integrado. |
 | Spark: acerto→raio | Integrado | `shockAt:930`, VOLT `:286`, testes `build-mechanics.cjs:11`–`:13`,`:27`. |
@@ -2872,7 +3083,7 @@ Fonte: `pesquisa-builds-20mtd.md:95`. Os nomes são índices do estudo; a UI usa
 | Evolução de arma | Adaptado diferente |24reforjas, duas por arma no20, conjunto fixo; contrato`:18`; `game.js:28`,`:30`, `chooseWeaponEvolution:253`; `weapon-evolution.cjs:47`. Não importar três opções externas por arma nem fusão/troca. |
 | Reroll, compêndio, diagnóstico | Integrado | `rerollUpgrade:738`, `renderCompendium:563`, `renderRunStats`, contrato`:17`/`:19`; `combat.cjs:383`–`:400` e `weapon-evolution-browser.cjs` (guia/garagem/reforja). |
 | Chefes, lacaios, horda | Adaptado diferente | Três identidades/ciclos, comuns continuam durante chefe, diretor cap60→180; contrato`:11`–`:13`. `horde-director.cjs`, `combat.cjs`. Não restaurar suspensão da horda do documento histórico. |
-| Vitória cronometrada/loop pós-vitória | Não aplicável ao modo padrão | Arena infinita/semvitória por relógio; contrato`:8`/`:42`; `combat.cjs`25min controlados. “Partida20min” é janela de avaliação, não objetivo de vitória do jogo. |
+| Vitória cronometrada/loop pós-vitória | Vitória20min implementada na candidata68 por decisão posterior do criador; loop contínuo não implementado | HUDregressivo;00:00encerra a tentativa se vivo. Repetir configuração cria outra tentativa. `incursion.cjs`; [contrato](incursao-vinte-minutos.md). G05 requer interpretação compatível, ainda sem aprovação. |
 | Retenção de skills após morrer/fusão de armas | Não aplicável | Proibição explícita`:42`, loadout fixo`:15`/`:18`; testes reset/reforja/perfil. |
 | Ranking/nuvem/conquistas | Fora do protótipo conforme disposição atual; etapa futura | Contrato`:42`, mapa principal linha plataforma. Não é pendência de copiar sistemas da referência nesta implementação local. Implementar exigiria contrato de plataforma/integridade próprio. |
 | Arte, nomes, personagens, trilhas e código externos | Não aplicável | Identidade original`:7`, regra de adaptação do mapa`:9`. Não importar conteúdo do estudo. |
@@ -2885,7 +3096,7 @@ Agrupar em motores evita criar dezenas de features sópara imitar uma taxonomia 
 2. **Conversão espacial de projéteis: adaptada na BUILD59** pelo Colimador. **Entidade alimentada por tiros (Watering): adaptada e validada funcionalmente na candidata61** pela Matriz de Rebites, estação independente com consumo de balas e ataque próprio. O campo continua modificando a bala, sem substituir esse motor. Testes de engine, cronologia, browser e uso natural experimental preservam evidências; a auditoria final continua aberta e exposição de alvo é motor distinto.
 3. **Último tiro/ciclo de munição: publicado na BUILD60** pela Culatra, aguardando auditoria final. **Janela ofensiva exclusiva de recarga foi adaptada funcionalmente na candidata62** pela Lâmina, com engine/browser aprovados e naturais intermediárias9/10canônicas e1/4experimentais, fontes identificadas. Suportes sempre ativos e crítico do quinto tiro continuam distintos. Gates finais e equilíbrio permanecem abertos; Pistão ao terminar foi adaptado na candidata64, com entidade própria e evidência separada.
 4. **Reserva de proteção e condições de manutenção: implementação candidata63** com quatro módulos normais distintos, Banco/Ponte/Circuito/Retorno, fórmulas finitas, fonte/ordem/snapshots e migração7. Engine24grupos e browser controlado3viewports tiveram resultados positivos; publicada na BUILD63com evidências intermediárias próprias; isso não aprova gates finais da revisão posterior. Isso não resolve outros motores nem constitui aprovação humana de qualidade. [Contrato completo](reserva-e-manutencao.md).
-5. **Gatilhos específicos ainda sem disposição**, como recarga→atração, transformação temporal e crescimento acumulativo de estado. Não presumir que sejam compatíveis ou necessários sem projeto.
+5. **Gatilhos específicos ainda sem disposição**, como recarga→atração e transformação temporal. Crescimento acumulativo de cura/corrosão tem adaptação candidata67 e aceite final aberto. Não presumir que sejam compatíveis ou necessários sem projeto.
 
 A tabela registra a disposição do inventário estudado e conserva pendências explícitas. Não autoriza declarar “todos os motores integrados”. Pela meta aprovada, todas as pendências compatíveis devem receber disposição concreta e ser resolvidas com custo operacional, HUD, fonte de dano, limites de recursão, pausa/reset, migração e avaliação natural. Não retirar itens por dificuldade ou escolher apenas os mais fáceis de testar. A decisão deve ampliar o jogo pretendido pelo criador, sem inventar requisitos de equivalência total à referência.
 
@@ -3260,7 +3471,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only com protocolo final.
 - **Preparação:** Dez receitas canônicas, fontes/piloto/config congelados; sementes20261130/20261201/20261202.
 - **Entradas e passos:** Executar30tentativas de1200s ativos, mantendo todas as falhas.
-- **Resultado esperado:** ≥27/30viáveis e cada receita≥2/3; viável requer1200s+3chefes+4skills centrais e nenhum erro.
+- **Resultado esperado:** ≥27/30viáveis e cada receita≥2/3; viável requer1200s+state=won+3chefes+4skills centrais e nenhum erro.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Sem imunidade/dano/cura extra, morte forçada, pool injetado, spawn suspenso ou remoção de vivos.
 - **Falha:** P1.
@@ -3270,10 +3481,10 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 ### QA-SOAK-60 — Estabilidade
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: frame/tick/reset e ciclos de chefe.
-- **Comando/procedimento:** Runner60min final ainda pendente; combat.cjs25min é histórico parcial.
+- **Comando/procedimento:** G05aberto: interpretação proposta3incursões×1200s ainda sem aprovação/execução; cenários25min são históricos.
 - **Preparação:** Fixture de estabilidade declarada; proteção permitida e identificada, sem contar como balanceamento.
-- **Entradas e passos:** Executar3600s simulados, registrar estado e memória por minuto.
-- **Resultado esperado:** Todos os ciclos de chefes; sem final automático; sem filas temporárias ilimitadas, números inválidos ou crash.
+- **Entradas e passos:** G05continua aberto. Proposta ainda não aprovada: três incursões consecutivas de1200s com reinício normal, mesma sessão e logs contínuos, totalizando3600s ativos.
+- **Resultado esperado:** Sem estado inválido, fila descontrolada ou crescimento ilimitado; não suprimir vitórias20min. Interpretação e execução do gate permanecem pendentes.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não confundir sobrevivência protegida com partida natural.
 - **Falha:** P1.
@@ -3533,7 +3744,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/reload-blade.cjs; node tests/reload-blade-browser.cjs.
 - **Preparação:** Perfil legado/novo, peça temporária, editor carregado e3slots;1280×900,844×390,740×360.
 - **Entradas e passos:** Morrer/reiniciar/exportar perfil/config; percorrer HUD/pausa/compêndio com interação real.
-- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;21relíquias/107artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
+- **Resultado esperado:** Nenhuma captura/peça/timer no save permanente;23relíquias/109artigos no catálogo vivo, editor86. Estado de lâmina por arma legível e alcançável; nenhum botão extra ou pad obstruído.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Dados inválidos e armazenamento bloqueado; verificar clipping ancestral/rolagem, não só bounding box.
 - **Falha:** P1.
@@ -5009,6 +5220,916 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log antes/depois, fórmula independente, hashes, negativos preservados e capturas/interação real quando aplicável.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-GROWTH-01 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Aquisição legal independente
+- **Resultado esperado:** Vital universal; Reagente sócomcorrosão; saldo0semHP/ammo/gratuidade
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-02 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Curas9,9+0,1e fracionárias
+- **Resultado esperado:** 1estágio, resto preservado, tolerância1e-9sem conceder déficitvisível
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-03 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Curas além150HP
+- **Resultado esperado:** Saldo150, máximo15%, sem crescimento numérico ilimitado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-04 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** HPcheio comBanco vazio
+- **Resultado esperado:** Reserva podeganhar; Vital0
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-05 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** HP90/100cura30
+- **Resultado esperado:** Vital10; sóexcesso20financiaBanco
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-06 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Coração/escolha/pausa/garagem
+- **Resultado esperado:** Cura normal nãoavança saldo emtelas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-07 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Reparo/carga/armadura
+- **Resultado esperado:** HPefetivoativa gatilhosoriginais; estágio nãoconsome/duplica
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-08 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** 12armas, tiroantes/depoisda cura
+- **Resultado esperado:** Novos×fatorVuma vez; tirosantigosinalterados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-09 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** 1/2/3armaserecargas
+- **Resultado esperado:** Saldoúnico, cura divididaproporcional preservada
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-10 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Drones/sensores/rotores/Pistão/Lâmina
+- **Resultado esperado:** Sembônusdireto adicional
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-11 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Matriz antes/depoiscrescimento
+- **Resultado esperado:** ReferênciaPpreservada; feedbudgetcapturadoigualemissãofortalecida
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-12 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Primáriaque retirouHP, inclusiveletal
+- **Resultado esperado:** 1crédito, não repetirnumtickposterior
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-13 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Carga anterioràaquisição
+- **Resultado esperado:** Capturaantiga; créditofuturoválidopossível
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-14 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Duasprimárias criadasantes/mesmopasse
+- **Resultado esperado:** Ambaspreservamdano, créditoslocaissemretroagir
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-15 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Mais15resoluções
+- **Resultado esperado:** Máximo15estágios; novasprimárias×1,15
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-16 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Morteantecipadaporoutrafonte
+- **Resultado esperado:** Respingoantigopermitido, nenhumcréditoprimário
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-17 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Primárianeutralizadaporescudo
+- **Resultado esperado:** SemHPperdido/estágio
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-18 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Primárialetalem14estágios
+- **Resultado esperado:** Filhosmetadedaoldcapture, sódepoisestágio15
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-19 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Filhosdetonam/morrem
+- **Resultado esperado:** Nãoavançamnempropagam; sem recursão
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-20 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Ambostetos/base100
+- **Resultado esperado:** Tiro115/carga132,25, nãofactorrepetidonaresolução
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-21 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Catalisador/chefe/Finalizador/marca
+- **Resultado esperado:** Globaisno pontoanterior, semduplicarcaptura
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-22 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Chefemorrecomlacaiosde carga pendente
+- **Resultado esperado:** Recompensaúnica; removidosnãoresolvemnemcreditamdepois
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-23 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Lacaiosjáresolveramantesdochefe
+- **Resultado esperado:** Créditoslegítimospreservados, ordemtargetsdocumentada
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-24 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Pausa/oferta/retrato/renderRNGlançando
+- **Resultado esperado:** Semtempo/crescimento/mutação/tiropreso
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-25 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Morte/garagem/reset/save
+- **Resultado esperado:** Zeraestados, sematributopermanente
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-26 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** NaN/Infinity/negativo e captura1e9
+- **Resultado esperado:** Semestado inválido geradopelosnovoshelpers; limitecapturapreservado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-27 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Cards/HUD/pausa3viewports
+- **Resultado esperado:** Ícones/condiçõeslegíveis, estadoglobalúnico10px, alcançávelsemobstrução
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-28 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Eventosdeáudiocom/sempeça
+- **Resultado esperado:** Mesmoscues/RNG; zero somextra porestágio
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-29 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** Naturais fontecongelada
+- **Resultado esperado:** Todas mortes/falhas/ausências preservadas, braçoscanônico/experimental separados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GROWTH-30 — Crescimento
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: recordVitalHealing/vitalGrowthStages/emittedShotDamage/reagentGrowthStages/applyCorrosion/tickCorrosion/clearGrowth/updateHUD; touch-controls.css reserva móvel.
+- **Comando/procedimento:** node tests/growth.cjs; node tests/growth-browser.cjs; node tests/growth-audio.cjs.
+- **Preparação:** Fonte/configuração/estado declarados; não é aprovação natural.
+- **Entradas e passos:** 3viewports×1/2/3armas×Banco/manutenção
+- **Resultado esperado:** Cabeçalho/XPsem sobreposição; painelrolável acima dospads
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Cura efetiva versus reserva, primária versus filho, dano letal/snapshot antigo, composição sem procs extras e geometria móvel.
+- **Falha:** P1.
+- **Evidência:** Logs antes/depois, hashes, negativos e capturas com medidas/interação; declarar fixtures e limites.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-01 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Reset novo
+- **Resultado esperado:** HUD20:00,clock0,stateplaying,sem estado antigo de vitória
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-02 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** tick1, tick59
+- **Resultado esperado:** HUD19:59/depois19:00; relógios internos continuam crescentes
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-03 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Pausa/oferta/retrato por10s
+- **Resultado esperado:** clock/restante/enemies/hazards idênticos; sem retomada automática
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-04 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** clock1199,9 e dt1
+- **Resultado esperado:** Só0,1ativo;clock1200,HUD00:00,won uma vez
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-05 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Tick/callback depois de won
+- **Resultado esperado:** Sem movimento/disparo/abate/XP/recompensa/cura nova
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-06 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Dano fatal no último residual
+- **Resultado esperado:** over/HP0 prevalece, não won
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-07 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Vitória com XP/baú pendente
+- **Resultado esperado:** Não abrir modal pós-vitória ou consumir recompensa duas vezes
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-08 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Repetir/garagem após won
+- **Resultado esperado:** Fluxo alcançável, recursos persistem, temporários não
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-09 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** skill instalada válida
+- **Resultado esperado:** Corpos locais afastados distância configurada; boss inalterado
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-10 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Gambiarra/experimento/relíquia/especialização/reforja
+- **Resultado esperado:** Mesmo gatilho real por instalação, cada callback uma vez
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-11 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Recusa/reroll/preview/pausa/callback antigo
+- **Resultado esperado:** Zero deslocamento de respiro
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-12 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Corpo coincidente com jogador
+- **Resultado esperado:** Direção finita e determinística, distância correta
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-13 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Corpo fora do raio/morto
+- **Resultado esperado:** Nenhuma alteração
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-14 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Respiro comHP/escudo/corrosão/morte pronta
+- **Resultado esperado:** Preservar valores/capturas/contadores; só posição/stun previsto
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-15 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Três reforjas na mesma pausa
+- **Resultado esperado:** Regra de aplicação por slot declarada e limitada, sem crédito por repetição stale
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-16 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Dois comuns próximos, longe do jogador
+- **Resultado esperado:** Aproximação lateral favorece agrupamento e avanço ao jogador
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-17 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Um comum isolado
+- **Resultado esperado:** Continua perseguindo; nenhuma desaceleração ou espera por bando
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-18 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Comuns muito próximos
+- **Resultado esperado:** Separação evita sobreposição sem NaN/RNG
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-19 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Array reordenado/snapshot
+- **Resultado esperado:** Resultado sem viés de atualização sequencial indevido
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-20 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Corredor/chefe/policial quebrado
+- **Resultado esperado:** Não usam coesão; preservam perseguição/carga própria
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-21 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Bando perto do jogador
+- **Resultado esperado:** Não orbita/recua para centro remoto; mantém capacidade de contato
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-22 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Atiradores agrupando
+- **Resultado esperado:** Manter distância de tiro/retirada e arma/cadência; não puxar todos ao corpo do jogador
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-23 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** 180comuns+lacaios
+- **Resultado esperado:** População limitada, sem remoção/vida renovada; coleta de custo/localidade
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-24 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Fuga contínua5min
+- **Resultado esperado:** Horda continua chegando sem conglomerado abandonado que bloqueie spawn
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-25 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Agenda719,99→720
+- **Resultado esperado:** Prism elegível sóaos12min, HUD08:00; sem segundo novo chefe
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-26 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Boss anterior vivo no prazo
+- **Resultado esperado:** Regra de fila explícita; sem apagar corpo/HP/recompensa
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-27 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Prism preparação
+- **Resultado esperado:** Aviso inofensivo por duração declarada, posição/ângulos congelados
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-28 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Disparo até bordas de tela
+- **Resultado esperado:** Mesma geometria/render/dano em1280×900/844×390/740×360
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-29 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Centro de laser e centro de intervalo
+- **Resultado esperado:** Laser causa dano previsto; intervalo realmente seguro com raio do jogador
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-30 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Mover câmera/player ao preparar/disparar
+- **Resultado esperado:** World-space coerente, sem faixa invisível ou perseguição instantânea
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-31 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** dt cruza tell→laser→recover
+- **Resultado esperado:** Aplicar somente residual ativo; phases/timers finitos
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-32 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Pausa no tell/laser
+- **Resultado esperado:** Hazards/pixels/animacao congelados; retomar não dispara sozinho
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-33 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Matar chefe enquanto atira
+- **Resultado esperado:** Laser termina, recompensa e baú únicos, sem dano posterior órfão
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-34 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Policial/escudo/reserva/armadura no laser
+- **Resultado esperado:** Usar rota normal hurtPlayer/iframes/reduções e fonte correta
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-35 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Boss visual RNG lançando
+- **Resultado esperado:** draw não sorteia nem muda físico; poses distintas telling/laser/recover
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-36 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Nova recompensa de prism
+- **Resultado esperado:** Peça compatível/migração definida, finita e preservada após morte
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-37 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Menu/garagem/HUD
+- **Resultado esperado:** Textos de20min coerentes; instruções antigas de infinito identificadas como históricas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-38 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Teste antigo de25min
+- **Resultado esperado:** Atualização justificada pela decisão humana; preservar evidência antiga, não fingir aprovação atual
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-39 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Ensaio natural20min
+- **Resultado esperado:** Bot enfrenta nova horda/agenda sem poderes/ofertas forçados, todas falhas preservadas
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-INCURSION-40 — Incursão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: remainingRunTime/finishTimedRun/applyUpgradeBreather/buildPackGrid/packDirection/tickPrismBoss; boss-visuals.js.
+- **Comando/procedimento:** node tests/incursion.cjs; QA visual/natural/perfil conforme caso, com G05aberto.
+- **Preparação:** Candidata68, perfil/seed/config/estado registrados. Fixtures declaradas não contam como natural.
+- **Entradas e passos:** Perfil novo/legado/offlineZIP
+- **Resultado esperado:** Novo chefe não cria dependência externa ou corrupção de progresso
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Contrato III-H;20minregressivos, somente um novo Prisma720s, fila de chefe vivo, recusa/token obsoleto e limites de aparelho/tempo real.
+- **Falha:** P1.
+- **Evidência:** Logs/snapshots/hashes e captura quando visual; incursion.cjs cobre grupos sintéticos, não todos os40casos nem gates finais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-COMBAT-W01 — Combate e mundo
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: tick/damageEnemy/impact/IA/horda/loot; helpers.
@@ -5196,8 +6317,8 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Implementação correspondente:** game.js: tick/damageEnemy/impact/IA/horda/loot; helpers.
 - **Comando/procedimento:** node tests/combat.cjs; testes específicos por caso.
 - **Preparação:** Fixture isolada com estado/seed conhecidos; não conta como partida natural.
-- **Entradas e passos:** Agenda60/240/420/600; manter chefe vivo alémdevido
-- **Resultado esperado:** Um chefe porvez, próximoaguarda; HP650/1300/1800e quarto1105
+- **Entradas e passos:** Agenda60/240/420/720; manter chefe vivo alémdevido
+- **Resultado esperado:** Um chefe porvez, próximoaguarda; HP650/1300/1800/2500; Prisma é o quarto
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
 - **Falha:** P1.
@@ -6933,6 +8054,32 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-RELIC-vitalGrowth — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar vitalGrowth, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Após instalar, cada 10 de integridade realmente recuperada em combate aumenta em 1% o dano dos tiros futuros, até +15%. Excesso, reserva e cura em telas de escolha não contam. Não cura ao instalar. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-RELIC-reagentGrowth — Relíquia
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
+- **Comando/procedimento:** node tests/boss-relics.cjs; testes de Baia/Colimador/Culatra/Matriz.
+- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
+- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar reagentGrowth, tentar repetir, executar condição e iniciar outra tentativa.
+- **Resultado esperado:** Cada detonação primária de corrosão que retirar vida em combate fortalece novas cargas em 1%, até +15%. Respingo não avança; cargas existentes preservam o dano. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
+- **Falha:** P1.
+- **Evidência:** Log estruturado e snapshot antes/depois.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 ### QA-RELIC-ruptureChamber — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
@@ -7498,7 +8645,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita agulha-antitita: chassiprot, armasniper; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais damage, bossHunter, freeze, rate. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais damage, bossHunter, freeze, rate. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7511,7 +8658,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita tempestade-balistica: chassiprot, armalaser; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais rate, extra, damage, crit. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais rate, extra, damage, crit. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7524,7 +8671,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita escopeta-ricochete: chassibastion, armashotgun; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais rate, extra, freeze, pierce. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais rate, extra, freeze, pierce. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7537,7 +8684,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita cacador-criogenico: chassiprot, armacryo; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais damage, freeze, rate, pierce. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais damage, freeze, rate, pierce. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7550,7 +8697,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita forja-criogenica: chassiforge, armaflame; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais burn, freeze, thermal, afterburn. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais burn, freeze, thermal, afterburn. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7563,7 +8710,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita rede-de-plasma: chassivolt, armatesla; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais shock, damage, burn, blast. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais shock, damage, burn, blast. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7576,7 +8723,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita demolicao-de-campo: chassibastion, armagrenade; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais damage, rate, blast, blastRadius. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais damage, rate, blast, blastRadius. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7589,7 +8736,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita oficina-viva: chassinano, armashotgun; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais magnet, repair, armor, titan. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais magnet, repair, armor, titan. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7602,7 +8749,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita enxame-de-sucata: chassiswarm, armaharpoon; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais drones, damage, dronePair, droneOverclock. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais drones, damage, dronePair, droneOverclock. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -7615,7 +8762,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Comando/procedimento:** node tests/builds-balance.cjs --real-only.
 - **Preparação:** Receita lanca-de-fuga: chassinano, armaharpoon; só equipamento desbloqueado; versão/hash/piloto registrados.
 - **Entradas e passos:** Executar as três sementes finais em partidas naturais independentes com escolhas legais, registrando todas as alternativas e falhas.
-- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos,≥3chefes, skills centrais damage, magnet, repair, dash. Registrar riscos e funcionamento do motor descrito na receita.
+- **Resultado esperado:** Pelo menos2/3tentativas viáveis:1200s ativos/state=won em00:00,≥3chefes, skills centrais damage, magnet, repair, dash. Registrar riscos e funcionamento do motor descrito na receita.
 - **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
 - **Bordas:** Não substituir casos canônicos por uma política que força preferência da relíquia nova. Horda e dano normais.
 - **Falha:** P1.
@@ -8211,19 +9358,19 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: 2b1fc7bb8f0d429e70d551f95aa8848272fb9d6c. O snapshot possui alterações locais da candidata63, com reserva e manutenção; não é um commit final auditado. A data de referência fornecida pelo cliente é13/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 64501802af13f6a6e4853de89949b32896d95013. O snapshot possui alterações locais da candidata68, conservando crescimentos67 e incorporando incursão/bandos/Prisma; não é um commit final auditado. A data de referência fornecida pelo cliente é18/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 4a3cccdf4b724a2d52cc1c5bcdd83bb59fad26465be068253c01fa785dae9b70 |
+| game.js | 960fc7979539a4981bfa1ad42ee6148c695d6111a180bfdb5116c002629a2adc |
 | balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | 0c2b06f3adba615338234f17252dfdf7a855a831d567c6ac53fd89337f73cc01 |
+| index.html | 301c4d3724e4870492b8020965eb83f4e1fce1feaeb4a02b3a7294155fa9535b |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | 6a949da2069c54e0bab41cf41dab9234b25e16369426f9fe96ba9184d3a302df |
-| audio.js | 1e8e9d7242c04cafcc95a17ebb030c4c313634f4475fa354c1ae19dfb0e29825 |
+| ui-redesign.css | 16b34914a9b2ad8aea1f4d2b78d39204c11bedd5f4866bcb72617d489fb7dea1 |
+| audio.js | dbfc1961f679a4355a4edf8c54565d58c0e90e0f2f115636b2dbcd11cf4bc230 |
 | touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
-| touch-controls.css | ab5a4a849c107bb688579ebf9023173cfa337506790b41547fd0f97c86ecf4e9 |
+| touch-controls.css | 6eeb8befb28f0f154eb34b4d204c14203cf64f435914963ba4383f1156c0529a |
 | player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
 | tools/drone-maturity.js | 97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0 |
 | tools/segment-circle.js | ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4 |
@@ -8231,7 +9378,7 @@ Commit pai: 2b1fc7bb8f0d429e70d551f95aa8848272fb9d6c. O snapshot possui alteraç
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há408casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há480casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

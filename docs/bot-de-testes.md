@@ -1,6 +1,16 @@
 # Bot de testes de partida
 
-Abra **Testar-com-bot.cmd** para escolher o bot inteligente ou o simples. O Chrome mostra uma tentativa de até 20 minutos em tempo real. O botão ENCERRAR TESTE encerra a execução e grava o relatório; morte também encerra a tentativa. O bot usa um contexto isolado do navegador, sem acessar o save pessoal do jogador.
+## Atualização da incursão — BUILD68
+
+O launcher usa a política compartilhada driver14 e encerra quando a tentativa chega a `won`, mesmo que a duração solicitada seja maior que20minutos. O relatório identifica esse encerramento como `run-won`; morte e interrupção manual continuam distintas. A mudança adapta terminal/relatório, sem conceder dano, imunidade, itens, cura ou alterar a física/política de movimento.
+
+Em pedidos de pelo menos20minutos, `viable=true` exige simultaneamente state=won, tempo ativo≥1200−1e-6s,≥3chefes, todas as quatro skills centrais da receita, estado finito e zero erros. Vitória sozinha não comprova uma build completa. Pedidos curtos mantêm viabilidade completa nula; duração solicitada não equivale ao tempo efetivamente jogado. O teste controlado de terminal começa em1199,99s e pede21min; prova encerramento em1200/won e viabilidade falsa sem núcleo, não uma partida natural de20min.
+
+Limitação atual: o smart preserva a pontuação anterior de ameaças, que cobre pools/anéis, mas não calcula corredores dos novos lasers por eixo/coordenada. Essa lacuna do piloto não deve ser atribuída automaticamente ao equilíbrio do jogo nem ocultada ao interpretar mortes. Qualquer revisão futura do piloto exige hash/versão/protocolo novos e resultados antigos preservados.
+
+A rodada extra original de11comandos terminou10aprovados/1falha: o guard antigo do launcher exigia driver13e abortava antes dos casos de segurança de baú. O negativo continua preservado; o Dev corrigiu somente integração de versão/terminal/viabilidade e registrou reteste de bot-loot-safety, quatro perfis curtos e terminal controlado. As evidências aplicáveis e seus limites estão no [resumo de QA68](build68-qa-summary.json); não aprovam os gates finais, matriz natural, celular físico ou desempenho real.
+
+Abra **Testar-com-bot.cmd** para escolher o bot inteligente ou o simples. O Chrome mostra uma tentativa de até 20 minutos em tempo real. O botão ENCERRAR TESTE encerra a execução e grava o relatório; morte ou vitória em00:00também encerram a tentativa. O bot usa um contexto isolado do navegador, sem acessar o save pessoal do jogador.
 
 Pré-requisitos: Node.js LTS e Chrome instalado. Na primeira configuração, se faltar a biblioteca de automação, execute na pasta do jogo:
 

@@ -2,13 +2,17 @@
 
 **Status:** integração incremental em andamento. Este documento mapeia sistemas e define proteções contra regressão; não aprova conteúdo, custos ou balanceamento que ainda estejam pendentes nos documentos de design.
 
-> **Estado vigente — BUILD 66 (candidata):** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) e [ciclos de munição](ciclos-de-municao.md) documentam os sistemas atuais.
+> **Estado vigente — BUILD 68 (candidata):** consulte [Contrato atual](contrato-atual.md). As etapas e registros abaixo guardam decisões históricas; trechos antigos sobre teto de vivos, pausa de ondas em chefe e renovação única por tentativa foram substituídos. [Reforjas de armas](evolucao-armas.md) e [ciclos de munição](ciclos-de-municao.md) documentam os sistemas atuais.
+
+## Decisão posterior incorporada — BUILD68
+
+Relógio regressivo/vitória, respiro e bandos seguem [contrato da incursão](incursao-vinte-minutos.md). Apenas Prisma aos12mindecorridos nesta etapa; segundo chefe novo aos15min adiado. Textos históricos de modo infinito não são regra vigente. Os crescimentos67 e demais pendências compatíveis permanecem.
 
 ## Regra de adaptação
 
 Screwvivors pode aproveitar princípios de progressão, combate e legibilidade. Não reutilizar nomes, personagens, arte, texto de upgrades, áudio ou código de *20 Minutes Till Dawn*. A versão própria continua centrada no gato piloto, robôs, sucata, zumbis e na cidade do Dr. Biruta.
 
-O contrato atual que toda etapa deve preservar é: arena sem bordas e sem tempo final; mira e disparo manuais; chassi e armas escolhidos na garagem e fixos durante a tentativa; skills temporárias que se perdem ao reiniciar; hordas circulares crescentes; chefes recorrentes. A referência do 20MTD não altera esses preceitos.
+O contrato atual que toda etapa deve preservar é: arena sem bordas e incursão de20minativos com vitória em00:00; mira e disparo manuais; chassi e armas escolhidos na garagem e fixos durante a tentativa; skills temporárias que se perdem ao reiniciar; hordas circulares crescentes; chefes recorrentes. A referência do 20MTD não altera esses preceitos.
 
 O inventário detalhado de famílias, gatilhos, armas e conversões está em [disposição dos sistemas pesquisados](disposicao-sistemas.md). Ele separa motores integrados, adaptações deliberadas e pendências; não afirma que cada combinação externa tenha sido copiada ou que os motores ainda pendentes estejam concluídos.
 
@@ -27,11 +31,11 @@ O inventário detalhado de famílias, gatilhos, armas e conversões está em [di
 | Elenco de personagens e armas | **Adaptado parcialmente.** Perfis novos começam com PROT-0001 + Metralhadora; compras na garagem desbloqueiam as outras armas e cinco chassis adicionais. Saves v1 migram com acesso a todo o catálogo do protótipo preservado. | Preços e cadência são experimentais. Arsenal avançado implementado na BUILD51: BAST até2armas, ENXA até3, com custos explícitos. Especializações e reforjas já existem. |
 | Especializações de personagem/arma | **Chassi: 18 protocolos, escolha no nível 10. Armas: 24 reforjas, escolha no nível 20.** | Uma entre três especializações do robô no nível 10 e uma entre duas reforjas da arma no nível 20. Não permitir troca/fusão do loadout; escolhas somem no reset. |
 | Variedade e encontros de inimigos | **Implementada em etapas.** Há perseguidores comuns, cinco policiais por onda de15 após derrotar o segundo chefe, divididos entre rifle e escudo100, um perseguidor grande em uma de cada três ondas completas a partir de 15 min, três chefes e lacaios próprios para cada chefe. | Balancear frequência e atributos em playtest. Inimigos novos continuam na formação circular; diretor com população limitada e gatilhos de combate/deslocamento (BUILD52), preservando avisos e limpeza de lacaios ao fim do chefe. |
-| Modos cronometrados e loop pós-vitória | **Não importar ao modo padrão.** | O modo aprovado já é infinito. Não criar vitória cronometrada nem preservar skills após a morte. Um modo opcional exigiria decisão própria. |
+| Modos cronometrados e loop pós-vitória | **Decisão posterior BUILD68: incursão20min com vitória.** | Relógio20:00→00:00; repetição cria tentativa nova. Loop contínuo não implementado; skills não persistem. |
 | Reroll, compêndio, estatísticas e orientação de controle | **Base implementada.** Controles, diagnóstico, manual, dez guias e uma renovação de oferta por nível normal. | Renovação experimental só no level-up comum; exige alternativas elegíveis suficientes, exclui as opções descartadas e consome a carga daquele nível, sem recarregar durante a própria renovação. Validar o impacto na construção de builds. |
 | Recursos de plataforma (conquistas, nuvem, ranking) | **Fora do protótipo local atual.** | Planejar depois da persistência local e das regras de integridade do ranking. Não transmitir dados de jogador sem decisão explícita. |
 
-A página oficial da Steam lista builds, runas, tomes de chefe, mira/disparo ativos, arsenal e personagens desbloqueáveis. O anúncio “Blessings & Curses”, de outubro de 2024, identificava sua atualização como teste fechado naquele momento; descrevia bênçãos nos níveis iniciais, curses em baús de chefe com penalidades, lacaios próprios para chefes sem zumbis comuns durante a luta, runas sempre ativas após compra e especializações de personagem. Anúncios de janeiro e março de 2024 também apresentavam rerolls, compêndio/estatísticas e loop pós-vitória como propostas em desenvolvimento. Esses anúncios alimentam o mapa, sem presumir que todas essas propostas sejam a versão pública atual. Em Screwvivors, a arena aprovada não tem vitória nem fim cronometrado, então o loop pós-vitória não se aplica ao modo principal. [Página oficial](https://store.steampowered.com/app/1966900/20_Minutes_Till_Dawn/?l=english) · [Arquivo oficial de anúncios](https://steamcommunity.com/app/1966900/allnews/).
+A página oficial da Steam lista builds, runas, tomes de chefe, mira/disparo ativos, arsenal e personagens desbloqueáveis. O anúncio “Blessings & Curses”, de outubro de 2024, identificava sua atualização como teste fechado naquele momento; descrevia bênçãos nos níveis iniciais, curses em baús de chefe com penalidades, lacaios próprios para chefes sem zumbis comuns durante a luta, runas sempre ativas após compra e especializações de personagem. Anúncios de janeiro e março de 2024 também apresentavam rerolls, compêndio/estatísticas e loop pós-vitória como propostas em desenvolvimento. Esses anúncios alimentam o mapa, sem presumir que todas essas propostas sejam a versão pública atual. Na decisão posterior da BUILD68, Screwvivors passa a incursões20min com vitória; repetição reinicia a tentativa e loop contínuo não foi implementado. [Página oficial](https://store.steampowered.com/app/1966900/20_Minutes_Till_Dawn/?l=english) · [Arquivo oficial de anúncios](https://steamcommunity.com/app/1966900/allnews/).
 
 ## Histórico das etapas e regras de regressão
 
@@ -43,7 +47,7 @@ Cada implementação deve registrar no mesmo conjunto de mudanças: comportament
 - `node tests/combat.cjs` precisa passar; novas mecânicas de estado, reset, pausa e combate ganham verificações nesse arquivo.
 - `node tests/sprite-animation.cjs` precisa passar quando a etapa tocar em animação ou contratos de sprite.
 - A simulação automatizada não substitui playtest visual; mudanças de interface devem ser verificadas em navegador por alguém que conheça o design e por um usuário cego às instruções.
-- Os testes não devem fixar regras históricas que os documentos atuais já substituíram. O teste deve expressar o contrato atual, como sobrevivência infinita e chefes recorrentes.
+- Os testes não devem fixar regras históricas que os documentos atuais já substituíram. O teste deve expressar o contrato atual, como vitória ao sobreviver20min, derrota fatal prioritária e chefes recorrentes dentro da incursão.
 
 ### Etapa 1 — Clareza de encontros de chefe (**histórica; suspensão substituída na BUILD 35**)
 

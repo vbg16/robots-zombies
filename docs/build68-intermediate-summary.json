@@ -1,0 +1,618 @@
+{
+  "kind": "intermediate-natural-evaluation",
+  "build": 68,
+  "protocol": "outputs/incursion-natural68/protocol.json",
+  "raw": "outputs/incursion-natural68/raw.json.gz",
+  "rawSha256": "61097f8132bc0f35a46a2409d71ffcba60f0dd97f995509519c773d1b3c35bb6",
+  "frozenSourcesUnchanged": true,
+  "sourceHashes": {
+    "tests/builds-balance.cjs": "09b60af06adba47fdaf807d22461820d3933e126280b99a75f4974f1935941b4",
+    "tests/combat.cjs": "9f7f98b6616c6bf82935755e134d26bc99e9ab96fbe94517f6fd348675d142f8",
+    "game.js": "960fc7979539a4981bfa1ad42ee6148c695d6111a180bfdb5116c002629a2adc",
+    "balance.js": "3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a",
+    "builds.js": "4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8",
+    "version.json": "3b71e169e0d04118eb625c3713561bbea4fe0fc0e2f3ab0f0eeaa721f65c367d",
+    "tools/drone-maturity.js": "97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0",
+    "tools/segment-circle.js": "ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4",
+    "tools/rupture-chamber.js": "0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03",
+    "tools/bot-pilot.js": "b855b7471ed6986c7701d0436cf0d7c2bfef18c233b147f3721b4c1505e0c31d",
+    "tools/run-telemetry.js": "52e2f1f089f57a96489bdaa377984c14703a41105fe5dc86b6633c7206605123",
+    "tools/run-observer.js": "afd771fae223e8834f755de686ce0b0dcfc7410c4dd7d942a899dc9f9c778e82"
+  },
+  "seed": 6801301,
+  "dt": 0.05,
+  "duration": 1200,
+  "pilot": "smart",
+  "driverVersion": 14,
+  "chestPolicy": "safe",
+  "refitsEnabled": true,
+  "completed": true,
+  "errors": [],
+  "scope": "Headless natural progression with starting equipment unlocked; no immunity, free run upgrades, forced offers, forced boss deaths or wave suppression. Not browser FPS, physical phone, human art approval or final 30-attempt gate.",
+  "limitations": [
+    "One previously fixed intermediate seed for each of ten canonical recipes; this is not the final 30-attempt gate or a claim of 27/30.",
+    "The unchanged smart pilot and driver14 do not anticipate axis/coordinate geometry of the new laser hazards. A death during Prisma does not isolate human balance or demonstrate that a human cannot dodge.",
+    "Starting equipment is unlocked for recipe selection; combat upgrades and core acquisition use natural offers and choices.",
+    "Headless simulation does not measure frame rate, art approval, audio perception or physical mobile controls."
+  ],
+  "counts": {
+    "attempts": 10,
+    "won": 9,
+    "core": 10,
+    "threeBosses": 10,
+    "fourBosses": 9,
+    "success": 9,
+    "finite": 10
+  },
+  "attempts": [
+    {
+      "build": "agulha-antitita",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 100,
+      "maxHp": 100,
+      "level": 22,
+      "kills": 1461,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 65.39999999999843,
+          "ttk": 5.349999999999703
+        },
+        {
+          "id": "scrapper",
+          "at": 245.1500000000215,
+          "ttk": 5.150000000001171
+        },
+        {
+          "id": "coil",
+          "at": 423.9500000000621,
+          "ttk": 3.950000000000898
+        },
+        {
+          "id": "prism",
+          "at": 722.4999999998906,
+          "ttk": 2.4499999999977717
+        },
+        {
+          "id": "brute",
+          "at": 902.6999999997267,
+          "ttk": 2.64999999999759
+        },
+        {
+          "id": "scrapper",
+          "at": 1083.1999999995626,
+          "ttk": 3.149999999997135
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": false,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 6,
+      "receivedBySource": {},
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "tempestade-balistica",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 100,
+      "maxHp": 100,
+      "level": 30,
+      "kills": 4664,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 62.499999999998586,
+          "ttk": 2.4499999999998607
+        },
+        {
+          "id": "scrapper",
+          "at": 242.90000000002098,
+          "ttk": 2.9000000000006594
+        },
+        {
+          "id": "coil",
+          "at": 421.6500000000616,
+          "ttk": 1.6500000000003752
+        },
+        {
+          "id": "prism",
+          "at": 722.8499999998903,
+          "ttk": 2.7999999999974534
+        },
+        {
+          "id": "brute",
+          "at": 900.9999999997283,
+          "ttk": 0.949999999999136
+        },
+        {
+          "id": "scrapper",
+          "at": 1083.4499999995624,
+          "ttk": 3.3999999999969077
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 6,
+      "receivedBySource": {
+        "common-ranged": 8,
+        "contact-or-projectile": 48
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "escopeta-ricochete",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 170,
+      "maxHp": 170,
+      "level": 28,
+      "kills": 3726,
+      "bossKills": 5,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 73.19999999999798,
+          "ttk": 13.14999999999926
+        },
+        {
+          "id": "scrapper",
+          "at": 246.35000000002177,
+          "ttk": 6.350000000001444
+        },
+        {
+          "id": "coil",
+          "at": 558.9000000000394,
+          "ttk": 138.8999999999782
+        },
+        {
+          "id": "prism",
+          "at": 742.7499999998722,
+          "ttk": 22.699999999979354
+        },
+        {
+          "id": "brute",
+          "at": 910.9499999997192,
+          "ttk": 10.899999999990087
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 5,
+      "chestsCollected": 5,
+      "receivedBySource": {
+        "common-ranged": 21,
+        "contact-or-projectile": 11,
+        "boss-hazard": 38
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "cacador-criogenico",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 120,
+      "maxHp": 120,
+      "level": 27,
+      "kills": 3444,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 74.89999999999789,
+          "ttk": 14.849999999999163
+        },
+        {
+          "id": "scrapper",
+          "at": 249.00000000002237,
+          "ttk": 9.000000000002046
+        },
+        {
+          "id": "coil",
+          "at": 428.90000000006324,
+          "ttk": 8.900000000002024
+        },
+        {
+          "id": "prism",
+          "at": 749.599999999866,
+          "ttk": 29.549999999973124
+        },
+        {
+          "id": "brute",
+          "at": 917.9999999997128,
+          "ttk": 17.949999999983675
+        },
+        {
+          "id": "scrapper",
+          "at": 1108.8499999995392,
+          "ttk": 28.799999999973807
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": false,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 5,
+      "receivedBySource": {
+        "contact-or-projectile": 36,
+        "boss-hazard": 80,
+        "common-ranged": 8
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "forja-criogenica",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 140,
+      "maxHp": 140,
+      "level": 24,
+      "kills": 2599,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 67.89999999999829,
+          "ttk": 7.849999999999561
+        },
+        {
+          "id": "scrapper",
+          "at": 260.800000000025,
+          "ttk": 20.8000000000047
+        },
+        {
+          "id": "coil",
+          "at": 430.20000000006354,
+          "ttk": 10.20000000000232
+        },
+        {
+          "id": "prism",
+          "at": 760.599999999856,
+          "ttk": 40.54999999996312
+        },
+        {
+          "id": "brute",
+          "at": 914.0499999997164,
+          "ttk": 13.999999999987267
+        },
+        {
+          "id": "scrapper",
+          "at": 1138.4999999995123,
+          "ttk": 58.44999999994684
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 5,
+      "receivedBySource": {
+        "boss-hazard": 94
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "rede-de-plasma",
+      "seed": 6801301,
+      "time": 852.0999999997728,
+      "state": "over",
+      "won": false,
+      "finite": true,
+      "hp": 0,
+      "maxHp": 105,
+      "level": 25,
+      "kills": 2922,
+      "bossKills": 3,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 79.74999999999761,
+          "ttk": 19.699999999998887
+        },
+        {
+          "id": "scrapper",
+          "at": 283.00000000003007,
+          "ttk": 43.00000000000975
+        },
+        {
+          "id": "coil",
+          "at": 588.1000000000129,
+          "ttk": 168.09999999995165
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": false,
+      "success": false,
+      "chestsSeen": 3,
+      "chestsCollected": 3,
+      "receivedBySource": {
+        "boss-hazard": 345,
+        "contact-or-projectile": 12,
+        "common-ranged": 0
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 17042
+    },
+    {
+      "build": "demolicao-de-campo",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 170,
+      "maxHp": 170,
+      "level": 29,
+      "kills": 4214,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 83.64999999999739,
+          "ttk": 23.599999999998666
+        },
+        {
+          "id": "scrapper",
+          "at": 245.75000000002163,
+          "ttk": 5.750000000001307
+        },
+        {
+          "id": "coil",
+          "at": 488.80000000007686,
+          "ttk": 68.80000000001564
+        },
+        {
+          "id": "prism",
+          "at": 724.7499999998886,
+          "ttk": 4.699999999995725
+        },
+        {
+          "id": "brute",
+          "at": 908.0499999997219,
+          "ttk": 7.999999999992724
+        },
+        {
+          "id": "scrapper",
+          "at": 1106.949999999541,
+          "ttk": 26.899999999975535
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 5,
+      "receivedBySource": {
+        "contact-or-projectile": 374,
+        "boss-hazard": 21.80000000000001,
+        "projectile": 11,
+        "common-ranged": 56
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "oficina-viva",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 480,
+      "maxHp": 480,
+      "level": 22,
+      "kills": 2135,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 65.04999999999845,
+          "ttk": 4.999999999999723
+        },
+        {
+          "id": "scrapper",
+          "at": 247.10000000002194,
+          "ttk": 7.100000000001614
+        },
+        {
+          "id": "coil",
+          "at": 462.5000000000709,
+          "ttk": 42.50000000000966
+        },
+        {
+          "id": "prism",
+          "at": 733.3999999998807,
+          "ttk": 13.349999999987858
+        },
+        {
+          "id": "brute",
+          "at": 907.0999999997227,
+          "ttk": 7.049999999993588
+        },
+        {
+          "id": "scrapper",
+          "at": 1090.549999999556,
+          "ttk": 10.49999999999045
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 6,
+      "receivedBySource": {
+        "boss-minion": 10,
+        "boss-hazard": 17,
+        "common-ranged": 20
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "enxame-de-sucata",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 115,
+      "maxHp": 115,
+      "level": 29,
+      "kills": 4643,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 75.84999999999783,
+          "ttk": 15.799999999999109
+        },
+        {
+          "id": "scrapper",
+          "at": 244.60000000002137,
+          "ttk": 4.600000000001046
+        },
+        {
+          "id": "coil",
+          "at": 461.10000000007057,
+          "ttk": 41.100000000009345
+        },
+        {
+          "id": "prism",
+          "at": 730.6499999998832,
+          "ttk": 10.59999999999036
+        },
+        {
+          "id": "brute",
+          "at": 901.6499999997277,
+          "ttk": 1.5999999999985448
+        },
+        {
+          "id": "scrapper",
+          "at": 1088.0499999995582,
+          "ttk": 7.999999999992724
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": true,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 5,
+      "receivedBySource": {
+        "common-ranged": 12
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    },
+    {
+      "build": "lanca-de-fuga",
+      "seed": 6801301,
+      "time": 1200,
+      "state": "won",
+      "won": true,
+      "finite": true,
+      "hp": 86.66666666666667,
+      "maxHp": 86.66666666666667,
+      "level": 21,
+      "kills": 1595,
+      "bossKills": 6,
+      "bosses": [
+        {
+          "id": "brute",
+          "at": 77.54999999999774,
+          "ttk": 17.499999999999012
+        },
+        {
+          "id": "scrapper",
+          "at": 253.5000000000234,
+          "ttk": 13.50000000000307
+        },
+        {
+          "id": "coil",
+          "at": 429.2000000000633,
+          "ttk": 9.200000000002092
+        },
+        {
+          "id": "prism",
+          "at": 738.9499999998757,
+          "ttk": 18.89999999998281
+        },
+        {
+          "id": "brute",
+          "at": 906.4499999997233,
+          "ttk": 6.399999999994179
+        },
+        {
+          "id": "scrapper",
+          "at": 1092.0999999995545,
+          "ttk": 12.04999999998904
+        }
+      ],
+      "coreReached": true,
+      "missingCore": [],
+      "recipeReached": false,
+      "driverViable": true,
+      "success": true,
+      "chestsSeen": 6,
+      "chestsCollected": 6,
+      "receivedBySource": {
+        "contact-or-projectile": 36,
+        "boss-hazard": 60,
+        "common-ranged": 8
+      },
+      "telemetryDropped": 0,
+      "telemetrySamples": 24000
+    }
+  ],
+  "archive": {
+    "path": "docs/data/build68-natural.json.gz",
+    "sha256": "b8dd661a5f7b20eb4d003bd2a6cacf243289cc42478e1a79f5ab9ebe4197ecb1",
+    "bytes": 1641202,
+    "records": 14,
+    "roundtripAllRecordsVerified": true
+  }
+}

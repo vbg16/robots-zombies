@@ -2,6 +2,10 @@
 
 Aprovado pelo criador em 29/10/2026. Esta sequência passa a orientar a execução antes de novas expansões. Semanas são etapas de trabalho; início/fim de calendário e disponibilidade ainda não definidos. Não há execução automática em segundo plano.
 
+## Atualização normativa — candidata BUILD68
+
+A decisão posterior de20minregressivos com vitória em00:00substitui referências históricas a modo sem tempo final. Validar respiro120px, bandos locais e somente um novo Prisma aos12mindecorridos conforme [contrato](incursao-vinte-minutos.md); segundo chefe novo aos15min fica adiado. Preservar crescimentos67, sementes finais e gates de qualidade. G05continua aberto enquanto a proposta de60minacumulados em três incursões não for aprovada e comprovada.
+
 ## Semana 1 — testar e selecionar
 
 - Fazer sessões de teste no navegador.

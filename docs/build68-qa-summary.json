@@ -1,0 +1,20 @@
+{
+  "build": 68,
+  "archive": "docs/data/build68-qa.json.gz",
+  "sha256": "cc3c5f566c05b650cb96a53530f4a1e13f07e9177f2f9fbd5c48687beab4067c",
+  "files": 153,
+  "bytes": 21908064,
+  "allRecordsRoundtripVerified": true,
+  "effectiveChecks": 61,
+  "selectedChecksPassed": true,
+  "original45CheckManifestPassed": false,
+  "extra11CheckManifestPassed": false,
+  "fixedExtraFailure": "Browser launcher driver13 guard updated to14, timed terminal recognized and strict viability; original failure preserved; loot-safety,4short profile smokes and controlled terminal regression passed.",
+  "historicalExclusions": [
+    "BUILD54 full-world equivalence",
+    "BUILD57 full-world particle equivalence"
+  ],
+  "replacement": "12 paired current-world optimized-versus-array particle cases, unchanged complete-state/RNG assertions",
+  "scope": "Intermediate QA and preserved prior presentation negatives. Includes synthetic fixtures, static review, controlled-browser captures and actual regression results. Not natural matrix, physical phone, FPS or final gates.",
+  "finalGateApproved": false
+}

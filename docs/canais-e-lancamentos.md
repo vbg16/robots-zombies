@@ -8,7 +8,7 @@ Pasta Jogo, branch codex/desenvolvimento, preview em http://127.0.0.1:8001/ usan
 
 Pasta irmã Jogo-publico, branch codex/publico, preview em http://127.0.0.1:8002/ usando iniciar-publico.ps1. É outro checkout Git: modificar arquivos do desenvolvimento não modifica a cópia pública. Não há hospedagem ou deploy automático configurado por esta separação.
 
-Base inicial: 99522e5, última revisão registrada na main. Estado: CANDIDATA HISTÓRICA, SEM APROVAÇÃO DE PUBLICAÇÃO REGISTRADA. Essa base ainda usa sobrevivência de dez minutos e não contém as integrações locais recentes. Não representa o contrato atual de arena infinita; precisa de uma promoção revisada antes de ser apresentada como lançamento público atualizado.
+Base inicial: 99522e5, última revisão registrada na main. Estado: CANDIDATA HISTÓRICA, SEM APROVAÇÃO DE PUBLICAÇÃO REGISTRADA. Essa base ainda usa sobrevivência de dez minutos e não contém as integrações locais recentes. Não representa o contrato atual de incursão de vinte minutos; precisa de uma promoção revisada antes de ser apresentada como lançamento público atualizado.
 
 ## Promoção de melhorias
 

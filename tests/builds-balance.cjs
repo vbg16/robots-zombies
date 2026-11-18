@@ -23,7 +23,7 @@ const pilotSource=fs.readFileSync('tools/bot-pilot.js','utf8');
 const telemetryEnabled=process.env.BUILD_TELEMETRY==='1';
 const observerSource=telemetryEnabled?['tools/run-telemetry.js','tools/run-observer.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'):null;
 const policy={fixedBeforeResults:true,structural:'6 chassis,12 weapons,56 normal nodes,18 chassis protocols,86 unique canonical modules; valid prerequisite closure for all10 recipes',numeric:'All sampled positions,HP,damage,rate and entity coordinates finite; no runtime exceptions',synthetic:'Every mature build must damage a stationary target and a stationary boss at production HP; report60s nonkill as censored,not fabricated TTK',real:'Viability target: survive1200s, defeat at least3 bosses, acquire all4 core skills and remain finite with naturally offered upgrades. Report all failures; no automatic approval from synthetic power.',driver:'Same8-direction threat-scored movement and target selection for all builds;20Hz physics,5Hz decisions; no invulnerability,no added damage/healing,no forced boss death,no spawn suppression,no living-enemy culling.'};
-const driverVersion=13; // Safe loot routing; legacy mode remains available for controlled comparison.
+const driverVersion=14; // Safe loot routing; legacy mode remains available for controlled comparison.
 const chestPolicy=process.env.BUILD_CHEST_POLICY||'safe';
 assert.ok(['safe','legacy'].includes(chestPolicy),'Unsupported chest policy');
 const frozenSources=Object.fromEntries(['game.js','balance.js','builds.js','tools/drone-maturity.js','tools/segment-circle.js','tools/rupture-chamber.js'].map(file=>[file,fs.readFileSync(file,'utf8')]));
@@ -161,7 +161,7 @@ function qaDrive(){
  if(typeof qaObserver!=='undefined'&&(typeof qaLastRouteTime==='undefined'||clock-qaLastRouteTime>=1)){globalThis.qaLastRouteTime=clock;qaObserver.record('decision',{type:'route',reason:qaChestTarget?'eligible-chest':xpTarget?'nearby-xp':target?'enemy-orbit':'idle-orbit',chestRejected:typeof bossChests!=='undefined'&&bossChests.length>0&&!qaChestTarget,hpFraction:player.hp/player.maxHp,looseOrbs:gems.length,nearestEnemyDistance:nearest[0]?.d??null,bossDistance:boss?.hp>0?Math.hypot(boss.x-player.x,boss.y-player.y):null,estimatedPrimaryRange:weaponRange,targetPosition:xpTarget?{x:xpTarget.x,y:xpTarget.y}:target?{x:target.x,y:target.y}:null,policySuggestedMove:{x:bestX,y:bestY}});}
 }
 globalThis.qaPilot=typeof ScrewBotPilot==='undefined'?null:ScrewBotPilot.create(qaPilotMode,{seed:qaPilotSeed});
-for(let step=0;step<Math.ceil(qaDuration/.05)&&state!=='over';){
+for(let step=0;step<Math.ceil(qaDuration/.05)&&state!=='over'&&state!=='won';){
  if(state!=='playing'){qaChoose();if(++qaChoices>10000)throw Error('Progression choice did not resolve');continue;}
  qaChoices=0;if(step%4===0){if(qaPilot)qaPilot.drive();else qaDrive();}if(qaPilot)qaPilot.beforeTick();
  const chestIds=typeof bossChests!=='undefined'?bossChests.map(c=>c.id):[];
