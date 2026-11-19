@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD68 (desenvolvimento):** [contrato vigente](contrato-atual.md) e [verificação da versão](build68-verificacao.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD69 (desenvolvimento):** [contrato vigente](contrato-atual.md) e [verificação da versão](build68-verificacao.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Entradas rápidas
 
@@ -25,6 +25,8 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 
 ## Documentos
 
+- [Correção de colisão BUILD69](colisao-zumbis.md): separação física de corpos em bandos e testes curtos de regressão.
+
 - [Verificação intermediária BUILD68](build68-verificacao.md): 61 checks, dez receitas naturais, negativos preservados e limites de aprovação.
 
 - [Resumo auditável de QA BUILD68](build68-qa-summary.json): evidências intermediárias, negativos preservados e limites; não é aprovação dos gates finais.
@@ -46,7 +48,7 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 - [Culatra de Ruptura na BUILD60](culatra-de-ruptura.md): último cartucho por arma, escudos, testes e limites das evidências naturais.
 
 - [Objetivo aprovado](OBJETIVO-APROVADO.md) e [meta de conclusão](META-DE-CONCLUSAO.md): escopo, métricas e evidências exigidas para terminar a versão 1.0.
-- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 480 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
+- [Especificação mestre de reconstrução e testes](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md): regras, inventário, fórmulas, apresentação e 487 casos de aceite; [matriz de verificação](matriz-verificacao.json) em formato legível por máquina. O projeto continua em desenvolvimento e os gates finais permanecem abertos.
 
 - [Colimador de Campo na BUILD59](colimador-de-campo.md): conversão espacial, tempo ativo, colisões e limites de validação.
 

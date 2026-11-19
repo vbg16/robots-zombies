@@ -2663,6 +2663,36 @@ Limitação atual: o smart preserva a pontuação anterior de ameaças, que cobr
 A rodada extra original de11comandos terminou10aprovados/1falha: o guard antigo do launcher exigia driver13e abortava antes dos casos de segurança de baú. O negativo continua preservado; o Dev corrigiu somente integração de versão/terminal/viabilidade e registrou reteste de bot-loot-safety, quatro perfis curtos e terminal controlado. As evidências aplicáveis e seus limites estão no [resumo de QA68](build68-qa-summary.json); não aprovam os gates finais, matriz natural, celular físico ou desempenho real.
 
 
+## Parte III-I — Colisão física entre zumbis
+
+
+## Colisão física entre zumbis — BUILD69
+
+Correção do relato do criador: inimigos se enfileiravam ocupando o mesmo espaço. A coesão dos bandos era apenas preferência de direção; não impedia que dois corpos se atravessassem.
+
+### Regra de jogo
+
+Após o movimento e os ataques do quadro, enquanto o estado for `playing`, resolver as interpenetrações entre os círculos dos inimigos vivos. Participam comuns, corredores, lacaios e os dois tipos de policial, incluindo portadores de escudo quebrado em investida. O chefe é uma entidade separada; sua trajetória não é reposicionada por esta correção. Mortos não empurram vivos.
+
+Usar uma ocupação física de `max(18, r)` pixels por corpo, com margem de 2 pixels: distância desejada = `max(18, ra) + max(18, rb) + 2`. O mínimo de 18 acomoda a largura dos sprites sem aumentar seus hitboxes de bala ou dano de contato. Quando houver sobreposição, calcular a normal entre os centros e deslocar cada um pela metade da penetração em sentidos opostos. Centros exatamente iguais recebem uma normal determinística calculada a partir dos índices do par; não consumir RNG de combate.
+
+Uma grade temporária usa células de tamanho `max(32, 2 × maiorOcupaçãoFísica + 2)`. Examinar células vizinhas e cada par uma vez por passagem. Reconstruir a grade por até 12 passagens, interrompendo quando a maior correção for no máximo 0,025 pixel. A preferência por bandos continua existindo; agora os corpos se acomodam uns ao lado dos outros em vez de convergir para o mesmo centro.
+
+O resolvedor só altera posições. Não modifica HP, escudo, raio, velocidade nominal, alvo, vetor/distância restante de investida, estados, munição, RNG, XP, abates ou recompensas. Não remove nem recria inimigos vivos. Pausa, escolhas, morte e vitória bloqueiam a fase física pelo fluxo do jogo.
+
+### Verificação
+
+- Sete grupos curtos de geometria e integração: coincidência, raios distintos, células, dados inválidos, pilha de 180 corpos, perseguição com corredores/policiais e congelamento fora do combate.
+- Navegador offline em 1280×900, 844×390 e 740×360: 40 corpos sobrepostos, separação durante perseguição, fuga e pausa; sem perda de HP ou inimigos, sem overflow e sem recursos ausentes.
+- Regressão da incursão e do diretor da horda: preservação dos 20 minutos regressivos, respiro, bandos, fila de chefes, lasers e regras de população.
+
+As fixtures preparadas não são partidas naturais, medição de FPS, celular físico ou ensaio prolongado. As melhorias do bot e os ensaios de estabilidade/desempenho permanecem fora desta rodada, conforme orientação do criador. A correção não declara aprovados os gates finais da 1.0.
+
+[Resumo verificável e hash das evidências](build69-collision-summary.json).
+
+Os zumbis visíveis são desenhados por ordem de profundidade (`y` crescente), sobre uma cópia filtrada. Isso torna legíveis as fileiras de trás sem alterar a ordem da coleção usada pelo combate ou seus sorteios.
+
+
 ## Parte IV — especificação visual complementar
 
 
@@ -3113,6 +3143,97 @@ Fixtures de módulos: usar reset padrão do chassi/arma, adquirir previamente SO
 
 Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel/vida elevada, explicitamente declarados. Resultados desses dois tipos não são intercambiáveis.
 
+
+### QA-COLLISION-01 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Sobrepor dois corpos vivos de raio14 no mesmo centro e resolver a colisão sem Math.random.
+- **Resultado esperado:** Centros separados por38px; HP, escudo, velocidade e chargeRemaining idênticos.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-COLLISION-02 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Resolver corpos já afastados, mortos e posições inválidas.
+- **Resultado esperado:** Corpos válidos afastados não mudam; mortos não empurram; não gerar novos NaN/Infinity.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-COLLISION-03 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Preparar180corpos coincidentes e executar12resoluções curtas.
+- **Resultado esperado:** Todos180preservados; nenhuma morte ou recompensa; penetração residual menor1px e coordenadas finitas.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-COLLISION-04 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Preparar raios10/13/16/18cruzando células e repetir o mesmo estado inicial.
+- **Resultado esperado:** Separação reproduzível sem RNG, sem depender do tamanho de um único tipo.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-COLLISION-05 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Perseguir com30corpos próximos, incluindo corredor e policial sem escudo; executar90ticks0,04s.
+- **Resultado esperado:** Nenhum par de centros coincidente; penetração residual menor1px; quantidades e HP preservados.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-COLLISION-06 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Pausar ou abrir oferta e invocar ticks; repetir morto e vencedor.
+- **Resultado esperado:** Sem movimento ou correção física fora deplaying; sem XP/recursos/abates concedidos.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-COLLISION-07 — Colisão de zumbis
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick; tools/enemy-collision.js: separate.
+- **Comando/procedimento:** node tests/enemy-collision.cjs; node tests/enemy-collision-browser.cjs.
+- **Preparação:** Fixture curta declarada, sem contabilizar natural, estabilidade prolongada ou desempenho.
+- **Entradas e passos:** Abrir o ZIP offline em1280×900/844×390/740×360; preparar40corpos juntos, avançar120ticks0,04s, fugir60ticks e pausar.
+- **Resultado esperado:** Corpos separados, HP100preservado, nenhum erro/asset ausente, sem overflow e pausa congelada.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Corredores, lacaios, policiais, escudo intacto/quebrado, células vizinhas e repetição determinística.
+- **Falha:** P1.
+- **Evidência:** JSON antes/depois e capturas das três resoluções; tests/enemy-collision.cjs e enemy-collision-browser.cjs.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
 ### QA-FLOW-01 — Fluxo
 - **Origem:** Contrato vigente e objetivo aprovado.
@@ -9358,27 +9479,28 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ## Proveniência e limites do levantamento
 
-Commit pai: 64501802af13f6a6e4853de89949b32896d95013. O snapshot possui alterações locais da candidata68, conservando crescimentos67 e incorporando incursão/bandos/Prisma; não é um commit final auditado. A data de referência fornecida pelo cliente é18/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: d4de976b94d7d134e98bfcdd71e78a4bda7437ab. O snapshot possui alterações locais da candidata68, conservando crescimentos67 e incorporando incursão/bandos/Prisma; não é um commit final auditado. A data de referência fornecida pelo cliente é18/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 960fc7979539a4981bfa1ad42ee6148c695d6111a180bfdb5116c002629a2adc |
+| game.js | 04561086ba1d893834ca0ada8b13ba95d97bc801d8ca9a5da3f01adec91f6499 |
 | balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
 | builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | 301c4d3724e4870492b8020965eb83f4e1fce1feaeb4a02b3a7294155fa9535b |
+| index.html | d18fcb6cd404b6a7dd48bf65f57e61c65b36178c8bf80b9ffda19efc8d1f4e37 |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
 | ui-redesign.css | 16b34914a9b2ad8aea1f4d2b78d39204c11bedd5f4866bcb72617d489fb7dea1 |
 | audio.js | dbfc1961f679a4355a4edf8c54565d58c0e90e0f2f115636b2dbcd11cf4bc230 |
-| touch-controls.js | 4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d |
+| touch-controls.js | e704c5949f1191337977df696fa35032ae194218935ef7e14b0571b261e6f9d4 |
 | touch-controls.css | 6eeb8befb28f0f154eb34b4d204c14203cf64f435914963ba4383f1156c0529a |
-| player-weapons.js | 31834008b154d7e76a86698304e7ec911f6d55e08d5d5fcb3122c84e44d8c830 |
-| tools/drone-maturity.js | 97819fbf417887143cf7a295400d7512291e0f32f538b58cf65e4263e03ce2e0 |
-| tools/segment-circle.js | ea06f6c5881fb57c2e03f99b466e0ca6349af2271a5b70f576bf02a2a8d25aa4 |
-| tools/rupture-chamber.js | 0c62194bd688ef29ac7ff12c8faec5db60e6049a05e16c15b2e4d6a2dff04b03 |
+| player-weapons.js | 0107ecdc029b0d7ad2194c569f6b553f9ceb74292a337da9c2487a15196689e4 |
+| tools/drone-maturity.js | c23e54cad83a5609396137f122dddd075c13243cb91f7081d6b046c53a32abcc |
+| tools/segment-circle.js | 1a161ef21c20c8acbeecebe085075e6d7c0a09408ed74130dfb410e01623711a |
+| tools/rupture-chamber.js | 9d0aced6a20e6db5f350b99a810d1dcc7faf9640d284f709e33473f20c958e5c |
+| tools/enemy-collision.js | 6128d06a01f5e69877ddf95dcb6990b21c754a051cf7e6762c31e2c4a7b74082 |
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há480casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há487casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

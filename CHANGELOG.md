@@ -2,6 +2,15 @@
 
 Os registros antigos abaixo preservam o contexto de cada versão. Regras superadas (como modo infinito, aceleração dos comuns e números antigos do catálogo) não são o contrato atual. Consulte o [contrato vigente](docs/contrato-atual.md).
 
+## BUILD69 — correção de colisão
+
+- Colisão física entre os corpos dos zumbis, além da preferência por bandos.
+- Separação determinística de pilhas e filas, incluindo corredores, lacaios e policiais.
+- Correção sem dano, remoção de inimigos, renovação de escudo ou consumo de RNG.
+- Testes curtos de geometria/perseguição, pausa e navegador offline nas três resoluções.
+
+[Contrato e evidências](docs/colisao-zumbis.md).
+
 ## BUILD68 — desenvolvimento
 
 - Incursão de 20 minutos regressivos, com vitória em 00:00.

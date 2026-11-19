@@ -1,4 +1,8 @@
-# Contrato vigente — Screwvivors BUILD 68
+# Contrato vigente — Screwvivors BUILD 69
+
+## Correção BUILD69 — colisão de corpos
+
+Zumbis vivos usam círculos físicos e separação após o movimento. A preferência por bandos não substitui a colisão. Corredores, lacaios e policiais participam; HP, escudos, timers e recursos não são alterados pela resolução. [Contrato e testes](colisao-zumbis.md).
 
 ## Candidata68 — incursão de vinte minutos
 

@@ -17,6 +17,7 @@ const context=vm.createContext({window,document,devicePixelRatio:2,requestAnimat
 vm.runInContext(fs.readFileSync('tools/drone-maturity.js','utf8'),context);
 vm.runInContext(fs.readFileSync('tools/segment-circle.js','utf8'),context);
 vm.runInContext(fs.readFileSync('tools/rupture-chamber.js','utf8'),context);
+vm.runInContext(fs.readFileSync('tools/enemy-collision.js','utf8'),context);
 vm.runInContext(fs.readFileSync('game.js','utf8'),context);
 assert.match(fs.readFileSync('index.html','utf8'),/SUCATA DOURADA → \+1 PARAFUSO/,'combat HUD teaches the salvage-to-bolt conversion');
 assert.match(fs.readFileSync('index.html','utf8'),/NÚCLEO CIANO → XP/,'combat HUD maps the cyan pickup to experience');

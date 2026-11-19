@@ -36,6 +36,7 @@ jobs:
       - name: Verificar mecânicas essenciais
         run: |
           node tests/incursion.cjs
+          node tests/enemy-collision.cjs
           node tests/horde-director.cjs
           node tests/weapon-state.cjs
           node tests/balance-panel.cjs

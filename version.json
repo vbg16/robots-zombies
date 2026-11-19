@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Candidata: incursão regressiva de20min, respiro120px após melhorias, bandos locais e UM novo chefe Prisma aos12min decorridos. Segundo novo chefe aos15min adiado pelo criador. Inclui melhorias67 ainda locais; sem aprovação pública.",
-  "build": 68
+  "notes": "Correção de colisão física entre zumbis. Separação por raio após o movimento, incluindo corredores e policiais; mantém bandos, atributos e progresso. Canal de desenvolvimento, sem promoção pública.",
+  "build": 69
 }

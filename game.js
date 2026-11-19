@@ -1564,6 +1564,7 @@ function tick(dt){
   if(playerDistance<z.r+14)hurtPlayer(12,z.x,z.y);
  }
  tickBoss(dt);tickHazards(dt);tickDrones(dt);tickSensor(dt);tickRotors(dt);
+ if(state==='playing')globalThis.ScrewEnemyCollision.separate(enemies);
  for(const b of hostile){const ax=b.x,ay=b.y,brake=player.specialization==='magneticBrake'&&Math.hypot(b.x-player.x,b.y-player.y)<=90?.75:1;b.x+=b.vx*dt*brake;b.y+=b.vy*dt*brake;b.life-=dt;if(segmentDistance(player.x,player.y,ax,ay,b.x,b.y)<b.r+14){hurtPlayer(b.damage||12,b.x,b.y,b.source||'projectile');b.life=0;}}
  hostile=hostile.filter(b=>b.life>0);
  if(state==='playing'){
@@ -1771,7 +1772,7 @@ function draw(){
   ctx.fillStyle='#3cc7f4';ctx.beginPath();ctx.moveTo(g.x,g.y-5);ctx.lineTo(g.x+5,g.y);ctx.lineTo(g.x,g.y+5);ctx.lineTo(g.x-5,g.y);ctx.closePath();ctx.fill();ctx.fillStyle='#e7fcff';ctx.fillRect(g.x-2,g.y-4,3,4);
  }
  for(const z of enemies)if(z.hp>0&&z.enemyType==='shieldPolice'&&z.policePhase==='aim'){ctx.strokeStyle='rgba(255,182,108,.65)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(z.x,z.y);ctx.lineTo(z.x+z.chargeDx*z.chargeRemaining,z.y+z.chargeDy*z.chargeRemaining);ctx.stroke();}
- for(const z of enemies)if(z.hp>0&&z.x>camera.x-100&&z.x<camera.x+width+100&&z.y>camera.y-120&&z.y<camera.y+height+120)drawZombie(z);
+ for(const z of enemies.filter(z=>z.hp>0&&z.x>camera.x-100&&z.x<camera.x+width+100&&z.y>camera.y-120&&z.y<camera.y+height+120).sort((a,b)=>a.y-b.y))drawZombie(z);
  if(boss&&boss.hp>0){
   const b=boss;
   if(b.phase==='tellDash'){

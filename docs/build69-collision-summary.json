@@ -1,0 +1,26 @@
+{
+  "build": 69,
+  "archive": "docs/data/build69-collision.json.gz",
+  "sha256": "2d02240393bc91b32ec27482d72640692605e324925783edd23cfff399ff0048",
+  "records": 13,
+  "roundtripVerified": true,
+  "functionalCommands": 13,
+  "functionalPassed": true,
+  "browserViewports": [
+    {
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "width": 844,
+      "height": 390
+    },
+    {
+      "width": 740,
+      "height": 360
+    }
+  ],
+  "browserPassed": true,
+  "scope": "Short collision functional fixtures and browser checks; no bot improvement, long stability or real performance measurement.",
+  "finalGoalApproved": false
+}

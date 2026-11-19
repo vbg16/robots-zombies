@@ -29,6 +29,7 @@ def runtime_file(name):
         or name in {
             'tools/drone-maturity.js', 'tools/segment-circle.js',
             'tools/rupture-chamber.js', 'tools/maintenance-reserve.js',
+            'tools/enemy-collision.js',
             'tools/skills-panel/index.html', 'tools/skills-panel/panel.js',
             'tools/skills-panel/panel.css',
         }

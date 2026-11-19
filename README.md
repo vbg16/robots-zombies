@@ -1,8 +1,8 @@
-# Screwvivors — BUILD 68 · desenvolvimento
+# Screwvivors — BUILD 69 · desenvolvimento
 
 Sobreviva por 20 minutos numa cidade industrial, pilote um robô com seu gato e transforme sucata em uma build de combate. Jogo 2D para navegador, com mira e disparo manuais, feito em HTML, CSS e JavaScript.
 
-**[Baixar o jogo — BUILD68](https://github.com/vbg16/robots-zombies/releases/tag/build68-dev)** · **[Documentação](docs/README.md)** · **[Reportar problema](https://github.com/vbg16/robots-zombies/issues/new/choose)**
+**[Baixar o jogo — BUILD69](https://github.com/vbg16/robots-zombies/releases/tag/build69-dev)** · **[Documentação](docs/README.md)** · **[Reportar problema](https://github.com/vbg16/robots-zombies/issues/new/choose)**
 
 [![Verificação automática](https://github.com/vbg16/robots-zombies/actions/workflows/verify.yml/badge.svg)](https://github.com/vbg16/robots-zombies/actions/workflows/verify.yml)
 
@@ -14,7 +14,7 @@ Sobreviva por 20 minutos numa cidade industrial, pilote um robô com seu gato e 
 
 ## Jogar
 
-1. Abra a [release BUILD68](https://github.com/vbg16/robots-zombies/releases/tag/build68-dev) e baixe **Screwvivors-BUILD68-jogo.zip**.
+1. Abra a [release BUILD69](https://github.com/vbg16/robots-zombies/releases/tag/build69-dev) e baixe **Screwvivors-BUILD69-jogo.zip**.
 2. Extraia o ZIP inteiro para uma pasta nova.
 3. Abra **index.html** no navegador. O jogo e o editor funcionam offline.
 4. Na garagem, escolha o chassi e as armas; depois use **Configurar incursão → Iniciar incursão**.
@@ -36,7 +36,11 @@ Para baixar também código, testes e evidências, use **Code → Download ZIP**
 | Analisar aprimoramento | Clique ou teclas 1–3 |
 | Instalar a opção analisada | Botão ou Enter |
 
-## O que há na BUILD68
+## Correção da BUILD69
+
+Zumbis vivos agora têm separação física pelo raio do corpo, além do comportamento de bando. Isso evita filas sobrepostas, inclusive entre corredores, lacaios e policiais. [Regras e verificação](docs/colisao-zumbis.md).
+
+## Base de jogo preservada
 
 - Partidas com contador **20:00 → 00:00** e arena sem bordas.
 - **Seis chassis**, **doze armas**, dez guias de build e 24 reforjas de arma.
@@ -62,7 +66,7 @@ As alterações ficam em rascunho até **Aplicar ao jogo** e valem para as próx
 | Preciso de… | Onde encontrar |
 |---|---|
 | Regras atuais | [Contrato vigente](docs/contrato-atual.md) |
-| Instruções para reconstruir o jogo e 480 casos de aceite | [Especificação mestre](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) |
+| Instruções para reconstruir o jogo e 487 casos de aceite | [Especificação mestre](docs/SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) |
 | Critérios para encerrar o projeto | [Meta de conclusão](docs/META-DE-CONCLUSAO.md) |
 | Resultados da versão atual | [Verificação BUILD68](docs/build68-verificacao.md) |
 | Como executar testes e empacotar | [Contribuir](CONTRIBUTING.md) |
