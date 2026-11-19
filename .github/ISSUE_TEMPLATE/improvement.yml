@@ -1,0 +1,23 @@
+name: Propor uma melhoria
+description: Sugestão de mecânica, apresentação ou experiência.
+title: "[Melhoria] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qual problema a melhoria resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Como deveria funcionar?
+      description: Explique o efeito para o jogador e como combina com a temática industrial do Screwvivors.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Como saberemos que ficou bom?
+      description: Sugira um exemplo concreto de teste, ganho esperado e possíveis custos para a build.

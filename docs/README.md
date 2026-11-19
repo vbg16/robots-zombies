@@ -1,6 +1,20 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD68 (candidata em verificação):** [contrato vigente](contrato-atual.md), [mapa de integração](plano-integracao-20-minutes-till-dawn.md), [corrosão](corrosao-programada.md) e [sensores](sensores-de-campo.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD68 (desenvolvimento):** [contrato vigente](contrato-atual.md) e [verificação da versão](build68-verificacao.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+
+## Entradas rápidas
+
+| Assunto | Referência |
+|---|---|
+| Baixar o jogo | [Releases de desenvolvimento](https://github.com/vbg16/robots-zombies/releases) |
+| Entender a estrutura do código | [Mapa do repositório](estrutura-do-repositorio.md) |
+| Consultar regras atuais | [Contrato vigente](contrato-atual.md) |
+| Reconstruir o jogo e verificar requisitos | [Especificação mestre](SCREWVIVORS-ESPECIFICACAO-E-TESTES.md) |
+| Conferir pendências para conclusão | [Meta](META-DE-CONCLUSAO.md) e [disposição dos sistemas](disposicao-sistemas.md) |
+| Consultar versões anteriores | [Histórico](../CHANGELOG.md) |
+| Testar, contribuir e empacotar | [Guia de trabalho](../CONTRIBUTING.md) |
+
+O índice reúne documentos atuais e registros históricos. Para resolver divergências, use o contrato vigente e as decisões posteriores do criador; resultados de versões anteriores não aprovam código novo.
 
 ## Base técnica aprovada — 27/10/2026
 

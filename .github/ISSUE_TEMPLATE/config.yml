@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Jogar e baixar a versão de desenvolvimento
+    url: https://github.com/vbg16/robots-zombies/releases
+    about: Downloads identificados por BUILD, com notas e limitações.
+  - name: Regras e estado do projeto
+    url: https://github.com/vbg16/robots-zombies/blob/main/docs/META-DE-CONCLUSAO.md
+    about: Critérios que ainda precisam ser comprovados para concluir o jogo.

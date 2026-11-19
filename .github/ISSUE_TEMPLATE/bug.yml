@@ -1,0 +1,50 @@
+name: Relatar um bug
+description: Erro no combate, interface, controle, áudio ou progresso.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: BUILD ou commit testado
+      description: Veja a versão no menu. Informe também se baixou em Releases ou Code → Download ZIP.
+      placeholder: BUILD68, pacote da release de desenvolvimento
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Onde aconteceu?
+      options:
+        - Windows / PC
+        - Linux / PC
+        - macOS / PC
+        - Android / horizontal
+        - iPhone ou iPad / horizontal
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Navegador e aparelho
+      placeholder: Chrome, Windows 11, resolução 1280×900
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como reproduzir
+      description: Descreva os passos, chassi, armas, melhorias e tempo restante, quando aplicável.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Resultado observado e esperado
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Captura, vídeo ou relatório
+      description: Se usou o bot, anexe o JSON e informe a semente. Diferencie teste manual, emulação e celular físico.

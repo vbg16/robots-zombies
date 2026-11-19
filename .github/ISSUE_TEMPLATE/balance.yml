@@ -1,0 +1,30 @@
+name: Avaliar balanceamento
+description: Uma build não monta, fica muito fraca ou elimina a dificuldade cedo demais.
+title: "[Balanceamento] "
+labels: [balanceamento]
+body:
+  - type: input
+    id: build
+    attributes:
+      label: BUILD, receita, chassi e armas
+    validations:
+      required: true
+  - type: textarea
+    id: upgrades
+    attributes:
+      label: Aprimoramentos e condições
+      description: Liste o núcleo da build, melhorias que faltaram e valores alterados no painel, se houver.
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Como a partida terminou?
+      description: Tempo restante, chefes derrotados, vida e situações difíceis ou fáceis demais.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidências e método
+      description: Jogador ou bot? Qual semente e piloto? Anexe todas as tentativas relacionadas, inclusive mortes e builds incompletas.

@@ -1,0 +1,53 @@
+name: Verificar projeto
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verificacao-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  engine-and-docs:
+    name: Motor, catálogo e documentação
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Obter código
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Preparar Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - name: Conferir sintaxe, versão e especificação
+        run: |
+          node --check game.js
+          node --check tools/playtest-bot.cjs
+          node tools/check-release.cjs
+          node tools/check-specification.cjs
+      - name: Verificar mecânicas essenciais
+        run: |
+          node tests/incursion.cjs
+          node tests/horde-director.cjs
+          node tests/weapon-state.cjs
+          node tests/balance-panel.cjs
+          node tests/balance-migration.cjs
+          node tests/shield-status.cjs
+          node tests/shield-shock.cjs
+          node tests/growth.cjs
+          node tests/segment-circle.cjs
+      - name: Conferir empacotamento offline
+        run: python3 tools/package-game.py --ref HEAD --output outputs/ci/Screwvivors-jogo.zip
+      - name: Registrar limites da verificação
+        if: always()
+        run: |
+          echo '### Verificação de desenvolvimento' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Este workflow verifica motor, catálogo, documentação e integridade do pacote. Não aprova a matriz natural final, desempenho real, celular físico nem promoção do canal público.' >> "$GITHUB_STEP_SUMMARY"
