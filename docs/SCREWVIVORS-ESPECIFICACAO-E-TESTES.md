@@ -45,7 +45,7 @@ Este documento contém instruções para outra IA implementar um jogo muito pare
 | Atributos numéricos editáveis |25|
 | Artigos do compêndio de módulos/relíquias |109|
 
-Os86editáveis são56+6+6+18; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
+Os74editáveis são56normais+18componentes de chassi; as ofertas3/6/9/10e os experimentos foram removidos; não somar reforjas ou relíquias nesse painel. A futura implementação de um motor compatível pode exigir conteúdo adicional: atualizar contagens, regras e regressões explicitamente, sem declarar os valores antigos como eternos nem criar cards vazios para aumentar inventário.
 
 ## Glossário matemático obrigatório — dano não é uma variável única
 
@@ -77,6 +77,11 @@ Exemplo aritmético controlado: W_0=22 e HPmáximo200 com titan+armor produzem T
 
 
 ## Objetivo aprovado — Screwvivors 1.0
+
+### Progressão vigente — BUILD70
+
+[Gambiarras do Biruta no nível20](gambiarras-nivel20.md): uma montagem conjunta de um componente do robô e uma modificação por arma equipada. Níveis3/6/9/10 agora usam módulos normais. Sem experimentos instáveis. Painel74registros, revisão8. Os catálogos e relatos anteriores abaixo são históricos e não restabelecem as ofertas removidas.
+
 
 Concluir o Screwvivors 1.0 como um jogo completo, estável, satisfatório e documentado. Encerrar o projeto somente quando todos os critérios obrigatórios abaixo estiverem comprovados por evidências da versão final.
 
@@ -1057,9 +1062,50 @@ Particularidade observada: esse caminho testa o segmento antes da filtragem fina
 ## Parte III — todos os catálogos, fórmulas e receitas
 
 
-## Catálogos e equações completos — fonte local candidata BUILD68
+### Regra vigente da progressão BUILD70
 
-Extraído do código atual e executado em VM isolada com perfil/configuração vazios. Base levantada em09/11/2026; catálogo reextraído em VMdefault em13/11/2026. Catálogo extraído na BUILD67 e conservado na candidata BUILD68 (nenhum ID de aprimoramento foi adicionado nesta incursão); trata-se de candidata local, não de uma declaração de publicação ou aprovação de equilíbrio. O último estágio publicado deve ser conferido pelo commit Git e pela branch, separadamente. Todas as medidas espaciais estão em pixels lógicos do mundo e os tempos em segundos ativos de simulação; o tamanho CSS da tela não muda o alcance físico.
+## Gambiarras do Biruta — regra vigente a partir da BUILD70
+
+Os módulos normais continuam sendo a progressão de cada nível. Os antigos bônus especiais dos níveis3/6/9 e a oferta especial do nível10 foram removidos: nesses níveis agora se escolhe um módulo normal. Os seis experimentos instáveis foram removidos do catálogo, das ofertas e do painel.
+
+No nível20 ocorre uma única montagem de **Gambiarras do Biruta**, substituindo o módulo desse nível. A mesma tela reúne três componentes próprios do chassi escolhido e duas modificações próprias de cada arma equipada. O jogador seleciona um componente de chassi e uma modificação por arma, vê os ganhos e custos de cada escolha e confirma uma única instalação. Com duas ou três armas, cada uma tem sua própria seleção independente. Não há troca nem fusão de armas.
+
+As seleções são apenas uma prévia. Não mudam atributos ou munição antes de confirmar. O botão de instalar fica indisponível até completar todas as seleções. A partida fica pausada durante a montagem. Enter confirma quando o foco não está em outro controle; os botões funcionam por teclado e toque. R recusa toda a montagem. Recusar consome a oferta, não concede poderes nem afasta os inimigos; não há uma segunda oferta em outro nível.
+
+A instalação valida todas as escolhas, aplica o componente do robô uma vez e cada modificação somente à arma correspondente. Não repõe cartuchos, não termina recargas, não modifica tiros em voo e não altera o perfil permanente. Somente a confirmação concede um respiro: afastamento120px e interrupção0,5s nos inimigos elegíveis em raio280, uma única vez para o conjunto. Reiniciar ou morrer remove todos esses efeitos temporários.
+
+O catálogo reaproveita os18efeitos de chassi e as24modificações de armas existentes. Eles são componentes da mesma categoria, sem ofertas independentes. Por exemplo, o ENXA pode combinar Relé do Enxame com Alimentação Pesada na Metralhadora, Câmara de Varredura na Escopeta e Refrigeração Profunda na arma criogênica, em uma única instalação.
+
+Os baús continuam contendo peças raras temporárias. Quando todas as peças elegíveis já tiverem sido adquiridas, o baú oferece um módulo normal. Não existe etapa de experimento instável. Parafusos, peças de garagem e desbloqueios permanentes continuam salvos.
+
+### Painel e migração
+
+O catálogo editável passa de86para74registros:56módulos normais e18componentes de chassi das Gambiarras. As24modificações de arma continuam consultáveis na garagem e têm regras próprias de equipamento; não são registros editáveis desse painel. Relíquias de baú também permanecem em seu catálogo próprio. A revisão do catálogo é8.
+
+A migração remove os12registros aposentados, converte os componentes de chassi para tipoGambiarra com nível fixo20 e preserva seus nomes, efeitos editados e demais ajustes de balanceamento. Módulos personalizados continuam normais. Referências aos IDs removidos deixam as listas de requisitos e sinergias. A migração não modifica a entrada recebida e é idempotente. Os rascunhos antigos continuam passando pelo mesmo validador; módulos especiais desativados não são oferecidos. Se todos os componentes do robô estiverem desativados, o nível20 oferece um módulo normal para evitar uma tela impossível de concluir.
+
+### Regressões obrigatórias
+
+- Níveis3/6/9/10/19/21: oferta normal. Nível20: montagem unificada apenas uma vez.
+- Prévia, seleção incompleta, IDs de outro robô/arma, confirmação antiga ou repetida: nenhum efeito.
+- Seis chassis e doze armas: ambas as partes instaladas, atributos finitos, efeitos e penalidades corretos.
+- Até três armas: seleções independentes, munição/recargas e projéteis anteriores preservados.
+- Uma confirmação, um respiro; recusa e prévia não concedem respiro.
+- Pausa da simulação, teclado, toque, rolagem e ausência de overflow em1280×900,844×390e740×360.
+- Baús esgotados: módulo normal, sem experimentos e sem perda de recompensas permanentes.
+- Reinício, morte e retorno à garagem: sem poderes temporários persistentes.
+- Migração revisão7→8: ajustes preservados,12registros removidos e segunda migração sem novas mudanças.
+
+Comandos: `node tests/gambiarras.cjs`, `node tests/weapon-evolution.cjs`, `node tests/balance-panel.cjs`, `node tests/balance-migration.cjs`, `node tests/incursion.cjs` e `node tests/gambiarras-browser.cjs` (Chrome e Playwright de testes).
+
+Os ensaios de navegador são fixtures curtas. Não representam partidas naturais completas, ensaio prolongado, medição em aparelho físico nem aprovação final do projeto. O bot não foi modificado nesta entrega.
+
+
+### Catálogos numéricos e registros históricos
+
+## Catálogos e equações completos — fonte local candidata BUILD70
+
+Extraído do código atual e executado em VM isolada com perfil/configuração vazios. Base levantada em09/11/2026; catálogo reextraído em VMdefault em13/11/2026. Catálogo extraído na BUILD67 e conservado na candidata BUILD70 (nenhum ID de aprimoramento foi adicionado nesta incursão); trata-se de candidata local, não de uma declaração de publicação ou aprovação de equilíbrio. O último estágio publicado deve ser conferido pelo commit Git e pela branch, separadamente. Todas as medidas espaciais estão em pixels lógicos do mundo e os tempos em segundos ativos de simulação; o tamanho CSS da tela não muda o alcance físico.
 
 ### Convenções de implementação
 
@@ -1144,7 +1190,7 @@ Para cada slot, mantenha `damage`, `rate`, `magazineMult`, `reloadMult`, `projec
 12. Perfurações: corpo de tiro comum `1 + perfuraçãoIntrínseca + (2 se skillpierce) + (2 se reparo pronto)`. Disco usa teto operacional999por trecho e limpa acertos ao começar o retorno. Cada arma retornável mantém velocidade de retorno capturada na emissão; não herda velocidade de uma reforja posterior.
 13. Rajada agenda subtiros de0,075s; cada subtiro realmente emitido gasta cartucho e atualiza crítico/Culatra separadamente. Liberar fogo, perder foco, abrir oferta ou começar recarga cancela fila; não despejar subtiros atrasados ao retomar.
 
-### Vinte e quatro reforjas de arma — nível20
+### Vinte e quatro componentes de arma das Gambiarras — nível20
 
 Cada uma das12armas tem duas opções. No nível20, ofertar a arma primária e depois cada auxiliar, sequencialmente e com a simulação pausada. Escolher uma ou recusar por slot. A oferta substitui o módulo comum desse nível; não volta após recusa. Conservar munição, progresso de recarga, cargas da Culatra, cooldown e projéteis antigos; se uma capacidade menor for instalada, só limitar ammo aMnovo. Não repor cartuchos, não trocar arma, não fundir armas.
 
@@ -1253,37 +1299,9 @@ Cada raiz tem três filhos combináveis; não é necessário escolher só um fil
 - Resfriamento divide velocidade inimiga por2, sem cancelar ataque já preparado. Paralisação suspende deslocamento, mas também não cancela a agenda de ataque. O fim de uma recarga glacial atinge raio140px por4s. Circuito Refrigerante do NANO tem raio80px por2s e exige fração de reposição≥0,5.
 - Retaliação usa explosão defensiva de raio140px e dano3×player.damage, acionada somente após sobreviver ao dano; Sobrecarga Reativa triplica cadência por6s após sobreviver; ambos têm cooldown120s. O dash não substitui a regra de sobreviver. A proteção pós-dano é0,65s e vira1,3scom Isolamento; absorver por escudo concede0,25s e não provoca empurrão; não prometer ressurreição pela Reserva de Emergência.
 
-### Seis Gambiarras
+### Dezoito componentes de chassi das Gambiarras — nível20
 
-Ofertar três alternativas nos níveis3,6e9, substituindo a escolha comum correspondente. Permitir escolher ou pular. Uma mesma gambiarra já instalada não reaparece. Efeito só na tentativa. Valores que afetam armas são replicados por slot; vida/armadura/coleta/movimento são compartilhados.
-
-| ID | Nome | Efeito |
-| --- | --- | --- |
-| pulseCoil | BOBINA DE PULSO | Dano ×1,25 nesta tentativa. |
-| triggerRegulator | REGULADOR DE GATILHO | Intervalo entre disparos ×0,8 nesta tentativa. |
-| spareBattery | BATERIA DE RESERVA | Vida máxima e atual +20 nesta tentativa. |
-| scrapMagnet | ELETROÍMÃ DE SUCATA | Alcance de coleta ×1,75 nesta tentativa. |
-| greasedServos | SERVOS LUBRIFICADOS | Velocidade de movimento ×1,2 nesta tentativa. |
-| copperPlate | PLACA DE COBRE | Reduz 1 de dano recebido nesta tentativa. |
-
-
-### Seis Experimentos do Biruta
-
-São fallback de baú quando não resta relíquia rara elegível. Quando também se esgotam, o baú passa à melhoria comum. São temporários, sem repetição por tentativa e têm custos descritos. A peça de fabricação persistente do chefe e a cura da derrota continuam independentes de aceitar o experimento.
-
-| ID | Nome | Ganho | Custo |
-| --- | --- | --- | --- |
-| volatileReactor | REATOR VOLÁTIL | Dano ×1,35. | Intervalo de tiro ×1,15. |
-| unstableLens | LENTE INSTÁVEL | Velocidade e tamanho de projétil ×1,5. | Movimento ×0,85. |
-| lithiumPack | PACOTE DE LÍTIO | Integridade máxima e atual +30. | Armadura −1. |
-| scrapCatalyst | CATALISADOR DE SUCATA | Alcance de coleta ×2. | Recarga da arma ×1,5. |
-| blastCondenser | CONDENSADOR DE IMPACTO | Dano ×1,5. | Intervalo de tiro ×1,35. |
-| nervousServo | SERVO NERVOSO | Movimento ×1,35. | Armadura −1. |
-
-
-### Dezoito protocolos de chassi — nível10
-
-No nível10, ofertar as três opções do chassi escolhido; selecionar uma ou recusar. Só um protocolo por tentativa, sem persistência. Efeitos condicionais usam gatilhos exatos da tabela; cura com HP cheio não é cura real, suporte não herda genericamente estados de bala, e redução de velocidade hostil não retarda investida.
+No nível20, ofertar as três opções do chassi escolhido; selecionar uma ou recusar. Só um protocolo por tentativa, sem persistência. Efeitos condicionais usam gatilhos exatos da tabela; cura com HP cheio não é cura real, suporte não herda genericamente estados de bala, e redução de velocidade hostil não retarda investida.
 
 | Chassi | ID | Nome | Ganho/gatilho | Condição/limite |
 | --- | --- | --- | --- | --- |
@@ -1470,7 +1488,7 @@ Receitas são recomendações de equipamento e prioridade entre escolhas realmen
 - Uso: Monte coleta e reparo antes de apostar toda a defesa na velocidade. Circule a horda, gaste o carregador mirando a saída e use o avanço para mudar de corredor durante a recarga.
 - Evitar: O avanço não concede invulnerabilidade.; Recargas parciais curam proporcionalmente menos.; Cura em integridade cheia não prepara a Carga de Reparo.
 
-### Painel editável:86registros e25atributos
+### Painel editável:74registros e25atributos
 
 Catálogo padrão:56normais+6gambiarras+6experimentos+18protocolos=86. Reforjas24 e relíquias19 são catálogos separados; compêndio atual tem105entradas de módulos/relíquias, além dos manuais de reforja. Não aumentar o catálogo do painel para105por contar as peças raras. Revisão de migração do catálogo:7; chave de armazenamento `screwvivors.balance.v1`, envelope `{version:1,catalogRevision:7,skills:[...]}`. Perfil de equipamentos é outra chave: `screwvivors.profile.v1`, versão2.
 
@@ -2971,7 +2989,7 @@ O registro abaixo é um fragmento de um envelope que precisa preservar todos os 
 {"id":"damage","name":"ALTO IMPACTO","description":"Dano ×2.","group":"Ofensivo","type":"Normal","rarity":"Comum","unlockLevel":1,"tree":"Dano de impacto","prerequisites":[],"condition":"","effects":[{"id":"damage-0","attribute":"Dano direto","operator":"×","value":2,"unit":""}],"notes":"","accent":"#71d7f2","updatedAt":null}
 ```
 
-Envelope da configuração: version1, catalogRevision7, lista skills. Efeitos especiais canônicos não são scripts importáveis; manter handlers internos e permitir somente operadores/atributos declarados.
+Envelope da configuração: version1, catalogRevision8, lista skills. Efeitos especiais canônicos não são scripts importáveis; manter handlers internos e permitir somente operadores/atributos declarados.
 
 ### Procedimento para rodar e testar
 
@@ -3328,7 +3346,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROG-01 — Progressão
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
 - **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
 - **Preparação:** Nível1, XP0, necessidade6, perfil separado.
 - **Entradas e passos:** Coletar6XP; depois simular ganho suficiente para exceder próximo custo.
@@ -3341,7 +3359,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROG-02 — Progressão
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
 - **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
 - **Preparação:** Nível imediatamente anterior a3/6/9/10/20.
 - **Entradas e passos:** Atingir cada marco e resolver escolhas.
@@ -3354,7 +3372,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROG-03 — Progressão
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
 - **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
 - **Preparação:** Melhoria normal aberta, com uma renovação disponível.
 - **Entradas e passos:** Renovar, tentar renovar novamente, instalar e alcançar outro nível.
@@ -3367,7 +3385,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROG-04 — Progressão
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
 - **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
 - **Preparação:** Todos os módulos elegíveis já adquiridos, ou dependências desativadas.
 - **Entradas e passos:** Abrir oferta e resolver fallback/recusa.
@@ -3471,7 +3489,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-00 — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Armas em recarga e projéteis emitidos antes da escolha.
 - **Entradas e passos:** Alcançar20, instalar/recusar por slot, invocar callback antigo.
@@ -7759,162 +7777,6 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Log estruturado e snapshot antes/depois.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
-### QA-GAMB-pulseCoil — Gambiarra
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: GAMBARRAS/offerBlessing/chooseBlessing.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar pulseCoil, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Dano ×1,25 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-GAMB-triggerRegulator — Gambiarra
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: GAMBARRAS/offerBlessing/chooseBlessing.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar triggerRegulator, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Intervalo entre disparos ×0,8 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-GAMB-spareBattery — Gambiarra
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: GAMBARRAS/offerBlessing/chooseBlessing.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar spareBattery, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Vida máxima e atual +20 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-GAMB-scrapMagnet — Gambiarra
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: GAMBARRAS/offerBlessing/chooseBlessing.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar scrapMagnet, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Alcance de coleta ×1,75 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-GAMB-greasedServos — Gambiarra
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: GAMBARRAS/offerBlessing/chooseBlessing.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar greasedServos, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Velocidade de movimento ×1,2 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-GAMB-copperPlate — Gambiarra
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: GAMBARRAS/offerBlessing/chooseBlessing.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar copperPlate, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Reduz 1 de dano recebido nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-EXP-volatileReactor — Experimento
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar volatileReactor, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Dano ×1,35. Custo: Intervalo de tiro ×1,15. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-EXP-unstableLens — Experimento
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar unstableLens, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Velocidade e tamanho de projétil ×1,5. Custo: Movimento ×0,85. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-EXP-lithiumPack — Experimento
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar lithiumPack, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Integridade máxima e atual +30. Custo: Armadura −1. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-EXP-scrapCatalyst — Experimento
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar scrapCatalyst, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Alcance de coleta ×2. Custo: Recarga da arma ×1,5. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-EXP-blastCondenser — Experimento
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar blastCondenser, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Dano ×1,5. Custo: Intervalo de tiro ×1,35. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
-### QA-EXP-nervousServo — Experimento
-- **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment.
-- **Comando/procedimento:** node tests/combat.cjs; fixture por ID.
-- **Preparação:** Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.
-- **Entradas e passos:** Abrir oferta de tipo correto em fixture declarada; aceitar nervousServo, tentar repetir, executar condição e iniciar outra tentativa.
-- **Resultado esperado:** Movimento ×1,35. Custo: Armadura −1. Sem custo monetário oculto, munição reposta ou persistência de atributo.
-- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
-- **Bordas:** Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.
-- **Falha:** P1.
-- **Evidência:** Log estruturado e snapshot antes/depois.
-- **Situação:** não executado no commit final; não inferir aprovação da descrição.
-
 ### QA-RELIC-thermalRelay — Relíquia
 - **Origem:** Contrato vigente e objetivo aprovado.
 - **Implementação correspondente:** game.js: BOSS_RELICS/offerBossRelic/chooseRelic e handlers próprios.
@@ -8216,7 +8078,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-tailDecoy — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi prot, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que tailDecoy não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8229,7 +8091,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-predatorMark — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi prot, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que predatorMark não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8242,7 +8104,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-nineLives — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi prot, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que nineLives não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8255,7 +8117,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-grounding — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi bastion, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que grounding não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8268,7 +8130,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-magneticBrake — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi bastion, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que magneticBrake não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8281,7 +8143,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-threatReader — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi bastion, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que threatReader não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8294,7 +8156,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-furnaceDuration — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi forge, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que furnaceDuration não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8307,7 +8169,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-thermalAmplifier — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi forge, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que thermalAmplifier não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8320,7 +8182,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-heatRecovery — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi forge, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que heatRecovery não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8333,7 +8195,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-extraFork — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi volt, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que extraFork não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8346,7 +8208,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-chargeRecovery — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi volt, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que chargeRecovery não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8359,7 +8221,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-groundPulse — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi volt, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que groundPulse não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8372,7 +8234,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-repairCharge — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi nano, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que repairCharge não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8385,7 +8247,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-repairPlating — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi nano, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que repairPlating não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8398,7 +8260,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-coolantLoop — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi nano, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que coolantLoop não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8411,7 +8273,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-droneSalvage — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi swarm, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que droneSalvage não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8424,7 +8286,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-droneBossFocus — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi swarm, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que droneBossFocus não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8437,7 +8299,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-PROTOCOL-droneRelay — Protocolo
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos.
+- **Implementação correspondente:** game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos.
 - **Comando/procedimento:** node tests/build-mechanics.cjs; fixture por ID.
 - **Preparação:** Chassi swarm, nível9→10, sem protocolo. Preparar condição real do protocolo sem bônus ocultos.
 - **Entradas e passos:** Verificar que droneRelay não instala antes do marco; escolher no10; acionar seu gatilho e cooldown.
@@ -8450,7 +8312,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-machine-heavyFeed — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma machine no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher machine-heavyFeed no marco legal e emitir um novo tiro após retomar.
@@ -8463,7 +8325,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-machine-beltFeed — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma machine no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher machine-beltFeed no marco legal e emitir um novo tiro após retomar.
@@ -8476,7 +8338,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-shotgun-choke — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma shotgun no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher shotgun-choke no marco legal e emitir um novo tiro após retomar.
@@ -8489,7 +8351,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-shotgun-wideBore — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma shotgun no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher shotgun-wideBore no marco legal e emitir um novo tiro após retomar.
@@ -8502,7 +8364,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-burst-fourStroke — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma burst no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher burst-fourStroke no marco legal e emitir um novo tiro após retomar.
@@ -8515,7 +8377,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-burst-quickBreech — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma burst no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher burst-quickBreech no marco legal e emitir um novo tiro após retomar.
@@ -8528,7 +8390,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-sniper-railDrill — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma sniper no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher sniper-railDrill no marco legal e emitir um novo tiro após retomar.
@@ -8541,7 +8403,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-sniper-cyclingBolt — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma sniper no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher sniper-cyclingBolt no marco legal e emitir um novo tiro após retomar.
@@ -8554,7 +8416,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-laser-pulseClock — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma laser no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher laser-pulseClock no marco legal e emitir um novo tiro após retomar.
@@ -8567,7 +8429,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-laser-longLens — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma laser no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher laser-longLens no marco legal e emitir um novo tiro após retomar.
@@ -8580,7 +8442,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-flame-fuelMixer — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma flame no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher flame-fuelMixer no marco legal e emitir um novo tiro após retomar.
@@ -8593,7 +8455,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-flame-longNozzle — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma flame no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher flame-longNozzle no marco legal e emitir um novo tiro após retomar.
@@ -8606,7 +8468,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-cryo-iceDrill — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma cryo no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher cryo-iceDrill no marco legal e emitir um novo tiro após retomar.
@@ -8619,7 +8481,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-cryo-deepCooling — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma cryo no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher cryo-deepCooling no marco legal e emitir um novo tiro após retomar.
@@ -8632,7 +8494,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-rocket-siegeWarhead — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma rocket no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher rocket-siegeWarhead no marco legal e emitir um novo tiro após retomar.
@@ -8645,7 +8507,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-rocket-guidedTube — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma rocket no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher rocket-guidedTube no marco legal e emitir um novo tiro após retomar.
@@ -8658,7 +8520,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-grenade-pressureShell — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma grenade no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher grenade-pressureShell no marco legal e emitir um novo tiro após retomar.
@@ -8671,7 +8533,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-grenade-doubleShell — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma grenade no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher grenade-doubleShell no marco legal e emitir um novo tiro após retomar.
@@ -8684,7 +8546,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-tesla-branchCoil — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma tesla no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher tesla-branchCoil no marco legal e emitir um novo tiro após retomar.
@@ -8697,7 +8559,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-tesla-focusedCoil — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma tesla no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher tesla-focusedCoil no marco legal e emitir um novo tiro após retomar.
@@ -8710,7 +8572,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-disc-fastRotor — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma disc no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher disc-fastRotor no marco legal e emitir um novo tiro após retomar.
@@ -8723,7 +8585,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-disc-impactRim — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma disc no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher disc-impactRim no marco legal e emitir um novo tiro após retomar.
@@ -8736,7 +8598,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-harpoon-longShaft — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma harpoon no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher harpoon-longShaft no marco legal e emitir um novo tiro após retomar.
@@ -8749,7 +8611,7 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 
 ### QA-REFIT-harpoon-pressurePiston — Reforja
 - **Origem:** Contrato vigente e objetivo aprovado.
-- **Implementação correspondente:** game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS.
+- **Implementação correspondente:** game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS.
 - **Comando/procedimento:** node tests/weapon-evolution.cjs.
 - **Preparação:** Arma harpoon no slot testado; nível19→20; munição parcial, recarga ativa e projétil antigo registrados.
 - **Entradas e passos:** Escolher harpoon-pressurePiston no marco legal e emitir um novo tiro após retomar.
@@ -9475,20 +9337,111 @@ Testes naturais usam o protocolo da meta; testes de dano podem usar alvo imóvel
 - **Evidência:** Capturas identificadas, bounding/clipping/computedStyle e resultado de interação.
 - **Situação:** não executado no commit final; não inferir aprovação da descrição.
 
+### QA-GAMBIARRA-01 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** Avançar pelos níveis3/6/9/10/19/20/21.
+- **Resultado esperado:** Somente20oferece montagem conjunta; os demais oferecem módulo normal.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GAMBIARRA-02 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** Selecionar partes sem confirmar, usar IDs alheios e confirmar callback antigo.
+- **Resultado esperado:** Prévia inerte; confirmação incompleta/estrangeira/antiga recusada.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GAMBIARRA-03 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** Montar os6chassis com12armas e testar24modificações.
+- **Resultado esperado:** Robô e arma recebem seus efeitos corretos; munição/recarga/projéteis/perfil preservados.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GAMBIARRA-04 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** EquiparENXAcom3armas, selecionar partes independentes e confirmar.
+- **Resultado esperado:** Cada arma recebe sua própria modificação e há um único respiro120px/0,5s.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GAMBIARRA-05 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** Recusar montagem e depois reiniciar.
+- **Resultado esperado:** Nenhum efeito, respiro ou nova oferta; reset elimina toda gambiarra temporária.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GAMBIARRA-06 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** Coletar baú com todas as relíquias elegíveis já instaladas.
+- **Resultado esperado:** Oferta de módulo normal, sem experimento.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
+### QA-GAMBIARRA-07 — Progressão
+- **Origem:** Contrato vigente e objetivo aprovado.
+- **Implementação correspondente:** game.js: tick/upgrade/offerGambiarra/confirmGambiarra.
+- **Comando/procedimento:** node tests/combat.cjs; node tests/weapon-evolution.cjs.
+- **Preparação:** Fixture curta declarada, sem uso de seeds finais.
+- **Entradas e passos:** Migrar catálogo7editado para8e repetir migração.
+- **Resultado esperado:** 74registros;12removidos; efeitos editados preservados; tipoGambiarra/nível20; idempotência.
+- **Tolerância:** Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.
+- **Bordas:** Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.
+- **Falha:** P1.
+- **Evidência:** tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais.
+- **Situação:** não executado no commit final; não inferir aprovação da descrição.
+
 
 
 ## Proveniência e limites do levantamento
 
-Commit pai: d4de976b94d7d134e98bfcdd71e78a4bda7437ab. O snapshot possui alterações locais da candidata68, conservando crescimentos67 e incorporando incursão/bandos/Prisma; não é um commit final auditado. A data de referência fornecida pelo cliente é18/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
+Commit pai: 9ddd086188dde44115a725f7e5d738336d39f409. O snapshot possui alterações locais da candidata68, conservando crescimentos67 e incorporando incursão/bandos/Prisma; não é um commit final auditado. A data de referência fornecida pelo cliente é18/11/2026 America/Sao_Paulo. As tabelas foram extraídas em VM isolada/default, sem ler preferências pessoais do jogador.
 
 | Fonte do snapshot | SHA-256 |
 |---|---|
-| game.js | 04561086ba1d893834ca0ada8b13ba95d97bc801d8ca9a5da3f01adec91f6499 |
-| balance.js | 3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a |
-| builds.js | 4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8 |
-| index.html | d18fcb6cd404b6a7dd48bf65f57e61c65b36178c8bf80b9ffda19efc8d1f4e37 |
+| game.js | 70ca7bb70f3001ec546f0160a793c956a9a6f95b2e1098da006685645a423330 |
+| balance.js | 97d348780a1dee6cce7bce494092a86ff5d8d572fa1c21e6a6d29866b4b28c4e |
+| builds.js | 17c949253059af848cbabd598766672127d4bfd8ad091903da63edf762bdc2d2 |
+| index.html | 277afc80c300e2a27b9757d25ac432cabe2fd1085726477394563243142fe47a |
 | style.css | 2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a |
-| ui-redesign.css | 16b34914a9b2ad8aea1f4d2b78d39204c11bedd5f4866bcb72617d489fb7dea1 |
+| ui-redesign.css | f03969fba8a144fdfcff4db9f81c7f1dcc066bf78d31eb050cec0235276fa2d2 |
 | audio.js | dbfc1961f679a4355a4edf8c54565d58c0e90e0f2f115636b2dbcd11cf4bc230 |
 | touch-controls.js | e704c5949f1191337977df696fa35032ae194218935ef7e14b0571b261e6f9d4 |
 | touch-controls.css | 6eeb8befb28f0f154eb34b4d204c14203cf64f435914963ba4383f1156c0529a |
@@ -9496,11 +9449,11 @@ Commit pai: d4de976b94d7d134e98bfcdd71e78a4bda7437ab. O snapshot possui alteraç
 | tools/drone-maturity.js | c23e54cad83a5609396137f122dddd075c13243cb91f7081d6b046c53a32abcc |
 | tools/segment-circle.js | 1a161ef21c20c8acbeecebe085075e6d7c0a09408ed74130dfb410e01623711a |
 | tools/rupture-chamber.js | 9d0aced6a20e6db5f350b99a810d1dcc7faf9640d284f709e33473f20c958e5c |
-| tools/enemy-collision.js | 6128d06a01f5e69877ddf95dcb6990b21c754a051cf7e6762c31e2c4a7b74082 |
+| tools/enemy-collision.js | 049f8aa35d736f7e3dd86b682561af7a8f07e67bee0e33e0fd8d81a33980cc35 |
 
 O inventário JSON e a matriz de casos são auxiliares para conferir cobertura; a reconstrução do comportamento descrito neste documento não depende de possuir aqueles arquivos. Caminhos de testes e assets citados são pistas de auditoria, não substitutos de especificação.
 
-Há487casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
+Há482casos identificados nesta edição. Quantidade de texto/casos não prova correção ou aceite: é necessário executar, revisar e resolver cada requisito. Nenhum gate final é aprovado só porque este Markdown existe.
 
 ### Auditoria de encerramento
 

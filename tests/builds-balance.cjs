@@ -89,8 +89,8 @@ function synthetic(b,stage,group,bossTarget=false){
  if(qaStage==='mature'){
   for(const id of qaBuild.blessings){const item=GAMBARRAS.find(s=>s.id===id);applyRunBalance(id,item.apply);player.blessings.add(id);}
   for(const id of qaBuild.experiments){const item=BOSS_EXPERIMENTS.find(s=>s.id===id);applyRunBalance(id,item.apply);player.experiments.add(id);}
-  state='specialization';offeredSpecializations=[SPECIALIZATIONS[qaBuild.robot].find(s=>s.id===qaBuild.specialization)];chooseSpecialization(qaBuild.specialization,offerVersion);
-  if(qaUseRefits){level=20;offerWeaponEvolution();for(let i=0;state==='evolution'&&i<weaponSlots.length;i++){const id=evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id;chooseWeaponEvolution(id,offerVersion);}if(state==='evolution')throw Error('Synthetic refit configuration did not resolve');}
+   if(qaUseRefits){level=20;offerGambiarra();chooseGambiarraChassis(qaBuild.specialization,offerVersion);for(const slot of weaponSlots){const id=slot.index===0?qaBuild.evolution:qaBuild.auxEvolutions?.[slot.index-1]||WEAPON_EVOLUTIONS[slot.weapon.id][0].id;chooseGambiarraWeapon(slot.index,id,offerVersion);}if(!confirmGambiarra(offerVersion))throw Error('Synthetic gambiarra configuration did not resolve');}
+
  }
  // Explicit laboratory fixture: stationary targets, no wave pressure, no RNG progression.
  spawn=1e9;bossIndex=1e6;globalThis.qaFixture=[];
@@ -120,10 +120,11 @@ function qaChoose(){
   choose=want.map(id=>options.find(s=>s.id===id)).find(Boolean)||['magnet','dash','damage','rate','freeze','burn','xp','repair','grace','salvage','drones'].map(id=>options.find(s=>s.id===id)).find(Boolean);
   if(choose){qaExplain(want.includes(choose.id)?'recipe-priority':'fallback-priority',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSkill(choose.id,offerVersion);}
   else {qaExplain('no-ranked-option-use-existing-last-action');const skip=el('choices').children.at(-1);skip?.onclick?.();}
- }else if(state==='blessing'){options=offeredBlessings;choose=qaBuild.blessings.map(id=>options.find(s=>s.id===id)).find(Boolean)||options[0];if(choose){qaExplain(qaBuild.blessings.includes(choose.id)?'recipe-priority':'first-offered',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseBlessing(choose.id,offerVersion);}}
- else if(state==='experiment'){options=offeredExperiments;choose=qaBuild.experiments.map(id=>options.find(s=>s.id===id)).find(Boolean);if(choose){qaExplain('recipe-priority',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseExperiment(choose.id,offerVersion);}else {qaExplain('decline-not-in-recipe');declineExperiment(offerVersion);}}
- else if(state==='evolution'){const id=qaUseRefits?(evolutionSlotIndex===0?qaBuild.evolution:qaBuild.auxEvolutions?.[evolutionSlotIndex-1]||offeredWeaponEvolutions[0]?.id):'declined';qaExplain(qaUseRefits?'recipe-refit':'refits-disabled',id);qa.choices.push({at:clock,level,kind:state,id,slot:evolutionSlotIndex});if(qaUseRefits)chooseWeaponEvolution(id,offerVersion);else declineWeaponEvolution(offerVersion);}
- else if(state==='specialization'){choose=offeredSpecializations.find(s=>s.id===qaBuild.specialization)||offeredSpecializations[0];if(choose){qaExplain(choose.id===qaBuild.specialization?'recipe-priority':'first-offered',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseSpecialization(choose.id,offerVersion);}}
+ }else if(state==='gambiarra'){
+  if(!qaUseRefits){qaExplain('gambiarra-disabled','declined');declineGambiarra(offerVersion);}
+  else {const chassis=SPECIALIZATIONS[qaBuild.robot].find(s=>s.id===qaBuild.specialization)||SPECIALIZATIONS[qaBuild.robot][0];chooseGambiarraChassis(chassis.id,offerVersion);for(const slot of weaponSlots){const wanted=slot.index===0?qaBuild.evolution:qaBuild.auxEvolutions?.[slot.index-1],item=WEAPON_EVOLUTIONS[slot.weapon.id].find(s=>s.id===wanted)||WEAPON_EVOLUTIONS[slot.weapon.id][0];chooseGambiarraWeapon(slot.index,item.id,offerVersion);}qaExplain('recipe-gambiarra',chassis.id);qa.choices.push({at:clock,level,kind:state,id:chassis.id,weapons:[...gambiarraDraft.weapons]});confirmGambiarra(offerVersion);}
+ }
+
  else if(state==='relic'){choose=offeredRelics[0];if(choose){qaExplain('first-offered-driver13',choose.id);qa.choices.push({at:clock,level,kind:state,id:choose.id});chooseRelic(choose.id,offerVersion);}else declineRelic(offerVersion);}
 }
 function qaDrive(){

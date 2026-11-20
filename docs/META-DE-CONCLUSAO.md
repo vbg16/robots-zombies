@@ -1,5 +1,10 @@
 # Meta de conclusão — Screwvivors 1.0
 
+## Progressão vigente — BUILD70
+
+[Gambiarras do Biruta no nível20](gambiarras-nivel20.md): uma montagem conjunta de um componente do robô e uma modificação por arma equipada. Níveis3/6/9/10 agora usam módulos normais. Sem experimentos instáveis. Painel74registros, revisão8. Os catálogos e relatos anteriores abaixo são históricos e não restabelecem as ofertas removidas.
+
+
 Definida em 09/11/2026 pelo pedido do criador. Esta meta substitui a expansão indefinida por uma entrega verificável, incorporando a integração compatível já autorizada. Não concede permissão para ignorar pendências, rebaixar critérios depois de falhas ou declarar versões de desenvolvimento como aprovadas pelo público.
 
 **Objetivo:** entregar Screwvivors 1.0 completo no escopo local para navegador em PC e celular horizontal, com os sistemas compatíveis do mapa resolvidos, dez builds funcionais, controles manuais, progressão temporária e metaprogressão por desbloqueios; comprovar qualidade, estabilidade, desempenho real e documentação suficiente para reconstrução independente.

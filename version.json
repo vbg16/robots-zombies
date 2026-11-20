@@ -4,6 +4,6 @@
   "publicApproved": false,
   "publicWorktree": "../Jogo-publico",
   "publicBaseCommit": "99522e5",
-  "notes": "Correção de colisão física entre zumbis. Separação por raio após o movimento, incluindo corredores e policiais; mantém bandos, atributos e progresso. Canal de desenvolvimento, sem promoção pública.",
-  "build": 69
+  "notes": "Progressão unificada: Gambiarras do Biruta somente no nível20 combinam robô e armas; removidos bônus3/6/9, especialização10 e experimentos instáveis. Desenvolvimento sem promoção pública.",
+  "build": 70
 }

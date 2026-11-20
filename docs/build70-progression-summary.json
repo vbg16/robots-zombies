@@ -1,0 +1,26 @@
+{
+  "build": 70,
+  "scope": "Unified level20 progression and migration; short protected functional/browser fixtures only",
+  "functionalCommands": 18,
+  "allPassed": true,
+  "viewports": [
+    {
+      "width": 1280,
+      "height": 900
+    },
+    {
+      "width": 844,
+      "height": 390
+    },
+    {
+      "width": 740,
+      "height": 360
+    }
+  ],
+  "archive": "data/build70-progression.json.gz",
+  "archiveSha256": "6ea1d8c3c8bd2cc08b0256bd87121acee6ecb95dbbc86acc6732f06c72b6b9d6",
+  "botPilotChanged": false,
+  "finalGateApproved": false,
+  "naturalFinalSeedsUsed": false,
+  "physicalDeviceOrSoakMeasurements": false
+}

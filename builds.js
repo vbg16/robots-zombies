@@ -113,7 +113,7 @@ const builds=[
   avoid:['O avanço não concede invulnerabilidade.','Recargas parciais curam proporcionalmente menos.','Cura em integridade cheia não prepara a Carga de Reparo.'],tags:['Mobilidade','Empurrão','Perfuração']
  }
 ];
-for(const item of builds){for(const value of Object.values(item))if(Array.isArray(value))Object.freeze(value);Object.freeze(item);}
+for(const item of builds){item.blessings=[];item.experiments=[];for(const value of Object.values(item))if(Array.isArray(value))Object.freeze(value);Object.freeze(item);}
 const api=Object.freeze({version:1,builds:Object.freeze(builds)});root.ScrewBuilds=api;
 if(typeof module!=='undefined'&&module.exports)module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);

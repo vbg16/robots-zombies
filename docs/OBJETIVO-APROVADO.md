@@ -1,5 +1,10 @@
 # Objetivo aprovado — Screwvivors 1.0
 
+## Progressão vigente — BUILD70
+
+[Gambiarras do Biruta no nível20](gambiarras-nivel20.md): uma montagem conjunta de um componente do robô e uma modificação por arma equipada. Níveis3/6/9/10 agora usam módulos normais. Sem experimentos instáveis. Painel74registros, revisão8. Os catálogos e relatos anteriores abaixo são históricos e não restabelecem as ofertas removidas.
+
+
 Concluir o Screwvivors 1.0 como um jogo completo, estável, satisfatório e documentado. Encerrar o projeto somente quando todos os critérios obrigatórios abaixo estiverem comprovados por evidências da versão final.
 
 A conclusão não pode ser baseada em quantidade de versões, esforço gasto, tempo de trabalho, aparência de acabamento ou testes antigos. Deve ser demonstrada na revisão final do jogo.

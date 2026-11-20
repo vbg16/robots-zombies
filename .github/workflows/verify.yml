@@ -36,6 +36,8 @@ jobs:
       - name: Verificar mecânicas essenciais
         run: |
           node tests/incursion.cjs
+          node tests/gambiarras.cjs
+          node tests/weapon-evolution.cjs
           node tests/enemy-collision.cjs
           node tests/horde-director.cjs
           node tests/weapon-state.cjs

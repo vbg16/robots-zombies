@@ -1,7 +1,7 @@
 /* Original runtime balance catalog; snapshot once per run. */
 (function(root){
 'use strict';
-const CATALOG_REVISION=7;
+const CATALOG_REVISION=8;
 const fields={"hp":"Integridade atual","maxHp":"Integridade máxima","damage":"Dano direto","rate":"Intervalo de disparo","speed":"Velocidade de movimento","armor":"Armadura","magnet":"Alcance de coleta","magazineMult":"Multiplicador do carregador","reloadMult":"Multiplicador de recarga","projectileMult":"Multiplicador de projéteis","projectileSpeed":"Velocidade dos projéteis","projectileSize":"Tamanho dos projéteis","projectileLife":"Duração dos projéteis","spreadMult":"Dispersão","droneDamageMult":"Dano dos drones","droneRateMult":"Intervalo dos drones","droneRange":"Alcance dos drones","corrosionDamageMult":"Dano da corrosão","corrosionDelayMult":"Prazo da corrosão","sensorDamageMult":"Dano do sensor","sensorIntervalMult":"Intervalo do sensor","sensorRange":"Alcance do sensor","rotorDamageMult":"Dano dos rotores","rotorPeriodMult":"Duração da volta dos rotores","rotorRange":"Raio dos rotores"};
 const defaults=[
  {
@@ -1495,12 +1495,16 @@ for(const id of positiveWeaponIds){
  item.effects=item.effects.filter(effect=>effect.attribute!==removed);
  item.description={damage:'Dano ×2.',rate:'Cadência ×3.',pierce:'Projéteis atravessam dois alvos adicionais.',killAmmo:'Capacidade do carregador ×3; a cada 10 mortes, devolve uma munição. Não repõe munição ao instalar.'}[id];
 }
+// Revision 8 removes early blessings/unstable experiments and merges chassis/weapon choices at20.
+const retiredProgressionIds=new Set(defaults.filter(item=>item.type==='Gambiarra'||item.type==='Experimento').map(item=>item.id));
+for(let i=defaults.length-1;i>=0;i--)if(retiredProgressionIds.has(defaults[i].id))defaults.splice(i,1);
+for(const item of defaults)if(item.type==='Especialização'){item.type='Gambiarra';item.unlockLevel=20;item.group='Gambiarras do Biruta';item.notes+=' Escolha conjunta com uma modificação por arma equipada, somente no nível20.';}
 const stableRecord=value=>JSON.stringify(value, function(key,item){return item&&typeof item==='object'&&!Array.isArray(item)?Object.fromEntries(Object.keys(item).sort().map(k=>[k,item[k]])):item;});
 const clone=x=>JSON.parse(JSON.stringify(x)),byId=new Map(defaults.map(s=>[s.id,s])),attributes=Object.values(fields),reverse=Object.fromEntries(Object.entries(fields).map(([k,v])=>[v,k]));
 const storageKey='screwvivors.balance.v1';let runData=null;
 function validate(skills){
  const errors=[];if(!Array.isArray(skills)||skills.length>256)return {ok:false,errors:['Catálogo deve ser uma lista de até256 módulos.']};
- const ids=new Set();for(const s of skills){if(!s||typeof s!=='object'||typeof s.id!=='string'||!/^([a-zA-Z][a-zA-Z0-9_-]{0,63})$/.test(s.id)){errors.push('ID de módulo inválido.');continue;}if(ids.has(s.id))errors.push('ID duplicado: '+s.id);ids.add(s.id);const base=byId.get(s.id);
+ const ids=new Set();for(const s of skills){if(!s||typeof s!=='object'||typeof s.id!=='string'||!/^([a-zA-Z][a-zA-Z0-9_-]{0,63})$/.test(s.id)){errors.push('ID de módulo inválido.');continue;}if(ids.has(s.id))errors.push('ID duplicado: '+s.id);ids.add(s.id);const base=byId.get(s.id);if(retiredProgressionIds.has(s.id))errors.push(s.id+': melhoria removida do jogo.');
  if(typeof s.name!=='string'||!s.name.trim()||s.name.length>120)errors.push(s.id+': nome inválido.');
  for(const key of ['description','group','rarity','tree','condition','notes','accent'])if(typeof s[key]!=='string'||s[key].length>8000)errors.push(s.id+': campo '+key+' inválido.');
  if(s.updatedAt!==undefined&&s.updatedAt!==null&&typeof s.updatedAt!=='string')errors.push(s.id+': data de atualização inválida.');
@@ -1522,13 +1526,14 @@ const catalogIntroductions={reserveBank:7,shieldDrive:7,cleanCircuit:7,pulseReco
 function migrate(skills,revision=true){
  if(typeof revision!=='boolean'&&(!Number.isInteger(revision)||revision<1||revision>CATALOG_REVISION))throw Error('Revisão de catálogo não suportada.');
  const sourceRevision=typeof revision==='number'?revision:null,legacy=revision!==false&&revision!==CATALOG_REVISION;
- if(!Array.isArray(skills))return skills;const result=clone(skills),used=new Set(result.filter(Boolean).map(s=>s.id)),renamed=new Map();
+ if(!Array.isArray(skills))return skills;const result=clone(skills).filter(s=>!retiredProgressionIds.has(s?.id)),used=new Set(result.filter(Boolean).map(s=>s.id)),renamed=new Map();
+ for(const item of result){if(item?.type==='Especialização'&&byId.get(item.id)?.type==='Gambiarra'){item.type='Gambiarra';item.unlockLevel=20;item.group='Gambiarras do Biruta';}for(const key of ['prerequisites','synergies'])if(Array.isArray(item?.[key]))item[key]=item[key].filter(id=>!retiredProgressionIds.has(id));}
  if(legacy)for(let i=0;i<result.length;i++){const item=result[i],before=previousWeaponDefaults.get(item?.id);if(before&&stableRecord(item)===stableRecord(before))result[i]=clone(byId.get(item.id));}
  for(const s of result)for(const [id,before,after,legacyCondition] of ruleUpdates)if(s?.id===id){if(s.condition===(legacyCondition??before))s.condition=after;if(typeof s.description==='string'&&s.description.startsWith(before)&&!s.description.startsWith(after))s.description=s.description.replace(before,after);}
  if(legacy)for(const s of result){const base=addedDefaults.find(b=>b.id===s?.id);if(base&&((sourceRevision!==null&&sourceRevision<(catalogIntroductions[base.id]||2))||s.type!==base.type||s.condition!==base.condition||s.robot!==base.robot)){let id='custom-'+s.id,n=2;while(used.has(id))id='custom-'+s.id+'-'+n++;renamed.set(s.id,id);used.add(id);s.id=id;}}
  if(renamed.size)for(const s of result){if(Array.isArray(s?.prerequisites))s.prerequisites=s.prerequisites.map(id=>renamed.get(id)||id);if(Array.isArray(s?.synergies))s.synergies=s.synergies.map(id=>renamed.get(id)||id);}
  const repair=result.find(s=>s?.id==='repair');if(repair?.condition===legacyRepairCondition)repair.condition=updatedRepairBenefit;if(repair?.description===legacyRepairDescription)repair.description=defaults.find(s=>s.id==='repair').description;
- for(const base of addedDefaults)if(!result.some(s=>s?.id===base.id))result.push(clone(base));return result;
+ for(const base of addedDefaults.filter(item=>!retiredProgressionIds.has(item.id)))if(!result.some(s=>s?.id===base.id))result.push(clone(base));return result;
 }
 function load(){try{const envelope=JSON.parse(root.localStorage?.getItem(storageKey)||'null');if(envelope?.version===1){const skills=migrate(envelope.skills,envelope.catalogRevision??1);if(validate(skills).ok)return skills;}}catch(_){}return clone(defaults);}
 function save(skills){const check=validate(skills);if(!check.ok)return check;try{if(!root.localStorage)throw Error('Armazenamento indisponível');root.localStorage.setItem(storageKey,JSON.stringify({version:1,catalogRevision:CATALOG_REVISION,skills:clone(skills)}));return {ok:true,errors:[]};}catch(_){return {ok:false,errors:['Não foi possível salvar neste dispositivo.']};}}

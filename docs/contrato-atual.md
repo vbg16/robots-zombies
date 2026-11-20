@@ -1,6 +1,11 @@
-# Contrato vigente — Screwvivors BUILD 69
+# Contrato vigente — Screwvivors BUILD 70
 
-## Correção BUILD69 — colisão de corpos
+## Progressão vigente — BUILD70
+
+[Gambiarras do Biruta no nível20](gambiarras-nivel20.md): uma montagem conjunta de um componente do robô e uma modificação por arma equipada. Níveis3/6/9/10 agora usam módulos normais. Sem experimentos instáveis. Painel74registros, revisão8. Os catálogos e relatos anteriores abaixo são históricos e não restabelecem as ofertas removidas.
+
+
+## Correção BUILD70 — colisão de corpos
 
 Zumbis vivos usam círculos físicos e separação após o movimento. A preferência por bandos não substitui a colisão. Corredores, lacaios e policiais participam; HP, escudos, timers e recursos não são alterados pela resolução. [Contrato e testes](colisao-zumbis.md).
 

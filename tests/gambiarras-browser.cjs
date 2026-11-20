@@ -1,0 +1,20 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{pathToFileURL}=require('node:url');
+const {chromium}=require(path.join(process.env.NODE_PATH,'playwright'));
+(async()=>{
+ const out=path.resolve(process.env.GAMBIARRA_OUTPUT||'outputs/gambiarras-browser');fs.mkdirSync(out,{recursive:true});const report={viewports:[],errors:[],missing:[],scope:'Short controlled offline browser flow, no bot changes, soak or physical-device performance measurements.'};
+ const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+ try{for(const viewport of [{width:1280,height:900},{width:844,height:390},{width:740,height:360}]){
+  const context=await browser.newContext({viewport,offline:true,isMobile:viewport.width<1000,hasTouch:viewport.width<1000}),page=await context.newPage();page.on('pageerror',e=>report.errors.push(e.message));page.on('requestfailed',r=>report.missing.push(r.url()));
+  await page.addInitScript(()=>requestAnimationFrame=()=>0);await page.goto(pathToFileURL(path.resolve('index.html')).href);await page.locator('#enter-garage').click();await page.locator('#launch').click();await page.locator('#deploy-run').click();
+  await page.evaluate(()=>{profile.unlockedRobots.swarm=true;profile.unlockedWeapons.shotgun=true;profile.unlockedWeapons.cryo=true;selectedRobot='swarm';selectedWeapon='machine';selectedAuxWeapons=['shotgun','cryo'];reset();spawn=1e6;hordeDirector.cooldown=1e6;bossIndex=1e6;level=19;xp=need;tick(.01);draw()});
+  assert.equal(await page.evaluate(()=>state),'gambiarra');assert.equal(await page.locator('[data-confirm-gambiarra]').isDisabled(),true);const paused=await page.evaluate(()=>JSON.stringify({clock,player,weaponSlots,enemies}));await page.evaluate(()=>tick(.5));assert.equal(await page.evaluate(()=>JSON.stringify({clock,player,weaponSlots,enemies})),paused);
+  await page.locator('[data-gambiarra-chassis="droneRelay"]').click();await page.locator('[data-gambiarra-weapon-0="machine-heavyFeed"]').click();await page.locator('[data-gambiarra-weapon-1="shotgun-wideBore"]').click();await page.locator('[data-gambiarra-weapon-2="cryo-deepCooling"]').click();assert.equal(await page.evaluate(()=>JSON.stringify({clock,player,weaponSlots,enemies})),paused);
+  assert.equal(await page.locator('[data-confirm-gambiarra]').isEnabled(),true);const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);assert.equal(overflow,false);await page.screenshot({path:path.join(out,'assembly-'+viewport.width+'.png')});
+  await page.locator('[data-confirm-gambiarra]').click();assert.equal(await page.evaluate(()=>state),'playing');assert.deepEqual(await page.evaluate(()=>player.gambiarra),{chassis:'droneRelay',weapons:['machine-heavyFeed','shotgun-wideBore','cryo-deepCooling']});
+  await page.evaluate(()=>{reset();spawn=1e6;hordeDirector.cooldown=1e6;bossIndex=1e6;level=19;xp=need;tick(.01)});await page.keyboard.press('r');assert.equal(await page.evaluate(()=>state),'playing');assert.equal(await page.evaluate(()=>player.gambiarra),null);
+  await page.goto(pathToFileURL(path.resolve('tools/skills-panel/index.html')).href);await page.waitForSelector('.app-shell');const editor=await page.evaluate(()=>({count:window.ScrewBalance.catalog.length,types:[...new Set(window.ScrewBalance.catalog.map(s=>s.type))],oldText:/níveis 3\/6\/9|Especialização · nível 10/.test(document.body.innerText)}));assert.equal(editor.count,74);assert.deepEqual(editor.types.sort(),['Gambiarra','Normal']);assert.equal(editor.oldText,false);
+  report.viewports.push({viewport,previewInert:true,paused:true,threeWeaponAssembly:true,refusal:true,noHorizontalOverflow:true,editor});await context.close();
+ }assert.deepEqual(report.errors,[]);assert.deepEqual(report.missing,[]);report.passed=true;}
+ finally{await browser.close();fs.writeFileSync(path.join(out,'result.json'),JSON.stringify(report,null,2));}console.log('Unified assembly and editor passed in3offline viewports.');
+})().catch(e=>{console.error(e);process.exitCode=1});

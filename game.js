@@ -116,23 +116,9 @@ const GARAGE_PRICES=Object.freeze({
 });
 const PROFILE_KEY='screwvivors.profile.v1';
 const BOSS_PART_NAMES=Object.freeze({brute:'BRUTAMONTES',scrapper:'SUCATEIRO',coil:'BOBINA-RAINHA'});
-const BLESSING_LEVELS=Object.freeze([3,6,9]);
-let GAMBARRAS=Object.freeze([
- Object.freeze({id:'pulseCoil',name:'BOBINA DE PULSO',icon:'damage',benefit:'Dano ×1,25 nesta tentativa.',apply:()=>{player.damage*=1.25;}}),
- Object.freeze({id:'triggerRegulator',name:'REGULADOR DE GATILHO',icon:'rate',benefit:'Intervalo entre disparos ×0,8 nesta tentativa.',apply:()=>{player.rate*=.8;}}),
- Object.freeze({id:'spareBattery',name:'BATERIA DE RESERVA',icon:'titan',benefit:'Vida máxima e atual +20 nesta tentativa.',apply:()=>{player.maxHp+=20;player.hp+=20;}}),
- Object.freeze({id:'scrapMagnet',name:'ELETROÍMÃ DE SUCATA',icon:'magnet',benefit:'Alcance de coleta ×1,75 nesta tentativa.',apply:()=>{player.magnet*=1.75;}}),
- Object.freeze({id:'greasedServos',name:'SERVOS LUBRIFICADOS',icon:'speed',benefit:'Velocidade de movimento ×1,2 nesta tentativa.',apply:()=>{player.speed*=1.2;}}),
- Object.freeze({id:'copperPlate',name:'PLACA DE COBRE',icon:'armor',benefit:'Reduz 1 de dano recebido nesta tentativa.',apply:()=>{player.armor+=1;}})
-]);
-let BOSS_EXPERIMENTS=Object.freeze([
- Object.freeze({id:'volatileReactor',name:'REATOR VOLÁTIL',icon:'damage',benefit:'Dano ×1,35.',cost:'Intervalo de tiro ×1,15.',apply:()=>{player.damage*=1.35;player.rate*=1.15;}}),
- Object.freeze({id:'unstableLens',name:'LENTE INSTÁVEL',icon:'range',benefit:'Velocidade e tamanho de projétil ×1,5.',cost:'Movimento ×0,85.',apply:()=>{player.projectileSpeed*=1.5;player.projectileSize*=1.5;player.speed*=.85;}}),
- Object.freeze({id:'lithiumPack',name:'PACOTE DE LÍTIO',icon:'titan',benefit:'Integridade máxima e atual +30.',cost:'Armadura −1.',apply:()=>{player.maxHp+=30;player.hp+=30;player.armor-=1;}}),
- Object.freeze({id:'scrapCatalyst',name:'CATALISADOR DE SUCATA',icon:'magnet',benefit:'Alcance de coleta ×2.',cost:'Recarga da arma ×1,5.',apply:()=>{player.magnet*=2;player.reloadMult*=1.5;}}),
- Object.freeze({id:'blastCondenser',name:'CONDENSADOR DE IMPACTO',icon:'blast',benefit:'Dano ×1,5.',cost:'Intervalo de tiro ×1,35.',apply:()=>{player.damage*=1.5;player.rate*=1.35;}}),
- Object.freeze({id:'nervousServo',name:'SERVO NERVOSO',icon:'speed',benefit:'Movimento ×1,35.',cost:'Armadura −1.',apply:()=>{player.speed*=1.35;player.armor-=1;}})
-]);
+const BLESSING_LEVELS=Object.freeze([]);
+let GAMBARRAS=Object.freeze([]);
+let BOSS_EXPERIMENTS=Object.freeze([]);
 function emptyProfile(){return {version:2,bolts:0,bossParts:{brute:0,scrapper:0,coil:0},unlockedRobots:ownedGear({},ROBOTS,'prot'),unlockedWeapons:ownedGear({},WEAPONS,'machine')};}
 function profileCount(value){const n=Number(value);return Number.isFinite(n)&&n>0?Math.min(999999999,Math.floor(n)):0;}
 function ownedGear(saved,available,starting){return Object.fromEntries(Object.keys(available).map(id=>[id,id===starting||saved?.[id]===true]));}
@@ -238,7 +224,7 @@ function renderAuxWeapons(){
   for(const [id,weapon] of Object.entries(WEAPONS))if(gearOwned('weapons',id)&&id!==selectedWeapon&&!selectedAuxWeapons.some((other,i)=>i!==index&&other===id)){const option=document.createElement('option');option.value=id;option.textContent=weapon.name;select.append(option);}
   select.value=selectedAuxWeapons[index]||'';select.addEventListener('change',()=>selectAuxWeapon(index,select.value));label.append(title,select);
   if(selectedAuxWeapons[index]){
-   const id=selectedAuxWeapons[index],detail=document.createElement('p'),refits=document.createElement('details'),summary=document.createElement('summary');detail.className='aux-weapon-detail';detail.textContent=WEAPONS[id].description+' Carregador '+AMMO[id][0]+' · recarga '+AMMO[id][1]+' s.';refits.className='weapon-refit-manual';summary.textContent='REFORJAS · NÍVEL 20';refits.append(summary);
+   const id=selectedAuxWeapons[index],detail=document.createElement('p'),refits=document.createElement('details'),summary=document.createElement('summary');detail.className='aux-weapon-detail';detail.textContent=WEAPONS[id].description+' Carregador '+AMMO[id][0]+' · recarga '+AMMO[id][1]+' s.';refits.className='weapon-refit-manual';summary.textContent='GAMBIARRAS · NÍVEL 20';refits.append(summary);
    for(const item of WEAPON_EVOLUTIONS[id]){const row=document.createElement('p');row.textContent=item.name+': '+item.benefit+' Custo: '+item.cost;refits.append(row);}label.append(detail,refits);
   }
   box.append(label);
@@ -273,12 +259,7 @@ let weaponEvolutionOffered=false,offeredWeaponEvolutions=[],evolutionSlotIndex=0
 function finishWeaponEvolution(){
  offerVersion++;clearInput();if(evolutionPendingSlots.length){evolutionSlotIndex=evolutionPendingSlots.shift();renderWeaponEvolution();return;}state='playing';el('overlay').hidden=true;updateHUD();el('pause').focus();
 }
-function chooseWeaponEvolution(id,version){
- const slot=weaponSlots[evolutionSlotIndex];if(state!=='evolution'||version!==offerVersion||!slot||slot.weaponEvolution||level<WEAPON_EVOLUTION_LEVEL)return false;
- const item=offeredWeaponEvolutions.find(e=>e.id===id&&e.weapon===slot.weapon.id);if(!item)return false;
- if(!installWeaponEvolution(slot,item))return false;
- sound('upgrade');upgradeFlash=1;toast(item.name+' INSTALADA','#a6eaff');finishWeaponEvolution();applyUpgradeBreather();return true;
-}
+function chooseWeaponEvolution(id,version){return false;}
 function installWeaponEvolution(slot,item){
  if(!item||item.weapon!==slot.weapon.id||slot.weaponEvolution)return false;
  // Installation preserves ammo, reload progress and old projectiles.
@@ -289,43 +270,68 @@ function installWeaponEvolution(slot,item){
  if(item.traits.minSpread)refit.spread=Math.max(refit.spread,item.traits.minSpread);
  slot.weaponEvolution=item;slot.weapon=Object.freeze(refit);if(slot===primaryWeaponState())runWeapon=slot.weapon;slot.ammo=Math.min(slot.ammo,magazineSize(slot));return true;
 }
-function declineWeaponEvolution(version){if(state!=='evolution'||version!==offerVersion)return false;finishWeaponEvolution();return true;}
-function offerWeaponEvolution(){
- if(state!=='playing'||weaponEvolutionOffered||player.weaponEvolution||level<WEAPON_EVOLUTION_LEVEL)return false;
- weaponEvolutionOffered=true;evolutionSlotIndex=0;evolutionPendingSlots=weaponSlots.slice(1).map(slot=>slot.index);return renderWeaponEvolution();
-}
-function renderWeaponEvolution(){
- const slot=weaponSlots[evolutionSlotIndex];offeredWeaponEvolutions=WEAPON_EVOLUTIONS[slot.weapon.id].slice();state='evolution';
- show('REFORJA DA ARMA','Nível '+WEAPON_EVOLUTION_LEVEL+' · '+slot.weapon.name+(weaponSlots.length>1?' · ARMA '+(slot.index+1)+'/'+weaponSlots.length:'')+'. Escolha uma evolução temporária desta arma. Sem troca ou fusão; não repõe munição nem conclui a recarga. Esta oferta substitui o módulo deste nível e não volta ao recusar.','');
- const version=++offerVersion;
- for(const [index,item] of offeredWeaponEvolutions.entries()){
-  const card=document.createElement('button'),category=document.createElement('span'),title=document.createElement('strong'),benefit=document.createElement('span'),cost=document.createElement('span'),action=document.createElement('span');
-  card.className='upgrade-card specialization-card weapon-evolution-card';card.setAttribute('data-evolution',item.id);card.setAttribute('aria-keyshortcuts',String(index+1));category.className='skill-category';category.textContent=slot.weapon.name+' / REFORJA TEMPORÁRIA';title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent='VANTAGEM: '+item.benefit;cost.className='skill-cost';cost.textContent='CUSTO: '+item.cost;action.className='skill-action';action.textContent='['+(index+1)+'] INSTALAR REFORJA';card.append(category,title,benefit,cost,action);card.onclick=()=>chooseWeaponEvolution(item.id,version);el('choices').append(card);
- }
- const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='MANTER ARMA ATUAL [R]';skip.setAttribute('aria-keyshortcuts','R');skip.onclick=()=>declineWeaponEvolution(version);el('choices').append(skip);el('choices').children[0]?.focus();return true;
-}
+function declineWeaponEvolution(version){return false;}
+function offerWeaponEvolution(){return false;}
+function renderWeaponEvolution(){return false;}
 SPECIALIZATIONS={...SPECIALIZATIONS,
  forge:[{id:'furnaceDuration',name:'CÂMARA DE FORNALHA',benefit:'Duração da queimadura ×1,5.',cost:'Afeta queimaduras aplicadas após a escolha.'},{id:'thermalAmplifier',name:'AMPLIFICADOR TÉRMICO',benefit:'Queimadura em alvos resfriados causa +25% de dano.',cost:'Exige resfriar o alvo.'},{id:'heatRecovery',name:'RECUPERADOR DE CALOR',benefit:'Abates por queimadura recuperam1 de integridade. Recarga2s.',cost:'Sem cura em integridade cheia.'}],
  volt:[{id:'extraFork',name:'DERIVAÇÃO ADICIONAL',benefit:'Descargas atingem um alvo adicional.',cost:'Exige arma elétrica ou Descarga.'},{id:'chargeRecovery',name:'RECUPERAÇÃO DE CARGA',benefit:'A cada6 alvos eletrocutados repõe uma munição. Recarga0,25s.',cost:'Não ultrapassa o carregador.'},{id:'groundPulse',name:'PULSO DE ATERRAMENTO',benefit:'Descargas interrompem comuns por mais0,35s; chefes por0,1s.',cost:'Não cancela ataques já preparados.'}],
  nano:[{id:'repairCharge',name:'CARGA DE REPARO',benefit:'Cura real fortalece o próximo disparo em50% e acrescenta2 perfurações.',cost:'Não acumula; uma emissão consome a carga.'},{id:'repairPlating',name:'REVESTIMENTO REPARADOR',benefit:'Cura real concede redução2 de dano por2s.',cost:'Não acumula proteção.'},{id:'coolantLoop',name:'CIRCUITO REFRIGERANTE',benefit:'Recarga de ao menos50% resfria inimigos em80px por2s.',cost:'Exige recarregar metade do carregador.'}],
  swarm:[{id:'droneSalvage',name:'RECICLAGEM DO ENXAME',benefit:'Abates por drone curam1 de integridade. Recarga1,5s.',cost:'Somente abates do drone.'},{id:'droneBossFocus',name:'FOCO ANTICHEFE',benefit:'Drones priorizam chefe no alcance e causam +25% de dano nele.',cost:'Não aumenta alcance.'},{id:'droneRelay',name:'RELÉ DO ENXAME',benefit:'Alcance dos drones +100px; coleta ×1,25.',cost:'Não aumenta o número de drones.'}]
 };
+const GAMBIARRA_LEVEL=20;
+let gambiarraOffered=false,gambiarraDraft=null;
+function gambiarraReady(version){return state==='gambiarra'&&version===offerVersion&&gambiarraDraft&&level===GAMBIARRA_LEVEL;}
+function chooseGambiarraChassis(id,version){
+ if(!gambiarraReady(version)||!SPECIALIZATIONS[runRobot.id].some(item=>item.id===id))return false;
+ gambiarraDraft.chassis=id;renderGambiarra();document.querySelector('[data-gambiarra-chassis="'+id+'"]')?.focus();return true;
+}
+function chooseGambiarraWeapon(index,id,version){
+ const slot=weaponSlots[index];if(!gambiarraReady(version)||!slot||!WEAPON_EVOLUTIONS[slot.weapon.id].some(item=>item.id===id))return false;
+ gambiarraDraft.weapons[index]=id;renderGambiarra();document.querySelector('[data-gambiarra-weapon-'+index+'="'+id+'"]')?.focus();return true;
+}
+function finishGambiarra(){
+ offerVersion++;gambiarraDraft=null;state='playing';clearInput();el('overlay').hidden=true;updateHUD();el('pause').focus();
+}
+function declineGambiarra(version){if(!gambiarraReady(version))return false;finishGambiarra();return true;}
+function confirmGambiarra(version){
+ if(!gambiarraReady(version)||player.specialization||weaponSlots.some(slot=>slot.weaponEvolution))return false;
+ const chassis=SPECIALIZATIONS[runRobot.id].find(item=>item.id===gambiarraDraft.chassis);
+ const parts=weaponSlots.map((slot,index)=>WEAPON_EVOLUTIONS[slot.weapon.id].find(item=>item.id===gambiarraDraft.weapons[index]));
+ if(!chassis||parts.some(item=>!item))return false;
+ // All selections are validated before touching combat state. Installation is one transaction.
+ player.specialization=chassis.id;applyRunBalance(chassis.id,()=>{if(chassis.id==='droneRelay')player.magnet*=1.25;});
+ for(const [index,slot] of weaponSlots.entries())installWeaponEvolution(slot,parts[index]);
+ player.gambiarra={chassis:chassis.id,weapons:parts.map(item=>item.id)};
+ sound('upgrade');upgradeFlash=1;toast('GAMBIARRA DO BIRUTA INSTALADA','#ffd27c');finishGambiarra();applyUpgradeBreather();return true;
+}
+function offerGambiarra(){
+ if(state!=='playing'||gambiarraOffered||level!==GAMBIARRA_LEVEL||player.specialization||weaponSlots.some(slot=>slot.weaponEvolution))return false;
+ gambiarraOffered=true;
+ if(!SPECIALIZATIONS[runRobot.id].length){upgrade();return true;}
+ gambiarraDraft={chassis:null,weapons:weaponSlots.map(()=>null)};state='gambiarra';offerVersion++;clearInput();return renderGambiarra();
+}
+function renderGambiarra(){
+ if(state!=='gambiarra'||!gambiarraDraft)return false;
+ show('GAMBIARRAS DO BIRUTA','Nível 20 · Monte uma única gambiarra: escolha um efeito do seu robô e uma modificação para cada arma equipada. Só nesta partida. Confira os ganhos e custos antes de instalar.','');
+ const version=offerVersion,panel=document.createElement('section');panel.className='gambiarra-builder';
+ const group=(label,items,selected,choose,attribute)=>{
+  const section=document.createElement('section'),heading=document.createElement('h3');heading.textContent=label;section.className='gambiarra-group';section.append(heading);
+  for(const item of items){const button=document.createElement('button'),title=document.createElement('strong'),benefit=document.createElement('span'),cost=document.createElement('span');
+   button.className='upgrade-card gambiarra-option';button.setAttribute(attribute,item.id);button.setAttribute('aria-pressed',String(selected===item.id));title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent=item.benefit;cost.className='skill-cost';cost.textContent='CONDIÇÕES / CUSTOS: '+(item.cost||'Sem penalidade.');button.append(title,benefit,cost);button.onclick=()=>choose(item.id,version);section.append(button);
+  }panel.append(section);
+ };
+ group('ROBÔ · '+runRobot.name,SPECIALIZATIONS[runRobot.id],gambiarraDraft.chassis,chooseGambiarraChassis,'data-gambiarra-chassis');
+ for(const [index,slot] of weaponSlots.entries())group('ARMA '+(index+1)+' · '+slot.weapon.name,WEAPON_EVOLUTIONS[slot.weapon.id],gambiarraDraft.weapons[index],(id,v)=>chooseGambiarraWeapon(index,id,v),'data-gambiarra-weapon-'+index);
+ const actions=document.createElement('div'),confirm=document.createElement('button'),skip=document.createElement('button');actions.className='gambiarra-actions';
+ confirm.textContent='INSTALAR GAMBIARRA [ENTER]';confirm.setAttribute('data-confirm-gambiarra','');confirm.disabled=!gambiarraDraft.chassis||gambiarraDraft.weapons.some(id=>!id);confirm.onclick=()=>confirmGambiarra(version);
+ skip.textContent='CONTINUAR SEM GAMBIARRA [R]';skip.onclick=()=>declineGambiarra(version);actions.append(confirm,skip);el('choices').append(panel,actions);return true;
+}
+
 function specializationInfo(){return Object.values(SPECIALIZATIONS).flat().find(s=>s.id===player?.specialization);}
 function commonPursuer(z){return !z.minionType&&!z.minionOwner&&['chaser','heavy'].includes(z.enemyType);}
-function chooseSpecialization(id,version){
- if(state!=='specialization'||version!==offerVersion||player.specialization)return false;
- const item=offeredSpecializations.find(s=>s.id===id);if(!item)return false;
- player.specialization=id;applyRunBalance(id,()=>{if(id==='droneRelay')player.magnet*=1.25;});offerVersion++;state='playing';el('overlay').hidden=true;clearInput();toast(item.name+' ATIVA','#ffd27c');updateHUD();el('pause').focus();applyUpgradeBreather();return true;
-}
-function offerSpecialization(){
- if(specializationOffered||player.specialization)return false;
- specializationOffered=true;state='specialization';show('ESPECIALIZAÇÃO DO CHASSI','Nível 10: escolha um protocolo próprio do seu robô. Vale só nesta tentativa. Sem penalidade adicional além das condições indicadas.','');
- offeredSpecializations=SPECIALIZATIONS[runRobot.id].slice();const version=++offerVersion;
- for(const [index,item] of offeredSpecializations.entries()){
-  const card=document.createElement('button'),title=document.createElement('strong'),benefit=document.createElement('span'),cost=document.createElement('span'),action=document.createElement('span');card.className='upgrade-card specialization-card';card.setAttribute('data-specialization',item.id);title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent=item.benefit;cost.className='skill-cost';cost.textContent='CONDIÇÕES: '+item.cost;action.className='skill-action';action.textContent='['+(index+1)+'] ATIVAR PROTOCOLO';card.append(title,benefit,cost,action);card.onclick=()=>chooseSpecialization(item.id,version);el('choices').append(card);
- }
- const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='CONTINUAR SEM ESPECIALIZAÇÃO';skip.onclick=()=>{if(state!=='specialization'||version!==offerVersion)return;offerVersion++;state='playing';clearInput();el('overlay').hidden=true;updateHUD();el('pause').focus();};el('choices').append(skip);el('choices').children[0]?.focus();return true;
-}
+function chooseSpecialization(id,version){return false;}
+function offerSpecialization(){return false;}
 let camera={x:0,y:0},aim={x:0,y:0,active:false},firing=false,upgradeFlash=0,boss=null,bossSpawned=false,bossDefeated=false,bossReward=false,offerVersion=0,offerSource='level',offeredBlessings=[],offeredExperiments=[];
 const BATTERY_COUNT=5,HP_PER_BATTERY=20;
 let displayedHealth=null;
@@ -380,7 +386,7 @@ if(globalThis.SpriteAnimation&&globalThis.ScrewChassisAtlases)for(const [id,mani
 function selectRobot(id){if(state!=='garage'||!ROBOTS[id]||!gearOwned('robots',id))return false;selectedRobot=id;sanitizeAuxWeapons();el('garage-feedback').textContent='';renderLoadout();return true;}
 
 function renderRobotOptions(){const box=document.querySelector('.robot-options');if(!box?.replaceChildren)return;box.replaceChildren();for(const [id,robot] of Object.entries(ROBOTS)){const button=document.createElement('button'),name=document.createElement('span'),status=document.createElement('small');button.type='button';button.id='robot-'+id;name.textContent=robot.name;status.id='robot-status-'+id;button.append(name,status);button.onclick=()=>activateGear('robots',id);box.append(button);}}
-window.ScrewBuildGuide=Object.freeze({getCatalog:()=>({robots:ROBOTS,weapons:WEAPONS,evolutions:WEAPON_EVOLUTIONS}),gearOwned:(kind,id)=>gearOwned(kind,id),getPriceText:(kind,id)=>gearPriceText(kind,id),getProgress:()=>({state,robot:state==='garage'||state==='configuration'?selectedRobot:runRobot?.id||selectedRobot,weapon:state==='garage'||state==='configuration'?selectedWeapon:runWeapon?.id||selectedWeapon,acquired:[...(player?.acquired||[])],blessings:[...(player?.blessings||[])],experiments:[...(player?.experiments||[])],weapons:state==='garage'||state==='configuration'?selectedLoadout():weaponSlots.map(slot=>slot.weapon.id),weaponEvolutions:weaponSlots.map(slot=>slot.weaponEvolution?.id||null),weaponEvolution:player?.weaponEvolution?.id||null,specialization:player?.specialization||null,droneCount:player&&runRobot?droneCount():0,offered:state==='evolution'?offeredWeaponEvolutions.map(s=>s.id):state==='specialization'?offeredSpecializations.map(s=>s.id):state==='blessing'?offeredBlessings.map(s=>s.id):state==='experiment'?offeredExperiments.map(s=>s.id):['upgrade','reward'].includes(state)?offeredSkills.map(s=>s.id):[]}),selectBuild(id){if(state!=='garage')return {ok:false,error:'Volte à garagem para escolher uma configuração.'};const build=window.ScrewBuilds?.builds?.find(b=>b.id===id);if(!build||!ROBOTS[build.robot]||!WEAPONS[build.weapon])return {ok:false,error:'Guia inválido.'};if(!gearOwned('robots',build.robot)||!gearOwned('weapons',build.weapon))return {ok:false,error:'Desbloqueie o chassi e a arma antes de selecionar.'};selectedRobot=build.robot;selectedWeapon=build.weapon;selectedAuxWeapons=[];renderLoadout();return {ok:true};}});
+window.ScrewBuildGuide=Object.freeze({getCatalog:()=>({robots:ROBOTS,weapons:WEAPONS,evolutions:WEAPON_EVOLUTIONS}),gearOwned:(kind,id)=>gearOwned(kind,id),getPriceText:(kind,id)=>gearPriceText(kind,id),getProgress:()=>({state,robot:state==='garage'||state==='configuration'?selectedRobot:runRobot?.id||selectedRobot,weapon:state==='garage'||state==='configuration'?selectedWeapon:runWeapon?.id||selectedWeapon,acquired:[...(player?.acquired||[])],blessings:[...(player?.blessings||[])],experiments:[...(player?.experiments||[])],weapons:state==='garage'||state==='configuration'?selectedLoadout():weaponSlots.map(slot=>slot.weapon.id),weaponEvolutions:weaponSlots.map(slot=>slot.weaponEvolution?.id||null),weaponEvolution:player?.weaponEvolution?.id||null,specialization:player?.specialization||null,droneCount:player&&runRobot?droneCount():0,gambiarra:player?.gambiarra||null,offered:state==='gambiarra'?[...SPECIALIZATIONS[runRobot.id].map(s=>s.id),...weaponSlots.flatMap(slot=>WEAPON_EVOLUTIONS[slot.weapon.id].map(s=>s.id))]:state==='evolution'?offeredWeaponEvolutions.map(s=>s.id):state==='specialization'?offeredSpecializations.map(s=>s.id):state==='blessing'?offeredBlessings.map(s=>s.id):state==='experiment'?offeredExperiments.map(s=>s.id):['upgrade','reward'].includes(state)?offeredSkills.map(s=>s.id):[]}),selectBuild(id){if(state!=='garage')return {ok:false,error:'Volte à garagem para escolher uma configuração.'};const build=window.ScrewBuilds?.builds?.find(b=>b.id===id);if(!build||!ROBOTS[build.robot]||!WEAPONS[build.weapon])return {ok:false,error:'Guia inválido.'};if(!gearOwned('robots',build.robot)||!gearOwned('weapons',build.weapon))return {ok:false,error:'Desbloqueie o chassi e a arma antes de selecionar.'};selectedRobot=build.robot;selectedWeapon=build.weapon;selectedAuxWeapons=[];renderLoadout();return {ok:true};}});
 
 function renderWeaponRefitManual(){
  const box=el('weapon-refit-options');box.replaceChildren();
@@ -414,13 +420,13 @@ function reset(){
  screenTransition();
  sanitizeAuxWeapons();configureRunBalance();clearInput();offerVersion++;if(protAnimation){protAnimation.play('idle','down');protAnimation.time=0;}for(const animation of chassisAnimations.values()){animation.play('idle','down');animation.time=0;}runRobot=Object.freeze({...ROBOTS[selectedRobot],id:selectedRobot});runWeapon=Object.freeze({...WEAPONS[selectedWeapon],id:selectedWeapon});
  el('run-config').hidden=true;el('title-screen').hidden=true;el('garage').hidden=true;el('combat').hidden=false;resize();
- player={rotorDamageMult:1,rotorPeriodMult:1,rotorRange:72,rotorPhase:0,rotorTime:0,rotorX:width/2,rotorY:height/2,rotorHits:[new WeakMap(),new WeakMap(),new WeakMap()],weaponKick:0,sensorDamageMult:1,sensorIntervalMult:1,sensorRange:170,sensorTimer:0,sensorTotal:3,corrosionDamageMult:1,corrosionDelayMult:1,weaponEvolution:null,specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,facing:'down',inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
+ player={rotorDamageMult:1,rotorPeriodMult:1,rotorRange:72,rotorPhase:0,rotorTime:0,rotorX:width/2,rotorY:height/2,rotorHits:[new WeakMap(),new WeakMap(),new WeakMap()],weaponKick:0,sensorDamageMult:1,sensorIntervalMult:1,sensorRange:170,sensorTimer:0,sensorTotal:3,corrosionDamageMult:1,corrosionDelayMult:1,weaponEvolution:null,gambiarra:null,specialization:null,specializationCooldown:0,electricHits:0,repairShotReady:false,repairArmorTime:0,droneTimer:0,droneDamageMult:1,droneRateMult:1,droneRange:320,reloadMissing:0,reloadCapacity:1,decoy:null,markedTarget:null,markTime:0,acquired:new Set(),blessings:new Set(),experiments:new Set(),magazineMult:1,reloadMult:1,projectileMult:1,projectileSpeed:1,projectileSize:1,projectileLife:1,spreadMult:1,shotCount:0,killCounter:0,stationary:0,hitCooldowns:{emergency:0,retaliation:0,overload:0},frenzy:0,ammo:AMMO[selectedWeapon][0],reloadTime:0,reloadTotal:0,x:width/2,y:height/2,hp:runRobot.hp,maxHp:runRobot.hp,speed:runRobot.speed,armor:runRobot.armor,baseDamage:runWeapon.damage,damage:runWeapon.damage*(['forge','volt'].includes(runRobot.id)?.9:1),damageStacks:0,rate:runWeapon.rate,rateStacks:0,magnet:PROGRESSION.baseMagnet,walkPhase:0,stride:0,facing:'down',inv:0,skills:{pierce:0,blast:0,shock:0,crit:0,burn:0,freeze:0,knock:0,salvage:0,armor:0,regen:0,range:0,extra:0,shield:0,xp:0,grace:0,bossHunter:0,finisher:0,ricochet:0,blastRadius:0,conductivity:0,stun:0,emergency:0,dash:0},regenTimer:0,shieldReady:false,shieldTimer:0,emergencyUsed:false,dashTime:0,dashCooldown:0,dashDx:1,dashDy:0};
  enemies=[];bullets=[];gems=[];scrap=[];sparks=[];sparkStream=null;feedback=[];feedbackMembers=null;effects=[];hostile=[];cooldownLayout='';cooldownNodes=[];el('cooldowns').replaceChildren();
  combatNotices=[];noticeLayout='';damageFeedbackTargets=new WeakMap();damageFeedbackSerial=0;el('combat-notices').replaceChildren();
  bindPrimaryWeaponState();
  for(const id of selectedLoadout().slice(1))weaponSlots.push(createWeaponState(id,weaponSlots.length));
  const loadoutCost=LOADOUT_COST[weaponSlots.length];for(const slot of weaponSlots)slot.damage*=loadoutCost.damage;player.speed*=loadoutCost.speed;weaponFireCursor=0;weaponHudNodes=[];
- boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];weaponEvolutionOffered=false;offeredWeaponEvolutions=[];evolutionSlotIndex=0;evolutionPendingSlots=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=PROGRESSION.initialNeed;upgradeFlash=0;displayedHealth=null;
+ boss=null;bossIndex=0;bossKills=0;policeUnlocked=false;commonWaveIndex=0;rerollsRemaining=1;specializationOffered=false;offeredSpecializations=[];gambiarraOffered=false;gambiarraDraft=null;weaponEvolutionOffered=false;offeredWeaponEvolutions=[];evolutionSlotIndex=0;evolutionPendingSlots=[];hazards=[];bossSpawned=false;bossDefeated=false;bossReward=false;offeredBlessings=[];offeredExperiments=[];clock=0;spawn=HORDE.initialDelay;shot=0;kills=0;level=1;xp=0;need=PROGRESSION.initialNeed;upgradeFlash=0;displayedHealth=null;
  hordeDirector={cooldown:HORDE.initialDelay,lastKills:0,x:player.x,y:player.y,lastReason:'initial'};
  bossChests=[];offeredRelics=[];player.relics=new Set();player.relicBurnMult=1;player.relicColdMult=1;player.relicShockMult=1;
  aim={x:width/2+100,y:height/2,active:false};syncCamera();state='playing';el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida');updateHUD();
@@ -428,7 +434,7 @@ function reset(){
 function show(title,description,label){
  renderCombatNotices();
  clearInput();el('overlay').setAttribute('data-mode',state);el('heading').textContent=title;el('description').textContent=description;
- el('eyebrow').textContent=state==='relic'?'OFICINA DE CAMPO / PEÇA RARA':state==='evolution'?'OFICINA DE CAMPO / REFORJA':state==='reward'?'RECUPERAÇÃO DE CAMPO':state==='experiment'?'LABORATÓRIO DO BIRUTA':state==='blessing'?'OFICINA DE CAMPO / GAMBIARRA':(runRobot?.name||'PROT-0001')+' / '+(state==='over'?'SINAL PERDIDO':'PROTOCOLO ATIVO');
+ el('eyebrow').textContent=state==='gambiarra'?'OFICINA DE CAMPO / GAMBIARRAS DO BIRUTA':state==='relic'?'OFICINA DE CAMPO / PEÇA RARA':state==='evolution'?'OFICINA DE CAMPO / REFORJA':state==='reward'?'RECUPERAÇÃO DE CAMPO':state==='experiment'?'LABORATÓRIO DO BIRUTA':state==='blessing'?'OFICINA DE CAMPO / GAMBIARRA':(runRobot?.name||'PROT-0001')+' / '+(state==='over'?'SINAL PERDIDO':'PROTOCOLO ATIVO');
  el('module-workbench').hidden=true;el('choices').replaceChildren();el('start').textContent=label;el('start').hidden=!label;el('overlay').hidden=false;
  el('return-garage').hidden=state!=='over'&&state!=='won'&&state!=='paused';
  if(label)el('start').focus();
@@ -460,7 +466,7 @@ function renderRunStats(){
  for(const [label,value] of rows){const term=document.createElement('dt'),detail=document.createElement('dd');term.textContent=label;detail.textContent=value;stats.append(term,detail);}
  const note=document.createElement('p');note.textContent='Valores atuais da build. Críticos, efeitos condicionais, rajadas e dano de área não estão somados ao dano direto.';
  const installed=document.createElement('p');installed.className='run-modules';const names=SKILLS.filter(s=>player.acquired.has(s.id)).map(s=>s.name).concat(GAMBARRAS.filter(s=>player.blessings.has(s.id)).map(s=>s.name),BOSS_EXPERIMENTS.filter(s=>player.experiments.has(s.id)).map(s=>s.name),BOSS_RELICS.filter(s=>player.relics?.has(s.id)).map(s=>s.name));installed.textContent='INSTALADOS: '+(names.join(' · ')||'Nenhum módulo temporário.');
- const synergies=document.createElement('p');synergies.textContent='SINERGIAS: '+(activeSynergies().join(' · ')||'Nenhuma ativa.');const specialization=document.createElement('p');specialization.textContent='ESPECIALIZAÇÃO: '+(specializationInfo()?.name||'Nenhuma escolhida.')+(player.specializationCooldown>0?' · RECARGA '+Math.ceil(player.specializationCooldown)+' s':player.specialization&&['tailDecoy','nineLives'].includes(player.specialization)?' · PRONTO':'');const evolution=document.createElement('p');evolution.textContent='REFORJA DA ARMA: '+(player.weaponEvolution?player.weaponEvolution.name+' · '+player.weaponEvolution.benefit+' Custo: '+player.weaponEvolution.cost:'Nenhuma escolhida; oferta no nível '+WEAPON_EVOLUTION_LEVEL+'.');const scrollHint=document.createElement('p');scrollHint.className='run-scroll-hint';scrollHint.textContent='↓ DESLIZE OU ROLE PARA VER MAIS';scrollHint.hidden=true;panel.append(heading,scrollHint,stats,note,installed,synergies,specialization,evolution);el('choices').append(panel);scrollHint.hidden=!(panel.scrollHeight>panel.clientHeight);
+ const synergies=document.createElement('p');synergies.textContent='SINERGIAS: '+(activeSynergies().join(' · ')||'Nenhuma ativa.');const specialization=document.createElement('p');specialization.textContent='GAMBIARRA / ROBÔ: '+(specializationInfo()?.name||'Nenhuma escolhida.')+(player.specializationCooldown>0?' · RECARGA '+Math.ceil(player.specializationCooldown)+' s':player.specialization&&['tailDecoy','nineLives'].includes(player.specialization)?' · PRONTO':'');const evolution=document.createElement('p');evolution.textContent='GAMBIARRA / ARMAS: '+(player.weaponEvolution?player.weaponEvolution.name+' · '+player.weaponEvolution.benefit+' Custo: '+player.weaponEvolution.cost:'Escolha conjunta no nível 20.');const scrollHint=document.createElement('p');scrollHint.className='run-scroll-hint';scrollHint.textContent='↓ DESLIZE OU ROLE PARA VER MAIS';scrollHint.hidden=true;panel.append(heading,scrollHint,stats,note,installed,synergies,specialization,evolution);el('choices').append(panel);scrollHint.hidden=!(panel.scrollHeight>panel.clientHeight);
 }
 function pause(){if(state==='playing'){sound('pause');state='paused';show('Sistema em espera.','A partida está pausada.','CONTINUAR');renderRunStats();el('pause').textContent='▶';el('pause').setAttribute('aria-label','Continuar partida (P ou Esc)');}else if(state==='paused'){sound('resume');state='playing';clearInput();el('overlay').hidden=true;el('pause').textContent='Ⅱ';el('pause').setAttribute('aria-label','Pausar partida (P ou Esc)');syncTouchControls();}}
 function unlockAudio(){window.ScrewAudio?.unlock()?.then(ok=>{if(ok)el('enable-audio').hidden=true;});}
@@ -473,7 +479,7 @@ for(const id of Object.keys(WEAPONS))el('weapon-'+id).onclick=()=>activateGear('
 renderRobotOptions();for(const id of Object.keys(ROBOTS))el('robot-'+id).onclick=()=>activateGear('robots',id);
 el('matrix-action').onclick=deployRivetMatrix;
 el('start').onclick=()=>state==='paused'?pause():reset();el('pause').onclick=pause;el('return-garage').onclick=openGarage;
-window.addEventListener('keydown',e=>{if(e.target?.closest?.('#build-project-dialog'))return;if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='evolution'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineWeaponEvolution(offerVersion);return;}if(state==='relic'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineRelic(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization','evolution','relic'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='relic'){const choice=offeredRelics[index];if(choice)chooseRelic(choice.id,offerVersion);}else if(state==='evolution'){const choice=offeredWeaponEvolutions[index];if(choice)chooseWeaponEvolution(choice.id,offerVersion);}else if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)reloadAllWeapons();if(state==='playing'&&e.key.toLowerCase()==='e'&&!e.repeat&&!e.target?.closest?.('input,select,textarea,[contenteditable]')){e.preventDefault();deployRivetMatrix();}if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
+window.addEventListener('keydown',e=>{if(e.target?.closest?.('#build-project-dialog'))return;if(state==='gambiarra'&&!e.repeat){if(e.key==='Enter'&&!e.target?.closest?.('button,input,select,textarea,a')){e.preventDefault();confirmGambiarra(offerVersion);return;}if(e.key.toLowerCase()==='r'){e.preventDefault();declineGambiarra(offerVersion);return;}}if(state==='garage'||state==='configuration')return;if(e.key===' '&&e.target?.closest?.('button,input,select,textarea,a'))return;if(['upgrade','reward'].includes(state)&&e.key==='Enter'&&!e.repeat){if(e.target?.closest?.('button,input,select,textarea,a'))return;e.preventDefault();chooseSkill(previewedSkill,offerVersion);return;}if(state==='upgrade'&&e.key.toLowerCase()==='q'&&!e.repeat){e.preventDefault();rerollUpgrade(offerVersion);return;}if(state==='evolution'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineWeaponEvolution(offerVersion);return;}if(state==='relic'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineRelic(offerVersion);return;}if(state==='experiment'&&e.key.toLowerCase()==='r'&&!e.repeat){e.preventDefault();declineExperiment(offerVersion);return;}if(['upgrade','reward','blessing','experiment','specialization','evolution','relic'].includes(state)&&!e.repeat&&['1','2','3'].includes(e.key)){e.preventDefault();const index=Number(e.key)-1;if(state==='relic'){const choice=offeredRelics[index];if(choice)chooseRelic(choice.id,offerVersion);}else if(state==='evolution'){const choice=offeredWeaponEvolutions[index];if(choice)chooseWeaponEvolution(choice.id,offerVersion);}else if(state==='specialization'){const choice=offeredSpecializations[index];if(choice)chooseSpecialization(choice.id,offerVersion);}else if(state==='blessing'){const choice=offeredBlessings[index];if(choice)chooseBlessing(choice.id,offerVersion);}else if(state==='experiment'){const choice=offeredExperiments[index];if(choice)chooseExperiment(choice.id,offerVersion);}else{const choice=offeredSkills[index];if(choice){previewSkill(choice.id,offerVersion);el('confirm-upgrade').focus();}}return;}if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();if(state==='playing')keys.add(e.key.toLowerCase());if(state==='playing'&&e.key===' '&&!e.repeat)activateDash();if(state==='playing'&&e.key.toLowerCase()==='r'&&!e.repeat)reloadAllWeapons();if(state==='playing'&&e.key.toLowerCase()==='e'&&!e.repeat&&!e.target?.closest?.('input,select,textarea,[contenteditable]')){e.preventDefault();deployRivetMatrix();}if((e.key.toLowerCase()==='p'||e.key==='Escape')&&!e.repeat)pause();});
 window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));
 window.addEventListener('blur',()=>{clearInput();if(state==='playing')pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){window.ScrewAudio?.setScene(null);clearInput();if(state==='playing')pause();}});
@@ -706,13 +712,13 @@ function renderCompendium(){
   const section=document.createElement('details'),summary=document.createElement('summary'),list=document.createElement('div');section.className='manual-group';summary.textContent=title+' · '+items.length;list.className='manual-list';
   for(const item of items){
    const card=document.createElement('article'),name=document.createElement('h3'),benefit=document.createElement('p'),cost=document.createElement('p'),requirement=document.createElement('p');card.setAttribute('data-module',item.id);name.textContent=item.name;benefit.textContent='VANTAGEM: '+item.benefit;cost.textContent='CUSTO: '+(item.cost||'Sem penalidade.');cost.className='manual-cost';
-   requirement.textContent=kind==='skill'?(item.parent?'REQUISITO: '+SKILLS.find(s=>s.id===item.parent).name:'RAIZ · Disponível sem outro módulo.'):(kind==='relic'?'OFERTA: baú de chefe coletado na arena; só nesta partida.':kind==='blessing'?'OFERTA: níveis 3, 6 e 9; três opções aleatórias.':kind==='specialization'?'OFERTA: nível 10; uma escolha própria do chassi por tentativa.':'OFERTA: após derrotar um chefe; pode recusar.');
+   requirement.textContent=kind==='skill'?(item.parent?'REQUISITO: '+SKILLS.find(s=>s.id===item.parent).name:'RAIZ · Disponível sem outro módulo.'):(kind==='relic'?'OFERTA: baú de chefe coletado na arena; só nesta partida.':kind==='blessing'?'OFERTA: níveis 3, 6 e 9; três opções aleatórias.':kind==='specialization'?'OFERTA: nível 20; combinada com as modificações das armas, numa única gambiarra.':'OFERTA: após derrotar um chefe; pode recusar.');
    const configured=runBalance?.find(s=>s.id===item.id);if(kind==='skill'&&configured?.prerequisites.length)requirement.textContent='REQUISITOS: '+configured.prerequisites.map(id=>SKILLS.find(s=>s.id===id)?.name||id).join(' + ');if(item.id==='ricochet')requirement.textContent+=' Não altera projéteis de retorno; exige ao menos uma arma sem retorno.';card.append(name,benefit,cost,requirement);list.append(card);
   }
   section.append(summary,list);container.append(section);
  };
  for(const [id,tree] of Object.entries(TREE_INFO))group(tree.category+' / '+tree.name,SKILLS.filter(s=>s.id===id||s.parent===id),'skill');
- const custom=SKILLS.filter(s=>!BASE_NORMAL.some(b=>b.id===s.id));if(custom.length)group('Módulos personalizados',custom,'skill');group('Gambiarras do Biruta',GAMBARRAS,'blessing');group('Experimentos de chefe',BOSS_EXPERIMENTS,'experiment');group('Peças raras de baú · só nesta partida',BOSS_RELICS,'relic');for(const [robot,items] of Object.entries(SPECIALIZATIONS))group('Especialização / '+ROBOTS[robot].name,items,'specialization');
+ const custom=SKILLS.filter(s=>!BASE_NORMAL.some(b=>b.id===s.id));if(custom.length)group('Módulos personalizados',custom,'skill');group('Peças raras de baú · só nesta partida',BOSS_RELICS,'relic');for(const [robot,items] of Object.entries(SPECIALIZATIONS))group('Gambiarras do Biruta / '+ROBOTS[robot].name,items,'specialization');
 }
 function moduleSkill(id,name,parent,benefit,cost,apply){
  return {id,name,parent,benefit,cost,describe:()=>benefit+(cost?' Custo: '+cost:''),available:()=>normalSkillAvailable(id,parent),apply:()=>{if(player.acquired.has(id))return false;player.acquired.add(id);applyRunBalance(id,apply);if(id==='sensor')player.sensorTimer=player.sensorTotal=sensorInterval();if(id==='rotors'){player.rotorPhase=0;player.rotorTime=0;player.rotorX=player.x;player.rotorY=player.y;player.rotorHits=[new WeakMap(),new WeakMap(),new WeakMap()];}player.ammo=Math.min(player.ammo,magazineSize());toast((SKILLS.find(s=>s.id===id)?.name||name)+' INSTALADO');return true;}};
@@ -805,20 +811,9 @@ function chooseSkill(id,version){
  for(const text of activeSynergies())if(!before.has(text))toast('SINERGIA: '+text,'#ffd27c');
  offerVersion++;state='playing';el('overlay').hidden=true;clearInput();updateHUD();applyUpgradeBreather();return true;
 }
-function chooseBlessing(id,version){
- if(state!=='blessing'||version!==offerVersion||player.blessings.has(id))return false;
- const blessing=offeredBlessings.find(item=>item.id===id);if(!blessing)return false;
- applyRunBalance(id,blessing.apply);player.blessings.add(id);offerVersion++;state='playing';el('overlay').hidden=true;clearInput();toast(blessing.name+' INSTALADA','#ffd27c');updateHUD();applyUpgradeBreather();return true;
-}
-function chooseExperiment(id,version){
- if(state!=='experiment'||version!==offerVersion||player.experiments.has(id))return false;
- const item=offeredExperiments.find(experiment=>experiment.id===id);if(!item)return false;
- applyRunBalance(id,item.apply);player.experiments.add(id);offerVersion++;state='playing';el('overlay').hidden=true;clearInput();toast(item.name+' INSTALADO','#ffd27c');updateHUD();el('pause').focus();applyUpgradeBreather();return true;
-}
-function declineExperiment(version){
- if(version!==offerVersion||state!=='experiment')return false;
- offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();el('pause').focus();return true;
-}
+function chooseBlessing(id,version){return false;}
+function chooseExperiment(id,version){return false;}
+function declineExperiment(version){return false;}
 function chooseRelic(id,version){
  if(state!=='relic'||version!==offerVersion||player.relics.has(id))return false;
  const item=offeredRelics.find(r=>r.id===id);if(!item||!item.eligible())return false;
@@ -830,7 +825,7 @@ function declineRelic(version){
 }
 function offerBossRelic(chest){
  const candidates=BOSS_RELICS.filter(r=>!player.relics.has(r.id)&&r.eligible());
- if(!candidates.length){offerExperiment();return;}
+ if(!candidates.length){upgrade('boss');return;}
  // Prefer hardware that fits the equipped weapon/support; retain a universal alternative.
  const specific=candidates.filter(r=>!['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse','compactFeed','vitalGrowth'].includes(r.id)),general=candidates.filter(r=>['feedServo','reactorHeart','overclockCore','fieldCollimator','ruptureChamber','rivetMatrix','reloadBlade','reloadPiston','integrityPulse','compactFeed','vitalGrowth'].includes(r.id));
  for(const pool of [specific,general])for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
@@ -842,41 +837,8 @@ function offerBossRelic(chest){
  }
  const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='CONTINUAR SEM PEÇA [R]';skip.onclick=()=>declineRelic(version);el('choices').append(skip);el('choices').children[0]?.focus();
 }
-function offerExperiment(){
- const candidates=BOSS_EXPERIMENTS.filter(item=>!player.experiments.has(item.id));
- if(!candidates.length){upgrade('boss');return;}
- state='experiment';offerSource='boss-experiment';clearInput();
- show('EXPERIMENTO DO BIRUTA','Peça permanente do chefe já salva. Hardware raro elegível esgotado: escolha um experimento temporário. Escolha um módulo instável: toda vantagem cobra um preço. Ao recusar, você mantém a cura e a peça; o experimento acaba nesta tentativa.','');
- for(let i=candidates.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
- offeredExperiments=candidates.slice(0,3);const version=++offerVersion;
- for(const [index,item] of offeredExperiments.entries()){
-  const card=document.createElement('button'),icon=document.createElement('img'),category=document.createElement('span'),title=document.createElement('strong'),benefit=document.createElement('span'),cost=document.createElement('span'),path=document.createElement('span'),pathLabel=document.createElement('small'),action=document.createElement('span');
-  card.className='upgrade-card boss-experiment-card';card.setAttribute('data-experiment',item.id);icon.src='assets/skills/'+item.icon+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';
-  category.className='skill-category';category.textContent='EXPERIMENTO DE CHEFE / TEMPORÁRIO';title.textContent=item.name;benefit.className='skill-benefit';benefit.textContent='VANTAGEM: '+item.benefit;cost.className='skill-cost';cost.textContent='CUSTO: '+item.cost;
-  path.className='skill-path';pathLabel.textContent='NÃO SE REPETE NESTA TENTATIVA';path.append(pathLabel);action.className='skill-action';action.textContent='['+(index+1)+']  ACEITAR EXPERIMENTO  →';
-  card.append(category,icon,title,benefit,cost,path,action);card.onclick=()=>chooseExperiment(item.id,version);el('choices').append(card);
- }
- const skip=document.createElement('button');skip.className='skip-upgrade skip-experiment';skip.textContent='RECUSAR E CONTINUAR [R]';skip.setAttribute('aria-keyshortcuts','R');skip.onclick=()=>declineExperiment(version);el('choices').append(skip);el('choices').children[0]?.focus();
-}
-function offerBlessing(){
- offerSource='blessing';state='blessing';clearInput();
- show('GAMBIARRA DO BIRUTA','O laboratório improvisado liberou uma peça experimental. Escolha um efeito forte para esta tentativa; nenhum deles fica salvo na garagem.','');
- const candidates=GAMBARRAS.filter(item=>!player.blessings.has(item.id));
- for(let i=candidates.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[candidates[i],candidates[j]]=[candidates[j],candidates[i]];}
- offeredBlessings=candidates.slice(0,3);const version=++offerVersion;
- for(const [index,item] of offeredBlessings.entries()){
-  const b=document.createElement('button'),icon=document.createElement('img'),strong=document.createElement('strong'),category=document.createElement('span'),detail=document.createElement('span'),cost=document.createElement('span'),path=document.createElement('span'),action=document.createElement('span');
-  b.className='upgrade-card blessing-card';b.setAttribute('data-blessing',item.id);
-  icon.src='assets/skills/'+item.icon+'.svg';icon.alt='';icon.width=80;icon.height=80;icon.className='skill-icon';
-  category.className='skill-category';category.textContent='GAMBIARRA TEMPORÁRIA / DR. BIRUTA';
-  strong.textContent=item.name;detail.className='skill-benefit';detail.textContent='EFEITO: '+item.benefit;
-  cost.className='skill-cost';cost.textContent='SEM PENALIDADE · SÓ NESTA TENTATIVA';
-  path.className='skill-path';const pathLabel=document.createElement('small');pathLabel.textContent='DESAPARECE AO ENCERRAR A TENTATIVA';path.append(pathLabel);
-  action.className='skill-action';action.textContent='['+(index+1)+']  INSTALAR GAMBIARRA  →';
-  b.append(category,icon,strong,detail,cost,path,action);b.onclick=()=>chooseBlessing(item.id,version);el('choices').append(b);
- }
- const skip=document.createElement('button');skip.className='skip-upgrade';skip.textContent='RECUSAR GAMBIARRA';skip.onclick=()=>{if(version!==offerVersion||state!=='blessing')return;offerVersion++;clearInput();state='playing';el('overlay').hidden=true;updateHUD();};el('choices').append(skip);el('choices').children[0]?.focus();
-}
+function offerExperiment(){upgrade('boss');return true;}
+function offerBlessing(){return false;}
 let offeredSkills=[],rerollsRemaining=1;
 function canRerollUpgrade(){return state==='upgrade'&&rerollsRemaining>0&&offeredSkills.length>0&&availableSkills().filter(s=>!offeredSkills.some(old=>old.id===s.id)).length>=offeredSkills.length;}
 function rerollUpgrade(version){
@@ -1584,7 +1546,7 @@ function tick(dt){
  if(state==='playing'){
   if(bossReward){bossReward=false;healPlayer(bossRepairAmount());}
   if(state==='playing'&&bossChests.some(c=>Math.hypot(c.x-player.x,c.y-player.y)<40)){const index=bossChests.findIndex(c=>Math.hypot(c.x-player.x,c.y-player.y)<40),chest=bossChests.splice(index,1)[0];sound('pickup');offerBossRelic(chest);}
-  else if(state==='playing'&&xp>=need){xp-=need;level++;need=Math.ceil(need*PROGRESSION.growth);if(level===10)offerSpecialization();else if(level===WEAPON_EVOLUTION_LEVEL)offerWeaponEvolution();else if(BLESSING_LEVELS.includes(level))offerBlessing();else upgrade();}
+  else if(state==='playing'&&xp>=need){xp-=need;level++;need=Math.ceil(need*PROGRESSION.growth);if(level===GAMBIARRA_LEVEL)offerGambiarra();else upgrade();}
  }
  if(feedback.length>100)feedback.splice(0,feedback.length-100);if(effects.length>150)effects.splice(0,effects.length-150);
  updateHUD();

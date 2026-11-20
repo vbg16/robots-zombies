@@ -1,3 +1,10 @@
+# BUILD70 — progressão unificada
+
+- Gambiarras do Biruta somente no nível20: componente de chassi + modificação de cada arma em uma confirmação.
+- Removidas ofertas especiais3/6/9/10 e experimentos instáveis.
+- Baús esgotados oferecem módulo normal; painel74registros/revisão8 com migração.
+- Mantida a colisão física da BUILD69.
+
 # Histórico do Screwvivors
 
 Os registros antigos abaixo preservam o contexto de cada versão. Regras superadas (como modo infinito, aceleração dos comuns e números antigos do catálogo) não são o contrato atual. Consulte o [contrato vigente](docs/contrato-atual.md).

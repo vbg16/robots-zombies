@@ -1,6 +1,6 @@
 # Screwvivors — direção do projeto
 
-> **Protótipo atual BUILD69 (desenvolvimento):** [contrato vigente](contrato-atual.md) e [verificação da versão](build68-verificacao.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
+> **Protótipo atual BUILD70 (desenvolvimento):** [contrato vigente](contrato-atual.md) e [verificação da versão](build68-verificacao.md). Valores e equilíbrio seguem experimentais; os registros antigos abaixo preservam sua data e escopo.
 
 ## Entradas rápidas
 
@@ -25,7 +25,7 @@ Este diretório é a fonte de referência para as decisões de produto e design 
 
 ## Documentos
 
-- [Correção de colisão BUILD69](colisao-zumbis.md): separação física de corpos em bandos e testes curtos de regressão.
+- [Correção de colisão BUILD70](colisao-zumbis.md): separação física de corpos em bandos e testes curtos de regressão.
 
 - [Verificação intermediária BUILD68](build68-verificacao.md): 61 checks, dez receitas naturais, negativos preservados e limites de aprovação.
 

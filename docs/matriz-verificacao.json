@@ -3,28 +3,28 @@
   "timezone": "America/Sao_Paulo",
   "estado": "EM_DESENVOLVIMENTO",
   "ultima_publicacao_no_inicio_do_levantamento": "BUILD59/c8164b482ccdbbc116a81d26fe6b14e014eba4f1",
-  "commit_pai": "d4de976b94d7d134e98bfcdd71e78a4bda7437ab",
+  "commit_pai": "9ddd086188dde44115a725f7e5d738336d39f409",
   "snapshot_tem_alteracoes_locais": true,
   "contagens": {
     "chassis": 6,
     "armas": 12,
     "normais": 56,
-    "gambiarras": 6,
-    "experimentos": 6,
+    "gambiarras": 0,
+    "experimentos": 0,
     "protocolos": 18,
     "reforjas": 24,
     "reliquias": 23,
     "receitas": 10,
-    "editaveis": 86,
+    "editaveis": 74,
     "atributos": 25
   },
   "source_hashes": {
-    "game.js": "04561086ba1d893834ca0ada8b13ba95d97bc801d8ca9a5da3f01adec91f6499",
-    "balance.js": "3061091eae0812532a7874ff486971c61ab54a15f8fd392cada298feb1e0132a",
-    "builds.js": "4dce4033ac78af07d6235b477eb374f3f592f2aace0cab84278f34cce84642c8",
-    "index.html": "d18fcb6cd404b6a7dd48bf65f57e61c65b36178c8bf80b9ffda19efc8d1f4e37",
+    "game.js": "70ca7bb70f3001ec546f0160a793c956a9a6f95b2e1098da006685645a423330",
+    "balance.js": "97d348780a1dee6cce7bce494092a86ff5d8d572fa1c21e6a6d29866b4b28c4e",
+    "builds.js": "17c949253059af848cbabd598766672127d4bfd8ad091903da63edf762bdc2d2",
+    "index.html": "277afc80c300e2a27b9757d25ac432cabe2fd1085726477394563243142fe47a",
     "style.css": "2ab285b0c39fc95fd59dd96d9c288f241fc193e4e999ca5b9ae0f9a03399ae8a",
-    "ui-redesign.css": "16b34914a9b2ad8aea1f4d2b78d39204c11bedd5f4866bcb72617d489fb7dea1",
+    "ui-redesign.css": "f03969fba8a144fdfcff4db9f81c7f1dcc066bf78d31eb050cec0235276fa2d2",
     "audio.js": "dbfc1961f679a4355a4edf8c54565d58c0e90e0f2f115636b2dbcd11cf4bc230",
     "touch-controls.js": "e704c5949f1191337977df696fa35032ae194218935ef7e14b0571b261e6f9d4",
     "touch-controls.css": "6eeb8befb28f0f154eb34b4d204c14203cf64f435914963ba4383f1156c0529a",
@@ -32,15 +32,15 @@
     "tools/drone-maturity.js": "c23e54cad83a5609396137f122dddd075c13243cb91f7081d6b046c53a32abcc",
     "tools/segment-circle.js": "1a161ef21c20c8acbeecebe085075e6d7c0a09408ed74130dfb410e01623711a",
     "tools/rupture-chamber.js": "9d0aced6a20e6db5f350b99a810d1dcc7faf9640d284f709e33473f20c958e5c",
-    "tools/enemy-collision.js": "6128d06a01f5e69877ddf95dcb6990b21c754a051cf7e6762c31e2c4a7b74082"
+    "tools/enemy-collision.js": "049f8aa35d736f7e3dd86b682561af7a8f07e67bee0e33e0fd8d81a33980cc35"
   },
   "source_text_hashes": {
-    "game.js": "be060bc38f3ffc7d933e085b3fe01fac7cf805527a62c8f470d387abc07ed788",
-    "balance.js": "e3f02339a22bcfed5cc98c733f933f577cc053c25e1fb4add19ad81b3a7b2d19",
-    "builds.js": "8ab6d2341024c575d992de4b2ca713545525d3660bc39f486d762e881e142715",
-    "index.html": "cddc5c40a5a1b6e7248dab2635db661710101d898542797d6910536e2bab0d3c",
+    "game.js": "9b70a647594ade40ed670135593a121a47158a5658c6afc05c6d14695aef117e",
+    "balance.js": "ad337b9afc398525028e4afeec33ce1283894e1ab5e20eba6142a72964c43a68",
+    "builds.js": "b0837e0e79b5bd3db1d553463507b8f6540753e3bca14168176bb608e4f6f16d",
+    "index.html": "53410149a54210eb2546dc31a1fab8c1b002230f635efa44a4922fe90e0c152b",
     "style.css": "bae75f6e1eda94dcb5b784956684d6c099da8cfbc8bef3a83f97c5130322da05",
-    "ui-redesign.css": "fcf83948030b223674ae095703a5401a4264882b5b07ff72152f27264acc8654",
+    "ui-redesign.css": "5edf977fb8fe3fa5113791b47c1d745dbcce74d4b987f92b6ca5f69b7ded77d9",
     "audio.js": "e5d7405c22f27ca1a8506fdfd55711d45b5757479a81171a41a0810b03ccb28b",
     "touch-controls.js": "4b875aa4f1b528fd78975126db17b7da9b5bbeb096e7dccb568281f03430842d",
     "touch-controls.css": "341392b5b05b6378d9eb0ceec0176d1721564a97992f2466031a223d7d270351",
@@ -288,7 +288,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution",
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
       "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
     },
     {
@@ -304,7 +304,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution",
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
       "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
     },
     {
@@ -320,7 +320,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution",
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
       "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
     },
     {
@@ -336,7 +336,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: tick/upgrade/offerBlessing/offerSpecialization/offerWeaponEvolution",
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
       "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
     },
     {
@@ -464,7 +464,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -5732,198 +5732,6 @@
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; node tests/balance-panel.cjs; fixture por ID"
     },
     {
-      "id": "QA-GAMB-pulseCoil",
-      "area": "Gambiarra",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar pulseCoil, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Dano ×1,25 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: GAMBARRAS/offerBlessing/chooseBlessing",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-GAMB-triggerRegulator",
-      "area": "Gambiarra",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar triggerRegulator, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Intervalo entre disparos ×0,8 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: GAMBARRAS/offerBlessing/chooseBlessing",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-GAMB-spareBattery",
-      "area": "Gambiarra",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar spareBattery, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Vida máxima e atual +20 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: GAMBARRAS/offerBlessing/chooseBlessing",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-GAMB-scrapMagnet",
-      "area": "Gambiarra",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar scrapMagnet, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Alcance de coleta ×1,75 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: GAMBARRAS/offerBlessing/chooseBlessing",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-GAMB-greasedServos",
-      "area": "Gambiarra",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar greasedServos, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Velocidade de movimento ×1,2 nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: GAMBARRAS/offerBlessing/chooseBlessing",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-GAMB-copperPlate",
-      "area": "Gambiarra",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar copperPlate, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Reduz 1 de dano recebido nesta tentativa. Não inventar penalidade adicional. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: GAMBARRAS/offerBlessing/chooseBlessing",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-EXP-volatileReactor",
-      "area": "Experimento",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar volatileReactor, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Dano ×1,35. Custo: Intervalo de tiro ×1,15. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-EXP-unstableLens",
-      "area": "Experimento",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar unstableLens, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Velocidade e tamanho de projétil ×1,5. Custo: Movimento ×0,85. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-EXP-lithiumPack",
-      "area": "Experimento",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar lithiumPack, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Integridade máxima e atual +30. Custo: Armadura −1. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-EXP-scrapCatalyst",
-      "area": "Experimento",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar scrapCatalyst, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Alcance de coleta ×2. Custo: Recarga da arma ×1,5. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-EXP-blastCondenser",
-      "area": "Experimento",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar blastCondenser, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Dano ×1,5. Custo: Intervalo de tiro ×1,35. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
-      "id": "QA-EXP-nervousServo",
-      "area": "Experimento",
-      "origem": "Contrato vigente e objetivo aprovado",
-      "preparacao": "Tentativa nova com equipamento/skills que satisfazem a elegibilidade descrita; guardar recursos/ammo/recarga anteriores.",
-      "entradas_e_passos": "Abrir oferta de tipo correto em fixture declarada; aceitar nervousServo, tentar repetir, executar condição e iniciar outra tentativa.",
-      "resultado_esperado": "Movimento ×1,35. Custo: Armadura −1. Sem custo monetário oculto, munição reposta ou persistência de atributo.",
-      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
-      "casos_de_borda": "Recusa, callback antigo, oferta inelegível, pool esgotado, morte/reset e mais de um slot.",
-      "gravidade": "P1",
-      "evidencia_exigida": "Log estruturado e snapshot antes/depois",
-      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
-      "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: BOSS_EXPERIMENTS/offerExperiment/chooseExperiment",
-      "comando_ou_procedimento": "node tests/combat.cjs; fixture por ID"
-    },
-    {
       "id": "QA-RELIC-thermalRelay",
       "area": "Relíquia",
       "origem": "Contrato vigente e objetivo aprovado",
@@ -6304,7 +6112,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6320,7 +6128,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6336,7 +6144,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6352,7 +6160,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6368,7 +6176,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6384,7 +6192,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6400,7 +6208,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6416,7 +6224,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6432,7 +6240,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6448,7 +6256,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6464,7 +6272,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6480,7 +6288,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6496,7 +6304,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6512,7 +6320,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6528,7 +6336,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6544,7 +6352,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6560,7 +6368,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6576,7 +6384,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: SPECIALIZATIONS/chooseSpecialization e gatilhos",
+      "implementacao_correspondente": "game.js: SPECIALIZATIONS/confirmGambiarra e gatilhos",
       "comando_ou_procedimento": "node tests/build-mechanics.cjs; fixture por ID"
     },
     {
@@ -6592,7 +6400,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6608,7 +6416,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6624,7 +6432,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6640,7 +6448,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6656,7 +6464,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6672,7 +6480,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6688,7 +6496,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6704,7 +6512,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6720,7 +6528,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6736,7 +6544,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6752,7 +6560,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6768,7 +6576,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6784,7 +6592,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6800,7 +6608,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6816,7 +6624,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6832,7 +6640,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6848,7 +6656,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6864,7 +6672,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6880,7 +6688,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6896,7 +6704,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6912,7 +6720,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6928,7 +6736,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6944,7 +6752,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -6960,7 +6768,7 @@
       "evidencia_exigida": "Log estruturado e snapshot antes/depois",
       "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
       "evidencia_atual": [],
-      "implementacao_correspondente": "game.js: installWeaponEvolution/chooseWeaponEvolution/WEAPON_EVOLUTIONS",
+      "implementacao_correspondente": "game.js: installWeaponEvolution/confirmGambiarra/WEAPON_EVOLUTIONS",
       "comando_ou_procedimento": "node tests/weapon-evolution.cjs"
     },
     {
@@ -7842,6 +7650,118 @@
       "evidencia_atual": [],
       "implementacao_correspondente": "renderers de chassis/inimigos/armas; draw e helpers de sprite",
       "comando_ou_procedimento": "node tests/chassis-animation-browser.cjs; node tests/projectile-visuals.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-01",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "Avançar pelos níveis3/6/9/10/19/20/21.",
+      "resultado_esperado": "Somente20oferece montagem conjunta; os demais oferecem módulo normal.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-02",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "Selecionar partes sem confirmar, usar IDs alheios e confirmar callback antigo.",
+      "resultado_esperado": "Prévia inerte; confirmação incompleta/estrangeira/antiga recusada.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-03",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "Montar os6chassis com12armas e testar24modificações.",
+      "resultado_esperado": "Robô e arma recebem seus efeitos corretos; munição/recarga/projéteis/perfil preservados.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-04",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "EquiparENXAcom3armas, selecionar partes independentes e confirmar.",
+      "resultado_esperado": "Cada arma recebe sua própria modificação e há um único respiro120px/0,5s.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-05",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "Recusar montagem e depois reiniciar.",
+      "resultado_esperado": "Nenhum efeito, respiro ou nova oferta; reset elimina toda gambiarra temporária.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-06",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "Coletar baú com todas as relíquias elegíveis já instaladas.",
+      "resultado_esperado": "Oferta de módulo normal, sem experimento.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
+    },
+    {
+      "id": "QA-GAMBIARRA-07",
+      "area": "Progressão",
+      "origem": "Contrato vigente e objetivo aprovado",
+      "preparacao": "Fixture curta declarada, sem uso de seeds finais.",
+      "entradas_e_passos": "Migrar catálogo7editado para8e repetir migração.",
+      "resultado_esperado": "74registros;12removidos; efeitos editados preservados; tipoGambiarra/nível20; idempotência.",
+      "tolerancia": "Inteiros/IDs/estados exatos; reais: erro absoluto ≤1e-6 ou relativo ≤1e-9, salvo tolerância explícita.",
+      "casos_de_borda": "Repetir após pausa e após reinício; verificar ausência de efeitos duplicados.",
+      "gravidade": "P1",
+      "evidencia_exigida": "tests/gambiarras.cjs; tests/weapon-evolution.cjs; tests/gambiarras-browser.cjs e JSON/capturas reais",
+      "situacao": "NAO_EXECUTADO_NO_COMMIT_FINAL",
+      "evidencia_atual": [],
+      "implementacao_correspondente": "game.js: tick/upgrade/offerGambiarra/confirmGambiarra",
+      "comando_ou_procedimento": "node tests/combat.cjs; node tests/weapon-evolution.cjs"
     }
   ],
   "gate_final_aprovado": false
